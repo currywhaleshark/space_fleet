@@ -1,0 +1,13 @@
+# Godot
+.godot/
+/android/
+export_presets.cfg
+
+# .NET
+bin/
+obj/
+*.user
+.vs/
+
+# Local output
+/shots/
