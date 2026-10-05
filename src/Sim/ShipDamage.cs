@@ -20,6 +20,14 @@ public readonly record struct DamageReport(double Time, string Message);
 /// <summary>실드·모듈과 전력 계통의 상태. 수치는 프로토타입용 게임 단위이며 노드에 의존하지 않는다.</summary>
 public sealed class ShipDamage
 {
+    /// <summary>
+    /// 설계 발전량 ÷ 정격 수요. 발전 손실이 이 여유 안이면(1 - 1/1.25 = 20%) 어떤 계통도 약해지지 않는다.
+    /// 반응로 체력이 곧 함선 전체 성능이 되는 "숨은 HP 막대"를 막는다. 4단계 전력 배분에서 실제 수요로 바꾼다.
+    /// </summary>
+    public const float PowerMargin = 1.25f;
+    /// <summary>발전 모듈은 이 체력 비율 미만에서 출력이 절반으로 떨어진다(그 위로는 정격 출력).</summary>
+    public const float GeneratorDegradeThreshold = 0.5f;
+
     private readonly ShipDefinition _definition;
     private readonly uint _seed;
     private readonly Dictionary<string, ModuleState> _byId;
@@ -58,12 +66,19 @@ public sealed class ShipDamage
     public float WeaponFraction(string id) => Destroyed ? 0 : _byId[id].HealthFraction
         * GridPower(_byId[id].Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
 
+    /// <summary>
+    /// 해당 전력망에서 소비 장비가 받는 전력 비율. 양현 공용 장비(Shared)는 살아 있는 쪽 전력망에서 받는다.
+    /// </summary>
     public float GridPower(PowerGrid grid) => grid switch
     {
         PowerGrid.Port => _portPower,
         PowerGrid.Starboard => _starboardPower,
-        _ => PowerFraction,
+        _ => Mathf.Max(_portPower, _starboardPower),
     };
+
+    /// <summary>발전 모듈의 현재 출력 비율: 정격 1, 출력 저하 0.5, 파괴 0.</summary>
+    public static float GeneratorOutput(ModuleState module) =>
+        module.Destroyed ? 0f : module.HealthFraction < GeneratorDegradeThreshold ? 0.5f : 1f;
     public float EngineFraction(int visualIndex)
     {
         return !_engines.TryGetValue(visualIndex, out ModuleState? engine) ? PropulsionFraction
@@ -112,6 +127,8 @@ public sealed class ShipDamage
     {
         if (Destroyed || module.Destroyed || amount <= 0f) return 0f;
         _sinceHit = 0;
+        bool generator = module.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator;
+        bool wasRated = module.HealthFraction >= GeneratorDegradeThreshold;
         float damage = Mathf.Min(amount, module.Health);
         module.Health -= damage;
         module.LastHitTime = time;
@@ -128,20 +145,27 @@ public sealed class ShipDamage
                 Report(time, module.Definition.Kind == ModuleKind.Magazine ? "탄약고 유폭 · 함선 격침" : "반응로 폭주 · 함선 격침");
             }
         }
+        else if (generator && wasRated && module.HealthFraction < GeneratorDegradeThreshold)
+            Report(time, $"{module.Definition.Name} 출력 저하 · 50%");
         else Report(time, $"{module.Definition.Name} 손상 · {module.HealthFraction * 100:0}%");
         Recompute();
         return damage;
     }
 
-    internal void ApplyCollision(Vector3 localPoint, float deltaSpeed, double time)
+    /// <summary>충돌 에너지가 선체 구조 한계를 넘었을 때. 모든 모듈을 잃고 잔해로 남는다.</summary>
+    internal void Breakup(double time, string other)
     {
-        if (deltaSpeed <= 20f || Destroyed) return;
+        if (Destroyed) return;
         _sinceHit = 0;
-        float damage = (deltaSpeed - 20f) * (deltaSpeed - 20f) * 0.006f;
-        ModuleState[] nearest = Modules.Where(m => !m.Destroyed)
-            .OrderBy(m => m.Definition.Center.DistanceSquaredTo(localPoint)).Take(3).ToArray();
-        foreach (ModuleState module in nearest)
-            Hurt(module, damage / Math.Max(1, nearest.Length), time, damage, (uint)(time * 60));
+        _catastrophic = true;
+        foreach (ModuleState state in Modules)
+        {
+            state.Health = 0;
+            state.LastHitTime = time;
+        }
+        Shield = 0;
+        Report(time, $"충돌 · 선체 붕괴 ({other})");
+        Recompute();
     }
 
     internal void Report(double time, string message)
@@ -175,10 +199,10 @@ public sealed class ShipDamage
             if (m.Definition.Kind is not (ModuleKind.Reactor or ModuleKind.Generator)) continue;
             if (m.Definition.Feeds is not null && !m.Definition.Feeds.Contains(grid) && !m.Definition.Feeds.Contains(PowerGrid.Shared)) continue;
             maximum += m.Definition.Capacity;
-            current += m.Definition.Capacity * m.HealthFraction;
+            current += m.Definition.Capacity * GeneratorOutput(m);
         }
         if (Destroyed || (hasBus && !busAlive)) return 0;
-        return maximum > 0 ? current / maximum : 1f;
+        return maximum > 0 ? Mathf.Min(1f, current * PowerMargin / maximum) : 1f;
     }
 
     private float Average(ModuleKind kind, bool powered)

@@ -213,9 +213,24 @@ static class DamageChecks
         Require(Near(bb.Damage.PowerFraction, 0.5f) && Near(bb.Damage.PropulsionFraction, 0.5f) && Near(bb.Damage.ManeuverFraction, 0.5f), "Bus failure must disable consumers on only that side");
         Require(Near(bb.Damage.EngineFraction(0), 0) && Near(bb.Damage.EngineFraction(1), 1), "Visual engine state must follow the supplying grid");
         Require(bb.Damage.Reports.Any(r => r.Message.Contains("좌현 전력망 단절")), "Bus failure must produce a specific damage report");
+        Require(Near(bb.Damage.SensorFraction, 1), "Shared consumers must draw from the surviving grid");
+
+        // 반응로가 숨은 HP 막대가 되지 않아야 한다: 중간 피해는 아무 계통도 약화시키지 않는다.
+        var margin = Create(bb.Definition);
+        ModuleState main = margin.Damage.Module("reactor-main");
+        margin.Damage.Hurt(main, main.Definition.HitPoints * 0.4f, 1, 0, 1);
+        Require(Near(margin.Damage.PowerFraction, 1) && Near(margin.Damage.PropulsionFraction, 1) && Near(margin.Damage.SensorFraction, 1)
+            && Near(margin.Damage.ShieldCapacity, bb.Definition.Shield.Capacity), "A reactor at 60% must not degrade any system");
+        margin.Damage.Hurt(main, main.Definition.HitPoints * 0.2f, 1, 0, 1);
+        Require(margin.Damage.Reports.Any(r => r.Message.Contains("출력 저하")), "Crossing the degrade threshold must report reduced output");
+        Require(margin.Damage.PowerFraction < 1f && margin.Damage.PowerFraction > 0.85f, "A degraded main reactor must cost a step of power, not its health percentage");
+        var smallLoss = Create(bb.Definition);
+        Destroy(smallLoss, "generator-port");
+        Require(Near(smallLoss.Damage.GridPower(PowerGrid.Port), 1), "Losing one auxiliary generator must stay within the power margin");
+
         var redundant = Create(bb.Definition);
         Destroy(redundant, "reactor-main");
-        Require(redundant.Damage.PowerFraction > 0.4f && redundant.Damage.PowerFraction < 0.5f, "Backup reactor and generators must retain useful power");
+        Require(redundant.Damage.PowerFraction > 0.5f && redundant.Damage.PowerFraction < 0.6f, "Backup reactor and generators must retain useful power");
         Destroy(redundant, "reactor-backup");
         Require(redundant.Damage.PowerFraction > 0, "Generators must provide remaining power after both reactors fail");
         Destroy(redundant, "generator-port");
@@ -317,17 +332,56 @@ static class DamageChecks
 
     private static void CheckCollisionDamage()
     {
-        var slow = Create();
-        slow.Damage.ApplyCollision(Vector3.Zero, 20, 1);
-        Require(slow.Damage.Modules.All(m => Near(m.HealthFraction, 1)), "Gentle contact must not damage modules");
-        slow.Damage.ApplyCollision(Vector3.Zero, 100, 1);
-        Require(slow.Damage.Modules.Count(m => m.HealthFraction < 1) == 3, "A hard collision must damage nearby modules");
-        var world = new SimWorld();
-        ShipBody a = world.Add(Create(callsign: "A")), b = world.Add(Create(callsign: "B"));
-        a.Place(new(0, 0, -100), Quaternion.Identity); b.Place(new(0, 0, 100), Quaternion.Identity);
-        a.Velocity = Vector3.Back * 100; b.Velocity = Vector3.Forward * 100;
-        for (int i = 0; i < 90; i++) world.Step();
-        Require(a.Damage.Modules.Any(m => m.HealthFraction < 1) && b.Damage.Modules.Any(m => m.HealthFraction < 1), "Real collision response must deliver damage to both ships");
-        Require(a.LastCollision is not null && b.LastCollision is not null, "Collision damage must retain impact reporting");
+        // 파쇄로 탄약고·반응로가 부서질 때의 낮은 확률 치명 판정이 결과를 흔들지 않게 치명 확률을 끈 요격함을 쓴다.
+        JsonObject quiet = Data();
+        foreach (JsonNode? m in quiet["modules"]!.AsArray())
+            m!["criticalChance"] = 0;
+        ShipDefinition interceptor = ShipDefinition.Parse(quiet.ToJsonString());
+
+        // 정면 충돌: 같은 요격함 둘이 맞부딪힌다.
+        (ShipBody A, ShipBody B) HeadOn(float speed)
+        {
+            var world = new SimWorld();
+            ShipBody a = world.Add(Create(interceptor, "A")), b = world.Add(Create(interceptor, "B"));
+            a.Place(new(0, 0, -100), Quaternion.Identity); b.Place(new(0, 0, 100), Quaternion.Identity);
+            a.Velocity = Vector3.Back * speed; b.Velocity = Vector3.Forward * speed;
+            for (int i = 0; i < 6000 && a.LastCollision is null; i++) world.Step();
+            for (int i = 0; i < 10; i++) world.Step();
+            return (a, b);
+        }
+        var gentle = HeadOn(1.5f);
+        Require(gentle.A.LastCollision is not null, "Gentle head-on contact must still register");
+        Require(gentle.A.Damage.Modules.All(m => Near(m.HealthFraction, 1)), "Gentle contact must not damage modules");
+        var hard = HeadOn(50f);
+        Require(hard.A.Damage.Modules.Any(m => m.HealthFraction < 1) && hard.B.Damage.Modules.Any(m => m.HealthFraction < 1),
+            "A hard collision must damage both ships");
+        Require(!hard.A.Damage.Destroyed && !hard.B.Damage.Destroyed, "A 100 m/s closing interceptor collision stays below breakup");
+        var breakup = HeadOn(150f);
+        Require(breakup.A.Damage.Destroyed && breakup.B.Damage.Destroyed
+            && breakup.A.Damage.Reports.Any(r => r.Message.Contains("선체 붕괴")), "A 300 m/s closing interceptor collision must break both hulls");
+
+        // 요격함이 전함 후미를 들이받는다: 가벼운 쪽은 붕괴, 무거운 쪽도 접촉 구획이 파쇄된다.
+        ShipBody Ram(float speed, out ShipBody battleship)
+        {
+            var world = new SimWorld();
+            ShipBody bb = world.Add(Create(ShipDefinitions.For(HullKind.Battleship), "BB"));
+            ShipBody ic = world.Add(Create(interceptor, "IC"));
+            ic.Place(new(0, 0, 700), Quaternion.Identity);
+            ic.Velocity = Vector3.Forward * speed;
+            for (int i = 0; i < 1200 && ic.LastCollision is null; i++) world.Step();
+            for (int i = 0; i < 10; i++) world.Step();
+            battleship = bb;
+            return ic;
+        }
+        ShipBody kamikaze = Ram(380f, out ShipBody rammed);
+        Require(kamikaze.Damage.Destroyed, "An interceptor ramming a battleship at 380 m/s must break up");
+        Require(!rammed.Damage.Destroyed && rammed.Damage.Modules.Any(m => m.HealthFraction < 1),
+            "The battleship must take local crush damage without being destroyed");
+        ShipBody bump = Ram(60f, out ShipBody bumped);
+        Require(!bump.Damage.Destroyed && bump.Damage.Modules.Any(m => m.HealthFraction < 1),
+            "A 60 m/s ram must damage the interceptor without breakup");
+        Require(bumped.Damage.Modules.All(m => Near(m.HealthFraction, 1)), "A 60 m/s interceptor ram must not crush battleship modules");
+        Console.WriteLine($"Collision: 380 m/s ram → BB modules hit {rammed.Damage.Modules.Count(m => m.HealthFraction < 1)}, " +
+            $"60 m/s ram → IC modules hit {bump.Damage.Modules.Count(m => m.HealthFraction < 1)}");
     }
 }

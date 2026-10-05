@@ -42,8 +42,9 @@ public static class DamageRay
     public static ShotResult Apply(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet, double time, uint sequence)
         => ApplyAtPose(ship, origin, direction, packet, time, sequence, ship.Position, ship.Orientation);
 
+    /// <param name="shieldApplies">false면 실드를 건너뛴다(충돌 파쇄처럼 선체가 직접 맞닿는 경우).</param>
     public static ShotResult ApplyAtPose(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet,
-        double time, uint sequence, Vec3d position, Quaternion orientation)
+        double time, uint sequence, Vec3d position, Quaternion orientation, bool shieldApplies = true)
     {
         packet.Validate();
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) throw new ArgumentException("Invalid ray direction");
@@ -76,7 +77,7 @@ public static class DamageRay
         float energy = packet.Energy, penetration = packet.PenetrationMm;
         bool armorStopped = false;
         string summary = "선체 관통";
-        if (spans[0].Span.Enter >= 0f)
+        if (shieldApplies && spans[0].Span.Enter >= 0f)
         {
             energy = ship.Damage.AbsorbShield(energy, time);
             if (energy <= 0f) return new ShotResult(ship, point, first, true, false, hits, "실드가 차단");

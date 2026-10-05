@@ -8,7 +8,7 @@ public readonly record struct CollisionImpact(string OtherCallsign, double Time,
 
 /// <summary>
 /// 복합 OBB의 연속 선형 충돌과 질량별 비탄성 반응. 위치 차이는 double로 뺀 뒤 로컬 계산만 float로 한다.
-/// 자세 변화는 SimWorld의 하위 틱으로 나눠 계산한다. 충격 피해는 모듈로 전달하며 충격 각속도는 아직 없다.
+/// 자세 변화는 SimWorld의 하위 틱으로 나눠 계산한다. 충격 피해는 CollisionDamage가 에너지 기준으로 계산하며 충격 각속도는 아직 없다.
 /// </summary>
 public static class ShipCollision
 {
@@ -243,9 +243,11 @@ public static class ShipCollision
         {
             RecordImpact(a, b, time, closing, a.Velocity.DistanceTo(beforeA));
             RecordImpact(b, a, time, closing, b.Velocity.DistanceTo(beforeB));
+            // 소산 에너지는 양쪽 선체에 모두 들어간다. 무거운 쪽도 접촉점이 파쇄된다.
+            double energy = CollisionDamage.DissipatedEnergy(a.Class.MassKg, b.Class.MassKg, closing, restitution);
+            CollisionDamage.Apply(a, b, contact.ArmA, -normal, energy, time);
+            CollisionDamage.Apply(b, a, contact.ArmB, normal, energy, time);
         }
-        a.Damage.ApplyCollision(a.Orientation.Inverse() * contact.ArmA, a.Velocity.DistanceTo(beforeA), time);
-        b.Damage.ApplyCollision(b.Orientation.Inverse() * contact.ArmB, b.Velocity.DistanceTo(beforeB), time);
     }
 
     private static void RecordImpact(ShipBody ship, ShipBody other, double time, float closing, float deltaSpeed)
