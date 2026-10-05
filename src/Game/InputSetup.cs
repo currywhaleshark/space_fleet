@@ -16,6 +16,7 @@ public static class InputSetup
     public const string RollRight = "roll_right";
     public const string Boost = "boost";
     public const string FlightAssist = "flight_assist";
+    public const string AssistStyle = "assist_style";
     public const string SwitchShip = "switch_ship";
     public const string ToggleOrigin = "toggle_origin";
     public const string JumpFar = "jump_far";
@@ -41,6 +42,7 @@ public static class InputSetup
         Bind(RollRight, Key.E);
         Bind(Boost, Key.Shift);
         Bind(FlightAssist, Key.Z);
+        Bind(AssistStyle, Key.V);
         Bind(SwitchShip, Key.Tab);
         Bind(ToggleOrigin, Key.F2);
         Bind(JumpFar, Key.F3);

@@ -2,6 +2,15 @@ using Godot;
 
 namespace SpaceFleet.Sim;
 
+/// <summary>비행보조 ON일 때의 방식. 비행보조 OFF에는 적용되지 않는다.</summary>
+public enum AssistStyle
+{
+    /// <summary>기수 선회를 속도에 묶고, 크게 꺾으면 자동 감속한다. 이동 방향이 기수를 크게 벗어나지 않는다.</summary>
+    Aircraft,
+    /// <summary>기수는 속도와 무관하게 돌고, 보조가 횡추력을 우선 써서 이동 방향을 기수 쪽으로 맞춘다.</summary>
+    Space,
+}
+
 /// <summary>
 /// 한 틱 동안 함선에 들어가는 조종 입력.
 /// Thrust는 함선 기준 (x=우, y=상, z=전방), 각 성분 -1..1.
@@ -13,6 +22,7 @@ public struct ShipControl
     public float Roll;
     public bool Boost;
     public bool FlightAssist;
+    public AssistStyle Style;
     /// <summary>기수를 돌릴 월드 방향. null이면 현재 자세 유지.</summary>
     public Vector3? AimForward;
 
@@ -69,6 +79,20 @@ public sealed class ShipBody
     public Vector3 Forward => Orientation * Vector3.Forward;
     public Vector3 Up => Orientation * Vector3.Up;
 
+    /// <summary>기수와 실제 이동 방향 사이 각도(도). 거의 정지 상태면 0.</summary>
+    public float DriftDegrees => Velocity.LengthSquared() > 1f ? Mathf.RadToDeg(Forward.AngleTo(Velocity)) : 0f;
+
+    /// <summary>기수가 지금 방향을 유지할 때, 기수에 수직인 속도를 횡추력으로 없애는 데 걸리는 시간(초).</summary>
+    public float LateralSettleSeconds
+    {
+        get
+        {
+            Vector3 v = Orientation.Inverse() * Velocity;
+            float accel = Mathf.Min(Class.StrafeAccel * Damage.ManeuverFraction, Class.MaxAccelG * StandardGravity);
+            return accel > 1e-4f ? new Vector2(v.X, v.Y).Length() / accel : float.PositiveInfinity;
+        }
+    }
+
     public void Place(Vec3d position, Quaternion orientation)
     {
         Position = PrevPosition = position;
@@ -110,7 +134,7 @@ public sealed class ShipBody
     {
         float maneuver = Damage.ManeuverFraction;
         float maxPitchYaw = Mathf.DegToRad(Class.PitchYawRateDeg) * maneuver;
-        if (Control.FlightAssist)
+        if (Control.FlightAssist && Control.Style == AssistStyle.Aircraft)
         {
             // a = v * ω. 고속에서는 넓게 선회하고, 감속하면서 선회가 빨라진다.
             float turnAccel = Mathf.Min(Class.StrafeAccel * maneuver, Class.MaxAccelG * StandardGravity) * TurnThrustFraction;
@@ -174,7 +198,8 @@ public sealed class ShipBody
         {
             // 비행보조: 입력이 가리키는 목표 속도로 맞추되 추진기 한계 안에서만.
             Vector3 target = thrust * Class.MaxSpeed * boost;
-            if (Control.Thrust.Z > 0f && Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
+            if (Control.Style == AssistStyle.Aircraft && Control.Thrust.Z > 0f
+                && Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
             {
                 // 큰 선회 입력은 스로틀을 유지한 채 감속한다. 방향이 맞으면 자동으로 재가속한다.
                 float aimAngle = Forward.AngleTo(aim);
@@ -205,7 +230,17 @@ public sealed class ShipBody
         dv.Z = Mathf.Clamp(dv.Z, -forwardAccel * dt, reverseAccel * dt);
         float maxDelta = Class.MaxAccelG * StandardGravity * dt;
         if (dv.LengthSquared() > maxDelta * maxDelta)
-            dv = dv.Normalized() * maxDelta;
+        {
+            if (Control.FlightAssist && Control.Style == AssistStyle.Space)
+            {
+                // 횡미끄럼 제거를 먼저 하고 남는 G로 전후 가속한다. 기수 쪽으로 이동 방향이 빨리 모인다.
+                var lateral = new Vector2(dv.X, dv.Y).LimitLength(maxDelta);
+                float axial = Mathf.Sqrt(Mathf.Max(0f, maxDelta * maxDelta - lateral.LengthSquared()));
+                dv = new Vector3(lateral.X, lateral.Y, Mathf.Clamp(dv.Z, -axial, axial));
+            }
+            else
+                dv = dv.Normalized() * maxDelta;
+        }
 
         EngineOutput = dv.Z < 0f && Damage.PropulsionFraction > 1e-6f
             ? Mathf.Clamp(-dv.Z / (Class.ForwardAccel * Damage.PropulsionFraction * dt), 0f, 2f) : 0f;

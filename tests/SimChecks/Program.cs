@@ -14,6 +14,7 @@ static class SimChecks
         CheckHalfTurn();
         CheckPitchAndRoll();
         CheckStrafeAndReverse();
+        CheckSpaceStyle();
         Console.WriteLine($"PASS: {_checks} simulation checks");
         CollisionChecks.Run();
         DamageChecks.Run();
@@ -146,6 +147,55 @@ static class SimChecks
         for (int tick = 0; tick < 600; tick++)
             StepAndCheckG(ship);
         Require(ship.Velocity.Length() < 0.01f, "Zero throttle with assist ON must come to rest");
+    }
+
+    private static void CheckSpaceStyle()
+    {
+        // 우주식: 기수 선회율이 속도와 무관하다.
+        float Rate(float speed)
+        {
+            var ship = Create(speed: speed);
+            ship.Control = new ShipControl { AimForward = Vector3.Right, FlightAssist = true, Style = AssistStyle.Space };
+            for (int tick = 0; tick < 6; tick++)
+                StepAndCheckG(ship);
+            return ship.AngularVelocity.Length();
+        }
+        float slow = Rate(20), fast = Rate(380);
+        Require(Math.Abs(slow - fast) < 1e-4f, "Space style nose rate must not depend on speed");
+
+        // 380 m/s에서 90도 꺾기: 기수는 먼저 돌고, 이동 방향은 G 한계 안에서 뒤따라 모인다.
+        var ship = Create(speed: 380);
+        ship.Control = new ShipControl
+        {
+            Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, AimForward = Vector3.Right,
+        };
+        double noseAt = -1, alignedAt = -1;
+        float minimumSpeed = float.PositiveInfinity;
+        bool braked = false;
+        for (int tick = 0; tick < 3600 && alignedAt < 0; tick++)
+        {
+            StepAndCheckG(ship);
+            braked |= ship.TurnBraking;
+            minimumSpeed = Math.Min(minimumSpeed, ship.Velocity.Length());
+            double t = (tick + 1) * SimWorld.TickDelta;
+            if (noseAt < 0 && ship.Forward.Dot(Vector3.Right) > 0.999f) noseAt = t;
+            if (noseAt > 0 && ship.DriftDegrees < 2f) alignedAt = t;
+        }
+        Require(!braked, "Space style must not use automatic turn braking");
+        Require(noseAt > 0 && noseAt < 2.0, $"Space style nose must swing quickly at speed: {noseAt:0.00}s");
+        Require(alignedAt > noseAt, "Velocity must converge on the nose after the swing");
+        Require(minimumSpeed > 150f, $"Space style keeps momentum through a turn: min {minimumSpeed:0}");
+        Console.WriteLine($"Space 90deg at 380m/s: nose {noseAt:0.00}s, velocity aligned {alignedAt:0.00}s, min speed {minimumSpeed:0}");
+
+        // 정렬 시간 추정은 실제 횡속도 제거 시간과 같은 규모여야 한다.
+        var drift = Create(speed: 0);
+        drift.Velocity = Vector3.Right * 200f;
+        drift.Control = new ShipControl { FlightAssist = true, Style = AssistStyle.Space };
+        float estimate = drift.LateralSettleSeconds;
+        int ticks = 0;
+        while (drift.Velocity.Length() > 1f && ticks < 3600) { StepAndCheckG(drift); ticks++; }
+        float actual = ticks * Dt;
+        Require(Math.Abs(actual - estimate) < 0.2f, $"Settle estimate {estimate:0.00}s vs actual {actual:0.00}s");
     }
 
     private static void CheckPitchAndRoll()

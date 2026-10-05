@@ -20,7 +20,7 @@ public partial class Hud
         if (!Game.FireAssist) Line(2, "수동 사격 · 조준선 방향 · 선행 보정 없음", Motion);
         else if (Game.FiringSolution is { Valid: true } solution)
         {
-            Line(2, $"{Game.InspectTarget?.Body.Callsign} · 예상 {solution.FlightTime:0.00}s · 관측 오차 ~{solution.ErrorMeters:0.0} m", Lead);
+            Line(2, $"{Game.FireTarget?.Body.Callsign} · 예상 {solution.FlightTime:0.00}s · 관측 오차 ~{solution.ErrorMeters:0.0} m", Lead);
             Line(3, Game.CorrectingAim ? "선행 보정 활성 · 초록 표시는 포구의 발사 방향" : "표적을 조준선 8° 안에 두면 선행 보정", Game.CorrectingAim ? Lead : Dim);
             Vector3 point = (solution.AimPoint - Game.RenderOrigin).ToVector3();
             if (!cam.IsPositionBehind(point))
@@ -33,7 +33,9 @@ public partial class Hud
                 DrawString(_font, p + new Vector2(10, -8), $"선행 {solution.FlightTime:0.00}s", HorizontalAlignment.Left, -1, 12, Lead);
             }
         }
-        else Line(2, Game.FiringSolution?.Reason ?? "검사 표적을 선택하세요 (R)", Motion);
+        else Line(2, Game.FiringSolution?.Reason ?? (Game.InspectTarget is ShipView inspected && Game.FireTarget is null
+            ? $"{inspected.Body.Callsign}: {(inspected.Body.Damage.Destroyed ? "격침된 표적" : "아군")} · 사격통제 없음 (R로 적 선택)"
+            : "적 표적을 선택하세요 (R)"), Motion);
         if (Game.World.Time - Game.LastFireTime < 2) Line(4, Game.LastFireMessage, Dim);
         ProjectileImpact? impact = Game.World.Impacts.LastOrDefault(i => i.Shooter == controlled.Body);
         if (impact is null) return;

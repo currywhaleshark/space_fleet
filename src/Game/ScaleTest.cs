@@ -19,11 +19,16 @@ public partial class ScaleTest : Node3D
     private static readonly Vec3d PlanetPosition = new(-2.2e7, -0.9e7, -5.5e7);
     private const float PlanetRadius = 6.0e6f;
 
+    // 먼지 상자 크기 = 함종 카메라 거리 × 이 값. 요격함 약 170 m, 전함 약 9.6 km.
+    private const float DustBoxPerCameraDistance = 4f;
+
     private readonly List<ShipView> _playable = new();
     private Node3D _worldRoot = null!;
+    private SpaceDust _dust = null!;
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
     private bool _flightAssist = true;
+    public AssistStyle AssistStyle { get; private set; } = AssistStyle.Aircraft;
     private ShotRequest? _shot;
     private int _frame;
     private int _testShots;
@@ -57,6 +62,8 @@ public partial class ScaleTest : Node3D
         Camera = new ChaseCamera { Name = "Camera" };
         AddChild(Camera);
         Camera.MakeCurrent();
+        _dust = SpaceDust.Create(seed: 11);
+        AddChild(_dust);
 
         var layer = new CanvasLayer { Name = "HudLayer" };
         layer.AddChild(new Hud { Name = "Hud", Game = this });
@@ -190,6 +197,8 @@ public partial class ScaleTest : Node3D
             JumpFriendlies();
         else if (e.IsActionPressed(InputSetup.FlightAssist))
             _flightAssist = !_flightAssist;
+        else if (e.IsActionPressed(InputSetup.AssistStyle))
+            AssistStyle = AssistStyle == AssistStyle.Aircraft ? AssistStyle.Space : AssistStyle.Aircraft;
         else if (e.IsActionPressed(InputSetup.ThrottleZero))
             Throttle = 0f;
         else if (e.IsActionPressed(InputSetup.ReleaseMouse))
@@ -234,6 +243,7 @@ public partial class ScaleTest : Node3D
                     Roll = Input.GetAxis(InputSetup.RollLeft, InputSetup.RollRight),
                     Boost = Input.IsActionPressed(InputSetup.Boost),
                     FlightAssist = _flightAssist,
+                    Style = AssistStyle,
                     AimForward = Camera.AimForward,
                 };
         }
@@ -269,6 +279,8 @@ public partial class ScaleTest : Node3D
 
         Camera.Follow(controlled.Body.Class, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), (float)delta);
+        _dust.Sync(RenderOrigin + Vec3d.From(Camera.Position), Camera.Position, controlled.Body.Velocity,
+            controlled.Body.Class.CameraDistance * DustBoxPerCameraDistance);
     }
 
     /// <summary>
@@ -294,8 +306,12 @@ public partial class ScaleTest : Node3D
         Camera.ResetAim(body.Orientation);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
+        // 기본 표적은 가장 가까운 살아 있는 적. 사격통제가 아군을 잡지 않게 한다.
         if (InspectTarget is null || InspectTarget == Controlled)
-            InspectTarget = Views.Find(v => v.Body.Callsign == "BB-01" && v != Controlled) ?? Views.Find(v => v != Controlled);
+            InspectTarget = Views
+                .Where(v => v.Body.Faction != body.Faction && !v.Body.Damage.Destroyed)
+                .OrderBy(v => (v.Body.Position - body.Position).LengthSquared())
+                .FirstOrDefault() ?? Views.Find(v => v != Controlled);
     }
 
     private void NextInspectTarget()
@@ -333,6 +349,8 @@ public partial class ScaleTest : Node3D
     {
         if (shot.FixedOrigin)
             FloatingOrigin = false;
+        if (shot.SpaceStyle)
+            AssistStyle = AssistStyle.Space;
         if (shot.Far)
             JumpFriendlies();
         if (shot.Ram is string ramTarget && Views.Find(v => v.Body.Callsign == ramTarget) is ShipView targetShip && targetShip != Controlled)
@@ -386,7 +404,7 @@ public partial class ScaleTest : Node3D
     private sealed record ShotRequest(
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
-        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin)
+        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool SpaceStyle)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -429,7 +447,8 @@ public partial class ScaleTest : Node3D
                 F("speed", 0f),
                 F("zoom", 1f),
                 map.ContainsKey("far"),
-                map.ContainsKey("fixed-origin"));
+                map.ContainsKey("fixed-origin"),
+                map.GetValueOrDefault("style") == "space");
         }
     }
 }

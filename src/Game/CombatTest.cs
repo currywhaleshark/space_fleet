@@ -14,6 +14,10 @@ public partial class ScaleTest
     public FiringSolution? FiringSolution { get; private set; }
     public bool CorrectingAim { get; private set; }
     public string LastFireMessage { get; private set; } = "";
+
+    /// <summary>사격통제 표적. 검사 표적이 살아 있는 적일 때만 잡는다(아군에게 선행 보정을 계산하지 않는다).</summary>
+    public ShipView? FireTarget => InspectTarget is ShipView view && Controlled is ShipView me
+        && view.Body.Faction != me.Body.Faction && !view.Body.Damage.Destroyed ? view : null;
     public double LastFireTime { get; private set; } = -100;
 
     private void SetupPractice(string callsign = "DD-X1", float distance = 6000, float speed = 180)
@@ -44,9 +48,10 @@ public partial class ScaleTest
             Vector3 bearing = (_practiceTarget.Position - player.Position).ToVector3().Normalized();
             Camera.ResetAim(Basis.LookingAt(bearing, player.Up).GetRotationQuaternion());
         }
-        FiringSolution = FireAssist && InspectTarget is not null ? FireControl.Solve(player, InspectTarget.Body, World.Time) : null;
-        CorrectingAim = FiringSolution is { Valid: true } solution && InspectTarget is not null
-            && Camera.AimForward.AngleTo((InspectTarget.Body.Position - player.Position).ToVector3()) < Mathf.DegToRad(8);
+        ShipView? fireTarget = FireTarget;
+        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time) : null;
+        CorrectingAim = FiringSolution is { Valid: true } && fireTarget is not null
+            && Camera.AimForward.AngleTo((fireTarget.Body.Position - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);
         if (automated) firing = World.Tick >= 30 && _liveShots < _shot!.Pulses && player.Railgun?.Ready == true;
         if (!firing) return;
