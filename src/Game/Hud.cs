@@ -144,6 +144,7 @@ public partial class Hud : Control
         }
         // 가까운 것부터 라벨 자리를 잡고, 겹치는 먼 라벨은 생략한다.
         // 순서는 실제 거리로 고정해서, 겹친 접촉의 라벨이 오차 변화에 따라 번갈아 깜박이지 않게 한다.
+        var contacts = new List<Contact>();
         foreach (var (view, track, render, dist, _) in markers.OrderBy(m => m.TrueDist))
         {
             Vector2 p = cam.UnprojectPosition(render);
@@ -151,22 +152,10 @@ public partial class Hud : Control
 
             if (track.Level == TrackLevel.Contact)
             {
-                // 접촉: 함종도 호출부호도 모른다. 추정 위치와 오차 원만. 원 크기는 부드럽게 따라간다.
+                // 접촉은 모아 두었다가 묶음으로 그린다. 오차 원 크기는 부드럽게 따라간다.
                 float errTarget = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
                 float err = _errorShown[view] = _errorShown.TryGetValue(view, out float shown) ? Smooth(shown, errTarget, 0.5f) : errTarget;
-                Color cc = new(Hostile, 0.7f);
-                DrawDiamond(p, 6f, cc);
-                DrawArc(p, err, 0, Mathf.Tau, 32, new Color(Hostile, selected ? 0.6f : 0.3f), selected ? 2f : 1f);
-                if (track.Jammed)
-                    DrawJamMark(p + new Vector2(-10f, -14f), cc);
-                string guess = $"?  {FormatDistance(dist)}";
-                Vector2 gAt = p + new Vector2(10f, -6f);
-                var gRect = new Rect2(gAt - new Vector2(0, 12), _font.GetStringSize(guess, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
-                if (!labels.Any(r => r.Intersects(gRect)))
-                {
-                    labels.Add(gRect);
-                    Label(gAt, guess, 13, cc);
-                }
+                contacts.Add(new Contact(view, p, err, track, dist));
                 continue;
             }
 
@@ -204,9 +193,96 @@ public partial class Hud : Control
             labels.Add(rect);
             Label(at, label, 13, c);
         }
+        DrawContactGroups(contacts, labels);
     }
 
     private readonly Dictionary<ShipView, float> _errorShown = new();
+
+    private readonly record struct Contact(ShipView View, Vector2 P, float Err, SensorTrack Track, double Dist);
+
+    /// <summary>접촉이 속한 묶음의 크기(표적 패널용). 이번 프레임 DrawBrackets에서 채운다.</summary>
+    private readonly Dictionary<ShipView, int> _contactGroupSize = new();
+    /// <summary>지난 프레임에 같은 묶음이었던 첫 구성원. 경계에서 묶였다 풀렸다 하지 않게 한다.</summary>
+    private Dictionary<ShipView, ShipView> _contactAnchor = new();
+
+    /// <summary>
+    /// 화면에서 가깝거나 오차 원이 크게 겹치는 접촉을 하나로 묶는다. 묶음은 구성원 평균 위치의 마름모,
+    /// 모든 구성원 오차 원을 감싸는 원 하나, "? ×수"와 가장 가까운 구성원 거리로 그린다.
+    /// 지난 프레임에 같이 묶였던 접촉은 조금 더 멀어져도 묶음을 유지한다.
+    /// </summary>
+    private void DrawContactGroups(List<Contact> contacts, List<Rect2> labels)
+    {
+        const float MergePixels = 36f;
+        const float OverlapFactor = 0.6f;
+        const float KeepFactor = 1.25f;
+        var groups = new List<List<Contact>>();
+        foreach (Contact c in contacts) // 실제 거리 순으로 들어와 묶음의 첫 구성원이 안정적이다.
+        {
+            List<Contact>? home = null;
+            foreach (List<Contact> g in groups)
+            {
+                Vector2 center = GroupCenter(g);
+                float reach = Mathf.Max(MergePixels, (GroupRadius(g, center) + c.Err) * OverlapFactor);
+                if (_contactAnchor.TryGetValue(c.View, out ShipView? anchor) && anchor == g[0].View)
+                    reach *= KeepFactor;
+                if (center.DistanceTo(c.P) <= reach)
+                {
+                    home = g;
+                    break;
+                }
+            }
+            if (home is null)
+                groups.Add(new List<Contact> { c });
+            else
+                home.Add(c);
+        }
+
+        _contactGroupSize.Clear();
+        var anchors = new Dictionary<ShipView, ShipView>();
+        Color cc = new(Hostile, 0.7f);
+        foreach (List<Contact> g in groups)
+        {
+            Vector2 center = GroupCenter(g);
+            float radius = GroupRadius(g, center);
+            bool selected = g.Any(m => m.View == Game.InspectTarget);
+            foreach (Contact m in g)
+            {
+                _contactGroupSize[m.View] = g.Count;
+                anchors[m.View] = g[0].View;
+            }
+
+            // 여러 척이면 겹친 마름모 두 개로 "여럿"임을 보인다.
+            if (g.Count > 1)
+                DrawDiamond(center + new Vector2(3f, -3f), 6f, new Color(cc, 0.45f));
+            DrawDiamond(center, 6f, cc);
+            DrawArc(center, radius, 0, Mathf.Tau, 40, new Color(Hostile, selected ? 0.6f : 0.3f), selected ? 2f : 1f);
+            if (g.Any(m => m.Track.Jammed))
+                DrawJamMark(center + new Vector2(-12f, -16f), cc);
+
+            double nearest = g.Min(m => m.Dist);
+            string text = g.Count > 1 ? $"? ×{g.Count}  {FormatDistance(nearest)}" : $"?  {FormatDistance(nearest)}";
+            Vector2 at = center + new Vector2(12f, -6f);
+            var rect = new Rect2(at - new Vector2(0, 12), _font.GetStringSize(text, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
+            if (labels.Any(r => r.Intersects(rect)))
+                continue;
+            labels.Add(rect);
+            Label(at, text, 13, cc);
+        }
+        _contactAnchor = anchors;
+
+        static Vector2 GroupCenter(List<Contact> g)
+        {
+            Vector2 sum = Vector2.Zero;
+            foreach (Contact m in g) sum += m.P;
+            return sum / g.Count;
+        }
+        static float GroupRadius(List<Contact> g, Vector2 center)
+        {
+            float r = 0f;
+            foreach (Contact m in g) r = Mathf.Max(r, center.DistanceTo(m.P) + m.Err);
+            return r;
+        }
+    }
 
     /// <summary>방해 표시: 짧은 물결 두 줄. 이 표적은 ECM을 켜고 있어 정밀도가 떨어진다.</summary>
     private void DrawJamMark(Vector2 at, Color color)

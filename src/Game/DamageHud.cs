@@ -36,7 +36,8 @@ public partial class Hud
             // 접촉만: 무엇인지 모른다. 거리와 탐지 단계만 보인다.
             var small = new Rect2(screen.X - PanelWidth - 12f, 8f, PanelWidth, 64f);
             DrawRect(small, PanelBack);
-            Label(new Vector2(x, 28f), "미식별 접촉", 15, new Color(Hostile, 0.8f));
+            int group = _contactGroupSize.TryGetValue(target, out int n) ? n : 1;
+            Label(new Vector2(x, 28f), group > 1 ? $"미식별 접촉 · 묶음 {group}" : "미식별 접촉", 15, new Color(Hostile, 0.8f));
             Label(new Vector2(x, 28f), FormatDistance((track.EstimatedPosition - me.Body.Position).Length()), 13, Dim, HorizontalAlignment.Right, inner);
             DrawTrackLevel(new Vector2(x, 44f), inner, track);
             return;
