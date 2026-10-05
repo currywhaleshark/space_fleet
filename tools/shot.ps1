@@ -10,8 +10,8 @@ $shots = Join-Path $ProjectDir 'shots'
 New-Item -ItemType Directory -Force $shots | Out-Null
 $out = (Join-Path $shots "$Name.png") -replace '\\', '/'
 
-$argList = @('--path', "`"$ProjectDir`"", '--', "--shot=`"$out`"") + $GameArgs
-$proc = Start-Process -FilePath $Godot -ArgumentList $argList -PassThru
+$argList = @('--path', "`"$ProjectDir`"", '--fixed-fps', '60', '--', "--shot=`"$out`"") + $GameArgs
+$proc = Start-Process -FilePath $Godot -ArgumentList $argList -WindowStyle Hidden -PassThru
 if (-not $proc.WaitForExit(120000)) {
     Stop-Process -Id $proc.Id -Force
     Write-Error "timed out: $Name"

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GodotSharp">
+      <HintPath>../../.godot/mono/temp/bin/Debug/GodotSharp.dll</HintPath>
+    </Reference>
+    <Compile Include="../../src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

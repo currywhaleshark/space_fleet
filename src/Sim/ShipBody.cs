@@ -25,20 +25,37 @@ public struct ShipControl
 /// </summary>
 public sealed class ShipBody
 {
-    public ShipBody(string callsign, ShipClass shipClass, Faction faction)
+    public const float StandardGravity = 9.80665f;
+    // 제동과 횡미끄럼 보정에 쓸 추력을 남긴다. 횡추력을 전부 선회에 쓰면 감속 중 경로가 뒤처진다.
+    private const float TurnThrustFraction = 0.7f;
+
+    public ShipBody(string callsign, ShipClass shipClass, Faction faction, ShipDefinition? definition = null)
     {
         Callsign = callsign;
         Class = shipClass;
         Faction = faction;
+        Definition = definition ?? ShipDefinitions.For(shipClass.Kind);
+        Damage = new ShipDamage(Definition, callsign);
+        Railgun = Definition.Railgun is null ? null : new RailgunState(this);
     }
 
     public string Callsign { get; }
     public ShipClass Class { get; }
     public Faction Faction { get; }
+    public ShipDefinition Definition { get; }
+    public ShipDamage Damage { get; }
+    public RailgunState? Railgun { get; }
+    public CollisionHull Hull => Definition.Hull;
+    public CollisionImpact? LastCollision { get; internal set; }
 
     public Vec3d Position;
     public Vec3d PrevPosition;
     public Vector3 Velocity;
+    /// <summary>각 축의 추력을 합산한 뒤의 무게중심 병진 가속도.</summary>
+    public Vector3 Acceleration { get; private set; }
+    public float GLoad => Acceleration.Length() / StandardGravity;
+    public bool TurnBraking { get; private set; }
+    public float AssistedTargetSpeed { get; private set; }
     public Quaternion Orientation = Quaternion.Identity;
     public Quaternion PrevOrientation = Quaternion.Identity;
     /// <summary>함선 로컬 축 기준 각속도(rad/s).</summary>
@@ -46,7 +63,7 @@ public sealed class ShipBody
 
     public ShipControl Control = ShipControl.Idle;
 
-    /// <summary>주추진기 출력 0..1. 연출(엔진 화염)용.</summary>
+    /// <summary>주추진기 출력 0..2(부스트 포함). 연출(엔진 화염)용.</summary>
     public float EngineOutput { get; private set; }
 
     public Vector3 Forward => Orientation * Vector3.Forward;
@@ -57,6 +74,11 @@ public sealed class ShipBody
         Position = PrevPosition = position;
         Orientation = PrevOrientation = orientation.Normalized();
         Velocity = Vector3.Zero;
+        Acceleration = Vector3.Zero;
+        EngineOutput = 0f;
+        TurnBraking = false;
+        AssistedTargetSpeed = 0f;
+        LastCollision = null;
         AngularVelocity = Vector3.Zero;
     }
 
@@ -75,6 +97,8 @@ public sealed class ShipBody
     {
         PrevPosition = Position;
         PrevOrientation = Orientation;
+        Damage.Step(dt);
+        Railgun?.Step(dt);
 
         StepRotation((float)dt);
         StepTranslation((float)dt);
@@ -84,10 +108,17 @@ public sealed class ShipBody
 
     private void StepRotation(float dt)
     {
-        float maxPitchYaw = Mathf.DegToRad(Class.PitchYawRateDeg);
-        float accPitchYaw = Mathf.DegToRad(Class.PitchYawAccelDeg);
-        float maxRoll = Mathf.DegToRad(Class.RollRateDeg);
-        float accRoll = Mathf.DegToRad(Class.RollAccelDeg);
+        float maneuver = Damage.ManeuverFraction;
+        float maxPitchYaw = Mathf.DegToRad(Class.PitchYawRateDeg) * maneuver;
+        if (Control.FlightAssist)
+        {
+            // a = v * ω. 고속에서는 넓게 선회하고, 감속하면서 선회가 빨라진다.
+            float turnAccel = Mathf.Min(Class.StrafeAccel * maneuver, Class.MaxAccelG * StandardGravity) * TurnThrustFraction;
+            maxPitchYaw = Mathf.Min(maxPitchYaw, turnAccel / Mathf.Max(Velocity.Length(), 1f));
+        }
+        float accPitchYaw = Mathf.DegToRad(Class.PitchYawAccelDeg) * maneuver;
+        float maxRoll = Mathf.DegToRad(Class.RollRateDeg) * maneuver;
+        float accRoll = Mathf.DegToRad(Class.RollAccelDeg) * maneuver;
 
         Vector3 desired = Vector3.Zero;
         if (Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
@@ -126,19 +157,37 @@ public sealed class ShipBody
 
     private void StepTranslation(float dt)
     {
-        float boost = Control.Boost ? Class.BoostMultiplier : 1f;
-        float forwardAccel = Class.ForwardAccel * boost;
-        float strafeAccel = Class.StrafeAccel;
+        float boost = Control.Boost ? 1f + (Class.BoostMultiplier - 1f) * Damage.CoolingFraction : 1f;
+        float forwardAccel = Class.ForwardAccel * boost * Damage.PropulsionFraction;
+        float strafeAccel = Class.StrafeAccel * Damage.ManeuverFraction;
 
         // 함선 로컬 속도. Godot 로컬 축: 우=+X, 상=+Y, 전방=-Z.
         Vector3 v = Orientation.Inverse() * Velocity;
         Vector3 thrust = new(Control.Thrust.X, Control.Thrust.Y, -Control.Thrust.Z);
+        if (thrust.LengthSquared() > 1f)
+            thrust = thrust.Normalized();
 
         Vector3 dv;
+        TurnBraking = false;
+        AssistedTargetSpeed = 0f;
         if (Control.FlightAssist)
         {
             // 비행보조: 입력이 가리키는 목표 속도로 맞추되 추진기 한계 안에서만.
             Vector3 target = thrust * Class.MaxSpeed * boost;
+            if (Control.Thrust.Z > 0f && Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
+            {
+                // 큰 선회 입력은 스로틀을 유지한 채 감속한다. 방향이 맞으면 자동으로 재가속한다.
+                float aimAngle = Forward.AngleTo(aim);
+                float driftAngle = Velocity.LengthSquared() > 1f ? Forward.AngleTo(Velocity) : 0f;
+                float turnAmount = Mathf.SmoothStep(Mathf.DegToRad(5f), Mathf.DegToRad(60f), Mathf.Max(aimAngle, driftAngle));
+                float turnAccel = Mathf.Min(strafeAccel, Class.MaxAccelG * StandardGravity) * TurnThrustFraction;
+                float turnSpeed = turnAccel / Mathf.DegToRad(Class.PitchYawRateDeg);
+                float cruiseSpeed = -target.Z;
+                float forwardTarget = Mathf.Lerp(cruiseSpeed, Mathf.Min(cruiseSpeed, turnSpeed), turnAmount);
+                target.Z = -forwardTarget;
+                TurnBraking = turnAmount > 0.01f && -v.Z > forwardTarget + 1f;
+            }
+            AssistedTargetSpeed = target.Length();
             dv = target - v;
         }
         else
@@ -151,11 +200,19 @@ public sealed class ShipBody
 
         dv.X = Mathf.Clamp(dv.X, -strafeAccel * dt, strafeAccel * dt);
         dv.Y = Mathf.Clamp(dv.Y, -strafeAccel * dt, strafeAccel * dt);
-        // 전방 가속은 주추진기, 감속·후진은 약한 역추진기.
-        dv.Z = Mathf.Clamp(dv.Z, -forwardAccel * dt, strafeAccel * dt);
+        // 감속은 제동 추력, 후진 가속은 보조 추력. 부스트도 합산 G 상한을 넘지 않는다.
+        float reverseAccel = v.Z < 0f ? Class.BrakeAccel * Damage.ManeuverFraction : strafeAccel;
+        dv.Z = Mathf.Clamp(dv.Z, -forwardAccel * dt, reverseAccel * dt);
+        float maxDelta = Class.MaxAccelG * StandardGravity * dt;
+        if (dv.LengthSquared() > maxDelta * maxDelta)
+            dv = dv.Normalized() * maxDelta;
 
-        EngineOutput = dv.Z < 0f ? Mathf.Clamp(-dv.Z / (Class.ForwardAccel * dt), 0f, 2f) : 0f;
+        EngineOutput = dv.Z < 0f && Damage.PropulsionFraction > 1e-6f
+            ? Mathf.Clamp(-dv.Z / (Class.ForwardAccel * Damage.PropulsionFraction * dt), 0f, 2f) : 0f;
 
-        Velocity = Orientation * (v + dv);
+        // 속도를 자세와 함께 돌리지 않고 추력으로만 바꾼다. 보조 OFF·무입력이면 관성을 유지한다.
+        Vector3 worldDelta = Orientation * dv;
+        Acceleration = worldDelta / dt;
+        Velocity += worldDelta;
     }
 }

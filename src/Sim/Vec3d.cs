@@ -17,7 +17,9 @@ public readonly record struct Vec3d(double X, double Y, double Z)
     public static Vec3d operator *(Vec3d a, double s) => new(a.X * s, a.Y * s, a.Z * s);
     public static Vec3d operator +(Vec3d a, Vector3 b) => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z);
 
-    public double Length() => Math.Sqrt(X * X + Y * Y + Z * Z);
+    public double LengthSquared() => X * X + Y * Y + Z * Z;
+    public double Length() => Math.Sqrt(LengthSquared());
+    public double Dot(Vec3d other) => X * other.X + Y * other.Y + Z * other.Z;
 
     public Vector3 ToVector3() => new((float)X, (float)Y, (float)Z);
 

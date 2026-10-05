@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
 using SpaceFleet.View;
@@ -25,6 +26,9 @@ public partial class ScaleTest : Node3D
     private bool _flightAssist = true;
     private ShotRequest? _shot;
     private int _frame;
+    private int _testShots;
+    private Vec3d _testOrigin;
+    private Vector3 _testDirection;
 
     public SimWorld World { get; } = new();
     public List<ShipView> Views { get; } = new();
@@ -33,6 +37,10 @@ public partial class ScaleTest : Node3D
     public float Throttle { get; private set; }
     public bool FloatingOrigin { get; private set; } = true;
     public Vec3d RenderOrigin { get; private set; }
+    public ShipView? InspectTarget { get; private set; }
+    public bool ShowModules { get; private set; }
+    public ShotResult? LastTestShot { get; private set; }
+    public double LastTestShotTime { get; private set; }
 
     public override void _Ready()
     {
@@ -43,6 +51,8 @@ public partial class ScaleTest : Node3D
         AddChild(_worldRoot);
         SpawnFleets();
         BuildPlanet();
+        _ballistics = new BallisticsView { Name = "Ballistics" };
+        _worldRoot.AddChild(_ballistics);
 
         Camera = new ChaseCamera { Name = "Camera" };
         AddChild(Camera);
@@ -184,6 +194,23 @@ public partial class ScaleTest : Node3D
             Throttle = 0f;
         else if (e.IsActionPressed(InputSetup.ReleaseMouse))
             Input.MouseMode = Input.MouseModeEnum.Visible;
+        else if (e.IsActionPressed(InputSetup.InspectTarget))
+            NextInspectTarget();
+        else if (e.IsActionPressed(InputSetup.TestFire))
+            FireTest(RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward);
+        else if (e.IsActionPressed(InputSetup.ShowModules))
+            ShowModules = !ShowModules;
+        else if (e.IsActionPressed(InputSetup.Repair))
+        {
+            foreach (ShipBody ship in World.Ships) ship.Damage.Reset();
+            LastTestShot = null;
+            World.ResetWeapons();
+            LastFireMessage = "전체 복구";
+        }
+        else if (e.IsActionPressed(InputSetup.FireAssist))
+            FireAssist = !FireAssist;
+        else if (e.IsActionPressed(InputSetup.Practice))
+            SetupPractice();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -194,7 +221,9 @@ public partial class ScaleTest : Node3D
         ShipBody? player = Controlled?.Body;
         foreach (ShipBody ship in World.Ships)
         {
-            ship.Control = ship != player
+            ship.Control = ship == _practiceTarget && ship != player
+                ? new ShipControl { FlightAssist = false }
+                : ship != player
                 ? ShipControl.Idle
                 : new ShipControl
                 {
@@ -210,6 +239,12 @@ public partial class ScaleTest : Node3D
         }
 
         World.Step();
+        StepCombat();
+        if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
+        {
+            FireTest(_testOrigin, _testDirection);
+            _testShots++;
+        }
     }
 
     public override void _Process(double delta)
@@ -229,6 +264,7 @@ public partial class ScaleTest : Node3D
 
         foreach (ShipView view in Views)
             view.Sync(RenderOrigin, alpha, (float)delta);
+        _ballistics.Sync(World, RenderOrigin, alpha);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
 
         Camera.Follow(controlled.Body.Class, controlled.Position,
@@ -258,6 +294,32 @@ public partial class ScaleTest : Node3D
         Camera.ResetAim(body.Orientation);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
+        if (InspectTarget is null || InspectTarget == Controlled)
+            InspectTarget = Views.Find(v => v.Body.Callsign == "BB-01" && v != Controlled) ?? Views.Find(v => v != Controlled);
+    }
+
+    private void NextInspectTarget()
+    {
+        int start = InspectTarget is null ? -1 : Views.IndexOf(InspectTarget);
+        for (int i = 1; i <= Views.Count; i++)
+        {
+            ShipView candidate = Views[(start + i) % Views.Count];
+            if (candidate == Controlled) continue;
+            InspectTarget = candidate;
+            Vector3 direction = (candidate.Body.Position - Controlled!.Body.Position).ToVector3().Normalized();
+            if (direction.LengthSquared() > 0.1f)
+                Camera.ResetAim(Basis.LookingAt(direction, Controlled.Body.Up).GetRotationQuaternion());
+            break;
+        }
+    }
+
+    private void FireTest(Vec3d origin, Vector3 direction)
+    {
+        LastTestShot = World.FireTestShot(Controlled!.Body, origin, direction, new DamagePacket(600f, 1200f, 120f));
+        LastTestShotTime = World.Time;
+        if (LastTestShot.Target is ShipBody target)
+            InspectTarget = Views.Find(v => v.Body == target);
+        GD.Print($"test shot: {LastTestShot.Target?.Callsign ?? "miss"} · {LastTestShot.Summary}");
     }
 
     private void JumpFriendlies()
@@ -273,7 +335,31 @@ public partial class ScaleTest : Node3D
             FloatingOrigin = false;
         if (shot.Far)
             JumpFriendlies();
+        if (shot.Ram is string ramTarget && Views.Find(v => v.Body.Callsign == ramTarget) is ShipView targetShip && targetShip != Controlled)
+        {
+            // 충돌 검증: 표적 후방에서 같은 자세로 접근한다.
+            ShipBody targetBody = targetShip.Body;
+            Controlled!.Body.Place(targetBody.Position + Vec3d.From(targetBody.Orientation * Vector3.Back) * targetBody.Class.Length,
+                targetBody.Orientation);
+            Camera.ResetAim(targetBody.Orientation);
+        }
+        if (shot.DamageTarget is string damageTarget && Views.Find(v => v.Body.Callsign == damageTarget) is ShipView damageView && damageView != Controlled)
+        {
+            ModuleDefinition module = Array.Find(damageView.Body.Definition.Modules, m => m.Id == (shot.DamageModule ?? "bus-port"))
+                ?? throw new ArgumentException($"Unknown damage module: {shot.DamageModule ?? "bus-port"}");
+            Vector3 localOrigin = module.Center + Vector3.Left * damageView.Body.Class.Length + Vector3.Forward * damageView.Body.Class.Length;
+            _testOrigin = damageView.Body.Position + Vec3d.From(damageView.Body.Orientation * localOrigin);
+            _testDirection = (damageView.Body.Orientation * (module.Center - localOrigin)).Normalized();
+            Quaternion orientation = Basis.LookingAt(_testDirection, damageView.Body.Up).GetRotationQuaternion();
+            Controlled!.Body.Place(_testOrigin, orientation);
+            Camera.ResetAim(orientation);
+            InspectTarget = damageView;
+            ShowModules = true;
+        }
         Throttle = shot.Throttle;
+        Controlled!.Body.Velocity = Controlled.Body.Forward * shot.Speed;
+        if (shot.BallisticsTarget is not null) SetupPractice(shot.BallisticsTarget, shot.TestDistance, shot.TargetSpeed);
+        FireAssist = !shot.ManualFire;
         Camera.Zoom(shot.Zoom);
         if (shot.LookAt is string target && Views.Find(v => v.Body.Callsign == target) is ShipView targetView)
         {
@@ -286,6 +372,8 @@ public partial class ScaleTest : Node3D
 
     private void SaveShotAndQuit(string path)
     {
+        if (_shot?.BallisticsTarget is not null)
+            GD.Print($"railgun test: shots={_liveShots}, recent hits={World.Impacts.Count}, active={World.Projectiles.Count}, target shield={_practiceTarget?.Damage.Shield:0}, damaged modules={_practiceTarget?.Damage.Modules.Count(m => m.HealthFraction < 1)}");
         Image image = GetViewport().GetTexture().GetImage();
         Error err = image.SavePng(path);
         GD.Print(err == Error.Ok ? $"shot saved: {path}" : $"shot failed: {err}");
@@ -296,8 +384,9 @@ public partial class ScaleTest : Node3D
     /// 명령줄 스크린샷 모드. 예: -- --shot=C:/tmp/a.png --control=IC-21 --look-at=BB-01 --frames=120
     /// </summary>
     private sealed record ShotRequest(
-        string Path, int Frames, string? Control, string? LookAt,
-        float Yaw, float Pitch, float Throttle, float Zoom, bool Far, bool FixedOrigin)
+        string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
+        string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
+        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -327,8 +416,17 @@ public partial class ScaleTest : Node3D
                 (int)F("frames", 120),
                 map.GetValueOrDefault("control"),
                 map.GetValueOrDefault("look-at"),
+                map.GetValueOrDefault("ram"),
+                map.GetValueOrDefault("damage-test"),
+                map.GetValueOrDefault("module"),
+                (int)F("pulses", 8),
+                map.GetValueOrDefault("ballistics-test"),
+                F("test-distance", 6000),
+                F("target-speed", 180),
+                map.ContainsKey("manual-fire"),
                 yaw, pitch,
                 F("throttle", 0f),
+                F("speed", 0f),
                 F("zoom", 1f),
                 map.ContainsKey("far"),
                 map.ContainsKey("fixed-origin"));

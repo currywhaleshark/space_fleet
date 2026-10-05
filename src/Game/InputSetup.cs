@@ -20,6 +20,13 @@ public static class InputSetup
     public const string ToggleOrigin = "toggle_origin";
     public const string JumpFar = "jump_far";
     public const string ReleaseMouse = "release_mouse";
+    public const string InspectTarget = "inspect_target";
+    public const string TestFire = "test_fire";
+    public const string ShowModules = "show_modules";
+    public const string Repair = "repair";
+    public const string Fire = "fire_railgun";
+    public const string FireAssist = "fire_assist";
+    public const string Practice = "shooting_practice";
 
     public static void Register()
     {
@@ -38,6 +45,14 @@ public static class InputSetup
         Bind(ToggleOrigin, Key.F2);
         Bind(JumpFar, Key.F3);
         Bind(ReleaseMouse, Key.Escape);
+        Bind(InspectTarget, Key.R);
+        Bind(TestFire, Key.F4);
+        Bind(ShowModules, Key.F5);
+        Bind(Repair, Key.F6);
+        Bind(FireAssist, Key.T);
+        Bind(Practice, Key.F7);
+        if (!InputMap.HasAction(Fire)) InputMap.AddAction(Fire);
+        InputMap.ActionAddEvent(Fire, new InputEventMouseButton { ButtonIndex = MouseButton.Left });
     }
 
     private static void Bind(string action, Key key)

@@ -35,13 +35,15 @@ public partial class ShipView : Node3D
             (SimPosition - renderOrigin).ToVector3());
 
         _plumeLevel = Mathf.Lerp(_plumeLevel, Body.EngineOutput, 1f - Mathf.Exp(-delta * 6f));
-        bool burning = _plumeLevel > 0.03f;
-        foreach (Node3D plume in _plumes)
+        for (int i = 0; i < _plumes.Count; i++)
         {
+            Node3D plume = _plumes[i];
+            float level = _plumeLevel * Body.Damage.EngineFraction(i);
+            bool burning = level > 0.03f;
             // 정지 상태의 짧은 원뿔은 뒤에서 보면 노즐 위에 겹쳐 하얗게 포화되므로 숨긴다.
             plume.Visible = burning;
             if (burning)
-                plume.Scale = new Vector3(1f, _plumeLevel, 1f);
+                plume.Scale = new Vector3(1f, level, 1f);
         }
     }
 }

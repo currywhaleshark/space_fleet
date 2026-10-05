@@ -6,4 +6,8 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="tests/**/*.cs" />
+    <EmbeddedResource Include="data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+  </ItemGroup>
 </Project>
