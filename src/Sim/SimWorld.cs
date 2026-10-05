@@ -20,6 +20,8 @@ public sealed partial class SimWorld
     private uint _shotSequence;
 
     public IReadOnlyList<ShipBody> Ships => _ships;
+    /// <summary>진영별 센서망(탐지·식별·잠금). 0.25초마다 갱신한다.</summary>
+    public SensorNet Sensors { get; } = new();
     public long Tick { get; private set; }
     public double Time => Tick * TickDelta;
 
@@ -70,6 +72,7 @@ public sealed partial class SimWorld
             _ships[i].PrevOrientation = _previous[i].Orientation;
         }
         Tick++;
+        Sensors.Update(_ships, Time);
         _impacts.RemoveAll(i => Time - i.Time > 3);
     }
 }

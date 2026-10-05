@@ -125,20 +125,52 @@ public partial class Hud : Control
     {
         float pxPerRad = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);
         var labels = new List<Rect2>();
-        // 가까운 것부터 라벨 자리를 잡고, 겹치는 먼 라벨은 생략한다.
-        var ordered = Game.Views
-            .Where(v => v != controlled && !cam.IsPositionBehind(v.Position))
-            .OrderBy(v => (v.SimPosition - controlled.SimPosition).Length());
-        foreach (ShipView view in ordered)
+        // 적은 진영 센서망이 아는 위치(추정)에 그린다. 아군은 데이터 링크로 실제 위치.
+        var markers = new List<(ShipView View, SensorTrack Track, Vector3 Render, double Dist)>();
+        foreach (ShipView view in Game.Views)
         {
-            double dist = (view.SimPosition - controlled.SimPosition).Length();
-            Vector2 p = cam.UnprojectPosition(view.Position);
+            if (view == controlled)
+                continue;
+            SensorTrack track = Game.TrackOf(view);
+            if (track.Level == TrackLevel.None)
+                continue; // 탐지되지 않은 적은 그리지 않는다.
+            bool enemy = view.Body.Faction != controlled.Body.Faction;
+            Vec3d sim = enemy ? track.EstimatedPosition : view.SimPosition;
+            Vector3 render = (sim - Game.RenderOrigin).ToVector3();
+            if (!cam.IsPositionBehind(render))
+                markers.Add((view, track, render, (sim - controlled.SimPosition).Length()));
+        }
+        // 가까운 것부터 라벨 자리를 잡고, 겹치는 먼 라벨은 생략한다.
+        foreach (var (view, track, render, dist) in markers.OrderBy(m => m.Dist))
+        {
+            Vector2 p = cam.UnprojectPosition(render);
+            bool selected = view == Game.InspectTarget;
+
+            if (track.Level == TrackLevel.Contact)
+            {
+                // 접촉: 함종도 호출부호도 모른다. 추정 위치와 오차 원만.
+                float err = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
+                Color cc = new(Hostile, 0.7f);
+                DrawDiamond(p, 6f, cc);
+                DrawArc(p, err, 0, Mathf.Tau, 32, new Color(Hostile, selected ? 0.6f : 0.3f), selected ? 2f : 1f);
+                if (track.Jammed)
+                    DrawJamMark(p + new Vector2(-10f, -14f), cc);
+                string guess = $"?  {FormatDistance(dist)}";
+                Vector2 gAt = p + new Vector2(10f, -6f);
+                var gRect = new Rect2(gAt - new Vector2(0, 12), _font.GetStringSize(guess, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
+                if (!labels.Any(r => r.Intersects(gRect)))
+                {
+                    labels.Add(gRect);
+                    Label(gAt, guess, 13, cc);
+                }
+                continue;
+            }
+
             float radius = (float)(view.Body.Class.Length * 0.5 / Math.Max(dist, 1.0)) * pxPerRad;
             if (radius > screen.Y * 0.35f)
                 continue; // 가까워서 화면을 덮는 함선은 표시하지 않는다.
 
             bool destroyed = view.Body.Damage.Destroyed;
-            bool selected = view == Game.InspectTarget;
             float h = Mathf.Max(9f, radius);
             float arm = Mathf.Min(8f, h * 0.6f);
             Color c = destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
@@ -154,6 +186,10 @@ public partial class Hud : Control
                 DrawLine(p + new Vector2(-h, -h) * 0.6f, p + new Vector2(h, h) * 0.6f, c, 1.5f);
                 DrawLine(p + new Vector2(-h, h) * 0.6f, p + new Vector2(h, -h) * 0.6f, c, 1.5f);
             }
+            else if (view.Body.Faction != controlled.Body.Faction && track.Level == TrackLevel.Locked)
+                DrawDiamond(p, Mathf.Max(5f, h * 0.55f), c); // 사격통제 잠금
+            if (track.Jammed)
+                DrawJamMark(p + new Vector2(-h - 12f, -h + 2f), c);
             ClassPips(p + new Vector2(-h, h + 6f), view.Body.Class.Kind, c);
 
             string label = $"{view.Body.Callsign}  {FormatDistance(dist)}";
@@ -163,6 +199,16 @@ public partial class Hud : Control
                 continue;
             labels.Add(rect);
             Label(at, label, 13, c);
+        }
+    }
+
+    /// <summary>방해 표시: 짧은 물결 두 줄. 이 표적은 ECM을 켜고 있어 정밀도가 떨어진다.</summary>
+    private void DrawJamMark(Vector2 at, Color color)
+    {
+        for (int row = 0; row < 2; row++)
+        {
+            Vector2 o = at + new Vector2(0, row * 4f);
+            DrawPolyline(new[] { o, o + new Vector2(2.5f, -2f), o + new Vector2(5f, 0), o + new Vector2(7.5f, -2f), o + new Vector2(10f, 0) }, color, 1.2f);
         }
     }
 
@@ -247,7 +293,7 @@ public partial class Hud : Control
             $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
             "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트",
             "Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제",
-            "1 추진 · 2 실드 · 3 무장 · 4 센서에 전력 핍 하나씩(다른 채널에서 가져옴) · 0 균형 배분",
+            "1 추진 · 2 실드 · 3 무장 · 4 센서 · 5 ECM에 전력 핍 하나씩(다른 채널에서 가져옴) · 0 균형 배분(ECM 꺼짐)",
             "좌클릭 레일건 · T 사격보조 · R 표적 전환 · F7 이동 표적 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;

@@ -99,8 +99,12 @@ public partial class ScaleTest : Node3D
         enemyFlagship.AddChild(DroneSwarm.Create(enemyFlagship.Palette, 32, 650f, 1000f, seed: 9));
 
         foreach (ShipView view in Views)
+            ApplyDefaultPips(view.Body);
+
+        foreach (ShipView view in Views)
             if (view.Body.Faction == Faction.Blue)
                 _playable.Add(view);
+        World.Sensors.Update(World.Ships, World.Time, force: true);
     }
 
     private ShipView Spawn(string callsign, ShipClass shipClass, Faction faction, Vec3d position, Quaternion orientation)
@@ -218,6 +222,7 @@ public partial class ScaleTest : Node3D
             {
                 ship.Damage.Reset();
                 ship.Power.Reset();
+                ApplyDefaultPips(ship);
             }
             LastTestShot = null;
             World.ResetWeapons();
@@ -229,11 +234,12 @@ public partial class ScaleTest : Node3D
             SetupPractice();
         else if (Controlled?.Body.Power is ShipPower power)
         {
-            // 전력 배분: 1~4는 해당 채널에 핍 하나(다른 채널 중 가장 많은 곳에서 가져온다), 0은 균형.
+            // 전력 배분: 1~5는 해당 채널에 핍 하나(다른 채널 중 가장 많은 곳에서 가져온다), 0은 균형(ECM 꺼짐).
             if (e.IsActionPressed(InputSetup.PowerEngines)) power.AddPip(PowerChannel.Engines);
             else if (e.IsActionPressed(InputSetup.PowerShields)) power.AddPip(PowerChannel.Shields);
             else if (e.IsActionPressed(InputSetup.PowerWeapons)) power.AddPip(PowerChannel.Weapons);
             else if (e.IsActionPressed(InputSetup.PowerSensors)) power.AddPip(PowerChannel.Sensors);
+            else if (e.IsActionPressed(InputSetup.PowerEcm)) power.AddPip(PowerChannel.Ecm);
             else if (e.IsActionPressed(InputSetup.PowerReset)) power.ResetPips();
         }
     }
@@ -323,10 +329,10 @@ public partial class ScaleTest : Node3D
         Camera.ResetAim(body.Orientation);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
-        // 기본 표적은 가장 가까운 살아 있는 적. 사격통제가 아군을 잡지 않게 한다.
+        // 기본 표적은 탐지된 가장 가까운 살아 있는 적. 사격통제가 아군을 잡지 않게 한다.
         if (InspectTarget is null || InspectTarget == Controlled)
             InspectTarget = Views
-                .Where(v => v.Body.Faction != body.Faction && !v.Body.Damage.Destroyed)
+                .Where(v => v.Body.Faction != body.Faction && !v.Body.Damage.Destroyed && Known(v))
                 .OrderBy(v => (v.Body.Position - body.Position).LengthSquared())
                 .FirstOrDefault() ?? Views.Find(v => v != Controlled);
     }
@@ -337,7 +343,8 @@ public partial class ScaleTest : Node3D
         for (int i = 1; i <= Views.Count; i++)
         {
             ShipView candidate = Views[(start + i) % Views.Count];
-            if (candidate == Controlled) continue;
+            // 탐지되지 않은 적은 고를 수 없다(아군은 데이터 링크로 항상 안다).
+            if (candidate == Controlled || !Known(candidate)) continue;
             InspectTarget = candidate;
             Vector3 direction = (candidate.Body.Position - Controlled!.Body.Position).ToVector3().Normalized();
             if (direction.LengthSquared() > 0.1f)
@@ -345,6 +352,19 @@ public partial class ScaleTest : Node3D
             break;
         }
     }
+
+    /// <summary>적 전함·호위함은 ECM을 켜고 접근한다(무장·센서 핍 하나씩을 ECM으로). 요격함은 조용히 온다.</summary>
+    private static void ApplyDefaultPips(ShipBody ship)
+    {
+        if (ship.Faction == Faction.Red && ship.Class.Kind != HullKind.Interceptor)
+            ship.Power.SetPips(2, 2, 1, 1, 2);
+    }
+
+    /// <summary>조종 진영의 센서망 추적.</summary>
+    public SensorTrack TrackOf(ShipView view) =>
+        World.Sensors.Track(Controlled?.Body.Faction ?? Faction.Blue, view.Body);
+
+    private bool Known(ShipView view) => TrackOf(view).Level > TrackLevel.None;
 
     private void FireTest(Vec3d origin, Vector3 direction)
     {
@@ -395,9 +415,9 @@ public partial class ScaleTest : Node3D
         Controlled!.Body.Velocity = Controlled.Body.Forward * shot.Speed;
         if (shot.BallisticsTarget is not null) SetupPractice(shot.BallisticsTarget, shot.TestDistance, shot.TargetSpeed);
         FireAssist = !shot.ManualFire;
-        // 전력 검증: --pips=추진,실드,무장,센서  --heat=열 비율(0~1.25)
-        if (shot.Pips is { Length: 4 } p)
-            Controlled!.Body.Power.SetPips(p[0], p[1], p[2], p[3]);
+        // 전력 검증: --pips=추진,실드,무장,센서[,ECM]  --heat=열 비율(0~1.25)
+        if (shot.Pips is { Length: 4 or 5 } p)
+            Controlled!.Body.Power.SetPips(p[0], p[1], p[2], p[3], p.Length > 4 ? p[4] : 0);
         if (shot.Heat > 0f)
             Controlled!.Body.Power.AddHeat(shot.Heat * Controlled.Body.Definition.Power.HeatCapacityMj);
         Camera.Zoom(shot.Zoom);
@@ -427,7 +447,7 @@ public partial class ScaleTest : Node3D
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
-        int[]? Pips, float Heat, Vector2 Strafe, float Roll)
+        int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -477,7 +497,8 @@ public partial class ScaleTest : Node3D
                 map.TryGetValue("strafe", out string? strafe) && strafe.Split(',') is { Length: 2 } s
                     ? new Vector2(float.Parse(s[0], CultureInfo.InvariantCulture), float.Parse(s[1], CultureInfo.InvariantCulture))
                     : Vector2.Zero,
-                F("roll", 0f));
+                F("roll", 0f),
+                map.ContainsKey("keep-ecm"));
         }
     }
 }

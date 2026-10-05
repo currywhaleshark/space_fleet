@@ -20,6 +20,7 @@ static class SimChecks
         DamageChecks.Run();
         BallisticsChecks.Run();
         PowerChecks.Run();
+        SensorChecks.Run();
     }
 
     private static ShipBody Create(ShipClass? shipClass = null, float speed = 0f)

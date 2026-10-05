@@ -6,10 +6,13 @@ namespace SpaceFleet.Sim;
 public sealed record FiringSolution(bool Valid, string Reason, Vector3 Direction, Vec3d AimPoint,
     double FlightTime, float ErrorMeters, double Range);
 
-/// <summary>등속 선행 조준. 센서 계통 단계 전까지는 실제 위치·속도에 재현 가능한 관측 오차를 더한다.</summary>
+/// <summary>
+/// 등속 선행 조준. 실제 위치·속도에 재현 가능한 관측 오차를 더한다.
+/// 센서망 추적(track)을 넘기면 잠금 단계일 때만 해를 내고, ECM·신호 세기에 따라 오차가 커지거나 줄어든다.
+/// </summary>
 public static class FireControl
 {
-    public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true)
+    public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null)
     {
         if (shooter.Railgun is not RailgunState weapon)
             return new(false, "주포 없음", Vector3.Zero, target.Position, 0, 0, (target.Position - shooter.Position).Length());
@@ -20,8 +23,21 @@ public static class FireControl
         if (shooter.Damage.SensorFraction <= 0.02f) return Invalid("조준 센서 비활성");
         RailgunDefinition gun = weapon.Definition;
         if (range > gun.MaxRange) return Invalid("사거리 밖");
+        float trackScale = 1f;
+        if (track is SensorTrack t)
+        {
+            if (t.Level < TrackLevel.Locked)
+                return Invalid(t.Level switch
+                {
+                    TrackLevel.None => "탐지 안 됨",
+                    TrackLevel.Contact => "접촉만 · 식별 전",
+                    _ => "식별 · 잠금 전",
+                });
+            trackScale = t.FireControlScale;
+        }
         // 관측 품질 = 센서 모듈 상태 × 센서 채널 배율(핍·전압 강하·과열). 센서 핍을 올리면 오차가 줄어든다.
-        float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction * shooter.Power.SensorEffect);
+        // 추적 배율(ECM·신호 세기)은 관측 품질을 깎는 것으로 반영한다.
+        float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction * shooter.Power.SensorEffect) / trackScale;
         float error = sensorError ? (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000)) / quality : 0;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
         Vec3d observedPosition = target.Position + SmoothNoise(seed, time) * error;
@@ -64,7 +80,7 @@ public static class FireControl
     }
 
     // 4Hz 관측 오차를 부드럽게 보간한다. 프레임별 랜덤 흔들림은 조준에 넣지 않는다.
-    private static Vec3d SmoothNoise(uint seed, double time)
+    internal static Vec3d SmoothNoise(uint seed, double time)
     {
         double sample = Math.Max(0, time) * 4;
         uint index = (uint)(Math.Floor(sample) % uint.MaxValue);

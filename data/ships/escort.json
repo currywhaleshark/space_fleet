@@ -30,7 +30,8 @@
     "rechargePerSecond": 35,
     "rechargeDelay": 5
   },
-  "power": { "outputMw": 500, "engines": 160, "shields": 120, "weapons": 100, "sensors": 20, "heatCapacityMj": 4500, "coolingMw": 330 },
+  "power": { "outputMw": 500, "engines": 160, "shields": 120, "weapons": 100, "sensors": 20, "ecm": 80, "heatCapacityMj": 4500, "coolingMw": 330 },
+  "sensors": { "strength": 800, "signature": 20, "jammer": 3 },
   "hullSections": [
     {
       "id": "hull",

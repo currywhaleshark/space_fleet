@@ -27,11 +27,25 @@ public partial class Hud
             return;
         ShipBody body = target.Body;
         ShipDamage damage = body.Damage;
+        SensorTrack track = Game.TrackOf(target);
+        bool enemy = body.Faction != me.Body.Faction;
+        float x = screen.X - PanelWidth - 12f + 10f, inner = PanelWidth - 20f;
+
+        if (enemy && track.Level < TrackLevel.Identified)
+        {
+            // 접촉만: 무엇인지 모른다. 거리와 탐지 단계만 보인다.
+            var small = new Rect2(screen.X - PanelWidth - 12f, 8f, PanelWidth, 64f);
+            DrawRect(small, PanelBack);
+            Label(new Vector2(x, 28f), "미식별 접촉", 15, new Color(Hostile, 0.8f));
+            Label(new Vector2(x, 28f), FormatDistance((track.EstimatedPosition - me.Body.Position).Length()), 13, Dim, HorizontalAlignment.Right, inner);
+            DrawTrackLevel(new Vector2(x, 44f), inner, track);
+            return;
+        }
+
         var reports = damage.Reports.Skip(Math.Max(0, damage.Reports.Count - 4)).ToArray();
-        float height = 46f + (ViewHeight + 10f) * 2f + 70f + reports.Length * 17f + 8f;
+        float height = 46f + (enemy ? 16f : 0f) + (ViewHeight + 10f) * 2f + 70f + reports.Length * 17f + 8f;
         var panel = new Rect2(screen.X - PanelWidth - 12f, 8f, PanelWidth, height);
         DrawRect(panel, PanelBack);
-        float x = panel.Position.X + 10f, inner = PanelWidth - 20f;
         float y = panel.Position.Y;
 
         Color identity = damage.Destroyed ? Dim : body.Faction == Faction.Blue ? Friendly : Hostile;
@@ -44,6 +58,11 @@ public partial class Hud
             damage.Destroyed ? Hostile : outOfRange ? Motion : Dim, HorizontalAlignment.Right, inner);
         DrawShieldBar(new Rect2(x, y + 30f, inner, 8f), body);
         y += 46f;
+        if (enemy)
+        {
+            DrawTrackLevel(new Vector2(x, y - 2f), inner, track);
+            y += 16f;
+        }
 
         // 도면마다 칸에 맞춰 축척을 따로 잡는다. 날개·방열판 폭 때문에 측면도까지 작아지지 않게 한다.
         var bounds = HullBounds(body.Definition);
@@ -68,6 +87,24 @@ public partial class Hud
             Label(new Vector2(x, y + 12f), report.Message, 12, new Color(color, color.A * alpha), HorizontalAlignment.Left, inner);
             y += 17f;
         }
+    }
+
+    /// <summary>
+    /// 탐지 단계 막대: 접촉·식별·잠금 3칸. 도달한 칸이 켜진다. 표적이 ECM을 켜고 있으면 물결 표시.
+    /// </summary>
+    private void DrawTrackLevel(Vector2 at, float width, SensorTrack track)
+    {
+        string[] names = { "접촉", "식별", "잠금" };
+        float slot = (width - 18f) / names.Length;
+        for (int i = 0; i < names.Length; i++)
+        {
+            var r = new Rect2(at.X + slot * i, at.Y, slot - 4f, 5f);
+            bool on = (int)track.Level >= i + 1;
+            DrawRect(r, on ? (i == 2 ? Lead : Hostile) : Faint);
+            CenteredLabel(new Vector2(r.Position.X + r.Size.X * 0.5f, at.Y + 15f), names[i], 10, on ? Text : Dim);
+        }
+        if (track.Jammed)
+            DrawJamMark(new Vector2(at.X + width - 12f, at.Y + 6f), Motion);
     }
 
     /// <summary>선체 구획 전체를 감싸는 로컬 경계 상자.</summary>

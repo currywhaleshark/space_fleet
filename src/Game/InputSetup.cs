@@ -29,6 +29,7 @@ public static class InputSetup
     public const string PowerShields = "power_shields";
     public const string PowerWeapons = "power_weapons";
     public const string PowerSensors = "power_sensors";
+    public const string PowerEcm = "power_ecm";
     public const string PowerReset = "power_reset";
     public const string Repair = "repair";
     public const string Fire = "fire_railgun";
@@ -61,6 +62,7 @@ public static class InputSetup
         Bind(PowerShields, Key.Key2);
         Bind(PowerWeapons, Key.Key3);
         Bind(PowerSensors, Key.Key4);
+        Bind(PowerEcm, Key.Key5);
         Bind(PowerReset, Key.Key0);
         Bind(Repair, Key.F6);
         Bind(FireAssist, Key.T);

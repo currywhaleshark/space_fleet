@@ -32,7 +32,12 @@ public partial class ScaleTest
             (player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi)).Normalized());
         target.Body.Velocity = player.Orientation * Vector3.Right * speed;
         target.Body.Damage.Reset();
+        // 연습 표적은 ECM을 끄고 바로 잠글 수 있게 한다(--keep-ecm이면 기본 배분 유지).
+        target.Body.Power.Reset();
+        if (_shot?.KeepEcm == true)
+            ApplyDefaultPips(target.Body);
         World.ResetWeapons();
+        World.Sensors.Update(World.Ships, World.Time, force: true);
         InspectTarget = target;
         Camera.ResetAim(player.Orientation);
         _liveShots = 0;
@@ -50,9 +55,11 @@ public partial class ScaleTest
             Camera.ResetAim(Basis.LookingAt(bearing, player.Up).GetRotationQuaternion());
         }
         ShipView? fireTarget = FireTarget;
-        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time) : null;
-        CorrectingAim = FiringSolution is { Valid: true } && fireTarget is not null
-            && Camera.AimForward.AngleTo((fireTarget.Body.Position - player.Position).ToVector3()) < Mathf.DegToRad(8);
+        // 사격통제는 센서망 잠금이 있어야 해를 낸다. ECM·신호 세기가 오차에 반영된다.
+        SensorTrack? track = fireTarget is null ? null : TrackOf(fireTarget);
+        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track) : null;
+        CorrectingAim = FiringSolution is { Valid: true } && track is SensorTrack known
+            && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);
         if (automated) firing = World.Tick >= 30 && _liveShots < _shot!.Pulses && player.Railgun?.Ready == true;
         if (!firing) return;

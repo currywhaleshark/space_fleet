@@ -14,6 +14,11 @@ public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thr
 public enum PowerGrid { Port, Starboard, Shared }
 
 public sealed record ShieldDefinition(float Capacity, float RechargePerSecond, float RechargeDelay);
+/// <summary>
+/// 센서·전자전 데이터. Strength = 센서 세기, Signature = 기본 신호 크기(함선 크기), Jammer = ECM 방해 세기(2핍 기준).
+/// 신호 = 관측 세기 × 표적 신호 ÷ 거리(km)²로 계산한다(SensorNet).
+/// </summary>
+public sealed record SensorDefinition(float Strength, float Signature, float Jammer);
 public sealed record ArmorPlate(float ThicknessMm, float SlopeDegrees = 0f);
 public sealed record HullSection(string Id, string Name, Vector3 Center, Vector3 HalfSize,
     ArmorPlate Armor, Dictionary<ArmorSide, ArmorPlate>? Faces = null)
@@ -32,6 +37,7 @@ public sealed class ShipDefinition
     public required ShipClass Flight { get; init; }
     public required ShieldDefinition Shield { get; init; }
     public required PowerDefinition Power { get; init; }
+    public required SensorDefinition Sensors { get; init; }
     public required HullSection[] HullSections { get; init; }
     public required ModuleDefinition[] Modules { get; init; }
     public RailgunDefinition? Railgun { get; init; }
@@ -62,9 +68,10 @@ public sealed class ShipDefinition
         bool Size(Vector3 value) => value.IsFinite() && value.X > 0 && value.Y > 0 && value.Z > 0;
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
-        Require(Flight is not null && Shield is not null && Power is not null && HullSections is not null && Modules is not null, "null definition fields");
+        Require(Flight is not null && Shield is not null && Power is not null && Sensors is not null && HullSections is not null && Modules is not null, "null definition fields");
+        Require(Positive(Sensors.Strength) && Positive(Sensors.Signature) && float.IsFinite(Sensors.Jammer) && Sensors.Jammer >= 0, "invalid sensors");
         Require(Positive(Power.OutputMw) && Positive(Power.Engines) && Positive(Power.Shields) && Positive(Power.Weapons)
-            && Positive(Power.Sensors) && Positive(Power.HeatCapacityMj) && float.IsFinite(Power.CoolingMw) && Power.CoolingMw >= 0
+            && Positive(Power.Sensors) && Positive(Power.Ecm) && Positive(Power.HeatCapacityMj) && float.IsFinite(Power.CoolingMw) && Power.CoolingMw >= 0
             && Power.Engines + Power.Shields + Power.Weapons + Power.Sensors <= Power.OutputMw, "invalid power (balanced draw must fit rated output)");
         Require(!string.IsNullOrWhiteSpace(Id) && Enum.IsDefined(Kind) && Flight.Kind == Kind, "kind/flight mismatch");
         Require(Positive(Flight.MassKg) && Positive(Flight.Length) && Positive(Flight.ForwardAccel)
