@@ -25,6 +25,11 @@ public static class InputSetup
     public const string TestFire = "test_fire";
     public const string ShowModules = "show_modules";
     public const string ToggleHelp = "toggle_help";
+    public const string PowerEngines = "power_engines";
+    public const string PowerShields = "power_shields";
+    public const string PowerWeapons = "power_weapons";
+    public const string PowerSensors = "power_sensors";
+    public const string PowerReset = "power_reset";
     public const string Repair = "repair";
     public const string Fire = "fire_railgun";
     public const string FireAssist = "fire_assist";
@@ -52,6 +57,11 @@ public static class InputSetup
         Bind(TestFire, Key.F4);
         Bind(ShowModules, Key.F5);
         Bind(ToggleHelp, Key.F1);
+        Bind(PowerEngines, Key.Key1);
+        Bind(PowerShields, Key.Key2);
+        Bind(PowerWeapons, Key.Key3);
+        Bind(PowerSensors, Key.Key4);
+        Bind(PowerReset, Key.Key0);
         Bind(Repair, Key.F6);
         Bind(FireAssist, Key.T);
         Bind(Practice, Key.F7);

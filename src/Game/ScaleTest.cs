@@ -214,7 +214,11 @@ public partial class ScaleTest : Node3D
             ShowModules = !ShowModules;
         else if (e.IsActionPressed(InputSetup.Repair))
         {
-            foreach (ShipBody ship in World.Ships) ship.Damage.Reset();
+            foreach (ShipBody ship in World.Ships)
+            {
+                ship.Damage.Reset();
+                ship.Power.Reset();
+            }
             LastTestShot = null;
             World.ResetWeapons();
             LastFireMessage = "전체 복구";
@@ -223,6 +227,15 @@ public partial class ScaleTest : Node3D
             FireAssist = !FireAssist;
         else if (e.IsActionPressed(InputSetup.Practice))
             SetupPractice();
+        else if (Controlled?.Body.Power is ShipPower power)
+        {
+            // 전력 배분: 1~4는 해당 채널에 핍 하나(다른 채널 중 가장 많은 곳에서 가져온다), 0은 균형.
+            if (e.IsActionPressed(InputSetup.PowerEngines)) power.AddPip(PowerChannel.Engines);
+            else if (e.IsActionPressed(InputSetup.PowerShields)) power.AddPip(PowerChannel.Shields);
+            else if (e.IsActionPressed(InputSetup.PowerWeapons)) power.AddPip(PowerChannel.Weapons);
+            else if (e.IsActionPressed(InputSetup.PowerSensors)) power.AddPip(PowerChannel.Sensors);
+            else if (e.IsActionPressed(InputSetup.PowerReset)) power.ResetPips();
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -381,6 +394,11 @@ public partial class ScaleTest : Node3D
         Controlled!.Body.Velocity = Controlled.Body.Forward * shot.Speed;
         if (shot.BallisticsTarget is not null) SetupPractice(shot.BallisticsTarget, shot.TestDistance, shot.TargetSpeed);
         FireAssist = !shot.ManualFire;
+        // 전력 검증: --pips=추진,실드,무장,센서  --heat=열 비율(0~1.25)
+        if (shot.Pips is { Length: 4 } p)
+            Controlled!.Body.Power.SetPips(p[0], p[1], p[2], p[3]);
+        if (shot.Heat > 0f)
+            Controlled!.Body.Power.AddHeat(shot.Heat * Controlled.Body.Definition.Power.HeatCapacityMj);
         Camera.Zoom(shot.Zoom);
         if (shot.LookAt is string target && Views.Find(v => v.Body.Callsign == target) is ShipView targetView)
         {
@@ -407,7 +425,8 @@ public partial class ScaleTest : Node3D
     private sealed record ShotRequest(
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
-        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle)
+        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
+        int[]? Pips, float Heat)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -451,7 +470,9 @@ public partial class ScaleTest : Node3D
                 F("zoom", 1f),
                 map.ContainsKey("far"),
                 map.ContainsKey("fixed-origin"),
-                map.GetValueOrDefault("style") == "aircraft");
+                map.GetValueOrDefault("style") == "aircraft",
+                map.TryGetValue("pips", out string? pips) ? pips.Split(',').Select(int.Parse).ToArray() : null,
+                F("heat", 0f));
         }
     }
 }

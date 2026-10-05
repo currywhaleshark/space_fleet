@@ -20,11 +20,6 @@ public readonly record struct DamageReport(double Time, string Message);
 /// <summary>실드·모듈과 전력 계통의 상태. 수치는 프로토타입용 게임 단위이며 노드에 의존하지 않는다.</summary>
 public sealed class ShipDamage
 {
-    /// <summary>
-    /// 설계 발전량 ÷ 정격 수요. 발전 손실이 이 여유 안이면(1 - 1/1.25 = 20%) 어떤 계통도 약해지지 않는다.
-    /// 반응로 체력이 곧 함선 전체 성능이 되는 "숨은 HP 막대"를 막는다. 4단계 전력 배분에서 실제 수요로 바꾼다.
-    /// </summary>
-    public const float PowerMargin = 1.25f;
     /// <summary>발전 모듈은 이 체력 비율 미만에서 출력이 절반으로 떨어진다(그 위로는 정격 출력).</summary>
     public const float GeneratorDegradeThreshold = 0.5f;
 
@@ -53,7 +48,15 @@ public sealed class ShipDamage
     public IReadOnlyList<DamageReport> Reports => _reports;
     public float Shield { get; private set; }
     public float ShieldCapacity { get; private set; }
+    /// <summary>살아 있는 전력망 비율(좌·우현 각 0 또는 1의 평균). 발전량은 GenerationFraction.</summary>
     public float PowerFraction => (_portPower + _starboardPower) * 0.5f;
+    /// <summary>
+    /// 정격 대비 현재 발전량. 발전 모듈 출력 단계(정격·50%·0)와, 연결된 전력망이 하나라도 있는지로 정한다.
+    /// 실제 배분과 전압 강하는 ShipPower가 계산한다.
+    /// </summary>
+    public float GenerationFraction { get; private set; }
+    /// <summary>실드가 피격 지연을 지나 재충전 중인가. 전력 수요 계산용.</summary>
+    public bool ShieldRecharging => !Destroyed && Shield < ShieldCapacity && _sinceHit >= _definition.Shield.RechargeDelay;
     public float PropulsionFraction { get; private set; }
     public float ManeuverFraction { get; private set; }
     public float WeaponsFraction { get; private set; }
@@ -67,7 +70,8 @@ public sealed class ShipDamage
         * GridPower(_byId[id].Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
 
     /// <summary>
-    /// 해당 전력망에서 소비 장비가 받는 전력 비율. 양현 공용 장비(Shared)는 살아 있는 쪽 전력망에서 받는다.
+    /// 해당 전력망의 연결 상태(1 = 버스가 살아 있고 급전하는 발전 모듈이 있다, 0 = 정전).
+    /// 양현 공용 장비(Shared)는 살아 있는 쪽 전력망에 붙는다. 전력량 자체는 ShipPower의 채널 배율이 정한다.
     /// </summary>
     public float GridPower(PowerGrid grid) => grid switch
     {
@@ -100,14 +104,15 @@ public sealed class ShipDamage
         Shield = ShieldCapacity;
     }
 
-    public void Step(double dt)
+    /// <param name="rechargeScale">실드 채널 성능 배율(전력 배분·전압 강하·과열 반영).</param>
+    public void Step(double dt, float rechargeScale = 1f)
     {
         double previous = _sinceHit;
         _sinceHit += dt;
         double rechargeTime = Math.Max(0, _sinceHit - _definition.Shield.RechargeDelay)
             - Math.Max(0, previous - _definition.Shield.RechargeDelay);
         if (!Destroyed && rechargeTime > 0)
-            Shield = Mathf.Min(ShieldCapacity, Shield + (float)rechargeTime * _definition.Shield.RechargePerSecond * PowerFraction * CoolingFraction);
+            Shield = Mathf.Min(ShieldCapacity, Shield + (float)rechargeTime * _definition.Shield.RechargePerSecond * rechargeScale);
     }
 
     internal float AbsorbShield(float energy, double time)
@@ -179,6 +184,7 @@ public sealed class ShipDamage
         _allDestroyed = Modules.All(m => m.Destroyed);
         _portPower = PowerFor(PowerGrid.Port);
         _starboardPower = PowerFor(PowerGrid.Starboard);
+        GenerationFraction = Generation();
         PropulsionFraction = Average(ModuleKind.Thruster, powered: true);
         ManeuverFraction = Average(ModuleKind.ManeuverThruster, powered: true);
         WeaponsFraction = Average(ModuleKind.Gun, powered: true) * Average(ModuleKind.Magazine, powered: false);
@@ -188,22 +194,53 @@ public sealed class ShipDamage
         Shield = Mathf.Min(Shield, ShieldCapacity);
     }
 
+    /// <summary>전력망 연결: 버스가 살아 있고, 그 망에 급전하는 발전 모듈이 하나라도 살아 있으면 1.</summary>
     private float PowerFor(PowerGrid grid)
     {
-        float maximum = 0, current = 0;
-        bool hasBus = false, busAlive = false;
+        if (Destroyed || !BusAlive(grid)) return 0;
+        bool hasGenerator = false, generatorAlive = false;
         foreach (ModuleState m in Modules)
         {
-            if (m.Definition.Kind == ModuleKind.PowerBus && (m.Definition.Grid == grid || m.Definition.Grid == PowerGrid.Shared))
-            { hasBus = true; busAlive |= !m.Destroyed; }
-            if (m.Definition.Kind is not (ModuleKind.Reactor or ModuleKind.Generator)) continue;
-            if (m.Definition.Feeds is not null && !m.Definition.Feeds.Contains(grid) && !m.Definition.Feeds.Contains(PowerGrid.Shared)) continue;
-            maximum += m.Definition.Capacity;
-            current += m.Definition.Capacity * GeneratorOutput(m);
+            if (!IsGenerator(m) || !Feeds(m, grid)) continue;
+            hasGenerator = true;
+            generatorAlive |= !m.Destroyed;
         }
-        if (Destroyed || (hasBus && !busAlive)) return 0;
-        return maximum > 0 ? Mathf.Min(1f, current * PowerMargin / maximum) : 1f;
+        return !hasGenerator || generatorAlive ? 1f : 0f;
     }
+
+    /// <summary>정격 대비 발전량. 살아 있는 전력망에 급전할 수 있는 발전 모듈의 출력 단계만 센다.</summary>
+    private float Generation()
+    {
+        if (Destroyed) return 0;
+        float maximum = 0, current = 0;
+        foreach (ModuleState m in Modules)
+        {
+            if (!IsGenerator(m)) continue;
+            maximum += m.Definition.Capacity;
+            bool connected = (Feeds(m, PowerGrid.Port) && BusAlive(PowerGrid.Port))
+                || (Feeds(m, PowerGrid.Starboard) && BusAlive(PowerGrid.Starboard));
+            if (connected)
+                current += m.Definition.Capacity * GeneratorOutput(m);
+        }
+        return maximum > 0 ? current / maximum : PowerFraction;
+    }
+
+    private bool BusAlive(PowerGrid grid)
+    {
+        bool hasBus = false, alive = false;
+        foreach (ModuleState m in Modules)
+        {
+            if (m.Definition.Kind != ModuleKind.PowerBus || (m.Definition.Grid != grid && m.Definition.Grid != PowerGrid.Shared)) continue;
+            hasBus = true;
+            alive |= !m.Destroyed;
+        }
+        return !hasBus || alive;
+    }
+
+    private static bool IsGenerator(ModuleState m) => m.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator;
+
+    private static bool Feeds(ModuleState m, PowerGrid grid) =>
+        m.Definition.Feeds is null || m.Definition.Feeds.Contains(grid) || m.Definition.Feeds.Contains(PowerGrid.Shared);
 
     private float Average(ModuleKind kind, bool powered)
     {

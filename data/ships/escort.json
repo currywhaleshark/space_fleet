@@ -5,7 +5,7 @@
     "moduleId": "gun-1", "muzzle": [0, 32, -96], "muzzleSpeed": 8000,
     "reloadSeconds": 1.5, "energy": 600, "penetrationMm": 900, "moduleDamage": 180,
     "maxRange": 150000, "rounds": 160, "traverseDegrees": 100,
-    "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2
+    "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 60
   },
   "flight": {
     "kind": "Escort",
@@ -30,6 +30,7 @@
     "rechargePerSecond": 35,
     "rechargeDelay": 5
   },
+  "power": { "outputMw": 500, "engines": 160, "shields": 120, "weapons": 100, "sensors": 20, "heatCapacityMj": 4500, "coolingMw": 330 },
   "hullSections": [
     {
       "id": "hull",

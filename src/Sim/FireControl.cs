@@ -20,7 +20,8 @@ public static class FireControl
         if (shooter.Damage.SensorFraction <= 0.02f) return Invalid("조준 센서 비활성");
         RailgunDefinition gun = weapon.Definition;
         if (range > gun.MaxRange) return Invalid("사거리 밖");
-        float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction);
+        // 관측 품질 = 센서 모듈 상태 × 센서 채널 배율(핍·전압 강하·과열). 센서 핍을 올리면 오차가 줄어든다.
+        float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction * shooter.Power.SensorEffect);
         float error = sensorError ? (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000)) / quality : 0;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
         Vec3d observedPosition = target.Position + SmoothNoise(seed, time) * error;

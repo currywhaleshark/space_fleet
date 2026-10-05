@@ -219,24 +219,29 @@ static class DamageChecks
         var margin = Create(bb.Definition);
         ModuleState main = margin.Damage.Module("reactor-main");
         margin.Damage.Hurt(main, main.Definition.HitPoints * 0.4f, 1, 0, 1);
-        Require(Near(margin.Damage.PowerFraction, 1) && Near(margin.Damage.PropulsionFraction, 1) && Near(margin.Damage.SensorFraction, 1)
-            && Near(margin.Damage.ShieldCapacity, bb.Definition.Shield.Capacity), "A reactor at 60% must not degrade any system");
+        Require(Near(margin.Damage.GenerationFraction, 1) && Near(margin.Damage.PowerFraction, 1) && Near(margin.Damage.PropulsionFraction, 1)
+            && Near(margin.Damage.SensorFraction, 1) && Near(margin.Damage.ShieldCapacity, bb.Definition.Shield.Capacity),
+            "A reactor at 60% must not degrade generation or any system");
         margin.Damage.Hurt(main, main.Definition.HitPoints * 0.2f, 1, 0, 1);
         Require(margin.Damage.Reports.Any(r => r.Message.Contains("출력 저하")), "Crossing the degrade threshold must report reduced output");
-        Require(margin.Damage.PowerFraction < 1f && margin.Damage.PowerFraction > 0.85f, "A degraded main reactor must cost a step of power, not its health percentage");
+        // 발전 용량 비중: 보조 발전기 0.3 × 2, 주반응로 1, 보조 반응로 0.5 = 2.1
+        Require(Near(margin.Damage.GenerationFraction, 1.6f / 2.1f), "A degraded main reactor must cost a step of generation, not its health percentage");
+        Require(Near(margin.Damage.PowerFraction, 1), "Reduced generation must not disconnect any grid");
         var smallLoss = Create(bb.Definition);
         Destroy(smallLoss, "generator-port");
-        Require(Near(smallLoss.Damage.GridPower(PowerGrid.Port), 1), "Losing one auxiliary generator must stay within the power margin");
+        Require(Near(smallLoss.Damage.GridPower(PowerGrid.Port), 1) && Near(smallLoss.Damage.GenerationFraction, 1.8f / 2.1f),
+            "Losing one auxiliary generator keeps the grid connected and costs only its share");
 
         var redundant = Create(bb.Definition);
         Destroy(redundant, "reactor-main");
-        Require(redundant.Damage.PowerFraction > 0.5f && redundant.Damage.PowerFraction < 0.6f, "Backup reactor and generators must retain useful power");
+        Require(Near(redundant.Damage.GenerationFraction, 1.1f / 2.1f), "Backup reactor and generators must retain useful power");
         Destroy(redundant, "reactor-backup");
-        Require(redundant.Damage.PowerFraction > 0, "Generators must provide remaining power after both reactors fail");
+        Require(redundant.Damage.GenerationFraction > 0 && Near(redundant.Damage.PowerFraction, 1), "Generators must provide remaining power after both reactors fail");
         Destroy(redundant, "generator-port");
         Require(Near(redundant.Damage.GridPower(PowerGrid.Port), 0) && redundant.Damage.GridPower(PowerGrid.Starboard) > 0, "Generator redundancy must remain local to its feeds");
         Destroy(redundant, "generator-starboard");
-        Require(Near(redundant.Damage.PowerFraction, 0) && !redundant.Damage.Destroyed, "A blackout may leave a recoverable physical hull");
+        Require(Near(redundant.Damage.PowerFraction, 0) && Near(redundant.Damage.GenerationFraction, 0) && !redundant.Damage.Destroyed,
+            "A blackout may leave a recoverable physical hull");
         var healthy = Create();
         var engineLoss = Create();
         Destroy(engineLoss, "engine-0");
@@ -258,12 +263,13 @@ static class DamageChecks
         Require(Near(ammo.Damage.WeaponsFraction, 0) && !ammo.Damage.Destroyed, "Noncritical ammo loss must disable weapons without killing the ship");
         var cooling = Create();
         Destroy(cooling, "cooling-port"); Destroy(cooling, "cooling-starboard");
-        Require(Near(cooling.Damage.CoolingFraction, 0), "Both cooling modules must disable cooling");
+        Require(Near(cooling.Damage.CoolingFraction, 0) && Near(cooling.Power.CoolingMw, 0), "Both cooling modules must disable heat removal");
+        // 냉각 손상은 추력을 직접 깎지 않는다. 대가는 열이 빠지지 않는 것이다(PowerChecks).
         cooling.Control = healthy.Control with { Boost = true };
         healthy.Place(Vec3d.Zero, Quaternion.Identity);
-        healthy.Control = cooling.Control with { Boost = false };
+        healthy.Control = cooling.Control;
         cooling.Step(SimWorld.TickDelta); healthy.Step(SimWorld.TickDelta);
-        Require(Near(cooling.Velocity.Length(), healthy.Velocity.Length()), "Loss of cooling must remove the boost multiplier");
+        Require(Near(cooling.Velocity.Length(), healthy.Velocity.Length()), "Loss of cooling must not directly remove thrust or boost");
     }
 
     private static void CheckCriticalAndRepair()

@@ -31,6 +31,7 @@ public sealed class ShipDefinition
     public required HullKind Kind { get; init; }
     public required ShipClass Flight { get; init; }
     public required ShieldDefinition Shield { get; init; }
+    public required PowerDefinition Power { get; init; }
     public required HullSection[] HullSections { get; init; }
     public required ModuleDefinition[] Modules { get; init; }
     public RailgunDefinition? Railgun { get; init; }
@@ -61,7 +62,10 @@ public sealed class ShipDefinition
         bool Size(Vector3 value) => value.IsFinite() && value.X > 0 && value.Y > 0 && value.Z > 0;
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
-        Require(Flight is not null && Shield is not null && HullSections is not null && Modules is not null, "null definition fields");
+        Require(Flight is not null && Shield is not null && Power is not null && HullSections is not null && Modules is not null, "null definition fields");
+        Require(Positive(Power.OutputMw) && Positive(Power.Engines) && Positive(Power.Shields) && Positive(Power.Weapons)
+            && Positive(Power.Sensors) && Positive(Power.HeatCapacityMj) && float.IsFinite(Power.CoolingMw) && Power.CoolingMw >= 0
+            && Power.Engines + Power.Shields + Power.Weapons + Power.Sensors <= Power.OutputMw, "invalid power (balanced draw must fit rated output)");
         Require(!string.IsNullOrWhiteSpace(Id) && Enum.IsDefined(Kind) && Flight.Kind == Kind, "kind/flight mismatch");
         Require(Positive(Flight.MassKg) && Positive(Flight.Length) && Positive(Flight.ForwardAccel)
             && Positive(Flight.StrafeAccel) && Positive(Flight.BrakeAccel) && Positive(Flight.MaxAccelG)
@@ -97,7 +101,8 @@ public sealed class ShipDefinition
                 && Positive(gun.MaxRange) && gun.Rounds > 0 && Positive(gun.TraverseDegrees) && gun.TraverseDegrees <= 180
                 && float.IsFinite(gun.SensorErrorMeters) && gun.SensorErrorMeters >= 0
                 && float.IsFinite(gun.SensorErrorPerKm) && gun.SensorErrorPerKm >= 0
-                && float.IsFinite(gun.VelocityError) && gun.VelocityError >= 0, "invalid railgun parameters");
+                && float.IsFinite(gun.VelocityError) && gun.VelocityError >= 0
+                && float.IsFinite(gun.ShotHeatMj) && gun.ShotHeatMj >= 0, "invalid railgun parameters");
             gun.Packet.Validate();
         }
     }

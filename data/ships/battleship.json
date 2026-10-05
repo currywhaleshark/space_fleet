@@ -5,7 +5,7 @@
     "moduleId": "gun-1", "muzzle": [0, 94, -410], "muzzleSpeed": 12000,
     "reloadSeconds": 3, "energy": 1400, "penetrationMm": 1800, "moduleDamage": 300,
     "maxRange": 250000, "rounds": 120, "traverseDegrees": 120,
-    "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15
+    "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15, "shotHeatMj": 300
   },
   "flight": {
     "kind": "Battleship",
@@ -30,6 +30,7 @@
     "rechargePerSecond": 100,
     "rechargeDelay": 5
   },
+  "power": { "outputMw": 2000, "engines": 600, "shields": 500, "weapons": 400, "sensors": 100, "heatCapacityMj": 20000, "coolingMw": 1500 },
   "hullSections": [
     {
       "id": "hull",

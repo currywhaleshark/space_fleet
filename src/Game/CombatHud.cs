@@ -33,7 +33,7 @@ public partial class Hud
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(145), Mathf.DegToRad(70), ammo, ammo > 0.2f ? Dim : Hostile, 3f);
 
         // 오른쪽 호: 재장전 진행. 주포·전력·탄약고 손상으로 쏠 수 없으면 빨간 빈 호.
-        bool disabled = weapon.Output <= 0.01f || weapon.Rounds <= 0 || controlled.Body.Damage.Destroyed;
+        bool disabled = weapon.Output <= 0.01f || weapon.Rounds <= 0 || controlled.Body.Damage.Destroyed || controlled.Body.Power.Overheated;
         float reload = disabled ? 0f : 1f - weapon.ReloadRemaining / weapon.Definition.ReloadSeconds;
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(35), Mathf.DegToRad(-70), reload, weapon.Ready ? Good : Motion, 3f);
         if (disabled)

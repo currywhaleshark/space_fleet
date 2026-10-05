@@ -47,6 +47,7 @@ public sealed class ShipBody
         Definition = definition ?? ShipDefinitions.For(shipClass.Kind);
         Damage = new ShipDamage(Definition, callsign);
         Railgun = Definition.Railgun is null ? null : new RailgunState(this);
+        Power = new ShipPower(this);
     }
 
     public string Callsign { get; }
@@ -55,7 +56,10 @@ public sealed class ShipBody
     public ShipDefinition Definition { get; }
     public ShipDamage Damage { get; }
     public RailgunState? Railgun { get; }
+    public ShipPower Power { get; }
     public CollisionHull Hull => Definition.Hull;
+    /// <summary>이 함선이 진행한 시뮬레이션 시간(초). 월드에 처음부터 있던 함선은 SimWorld.Time과 같다.</summary>
+    public double SimTime { get; private set; }
     public CollisionImpact? LastCollision { get; internal set; }
 
     public Vec3d Position;
@@ -88,7 +92,7 @@ public sealed class ShipBody
         get
         {
             Vector3 v = Orientation.Inverse() * Velocity;
-            float accel = Mathf.Min(Class.StrafeAccel * Damage.ManeuverFraction, Class.MaxAccelG * StandardGravity);
+            float accel = Mathf.Min(Class.StrafeAccel * Damage.ManeuverFraction * Power.EngineEffect, Class.MaxAccelG * StandardGravity);
             return accel > 1e-4f ? new Vector2(v.X, v.Y).Length() / accel : float.PositiveInfinity;
         }
     }
@@ -121,7 +125,9 @@ public sealed class ShipBody
     {
         PrevPosition = Position;
         PrevOrientation = Orientation;
-        Damage.Step(dt);
+        SimTime += dt;
+        Damage.Step(dt, Power.ShieldEffect);
+        Power.Step(dt);
         Railgun?.Step(dt);
 
         StepRotation((float)dt);
@@ -181,9 +187,11 @@ public sealed class ShipBody
 
     private void StepTranslation(float dt)
     {
-        float boost = Control.Boost ? 1f + (Class.BoostMultiplier - 1f) * Damage.CoolingFraction : 1f;
-        float forwardAccel = Class.ForwardAccel * boost * Damage.PropulsionFraction;
-        float strafeAccel = Class.StrafeAccel * Damage.ManeuverFraction;
+        // 부스트의 대가는 폐열이다(추진 채널 소비가 늘어난다). 추진 채널 배율은 모든 병진 추력에 곱한다.
+        float boost = Control.Boost ? Class.BoostMultiplier : 1f;
+        float engine = Power.EngineEffect;
+        float forwardAccel = Class.ForwardAccel * boost * Damage.PropulsionFraction * engine;
+        float strafeAccel = Class.StrafeAccel * Damage.ManeuverFraction * engine;
 
         // 함선 로컬 속도. Godot 로컬 축: 우=+X, 상=+Y, 전방=-Z.
         Vector3 v = Orientation.Inverse() * Velocity;
@@ -226,7 +234,7 @@ public sealed class ShipBody
         dv.X = Mathf.Clamp(dv.X, -strafeAccel * dt, strafeAccel * dt);
         dv.Y = Mathf.Clamp(dv.Y, -strafeAccel * dt, strafeAccel * dt);
         // 감속은 제동 추력, 후진 가속은 보조 추력. 부스트도 합산 G 상한을 넘지 않는다.
-        float reverseAccel = v.Z < 0f ? Class.BrakeAccel * Damage.ManeuverFraction : strafeAccel;
+        float reverseAccel = v.Z < 0f ? Class.BrakeAccel * Damage.ManeuverFraction * engine : strafeAccel;
         dv.Z = Mathf.Clamp(dv.Z, -forwardAccel * dt, reverseAccel * dt);
         float maxDelta = Class.MaxAccelG * StandardGravity * dt;
         if (dv.LengthSquared() > maxDelta * maxDelta)

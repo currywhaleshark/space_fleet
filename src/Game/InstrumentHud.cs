@@ -101,7 +101,9 @@ public partial class Hud
             (Game.AssistStyle == AssistStyle.Space ? "우주식" : "항공식", assist, Friendly),
             ("부스트", body.Control.Boost, Motion),
             (body.TurnBraking ? "선회 감속" : "사격보조", body.TurnBraking || Game.FireAssist, body.TurnBraking ? Motion : Lead),
+            body.Power.Overheated ? ("과열", true, Hostile) : body.Power.Supply < 0.99f ? ("전력 부족", true, Motion) : ("", false, Faint),
         };
+        chips = System.Array.FindAll(chips, c => c.Text.Length > 0);
         const int size = 12;
         float gap = 6f;
         float total = -gap;

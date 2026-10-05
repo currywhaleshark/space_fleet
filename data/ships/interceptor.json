@@ -5,7 +5,7 @@
     "moduleId": "gun", "muzzle": [0, -0.6, -18.4], "muzzleSpeed": 6000,
     "reloadSeconds": 0.6, "energy": 220, "penetrationMm": 250, "moduleDamage": 120,
     "maxRange": 80000, "rounds": 200, "traverseDegrees": 12,
-    "sensorErrorMeters": 0.5, "sensorErrorPerKm": 0.15, "velocityError": 0.3
+    "sensorErrorMeters": 0.5, "sensorErrorPerKm": 0.15, "velocityError": 0.3, "shotHeatMj": 6
   },
   "flight": {
     "kind": "Interceptor",
@@ -30,6 +30,7 @@
     "rechargePerSecond": 8,
     "rechargeDelay": 4
   },
+  "power": { "outputMw": 60, "engines": 24, "shields": 12, "weapons": 10, "sensors": 2, "heatCapacityMj": 600, "coolingMw": 42 },
   "hullSections": [
     {
       "id": "nose",

@@ -56,6 +56,7 @@ public partial class Hud : Control
         DrawCrosshair(cam, controlled, size);
         DrawInstruments(controlled, size);
         DrawOwnSystems(controlled, size);
+        DrawPowerPanel(controlled, size);
         DrawTargetPanel(size);
         DrawShotFeedback(cam);
         DrawHelp(controlled, size);
@@ -236,6 +237,7 @@ public partial class Hud : Control
             $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
             "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트",
             "Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제",
+            "1 추진 · 2 실드 · 3 무장 · 4 센서에 전력 핍 하나씩(다른 채널에서 가져옴) · 0 균형 배분",
             "좌클릭 레일건 · T 사격보조 · R 표적 전환 · F7 이동 표적 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;
