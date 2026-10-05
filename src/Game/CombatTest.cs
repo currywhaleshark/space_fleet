@@ -14,6 +14,7 @@ public partial class ScaleTest
     public FiringSolution? FiringSolution { get; private set; }
     public bool CorrectingAim { get; private set; }
     public string LastFireMessage { get; private set; } = "";
+    public bool LastFireFailed { get; private set; }
 
     /// <summary>사격통제 표적. 검사 표적이 살아 있는 적일 때만 잡는다(아군에게 선행 보정을 계산하지 않는다).</summary>
     public ShipView? FireTarget => InspectTarget is ShipView view && Controlled is ShipView me
@@ -59,6 +60,7 @@ public partial class ScaleTest
         Vector3 direction = CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
         FireAttempt attempt = World.FireRailgun(player, direction);
         LastFireMessage = attempt.Reason;
+        LastFireFailed = !attempt.Fired;
         LastFireTime = World.Time;
         if (attempt.Fired && automated)
         {

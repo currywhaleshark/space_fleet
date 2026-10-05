@@ -12,6 +12,8 @@ public sealed class ModuleState
     public float Health { get; internal set; }
     public float HealthFraction => Health / Definition.HitPoints;
     public bool Destroyed => Health <= 0f;
+    /// <summary>마지막으로 피해를 받은 시뮬레이션 시각. HUD 강조용.</summary>
+    public double LastHitTime { get; internal set; } = double.NegativeInfinity;
 }
 public readonly record struct DamageReport(double Time, string Message);
 
@@ -50,6 +52,8 @@ public sealed class ShipDamage
     public float SensorFraction { get; private set; }
     public float CoolingFraction { get; private set; }
     public bool Destroyed => _catastrophic || _allDestroyed;
+    /// <summary>실드가 마지막으로 에너지를 흡수한 시뮬레이션 시각. HUD 강조용.</summary>
+    public double LastShieldHitTime { get; private set; } = double.NegativeInfinity;
     public ModuleState Module(string id) => _byId[id];
     public float WeaponFraction(string id) => Destroyed ? 0 : _byId[id].HealthFraction
         * GridPower(_byId[id].Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
@@ -68,7 +72,12 @@ public sealed class ShipDamage
 
     public void Reset()
     {
-        foreach (ModuleState module in Modules) module.Health = module.Definition.HitPoints;
+        foreach (ModuleState module in Modules)
+        {
+            module.Health = module.Definition.HitPoints;
+            module.LastHitTime = double.NegativeInfinity;
+        }
+        LastShieldHitTime = double.NegativeInfinity;
         _catastrophic = false;
         _sinceHit = 0;
         _reports.Clear();
@@ -92,7 +101,10 @@ public sealed class ShipDamage
         float absorbed = Mathf.Min(Shield, energy);
         Shield -= absorbed;
         if (absorbed > 0)
+        {
+            LastShieldHitTime = time;
             Report(time, Shield <= 0f ? "실드 소진" : $"실드 흡수 {absorbed:0} · 잔량 {Shield:0}");
+        }
         return energy - absorbed;
     }
 
@@ -102,6 +114,7 @@ public sealed class ShipDamage
         _sinceHit = 0;
         float damage = Mathf.Min(amount, module.Health);
         module.Health -= damage;
+        module.LastHitTime = time;
         if (module.Destroyed)
         {
             Report(time, module.Definition.Kind == ModuleKind.PowerBus

@@ -28,7 +28,8 @@ public partial class ScaleTest : Node3D
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
     private bool _flightAssist = true;
-    public AssistStyle AssistStyle { get; private set; } = AssistStyle.Aircraft;
+    public AssistStyle AssistStyle { get; private set; } = AssistStyle.Space;
+    public bool ShowHelp { get; private set; }
     private ShotRequest? _shot;
     private int _frame;
     private int _testShots;
@@ -207,6 +208,8 @@ public partial class ScaleTest : Node3D
             NextInspectTarget();
         else if (e.IsActionPressed(InputSetup.TestFire))
             FireTest(RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward);
+        else if (e.IsActionPressed(InputSetup.ToggleHelp))
+            ShowHelp = !ShowHelp;
         else if (e.IsActionPressed(InputSetup.ShowModules))
             ShowModules = !ShowModules;
         else if (e.IsActionPressed(InputSetup.Repair))
@@ -349,8 +352,8 @@ public partial class ScaleTest : Node3D
     {
         if (shot.FixedOrigin)
             FloatingOrigin = false;
-        if (shot.SpaceStyle)
-            AssistStyle = AssistStyle.Space;
+        if (shot.AircraftStyle)
+            AssistStyle = AssistStyle.Aircraft;
         if (shot.Far)
             JumpFriendlies();
         if (shot.Ram is string ramTarget && Views.Find(v => v.Body.Callsign == ramTarget) is ShipView targetShip && targetShip != Controlled)
@@ -404,7 +407,7 @@ public partial class ScaleTest : Node3D
     private sealed record ShotRequest(
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
-        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool SpaceStyle)
+        float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -448,7 +451,7 @@ public partial class ScaleTest : Node3D
                 F("zoom", 1f),
                 map.ContainsKey("far"),
                 map.ContainsKey("fixed-origin"),
-                map.GetValueOrDefault("style") == "space");
+                map.GetValueOrDefault("style") == "aircraft");
         }
     }
 }

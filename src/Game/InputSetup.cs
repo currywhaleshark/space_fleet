@@ -24,6 +24,7 @@ public static class InputSetup
     public const string InspectTarget = "inspect_target";
     public const string TestFire = "test_fire";
     public const string ShowModules = "show_modules";
+    public const string ToggleHelp = "toggle_help";
     public const string Repair = "repair";
     public const string Fire = "fire_railgun";
     public const string FireAssist = "fire_assist";
@@ -50,6 +51,7 @@ public static class InputSetup
         Bind(InspectTarget, Key.R);
         Bind(TestFire, Key.F4);
         Bind(ShowModules, Key.F5);
+        Bind(ToggleHelp, Key.F1);
         Bind(Repair, Key.F6);
         Bind(FireAssist, Key.T);
         Bind(Practice, Key.F7);

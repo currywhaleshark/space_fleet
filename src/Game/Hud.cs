@@ -8,15 +8,19 @@ using SpaceFleet.View;
 namespace SpaceFleet.Game;
 
 /// <summary>
-/// 비행·피해 검증 HUD: 조준선, 이동 방향, 표적 브래킷, 모듈 상태.
+/// 전투 HUD. 수치는 가능한 한 도형·게이지로 보이고, 글자는 호출부호·거리·피해 리포트·짧은 경고에만 쓴다.
+/// 배치: 중앙 조준선(탄약·재장전 호), 하단 중앙 계기판, 하단 왼쪽 자함 계통, 오른쪽 위 표적 도면.
 /// </summary>
 public partial class Hud : Control
 {
     private static readonly Color Text = new(0.82f, 0.9f, 1f, 0.92f);
     private static readonly Color Dim = new(0.82f, 0.9f, 1f, 0.5f);
+    private static readonly Color Faint = new(0.82f, 0.9f, 1f, 0.16f);
     private static readonly Color Friendly = new(0.45f, 0.75f, 1f, 0.85f);
     private static readonly Color Hostile = new(1f, 0.42f, 0.32f, 0.9f);
     private static readonly Color Motion = new(1f, 0.78f, 0.35f, 0.9f);
+    private static readonly Color Good = new(0.35f, 0.9f, 0.7f, 0.9f);
+    private static readonly Color PanelBack = new(0.01f, 0.02f, 0.03f, 0.72f);
 
     private Font _font = null!;
 
@@ -38,17 +42,10 @@ public partial class Hud : Control
 
         Camera3D cam = Game.Camera;
         Vector2 size = GetViewportRect().Size;
-        Vector2 center = size * 0.5f;
 
         DrawBrackets(cam, controlled, size);
         if (Game.ShowModules && Game.InspectTarget is ShipView target)
             DrawModuleVolumes(cam, target);
-
-        // 화면 중앙 = 조준 방향
-        DrawLine(center + new Vector2(-14, 0), center + new Vector2(-5, 0), Text, 1.5f);
-        DrawLine(center + new Vector2(5, 0), center + new Vector2(14, 0), Text, 1.5f);
-        DrawLine(center + new Vector2(0, -14), center + new Vector2(0, -5), Text, 1.5f);
-        DrawLine(center + new Vector2(0, 5), center + new Vector2(0, 14), Text, 1.5f);
 
         // 기수가 실제로 향하는 곳(먼 점을 투영해 시차를 줄인다)
         Vector3 nosePoint = controlled.Position + controlled.Body.Forward * 100_000f;
@@ -56,12 +53,62 @@ public partial class Hud : Control
             DrawArc(cam.UnprojectPosition(nosePoint), 9f, 0, Mathf.Tau, 24, Friendly, 1.5f);
 
         DrawMotionCues(cam, controlled, size);
-
-        DrawStatus(controlled, size);
-        DrawDamagePanel(size);
+        DrawCrosshair(cam, controlled, size);
+        DrawInstruments(controlled, size);
+        DrawOwnSystems(controlled, size);
+        DrawTargetPanel(size);
         DrawShotFeedback(cam);
-        DrawCombat(cam, controlled, size);
+        DrawHelp(controlled, size);
     }
+
+    // ── 공용 도형 ─────────────────────────────────────────────
+
+    /// <summary>계통 상태 색: 정상 파랑 → 저하 주황 → 위험·정지 빨강.</summary>
+    private static Color Health(float fraction) =>
+        fraction >= 0.75f ? Friendly : fraction >= 0.35f ? Motion : Hostile;
+
+    /// <summary>가로 막대. 배경 위에 비율만큼 채운다.</summary>
+    private void HBar(Rect2 r, float fraction, Color fill)
+    {
+        DrawRect(r, Faint);
+        DrawRect(new Rect2(r.Position, new Vector2(r.Size.X * Mathf.Clamp(fraction, 0f, 1f), r.Size.Y)), fill);
+    }
+
+    /// <summary>세로 막대. 아래에서 위로 채운다.</summary>
+    private void VBar(Rect2 r, float fraction, Color fill)
+    {
+        DrawRect(r, Faint);
+        float h = r.Size.Y * Mathf.Clamp(fraction, 0f, 1f);
+        DrawRect(new Rect2(r.Position.X, r.End.Y - h, r.Size.X, h), fill);
+    }
+
+    /// <summary>호 게이지. start에서 sweep 방향으로 fraction만큼 채운다(라디안, 화면 기준 시계 방향 +).</summary>
+    private void ArcGauge(Vector2 center, float radius, float start, float sweep, float fraction, Color fill, float width)
+    {
+        DrawArc(center, radius, start, start + sweep, 32, Faint, width);
+        float f = Mathf.Clamp(fraction, 0f, 1f);
+        if (f > 0.001f)
+            DrawArc(center, radius, start, start + sweep * f, Math.Max(3, (int)(32 * f)), fill, width);
+    }
+
+    private void Label(Vector2 at, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, float width = -1)
+        => DrawString(_font, at, text, align, width, size, color);
+
+    private void CenteredLabel(Vector2 center, string text, int size, Color color)
+    {
+        Vector2 s = _font.GetStringSize(text, HorizontalAlignment.Left, -1, size);
+        DrawString(_font, center + new Vector2(-s.X * 0.5f, s.Y * 0.3f), text, HorizontalAlignment.Left, -1, size, color);
+    }
+
+    /// <summary>함종 표식: 전함 ●●●, 호위함 ●●, 요격함 ●.</summary>
+    private void ClassPips(Vector2 at, HullKind kind, Color color)
+    {
+        int count = kind switch { HullKind.Battleship => 3, HullKind.Escort => 2, _ => 1 };
+        for (int i = 0; i < count; i++)
+            DrawCircle(at + new Vector2(i * 6f, 0), 2f, color);
+    }
+
+    // ── 표적 브래킷 ────────────────────────────────────────────
 
     private void DrawBrackets(Camera3D cam, ShipView controlled, Vector2 screen)
     {
@@ -79,56 +126,122 @@ public partial class Hud : Control
             if (radius > screen.Y * 0.35f)
                 continue; // 가까워서 화면을 덮는 함선은 표시하지 않는다.
 
+            bool destroyed = view.Body.Damage.Destroyed;
+            bool selected = view == Game.InspectTarget;
             float h = Mathf.Max(9f, radius);
             float arm = Mathf.Min(8f, h * 0.6f);
-            Color c = view.Body.Damage.Destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
+            Color c = destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
+            float width = selected ? 2.5f : 1.5f;
             foreach (var (sx, sy) in new[] { (-1, -1), (1, -1), (-1, 1), (1, 1) })
             {
                 var corner = p + new Vector2(sx * h, sy * h);
-                DrawLine(corner, corner - new Vector2(sx * arm, 0), c, 1.5f);
-                DrawLine(corner, corner - new Vector2(0, sy * arm), c, 1.5f);
+                DrawLine(corner, corner - new Vector2(sx * arm, 0), c, width);
+                DrawLine(corner, corner - new Vector2(0, sy * arm), c, width);
             }
+            if (destroyed)
+            {
+                DrawLine(p + new Vector2(-h, -h) * 0.6f, p + new Vector2(h, h) * 0.6f, c, 1.5f);
+                DrawLine(p + new Vector2(-h, h) * 0.6f, p + new Vector2(h, -h) * 0.6f, c, 1.5f);
+            }
+            ClassPips(p + new Vector2(-h, h + 6f), view.Body.Class.Kind, c);
 
-            string label = $"{view.Body.Callsign}  {view.Body.Class.DisplayName}  {FormatDistance(dist)}{(view.Body.Damage.Destroyed ? "  격침" : "")}";
+            string label = $"{view.Body.Callsign}  {FormatDistance(dist)}";
             Vector2 at = p + new Vector2(h + 6, -h + 12);
             var rect = new Rect2(at - new Vector2(0, 12), _font.GetStringSize(label, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
             if (labels.Any(r => r.Intersects(rect)))
                 continue;
             labels.Add(rect);
-            DrawString(_font, at, label, HorizontalAlignment.Left, -1, 13, c);
+            Label(at, label, 13, c);
         }
     }
 
-    private void DrawStatus(ShipView controlled, Vector2 screen)
+    // ── 자함 계통(하단 왼쪽) ───────────────────────────────────
+
+    private void DrawOwnSystems(ShipView controlled, Vector2 screen)
     {
+        ShipBody body = controlled.Body;
+        var panel = new Rect2(16, screen.Y - 150, 250, 118);
+        bool collided = body.LastCollision is CollisionImpact impact && Game.World.Time - impact.Time < 2.0;
+        DrawRect(panel, PanelBack);
+        if (collided)
+            DrawRect(panel, Hostile, false, 2f);
+
+        Label(panel.Position + new Vector2(10, 18), body.Callsign, 14, Text);
+        ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Text);
+        DrawShieldBar(new Rect2(panel.Position + new Vector2(10, 28), new Vector2(panel.Size.X - 20, 8)), body);
+        DrawSystemBars(new Rect2(panel.Position + new Vector2(10, 44), new Vector2(panel.Size.X - 20, 66)), body.Damage);
+
+        if (collided && body.LastCollision is CollisionImpact hit)
+            Label(panel.Position + new Vector2(0, -8), $"충돌 {hit.OtherCallsign} · Δv {hit.DeltaSpeed:0}", 13, Hostile);
+    }
+
+    /// <summary>
+    /// 실드 막대(설계 용량 기준). 발생기·전력 손상으로 줄어든 최대치는 오른쪽 끝의 빨간 구간으로 보인다.
+    /// 최근 피격 시 밝게 번쩍인다.
+    /// </summary>
+    private void DrawShieldBar(Rect2 r, ShipBody body)
+    {
+        ShipDamage damage = body.Damage;
+        float design = Mathf.Max(1f, body.Definition.Shield.Capacity);
+        float flash = Mathf.Clamp(1f - (float)(Game.World.Time - damage.LastShieldHitTime) / 0.4f, 0f, 1f);
+        HBar(r, damage.Shield / design, Friendly.Lerp(Colors.White, flash * 0.8f));
+        float lost = 1f - damage.ShieldCapacity / design;
+        if (lost > 0.005f)
+            DrawRect(new Rect2(r.End.X - r.Size.X * lost, r.Position.Y, r.Size.X * lost, r.Size.Y), new Color(Hostile, 0.45f));
+    }
+
+    private static readonly (string Label, Func<ShipDamage, float> Value)[] Systems =
+    {
+        ("좌전", d => d.GridPower(PowerGrid.Port)),
+        ("우전", d => d.GridPower(PowerGrid.Starboard)),
+        ("추진", d => d.PropulsionFraction),
+        ("자세", d => d.ManeuverFraction),
+        ("무장", d => d.WeaponsFraction),
+        ("센서", d => d.SensorFraction),
+        ("냉각", d => d.CoolingFraction),
+    };
+
+    /// <summary>계통별 세로 막대 7개. 이름은 두 글자로 줄인다.</summary>
+    private void DrawSystemBars(Rect2 area, ShipDamage damage)
+    {
+        float slot = area.Size.X / Systems.Length;
+        float barHeight = area.Size.Y - 16f;
+        for (int i = 0; i < Systems.Length; i++)
+        {
+            float value = Systems[i].Value(damage);
+            float x = area.Position.X + slot * i + slot * 0.5f;
+            var bar = new Rect2(x - 6f, area.Position.Y, 12f, barHeight);
+            VBar(bar, value, Health(value));
+            if (value <= 0.001f)
+            {
+                DrawLine(bar.Position, bar.End, Hostile, 1.5f);
+                DrawLine(new Vector2(bar.Position.X, bar.End.Y), new Vector2(bar.End.X, bar.Position.Y), Hostile, 1.5f);
+            }
+            CenteredLabel(new Vector2(x, area.End.Y - 4f), Systems[i].Label, 11, value < 0.75f ? Health(value) : Dim);
+        }
+    }
+
+    // ── 도움말·디버그(F1) ───────────────────────────────────────
+
+    private void DrawHelp(ShipView controlled, Vector2 screen)
+    {
+        if (!Game.ShowHelp)
+        {
+            Label(new Vector2(16, screen.Y - 12), "F1 도움말", 12, Dim);
+            return;
+        }
         ShipBody body = controlled.Body;
         string[] lines =
         {
-            $"조종: {body.Callsign} ({body.Class.DisplayName}, {body.Class.Length:0} m)",
-            $"속도 {body.Velocity.Length():0} m/s   스로틀 {Game.Throttle * 100:0}%   비행보조 {(body.Control.FlightAssist ? (Game.AssistStyle == AssistStyle.Space ? "ON · 우주식" : "ON · 항공식") : "OFF")} (Z/V){(body.Control.Boost ? "   부스트" : "")}",
-            $"추력 가속 {body.GLoad:0.0} / {body.Class.MaxAccelG:0.0} G{(body.TurnBraking ? $"   선회 감속 · 목표 {body.AssistedTargetSpeed:0} m/s" : "")}   ○ 기수 · ◇ 이동 방향",
-            $"실드 {body.Damage.Shield:0}/{body.Damage.ShieldCapacity:0}   전력 {body.Damage.PowerFraction:P0}   추진 {body.Damage.PropulsionFraction:P0}   자세 {body.Damage.ManeuverFraction:P0}{(body.Damage.Destroyed ? "   격침" : "")}",
-            $"렌더 원점: {(Game.FloatingOrigin ? "카메라 기준(플로팅)" : "월드 0 고정")}   월드 0에서 {FormatDistance(body.Position.Length())}",
-            $"FPS {Engine.GetFramesPerSecond():0}   틱 {Game.World.Tick}",
+            $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
+            "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트",
+            "Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제",
+            "좌클릭 레일건 · T 사격보조 · R 표적 전환 · F7 이동 표적 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구",
         };
-        string? warning = body.LastCollision is CollisionImpact impact && Game.World.Time - impact.Time < 3.0
-            ? $"충돌: {impact.OtherCallsign} · 접근 {impact.ClosingSpeed:0} m/s · 속도 변화 {impact.DeltaSpeed:0} m/s"
-            : null;
-        float panelWidth = 0f;
-        foreach (string line in lines)
-            panelWidth = Mathf.Max(panelWidth, _font.GetStringSize(line, HorizontalAlignment.Left, -1, 15).X);
-        if (warning is not null)
-            panelWidth = Mathf.Max(panelWidth, _font.GetStringSize(warning, HorizontalAlignment.Left, -1, 15).X);
-        DrawRect(new Rect2(8, 8, panelWidth + 20, warning is null ? 130 : 164), new Color(0.01f, 0.02f, 0.03f, 0.9f));
+        float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;
+        DrawRect(new Rect2(8, 8, width, 16 + lines.Length * 19), PanelBack);
         for (int i = 0; i < lines.Length; i++)
-            DrawString(_font, new Vector2(18, 28 + i * 20), lines[i], HorizontalAlignment.Left, -1, 15, i == 0 ? Text : Dim);
-
-        if (warning is not null)
-            DrawString(_font, new Vector2(18, 158), warning, HorizontalAlignment.Left, -1, 15, Hostile);
-
-        DrawString(_font, new Vector2(18, screen.Y - 40), "좌클릭 레일건 · T 사격보조 · R 표적 전환·조준 · F7 이동 표적 연습 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구", HorizontalAlignment.Left, -1, 13, Text);
-        string help = "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트 · Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제";
-        DrawString(_font, new Vector2(18, screen.Y - 18), help, HorizontalAlignment.Left, -1, 13, Dim);
+            Label(new Vector2(18, 26 + i * 19), lines[i], 13, i == 0 ? Dim : Text);
     }
 
     private static string FormatDistance(double meters) =>
