@@ -126,7 +126,7 @@ public partial class Hud : Control
         float pxPerRad = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);
         var labels = new List<Rect2>();
         // 적은 진영 센서망이 아는 위치(추정)에 그린다. 아군은 데이터 링크로 실제 위치.
-        var markers = new List<(ShipView View, SensorTrack Track, Vector3 Render, double Dist)>();
+        var markers = new List<(ShipView View, SensorTrack Track, Vector3 Render, double Dist, double TrueDist)>();
         foreach (ShipView view in Game.Views)
         {
             if (view == controlled)
@@ -134,22 +134,26 @@ public partial class Hud : Control
             SensorTrack track = Game.TrackOf(view);
             if (track.Level == TrackLevel.None)
                 continue; // 탐지되지 않은 적은 그리지 않는다.
+            // 적은 매 프레임 보간된 실제 이동 + 천천히 흐르는 추정 오차 위치에 그린다(4Hz 갱신마다 튀지 않게).
             bool enemy = view.Body.Faction != controlled.Body.Faction;
-            Vec3d sim = enemy ? track.EstimatedPosition : view.SimPosition;
+            Vec3d sim = enemy ? view.SimPosition + track.Offset : view.SimPosition;
             Vector3 render = (sim - Game.RenderOrigin).ToVector3();
             if (!cam.IsPositionBehind(render))
-                markers.Add((view, track, render, (sim - controlled.SimPosition).Length()));
+                markers.Add((view, track, render, (sim - controlled.SimPosition).Length(),
+                    (view.SimPosition - controlled.SimPosition).Length()));
         }
         // 가까운 것부터 라벨 자리를 잡고, 겹치는 먼 라벨은 생략한다.
-        foreach (var (view, track, render, dist) in markers.OrderBy(m => m.Dist))
+        // 순서는 실제 거리로 고정해서, 겹친 접촉의 라벨이 오차 변화에 따라 번갈아 깜박이지 않게 한다.
+        foreach (var (view, track, render, dist, _) in markers.OrderBy(m => m.TrueDist))
         {
             Vector2 p = cam.UnprojectPosition(render);
             bool selected = view == Game.InspectTarget;
 
             if (track.Level == TrackLevel.Contact)
             {
-                // 접촉: 함종도 호출부호도 모른다. 추정 위치와 오차 원만.
-                float err = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
+                // 접촉: 함종도 호출부호도 모른다. 추정 위치와 오차 원만. 원 크기는 부드럽게 따라간다.
+                float errTarget = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
+                float err = _errorShown[view] = _errorShown.TryGetValue(view, out float shown) ? Smooth(shown, errTarget, 0.5f) : errTarget;
                 Color cc = new(Hostile, 0.7f);
                 DrawDiamond(p, 6f, cc);
                 DrawArc(p, err, 0, Mathf.Tau, 32, new Color(Hostile, selected ? 0.6f : 0.3f), selected ? 2f : 1f);
@@ -201,6 +205,8 @@ public partial class Hud : Control
             Label(at, label, 13, c);
         }
     }
+
+    private readonly Dictionary<ShipView, float> _errorShown = new();
 
     /// <summary>방해 표시: 짧은 물결 두 줄. 이 표적은 ECM을 켜고 있어 정밀도가 떨어진다.</summary>
     private void DrawJamMark(Vector2 at, Color color)

@@ -79,10 +79,10 @@ public static class FireControl
         return true;
     }
 
-    // 4Hz 관측 오차를 부드럽게 보간한다. 프레임별 랜덤 흔들림은 조준에 넣지 않는다.
-    internal static Vec3d SmoothNoise(uint seed, double time)
+    // 관측 오차를 rate(Hz)로 부드럽게 보간한다(기본 4Hz). 프레임별 랜덤 흔들림은 조준에 넣지 않는다.
+    internal static Vec3d SmoothNoise(uint seed, double time, double rate = 4)
     {
-        double sample = Math.Max(0, time) * 4;
+        double sample = Math.Max(0, time) * rate;
         uint index = (uint)(Math.Floor(sample) % uint.MaxValue);
         double t = sample - Math.Floor(sample); t = t * t * (3 - 2 * t);
         return Vec3d.Lerp(Noise(seed ^ index), Noise(seed ^ (index + 1)), t);

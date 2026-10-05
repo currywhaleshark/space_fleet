@@ -20,9 +20,10 @@ public enum TrackLevel
 /// <param name="DetectSnr">접촉에 쓰는 신호(ECM 방해 전파는 오히려 멀리서 잡힌다).</param>
 /// <param name="JamRatio">관측 쪽에서 본 방해 세기(ECM 배율 ÷ 관측 센서 배율). 0이면 방해 없음.</param>
 /// <param name="ErrorMeters">진영이 아는 위치의 오차 규모(m).</param>
-/// <param name="EstimatedPosition">진영이 아는 위치(실제 위치 + 오차).</param>
+/// <param name="EstimatedPosition">진영이 아는 위치(갱신 시점의 실제 위치 + Offset).</param>
+/// <param name="Offset">추정 오차 벡터(m). 몇 초에 걸쳐 천천히 흘러간다. 화면은 매 프레임 실제 이동 + 이 값으로 그린다.</param>
 public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, float DetectSnr, float JamRatio,
-    double Range, float ErrorMeters, Vec3d EstimatedPosition)
+    double Range, float ErrorMeters, Vec3d EstimatedPosition, Vector3 Offset = default)
 {
     public static readonly SensorTrack Unknown = new(TrackLevel.None, 0, 0, 0, 0, 0, Vec3d.Zero);
 
@@ -56,6 +57,11 @@ public sealed class SensorNet
     public const float JamStrobe = 2f;
     /// <summary>위치 오차 = 거리 × 이 비율 ÷ √신호.</summary>
     public const float PositionErrorPerRange = 0.02f;
+    /// <summary>
+    /// 추정 오차가 바뀌는 빠르기(Hz). 갱신(4Hz)마다 새로 뽑으면 접촉 표시가 수 km씩 순간이동해 보이므로
+    /// 몇 초에 걸쳐 천천히 흘러가게 한다.
+    /// </summary>
+    public const double OffsetDriftRate = 0.15;
 
     private readonly Dictionary<(Faction, ShipBody), SensorTrack> _tracks = new();
     private double _nextUpdate;
@@ -119,9 +125,9 @@ public sealed class SensorNet
             TrackLevel level = Classify(bestTrack, bestDetect, previous);
             float error = (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
             uint seed = Hash(side.ToString()) ^ Hash(target.Callsign);
-            Vec3d estimate = target.Position + FireControl.SmoothNoise(seed, time) * error;
+            Vector3 offset = (FireControl.SmoothNoise(seed, time, OffsetDriftRate) * error).ToVector3();
             _tracks[(side, target)] = level == TrackLevel.None ? SensorTrack.Unknown
-                : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, estimate);
+                : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, target.Position + offset, offset);
         }
     }
 

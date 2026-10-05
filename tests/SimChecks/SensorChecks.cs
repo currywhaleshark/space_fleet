@@ -149,5 +149,26 @@ static class SensorChecks
         Require(world.Sensors.Track(Faction.Red, me).Level == TrackLevel.Locked, "Tracks are kept per faction");
         SensorTrack track = world.Sensors.Track(Faction.Blue, near);
         Require((track.EstimatedPosition - near.Position).Length() <= track.ErrorMeters * 1.75f, "Estimated positions must stay within the stated error");
+
+        // 150 km 접촉의 추정 오차는 갱신(4Hz)마다 튀지 않고 천천히 흘러야 한다.
+        var drift = new SimWorld();
+        drift.Add(Ship(HullKind.Battleship, Faction.Blue, 0, "B"));
+        ShipBody contact = drift.Add(Ship(HullKind.Battleship, Faction.Red, 150, "C"));
+        contact.Power.SetPips(2, 2, 1, 1, 2);
+        float worstStep = 0, error = 0;
+        Vector3? last = null;
+        for (int i = 0; i < 600; i++)
+        {
+            drift.Step();
+            SensorTrack t = drift.Sensors.Track(Faction.Blue, contact);
+            if (i % 15 != 14) continue; // 갱신 직후만 비교
+            if (last is Vector3 previous)
+                worstStep = Math.Max(worstStep, (t.Offset - previous).Length() / Math.Max(t.ErrorMeters, 1f));
+            last = t.Offset;
+            error = t.ErrorMeters;
+        }
+        // 0.15Hz 표류의 최대 기울기로 갱신당 약 11%. 150 km 접촉이면 화면에서 1~2픽셀이다(이전 4Hz 재추첨은 오차 크기만큼 튀었다).
+        Require(worstStep < 0.15f, $"Contact offset must drift slowly: worst step {worstStep:P0} of the error per update");
+        Console.WriteLine($"Contact at 150 km: error {error:0} m, worst offset step per 0.25 s update {worstStep:P1}");
     }
 }
