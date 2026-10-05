@@ -32,6 +32,12 @@
   },
   "power": { "outputMw": 60, "engines": 24, "shields": 12, "weapons": 10, "sensors": 2, "ecm": 6, "heatCapacityMj": 600, "coolingMw": 42 },
   "sensors": { "strength": 60, "signature": 3, "jammer": 1 },
+  "missiles": { "rounds": 4, "reloadSeconds": 1.5, "launchPoint": [0, -1.8, -2], "ejectSpeed": 15, "accelG": 40, "burnSeconds": 25, "maxFlightSeconds": 60,
+    "seekerRangeMeters": 8000, "seekerFovDegrees": 50, "seekerStrength": 2, "fuzeMeters": 10,
+    "energy": 250, "penetrationMm": 300, "moduleDamage": 110, "hitPoints": 5, "launchHeatMj": 2 },
+  "pointDefense": { "mounts": [[0, -1.6, 5]],
+    "rangeMeters": 1500, "shotsPerSecond": 6, "hitChance": 0.08, "damagePerHit": 4 },
+  "decoys": { "count": 6, "perLaunch": 2, "cooldownSeconds": 2, "signatureFactor": 3, "lifetimeSeconds": 4, "ejectSpeed": 30 },
   "hullSections": [
     {
       "id": "nose",

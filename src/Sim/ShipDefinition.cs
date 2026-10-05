@@ -41,6 +41,9 @@ public sealed class ShipDefinition
     public required HullSection[] HullSections { get; init; }
     public required ModuleDefinition[] Modules { get; init; }
     public RailgunDefinition? Railgun { get; init; }
+    public MissileDefinition? Missiles { get; init; }
+    public PointDefenseDefinition? PointDefense { get; init; }
+    public DecoyDefinition? Decoys { get; init; }
     public CollisionHull Hull { get; private set; } = null!;
 
     private static readonly JsonSerializerOptions Options = new()
@@ -112,6 +115,20 @@ public sealed class ShipDefinition
                 && float.IsFinite(gun.ShotHeatMj) && gun.ShotHeatMj >= 0, "invalid railgun parameters");
             gun.Packet.Validate();
         }
+        if (Missiles is MissileDefinition ms)
+        {
+            Require(ms.Rounds > 0 && Positive(ms.ReloadSeconds) && ms.LaunchPoint.IsFinite() && float.IsFinite(ms.EjectSpeed) && ms.EjectSpeed >= 0
+                && Positive(ms.AccelG) && Positive(ms.BurnSeconds) && Positive(ms.MaxFlightSeconds) && Positive(ms.SeekerRangeMeters)
+                && Positive(ms.SeekerFovDegrees) && ms.SeekerFovDegrees <= 180 && Positive(ms.SeekerStrength) && Positive(ms.FuzeMeters)
+                && Positive(ms.HitPoints) && float.IsFinite(ms.LaunchHeatMj) && ms.LaunchHeatMj >= 0, "invalid missiles");
+            ms.Packet.Validate();
+        }
+        if (PointDefense is PointDefenseDefinition pd)
+            Require(pd.Mounts is { Length: > 0 } && pd.Mounts.All(v => v.IsFinite()) && Positive(pd.RangeMeters) && Positive(pd.ShotsPerSecond)
+                && pd.HitChance > 0 && pd.HitChance <= 1 && Positive(pd.DamagePerHit), "invalid point defense");
+        if (Decoys is DecoyDefinition dc)
+            Require(dc.Count > 0 && dc.PerLaunch > 0 && Positive(dc.CooldownSeconds) && Positive(dc.SignatureFactor)
+                && Positive(dc.LifetimeSeconds) && float.IsFinite(dc.EjectSpeed) && dc.EjectSpeed >= 0, "invalid decoys");
     }
 
     private static bool Contains(HullSection section, Vector3 center, Vector3 half) =>

@@ -62,6 +62,8 @@ public sealed class ShipDamage
     public float WeaponsFraction { get; private set; }
     public float SensorFraction { get; private set; }
     public float CoolingFraction { get; private set; }
+    /// <summary>탄약고 평균 상태(전력 무관). 미사일 발사 가능 여부에 쓴다.</summary>
+    public float MagazineFraction { get; private set; }
     public bool Destroyed => _catastrophic || _allDestroyed;
     /// <summary>실드가 마지막으로 에너지를 흡수한 시뮬레이션 시각. HUD 강조용.</summary>
     public double LastShieldHitTime { get; private set; } = double.NegativeInfinity;
@@ -190,6 +192,7 @@ public sealed class ShipDamage
         WeaponsFraction = Average(ModuleKind.Gun, powered: true) * Average(ModuleKind.Magazine, powered: false);
         SensorFraction = Average(ModuleKind.Sensor, powered: true);
         CoolingFraction = Average(ModuleKind.Cooling, powered: true);
+        MagazineFraction = Average(ModuleKind.Magazine, powered: false);
         ShieldCapacity = _definition.Shield.Capacity * Average(ModuleKind.ShieldEmitter, powered: true);
         Shield = Mathf.Min(Shield, ShieldCapacity);
     }

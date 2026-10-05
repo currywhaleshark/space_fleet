@@ -48,6 +48,7 @@ public sealed class ShipBody
         Damage = new ShipDamage(Definition, callsign);
         Railgun = Definition.Railgun is null ? null : new RailgunState(this);
         Power = new ShipPower(this);
+        Ordnance = new OrdnanceState(this);
     }
 
     public string Callsign { get; }
@@ -57,6 +58,8 @@ public sealed class ShipBody
     public ShipDamage Damage { get; }
     public RailgunState? Railgun { get; }
     public ShipPower Power { get; }
+    /// <summary>미사일·디코이 잔량과 재장전.</summary>
+    public OrdnanceState Ordnance { get; }
     public CollisionHull Hull => Definition.Hull;
     /// <summary>이 함선이 진행한 시뮬레이션 시간(초). 월드에 처음부터 있던 함선은 SimWorld.Time과 같다.</summary>
     public double SimTime { get; private set; }
@@ -135,6 +138,7 @@ public sealed class ShipBody
         Damage.Step(dt, Power.ShieldEffect);
         Power.Step(dt);
         Railgun?.Step(dt);
+        Ordnance.Step(dt);
 
         StepRotation((float)dt);
         StepTranslation((float)dt);

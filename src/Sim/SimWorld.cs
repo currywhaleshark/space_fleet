@@ -64,6 +64,7 @@ public sealed partial class SimWorld
                 ship.Step(dt);
             ShipCollision.Resolve(_ships, Time + (substep + 1) * dt);
             StepProjectiles(dt, Time + substep * dt);
+            StepOrdnance(dt, Time + substep * dt);
         }
         // 렌더 보간은 하위 틱이 아니라 전체 60Hz 틱의 양 끝 상태를 사용한다.
         for (int i = 0; i < _ships.Count; i++)
@@ -74,5 +75,6 @@ public sealed partial class SimWorld
         Tick++;
         Sensors.Update(_ships, Time);
         _impacts.RemoveAll(i => Time - i.Time > 3);
+        PruneOrdnanceEvents();
     }
 }

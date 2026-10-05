@@ -35,6 +35,9 @@ public static class InputSetup
     public const string Fire = "fire_railgun";
     public const string FireAssist = "fire_assist";
     public const string Practice = "shooting_practice";
+    public const string LaunchMissile = "launch_missile";
+    public const string Decoys = "decoys";
+    public const string MissileDrill = "missile_drill";
 
     public static void Register()
     {
@@ -67,6 +70,10 @@ public static class InputSetup
         Bind(Repair, Key.F6);
         Bind(FireAssist, Key.T);
         Bind(Practice, Key.F7);
+        Bind(Decoys, Key.C);
+        Bind(MissileDrill, Key.F8);
+        if (!InputMap.HasAction(LaunchMissile)) InputMap.AddAction(LaunchMissile);
+        InputMap.ActionAddEvent(LaunchMissile, new InputEventMouseButton { ButtonIndex = MouseButton.Right });
         if (!InputMap.HasAction(Fire)) InputMap.AddAction(Fire);
         InputMap.ActionAddEvent(Fire, new InputEventMouseButton { ButtonIndex = MouseButton.Left });
     }

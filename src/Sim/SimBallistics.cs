@@ -38,6 +38,7 @@ public sealed partial class SimWorld
     {
         foreach (ShipBody ship in _ships) ship.Railgun?.Reset();
         _projectiles.Clear(); _impacts.Clear();
+        ResetOrdnance();
     }
 
     private void StepProjectiles(double dt, double time)

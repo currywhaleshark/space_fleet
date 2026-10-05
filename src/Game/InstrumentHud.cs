@@ -101,6 +101,7 @@ public partial class Hud
             (Game.AssistStyle == AssistStyle.Space ? "우주식" : "항공식", assist, Friendly),
             ("부스트", body.Control.Boost, Motion),
             body.Power.EcmActive ? ("ECM", true, new Color(0.78f, 0.55f, 1f, 0.95f)) : ("", false, Faint),
+            IncomingMissiles > 0 ? ($"미사일 {IncomingMissiles}", (int)(Game.World.Time * 4) % 2 == 0, Hostile) : ("", false, Faint),
             (body.TurnBraking ? "선회 감속" : "사격보조", body.TurnBraking || Game.FireAssist, body.TurnBraking ? Motion : Lead),
             body.Power.Overheated ? ("과열", true, Hostile) : body.Power.Supply < 0.99f ? ("전력 부족", true, Motion) : ("", false, Faint),
         };

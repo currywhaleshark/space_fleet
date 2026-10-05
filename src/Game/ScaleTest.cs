@@ -25,6 +25,7 @@ public partial class ScaleTest : Node3D
     private readonly List<ShipView> _playable = new();
     private Node3D _worldRoot = null!;
     private SpaceDust _dust = null!;
+    private OrdnanceView _ordnance = null!;
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
     private bool _flightAssist = true;
@@ -59,6 +60,8 @@ public partial class ScaleTest : Node3D
         BuildPlanet();
         _ballistics = new BallisticsView { Name = "Ballistics" };
         _worldRoot.AddChild(_ballistics);
+        _ordnance = new OrdnanceView { Name = "Ordnance" };
+        _worldRoot.AddChild(_ordnance);
 
         Camera = new ChaseCamera { Name = "Camera" };
         AddChild(Camera);
@@ -184,7 +187,7 @@ public partial class ScaleTest : Node3D
             case InputEventMouseMotion motion when Input.MouseMode == Input.MouseModeEnum.Captured:
                 Camera.AddMouse(motion.Relative);
                 return;
-            case InputEventMouseButton { Pressed: true } button:
+            case InputEventMouseButton { Pressed: true } button when button.ButtonIndex != MouseButton.Right:
                 if (button.ButtonIndex == MouseButton.WheelUp)
                     Camera.Zoom(0.9f);
                 else if (button.ButtonIndex == MouseButton.WheelDown)
@@ -232,6 +235,12 @@ public partial class ScaleTest : Node3D
             FireAssist = !FireAssist;
         else if (e.IsActionPressed(InputSetup.Practice))
             SetupPractice();
+        else if (e.IsActionPressed(InputSetup.MissileDrill))
+            SetupMissileDrill();
+        else if (e.IsActionPressed(InputSetup.Decoys))
+            LaunchDecoys();
+        else if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right } && Input.MouseMode == Input.MouseModeEnum.Captured)
+            LaunchMissileAtTarget();
         else if (Controlled?.Body.Power is ShipPower power)
         {
             // 전력 배분: 1~5는 해당 채널에 핍 하나(다른 채널 중 가장 많은 곳에서 가져온다), 0은 균형(ECM 꺼짐).
@@ -302,6 +311,7 @@ public partial class ScaleTest : Node3D
 
         Camera.Follow(controlled.Body.Class, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), (float)delta);
+        _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position);
         _dust.Sync(RenderOrigin + Vec3d.From(Camera.Position), Camera.Position, controlled.Body.Velocity,
             controlled.Body.Class.CameraDistance * DustBoxPerCameraDistance);
     }
@@ -420,6 +430,8 @@ public partial class ScaleTest : Node3D
             Controlled!.Body.Power.SetPips(p[0], p[1], p[2], p[3], p.Length > 4 ? p[4] : 0);
         if (shot.Heat > 0f)
             Controlled!.Body.Power.AddHeat(shot.Heat * Controlled.Body.Definition.Power.HeatCapacityMj);
+        if (shot.Drill)
+            SetupMissileDrill(shot.DrillDistance);
         Camera.Zoom(shot.Zoom);
         if (shot.LookAt is string target && Views.Find(v => v.Body.Callsign == target) is ShipView targetView)
         {
@@ -434,6 +446,8 @@ public partial class ScaleTest : Node3D
     {
         if (_shot?.BallisticsTarget is not null)
             GD.Print($"railgun test: shots={_liveShots}, recent hits={World.Impacts.Count}, active={World.Projectiles.Count}, target shield={_practiceTarget?.Damage.Shield:0}, damaged modules={_practiceTarget?.Damage.Modules.Count(m => m.HealthFraction < 1)}");
+        if (_shot is { Drill: true } || _shot is { Launch: > 0 })
+            GD.Print($"missile test: in flight={World.Missiles.Count}, decoys={World.Decoys.Count}, intercepted={World.OrdnanceEvents.Count(e => e.Kind == OrdnanceEventKind.Intercepted)}, detonations={World.OrdnanceEvents.Count(e => e.Kind == OrdnanceEventKind.Detonation)}, my shield={Controlled?.Body.Damage.Shield:0}");
         Image image = GetViewport().GetTexture().GetImage();
         Error err = image.SavePng(path);
         GD.Print(err == Error.Ok ? $"shot saved: {path}" : $"shot failed: {err}");
@@ -447,7 +461,7 @@ public partial class ScaleTest : Node3D
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
-        int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm)
+        int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -498,7 +512,11 @@ public partial class ScaleTest : Node3D
                     ? new Vector2(float.Parse(s[0], CultureInfo.InvariantCulture), float.Parse(s[1], CultureInfo.InvariantCulture))
                     : Vector2.Zero,
                 F("roll", 0f),
-                map.ContainsKey("keep-ecm"));
+                map.ContainsKey("keep-ecm"),
+                (int)F("launch", 0),
+                map.ContainsKey("drill"),
+                F("drill-distance", 40_000f),
+                map.ContainsKey("auto-decoys"));
         }
     }
 }
