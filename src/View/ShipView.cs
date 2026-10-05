@@ -14,6 +14,8 @@ public partial class ShipView : Node3D
     private float _plumeLevel;
     private IReadOnlyList<RcsJet> _rcs = new List<RcsJet>();
     private float[] _rcsLevel = System.Array.Empty<float>();
+    /// <summary>롤 축(Z)에서 가장 먼 노즐까지의 거리(m).</summary>
+    private float _rollArm = 1f;
 
     public ShipBody Body { get; private set; } = null!;
     public Palette Palette { get; private set; } = null!;
@@ -29,6 +31,8 @@ public partial class ShipView : Node3D
             Name = body.Callsign, Body = body, Palette = model.Palette, _plumes = model.Plumes,
             _rcs = model.RcsJets, _rcsLevel = new float[model.RcsJets.Count],
         };
+        foreach (RcsJet jet in model.RcsJets)
+            view._rollArm = Mathf.Max(view._rollArm, new Vector2(jet.Position.X, jet.Position.Y).Length());
         view.AddChild(model.Root);
         return view;
     }
@@ -66,15 +70,19 @@ public partial class ShipView : Node3D
         Vector3 a = Body.LocalAcceleration;
         // 전방 가속은 메인 추진 몫이라 뺀다(전력 계산과 같은 구분).
         Vector3 linear = new Vector3(a.X, a.Y, Mathf.Max(0f, a.Z)) / Mathf.Max(cls.StrafeAccel, 1e-3f);
-        // 최대 피치·요 각가속일 때 함수·함미 끝의 선가속도로 정규화한다.
-        float rotScale = Mathf.Max(Mathf.DegToRad(cls.PitchYawAccelDeg) * cls.Length * 0.5f, 1e-3f);
-        Vector3 alpha = Body.AngularAcceleration / rotScale;
+        // 피치·요는 최대 각가속일 때 함수·함미 끝의 선가속도로, 롤은 최대 롤 각가속일 때
+        // 가장 바깥 노즐의 선가속도로 정규화한다(롤 팔은 선체 반폭 정도라 길이 기준이면 거의 보이지 않는다).
+        float pitchYawScale = Mathf.Max(Mathf.DegToRad(cls.PitchYawAccelDeg) * cls.Length * 0.5f, 1e-3f);
+        float rollScale = Mathf.Max(Mathf.DegToRad(cls.RollAccelDeg) * _rollArm, 1e-3f);
+        Vector3 angular = Body.AngularAcceleration;
+        var pitchYaw = new Vector3(angular.X, angular.Y, 0f) / pitchYawScale;
+        var roll = new Vector3(0f, 0f, angular.Z) / rollScale;
         bool alive = Body.Damage.ManeuverFraction > 0.01f;
         float follow = 1f - Mathf.Exp(-delta * 15f);
         for (int i = 0; i < _rcs.Count; i++)
         {
             RcsJet jet = _rcs[i];
-            Vector3 need = linear + alpha.Cross(jet.Position);
+            Vector3 need = linear + pitchYaw.Cross(jet.Position) + roll.Cross(jet.Position);
             float target = alive ? Mathf.Clamp(-jet.Exhaust.Dot(need), 0f, 1f) : 0f;
             float level = _rcsLevel[i] = Mathf.Lerp(_rcsLevel[i], target, follow);
             bool firing = level > 0.05f;

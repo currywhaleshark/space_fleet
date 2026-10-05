@@ -156,17 +156,23 @@ public sealed class HullBuilder
     }
 
     /// <summary>
-    /// 모든 함종에 같은 규칙으로 다는 보조 추진기 묶음. 함수·함미에 좌·우·상·하 노즐 4개씩,
+    /// 모든 함종에 같은 규칙으로 다는 보조 추진기 묶음. 함수·함미마다 좌·우 노즐 1개씩과
+    /// 상·하 노즐을 좌우로 갈라 2개씩(롤은 좌상·우하처럼 대각으로 분사한다),
     /// 함수 묶음 좌우 바깥에 앞으로 분사하는 역추진 노즐 2개. sideLift는 측면 노즐을 날개 위로 올릴 때 쓴다.
     /// </summary>
     public void RcsClusters(float bowZ, Vector2 bowHalf, float sternZ, Vector2 sternHalf, float size, float plume, float sideLift = 0f)
     {
+        const float VerticalSpread = 0.6f; // 상·하 노즐을 반폭의 이 비율만큼 좌우로 벌린다(롤 팔 길이).
         foreach (var (z, half) in new[] { (bowZ, bowHalf), (sternZ, sternHalf) })
         {
             RcsNozzle(new Vector3(half.X, sideLift, z), Vector3.Right, size, plume);
             RcsNozzle(new Vector3(-half.X, sideLift, z), Vector3.Left, size, plume);
-            RcsNozzle(new Vector3(0, half.Y, z), Vector3.Up, size, plume);
-            RcsNozzle(new Vector3(0, -half.Y, z), Vector3.Down, size, plume);
+            foreach (float side in new[] { 1f, -1f })
+            {
+                float x = side * half.X * VerticalSpread;
+                RcsNozzle(new Vector3(x, half.Y, z), Vector3.Up, size, plume);
+                RcsNozzle(new Vector3(x, -half.Y, z), Vector3.Down, size, plume);
+            }
         }
         RcsNozzle(new Vector3(bowHalf.X + size * 0.5f, sideLift, bowZ), Vector3.Forward, size, plume);
         RcsNozzle(new Vector3(-bowHalf.X - size * 0.5f, sideLift, bowZ), Vector3.Forward, size, plume);

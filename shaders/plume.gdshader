@@ -17,5 +17,9 @@ void fragment() {
 	float facing = abs(dot(NORMAL, VIEW));
 	// 축 방향으로 정면에서 볼 때 앞뒤 두 겹이 겹쳐 포화되지 않도록 정면 가중을 낮게 둔다.
 	float a = pow(along, 2.5) * (0.25 + 0.35 * facing);
+	// 분사 축을 똑바로 바라보면 원뿔 전체가 작은 원에 겹쳐 하얀 공으로 번진다. 그 각도에서 어둡게 한다.
+	vec3 axis_view = normalize((VIEW_MATRIX * vec4(MODEL_MATRIX[1].xyz, 0.0)).xyz);
+	float head_on = abs(dot(axis_view, VIEW));
+	a *= 1.0 - 0.85 * pow(head_on, 4.0);
 	ALBEDO = color * intensity * a;
 }
