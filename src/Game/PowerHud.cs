@@ -20,9 +20,22 @@ public partial class Hud
         (PowerChannel.Sensors, "센서", "4", new Color(0.35f, 0.9f, 0.7f, 0.95f)),
     };
 
+    // 소비 막대·수요선 표시값. 0.15초짜리 순간 피크가 깜박이지 않게 약 0.3초로 부드럽게 따라간다.
+    private readonly float[] _drawShown = new float[ShipPower.ChannelCount];
+    private float _demandShown;
+    private ShipBody? _powerShip;
+
     private void DrawPowerPanel(ShipView controlled, Vector2 screen)
     {
         ShipPower power = controlled.Body.Power;
+        if (_powerShip != controlled.Body)
+        {
+            // 함선을 바꾸면 이전 함선 값에서 미끄러져 오지 않게 바로 맞춘다.
+            _powerShip = controlled.Body;
+            for (int i = 0; i < ShipPower.ChannelCount; i++)
+                _drawShown[i] = power.DrawMw((PowerChannel)i) / power.MaxDrawMw((PowerChannel)i);
+            _demandShown = power.DemandMw / controlled.Body.Definition.Power.OutputMw;
+        }
         PowerDefinition def = controlled.Body.Definition.Power;
         var panel = new Rect2(screen.X - 266f, screen.Y - 150f, 250f, 118f);
         DrawRect(panel, PanelBack);
@@ -35,7 +48,7 @@ public partial class Hud
         // 발전 막대: 정격 기준. 수요가 가용량을 넘으면 넘친 만큼 빨갛게.
         var gen = new Rect2(x, y + 10f, barWidth, 8f);
         float available = power.AvailableMw / def.OutputMw;
-        float demand = power.DemandMw / def.OutputMw;
+        float demand = _demandShown = Smooth(_demandShown, power.DemandMw / def.OutputMw);
         HBar(gen, available, power.Supply < 0.99f ? Motion : Friendly);
         if (demand > available + 0.005f)
             DrawRect(new Rect2(gen.Position.X + gen.Size.X * Mathf.Min(available, 1f), gen.Position.Y,
@@ -64,7 +77,7 @@ public partial class Hud
                     DrawRect(r, Faint, false, 1f);
             }
             // 실제 소비 전력(4핍 최대 활동 기준).
-            float draw = power.DrawMw(channel) / power.MaxDrawMw(channel);
+            float draw = _drawShown[i] = Smooth(_drawShown[i], power.DrawMw(channel) / power.MaxDrawMw(channel));
             VBar(new Rect2(cx + pipW * 0.5f - 1f, pipsBottom - 4 * (pipH + gap) + gap, 3f, 4 * (pipH + gap) - gap), draw, new Color(color, 0.8f));
             CenteredLabel(new Vector2(cx - 2f, pipsBottom - 4 * (pipH + gap) - 3f), key, 10, Dim);
             CenteredLabel(new Vector2(cx - 2f, pipsBottom + 13f), label, 11, pips != ShipPower.BalancedPips ? color : Dim);

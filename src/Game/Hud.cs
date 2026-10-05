@@ -33,7 +33,17 @@ public partial class Hud : Control
         SetAnchorsPreset(LayoutPreset.FullRect);
     }
 
-    public override void _Process(double delta) => QueueRedraw();
+    public override void _Process(double delta)
+    {
+        _frameDelta = (float)delta;
+        QueueRedraw();
+    }
+
+    private float _frameDelta;
+
+    /// <summary>표시값을 목표로 시상수 tau(초)만큼 부드럽게 따라가게 한다. 판정에는 쓰지 않는다.</summary>
+    private float Smooth(float shown, float target, float tau = 0.3f) =>
+        Mathf.Lerp(shown, target, 1f - Mathf.Exp(-_frameDelta / tau));
 
     public override void _Draw()
     {

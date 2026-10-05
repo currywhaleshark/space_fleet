@@ -18,6 +18,8 @@ public sealed class Palette
     public required StandardMaterial3D NavGreen { get; init; }
     public required StandardMaterial3D Glow { get; init; }
     public required ShaderMaterial Plume { get; init; }
+    /// <summary>보조 추진기 분사. 메인 화염보다 희고 짧다.</summary>
+    public required ShaderMaterial RcsPlume { get; init; }
     public required StandardMaterial3D Radiator { get; init; }
     public required StandardMaterial3D Canopy { get; init; }
 
@@ -63,6 +65,7 @@ public sealed class Palette
             NavGreen = Emissive(new Color(0.2f, 1f, 0.35f), 6f),
             Glow = Emissive(engine, 2.2f),
             Plume = PlumeMaterial(engine),
+            RcsPlume = PlumeMaterial(new Color(0.85f, 0.92f, 1f), intensity: 2.6f),
             Radiator = new StandardMaterial3D
             {
                 AlbedoColor = new Color(0.16f, 0.15f, 0.15f),
@@ -87,11 +90,12 @@ public sealed class Palette
         };
     }
 
-    private static ShaderMaterial PlumeMaterial(Color engine)
+    private static ShaderMaterial PlumeMaterial(Color engine, float intensity = 1.1f)
     {
         _plumeShader ??= GD.Load<Shader>("res://shaders/plume.gdshader");
         var mat = new ShaderMaterial { Shader = _plumeShader };
         mat.SetShaderParameter("color", engine);
+        mat.SetShaderParameter("intensity", intensity);
         return mat;
     }
 

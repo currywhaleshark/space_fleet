@@ -252,9 +252,10 @@ public partial class ScaleTest : Node3D
                 ? ShipControl.Idle
                 : new ShipControl
                 {
+                    // 스크린샷 모드의 --strafe=x,y는 평행이동 입력을 대신한다(보조 추진기 연출 검증용).
                     Thrust = new Vector3(
-                        Input.GetAxis(InputSetup.StrafeLeft, InputSetup.StrafeRight),
-                        Input.GetAxis(InputSetup.StrafeDown, InputSetup.StrafeUp),
+                        Input.GetAxis(InputSetup.StrafeLeft, InputSetup.StrafeRight) + (_shot?.Strafe.X ?? 0f),
+                        Input.GetAxis(InputSetup.StrafeDown, InputSetup.StrafeUp) + (_shot?.Strafe.Y ?? 0f),
                         Throttle),
                     Roll = Input.GetAxis(InputSetup.RollLeft, InputSetup.RollRight),
                     Boost = Input.IsActionPressed(InputSetup.Boost),
@@ -426,7 +427,7 @@ public partial class ScaleTest : Node3D
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
-        int[]? Pips, float Heat)
+        int[]? Pips, float Heat, Vector2 Strafe)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -472,7 +473,10 @@ public partial class ScaleTest : Node3D
                 map.ContainsKey("fixed-origin"),
                 map.GetValueOrDefault("style") == "aircraft",
                 map.TryGetValue("pips", out string? pips) ? pips.Split(',').Select(int.Parse).ToArray() : null,
-                F("heat", 0f));
+                F("heat", 0f),
+                map.TryGetValue("strafe", out string? strafe) && strafe.Split(',') is { Length: 2 } s
+                    ? new Vector2(float.Parse(s[0], CultureInfo.InvariantCulture), float.Parse(s[1], CultureInfo.InvariantCulture))
+                    : Vector2.Zero);
         }
     }
 }

@@ -48,6 +48,11 @@ public sealed class ShipPower
     public const float RecoverHeatFraction = 0.7f;
     /// <summary>열은 용량의 이 배수까지만 쌓인다(순간 발열이 무한히 쌓이지 않게).</summary>
     public const float HeatCeiling = 1.25f;
+    /// <summary>
+    /// 보조 추진기(횡·상하·제동·후진)가 같은 가속을 낼 때의 전력 단가, 메인 추진 대비.
+    /// 비행보조의 미끄럼 보정은 작은 기수 조작에도 횡추력을 순간 최대로 쓰므로, 메인과 같은 단가면 전력이 튄다.
+    /// </summary>
+    public const float RcsPowerFactor = 0.3f;
 
     private static readonly float[] EffectByPips = { 0.3f, 0.65f, 1f, 1.25f, 1.5f };
     private static readonly float[] DrawByPips = { 0.15f, 0.5f, 1f, 1.5f, 2f };
@@ -145,8 +150,12 @@ public sealed class ShipPower
         ShipDamage damage = _ship.Damage;
         AvailableMw = damage.Destroyed ? 0f : def.OutputMw * damage.GenerationFraction;
 
-        // 채널 활동도: 실제로 일하는 정도. 추진은 직전 틱의 가속(부스트면 1을 넘는다).
-        float engines = Mathf.Clamp(_ship.Acceleration.Length() / Mathf.Max(_ship.Class.ForwardAccel, 1e-3f), 0f, 2f);
+        // 채널 활동도: 실제로 일하는 정도. 추진은 직전 틱의 가속으로 정한다(부스트면 1을 넘는다).
+        // 전방 가속은 메인 추진, 나머지(횡·상하·제동·후진)는 보조 추진기 단가(RcsPowerFactor)로 센다.
+        Vector3 a = _ship.LocalAcceleration;
+        float main = Mathf.Max(0f, -a.Z);
+        float rcs = new Vector3(a.X, a.Y, Mathf.Max(0f, a.Z)).Length();
+        float engines = Mathf.Clamp((main + RcsPowerFactor * rcs) / Mathf.Max(_ship.Class.ForwardAccel, 1e-3f), 0f, 2f);
         float shields = damage.ShieldRecharging ? 1f : IdleActivity;
         float weapons = _ship.Railgun is RailgunState gun && gun.ReloadRemaining > 0f ? 1f : IdleActivity;
         Span<float> activity = stackalloc float[] { Mathf.Max(engines, IdleActivity), shields, weapons, 1f };

@@ -23,6 +23,7 @@ public sealed class HullBuilder
     public Node3D Root { get; } = new() { Name = "Model" };
     public Palette Palette { get; }
     public List<Node3D> Plumes { get; } = new();
+    public List<RcsJet> RcsJets { get; } = new();
 
     public MeshInstance3D Add(Mesh mesh, Material material, Transform3D xf, bool castShadow = true)
     {
@@ -115,6 +116,63 @@ public sealed class HullBuilder
     }
 
     /// <summary>
+    /// 보조 추진기 노즐 하나. exhaust는 분사 방향(함선 로컬)이며 함선은 그 반대로 밀린다.
+    /// 분사 세기는 ShipView가 횡·상하·제동 가속과 회전 가속으로 정한다.
+    /// </summary>
+    public void RcsNozzle(Vector3 position, Vector3 exhaust, float size, float plumeLength)
+    {
+        Vector3 y = exhaust.Normalized();
+        Box(position - y * size * 0.25f, Vector3.One * size, Palette.Dark);
+
+        // 원뿔 기본축 +Y를 분사 방향으로. x × y = z가 되게 직교 기저를 만든다.
+        Vector3 helper = Mathf.Abs(y.Dot(Vector3.Up)) > 0.9f ? Vector3.Right : Vector3.Up;
+        Vector3 x = helper.Cross(y).Normalized();
+        Vector3 z = x.Cross(y).Normalized();
+        var pivot = new Node3D
+        {
+            Name = "Rcs",
+            Transform = new Transform3D(new Basis(x, y, z), position + y * size * 0.25f),
+            Visible = false,
+        };
+        pivot.AddChild(new MeshInstance3D
+        {
+            Mesh = new CylinderMesh
+            {
+                TopRadius = 0f,
+                BottomRadius = size * 0.6f,
+                Height = plumeLength,
+                RadialSegments = 10,
+                Rings = 1,
+                CapTop = false,
+                CapBottom = false,
+            },
+            MaterialOverride = Palette.RcsPlume,
+            Position = new Vector3(0, plumeLength * 0.5f, 0),
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+        });
+        Root.AddChild(pivot);
+        Palette.RcsPlume.SetShaderParameter("half_length", plumeLength * 0.5f);
+        RcsJets.Add(new RcsJet(pivot, position, y));
+    }
+
+    /// <summary>
+    /// 모든 함종에 같은 규칙으로 다는 보조 추진기 묶음. 함수·함미에 좌·우·상·하 노즐 4개씩,
+    /// 함수 묶음 좌우 바깥에 앞으로 분사하는 역추진 노즐 2개. sideLift는 측면 노즐을 날개 위로 올릴 때 쓴다.
+    /// </summary>
+    public void RcsClusters(float bowZ, Vector2 bowHalf, float sternZ, Vector2 sternHalf, float size, float plume, float sideLift = 0f)
+    {
+        foreach (var (z, half) in new[] { (bowZ, bowHalf), (sternZ, sternHalf) })
+        {
+            RcsNozzle(new Vector3(half.X, sideLift, z), Vector3.Right, size, plume);
+            RcsNozzle(new Vector3(-half.X, sideLift, z), Vector3.Left, size, plume);
+            RcsNozzle(new Vector3(0, half.Y, z), Vector3.Up, size, plume);
+            RcsNozzle(new Vector3(0, -half.Y, z), Vector3.Down, size, plume);
+        }
+        RcsNozzle(new Vector3(bowHalf.X + size * 0.5f, sideLift, bowZ), Vector3.Forward, size, plume);
+        RcsNozzle(new Vector3(-bowHalf.X - size * 0.5f, sideLift, bowZ), Vector3.Forward, size, plume);
+    }
+
+    /// <summary>
     /// 평면 위에 작은 상자를 흩뿌린다. origin은 면 중심, u/v는 면의 두 반변 벡터(전체 길이), normal은 바깥 방향.
     /// </summary>
     public void Greebles(Vector3 origin, Vector3 u, Vector3 v, Vector3 normal, int count, float minSize, float maxSize)
@@ -190,10 +248,14 @@ public sealed class HullBuilder
             });
         }
 
-        return new ShipModel(Root, Plumes, Palette);
+        return new ShipModel(Root, Plumes, Palette, RcsJets);
     }
 
     private static float Lerp(float a, float b, float t) => a + (b - a) * t;
 }
 
-public sealed record ShipModel(Node3D Root, IReadOnlyList<Node3D> Plumes, Palette Palette);
+/// <param name="Position">노즐 위치(함선 로컬, m).</param>
+/// <param name="Exhaust">분사 방향(함선 로컬, 단위 벡터). 함선은 반대로 밀린다.</param>
+public sealed record RcsJet(Node3D Pivot, Vector3 Position, Vector3 Exhaust);
+
+public sealed record ShipModel(Node3D Root, IReadOnlyList<Node3D> Plumes, Palette Palette, IReadOnlyList<RcsJet> RcsJets);

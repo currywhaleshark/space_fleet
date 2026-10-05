@@ -11,6 +11,7 @@ static class PowerChecks
         CheckPips();
         CheckBalancedSupply();
         CheckEngineChannel();
+        CheckRcsCost();
         CheckWeaponChannel();
         CheckShieldChannel();
         CheckSensorChannel();
@@ -96,6 +97,30 @@ static class PowerChecks
         float balanced = FirstTickAcceleration(2), full = FirstTickAcceleration(4), none = FirstTickAcceleration(0);
         Require(Near(full / balanced, 1.5f, 0.01f), $"4 engine pips must give 1.5x thrust: {full / balanced:0.000}");
         Require(Near(none / balanced, 0.3f, 0.01f), $"0 engine pips must give 0.3x thrust: {none / balanced:0.000}");
+    }
+
+    private static void CheckRcsCost()
+    {
+        // 요격함 380 m/s 순항 중 기수를 3° 틀면 비행보조가 횡추력을 순간 최대로 쓴다. 보조 추진기 단가로 세야 한다.
+        ShipDefinition def = ShipDefinitions.For(HullKind.Interceptor);
+        ShipBody ship = Create(HullKind.Interceptor);
+        ship.Velocity = Vector3.Forward * def.Flight.MaxSpeed;
+        ship.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, AimForward = Vector3.Forward };
+        Steps(ship, 60);
+        ship.Control = ship.Control with { AimForward = new Quaternion(Vector3.Up, Mathf.DegToRad(3)) * Vector3.Forward };
+        float peak = 0, lateralPeak = 0;
+        for (int i = 0; i < 300; i++)
+        {
+            ship.Step(SimWorld.TickDelta);
+            peak = Math.Max(peak, ship.Power.DrawMw(PowerChannel.Engines));
+            lateralPeak = Math.Max(lateralPeak, new Vector2(ship.LocalAcceleration.X, ship.LocalAcceleration.Y).Length());
+        }
+        float expected = ShipPower.RcsPowerFactor * def.Flight.StrafeAccel / def.Flight.ForwardAccel * def.Power.Engines;
+        Require(lateralPeak > def.Flight.StrafeAccel * 0.99f, "The nudge must exercise full lateral thrust");
+        // 횡추력 최대 동안 비행보조가 전진 속도도 조금 보정하므로 메인 몫이 약간 섞인다.
+        Require(peak >= expected * 0.95f && peak < def.Power.Engines * 0.4f,
+            $"Slip correction must be charged at the RCS rate: peak {peak:0.0} MW vs main burn {def.Power.Engines} MW");
+        Console.WriteLine($"RCS cost (IC 3° nudge at 380 m/s): engines peak {peak:0.0} MW ({peak / def.Power.Engines:P0} of full main burn)");
     }
 
     private static int TicksToReload(int weaponPips)

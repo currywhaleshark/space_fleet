@@ -12,6 +12,8 @@ public partial class ShipView : Node3D
 {
     private IReadOnlyList<Node3D> _plumes = new List<Node3D>();
     private float _plumeLevel;
+    private IReadOnlyList<RcsJet> _rcs = new List<RcsJet>();
+    private float[] _rcsLevel = System.Array.Empty<float>();
 
     public ShipBody Body { get; private set; } = null!;
     public Palette Palette { get; private set; } = null!;
@@ -22,7 +24,11 @@ public partial class ShipView : Node3D
     public static ShipView Create(ShipBody body, int seed)
     {
         ShipModel model = ShipModels.Build(body.Class, body.Faction, seed);
-        var view = new ShipView { Name = body.Callsign, Body = body, Palette = model.Palette, _plumes = model.Plumes };
+        var view = new ShipView
+        {
+            Name = body.Callsign, Body = body, Palette = model.Palette, _plumes = model.Plumes,
+            _rcs = model.RcsJets, _rcsLevel = new float[model.RcsJets.Count],
+        };
         view.AddChild(model.Root);
         return view;
     }
@@ -44,6 +50,37 @@ public partial class ShipView : Node3D
             plume.Visible = burning;
             if (burning)
                 plume.Scale = new Vector3(1f, level, 1f);
+        }
+        SyncRcs(delta);
+    }
+
+    /// <summary>
+    /// 보조 추진기 분사. 노즐 위치에서 필요한 가속 = 병진(횡·상하·제동) + 회전(α × r).
+    /// 노즐은 분사 방향의 반대로 밀므로, 필요한 가속이 그쪽을 향할 때만 켠다.
+    /// </summary>
+    private void SyncRcs(float delta)
+    {
+        if (_rcs.Count == 0)
+            return;
+        ShipClass cls = Body.Class;
+        Vector3 a = Body.LocalAcceleration;
+        // 전방 가속은 메인 추진 몫이라 뺀다(전력 계산과 같은 구분).
+        Vector3 linear = new Vector3(a.X, a.Y, Mathf.Max(0f, a.Z)) / Mathf.Max(cls.StrafeAccel, 1e-3f);
+        // 최대 피치·요 각가속일 때 함수·함미 끝의 선가속도로 정규화한다.
+        float rotScale = Mathf.Max(Mathf.DegToRad(cls.PitchYawAccelDeg) * cls.Length * 0.5f, 1e-3f);
+        Vector3 alpha = Body.AngularAcceleration / rotScale;
+        bool alive = Body.Damage.ManeuverFraction > 0.01f;
+        float follow = 1f - Mathf.Exp(-delta * 15f);
+        for (int i = 0; i < _rcs.Count; i++)
+        {
+            RcsJet jet = _rcs[i];
+            Vector3 need = linear + alpha.Cross(jet.Position);
+            float target = alive ? Mathf.Clamp(-jet.Exhaust.Dot(need), 0f, 1f) : 0f;
+            float level = _rcsLevel[i] = Mathf.Lerp(_rcsLevel[i], target, follow);
+            bool firing = level > 0.05f;
+            jet.Pivot.Visible = firing;
+            if (firing)
+                jet.Pivot.Scale = new Vector3(1f, level, 1f);
         }
     }
 }

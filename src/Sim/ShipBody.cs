@@ -67,6 +67,10 @@ public sealed class ShipBody
     public Vector3 Velocity;
     /// <summary>각 축의 추력을 합산한 뒤의 무게중심 병진 가속도.</summary>
     public Vector3 Acceleration { get; private set; }
+    /// <summary>함선 로컬 축 기준 병진 가속도(-Z 전방). 메인 추진(전방)과 보조 추진기(횡·상하·제동)를 나누는 데 쓴다.</summary>
+    public Vector3 LocalAcceleration { get; private set; }
+    /// <summary>함선 로컬 축 기준 각가속도(rad/s²). 자세 제어 추진기 연출용.</summary>
+    public Vector3 AngularAcceleration { get; private set; }
     public float GLoad => Acceleration.Length() / StandardGravity;
     public bool TurnBraking { get; private set; }
     public float AssistedTargetSpeed { get; private set; }
@@ -103,6 +107,8 @@ public sealed class ShipBody
         Orientation = PrevOrientation = orientation.Normalized();
         Velocity = Vector3.Zero;
         Acceleration = Vector3.Zero;
+        LocalAcceleration = Vector3.Zero;
+        AngularAcceleration = Vector3.Zero;
         EngineOutput = 0f;
         TurnBraking = false;
         AssistedTargetSpeed = 0f;
@@ -179,6 +185,7 @@ public sealed class ShipBody
         dw.Y = Mathf.Clamp(dw.Y, -stepPY, stepPY);
         dw.Z = Mathf.Clamp(dw.Z, -stepRoll, stepRoll);
         AngularVelocity += dw;
+        AngularAcceleration = dw / dt;
 
         float w = AngularVelocity.Length();
         if (w > 1e-7f)
@@ -255,6 +262,7 @@ public sealed class ShipBody
 
         // 속도를 자세와 함께 돌리지 않고 추력으로만 바꾼다. 보조 OFF·무입력이면 관성을 유지한다.
         Vector3 worldDelta = Orientation * dv;
+        LocalAcceleration = dv / dt;
         Acceleration = worldDelta / dt;
         Velocity += worldDelta;
     }

@@ -94,6 +94,9 @@ public static class ShipModels
             b.NavLight(new(side * 255, 0, 330), 6f, red: side < 0);
         }
 
+        // 보조 추진기: 선체 반폭·반높이(함수 75×50, 함미 85×60) 바로 바깥.
+        b.RcsClusters(bowZ: -430, bowHalf: new(76, 51), sternZ: 470, sternHalf: new(86, 61), size: 8f, plume: 90f);
+
         return b.Finish();
     }
 
@@ -134,6 +137,8 @@ public static class ShipModels
         foreach (float side in new[] { 1f, -1f })
             b.Greebles(new(side * 25, 0, 10), new(0, 0, 210), new(0, 28, 0), new(side, 0, 0), 60, 1.5f, 6f);
 
+        b.RcsClusters(bowZ: -95, bowHalf: new(22.5f, 15.5f), sternZ: 105, sternHalf: new(26.5f, 18.5f), size: 3f, plume: 28f);
+
         return b.Finish();
     }
 
@@ -163,6 +168,9 @@ public static class ShipModels
         b.Engine(new(1.1f, 0, 12), 0.9f, 9f);
 
         b.Greebles(new(0, 1.35f, 4), new(3.2f, 0, 0), new(0, 0, 9), Vector3.Up, 18, 0.2f, 0.8f);
+
+        // 측면 노즐은 델타익과 겹치지 않게 날개 위로 올린다.
+        b.RcsClusters(bowZ: -11, bowHalf: new(0.85f, 0.6f), sternZ: 7, sternHalf: new(2.0f, 1.45f), size: 0.5f, plume: 5f, sideLift: 0.7f);
 
         return b.Finish();
     }
