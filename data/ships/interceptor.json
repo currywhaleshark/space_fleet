@@ -36,7 +36,8 @@
     "seekerRangeMeters": 8000, "seekerFovDegrees": 50, "seekerStrength": 2, "fuzeMeters": 10,
     "energy": 250, "penetrationMm": 300, "moduleDamage": 110, "hitPoints": 6, "launchHeatMj": 2 },
   "pointDefense": { "mounts": [[0, -1.6, 5]],
-    "rangeMeters": 1200, "shotsPerSecond": 5, "hitChance": 0.06, "damagePerHit": 4 },
+    "rangeMeters": 1200, "shotsPerSecond": 5, "hitChance": 0.06, "damagePerHit": 4,
+    "normals": [[0, -0.5, 0.85]], "arcDegrees": 110 },
   "decoys": { "count": 6, "perLaunch": 2, "cooldownSeconds": 2, "signatureFactor": 3, "lifetimeSeconds": 4, "ejectSpeed": 30 },
   "hullSections": [
     {

@@ -16,6 +16,18 @@ public partial class ScaleTest
     public bool CorrectingAim { get; private set; }
     public string LastFireMessage { get; private set; } = "";
     public bool LastFireFailed { get; private set; }
+    /// <summary>사격보조가 노리는 부위(Y로 바꾼다).</summary>
+    public AimSubsystem AimPart { get; private set; } = AimSubsystem.Center;
+    /// <summary>지금 고른 부위의 모듈(표적·내 위치 기준). 중심이거나 남은 모듈이 없으면 null.</summary>
+    public ModuleState? AimModule => FireTarget is ShipView t && Controlled?.Body is ShipBody me
+        ? Subsystems.Pick(t.Body, AimPart, me.Position) : null;
+
+    private void CycleAimPart()
+    {
+        int i = Array.IndexOf(Subsystems.Cycle, AimPart);
+        AimPart = Subsystems.Cycle[(i + 1) % Subsystems.Cycle.Length];
+        Notify($"조준 부위: {Subsystems.Label(AimPart)}", failed: false);
+    }
 
     /// <summary>사격통제 표적. 검사 표적이 살아 있는 적일 때만 잡는다(아군에게 선행 보정을 계산하지 않는다).</summary>
     public ShipView? FireTarget => InspectTarget is ShipView view && Controlled is ShipView me
@@ -30,8 +42,9 @@ public partial class ScaleTest
         ShipBody player = Controlled.Body;
         _practiceTarget = target.Body;
         SuspendBrain(target.Body);
-        target.Body.Place(player.Position + Vec3d.From(player.Forward) * distance,
-            (player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi)).Normalized());
+        // 기본은 표적이 나를 마주 본다. --stern이면 꼬리를 보인다(후미 침투 검증).
+        Quaternion facing = _shot?.Stern == true ? player.Orientation : player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi);
+        target.Body.Place(player.Position + Vec3d.From(player.Forward) * distance, facing.Normalized());
         target.Body.Velocity = player.Orientation * Vector3.Right * speed;
         target.Body.Damage.Reset();
         // 연습 표적은 ECM을 끄고 바로 잠글 수 있게 한다(--keep-ecm이면 기본 배분 유지).
@@ -128,7 +141,7 @@ public partial class ScaleTest
         ShipView? fireTarget = FireTarget;
         // 사격통제는 센서망 잠금이 있어야 해를 낸다. ECM·신호 세기가 오차에 반영된다.
         SensorTrack? track = fireTarget is null ? null : TrackOf(fireTarget);
-        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track) : null;
+        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimModule?.Definition.Center) : null;
         CorrectingAim = FiringSolution is { Valid: true } && track is SensorTrack known
             && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);

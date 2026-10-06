@@ -154,6 +154,8 @@ public partial class Hud
                 DrawLine(r.Position, r.End, Hostile, 1f);
                 DrawLine(new Vector2(r.Position.X, r.End.Y), new Vector2(r.End.X, r.Position.Y), Hostile, 1f);
             }
+            if (m == Game.AimModule)
+                DrawRect(r.Grow(2.5f), Good, false, 1.5f);
             float flash = Mathf.Clamp(1f - (float)(now - m.LastHitTime) / 0.8f, 0f, 1f);
             if (flash > 0f)
                 DrawRect(r.Grow(1.5f), new Color(1f, 1f, 1f, flash), false, 1.5f);

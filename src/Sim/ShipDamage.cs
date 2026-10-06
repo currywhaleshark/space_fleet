@@ -129,7 +129,9 @@ public sealed class ShipDamage
         if (absorbed > 0)
         {
             LastShieldHitTime = time;
-            Report(time, Shield <= 0f ? "실드 소진" : $"실드 흡수 {absorbed:0} · 잔량 {Shield:0}");
+            // 근접방어 같은 작은 타격은 리포트를 채우지 않는다(소진만 알린다).
+            if (Shield <= 0f) Report(time, "실드 소진");
+            else if (absorbed >= 50f) Report(time, $"실드 흡수 {absorbed:0} · 잔량 {Shield:0}");
         }
         return energy - absorbed;
     }

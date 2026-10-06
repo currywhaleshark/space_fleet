@@ -22,6 +22,7 @@ static class SimChecks
         PowerChecks.Run();
         SensorChecks.Run();
         MissileChecks.Run();
+        InfiltrationChecks.Run();
         AIChecks.Run();
     }
 

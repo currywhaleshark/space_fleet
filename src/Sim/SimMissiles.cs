@@ -298,9 +298,22 @@ public sealed partial class SimWorld
         return best;
     }
 
+    /// <summary>근접방어가 함선(요격함)을 맞혔을 때의 피해. 실드부터 깎고 얇은 장갑만 뚫는다.</summary>
+    private static readonly DamagePacket PointDefenseShipPacket = new(20f, 25f, 10f, 5000f);
+    /// <summary>요격함은 미사일보다 커서 맞히기 쉽다.</summary>
+    private const float PointDefenseShipSizeFactor = 2f;
+
+    /// <summary>
+    /// 근접방어. 포대마다 사거리·사계 안의 가장 가까운 적 미사일을 쏜다. 사계는 포대가 바라보는 방향에서 ArcDegrees 안이다
+    /// (전함 포대는 모두 상부에 있어 배면 아래·후미 아래가 사각이다). 미사일이 없으면 같은 조건의 적 요격함을 쏜다.
+    /// </summary>
     private void StepPointDefense(double dt, double time)
     {
-        if (_missiles.Count == 0) return;
+        bool anyInterceptors = false;
+        foreach (ShipBody s in _ships)
+            anyInterceptors |= s.Class.Kind == HullKind.Interceptor && !s.Damage.Destroyed;
+        if (_missiles.Count == 0 && !anyInterceptors) return;
+
         foreach (ShipBody ship in _ships)
         {
             if (ship.Definition.PointDefense is not PointDefenseDefinition pd || ship.Damage.Destroyed) continue;
@@ -312,32 +325,57 @@ public sealed partial class SimWorld
             for (int i = 0; i < pd.Mounts.Length; i++)
             {
                 Vec3d mount = ship.Position + Vec3d.From(ship.Orientation * pd.Mounts[i]);
+                Vector3? normal = pd.Normals is null ? null : (ship.Orientation * pd.Normals[i]).Normalized();
+                float minDot = Mathf.Cos(Mathf.DegToRad(pd.ArcDegrees));
+                bool Clear(Vec3d target)
+                {
+                    if (normal is not Vector3 n) return true;
+                    Vector3 v = (target - mount).ToVector3();
+                    return v.LengthSquared() < 1f || n.Dot(v.Normalized()) >= minDot;
+                }
                 Missile? threat = null;
                 double nearest = pd.RangeMeters;
                 foreach (Missile m in _missiles)
                 {
                     if (m.Faction == ship.Faction) continue;
                     double d = (m.Position - mount).Length();
-                    if (d < nearest) { nearest = d; threat = m; }
+                    if (d < nearest && Clear(m.Position)) { nearest = d; threat = m; }
                 }
-                if (threat is null) { accum[i] = 0; continue; }
+
+                ShipBody? raider = null;
+                if (threat is null && anyInterceptors)
+                    foreach (ShipBody other in _ships)
+                    {
+                        if (other.Faction == ship.Faction || other.Class.Kind != HullKind.Interceptor || other.Damage.Destroyed) continue;
+                        double d = (other.Position - mount).Length();
+                        if (d < nearest && Clear(other.Position)) { nearest = d; raider = other; }
+                    }
+                if (threat is null && raider is null) { accum[i] = 0; continue; }
 
                 accum[i] += pd.ShotsPerSecond * (float)dt;
-                while (accum[i] >= 1f && threat.Health > 0)
+                Vec3d aim = threat?.Position ?? raider!.Position;
+                Vector3 velocity = threat?.Velocity ?? raider!.Velocity;
+                uint salt = threat?.Id ?? ShipBrain.Hash(raider!.Callsign);
+                while (accum[i] >= 1f && (threat is null || threat.Health > 0))
                 {
                     accum[i] -= 1f;
-                    Vector3 los = (threat.Position - mount).ToVector3();
+                    Vector3 los = (aim - mount).ToVector3();
                     float d = Mathf.Max(los.Length(), 1f);
                     Vector3 rh = los / d;
-                    Vector3 rel = threat.Velocity - ship.Velocity;
+                    Vector3 rel = velocity - ship.Velocity;
                     float crossing = (rel - rh * rel.Dot(rh)).Length();
                     float p = pd.HitChance * (1f - 0.7f * d / pd.RangeMeters)
-                        * Mathf.Min(1f, PointDefenseCrossingSpeed / Mathf.Max(crossing, 1f)) * quality;
-                    bool hit = Roll(++_pointDefenseSequence * 2246822519u ^ threat.Id) < p;
-                    _pointDefenseShots.Add(new PointDefenseShot(mount, threat.Position, time, hit, ship.Faction));
-                    if (hit) threat.Health -= pd.DamagePerHit;
+                        * Mathf.Min(1f, PointDefenseCrossingSpeed / Mathf.Max(crossing, 1f)) * quality
+                        * (raider is null ? 1f : PointDefenseShipSizeFactor);
+                    bool hit = Roll(++_pointDefenseSequence * 2246822519u ^ salt) < p;
+                    _pointDefenseShots.Add(new PointDefenseShot(mount, aim, time, hit, ship.Faction));
+                    if (!hit) continue;
+                    if (threat is not null)
+                        threat.Health -= pd.DamagePerHit;
+                    else
+                        DamageRay.Apply(raider!, mount, rh, PointDefenseShipPacket, time, ++_shotSequence);
                 }
-                if (threat.Health <= 0 && _missiles.Remove(threat))
+                if (threat is not null && threat.Health <= 0 && _missiles.Remove(threat))
                     _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction));
             }
         }

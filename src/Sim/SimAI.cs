@@ -99,6 +99,11 @@ public sealed partial class SimWorld
         float maxSpeed = ship.Class.MaxSpeed;
         Vector3 desired;
         brain.WantBoost = false;
+        if (brain.Order.Kind != OrderKind.Attack || !brain.Profile.AttackRuns)
+        {
+            brain.AimModule = null;
+            brain.InRun = false;
+        }
 
         switch (brain.Order.Kind)
         {
@@ -157,7 +162,15 @@ public sealed partial class SimWorld
         return desired;
     }
 
-    /// <summary>요격함: 접근 → 사격 → 이탈을 되풀이한다.</summary>
+    /// <summary>침투 진입 구역: 표적 후미 아래쪽(로컬 방향), 이 각도 안이면 돌진한다.</summary>
+    private static readonly Vector3 InfiltrationSector = new Vector3(0, -0.5f, 1f).Normalized();
+    private const float InfiltrationConeDegrees = 35f;
+    private const float InfiltrationEntryMeters = 3500f;
+
+    /// <summary>
+    /// 요격함: 접근 → 사격 → 이탈을 되풀이한다. 표적이 식별된 주력함이면 먼저 후미 아래쪽 진입 구역으로 돌아가
+    /// (근접방어 사각·얇은 후미 장갑) 엔진, 엔진이 없으면 방열판을 노리고 돌진한다.
+    /// </summary>
     private Vector3 AttackRun(ShipBrain brain, ShipBody target, SensorTrack track)
     {
         ShipBody ship = brain.Ship;
@@ -167,6 +180,11 @@ public sealed partial class SimWorld
         Vector3 rh = r / d;
         Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? target.Velocity : Vector3.Zero;
         float breakRange = 1500f + target.Hull.BoundingRadius;
+        bool capital = target.Class.Kind != HullKind.Interceptor && track.Level >= TrackLevel.Identified;
+        Vector3 sector = target.Orientation * InfiltrationSector;
+        brain.AimModule = capital
+            ? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position) ?? Subsystems.Pick(target, AimSubsystem.Radiators, ship.Position)
+            : null;
 
         if (Time < brain.BreakUntil)
         {
@@ -174,12 +192,42 @@ public sealed partial class SimWorld
             brain.Activity = "이탈";
             return brain.BreakDirection * maxSpeed * ship.Class.BoostMultiplier;
         }
+
+        if (capital && !brain.InRun && d < 40_000f)
+        {
+            Vector3 fromTarget = -r;
+            if (fromTarget.AngleTo(sector) > Mathf.DegToRad(InfiltrationConeDegrees))
+            {
+                // 진입점으로 우회. 곧장 가는 길이 표적 곁(진입 거리의 80% 안)을 스치면 바깥쪽 경유점을 먼저 거친다.
+                float entry = target.Hull.BoundingRadius + InfiltrationEntryMeters;
+                Vec3d entryPoint = track.EstimatedPosition + Vec3d.From(sector * entry);
+                Vector3 toEntry = (entryPoint - ship.Position).ToVector3();
+                float t = Mathf.Clamp(r.Dot(toEntry) / Mathf.Max(toEntry.LengthSquared(), 1f), 0f, 1f);
+                if ((toEntry * t - r).Length() < InfiltrationEntryMeters * 0.8f)
+                {
+                    Vector3 outward = fromTarget - sector * fromTarget.Dot(sector);
+                    outward = outward.LengthSquared() > 1f ? outward.Normalized() : sector.Cross(Vector3.Up).Normalized();
+                    Vec3d wide = track.EstimatedPosition + Vec3d.From(outward * 8000f + sector * 4000f);
+                    toEntry = (wide - ship.Position).ToVector3();
+                }
+                // 멀면 부스트, 가까우면 감속해서 경유점을 지나치지 않는다.
+                float remaining = toEntry.Length();
+                brain.WantBoost = remaining > 6000f;
+                brain.Activity = "침투 우회";
+                float speed = Mathf.Min(maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f), Mathf.Max(80f, remaining * 0.25f));
+                return targetVelocity + toEntry.Normalized() * speed;
+            }
+            brain.InRun = true;
+        }
+
         if (d < breakRange)
         {
-            // 표적 옆으로 빠진다(결정적 방향). 4초 뒤 다시 접근.
+            // 주력함 침투 중이면 진입 구역 쪽으로, 아니면 표적 옆으로 빠진다(결정적 방향). 4초 뒤 다시 접근.
             Vector3 up = Mathf.Abs(rh.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up;
-            brain.BreakDirection = (rh.Cross(up).Normalized() * brain._side + rh * 0.3f).Normalized();
+            Vector3 side = rh.Cross(up).Normalized() * brain._side;
+            brain.BreakDirection = capital ? (sector + side * 0.6f).Normalized() : (side + rh * 0.3f).Normalized();
             brain.BreakUntil = Time + 4.0;
+            brain.InRun = false;
             brain.WantBoost = true;
             brain.Activity = "이탈";
             return brain.BreakDirection * maxSpeed * ship.Class.BoostMultiplier;
@@ -190,7 +238,7 @@ public sealed partial class SimWorld
             brain.Activity = "접근";
             return targetVelocity + rh * maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
         }
-        brain.Activity = "사격 접근";
+        brain.Activity = capital ? "침투 돌진" : "사격 접근";
         return targetVelocity + rh * maxSpeed * 0.6f;
     }
 
@@ -263,7 +311,7 @@ public sealed partial class SimWorld
         if (brain.Target is ShipBody target && ship.Railgun is not null)
         {
             SensorTrack track = Sensors.Track(ship.Faction, target);
-            FiringSolution solution = FireControl.Solve(ship, target, Time, track: track);
+            FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: brain.AimModule?.Definition.Center);
             // 사격 해가 있으면 포구를 그쪽으로. 요격함은 고정 전방포라 늘 기수를 맞춘다.
             if (solution.Valid && (brain.Profile.AttackRuns || solution.FlightTime <= brain.Profile.RailFlightSeconds * 1.5))
                 aim = solution.Direction;
@@ -299,8 +347,11 @@ public sealed partial class SimWorld
         // 레일건
         if (ship.Railgun is RailgunState gun && gun.Ready && track.Level >= TrackLevel.Locked)
         {
-            FiringSolution solution = FireControl.Solve(ship, target, Time, track: track);
-            if (solution.Valid && solution.FlightTime <= brain.Profile.RailFlightSeconds
+            FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: brain.AimModule?.Definition.Center);
+            // 실드가 남았으면 벗기려고 쏘고, 실드가 없으면 장갑을 뚫을 수 있는 각도일 때만 쏜다(탄·열 절약).
+            bool worthIt = target.Damage.Shield > 1f
+                || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
+            if (solution.Valid && worthIt && solution.FlightTime <= brain.Profile.RailFlightSeconds
                 && !FriendlyInLine(ship, gun.MuzzlePosition, solution.Direction, (float)solution.Range))
                 FireRailgun(ship, solution.Direction);
         }

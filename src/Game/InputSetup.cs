@@ -38,6 +38,7 @@ public static class InputSetup
     public const string LaunchMissile = "launch_missile";
     public const string Decoys = "decoys";
     public const string MissileDrill = "missile_drill";
+    public const string AimPart = "aim_part";
     public const string OrderAttack = "order_attack";
     public const string OrderEscort = "order_escort";
     public const string OrderHold = "order_hold";
@@ -77,6 +78,7 @@ public static class InputSetup
         Bind(Practice, Key.F7);
         Bind(Decoys, Key.C);
         Bind(MissileDrill, Key.F8);
+        Bind(AimPart, Key.Y);
         Bind(OrderAttack, Key.G);
         Bind(OrderEscort, Key.H);
         Bind(OrderHold, Key.J);

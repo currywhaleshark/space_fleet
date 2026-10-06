@@ -137,7 +137,8 @@ static class AIChecks
         world.AttachBrain(ic, ShipOrder.AttackOn(target));
         int passes = 0;
         bool breaking = false;
-        for (int i = 0; i < 60 * 120; i++)
+        // 주력함 표적은 후미 아래로 우회 침투하므로 첫 돌진까지 시간이 걸린다.
+        for (int i = 0; i < 60 * 180; i++)
         {
             world.Step();
             bool now = world.BrainOf(ic)!.Activity == "이탈";
@@ -147,7 +148,7 @@ static class AIChecks
         Require(Damaged(target), "An interceptor attack run must damage a stationary escort");
         Require(ic.LastCollision is null, "Attack runs must break off before ramming");
         Require(passes >= 2, $"The interceptor must make repeated passes: {passes}");
-        Console.WriteLine($"Attack run (IC vs DD, 25 km, 120 s): {passes} passes, DD shield {target.Damage.Shield:0}/{target.Damage.ShieldCapacity:0}");
+        Console.WriteLine($"Attack run (IC vs DD, 25 km, 180 s): {passes} passes, DD shield {target.Damage.Shield:0}/{target.Damage.ShieldCapacity:0}");
     }
 
     private static void CheckSensorFairness()

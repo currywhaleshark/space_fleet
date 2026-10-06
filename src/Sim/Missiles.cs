@@ -16,8 +16,12 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
     public float Accel => AccelG * ShipBody.StandardGravity;
 }
 
-/// <summary>근접방어 포대. Mounts는 함선 로컬 위치이며 포대마다 독립적으로 사격한다.</summary>
-public sealed record PointDefenseDefinition(Vector3[] Mounts, float RangeMeters, float ShotsPerSecond, float HitChance, float DamagePerHit);
+/// <summary>
+/// 근접방어 포대. Mounts는 함선 로컬 위치이며 포대마다 독립적으로 사격한다.
+/// Normals(로컬, 포대가 바라보는 방향)가 있으면 그 방향에서 ArcDegrees 안만 쏠 수 있다(선체가 만드는 사각).
+/// </summary>
+public sealed record PointDefenseDefinition(Vector3[] Mounts, float RangeMeters, float ShotsPerSecond, float HitChance, float DamagePerHit,
+    Vector3[]? Normals = null, float ArcDegrees = 100f);
 
 /// <summary>디코이. 한 번에 PerLaunch개를 사출하며, 신호는 함선 기본 신호 × SignatureFactor에서 수명 동안 0으로 줄어든다.</summary>
 public sealed record DecoyDefinition(int Count, int PerLaunch, float CooldownSeconds, float SignatureFactor, float LifetimeSeconds, float EjectSpeed);

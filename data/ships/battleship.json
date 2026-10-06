@@ -36,7 +36,9 @@
     "seekerRangeMeters": 20000, "seekerFovDegrees": 40, "seekerStrength": 4, "fuzeMeters": 40,
     "energy": 900, "penetrationMm": 1000, "moduleDamage": 260, "hitPoints": 16, "launchHeatMj": 20 },
   "pointDefense": { "mounts": [[66, 62, -260], [-66, 62, -260], [66, 62, -100], [-66, 62, -100], [66, 62, 60], [-66, 62, 60], [66, 62, 220], [-66, 62, 220]],
-    "rangeMeters": 4500, "shotsPerSecond": 8, "hitChance": 0.08, "damagePerHit": 4 },
+    "rangeMeters": 4500, "shotsPerSecond": 8, "hitChance": 0.08, "damagePerHit": 4,
+    "normals": [[0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35]],
+    "arcDegrees": 100 },
   "decoys": { "count": 16, "perLaunch": 2, "cooldownSeconds": 4, "signatureFactor": 2.5, "lifetimeSeconds": 6, "ejectSpeed": 80 },
   "hullSections": [
     {
@@ -253,6 +255,8 @@
     }
   ],
   "modules": [
+    { "id": "radiator-port", "name": "좌현 방열판", "kind": "Cooling", "center": [-170, 0, 330], "halfSize": [80, 1.4, 70], "hitPoints": 90, "resistanceMm": 5, "grid": "Port" },
+    { "id": "radiator-starboard", "name": "우현 방열판", "kind": "Cooling", "center": [170, 0, 330], "halfSize": [80, 1.4, 70], "hitPoints": 90, "resistanceMm": 5, "grid": "Starboard" },
     {
       "id": "sensor",
       "name": "함교 센서",

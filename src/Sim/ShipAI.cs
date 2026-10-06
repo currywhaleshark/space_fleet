@@ -76,6 +76,10 @@ public sealed class ShipBrain
     internal int SalvoId = -1;
     internal int SalvoLaunched;
     internal double BreakUntil = double.NegativeInfinity;
+    /// <summary>요격함 침투: 지금 노리는 취약 부위(없으면 중심).</summary>
+    public ModuleState? AimModule { get; internal set; }
+    /// <summary>요격함 침투: 진입 구역에 들어와 돌진 중.</summary>
+    internal bool InRun;
     internal Vector3 BreakDirection;
     internal readonly float _side;
 

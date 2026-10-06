@@ -125,7 +125,9 @@ public sealed class ShipDefinition
         }
         if (PointDefense is PointDefenseDefinition pd)
             Require(pd.Mounts is { Length: > 0 } && pd.Mounts.All(v => v.IsFinite()) && Positive(pd.RangeMeters) && Positive(pd.ShotsPerSecond)
-                && pd.HitChance > 0 && pd.HitChance <= 1 && Positive(pd.DamagePerHit), "invalid point defense");
+                && pd.HitChance > 0 && pd.HitChance <= 1 && Positive(pd.DamagePerHit)
+                && (pd.Normals is null || pd.Normals.Length == pd.Mounts.Length && pd.Normals.All(n => n.IsFinite() && n.LengthSquared() > 1e-6f))
+                && Positive(pd.ArcDegrees) && pd.ArcDegrees <= 180, "invalid point defense");
         if (Decoys is DecoyDefinition dc)
             Require(dc.Count > 0 && dc.PerLaunch > 0 && Positive(dc.CooldownSeconds) && Positive(dc.SignatureFactor)
                 && Positive(dc.LifetimeSeconds) && float.IsFinite(dc.EjectSpeed) && dc.EjectSpeed >= 0, "invalid decoys");

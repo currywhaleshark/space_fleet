@@ -251,6 +251,8 @@ public partial class ScaleTest : Node3D
             SetupMissileDrill();
         else if (e.IsActionPressed(InputSetup.Decoys))
             LaunchDecoys();
+        else if (e.IsActionPressed(InputSetup.AimPart))
+            CycleAimPart();
         else if (e.IsActionPressed(InputSetup.OrderAttack))
             IssueOrder(OrderKind.Attack);
         else if (e.IsActionPressed(InputSetup.OrderEscort))
@@ -467,6 +469,8 @@ public partial class ScaleTest : Node3D
         if (shot.Drill)
             SetupMissileDrill(shot.DrillDistance);
         _timeScaleIndex = System.Math.Max(0, System.Array.IndexOf(TimeScales, shot.StartTimeScale));
+        if (shot.Aim is string part && System.Enum.TryParse(part, ignoreCase: true, out AimSubsystem parsed))
+            while (AimPart != parsed) CycleAimPart();
         if (shot.Order is "attack" or "hold" or "escort")
             IssueOrder(shot.Order switch { "attack" => OrderKind.Attack, "hold" => OrderKind.Hold, _ => OrderKind.Escort });
         Camera.Zoom(shot.Zoom);
@@ -499,7 +503,7 @@ public partial class ScaleTest : Node3D
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
         int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
-        bool NoAi, int StartTimeScale, string? Order)
+        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -557,7 +561,9 @@ public partial class ScaleTest : Node3D
                 map.ContainsKey("auto-decoys"),
                 map.ContainsKey("no-ai"),
                 (int)F("time-scale", 1),
-                map.GetValueOrDefault("order"));
+                map.GetValueOrDefault("order"),
+                map.GetValueOrDefault("aim"),
+                map.ContainsKey("stern"));
         }
     }
 }

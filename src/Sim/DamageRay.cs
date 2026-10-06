@@ -27,6 +27,30 @@ public static class DamageRay
     public static bool FirstHit(ShipBody ship, Vec3d origin, Vector3 direction, float range, out float distance)
         => FirstHitAtPose(ship, origin, direction, range, ship.Position, ship.Orientation, out distance);
 
+    /// <summary>
+    /// 사격 전 미리보기: 처음 맞는 선체 구획의 입구 장갑만 본다(실드·모듈·상태 변화 없음).
+    /// 입사각·경사를 반영한 등가 두께와, 주어진 관통력으로 뚫리는지를 돌려준다. 선체를 안 맞히면 false.
+    /// </summary>
+    public static bool PreviewArmor(ShipBody ship, Vec3d origin, Vector3 direction, float penetrationMm, out float effectiveMm)
+    {
+        effectiveMm = 0f;
+        if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return false;
+        Vector3 o = ship.Orientation.Inverse() * (origin - ship.Position).ToVector3();
+        Vector3 d = ship.Orientation.Inverse() * direction.Normalized();
+        HullSection? first = null;
+        Span best = default;
+        foreach (HullSection s in ship.Definition.HullSections)
+            if (Box(o, d, s.Center, s.HalfSize, 1e7f, out Span span) && span.Enter >= 0f && (first is null || span.Enter < best.Enter))
+            {
+                first = s;
+                best = span;
+            }
+        if (first is null) return false;
+        ArmorPlate plate = first.Plate(Side(best.EnterNormal));
+        effectiveMm = plate.ThicknessMm / Mathf.Max(0.05f, Mathf.Abs(d.Dot(best.EnterNormal)) * Mathf.Cos(Mathf.DegToRad(plate.SlopeDegrees)));
+        return effectiveMm < penetrationMm;
+    }
+
     public static bool FirstHitAtPose(ShipBody ship, Vec3d origin, Vector3 direction, float range,
         Vec3d position, Quaternion orientation, out float distance)
     {
@@ -91,7 +115,9 @@ public static class DamageRay
                 if (item.Span.Enter < r.Entry.Enter - 0.001f || item.Span.Enter > r.Exit.Exit + 0.001f
                     || !touched.Add(item.State.Definition.Id)) continue;
                 float path = Mathf.Max(0f, Mathf.Min(item.Span.Exit, packet.Range) - Mathf.Max(0f, item.Span.Enter));
-                float fraction = Mathf.Clamp(path / (item.State.Definition.HalfSize.Length() * 2), 0f, 1f);
+                // 모듈을 지난 길이 ÷ 그 방향으로 모듈 중심을 지나는 길이. 한가운데를 지나면 1, 모서리를 스치면 작다.
+                // (대각선으로 나누면 얇은 판 모듈은 정통으로 맞아도 몇 %만 받는다.)
+                float fraction = Mathf.Clamp(path / Chord(item.State.Definition.HalfSize, d), 0f, 1f);
                 float amount = packet.ModuleDamage * penetration / packet.PenetrationMm * fraction;
                 float damage = ship.Damage.Hurt(item.State, amount, time, energy, sequence);
                 if (damage > 0) hits.Add(new ModuleHit(item.State.Definition.Id, damage, item.State.Destroyed));
@@ -121,6 +147,15 @@ public static class DamageRay
             ship.Damage.Report(time, summary);
             return false;
         }
+    }
+
+    /// <summary>상자 중심을 지나는 방향 d의 현 길이.</summary>
+    private static float Chord(Vector3 half, Vector3 d)
+    {
+        float t = float.PositiveInfinity;
+        for (int axis = 0; axis < 3; axis++)
+            if (Mathf.Abs(d[axis]) > 1e-6f) t = Mathf.Min(t, half[axis] / Mathf.Abs(d[axis]));
+        return Mathf.Max(2f * t, 1e-3f);
     }
 
     private static ArmorSide Side(Vector3 normal) => normal.X < -0.5f ? ArmorSide.Port : normal.X > 0.5f ? ArmorSide.Starboard

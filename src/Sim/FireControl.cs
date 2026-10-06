@@ -12,7 +12,9 @@ public sealed record FiringSolution(bool Valid, string Reason, Vector3 Direction
 /// </summary>
 public static class FireControl
 {
-    public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null)
+    /// <param name="localAim">표적 로컬 좌표의 조준점(부위 조준). null이면 함선 중심.</param>
+    public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null,
+        Vector3? localAim = null)
     {
         if (shooter.Railgun is not RailgunState weapon)
             return new(false, "주포 없음", Vector3.Zero, target.Position, 0, 0, (target.Position - shooter.Position).Length());
@@ -40,7 +42,8 @@ public static class FireControl
         float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction * shooter.Power.SensorEffect) / trackScale;
         float error = sensorError ? (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000)) / quality : 0;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
-        Vec3d observedPosition = target.Position + SmoothNoise(seed, time) * error;
+        Vec3d aimBase = localAim is Vector3 local ? target.Position + Vec3d.From(target.Orientation * local) : target.Position;
+        Vec3d observedPosition = aimBase + SmoothNoise(seed, time) * error;
         Vector3 observedVelocity = target.Velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * (sensorError ? gun.VelocityError / quality : 0);
         Vec3d relative = observedPosition - muzzle;
         Vec3d velocity = Vec3d.From(observedVelocity - shooter.Velocity);
