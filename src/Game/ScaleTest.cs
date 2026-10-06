@@ -72,6 +72,8 @@ public partial class ScaleTest : Node3D
         var layer = new CanvasLayer { Name = "HudLayer" };
         _hud = new Hud { Name = "Hud", Game = this };
         layer.AddChild(_hud);
+        _radial = new RadialMenu { Name = "RadialMenu" };
+        layer.AddChild(_radial);
         AddChild(layer);
 
         _shot = ShotRequest.Parse(OS.GetCmdlineUserArgs());
@@ -193,6 +195,7 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if (HandleRadialInput(e)) return;
         switch (e)
         {
             case InputEventMouseMotion motion when (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
@@ -321,6 +324,7 @@ public partial class ScaleTest : Node3D
 
     public override void _Process(double delta)
     {
+        StepShotRadial();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
         if (_shot is not null && ++_frame >= _shot.Frames)
         {
@@ -483,6 +487,7 @@ public partial class ScaleTest : Node3D
             Camera.ResetAim(Basis.LookingAt(dir, me.Up).GetRotationQuaternion());
         }
         Camera.Turn(shot.Yaw, shot.Pitch);
+        SetupShotRadial();
     }
 
     private void SaveShotAndQuit(string path)
@@ -507,7 +512,8 @@ public partial class ScaleTest : Node3D
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
         int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
-        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch, string? Doctrine, float Below)
+        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch, string? Doctrine, float Below,
+        string? Radial, float? RadialDirection, int RadialHoldFrames, bool RadialRelease)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -567,7 +573,9 @@ public partial class ScaleTest : Node3D
                 (int)F("time-scale", 1),
                 map.GetValueOrDefault("order"),
                 map.GetValueOrDefault("aim"),
-                map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0), map.GetValueOrDefault("doctrine"), F("below", 0));
+                map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0), map.GetValueOrDefault("doctrine"), F("below", 0),
+                map.GetValueOrDefault("radial"), map.ContainsKey("radial-dir") ? F("radial-dir", 0) : null,
+                (int)F("radial-hold-frames", 60), map.ContainsKey("radial-release"));
         }
     }
 }

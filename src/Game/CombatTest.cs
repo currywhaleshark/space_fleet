@@ -139,7 +139,7 @@ public partial class ScaleTest
         {
             FiringSolution = Gunnery?.Solution;
             CorrectingAim = false;
-            if (Gunnery?.Doctrine == FireDoctrine.Manual && (Input.IsActionPressed(InputSetup.Fire)
+            if (!MenuOpen && Gunnery?.Doctrine == FireDoctrine.Manual && (Input.IsActionPressed(InputSetup.Fire)
                 || (_shot?.ManualFire == true && World.Tick >= 30 && _liveShots < _shot.Pulses)))
             {
                 Vector2 cursor = GetViewport().GetMousePosition();
@@ -165,6 +165,7 @@ public partial class ScaleTest
             && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);
         if (automated) firing = World.Tick >= 30 && _liveShots < _shot!.Pulses && player.Railgun?.Ready == true;
+        if (MenuOpen) firing = false;
         if (!firing) return;
         // 센서가 없어도 수동 사격은 가능하다. 선택 표적이 조준 범위 안에 있을 때만 선행 보정한다.
         Vector3 direction = CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
