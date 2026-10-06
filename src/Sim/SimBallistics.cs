@@ -31,6 +31,7 @@ public sealed partial class SimWorld
         };
         _projectiles.Add(projectile);
         gun.Consume();
+        Log?.Fire(shooter, BattleWeapon.Railgun, Time);
         return new(true, "레일건 발사", projectile);
     }
 
@@ -97,8 +98,10 @@ public sealed partial class SimWorld
             {
                 // 상대 경로를 명중 시각의 선체 위치에 옮겨 같은 교차점에서 내부 관통을 계산한다.
                 Vec3d offset = targetTravel * earliest;
+                float shieldBefore = target.Damage.Shield;
                 ShotResult hit = DamageRay.ApplyAtPose(target, start + offset, hitDirection, p.Packet,
                     time + travelTime * earliest, p.Id, target.PrevPosition + offset, hitOrientation);
+                Log?.Hit(p.Shooter, hit, BattleWeapon.Railgun, time + travelTime * earliest, shieldBefore);
                 _impacts.Add(new ProjectileImpact(p.Id, p.Shooter, hit, time + travelTime * earliest));
                 if (_impacts.Count > 64) _impacts.RemoveAt(0);
                 _projectiles.RemoveAt(index);

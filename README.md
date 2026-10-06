@@ -217,6 +217,8 @@
 
 ## 구조
 
+7단계 전투 계측: `.\tools\battle-batch.ps1 -Seeds (1..20) -Mirror -Parallel`은 40판을 `shots/batch/` CSV로 남긴다. `-Minutes 25 -Label baseline -Profile`로 종료 시각·라벨·틱 계측을 지정한다. `.\tools\batch-report.ps1 <CSV>`로 같은 형식의 보고 표를 만든다. 배치·승패 규칙과 단계별 결과는 [BALANCE_stage7](docs/BALANCE_stage7.md)에 있다. 개발 화면의 `--seed=N`도 같은 배치를 쓴다.
+
 ```
 src/Sim/    시뮬레이션. Godot 노드 비의존, 60Hz 고정 틱, 위치는 double
 src/View/   연출. 보간, 카메라 기준 렌더링, 절차적 함선 외형, 카메라

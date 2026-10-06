@@ -54,6 +54,7 @@ public sealed partial class SimWorld
         };
         _missiles.Add(missile);
         shooter.Ordnance.ConsumeMissile();
+        Log?.Fire(shooter, BattleWeapon.Missile, Time);
         return new(true, "미사일 발사");
     }
 
@@ -276,7 +277,9 @@ public sealed partial class SimWorld
 
     private void Detonate(Missile m, ShipBody victim, Vec3d origin, Vector3 direction, Vec3d pose, Quaternion orientation, double time)
     {
+        float shieldBefore = victim.Damage.Shield;
         ShotResult hit = DamageRay.ApplyAtPose(victim, origin, direction, m.Definition.Packet, time, m.Id, pose, orientation);
+        Log?.Hit(m.Shooter, hit, BattleWeapon.Missile, time, shieldBefore);
         if (hit.Target is not null)
         {
             _impacts.Add(new ProjectileImpact(m.Id, m.Shooter, hit, time));
@@ -373,7 +376,11 @@ public sealed partial class SimWorld
                     if (threat is not null)
                         threat.Health -= pd.DamagePerHit;
                     else
-                        DamageRay.Apply(raider!, mount, rh, PointDefenseShipPacket, time, ++_shotSequence);
+                    {
+                        float shieldBefore = raider!.Damage.Shield;
+                        ShotResult result = DamageRay.Apply(raider, mount, rh, PointDefenseShipPacket, time, ++_shotSequence);
+                        Log?.Hit(ship, result, BattleWeapon.PointDefense, time, shieldBefore);
+                    }
                 }
                 if (threat is not null && threat.Health <= 0 && _missiles.Remove(threat))
                     _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction));

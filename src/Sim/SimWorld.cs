@@ -24,6 +24,8 @@ public sealed partial class SimWorld
     public SensorNet Sensors { get; } = new();
     public long Tick { get; private set; }
     public double Time => Tick * TickDelta;
+    public BattleLog? Log { get; set; }
+    public BattleRules? Rules { get; set; }
 
     public ShipBody Add(ShipBody ship)
     {
@@ -78,5 +80,7 @@ public sealed partial class SimWorld
         Sensors.Update(_ships, Time);
         _impacts.RemoveAll(i => Time - i.Time > 3);
         PruneOrdnanceEvents();
+        Log?.Step();
+        Rules?.Evaluate(Time);
     }
 }

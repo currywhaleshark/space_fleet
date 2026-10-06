@@ -19,7 +19,7 @@ static class AIChecks
         CheckBattleGroupFormation();
         CheckWingStrike();
         CheckEscortScreen();
-        CheckFullBattle();
+
         Console.WriteLine($"PASS: {_checks} AI/fleet checks");
     }
 
@@ -269,80 +269,4 @@ static class AIChecks
         Require(a == b, "The same scenario must play out identically");
     }
 
-    /// <summary>진영마다 전투단(BB+2DD)·호위 전대(4DD)·요격 편대(5IC)를 만든다. 적은 z = -150 km에서 마주 본다.</summary>
-    internal static List<ShipBody> SpawnFleets(SimWorld world)
-    {
-        var ships = new List<ShipBody>();
-        foreach (Faction f in new[] { Faction.Blue, Faction.Red })
-        {
-            string p = f == Faction.Blue ? "" : "X";
-            Vec3d origin = f == Faction.Blue ? Vec3d.Zero : new Vec3d(3000, 22000, -150000);
-            double dir = f == Faction.Blue ? 1 : -1; // 적은 좌표를 뒤집어 마주 보게
-            Vec3d At(double x, double y, double z) => origin + new Vec3d(x * dir, y, z * dir);
-            ShipBody Make(string name, string call, Vec3d at)
-            {
-                ShipBody s = Add(world, name, f, at, call);
-                world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
-                ships.Add(s);
-                return s;
-            }
-            var bg = new[] { Make("battleship", $"BB-{p}01", At(0, 0, 0)), Make("escort", $"DD-{p}11", At(-1500, 150, -600)), Make("escort", $"DD-{p}12", At(1500, -150, -600)) };
-            var es = Enumerable.Range(1, 4).Select(i => Make("escort", $"DD-{p}2{i}", At(-9000 + (i % 2 == 0 ? 1 : -1) * 1200 * ((i + 1) / 2), 0, -2000 + 900 * ((i + 1) / 2)))).ToArray();
-            var ic = Enumerable.Range(1, 5).Select(i => Make("interceptor", $"IC-{p}3{i}", At(420 + 60 * i, 110, 850 + 40 * i))).ToArray();
-            world.AddSquadron($"{f} 전투단", f, SquadronRole.BattleGroup, bg);
-            world.AddSquadron($"{f} 호위 전대", f, SquadronRole.EscortSquadron, es);
-            world.AddSquadron($"{f} 요격 편대", f, SquadronRole.InterceptorWing, ic);
-        }
-        world.EnableCommander(Faction.Blue);
-        world.EnableCommander(Faction.Red);
-        return ships;
-    }
-
-    /// <summary>두 함대(양쪽 지휘관)를 20분 동안 싸우게 한다.</summary>
-    private static void CheckFullBattle()
-    {
-        var world = new SimWorld();
-        List<ShipBody> ships = SpawnFleets(world);
-        var activities = new HashSet<string>();        double firstContact = -1;
-        int collisions = 0;
-        var missiles = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
-        var rails = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
-        var hits = new Dictionary<(Faction, bool), int>();
-        var intercepted = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
-        var seenMissiles = new HashSet<uint>();
-        var seenRails = new HashSet<uint>();
-        var seenImpacts = new HashSet<uint>();
-        var seenEvents = new HashSet<(double, Faction, OrdnanceEventKind)>();
-        for (int i = 0; i < 60 * 60 * 20; i++)
-        {
-            world.Step();
-            if (i % 120 == 0)
-                foreach (Squadron q in world.Squadrons) activities.Add($"{q.Role}:{q.Activity}");
-            foreach (Missile m in world.Missiles) if (seenMissiles.Add(m.Id)) missiles[m.Faction]++;
-            foreach (RailProjectile p in world.Projectiles) if (seenRails.Add(p.Id)) rails[p.Shooter.Faction]++;
-            foreach (ProjectileImpact imp in world.Impacts)
-                if (seenImpacts.Add(imp.Id))
-                {
-                    var key = (imp.Shooter.Faction, seenMissiles.Contains(imp.Id));
-                    hits[key] = hits.GetValueOrDefault(key) + 1;
-                }
-            foreach (OrdnanceEvent e in world.OrdnanceEvents)
-                if (e.Kind == OrdnanceEventKind.Intercepted && seenEvents.Add((e.Time, e.Faction, e.Kind))) intercepted[e.Faction]++;
-            if (firstContact < 0 && ships.Any(Damaged)) firstContact = world.Time;
-            foreach (ShipBody s in ships)
-                if (s.LastCollision is CollisionImpact c && Math.Abs(c.Time - world.Time) < SimWorld.TickDelta) collisions++;
-        }
-        string Side(Faction f) => string.Join(" ", ships.Where(s => s.Faction == f)
-            .Select(s => $"{s.Callsign}:{(s.Damage.Destroyed ? "X" : $"{s.Damage.Modules.Count(m => m.Destroyed)}")}"));
-        Require(firstContact > 0, "The two fleets must engage within 20 minutes");
-        foreach (string expected in new[] { "EscortSquadron:측면 기동", "EscortSquadron:측면 공격", "InterceptorWing:요격", "BattleGroup:포격" })
-            Require(activities.Contains(expected), $"Squadron behaviour must appear during the battle: {expected}");
-        int destroyed = ships.Count(s => s.Damage.Destroyed || s.Damage.Disabled);
-        Console.WriteLine($"  squadron activities: {string.Join(", ", activities.OrderBy(a => a))}");
-        Console.WriteLine($"  destroyed or disabled: {destroyed}/{ships.Count}");
-        Console.WriteLine($"Full battle 20 min: first damage {firstContact / 60:0.0} min, collisions {collisions}");
-        Console.WriteLine($"  blue {Side(Faction.Blue)} | red {Side(Faction.Red)}  (X = destroyed, n = modules lost)");
-        foreach (Faction f in new[] { Faction.Blue, Faction.Red })
-            Console.WriteLine($"  {f}: missiles {missiles[f]} (hit {hits.GetValueOrDefault((f, true))}, shot down {intercepted[f]}), railgun {rails[f]} (hit {hits.GetValueOrDefault((f, false))})");
-    }
 }

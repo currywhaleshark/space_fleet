@@ -28,6 +28,7 @@ static class SimChecks
         RadialChecks.Run();
         SquadCommandChecks.Run();
         AIChecks.Run();
+        BattleChecks.Run();
     }
 
     private static ShipBody Create(ShipClass? shipClass = null, float speed = 0f)

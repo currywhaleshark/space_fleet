@@ -52,6 +52,7 @@ public partial class ScaleTest : Node3D
     public override void _Ready()
     {
         InputSetup.Register();
+        _shot = ShotRequest.Parse(OS.GetCmdlineUserArgs());
         BuildEnvironment();
 
         _worldRoot = new Node3D { Name = "World" };
@@ -76,7 +77,6 @@ public partial class ScaleTest : Node3D
         layer.AddChild(_radial);
         AddChild(layer);
 
-        _shot = ShotRequest.Parse(OS.GetCmdlineUserArgs());
         SelectControl(_shot?.Control ?? "IC-21");
         // 피해·충돌 검증은 표적이 움직이면 안 되므로 AI를 끈다(--no-ai로도 끌 수 있다).
         SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
@@ -90,49 +90,20 @@ public partial class ScaleTest : Node3D
     /// </summary>
     private void SpawnFleets()
     {
-        foreach (Faction f in new[] { Faction.Blue, Faction.Red })
+        BattleRoster roster = BattleSetup.Spawn(World, new BattleConfig { Seed = _shot?.Seed ?? 0 });
+        foreach (ShipBody body in roster.Ships)
         {
-            bool blue = f == Faction.Blue;
-            Vec3d origin = blue ? Vec3d.Zero : new Vec3d(3000, 22000, -150000);
-            double dir = blue ? 1 : -1; // 적은 배치를 뒤집어 마주 보게
-            Quaternion facing = blue ? Quaternion.Identity : new Quaternion(Vector3.Up, Mathf.Pi);
-            Vec3d At(double x, double y, double z) => origin + new Vec3d(x * dir, y, z * dir);
-            ShipBody Make(string call, ShipClass cls, Vec3d at) => Spawn(call, cls, f, at, facing).Body;
-
-            var bg = new[]
+            ShipView view = ShipView.Create(body, seed: Views.Count * 31 + 7);
+            _worldRoot.AddChild(view);
+            Views.Add(view);
+            if (body.Faction == Faction.Blue) _playable.Add(view);
+            if (body.Class.Kind == HullKind.Battleship)
             {
-                Make(blue ? "BB-01" : "BB-X1", ShipClass.Battleship, At(0, 0, 0)),
-                Make(blue ? "DD-11" : "DD-X1", ShipClass.Escort, At(-1500, 150, -600)),
-                Make(blue ? "DD-12" : "DD-X2", ShipClass.Escort, At(1500, -150, -600)),
-            };
-            var es = Enumerable.Range(1, 4).Select(i => Make(blue ? $"DD-3{i}" : $"DD-X{i + 2}", ShipClass.Escort,
-                At(-9000 + (i % 2 == 0 ? 1 : -1) * 1200 * ((i + 1) / 2), 0, -2000 + 900 * ((i + 1) / 2)))).ToArray();
-            // 요격 편대는 전함 후미 곁에 둔다(시작 화면에서 1 km 선체 옆을 30 m 요격함이 나는 크기감).
-            var ic = Enumerable.Range(1, 5).Select(i => Make(blue ? $"IC-2{i}" : $"IC-X{i}", ShipClass.Interceptor,
-                At(420 + 60 * (i - 1), 110 - 25 * (i - 1), 850 + 50 * (i - 1)))).ToArray();
-            World.AddSquadron(blue ? "전투단" : "적 전투단", f, SquadronRole.BattleGroup, bg);
-            World.AddSquadron(blue ? "호위 전대" : "적 호위 전대", f, SquadronRole.EscortSquadron, es);
-            World.AddSquadron(blue ? "요격 편대" : "적 요격 편대", f, SquadronRole.InterceptorWing, ic);
-
-            ShipView flagship = Views.Find(v => v.Body == bg[0])!;
-            flagship.AddChild(DroneSwarm.Create(flagship.Palette, blue ? 48 : 32, 650f, 1000f, seed: blue ? 5 : 9));
+                bool blue = body.Faction == Faction.Blue;
+                view.AddChild(DroneSwarm.Create(view.Palette, blue ? 48 : 32, 650f, 1000f, seed: blue ? 5 : 9));
+            }
         }
-
-        foreach (ShipView view in Views)
-            if (view.Body.Faction == Faction.Blue)
-                _playable.Add(view);
-        World.Sensors.Update(World.Ships, World.Time, force: true);
     }
-    private ShipView Spawn(string callsign, ShipClass shipClass, Faction faction, Vec3d position, Quaternion orientation)
-    {
-        var body = World.Add(new ShipBody(callsign, shipClass, faction));
-        body.Place(position, orientation);
-        var view = ShipView.Create(body, seed: Views.Count * 31 + 7);
-        _worldRoot.AddChild(view);
-        Views.Add(view);
-        return view;
-    }
-
     private void BuildEnvironment()
     {
         var env = new Godot.Environment
@@ -515,7 +486,7 @@ public partial class ScaleTest : Node3D
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
         int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
         bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch, string? Doctrine, float Below,
-        string? Radial, float? RadialDirection, int RadialHoldFrames, bool RadialRelease)
+        string? Radial, float? RadialDirection, int RadialHoldFrames, bool RadialRelease, int Seed)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -577,7 +548,7 @@ public partial class ScaleTest : Node3D
                 map.GetValueOrDefault("aim"),
                 map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0), map.GetValueOrDefault("doctrine"), F("below", 0),
                 map.GetValueOrDefault("radial"), map.ContainsKey("radial-dir") ? F("radial-dir", 0) : null,
-                (int)F("radial-hold-frames", 60), map.ContainsKey("radial-release"));
+                (int)F("radial-hold-frames", 60), map.ContainsKey("radial-release"), (int)F("seed", 0));
         }
     }
 }
