@@ -8,7 +8,7 @@ config_version=5
 
 config/name="Space Fleet"
 config/description="3D 우주 함대전 프로토타입"
-run/main_scene="res://scenes/ScaleTest.tscn"
+run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
 [display]

@@ -46,6 +46,7 @@ public sealed class BattleLog
     private double _nextMinute = 60;
     public IReadOnlyList<BattleEvent> Events => _events;
     public IReadOnlyList<BattleInterval> Intervals => _intervals;
+    public IReadOnlyList<BattleInterval>? OutcomeIntervals { get; private set; }
     public IReadOnlyList<BattleStrength> Strength => _strength;
     public int FriendlyCollisions { get; private set; }
     public BattleSideLog Side(Faction faction) => _sides[(int)faction];
@@ -171,10 +172,17 @@ public sealed class BattleLog
     private void FinishInterval(double duration)
     {
         Bucket b = _buckets.GetValueOrDefault(_nextInterval) ?? new Bucket();
-        BattlePhase phase = b.Brawl ? BattlePhase.Brawl : b.Modules >= 2 && b.UnshieldedModules * 2 >= b.Modules ? BattlePhase.Sniping
-            : b.Rail ? BattlePhase.Gunnery : b.Missile ? BattlePhase.Missile : BattlePhase.Approach;
-        _intervals.Add(new(_nextInterval * IntervalSeconds, duration, phase));
+        _intervals.Add(new(_nextInterval * IntervalSeconds, duration, Classify(b)));
         _buckets.Remove(_nextInterval++);
+    }
+    private static BattlePhase Classify(Bucket b) => b.Brawl ? BattlePhase.Brawl : b.Modules >= 2 && b.UnshieldedModules * 2 >= b.Modules ? BattlePhase.Sniping
+        : b.Rail ? BattlePhase.Gunnery : b.Missile ? BattlePhase.Missile : BattlePhase.Approach;
+    internal void CaptureOutcome(double time)
+    {
+        if(OutcomeIntervals is not null)return;
+        var snapshot=_intervals.ToList();double remaining=time-_nextInterval*IntervalSeconds;
+        if(remaining>1e-6)snapshot.Add(new(_nextInterval*IntervalSeconds,remaining,Classify(_buckets.GetValueOrDefault(_nextInterval)??new Bucket())));
+        OutcomeIntervals=snapshot.AsReadOnly();
     }
     public void Finish()
     {

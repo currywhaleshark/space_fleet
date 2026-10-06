@@ -20,6 +20,23 @@
 .\tools\check-sim.ps1  # 기동·충돌·피해·탄도·선행 조준·데이터 검증
 ```
 
+기본 실행은 시작 → 함선 선택(BB-01 / DD-31 / IC-21) → 전투 → 결과로 이어진다. BB/DD는 키보드 조함과 자동 사격, IC는 마우스 비행이다. 시작 안내는 3초, 함선 상실 시 3초 뒤 같은 함종의 생존 함선으로 인계한다(없으면 큰 함종, 전멸하면 관전). 결과에서 같은 역할·새 시드로 다시 시작하거나 역할을 바꿀 수 있다.
+
+판 모드 배속은 ×1·×2·×4. Esc는 라디얼 취소 → Pilot 마우스 해제 → 일시정지 순서다. F1은 플레이 조작만 표시한다. F2~F8, 숫자 직접 핍, Tab, G/H/J는 `--dev` 또는 ScaleTest 직접 실행에서 사용할 수 있다. 전력·사격·편대 명령은 F/B/N 라디얼로 한다.
+
+판정은 활성 전력(BB 6, DD 2, IC 0.5)이 초기의 25% 이하, 또는 기함 상실+전력 50% 이하일 때 패배다. 같은 틱의 동시 패배는 무승부. 25분 제한에서 잔존 비율 차이가 10%p 이하면 무승부다. 결과는 판정 시점의 기록을 보여 주고 전투는 뒤에서 계속 진행한다.
+
+메뉴·전투 검증 인자(실행 인자는 Godot의 `--` 뒤):
+
+```powershell
+.\tools\shot.ps1 s7_title --menu=title
+.\tools\shot.ps1 s7_select --menu=select
+.\tools\shot.ps1 s7_bb_start --battle --control=BB-01 --seed=1 --frames=60
+.\tools\shot.ps1 s7_result_win --result-test --result=win --seed=1
+```
+
+`--battle --seed=N`은 역할 선택을 건너뛰어 고정 시드로 시작한다. `--menu=result --result=loss`는 패배 결과 검증, `--autoplay`는 전 함선 AI·×4 관전이다. 기존 `--shot`만 쓰면 개발 ScaleTest로 바로 들어간다.
+
 스크린샷 모드(자동 검증용, `shots/`에 저장):
 
 ```powershell

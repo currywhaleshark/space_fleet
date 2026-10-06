@@ -31,6 +31,8 @@ public sealed class BattleRules
     public static double Strength(IEnumerable<ShipBody> ships, Faction faction) => ships
         .Where(s => s.Faction == faction && !s.Damage.Destroyed && !s.Damage.Disabled).Sum(s => Weight(s.Class.Kind));
     public double Initial(Faction f) => _initial[(int)f];
+    public static ShipBody? Replacement(IEnumerable<ShipBody> ships,Faction faction,HullKind preferred) => ships
+        .Where(s=>s.Faction==faction&&Squadron.Active(s)).OrderBy(s=>s.Class.Kind==preferred?0:1).ThenBy(s=>s.Class.Kind).FirstOrDefault();
     public double Fraction(Faction f) => Initial(f) > 0 ? Strength(_world.Ships, f) / Initial(f) : 0;
     public BattleOutcome? Evaluate(double time)
     {

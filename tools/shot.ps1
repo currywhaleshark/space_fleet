@@ -10,7 +10,8 @@ $shots = Join-Path $ProjectDir 'shots'
 New-Item -ItemType Directory -Force $shots | Out-Null
 $out = (Join-Path $shots "$Name.png") -replace '\\', '/'
 
-$argList = @('--path', "`"$ProjectDir`"", '--fixed-fps', '60', '--', "--shot=`"$out`"") + $GameArgs
+$log = (Join-Path $shots "$Name.log") -replace '\\', '/'
+$argList = @('--path', "`"$ProjectDir`"", '--log-file', "`"$log`"", '--fixed-fps', '60', '--', "--shot=`"$out`"") + $GameArgs
 $proc = Start-Process -FilePath $Godot -ArgumentList $argList -WindowStyle Hidden -PassThru
 if (-not $proc.WaitForExit(120000)) {
     Stop-Process -Id $proc.Id -Force

@@ -12,9 +12,11 @@ namespace SpaceFleet.Game;
 public partial class ScaleTest
 {
     private static readonly int[] TimeScales = { 1, 4, 16 };
+    private static readonly int[] BattleTimeScales = { 1, 2, 4 };
+    private int[] AvailableTimeScales => BattleMode && !DevMode ? BattleTimeScales : TimeScales;
     private int _timeScaleIndex;
 
-    public int TimeScale => TimeScales[_timeScaleIndex];
+    public int TimeScale => AvailableTimeScales[_timeScaleIndex];
     public SquadCommand SquadOrder { get; private set; } = SquadCommand.Escort;
     public ShipBody? SquadTarget { get; private set; }
     /// <summary>스크린샷 검증 등에서 AI를 끈 상태.</summary>
@@ -61,7 +63,7 @@ public partial class ScaleTest
     {
         controlled ??= Controlled?.Body;
         foreach (Squadron squadron in World.Squadrons)
-            squadron.PlayerLed = controlled is not null && squadron == controlled.Squadron;
+            squadron.PlayerLed = !AutoPlay && controlled is not null && squadron == controlled.Squadron;
     }
 
     /// <summary>플레이어 편대(내가 탄 함선의 편대).</summary>
@@ -70,7 +72,7 @@ public partial class ScaleTest
     /// <summary>편대 명령을 내 편대의 다른 함선에게 내린다. 호위면 조종 함선 둘레에 고르게 자리를 잡는다.</summary>
     private void ApplySquadOrder()
     {
-        if (Controlled?.Body is not ShipBody leader) return;
+        if (AutoPlay || Controlled?.Body is not ShipBody leader) return;
         if (SquadOrder == SquadCommand.Focus && (SquadTarget is null || SquadTarget.Damage.Destroyed))
             SquadOrder = SquadCommand.Escort;
         ShipBody? fireAt = Gunnery?.Engaged ?? (HasSelectedEnemy ? InspectTarget!.Body : null);
@@ -102,7 +104,7 @@ public partial class ScaleTest
     }
     private void CycleTimeScale(int step)
     {
-        _timeScaleIndex = Mathf.Clamp(_timeScaleIndex + step, 0, TimeScales.Length - 1);
+        _timeScaleIndex = Mathf.Clamp(_timeScaleIndex + step, 0, AvailableTimeScales.Length - 1);
         Notify($"시간 ×{TimeScale}", failed: false);
     }
 

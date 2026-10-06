@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="tests/**/*.cs" />
     <Compile Remove="tools/**/*.cs" />
+    <Compile Remove="shots/**/*.cs" />
     <EmbeddedResource Include="data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

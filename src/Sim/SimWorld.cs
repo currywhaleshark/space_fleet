@@ -82,5 +82,6 @@ public sealed partial class SimWorld
         PruneOrdnanceEvents();
         Log?.Step();
         Rules?.Evaluate(Time);
+        if(Rules?.Outcome is {} outcome)Log?.CaptureOutcome(outcome.Time);
     }
 }

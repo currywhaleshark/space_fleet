@@ -8,7 +8,7 @@ static class BattleChecks
     private static void Step(SimWorld world, double seconds) { for (int i = 0; i < seconds * 60; i++) world.Step(); }
     public static void Run()
     {
-        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckPostures(); CheckDeterminism(); CheckFullBattle();
+        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckPostures(); CheckReplacement(); CheckDeterminism(); CheckFullBattle();
         Console.WriteLine($"PASS: {_checks} battle/setup/log/rules checks");
     }
     private static SimWorld Battle(int seed = 0, bool mirror = false)
@@ -137,5 +137,18 @@ static class BattleChecks
         var world = Battle(); var squad = world.Squadrons[0]; squad.PlayerLed = true;
         var leader = squad.Leader!; var order = world.BrainOf(leader)!.Order;
         Step(world, 60); Require(world.BrainOf(leader)!.Order == order, "Commander must not force player-led squad posture orders");
+    }
+    private static void CheckReplacement()
+    {
+        var world=Battle();
+        ShipBody ic=BattleRules.Replacement(world.Ships,Faction.Blue,HullKind.Interceptor)!;
+        Require(ic.Class.Kind==HullKind.Interceptor&&ic.Faction==Faction.Blue,"Prefer surviving same class/faction");
+        foreach(var ship in world.Ships.Where(s=>s.Faction==Faction.Blue&&s.Class.Kind==HullKind.Interceptor))Kill(ship);
+        Require(BattleRules.Replacement(world.Ships,Faction.Blue,HullKind.Interceptor)?.Class.Kind==HullKind.Battleship,"Fallback to largest living class");
+        foreach(var ship in world.Ships.Where(s=>s.Faction==Faction.Blue))Kill(ship);
+        Require(BattleRules.Replacement(world.Ships,Faction.Blue,HullKind.Interceptor) is null,"No survivor means spectate");
+        world=Battle();Step(world,5);world.Log!.CaptureOutcome(world.Time);
+        Require(world.Log.OutcomeIntervals!.Sum(i=>i.Duration)==5,"Outcome snapshot includes partial final interval");
+        Step(world,30);Require(world.Log.OutcomeIntervals!.Sum(i=>i.Duration)==5,"Post-outcome simulation must not change result timeline");
     }
 }

@@ -77,11 +77,12 @@ public partial class ScaleTest : Node3D
         layer.AddChild(_radial);
         AddChild(layer);
 
-        SelectControl(_shot?.Control ?? "IC-21");
+        SelectControl(LaunchControl ?? _shot?.Control ?? "IC-21");
         // 피해·충돌 검증은 표적이 움직이면 안 되므로 AI를 끈다(--no-ai로도 끌 수 있다).
         SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
         if (_shot is not null)
             ApplyShotSetup(_shot);
+        if (AutoPlay) {EnableAutoPlay();SetBattleSpeed(4);}
     }
 
     /// <summary>
@@ -90,7 +91,8 @@ public partial class ScaleTest : Node3D
     /// </summary>
     private void SpawnFleets()
     {
-        BattleRoster roster = BattleSetup.Spawn(World, new BattleConfig { Seed = _shot?.Seed ?? 0 });
+        var args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        BattleRoster roster = BattleSetup.Spawn(World, LaunchConfig ?? new BattleConfig { Seed = _shot?.Seed ?? int.Parse(args.GetValueOrDefault("seed","0")) });
         foreach (ShipBody body in roster.Ships)
         {
             ShipView view = ShipView.Create(body, seed: Views.Count * 31 + 7);
@@ -166,7 +168,9 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if (Paused || Spectating) return;
         if (HandleRadialInput(e)) return;
+        if (HandleBattleInput(e)) return;
         switch (e)
         {
             case InputEventMouseMotion motion when (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
@@ -260,8 +264,10 @@ public partial class ScaleTest : Node3D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (Paused) return;
+        StepBattleFlow(delta);
         float dt = (float)SimWorld.TickDelta;
-        Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
+        if (!AutoPlay) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
 
         // 시간 배속: 한 물리 틱에 시뮬레이션을 여러 번 진행한다.
         for (int step = 0; step < TimeScale; step++)
@@ -274,7 +280,7 @@ public partial class ScaleTest : Node3D
         foreach (ShipBody ship in World.Ships)
         {
             // AI가 켜진 함선은 World.Step 안에서 AI가 조종 입력을 쓴다.
-            if (ship != player && World.BrainOf(ship) is { Enabled: true })
+            if ((AutoPlay || ship != player) && World.BrainOf(ship) is { Enabled: true })
                 continue;
             ship.Control = ship == _practiceTarget && ship != player
                 ? new ShipControl { FlightAssist = false }
@@ -284,9 +290,9 @@ public partial class ScaleTest : Node3D
         }
 
         if (Gunnery is { } order) order.AimPart = AimPart;
-        StepSquadCommand();
+        if (!AutoPlay) StepSquadCommand();
         World.Step();
-        StepCombat();
+        if (!AutoPlay && !Spectating) StepCombat();
         if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
         {
             FireTest(_testOrigin, _testDirection);
@@ -298,14 +304,15 @@ public partial class ScaleTest : Node3D
     {
         StepShotRadial();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
-        if (_shot is not null && ++_frame >= _shot.Frames)
+        if (!BattleMode && _shot is not null && ++_frame >= _shot.Frames)
         {
             SaveShotAndQuit(_shot.Path);
             return;
         }
 
-        if (Controlled is not ShipView controlled)
+        if (Controlled is null)
             return;
+        ShipView controlled = CameraView;
 
         double alpha = Engine.GetPhysicsInterpolationFraction();
         RenderOrigin = FloatingOrigin ? controlled.Body.InterpolatedPosition(alpha) : Vec3d.Zero;
@@ -343,6 +350,7 @@ public partial class ScaleTest : Node3D
         _controlledIndex = index;
 
         ShipBody body = _playable[index].Body;
+        StartRecord(body);
         HandOverControl(previous, body);
         SetupGunnery(previous, body);
         SetControlScheme(body);
@@ -446,7 +454,7 @@ public partial class ScaleTest : Node3D
             Controlled!.Body.Power.AddHeat(shot.Heat * Controlled.Body.Definition.Power.HeatCapacityMj);
         if (shot.Drill)
             SetupMissileDrill(shot.DrillDistance);
-        _timeScaleIndex = System.Math.Max(0, System.Array.IndexOf(TimeScales, shot.StartTimeScale));
+        SetBattleSpeed(shot.StartTimeScale);
         if (shot.Aim is string part && System.Enum.TryParse(part, ignoreCase: true, out AimSubsystem parsed))
             while (AimPart != parsed) CycleAimPart();
         if (shot.Order is "attack" or "hold" or "escort")
