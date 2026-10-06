@@ -6,8 +6,8 @@ using SpaceFleet.View;
 namespace SpaceFleet.Game;
 
 /// <summary>
-/// 편대 지휘와 AI 연결. 조종하지 않는 아군 함선은 모두 플레이어 편대이며 G/H/J 명령을 따른다.
-/// 적 함대는 시뮬레이션의 함대 지휘관이 움직인다. [ ]로 시간 배속(×1·×4·×16).
+/// 편대 지휘와 AI 연결. 플레이어가 탄 함선의 편대는 G/H/J 명령을 따르고(PlayerLed),
+/// 나머지 아군 편대와 적 함대는 시뮬레이션의 함대 지휘관이 역할대로 움직인다. [ ]로 시간 배속(×1·×4·×16).
 /// </summary>
 public partial class ScaleTest
 {
@@ -32,7 +32,11 @@ public partial class ScaleTest
             brain.Enabled = !disabled;
         }
         if (!disabled)
+        {
             World.EnableCommander(Faction.Red);
+            World.EnableCommander(Faction.Blue);
+        }
+        MarkPlayerSquadron();
         ApplySquadOrder();
     }
 
@@ -42,15 +46,33 @@ public partial class ScaleTest
         World.DetachBrain(next);
         if (previous is not null && previous != next && World.Brains.Count > 0)
             World.AttachBrain(previous, ShipOrder.HoldAt(previous.Position)).Enabled = !AiDisabled;
+        // 다른 편대로 옮겨 타면 그 편대가 내 명령을 따르고, 이전 편대는 지휘관에게 돌아간다.
+        if (previous?.Squadron != next.Squadron)
+        {
+            SquadOrder = OrderKind.Escort;
+            SquadTarget = null;
+        }
+        MarkPlayerSquadron(next);
         ApplySquadOrder();
     }
 
-    /// <summary>편대 명령을 조종하지 않는 아군 전원에게 내린다. 호위면 조종 함선 둘레에 고르게 자리를 잡는다.</summary>
+    /// <summary>플레이어가 탄 함선의 편대만 PlayerLed로 둔다.</summary>
+    private void MarkPlayerSquadron(ShipBody? controlled = null)
+    {
+        controlled ??= Controlled?.Body;
+        foreach (Squadron squadron in World.Squadrons)
+            squadron.PlayerLed = controlled is not null && squadron == controlled.Squadron;
+    }
+
+    /// <summary>플레이어 편대(내가 탄 함선의 편대).</summary>
+    public Squadron? PlayerSquadron => Controlled?.Body.Squadron;
+
+    /// <summary>편대 명령을 내 편대의 다른 함선에게 내린다. 호위면 조종 함선 둘레에 고르게 자리를 잡는다.</summary>
     private void ApplySquadOrder()
     {
         if (Controlled?.Body is not ShipBody leader) return;
         var squad = World.Brains.Values
-            .Where(b => b.Ship.Faction == leader.Faction && b.Ship != leader && !b.Ship.Damage.Destroyed)
+            .Where(b => b.Ship.Squadron is not null && b.Ship.Squadron == leader.Squadron && b.Ship != leader && !b.Ship.Damage.Destroyed)
             .OrderBy(b => b.Ship.Callsign)
             .ToList();
         if (SquadOrder == OrderKind.Attack && (SquadTarget is null || SquadTarget.Damage.Destroyed))

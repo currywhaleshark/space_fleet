@@ -34,9 +34,9 @@
   "sensors": { "strength": 800, "signature": 20, "jammer": 3 },
   "missiles": { "rounds": 16, "reloadSeconds": 3, "launchPoint": [0, 30, -20], "ejectSpeed": 50, "accelG": 30, "burnSeconds": 60, "maxFlightSeconds": 150,
     "seekerRangeMeters": 15000, "seekerFovDegrees": 40, "seekerStrength": 3, "fuzeMeters": 25,
-    "energy": 500, "penetrationMm": 600, "moduleDamage": 160, "hitPoints": 8, "launchHeatMj": 8 },
+    "energy": 500, "penetrationMm": 600, "moduleDamage": 160, "hitPoints": 12, "launchHeatMj": 8 },
   "pointDefense": { "mounts": [[18, 22, 60], [-18, 22, 60], [0, -20, 40], [0, 24, -40]],
-    "rangeMeters": 5000, "shotsPerSecond": 15, "hitChance": 0.12, "damagePerHit": 4 },
+    "rangeMeters": 4500, "shotsPerSecond": 12, "hitChance": 0.09, "damagePerHit": 4 },
   "decoys": { "count": 10, "perLaunch": 2, "cooldownSeconds": 3, "signatureFactor": 2.5, "lifetimeSeconds": 5, "ejectSpeed": 60 },
   "hullSections": [
     {

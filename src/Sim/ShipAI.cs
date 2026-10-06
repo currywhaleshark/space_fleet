@@ -13,11 +13,12 @@ public enum OrderKind
     Hold,
 }
 
-public readonly record struct ShipOrder(OrderKind Kind, ShipBody? Target = null, Vec3d Point = default)
+/// <param name="FireAt">호위·위치 유지 중에도 사격할 표적(대형을 지키며 같은 표적을 쏜다).</param>
+public readonly record struct ShipOrder(OrderKind Kind, ShipBody? Target = null, Vec3d Point = default, ShipBody? FireAt = null)
 {
-    public static ShipOrder EscortOf(ShipBody leader) => new(OrderKind.Escort, leader);
+    public static ShipOrder EscortOf(ShipBody leader, ShipBody? fireAt = null) => new(OrderKind.Escort, leader, default, fireAt);
     public static ShipOrder AttackOn(ShipBody target) => new(OrderKind.Attack, target);
-    public static ShipOrder HoldAt(Vec3d point) => new(OrderKind.Hold, null, point);
+    public static ShipOrder HoldAt(Vec3d point, ShipBody? fireAt = null) => new(OrderKind.Hold, null, point, fireAt);
 }
 
 /// <summary>
@@ -62,8 +63,8 @@ public sealed class ShipBrain
     /// </summary>
     public int[] DefaultPips { get; set; }
 
-    /// <summary>지금 공격 중인 표적(공격 명령이면 Order.Target).</summary>
-    public ShipBody? Target => Order.Kind == OrderKind.Attack ? Order.Target : null;
+    /// <summary>지금 사격하는 표적: 공격 명령이면 Order.Target, 아니면 Order.FireAt.</summary>
+    public ShipBody? Target => Order.Kind == OrderKind.Attack ? Order.Target : Order.FireAt;
     /// <summary>HUD·검증용: 마지막 판단 요약.</summary>
     public string Activity { get; internal set; } = "";
     /// <summary>방해를 뚫으려고 센서 핍을 올린 상태.</summary>

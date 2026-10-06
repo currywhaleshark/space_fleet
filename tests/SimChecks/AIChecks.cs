@@ -16,6 +16,9 @@ static class AIChecks
         CheckSensorFairness();
         CheckDeterminism();
         CheckDisabled();
+        CheckBattleGroupFormation();
+        CheckWingStrike();
+        CheckEscortScreen();
         CheckFullBattle();
         Console.WriteLine($"PASS: {_checks} AI/fleet checks");
     }
@@ -88,12 +91,15 @@ static class AIChecks
     {
         var world = new SimWorld();
         ShipBody blue = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "BLUE");
+        var group = new List<ShipBody>();
         foreach (var (name, offset, call) in new[] { ("battleship", new Vec3d(0, 0, -110_000), "RBB"),
                      ("escort", new Vec3d(-2000, 0, -108_500), "RD1"), ("escort", new Vec3d(2000, 0, -108_500), "RD2") })
         {
             ShipBody red = Add(world, name, Faction.Red, offset, call);
-            world.AttachBrain(red, ShipOrder.HoldAt(red.Position)).DefaultPips = new[] { 2, 2, 1, 1, 2 };
+            world.AttachBrain(red, ShipOrder.HoldAt(red.Position));
+            group.Add(red);
         }
+        world.AddSquadron("RED BG", Faction.Red, SquadronRole.BattleGroup, group);
         world.EnableCommander(Faction.Red);
         double firstMissile = -1, firstRail = -1, firstDamage = -1;
         var launches = new List<double>();
@@ -150,10 +156,91 @@ static class AIChecks
         Add(world, "interceptor", Faction.Blue, new Vec3d(0, 0, -100_000), "COLD");
         ShipBody red = Add(world, "battleship", Faction.Red, Vec3d.Zero, "R");
         world.AttachBrain(red, ShipOrder.HoldAt(Vec3d.Zero));
+        world.AddSquadron("R", Faction.Red, SquadronRole.BattleGroup, new[] { red });
         world.EnableCommander(Faction.Red);
         for (int i = 0; i < 60 * 30; i++) world.Step();
         Require(world.Missiles.Count == 0 && world.Projectiles.Count == 0 && world.BrainOf(red)!.Order.Kind == OrderKind.Hold,
             "AI must not engage what its sensors cannot see");
+    }
+
+    private static void CheckBattleGroupFormation()
+    {
+        var world = new SimWorld();
+        ShipBody bb = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "BB");
+        ShipBody d1 = Add(world, "escort", Faction.Blue, new Vec3d(-3000, 0, 2000), "D1");
+        ShipBody d2 = Add(world, "escort", Faction.Blue, new Vec3d(3000, 0, 2000), "D2");
+        ShipBody enemy = Add(world, "battleship", Faction.Red, new Vec3d(0, 0, -100_000), "E");
+        foreach (ShipBody s in new[] { bb, d1, d2 }) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
+        world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { bb, d1, d2 });
+        world.EnableCommander(Faction.Blue);
+        for (int i = 0; i < 60 * 120; i++) world.Step();
+        Require(world.BrainOf(bb)!.Order is { Kind: OrderKind.Attack } o && o.Target == enemy, "The battle group flagship must attack the enemy battleship");
+        foreach (ShipBody d in new[] { d1, d2 })
+        {
+            ShipBrain brain = world.BrainOf(d)!;
+            Require(brain.Order.Kind == OrderKind.Escort && brain.Order.Target == bb && brain.Target == enemy,
+                "Battle group escorts must hold formation on the flagship and fire at its target");
+            Require((d.Position - bb.Position).Length() < 4000, $"Battle group escorts must stay close: {(d.Position - bb.Position).Length():0} m");
+        }
+    }
+
+    private static void CheckWingStrike()
+    {
+        var world = new SimWorld();
+        ShipBody flagship = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "BB");
+        world.AttachBrain(flagship, ShipOrder.HoldAt(Vec3d.Zero));
+        world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { flagship });
+        var wing = Enumerable.Range(0, 5).Select(i => Add(world, "interceptor", Faction.Blue, new Vec3d(-2000 + i * 1000, 500, -3000), $"I{i}")).ToList();
+        foreach (ShipBody s in wing) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
+        Squadron squadron = world.AddSquadron("WING", Faction.Blue, SquadronRole.InterceptorWing, wing);
+        ShipBody target = Add(world, "escort", Faction.Red, new Vec3d(0, 0, -30_000), "T", pointDefense: false);
+        world.EnableCommander(Faction.Blue);
+        bool gathered = false, struck = false;
+        for (int i = 0; i < 60 * 90 && !struck; i++)
+        {
+            world.Step();
+            gathered |= squadron.Activity == "집결";
+            struck = squadron.Activity == "돌격";
+        }
+        Require(gathered && struck, "The wing must gather before striking");
+        Require(wing.All(s => world.BrainOf(s)!.Order is { Kind: OrderKind.Attack } o && o.Target == target),
+            "All five interceptors must strike the same target together");
+        for (int i = 0; i < 60 * 60; i++) world.Step();
+        Require(Damaged(target), "The wing strike must damage its target");
+
+        // 적 요격함이 나타나면 요격으로 전환해 나눠 맡는다.
+        var raiders = Enumerable.Range(0, 2).Select(i => Add(world, "interceptor", Faction.Red, new Vec3d(-20_000 + i * 2000, 0, -10_000), $"R{i}")).ToList();
+        for (int i = 0; i < 60 * 4; i++) world.Step();
+        Require(squadron.Activity == "요격", "The wing must switch to intercepting enemy interceptors");
+        Require(raiders.All(r => wing.Any(s => world.BrainOf(s)!.Target == r)), "Interceptions must be spread over the raiders");
+    }
+
+    private static void CheckEscortScreen()
+    {
+        var world = new SimWorld();
+        ShipBody flagship = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "BB");
+        world.AttachBrain(flagship, ShipOrder.HoldAt(Vec3d.Zero));
+        world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { flagship });
+        var escorts = Enumerable.Range(0, 4).Select(i => Add(world, "escort", Faction.Blue, new Vec3d(-8000 - i * 1200, 0, -2000), $"D{i}")).ToList();
+        foreach (ShipBody s in escorts) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
+        Squadron squadron = world.AddSquadron("ES", Faction.Blue, SquadronRole.EscortSquadron, escorts);
+        ShipBody enemy = Add(world, "escort", Faction.Red, new Vec3d(0, 0, -120_000), "E");
+        world.EnableCommander(Faction.Blue);
+        double widest = 0;
+        for (int i = 0; i < 60 * 240; i++)
+        {
+            world.Step();
+            if (squadron.Activity == "측면 기동")
+                widest = Math.Max(widest, Math.Abs(escorts[0].Position.X));
+        }
+        Require(widest > 15_000, $"The escort squadron must swing out to the flank: {widest / 1000:0} km");
+        Require(world.BrainOf(escorts[0])!.Target == enemy, "Flanking escorts must keep their target");
+
+        // 적 요격함이 기함에 붙으면 방공으로 돌아온다.
+        Add(world, "interceptor", Faction.Red, new Vec3d(0, 0, -12_000), "RAID");
+        for (int i = 0; i < 60 * 4; i++) world.Step();
+        Require(squadron.Activity == "방공" && escorts.All(s => world.BrainOf(s)!.Order.Target == flagship),
+            "Escorts must fall back to screen the flagship against raiders");
     }
 
     private static void CheckDisabled()
@@ -181,33 +268,41 @@ static class AIChecks
         Require(a == b, "The same scenario must play out identically");
     }
 
-    /// <summary>게임 시작 배치와 같은 두 함대(양쪽 지휘관)를 20분 동안 싸우게 한다.</summary>
-    private static void CheckFullBattle()
+    /// <summary>진영마다 전투단(BB+2DD)·호위 전대(4DD)·요격 편대(5IC)를 만든다. 적은 z = -150 km에서 마주 본다.</summary>
+    internal static List<ShipBody> SpawnFleets(SimWorld world)
     {
-        var world = new SimWorld();
-        var anchor = new Vec3d(3000, 22000, -150000);
-        var ships = new List<ShipBody>
+        var ships = new List<ShipBody>();
+        foreach (Faction f in new[] { Faction.Blue, Faction.Red })
         {
-            Add(world, "battleship", Faction.Blue, new Vec3d(0, 0, 0), "BB-01"),
-            Add(world, "escort", Faction.Blue, new Vec3d(-900, 160, -500), "DD-11"),
-            Add(world, "escort", Faction.Blue, new Vec3d(950, -140, -300), "DD-12"),
-            Add(world, "interceptor", Faction.Blue, new Vec3d(420, 110, 850), "IC-21"),
-            Add(world, "interceptor", Faction.Blue, new Vec3d(470, 70, 905), "IC-22"),
-            Add(world, "battleship", Faction.Red, anchor, "BB-X1"),
-            Add(world, "escort", Faction.Red, anchor + new Vec3d(-2200, 400, 1500), "DD-X1"),
-            Add(world, "escort", Faction.Red, anchor + new Vec3d(2400, -600, 1800), "DD-X2"),
-            Add(world, "interceptor", Faction.Red, anchor + new Vec3d(-600, 300, 9000), "IC-X1"),
-            Add(world, "interceptor", Faction.Red, anchor + new Vec3d(500, 200, 9200), "IC-X2"),
-        };
-        foreach (ShipBody s in ships)
-        {
-            ShipBrain brain = world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
-            if (s.Faction == Faction.Red && s.Class.Kind != HullKind.Interceptor) brain.DefaultPips = new[] { 2, 2, 1, 1, 2 };
+            string p = f == Faction.Blue ? "" : "X";
+            Vec3d origin = f == Faction.Blue ? Vec3d.Zero : new Vec3d(3000, 22000, -150000);
+            double dir = f == Faction.Blue ? 1 : -1; // 적은 좌표를 뒤집어 마주 보게
+            Vec3d At(double x, double y, double z) => origin + new Vec3d(x * dir, y, z * dir);
+            ShipBody Make(string name, string call, Vec3d at)
+            {
+                ShipBody s = Add(world, name, f, at, call);
+                world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
+                ships.Add(s);
+                return s;
+            }
+            var bg = new[] { Make("battleship", $"BB-{p}01", At(0, 0, 0)), Make("escort", $"DD-{p}11", At(-1500, 150, -600)), Make("escort", $"DD-{p}12", At(1500, -150, -600)) };
+            var es = Enumerable.Range(1, 4).Select(i => Make("escort", $"DD-{p}2{i}", At(-9000 + (i % 2 == 0 ? 1 : -1) * 1200 * ((i + 1) / 2), 0, -2000 + 900 * ((i + 1) / 2)))).ToArray();
+            var ic = Enumerable.Range(1, 5).Select(i => Make("interceptor", $"IC-{p}3{i}", At(420 + 60 * i, 110, 850 + 40 * i))).ToArray();
+            world.AddSquadron($"{f} 전투단", f, SquadronRole.BattleGroup, bg);
+            world.AddSquadron($"{f} 호위 전대", f, SquadronRole.EscortSquadron, es);
+            world.AddSquadron($"{f} 요격 편대", f, SquadronRole.InterceptorWing, ic);
         }
         world.EnableCommander(Faction.Blue);
         world.EnableCommander(Faction.Red);
+        return ships;
+    }
 
-        double firstContact = -1;
+    /// <summary>두 함대(양쪽 지휘관)를 20분 동안 싸우게 한다.</summary>
+    private static void CheckFullBattle()
+    {
+        var world = new SimWorld();
+        List<ShipBody> ships = SpawnFleets(world);
+        var activities = new HashSet<string>();        double firstContact = -1;
         int collisions = 0;
         var missiles = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
         var rails = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
@@ -220,6 +315,8 @@ static class AIChecks
         for (int i = 0; i < 60 * 60 * 20; i++)
         {
             world.Step();
+            if (i % 120 == 0)
+                foreach (Squadron q in world.Squadrons) activities.Add($"{q.Role}:{q.Activity}");
             foreach (Missile m in world.Missiles) if (seenMissiles.Add(m.Id)) missiles[m.Faction]++;
             foreach (RailProjectile p in world.Projectiles) if (seenRails.Add(p.Id)) rails[p.Shooter.Faction]++;
             foreach (ProjectileImpact imp in world.Impacts)
@@ -237,6 +334,11 @@ static class AIChecks
         string Side(Faction f) => string.Join(" ", ships.Where(s => s.Faction == f)
             .Select(s => $"{s.Callsign}:{(s.Damage.Destroyed ? "X" : $"{s.Damage.Modules.Count(m => m.Destroyed)}")}"));
         Require(firstContact > 0, "The two fleets must engage within 20 minutes");
+        foreach (string expected in new[] { "EscortSquadron:측면 기동", "EscortSquadron:측면 공격", "InterceptorWing:요격", "BattleGroup:포격" })
+            Require(activities.Contains(expected), $"Squadron behaviour must appear during the battle: {expected}");
+        int destroyed = ships.Count(s => s.Damage.Destroyed || s.Damage.Disabled);
+        Console.WriteLine($"  squadron activities: {string.Join(", ", activities.OrderBy(a => a))}");
+        Console.WriteLine($"  destroyed or disabled: {destroyed}/{ships.Count}");
         Console.WriteLine($"Full battle 20 min: first damage {firstContact / 60:0.0} min, collisions {collisions}");
         Console.WriteLine($"  blue {Side(Faction.Blue)} | red {Side(Faction.Red)}  (X = destroyed, n = modules lost)");
         foreach (Faction f in new[] { Faction.Blue, Faction.Red })

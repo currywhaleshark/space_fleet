@@ -32,6 +32,16 @@ public sealed partial class SimWorld
     private double _nextCommand;
 
     public IReadOnlyDictionary<ShipBody, ShipBrain> Brains => _brains;
+    private readonly List<Squadron> _squadrons = new();
+    public IReadOnlyList<Squadron> Squadrons => _squadrons;
+
+    /// <summary>편대를 만든다. 구성원 순서가 선두 순서다(전투단은 전함을 먼저).</summary>
+    public Squadron AddSquadron(string name, Faction faction, SquadronRole role, IEnumerable<ShipBody> members)
+    {
+        var squadron = new Squadron(name, faction, role, members);
+        _squadrons.Add(squadron);
+        return squadron;
+    }
 
     /// <summary>함선에 AI를 붙인다. 이미 있으면 명령만 바꾼다.</summary>
     public ShipBrain AttachBrain(ShipBody ship, ShipOrder order)
@@ -337,50 +347,242 @@ public sealed partial class SimWorld
 
     // ── 함대 지휘(2초) ────────────────────────────────────────
 
+    private const double InterceptorEngageMeters = 60_000;
+    /// <summary>요격 편대: 적 함대가 기함에서 이 거리 안이면 집결 후 돌격.</summary>
+    private const double WingStrikeMeters = 50_000;
+    private const double WingGatherMeters = 2_500;
+    private const double WingGatherTimeout = 20;
+    /// <summary>호위 전대: 적 요격함이 기함에서 이 거리 안이면 방공으로 돌아온다.</summary>
+    private const double ScreenThreatMeters = 30_000;
+    /// <summary>호위 전대 측면 기동점: 표적에서 우리 쪽으로 50 km, 옆으로 40 km.</summary>
+    private const double FlankStandBack = 50_000, FlankSide = 40_000;
+    /// <summary>호위 전대: 표적이 이 거리 안이면 측면 기동을 멈추고 공격.</summary>
+    private const double FlankAttackMeters = 70_000;
+
     private void Command(Faction faction)
     {
-        var fleet = _brains.Values.Where(b => b.Ship.Faction == faction && b.Enabled && !b.Ship.Damage.Destroyed).ToList();
-        if (fleet.Count == 0) return;
-        ShipBody? flagship = fleet.Select(b => b.Ship).OrderBy(s => s.Class.Kind).FirstOrDefault();
-        Vec3d center = flagship!.Position;
-
-        // 아는 적: 접촉 이상. 표적 배분은 식별된 적을 우선한다.
         var known = _ships.Where(s => s.Faction != faction && !s.Damage.Destroyed)
             .Select(s => (Ship: s, Track: Sensors.Track(faction, s)))
             .Where(k => k.Track.Level >= TrackLevel.Contact)
             .ToList();
         var assigned = new Dictionary<ShipBody, int>();
-
-        // 큰 함선부터 표적을 고른다(전함이 먼저 상대 전함을 잡고, 나머지가 흩어진다).
-        foreach (ShipBrain brain in fleet.OrderBy(b => b.Ship.Class.Kind))
+        foreach (Squadron gone in _squadrons.Where(q => q.Faction == faction && q.Leader is null))
         {
-            ShipBody ship = brain.Ship;
-            ShipBody? target = PickTarget(ship, known, assigned);
-            if (target is not null)
-                assigned[target] = assigned.GetValueOrDefault(target) + 1;
-            double range = target is null ? double.PositiveInfinity
-                : (Sensors.Track(faction, target).EstimatedPosition - ship.Position).Length();
-            bool lead = flagship == ship || flagship.Damage.Destroyed;
+            gone.Activity = "전멸";
+            gone.Target = null;
+        }
+        var squadrons = _squadrons.Where(q => q.Faction == faction && q.Leader is not null).ToList();
+        // 기함: 전투단 선두(없으면 아무 편대 선두). 다른 편대가 지키고 따르는 기준.
+        ShipBody? flagship = squadrons.FirstOrDefault(q => q.Role == SquadronRole.BattleGroup)?.Leader
+            ?? squadrons.FirstOrDefault()?.Leader;
+        if (flagship is null) return;
 
-            ShipOrder order = ship.Class.Kind switch
+        // 전투단부터 표적을 정해야 다른 편대가 흩어진다.
+        foreach (Squadron squadron in squadrons.OrderBy(q => q.Role))
+        {
+            if (squadron.PlayerLed) continue;
+            switch (squadron.Role)
             {
-                // 전함: 아는 적이 있으면 공격, 없으면 그 자리.
-                HullKind.Battleship => target is null ? ShipOrder.HoldAt(ship.Position) : ShipOrder.AttackOn(target),
-                // 호위함: 표적이 자기 미사일 사거리에 들어오기 전까지 기함 호위.
-                HullKind.Escort => target is not null && (range < brain.Profile.MissileRangeMeters || lead) ? ShipOrder.AttackOn(target)
-                    : lead ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship),
-                // 요격함: 60 km 안의 표적만 쫓고, 아니면 기함 호위(앞쪽 경계).
-                _ => target is not null && range < InterceptorEngageMeters ? ShipOrder.AttackOn(target)
-                    : lead ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship),
-            };
-            // 같은 명령이면 바꾸지 않는다(위치 유지 지점이 2초마다 밀리지 않게).
-            if (order.Kind != brain.Order.Kind || order.Target != brain.Order.Target)
-                brain.Order = order;
+                case SquadronRole.BattleGroup: CommandBattleGroup(squadron, known, assigned); break;
+                case SquadronRole.EscortSquadron: CommandEscortSquadron(squadron, flagship, known, assigned); break;
+                default: CommandWing(squadron, flagship, known, assigned); break;
+            }
+        }
+
+        // 편대에 속하지 않은 AI 함선: 함종 기본 행동.
+        foreach (ShipBrain brain in _brains.Values.Where(b => b.Ship.Faction == faction && b.Ship.Squadron is null && b.Enabled))
+        {
+            ShipBody? target = PickTarget(brain.Ship, known, assigned);
+            Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
     }
 
-    private const double InterceptorEngageMeters = 60_000;
+    /// <summary>전투단: 전함은 주 표적을 대치 포격, 나머지는 전함 옆 근접 대형에서 같은 표적을 쏜다.</summary>
+    private void CommandBattleGroup(Squadron squadron, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody, int> assigned)
+    {
+        ShipBody leader = squadron.Leader!;
+        ShipBody? target = PickTarget(leader, known, assigned);
+        squadron.Target = target;
+        squadron.Activity = target is null ? "전진 대기" : "포격";
+        Assign(leader, target is null ? ShipOrder.HoldAt(leader.Position) : ShipOrder.AttackOn(target), assigned);
+        int slot = 0;
+        foreach (ShipBody ship in squadron.ActiveMembers.Where(s => s != leader))
+        {
+            float side = slot % 2 == 0 ? 1f : -1f;
+            float rank = 1 + slot / 2;
+            SetFormation(ship, new Vector3(side * (leader.Class.Length * 0.6f + 900f) * rank, 0, -600f * rank));
+            Assign(ship, ShipOrder.EscortOf(leader, target), assigned, count: false);
+            slot++;
+        }
+    }
 
+    /// <summary>호위 전대: 적 요격함이 기함에 붙으면 방공, 아니면 측면으로 돌아 적 호위함을 친다.</summary>
+    private void CommandEscortSquadron(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known,
+        Dictionary<ShipBody, int> assigned)
+    {
+        ShipBody leader = squadron.Leader!;
+        var raiders = known.Where(k => k.Ship.Class.Kind == HullKind.Interceptor && k.Track.Level >= TrackLevel.Identified
+                && !k.Ship.Damage.Disabled && (k.Track.EstimatedPosition - flagship.Position).Length() < ScreenThreatMeters)
+            .OrderBy(k => (k.Track.EstimatedPosition - flagship.Position).Length()).ToList();
+        int slot = 0;
+
+        if (raiders.Count > 0 && flagship.Squadron != squadron)
+        {
+            // 방공: 기함 둘레 3 km에 펼쳐 서서 가까운 적 요격함부터 나눠 쏜다.
+            squadron.Activity = "방공";
+            squadron.Target = raiders[0].Ship;
+            foreach (ShipBody ship in squadron.ActiveMembers)
+            {
+                float angle = Mathf.Tau * slot / Mathf.Max(1, squadron.ActiveMembers.Count());
+                SetFormation(ship, new Vector3(Mathf.Cos(angle) * 3000f, 400f, Mathf.Sin(angle) * 3000f));
+                Assign(ship, ShipOrder.EscortOf(flagship, raiders[slot % raiders.Count].Ship), assigned);
+                slot++;
+            }
+            return;
+        }
+
+        ShipBody? target = PickTarget(leader, known, assigned);
+        squadron.Target = target;
+        if (target is null)
+        {
+            squadron.Activity = "기함 호위";
+            foreach (ShipBody ship in squadron.ActiveMembers)
+            {
+                SetFormation(ship, Wedge(slot++, 1500f) + new Vector3(-6000f, 0, -2000f));
+                Assign(ship, flagship.Squadron == squadron && ship == leader ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship), assigned);
+            }
+            return;
+        }
+
+        Vec3d targetPos = Sensors.Track(squadron.Faction, target).EstimatedPosition;
+        double range = (targetPos - leader.Position).Length();
+        if (range < FlankAttackMeters)
+        {
+            // 공격: 전원 같은 표적(일제 사격·집중 포격).
+            squadron.Activity = "측면 공격";
+            foreach (ShipBody ship in squadron.ActiveMembers)
+                Assign(ship, ShipOrder.AttackOn(target), assigned, count: ship == leader);
+            return;
+        }
+
+        // 측면 기동: 기함-표적 선의 옆으로 돌아 들어가며, 사거리에 들면 미사일을 쏜다.
+        squadron.Activity = "측면 기동";
+        Vector3 line = (targetPos - flagship.Position).ToVector3();
+        Vector3 forward = line.LengthSquared() > 1f ? line.Normalized() : Vector3.Forward;
+        Vector3 up = Mathf.Abs(forward.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up;
+        float side = (ShipBrain.Hash(squadron.Name) & 1) == 0 ? 1f : -1f;
+        Vec3d flank = targetPos - Vec3d.From(forward * (float)FlankStandBack) + Vec3d.From(forward.Cross(up).Normalized() * (float)FlankSide * side);
+        Assign(leader, ShipOrder.HoldAt(flank, target), assigned);
+        foreach (ShipBody ship in squadron.ActiveMembers.Where(s => s != leader))
+        {
+            SetFormation(ship, Wedge(slot++, 1200f));
+            Assign(ship, ShipOrder.EscortOf(leader, target), assigned, count: false);
+        }
+    }
+
+    /// <summary>요격 편대: 적 요격함 요격 → (적 함대 근접 시) 집결 → 한 표적에 동시 돌격 → 경계.</summary>
+    private void CommandWing(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known,
+        Dictionary<ShipBody, int> assigned)
+    {
+        ShipBody leader = squadron.Leader!;
+        var members = squadron.ActiveMembers.ToList();
+
+        // 1) 요격: 60 km 안의 식별된 적 요격함을 나눠 맡는다.
+        var enemyWing = known.Where(k => k.Ship.Class.Kind == HullKind.Interceptor && k.Track.Level >= TrackLevel.Identified
+                && !k.Ship.Damage.Disabled && (k.Track.EstimatedPosition - leader.Position).Length() < InterceptorEngageMeters)
+            .Select(k => k.Ship).ToList();
+        if (enemyWing.Count > 0)
+        {
+            squadron.Activity = "요격";
+            squadron.Target = enemyWing[0];
+            squadron.Striking = false;
+            var local = new Dictionary<ShipBody, int>();
+            foreach (ShipBody ship in members)
+            {
+                ShipBody prey = enemyWing.OrderBy(e => local.GetValueOrDefault(e))
+                    .ThenBy(e => (e.Position - ship.Position).Length()).First();
+                local[prey] = local.GetValueOrDefault(prey) + 1;
+                Assign(ship, ShipOrder.AttackOn(prey), assigned);
+            }
+            return;
+        }
+
+        // 2) 돌격 표적: 기함 50 km 안의 식별된 적 중 실드가 가장 약한 것(호위함 우선, 전함은 마지막).
+        ShipBody? strike = known
+            .Where(k => k.Track.Level >= TrackLevel.Identified && !k.Ship.Damage.Disabled
+                && (k.Track.EstimatedPosition - flagship.Position).Length() < WingStrikeMeters)
+            .OrderBy(k => k.Ship.Class.Kind == HullKind.Battleship ? 1 : 0)
+            .ThenBy(k => k.Ship.Damage.ShieldCapacity > 0 ? k.Ship.Damage.Shield / k.Ship.Damage.ShieldCapacity : 0)
+            .Select(k => k.Ship).FirstOrDefault();
+        if (squadron.Striking && squadron.Target is ShipBody current && !current.Damage.Destroyed && !current.Damage.Disabled
+            && Sensors.Track(squadron.Faction, current).Level >= TrackLevel.Identified)
+            strike = current; // 돌격 중엔 표적을 바꾸지 않는다.
+
+        if (strike is null)
+        {
+            // 3) 경계: 기함 앞 8 km에서 쐐기 대형.
+            squadron.Activity = "전방 경계";
+            squadron.Striking = false;
+            squadron.GatherStarted = double.NegativeInfinity;
+            squadron.Target = null;
+            int slot = 0;
+            foreach (ShipBody ship in members)
+            {
+                SetFormation(ship, new Vector3(0, 300f, -8000f) + Wedge(slot++, 150f));
+                Assign(ship, flagship == ship ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship), assigned);
+            }
+            return;
+        }
+
+        squadron.Target = strike;
+        if (!squadron.Striking)
+        {
+            // 집결: 선두 곁으로 모인다. 다 모였거나 20초가 지나면 돌격.
+            if (double.IsNegativeInfinity(squadron.GatherStarted)) squadron.GatherStarted = Time;
+            bool gathered = members.All(s => (s.Position - leader.Position).Length() < WingGatherMeters);
+            if (!gathered && Time - squadron.GatherStarted < WingGatherTimeout)
+            {
+                squadron.Activity = "집결";
+                int slot = 0;
+                Assign(leader, ShipOrder.HoldAt(leader.Position + Vec3d.From(leader.Velocity * 2f)), assigned);
+                foreach (ShipBody ship in members.Where(s => s != leader))
+                {
+                    SetFormation(ship, Wedge(slot++, 150f));
+                    Assign(ship, ShipOrder.EscortOf(leader), assigned);
+                }
+                return;
+            }
+            squadron.Striking = true;
+        }
+        squadron.Activity = "돌격";
+        foreach (ShipBody ship in members)
+            Assign(ship, ShipOrder.AttackOn(strike), assigned, count: ship == leader);
+    }
+
+    /// <summary>쐐기 대형 자리: 선두 뒤로 좌우 번갈아(로컬 +Z가 뒤).</summary>
+    private static Vector3 Wedge(int slot, float spacing)
+    {
+        int rank = 1 + slot / 2;
+        float side = slot % 2 == 0 ? 1f : -1f;
+        return new Vector3(side * spacing * rank, 0, spacing * 0.7f * rank);
+    }
+
+    private void SetFormation(ShipBody ship, Vector3 offset)
+    {
+        if (_brains.TryGetValue(ship, out ShipBrain? brain))
+            brain.FormationOffset = offset;
+    }
+
+    /// <summary>명령을 바꾼다. 같은 명령이면 그대로 둔다(위치 유지 지점이 2초마다 밀리지 않게).</summary>
+    private void Assign(ShipBody ship, ShipOrder order, Dictionary<ShipBody, int> assigned, bool count = true)
+    {
+        if (count && order.Kind == OrderKind.Attack && order.Target is ShipBody target)
+            assigned[target] = assigned.GetValueOrDefault(target) + 1;
+        if (!_brains.TryGetValue(ship, out ShipBrain? brain) || !brain.Enabled) return;
+        bool moved = order.Kind == OrderKind.Hold && (order.Point - brain.Order.Point).Length() > 2000;
+        if (order.Kind != brain.Order.Kind || order.Target != brain.Order.Target || order.FireAt != brain.Order.FireAt || moved)
+            brain.Order = order;
+    }
     /// <summary>
     /// 함종별로 상대하기 좋은 표적을 고른다. 같은 함종(관통력이 맞는 상대)을 우선하고,
     /// 이미 다른 아군이 맡은 표적은 피해서 흩어진다. 접촉뿐인 적은 식별된 적이 없을 때만.

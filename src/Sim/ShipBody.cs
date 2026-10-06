@@ -60,6 +60,8 @@ public sealed class ShipBody
     public ShipPower Power { get; }
     /// <summary>미사일·디코이 잔량과 재장전.</summary>
     public OrdnanceState Ordnance { get; }
+    /// <summary>소속 편대(없을 수 있다).</summary>
+    public Squadron? Squadron { get; internal set; }
     public CollisionHull Hull => Definition.Hull;
     /// <summary>이 함선이 진행한 시뮬레이션 시간(초). 월드에 처음부터 있던 함선은 SimWorld.Time과 같다.</summary>
     public double SimTime { get; private set; }

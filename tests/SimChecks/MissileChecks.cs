@@ -13,6 +13,7 @@ static class MissileChecks
         CheckCrossingHit();
         CheckPointDefense();
         CheckDecoys();
+        CheckGroupDefense();
         CheckLaunchRules();
         CheckLargeCoordinates();
         Console.WriteLine($"PASS: {_checks} missile/PD/decoy checks");
@@ -123,7 +124,7 @@ static class MissileChecks
         var bare = Salvo(pointDefense: false, useDecoys: false);
         var defended = Salvo(pointDefense: true, useDecoys: false);
         Require(bare.Hits == 6 && bare.Intercepted == 0, $"Without point defense all six missiles hit: {bare.Hits}");
-        Require(defended.Intercepted >= 2 && defended.Hits < bare.Hits, $"Point defense must shoot some missiles down: {defended.Intercepted} intercepted, {defended.Hits} hit");
+        Require(defended.Intercepted >= 1 && defended.Hits < bare.Hits, $"Point defense must shoot some missiles down: {defended.Intercepted} intercepted, {defended.Hits} hit");
         Console.WriteLine($"Salvo BB->DD x6 at 40 km: no PD {bare.Hits} hits / PD {defended.Intercepted} intercepted, {defended.Hits} hits");
     }
 
@@ -133,6 +134,28 @@ static class MissileChecks
         var decoyed = Salvo(pointDefense: false, useDecoys: true);
         Require(decoyed.Hits < bare.Hits, $"Decoys must pull some missiles away: {decoyed.Hits} vs {bare.Hits} hits");
         Console.WriteLine($"Salvo BB->DD x6 at 40 km: decoys {decoyed.Hits} hits (no decoys {bare.Hits})");
+    }
+
+    /// <summary>호위함 4척이 2발씩(8발) 동시에 전투단(전함+호위함 2)을 노린다. 막을 수는 있지만 다 막지는 못해야 한다.</summary>
+    private static void CheckGroupDefense()
+    {
+        var world = new SimWorld();
+        ShipBody bb = Add(world, Variant("battleship"), Faction.Red, Vec3d.Zero, "BB");
+        Add(world, Variant("escort"), Faction.Red, new Vec3d(-1600, 0, -600), "D1");
+        Add(world, Variant("escort"), Faction.Red, new Vec3d(1600, 0, -600), "D2");
+        var shooters = Enumerable.Range(0, 4)
+            .Select(i => Add(world, Variant("escort"), Faction.Blue, new Vec3d(-6000 + i * 4000, 0, -60_000), $"S{i}")).ToList();
+        world.Step();
+        var launched = new Dictionary<ShipBody, int>();
+        var (hits, intercepted, _, _) = Fly(world, bb, 240, tick =>
+        {
+            foreach (ShipBody s in shooters)
+                if (launched.GetValueOrDefault(s) < 2 && s.Ordnance.MissileReady && world.LaunchMissile(s, bb).Fired)
+                    launched[s] = launched.GetValueOrDefault(s) + 1;
+        });
+        Require(launched.Values.Sum() == 8, "All eight missiles must launch");
+        Require(intercepted >= 2 && hits >= 2, $"A battle group must stop some but not all of an 8-missile salvo: {intercepted} intercepted, {hits} hit");
+        Console.WriteLine($"Group defense (BB+2DD vs 4xDD salvo of 8, 60 km): {intercepted} intercepted, {hits} hit");
     }
 
     private static void CheckLaunchRules()

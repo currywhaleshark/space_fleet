@@ -69,6 +69,7 @@ public partial class Hud : Control
         DrawOrdnanceArcs(controlled, size * 0.5f);
         DrawInstruments(controlled, size);
         DrawOwnSystems(controlled, size);
+        DrawSquadrons(controlled, size);
         DrawPowerPanel(controlled, size);
         DrawTargetPanel(size);
         DrawShotFeedback(cam);
@@ -384,7 +385,7 @@ public partial class Hud : Control
             "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트",
             "Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제",
             "1 추진 · 2 실드 · 3 무장 · 4 센서 · 5 ECM에 전력 핍 하나씩(다른 채널에서 가져옴) · 0 균형 배분(ECM 꺼짐)",
-            "편대 명령: G 선택한 적 공격 · H 호위(기본) · J 위치 유지 · [ ] 시간 ×1/×4/×16",
+            "내 편대 명령: G 선택한 적 공격 · H 나를 호위(기본) · J 위치 유지 · Tab 다른 편대 함선으로 · [ ] 시간 ×1/×4/×16",
             "좌클릭 레일건 · 우클릭 미사일 · C 디코이 · T 사격보조 · R 표적 전환 · F7 이동 표적 · F8 미사일 훈련 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;

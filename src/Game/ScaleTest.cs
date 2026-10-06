@@ -83,32 +83,45 @@ public partial class ScaleTest : Node3D
             Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
+    /// <summary>
+    /// 진영마다 편대 셋: 전투단(전함+호위함 2), 호위 전대(호위함 4), 요격 편대(요격함 5). 적은 150 km 앞에서 마주 본다.
+    /// 호출부호 — 아군: BB-01·DD-11·DD-12 / DD-31~34 / IC-21~25, 적: BB-X1·DD-X1·DD-X2 / DD-X3~X6 / IC-X1~X5.
+    /// </summary>
     private void SpawnFleets()
     {
-        // 아군: 전함 중심 전투단 + 호위함 2 + 요격함 2
-        ShipView flagship = Spawn("BB-01", ShipClass.Battleship, Faction.Blue, new(0, 0, 0), Quaternion.Identity);
-        Spawn("DD-11", ShipClass.Escort, Faction.Blue, new(-900, 160, -500), Quaternion.Identity);
-        Spawn("DD-12", ShipClass.Escort, Faction.Blue, new(950, -140, -300), Quaternion.Identity);
-        Spawn("IC-21", ShipClass.Interceptor, Faction.Blue, new(420, 110, 850), Quaternion.Identity);
-        Spawn("IC-22", ShipClass.Interceptor, Faction.Blue, new(470, 70, 905), Quaternion.Identity);
-        flagship.AddChild(DroneSwarm.Create(flagship.Palette, 48, 650f, 1000f, seed: 5));
+        foreach (Faction f in new[] { Faction.Blue, Faction.Red })
+        {
+            bool blue = f == Faction.Blue;
+            Vec3d origin = blue ? Vec3d.Zero : new Vec3d(3000, 22000, -150000);
+            double dir = blue ? 1 : -1; // 적은 배치를 뒤집어 마주 보게
+            Quaternion facing = blue ? Quaternion.Identity : new Quaternion(Vector3.Up, Mathf.Pi);
+            Vec3d At(double x, double y, double z) => origin + new Vec3d(x * dir, y, z * dir);
+            ShipBody Make(string call, ShipClass cls, Vec3d at) => Spawn(call, cls, f, at, facing).Body;
 
-        // 적: 150km 전방. 이 거리에선 전함도 몇 픽셀짜리 점이다.
-        var facing = new Quaternion(Vector3.Up, Mathf.Pi);
-        var anchor = new Vec3d(3000, 22000, -150000);
-        ShipView enemyFlagship = Spawn("BB-X1", ShipClass.Battleship, Faction.Red, anchor, facing);
-        Spawn("DD-X1", ShipClass.Escort, Faction.Red, anchor + new Vec3d(-2200, 400, 1500), facing);
-        Spawn("DD-X2", ShipClass.Escort, Faction.Red, anchor + new Vec3d(2400, -600, 1800), facing);
-        Spawn("IC-X1", ShipClass.Interceptor, Faction.Red, anchor + new Vec3d(-600, 300, 9000), facing);
-        Spawn("IC-X2", ShipClass.Interceptor, Faction.Red, anchor + new Vec3d(500, 200, 9200), facing);
-        enemyFlagship.AddChild(DroneSwarm.Create(enemyFlagship.Palette, 32, 650f, 1000f, seed: 9));
+            var bg = new[]
+            {
+                Make(blue ? "BB-01" : "BB-X1", ShipClass.Battleship, At(0, 0, 0)),
+                Make(blue ? "DD-11" : "DD-X1", ShipClass.Escort, At(-1500, 150, -600)),
+                Make(blue ? "DD-12" : "DD-X2", ShipClass.Escort, At(1500, -150, -600)),
+            };
+            var es = Enumerable.Range(1, 4).Select(i => Make(blue ? $"DD-3{i}" : $"DD-X{i + 2}", ShipClass.Escort,
+                At(-9000 + (i % 2 == 0 ? 1 : -1) * 1200 * ((i + 1) / 2), 0, -2000 + 900 * ((i + 1) / 2)))).ToArray();
+            // 요격 편대는 전함 후미 곁에 둔다(시작 화면에서 1 km 선체 옆을 30 m 요격함이 나는 크기감).
+            var ic = Enumerable.Range(1, 5).Select(i => Make(blue ? $"IC-2{i}" : $"IC-X{i}", ShipClass.Interceptor,
+                At(420 + 60 * (i - 1), 110 - 25 * (i - 1), 850 + 50 * (i - 1)))).ToArray();
+            World.AddSquadron(blue ? "전투단" : "적 전투단", f, SquadronRole.BattleGroup, bg);
+            World.AddSquadron(blue ? "호위 전대" : "적 호위 전대", f, SquadronRole.EscortSquadron, es);
+            World.AddSquadron(blue ? "요격 편대" : "적 요격 편대", f, SquadronRole.InterceptorWing, ic);
+
+            ShipView flagship = Views.Find(v => v.Body == bg[0])!;
+            flagship.AddChild(DroneSwarm.Create(flagship.Palette, blue ? 48 : 32, 650f, 1000f, seed: blue ? 5 : 9));
+        }
 
         foreach (ShipView view in Views)
             if (view.Body.Faction == Faction.Blue)
                 _playable.Add(view);
         World.Sensors.Update(World.Ships, World.Time, force: true);
     }
-
     private ShipView Spawn(string callsign, ShipClass shipClass, Faction faction, Vec3d position, Quaternion orientation)
     {
         var body = World.Add(new ShipBody(callsign, shipClass, faction));
