@@ -13,15 +13,15 @@ public sealed partial class SimWorld
 
     public FireAttempt FireRailgun(ShipBody shooter, Vector3 direction)
     {
-        if (!_ships.Contains(shooter)) return new(false, "월드에 없는 함선");
-        if (shooter.Railgun is not RailgunState gun) return new(false, "주포 없음");
-        if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return new(false, "조준 방향 없음");
-        if (!gun.Ready) return new(false, gun.Status);
+        if (!_ships.Contains(shooter)) return new(false, "월드에 없는 함선", Failure: FireFailure.NotInWorld);
+        if (shooter.Railgun is not RailgunState gun) return new(false, "주포 없음", Failure: FireFailure.NoGun);
+        if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return new(false, "조준 방향 없음", Failure: FireFailure.NoDirection);
+        if (!gun.Ready) return new(false, gun.Status, Failure: FireFailure.NotReady);
         direction = direction.Normalized();
         if (shooter.Forward.AngleTo(direction) > Mathf.DegToRad(gun.Definition.TraverseDegrees))
-            return new(false, "주포 사각 밖 · 기수 정렬 필요");
+            return new(false, "주포 사각 밖", Failure: FireFailure.Arc);
         if (DamageRay.FirstHit(shooter, gun.MuzzlePosition, direction, gun.Definition.MaxRange, out _))
-            return new(false, "자함 선체가 포구를 가림");
+            return new(false, "선체 가림", Failure: FireFailure.HullBlocked);
         _shotSequence++;
         var projectile = new RailProjectile
         {
@@ -33,6 +33,23 @@ public sealed partial class SimWorld
         gun.Consume();
         return new(true, "레일건 발사", projectile);
     }
+
+    /// <summary>
+    /// 함선 로컬 방향(전방 -Z)으로 지금 주포를 쏠 수 있는지: 포각, 자함 선체 가림. 발사하지 않는다(HUD 사격 방위구용).
+    /// </summary>
+    public static FireFailure RailLineLocal(ShipBody shooter, Vector3 local)
+    {
+        if (shooter.Railgun is not RailgunState gun) return FireFailure.NoGun;
+        if (!local.IsFinite() || local.LengthSquared() < 1e-8f) return FireFailure.NoDirection;
+        local = local.Normalized();
+        if (Vector3.Forward.AngleTo(local) > Mathf.DegToRad(gun.Definition.TraverseDegrees)) return FireFailure.Arc;
+        return DamageRay.FirstHitAtPose(shooter, Vec3d.From(gun.Definition.Muzzle), local, gun.Definition.MaxRange,
+            Vec3d.Zero, Quaternion.Identity, out _) ? FireFailure.HullBlocked : FireFailure.None;
+    }
+
+    /// <summary>월드 방향 버전.</summary>
+    public static FireFailure RailLine(ShipBody shooter, Vector3 direction) =>
+        RailLineLocal(shooter, shooter.Orientation.Inverse() * direction);
 
     public void ResetWeapons()
     {

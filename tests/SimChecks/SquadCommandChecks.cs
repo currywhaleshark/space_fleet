@@ -1,5 +1,4 @@
 using Godot;
-using SpaceFleet.Game;
 using SpaceFleet.Sim;
 
 static class SquadCommandChecks

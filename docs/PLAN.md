@@ -201,6 +201,8 @@
 - 최종 빌드 오류 0, 신규 컴파일 경고 0. 507개 검사 통과, `Fleet attack`·`Full battle`의 발사/명중/손상 결과가 작업 전 기준과 동일. NuGet 취약성 데이터 조회의 기존 네트워크 경고(NU1900)는 남아 있다.
 - 단계별 화면: `shots/helm_yaw.png`, `helm_roll.png`, `gunnery_focus.png`, `gunnery_blocked.png`, `gunnery_rolled.png`, `gunnery_hold.png`, `radial_power_helm.png`, `radial_power_pilot.png`, `radial_power_release.png`, `radial_power_cancel.png`, `radial_disable.png`, `radial_squad_focus.png`.
 - 실제 손으로 조작한 조함·카메라·라디얼의 감각은 미확인. 드론·다중 주포·다른 편대 지휘·최종 UI·밸런스는 작업 범위에서 제외.
+- [x] 검수 수정: 화면 밖 방향 표시(미사일 채운 삼각형 · 적 함선 빈 화살촉 · 사격 표적 고리, 진행 방향과 띠 분리), 글자 "롤 필요" 대신 사격 방위구(포각·선체 가림 영역과 표적 점)와 표적 ⊘·빨간 선행점, 사격 패널을 계기판 오른쪽으로 옮겨 자함 모델을 가리지 않게 함. 발사 실패 사유를 문구 대신 `FireFailure` 코드로, 무력화 자동 부위에서 내부 냉각기 제외(겉 방열판만), 자율 표적 거리를 센서 추정 위치로, `SquadCommands`를 `src/Sim`으로 이동.
+- 검증: 사격 검사 5개 추가, 총 512개 통과. `Fleet attack`·`Full battle` 결과 이전과 동일. 화면: `shots/fx_bb_below.png`(아래 표적 · 방위구 하단 빨강 X), `fx_bb_side.png`(롤 중 · 초록 점), `fx_bb_roll.png`(계속 롤해 다시 가림 · 화면 밖 ⊘), `fx_offscreen.png`(화면 밖 미사일·표적).
 
 ### 7. 버티컬 슬라이스
 

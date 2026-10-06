@@ -57,7 +57,9 @@ public partial class Hud
         if (cam.IsPositionBehind(point))
             return;
         Vector2 p = cam.UnprojectPosition(point);
-        Color color = Game.Scheme == ControlScheme.Helm || Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
+        // 조함 방식: 표적이 포각 밖이거나 선체에 가리면 선행점이 빨갛다(OffscreenHud의 사선 상태).
+        Color color = Game.Scheme == ControlScheme.Helm ? (_hasEngagedLine && _engagedLine != FireFailure.None ? Hostile : Lead)
+            : Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
         DrawRect(new Rect2(p - new Vector2(6, 6), new Vector2(12, 12)), color, false, 1.5f);
         // 관측 오차 원: 예상 탄착 분산의 크기.
         float pixels = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);

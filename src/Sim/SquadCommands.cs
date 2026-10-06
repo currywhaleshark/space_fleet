@@ -1,13 +1,12 @@
 using System;
 using System.Linq;
 using Godot;
-using SpaceFleet.Sim;
 
-namespace SpaceFleet.Game;
+namespace SpaceFleet.Sim;
 
 public enum SquadCommand { Escort, Intercept, Focus, Return, Hold }
 
-/// <summary>Player squad order assignment, shared by the game and simulation checks.</summary>
+/// <summary>플레이어 편대 명령을 편대원 두뇌의 명령으로 풀어 준다. 시뮬레이션 층이라 검사에서도 그대로 돌린다.</summary>
 public static class SquadCommands
 {
     public static string Label(SquadCommand command) => command switch

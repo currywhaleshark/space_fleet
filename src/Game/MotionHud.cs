@@ -62,16 +62,9 @@ public partial class Hud
     /// <summary>화면 밖 방향을 가장자리 화살표로 표시한다. 카메라 뒤쪽도 올바른 쪽을 가리킨다.</summary>
     private void DrawEdgeArrow(Camera3D cam, Vector3 worldDir, Vector2 screen)
     {
-        Vector3 local = cam.GlobalBasis.Inverse() * worldDir;
-        var d = new Vector2(local.X, -local.Y);
-        if (d.LengthSquared() < 1e-6f)
-            d = Vector2.Down; // 정확히 뒤쪽이면 아래를 가리킨다.
-        d = d.Normalized();
-
-        Vector2 center = screen * 0.5f;
-        float rx = screen.X * 0.5f - 70f, ry = screen.Y * 0.5f - 70f;
-        float t = Mathf.Min(rx / Mathf.Max(Mathf.Abs(d.X), 1e-4f), ry / Mathf.Max(Mathf.Abs(d.Y), 1e-4f));
-        Vector2 at = center + d * t;
+        // 가장자리 띠: 바깥부터 미사일 · 적 함선 · 진행 방향(OffscreenHud). 같은 방향이어도 겹치지 않는다.
+        Vector2 d = EdgeDirection(cam, worldDir);
+        Vector2 at = EdgePoint(d, screen, 100f);
         Vector2 n = new(-d.Y, d.X);
         Vector2[] tri = { at + d * 14f, at - d * 6f + n * 9f, at - d * 6f - n * 9f };
         DrawColoredPolygon(tri, new Color(Motion, 0.85f));

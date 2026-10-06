@@ -26,8 +26,8 @@ public static class GunneryLabels
     public static string Status(GunneryStatus status) => status switch
     {
         GunneryStatus.Firing => "발사", GunneryStatus.Reload => "재장전", GunneryStatus.WaitLock => "잠금 대기",
-        GunneryStatus.Range => "사거리 밖", GunneryStatus.Arc => "포각 밖 · 기수 정렬 필요",
-        GunneryStatus.HullBlocked => "선체 가림 · 롤 필요", GunneryStatus.FriendlyLine => "아군 사선",
+        GunneryStatus.Range => "사거리 밖", GunneryStatus.Arc => "포각 밖",
+        GunneryStatus.HullBlocked => "선체 가림", GunneryStatus.FriendlyLine => "아군 사선",
         GunneryStatus.Armor => "장갑 관통 불가", GunneryStatus.Hold => "사격 정지", GunneryStatus.Manual => "수동 사격",
         _ => "표적 없음",
     };
@@ -57,21 +57,28 @@ public sealed partial class SimWorld
         if (FriendlyInLine(ship, gun.MuzzlePosition, solution.Direction, (float)solution.Range))
         { status = GunneryStatus.FriendlyLine; return false; }
         FireAttempt attempt = FireRailgun(ship, solution.Direction);
-        status = attempt.Fired ? GunneryStatus.Firing : attempt.Reason switch
+        status = attempt.Fired ? GunneryStatus.Firing : attempt.Failure switch
         {
-            "자함 선체가 포구를 가림" => GunneryStatus.HullBlocked,
-            "주포 사각 밖 · 기수 정렬 필요" => GunneryStatus.Arc,
+            FireFailure.HullBlocked => GunneryStatus.HullBlocked,
+            FireFailure.Arc => GunneryStatus.Arc,
             _ => GunneryStatus.Reload,
         };
         return attempt.Fired;
     }
 
+    /// <summary>자율 사격 표적. 거리는 센서 추정 위치로 잰다(진짜 위치는 사수가 모른다).</summary>
     public ShipBody? PickGunneryTarget(ShipBody ship) => _ships
-        .Where(s => s.Faction != ship.Faction && !s.Damage.Destroyed && Sensors.Track(ship.Faction, s).Level >= TrackLevel.Locked)
-        .OrderByDescending(s => (s.Class.Kind == HullKind.Interceptor && (s.Position - ship.Position).Length() < 20_000 ? 3
-            : s.Class.Kind == HullKind.Escort ? 2 : s.Class.Kind == HullKind.Battleship ? 1 : 0)
-            * 1_000_000.0 - (s.Position - ship.Position).Length())
-        .ThenBy(s => s.Callsign, StringComparer.Ordinal).FirstOrDefault();
+        .Where(s => s.Faction != ship.Faction && !s.Damage.Destroyed)
+        .Select(s => (Ship: s, Track: Sensors.Track(ship.Faction, s)))
+        .Where(s => s.Track.Level >= TrackLevel.Locked)
+        .Select(s => (s.Ship, Range: (s.Track.EstimatedPosition - ship.Position).Length()))
+        .OrderByDescending(s => (s.Ship.Class.Kind == HullKind.Interceptor && s.Range < 20_000 ? 3
+            : s.Ship.Class.Kind == HullKind.Escort ? 2 : s.Ship.Class.Kind == HullKind.Battleship ? 1 : 0)
+            * 1_000_000.0 - s.Range)
+        .ThenBy(s => s.Ship.Callsign, StringComparer.Ordinal).Select(s => s.Ship).FirstOrDefault();
+
+    private static readonly AimSubsystem[] DisableParts =
+        { AimSubsystem.Engines, AimSubsystem.Guns, AimSubsystem.Sensors, AimSubsystem.Radiators };
 
     private ModuleState? PickGunneryModule(ShipBody ship, ShipBody target, GunneryOrder order)
     {
@@ -80,7 +87,8 @@ public sealed partial class SimWorld
         ModuleState? selected = Subsystems.Pick(target, order.AimPart, ship.Position);
         if (selected is not null || order.Doctrine != FireDoctrine.Disable) return selected;
         if (ship.Railgun is not RailgunState gun) return null;
-        return target.Damage.Modules.Where(m => !m.Destroyed && m.Definition.Kind is ModuleKind.Thruster or ModuleKind.Gun or ModuleKind.Sensor or ModuleKind.Cooling)
+        // 무력화 자동 선택: 겉으로 드러난 기동·무장·센서·방열판 중 지금 뚫리는 가장 가까운 것. 내부 냉각기는 노리지 않는다.
+        return target.Damage.Modules.Where(m => !m.Destroyed && DisableParts.Any(part => Subsystems.Matches(m.Definition, part)))
             .OrderBy(m => (Subsystems.WorldPosition(target, m.Definition) - ship.Position).LengthSquared())
             .FirstOrDefault(m => DamageRay.PreviewArmor(target, gun.MuzzlePosition,
                 (Subsystems.WorldPosition(target, m.Definition) - gun.MuzzlePosition).ToVector3(), gun.Definition.PenetrationMm, out _))

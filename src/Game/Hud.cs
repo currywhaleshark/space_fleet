@@ -57,6 +57,7 @@ public partial class Hud : Control
         Camera3D cam = Game.Camera;
         Vector2 size = GetViewportRect().Size;
 
+        UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
         if (Game.ShowModules && Game.InspectTarget is ShipView target)
             DrawModuleVolumes(cam, target);
@@ -70,6 +71,7 @@ public partial class Hud : Control
         DrawSquadOrders(cam, controlled);
         DrawAimPart(cam, controlled);
         DrawMissileMarkers(cam, controlled, size);
+        DrawOffscreenShips(cam, controlled, size);
         if (Game.Scheme == ControlScheme.Pilot)
         {
             DrawCrosshair(cam, controlled, size);

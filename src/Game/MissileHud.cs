@@ -7,7 +7,7 @@ namespace SpaceFleet.Game;
 
 /// <summary>
 /// 미사일 표시. 내 진영 미사일은 파란 갈매기(탐색기 잠금이면 채움), 적 미사일은 빨간 삼각형.
-/// 나를 노리는 미사일은 크게, 화면 밖이면 가장자리 빨간 화살표. 조준선 아래 호 = 미사일 잔량, 위 호 = 디코이 잔량.
+/// 나를 노리는 미사일은 크게, 화면 밖이면 가장자리에 깜박이는 빨간 삼각형(OffscreenHud). 조준선 아래 호 = 미사일 잔량, 위 호 = 디코이 잔량.
 /// </summary>
 public partial class Hud
 {
@@ -37,7 +37,7 @@ public partial class Hud
             if (!onScreen)
             {
                 if (threat)
-                    DrawThreatArrow(cam, (m.Position - me.Position).ToVector3().Normalized(), screen);
+                    DrawOffscreenMissile(cam, (m.Position - me.Position).ToVector3().Normalized(), screen);
                 continue;
             }
 
@@ -59,32 +59,17 @@ public partial class Hud
         IncomingMissiles = incoming;
     }
 
-    /// <summary>화면 밖 위협 방향의 빨간 화살표(이동 방향 화살표와 같은 배치, 색만 다르다).</summary>
-    private void DrawThreatArrow(Camera3D cam, Vector3 worldDir, Vector2 screen)
-    {
-        Vector3 local = cam.GlobalBasis.Inverse() * worldDir;
-        var d = new Vector2(local.X, -local.Y);
-        if (d.LengthSquared() < 1e-6f) d = Vector2.Down;
-        d = d.Normalized();
-        Vector2 center = screen * 0.5f;
-        float rx = screen.X * 0.5f - 52f, ry = screen.Y * 0.5f - 52f;
-        float t = Mathf.Min(rx / Mathf.Max(Mathf.Abs(d.X), 1e-4f), ry / Mathf.Max(Mathf.Abs(d.Y), 1e-4f));
-        Vector2 at = center + d * t;
-        Vector2 n = new(-d.Y, d.X);
-        DrawColoredPolygon(new[] { at + d * 12f, at - d * 6f + n * 8f, at - d * 6f - n * 8f }, Hostile);
-    }
-
     /// <summary>조준선 아래·위 호: 미사일·디코이 잔량.</summary>
-    private void DrawOrdnanceArcs(ShipView controlled, Vector2 c)
+    private void DrawOrdnanceArcs(ShipView controlled, Vector2 c, float radius = CrosshairRadius + 6f)
     {
         OrdnanceState o = controlled.Body.Ordnance;
         if (o.MissileDefinition is MissileDefinition md)
         {
             Color color = o.MissileReady ? MissileOwn : new Color(MissileOwn, 0.45f);
-            ArcGauge(c, CrosshairRadius + 6f, Mathf.DegToRad(120), Mathf.DegToRad(-60), o.Missiles / (float)md.Rounds, color, 3f);
+            ArcGauge(c, radius, Mathf.DegToRad(120), Mathf.DegToRad(-60), o.Missiles / (float)md.Rounds, color, 3f);
         }
         if (o.DecoyDefinition is DecoyDefinition dd)
-            ArcGauge(c, CrosshairRadius + 6f, Mathf.DegToRad(240), Mathf.DegToRad(60), o.Decoys / (float)dd.Count,
+            ArcGauge(c, radius, Mathf.DegToRad(240), Mathf.DegToRad(60), o.Decoys / (float)dd.Count,
                 o.DecoyReady ? DecoyColor : new Color(DecoyColor, 0.4f), 3f);
     }
 }

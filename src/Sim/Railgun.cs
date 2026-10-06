@@ -51,5 +51,8 @@ public sealed class RailProjectile
     public double Age { get; internal set; }
 }
 
-public readonly record struct FireAttempt(bool Fired, string Reason, RailProjectile? Projectile = null);
+/// <summary>발사 실패 사유 코드. 문구(Reason)는 알림용이고 판단은 이 값으로 한다.</summary>
+public enum FireFailure { None, NotInWorld, NoGun, NoDirection, NotReady, Arc, HullBlocked }
+
+public readonly record struct FireAttempt(bool Fired, string Reason, RailProjectile? Projectile = null, FireFailure Failure = FireFailure.None);
 public sealed record ProjectileImpact(uint Id, ShipBody Shooter, ShotResult Hit, double Time);

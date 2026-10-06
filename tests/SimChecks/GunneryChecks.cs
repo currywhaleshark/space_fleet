@@ -79,6 +79,32 @@ static class GunneryChecks
             Require(module!.HealthFraction < 1, "Disable must damage selected module");
         }
         {
+            // 무력화 + 중심 조준: 부위를 스스로 고른다. 뚫리는 겉 부위만, 내부 냉각기는 아니다.
+            var world = new SimWorld();
+            var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
+            var enemy = Add(world, "ENEMY", ShipClass.Escort, Faction.Red, new Vec3d(0, 0, -10_000));
+            dd.Gunnery = new GunneryOrder { Doctrine = FireDoctrine.Disable, Target = enemy, AimPart = AimSubsystem.Center };
+            Step(world, 1);
+            var module = dd.Gunnery.EngagedModule;
+            Require(module is not null, "Disable with Center must pick a module");
+            Require(module!.Definition.Kind is ModuleKind.Thruster or ModuleKind.Gun or ModuleKind.Sensor
+                || Subsystems.Matches(module.Definition, AimSubsystem.Radiators), $"Disable picked internal module {module.Definition.Id}");
+            var gun = dd.Railgun!;
+            Require(DamageRay.PreviewArmor(enemy, gun.MuzzlePosition,
+                (Subsystems.WorldPosition(enemy, module.Definition) - gun.MuzzlePosition).ToVector3(), gun.Definition.PenetrationMm, out _),
+                "Disable auto pick must be penetrable from current muzzle");
+        }
+        {
+            // 발사 실패는 문구가 아니라 코드로 돌려준다.
+            var world = new SimWorld();
+            var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
+            var attempt = world.FireRailgun(dd, Vector3.Back);
+            Require(!attempt.Fired && attempt.Failure == FireFailure.Arc, $"Rear shot failure: {attempt.Failure}");
+            var bb = Add(world, "BB", ShipClass.Battleship, Faction.Blue, new Vec3d(50_000, 0, 0));
+            attempt = world.FireRailgun(bb, new Vector3(0, -1, -0.2f).Normalized());
+            Require(!attempt.Fired && attempt.Failure == FireFailure.HullBlocked, $"Below shot failure: {attempt.Failure}");
+        }
+        {
             var world = new SimWorld();
             var bb = Add(world, "BB", ShipClass.Battleship, Faction.Blue, Vec3d.Zero);
             var enemy = Add(world, "BELOW", ShipClass.Escort, Faction.Red, new Vec3d(0, -8000, 0));
