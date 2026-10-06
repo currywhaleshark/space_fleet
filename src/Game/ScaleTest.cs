@@ -70,7 +70,8 @@ public partial class ScaleTest : Node3D
         AddChild(_dust);
 
         var layer = new CanvasLayer { Name = "HudLayer" };
-        layer.AddChild(new Hud { Name = "Hud", Game = this });
+        _hud = new Hud { Name = "Hud", Game = this };
+        layer.AddChild(_hud);
         AddChild(layer);
 
         _shot = ShotRequest.Parse(OS.GetCmdlineUserArgs());
@@ -207,6 +208,8 @@ public partial class ScaleTest : Node3D
                     Camera.Zoom(1.1f);
                 else if (button.ButtonIndex == MouseButton.Left && Scheme == ControlScheme.Pilot)
                     Input.MouseMode = Input.MouseModeEnum.Captured;
+                else if (button.ButtonIndex == MouseButton.Left && Gunnery?.Doctrine != FireDoctrine.Manual)
+                    SelectAt(button.Position);
                 return;
         }
 
@@ -264,7 +267,7 @@ public partial class ScaleTest : Node3D
             CycleTimeScale(-1);
         else if (e.IsActionPressed(InputSetup.TimeFaster))
             CycleTimeScale(1);
-        else if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right } && Input.MouseMode == Input.MouseModeEnum.Captured)
+        else if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right } && (Scheme == ControlScheme.Helm || Input.MouseMode == Input.MouseModeEnum.Captured))
             LaunchMissileAtTarget();
         else if (Controlled?.Body.Power is ShipPower power)
         {
@@ -303,6 +306,7 @@ public partial class ScaleTest : Node3D
                 : PlayerControl();
         }
 
+        if (Gunnery is { } order) order.AimPart = AimPart;
         World.Step();
         StepCombat();
         if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
@@ -361,6 +365,7 @@ public partial class ScaleTest : Node3D
 
         ShipBody body = _playable[index].Body;
         HandOverControl(previous, body);
+        SetupGunnery(previous, body);
         SetControlScheme(body);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
@@ -379,8 +384,8 @@ public partial class ScaleTest : Node3D
         {
             ShipView candidate = Views[(start + i) % Views.Count];
             // 탐지되지 않은 적은 고를 수 없다(아군은 데이터 링크로 항상 안다).
-            if (candidate == Controlled || !Known(candidate)) continue;
-            InspectTarget = candidate;
+            if (candidate == Controlled || !Known(candidate) || (Scheme == ControlScheme.Helm && candidate.Body.Faction == Controlled!.Body.Faction)) continue;
+            SelectEnemy(candidate);
             Vector3 direction = (candidate.Body.Position - Controlled!.Body.Position).ToVector3().Normalized();
             if (Scheme == ControlScheme.Pilot && direction.LengthSquared() > 0.1f)
                 Camera.ResetAim(Basis.LookingAt(direction, Controlled.Body.Up).GetRotationQuaternion());
@@ -449,6 +454,11 @@ public partial class ScaleTest : Node3D
         Throttle = shot.Throttle;
         Controlled!.Body.Velocity = Controlled.Body.Forward * shot.Speed;
         if (shot.BallisticsTarget is not null) SetupPractice(shot.BallisticsTarget, shot.TestDistance, shot.TargetSpeed);
+        if (Gunnery is { } order)
+        {
+            order.Doctrine = Enum.TryParse<FireDoctrine>(shot.Doctrine, true, out var doctrine) ? doctrine : shot.ManualFire ? FireDoctrine.Manual : FireDoctrine.Free;
+            if (shot.BallisticsTarget is not null && InspectTarget is { } practice) SelectEnemy(practice);
+        }
         FireAssist = !shot.ManualFire;
         // 전력 검증: --pips=추진,실드,무장,센서[,ECM]  --heat=열 비율(0~1.25)
         if (shot.Pips is { Length: 4 or 5 } p)
@@ -474,6 +484,8 @@ public partial class ScaleTest : Node3D
 
     private void SaveShotAndQuit(string path)
     {
+        if (Gunnery is { } order)
+            GD.Print($"gunnery: doctrine={order.Doctrine}, engaged={order.Engaged?.Callsign}, status={order.Status}, rounds={Controlled?.Body.Railgun?.Rounds}");
         if (_shot?.BallisticsTarget is not null)
             GD.Print($"railgun test: shots={_liveShots}, recent hits={World.Impacts.Count}, active={World.Projectiles.Count}, target shield={_practiceTarget?.Damage.Shield:0}, damaged modules={_practiceTarget?.Damage.Modules.Count(m => m.HealthFraction < 1)}");
         if (_shot is { Drill: true } || _shot is { Launch: > 0 })
@@ -492,7 +504,7 @@ public partial class ScaleTest : Node3D
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
         int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
-        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch)
+        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch, string? Doctrine, float Below)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -552,7 +564,7 @@ public partial class ScaleTest : Node3D
                 (int)F("time-scale", 1),
                 map.GetValueOrDefault("order"),
                 map.GetValueOrDefault("aim"),
-                map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0));
+                map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0), map.GetValueOrDefault("doctrine"), F("below", 0));
         }
     }
 }

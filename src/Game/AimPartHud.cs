@@ -12,7 +12,7 @@ public partial class Hud
 {
     private void DrawAimPart(Camera3D cam, ShipView controlled)
     {
-        if (Game.AimPart == AimSubsystem.Center || Game.FireTarget is not ShipView target) return;
+        if ((Game.Scheme == ControlScheme.Pilot && Game.AimPart == AimSubsystem.Center) || Game.FireTarget is not ShipView target) return;
         if (Game.TrackOf(target).Level < TrackLevel.Identified) return; // 무엇인지 모르면 부위도 모른다.
         ShipBody me = controlled.Body;
         if (me.Railgun is not RailgunState gun) return;
@@ -21,6 +21,7 @@ public partial class Hud
         Vector2 labelAt;
         if (module is null)
         {
+            if (Game.Scheme == ControlScheme.Helm) return;
             // 그 부위가 남아 있지 않다.
             Vector3 center = target.Position;
             if (cam.IsPositionBehind(center)) return;

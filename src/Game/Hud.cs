@@ -25,6 +25,8 @@ public partial class Hud : Control
     private Font _font = null!;
 
     public ScaleTest Game { get; set; } = null!;
+    public List<(Rect2 Rect, ShipView View, ModuleState Module)> ModuleRegions { get; } = new();
+    public List<(Vector2 Position, ShipView View)> BracketPositions { get; } = new();
 
     public override void _Ready()
     {
@@ -47,6 +49,8 @@ public partial class Hud : Control
 
     public override void _Draw()
     {
+        ModuleRegions.Clear();
+        BracketPositions.Clear();
         if (Game?.Controlled is not ShipView controlled)
             return;
 
@@ -66,8 +70,12 @@ public partial class Hud : Control
         DrawSquadOrders(cam, controlled);
         DrawAimPart(cam, controlled);
         DrawMissileMarkers(cam, controlled, size);
-        DrawCrosshair(cam, controlled, size);
-        DrawOrdnanceArcs(controlled, size * 0.5f);
+        if (Game.Scheme == ControlScheme.Pilot)
+        {
+            DrawCrosshair(cam, controlled, size);
+            DrawOrdnanceArcs(controlled, size * 0.5f);
+        }
+        else DrawGunnery(cam, controlled, size);
         DrawInstruments(controlled, size);
         DrawOwnSystems(controlled, size);
         DrawSquadrons(controlled, size);
@@ -153,7 +161,7 @@ public partial class Hud : Control
         foreach (var (view, track, render, dist, _) in markers.OrderBy(m => m.TrueDist))
         {
             Vector2 p = cam.UnprojectPosition(render);
-            bool selected = view == Game.InspectTarget;
+            bool selected = view == Game.InspectTarget || view == Game.SelectedFriendly;
 
             if (track.Level == TrackLevel.Contact)
             {
@@ -161,12 +169,14 @@ public partial class Hud : Control
                 float errTarget = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
                 float err = _errorShown[view] = _errorShown.TryGetValue(view, out float shown) ? Smooth(shown, errTarget, 0.5f) : errTarget;
                 contacts.Add(new Contact(view, p, err, track, dist));
+                BracketPositions.Add((p, view));
                 continue;
             }
 
             float radius = (float)(view.Body.Class.Length * 0.5 / Math.Max(dist, 1.0)) * pxPerRad;
             if (radius > screen.Y * 0.35f)
                 continue; // 가까워서 화면을 덮는 함선은 표시하지 않는다.
+            BracketPositions.Add((p, view));
 
             bool destroyed = view.Body.Damage.Destroyed;
             // 무력화는 식별 이상에서만 보인다(적이면 겉보기 정보).

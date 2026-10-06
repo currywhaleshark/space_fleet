@@ -347,13 +347,7 @@ public sealed partial class SimWorld
         // 레일건
         if (ship.Railgun is RailgunState gun && gun.Ready && track.Level >= TrackLevel.Locked)
         {
-            FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: brain.AimModule?.Definition.Center);
-            // 실드가 남았으면 벗기려고 쏘고, 실드가 없으면 장갑을 뚫을 수 있는 각도일 때만 쏜다(탄·열 절약).
-            bool worthIt = target.Damage.Shield > 1f
-                || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
-            if (solution.Valid && worthIt && solution.FlightTime <= brain.Profile.RailFlightSeconds
-                && !FriendlyInLine(ship, gun.MuzzlePosition, solution.Direction, (float)solution.Range))
-                FireRailgun(ship, solution.Direction);
+            TryAutoFire(ship, target, brain.AimModule?.Definition.Center, brain.Profile.RailFlightSeconds, out _);
         }
 
         // 미사일: 일제 사격 창

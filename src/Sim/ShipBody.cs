@@ -62,6 +62,7 @@ public sealed class ShipBody
     public ShipPower Power { get; }
     /// <summary>미사일·디코이 잔량과 재장전.</summary>
     public OrdnanceState Ordnance { get; }
+    public GunneryOrder? Gunnery { get; set; }
     /// <summary>소속 편대(없을 수 있다).</summary>
     public Squadron? Squadron { get; internal set; }
     public CollisionHull Hull => Definition.Hull;

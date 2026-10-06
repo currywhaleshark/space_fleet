@@ -50,13 +50,14 @@ public partial class Hud
 
     private void DrawLeadMarker(Camera3D cam, Vector2 screen)
     {
-        if (!Game.FireAssist || Game.FiringSolution is not { Valid: true } solution)
+        FiringSolution? current = Game.Scheme == ControlScheme.Helm ? Game.Gunnery?.Solution : Game.FiringSolution;
+        if ((Game.Scheme == ControlScheme.Pilot && !Game.FireAssist) || current is not { Valid: true } solution)
             return;
         Vector3 point = (solution.AimPoint - Game.RenderOrigin).ToVector3();
         if (cam.IsPositionBehind(point))
             return;
         Vector2 p = cam.UnprojectPosition(point);
-        Color color = Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
+        Color color = Game.Scheme == ControlScheme.Helm || Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
         DrawRect(new Rect2(p - new Vector2(6, 6), new Vector2(12, 12)), color, false, 1.5f);
         // 관측 오차 원: 예상 탄착 분산의 크기.
         float pixels = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);

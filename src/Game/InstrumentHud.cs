@@ -103,7 +103,7 @@ public partial class Hud
             body.Power.EcmActive ? ("ECM", true, new Color(0.78f, 0.55f, 1f, 0.95f)) : ("", false, Faint),
             Game.TimeScale > 1 ? ($"×{Game.TimeScale}", true, Motion) : ("", false, Faint),
             IncomingMissiles > 0 ? ($"미사일 {IncomingMissiles}", (int)(Game.World.Time * 4) % 2 == 0, Hostile) : ("", false, Faint),
-            (body.TurnBraking ? "선회 감속" : "사격보조", body.TurnBraking || Game.FireAssist, body.TurnBraking ? Motion : Lead),
+            (Game.Scheme == ControlScheme.Helm ? "조함" : body.TurnBraking ? "선회 감속" : "사격보조", Game.Scheme == ControlScheme.Helm || body.TurnBraking || Game.FireAssist, body.TurnBraking ? Motion : Lead),
             body.Power.Overheated ? ("과열", true, Hostile) : body.Power.Supply < 0.99f ? ("전력 부족", true, Motion) : ("", false, Faint),
         };
         chips = System.Array.FindAll(chips, c => c.Text.Length > 0);

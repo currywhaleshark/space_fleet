@@ -146,6 +146,7 @@ public partial class Hud
         {
             Rect2 r = Project(m.Definition.Center, m.Definition.HalfSize);
             r = r.GrowIndividual(0, 0, Mathf.Max(0, 2f - r.Size.X), Mathf.Max(0, 2f - r.Size.Y)); // 너무 작은 모듈도 보이게
+            if (Game.InspectTarget is { } view && view.Body == body) ModuleRegions.Add((r, view, m));
             float f = m.HealthFraction;
             Color fill = m.Destroyed ? new Color(Hostile, 0.75f) : new Color(Health(f), f < 0.99f ? 0.65f : 0.3f);
             DrawRect(r, fill);
