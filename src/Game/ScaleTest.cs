@@ -79,8 +79,6 @@ public partial class ScaleTest : Node3D
         SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
         if (_shot is not null)
             ApplyShotSetup(_shot);
-        else
-            Input.MouseMode = Input.MouseModeEnum.Captured;
     }
 
     /// <summary>
@@ -196,15 +194,18 @@ public partial class ScaleTest : Node3D
     {
         switch (e)
         {
-            case InputEventMouseMotion motion when Input.MouseMode == Input.MouseModeEnum.Captured:
+            case InputEventMouseMotion motion when (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
                 Camera.AddMouse(motion.Relative);
+                return;
+            case InputEventMouseButton button when button.ButtonIndex == MouseButton.Middle && Scheme == ControlScheme.Helm:
+                Camera.FreeLooking = button.Pressed;
                 return;
             case InputEventMouseButton { Pressed: true } button when button.ButtonIndex != MouseButton.Right:
                 if (button.ButtonIndex == MouseButton.WheelUp)
                     Camera.Zoom(0.9f);
                 else if (button.ButtonIndex == MouseButton.WheelDown)
                     Camera.Zoom(1.1f);
-                else if (button.ButtonIndex == MouseButton.Left)
+                else if (button.ButtonIndex == MouseButton.Left && Scheme == ControlScheme.Pilot)
                     Input.MouseMode = Input.MouseModeEnum.Captured;
                 return;
         }
@@ -221,7 +222,7 @@ public partial class ScaleTest : Node3D
             AssistStyle = AssistStyle == AssistStyle.Aircraft ? AssistStyle.Space : AssistStyle.Aircraft;
         else if (e.IsActionPressed(InputSetup.ThrottleZero))
             Throttle = 0f;
-        else if (e.IsActionPressed(InputSetup.ReleaseMouse))
+        else if (e.IsActionPressed(InputSetup.ReleaseMouse) && Scheme == ControlScheme.Pilot)
             Input.MouseMode = Input.MouseModeEnum.Visible;
         else if (e.IsActionPressed(InputSetup.InspectTarget))
             NextInspectTarget();
@@ -299,19 +300,7 @@ public partial class ScaleTest : Node3D
                 ? new ShipControl { FlightAssist = false }
                 : ship != player
                 ? ShipControl.Idle
-                : new ShipControl
-                {
-                    // 스크린샷 모드의 --strafe=x,y는 평행이동 입력을 대신한다(보조 추진기 연출 검증용).
-                    Thrust = new Vector3(
-                        Input.GetAxis(InputSetup.StrafeLeft, InputSetup.StrafeRight) + (_shot?.Strafe.X ?? 0f),
-                        Input.GetAxis(InputSetup.StrafeDown, InputSetup.StrafeUp) + (_shot?.Strafe.Y ?? 0f),
-                        Throttle),
-                    Roll = Input.GetAxis(InputSetup.RollLeft, InputSetup.RollRight) + (_shot?.Roll ?? 0f),
-                    Boost = Input.IsActionPressed(InputSetup.Boost),
-                    FlightAssist = _flightAssist,
-                    Style = AssistStyle,
-                    AimForward = Camera.AimForward,
-                };
+                : PlayerControl();
         }
 
         World.Step();
@@ -372,7 +361,7 @@ public partial class ScaleTest : Node3D
 
         ShipBody body = _playable[index].Body;
         HandOverControl(previous, body);
-        Camera.ResetAim(body.Orientation);
+        SetControlScheme(body);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
         // 기본 표적은 탐지된 가장 가까운 살아 있는 적. 사격통제가 아군을 잡지 않게 한다.
@@ -393,7 +382,7 @@ public partial class ScaleTest : Node3D
             if (candidate == Controlled || !Known(candidate)) continue;
             InspectTarget = candidate;
             Vector3 direction = (candidate.Body.Position - Controlled!.Body.Position).ToVector3().Normalized();
-            if (direction.LengthSquared() > 0.1f)
+            if (Scheme == ControlScheme.Pilot && direction.LengthSquared() > 0.1f)
                 Camera.ResetAim(Basis.LookingAt(direction, Controlled.Body.Up).GetRotationQuaternion());
             break;
         }
@@ -503,7 +492,7 @@ public partial class ScaleTest : Node3D
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
         int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
-        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern)
+        bool NoAi, int StartTimeScale, string? Order, string? Aim, bool Stern, float HelmYaw, float HelmPitch)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -563,7 +552,7 @@ public partial class ScaleTest : Node3D
                 (int)F("time-scale", 1),
                 map.GetValueOrDefault("order"),
                 map.GetValueOrDefault("aim"),
-                map.ContainsKey("stern"));
+                map.ContainsKey("stern"), F("yaw", 0), F("pitch", 0));
         }
     }
 }

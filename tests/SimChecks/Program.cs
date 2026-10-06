@@ -23,6 +23,7 @@ static class SimChecks
         SensorChecks.Run();
         MissileChecks.Run();
         InfiltrationChecks.Run();
+        HelmChecks.Run();
         AIChecks.Run();
     }
 
@@ -79,7 +80,7 @@ static class SimChecks
     {
         var ship = Create(speed: 380);
         Vector3 original = ship.Velocity;
-        ship.Control = new ShipControl { AimForward = Vector3.Back, FlightAssist = false };
+        ship.Control = new ShipControl { HelmForward = Vector3.Back, FlightAssist = false };
         for (int tick = 0; tick < 300; tick++)
             StepAndCheckG(ship);
         Require(ship.Forward.Dot(Vector3.Back) > 0.999f, "Assist OFF should allow an independent nose flip");
@@ -92,7 +93,7 @@ static class SimChecks
         float Rate(float speed)
         {
             var ship = Create(speed: speed);
-            ship.Control = new ShipControl { AimForward = Vector3.Right, FlightAssist = true };
+            ship.Control = new ShipControl { HelmForward = Vector3.Right, FlightAssist = true };
             for (int tick = 0; tick < 6; tick++)
                 StepAndCheckG(ship);
             return ship.AngularVelocity.Length();
@@ -110,7 +111,7 @@ static class SimChecks
             ship.Control = new ShipControl
             {
                 Thrust = new Vector3(0, 0, 1), FlightAssist = true,
-                AimForward = Vector3.Back, Boost = initialSpeed > 380f,
+                HelmForward = Vector3.Back, Boost = initialSpeed > 380f,
             };
             bool braked = false;
             float minimumSpeed = initialSpeed, peakG = 0, peakSlip = 0;
@@ -160,7 +161,7 @@ static class SimChecks
         float Rate(float speed)
         {
             var ship = Create(speed: speed);
-            ship.Control = new ShipControl { AimForward = Vector3.Right, FlightAssist = true, Style = AssistStyle.Space };
+            ship.Control = new ShipControl { HelmForward = Vector3.Right, FlightAssist = true, Style = AssistStyle.Space };
             for (int tick = 0; tick < 6; tick++)
                 StepAndCheckG(ship);
             return ship.AngularVelocity.Length();
@@ -172,7 +173,7 @@ static class SimChecks
         var ship = Create(speed: 380);
         ship.Control = new ShipControl
         {
-            Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, AimForward = Vector3.Right,
+            Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, HelmForward = Vector3.Right,
         };
         double noseAt = -1, alignedAt = -1;
         float minimumSpeed = float.PositiveInfinity;
@@ -209,7 +210,7 @@ static class SimChecks
         pitch.Control = new ShipControl
         {
             Thrust = new Vector3(0, 0, 1), FlightAssist = true,
-            AimForward = (Vector3.Back + Vector3.Up * 0.05f).Normalized(),
+            HelmForward = (Vector3.Back + Vector3.Up * 0.05f).Normalized(),
         };
         float minimumForwardSpeed = float.PositiveInfinity;
         for (int tick = 0; tick < 1800; tick++)
@@ -218,12 +219,12 @@ static class SimChecks
             minimumForwardSpeed = Math.Min(minimumForwardSpeed, pitch.Velocity.Dot(pitch.Forward));
         }
         Require(minimumForwardSpeed >= -0.01f, "Pitch half turn must avoid backward drift");
-        Require(pitch.Forward.Dot(pitch.Control.AimForward!.Value) > 0.999f, "Pitch half turn must finish");
+        Require(pitch.Forward.Dot(pitch.Control.HelmForward!.Value) > 0.999f, "Pitch half turn must finish");
         var mixed = Create(speed: 380);
         mixed.Control = new ShipControl
         {
             Thrust = Vector3.One, FlightAssist = true, Boost = true, Roll = 1,
-            AimForward = (Vector3.Up + Vector3.Right).Normalized(),
+            HelmForward = (Vector3.Up + Vector3.Right).Normalized(),
         };
         for (int tick = 0; tick < 1200; tick++)
             StepAndCheckG(mixed);

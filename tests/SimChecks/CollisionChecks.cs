@@ -108,7 +108,7 @@ static class CollisionChecks
         world = new SimWorld();
         ShipBody battleship = Add(world, "BB", Vec3d.Zero, Vector3.Zero, ShipClass.Battleship);
         ShipBody interceptor = Add(world, "IC", new(0, 0, 598.02), Vector3.Forward);
-        interceptor.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, AimForward = Vector3.Forward };
+        interceptor.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, HelmForward = Vector3.Forward };
         float peak = 0;
         for (int tick = 0; tick < 1200; tick++)
         {
@@ -190,7 +190,7 @@ static class CollisionChecks
         var world = new SimWorld();
         ShipBody ship = Add(world, "IC", new(420, 110, 850), Vector3.Forward * 380);
         Vec3d initial = ship.Position;
-        ship.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, AimForward = Vector3.Back };
+        ship.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, HelmForward = Vector3.Back };
         world.Step();
         Require(ship.PrevPosition == initial, "Render interpolation must retain the entire tick's starting position");
         Require(world.Tick == 1 && Math.Abs(world.Time - SimWorld.TickDelta) < 1e-12, "Collision substeps must not change the external 60Hz clock");

@@ -105,9 +105,9 @@ static class PowerChecks
         ShipDefinition def = ShipDefinitions.For(HullKind.Interceptor);
         ShipBody ship = Create(HullKind.Interceptor);
         ship.Velocity = Vector3.Forward * def.Flight.MaxSpeed;
-        ship.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, AimForward = Vector3.Forward };
+        ship.Control = new ShipControl { Thrust = new Vector3(0, 0, 1), FlightAssist = true, Style = AssistStyle.Space, HelmForward = Vector3.Forward };
         Steps(ship, 60);
-        ship.Control = ship.Control with { AimForward = new Quaternion(Vector3.Up, Mathf.DegToRad(3)) * Vector3.Forward };
+        ship.Control = ship.Control with { HelmForward = new Quaternion(Vector3.Up, Mathf.DegToRad(3)) * Vector3.Forward };
         float peak = 0, lateralPeak = 0;
         for (int i = 0; i < 300; i++)
         {

@@ -252,7 +252,7 @@ static class DamageChecks
         var blackout = Create();
         Destroy(blackout, "bus-port"); Destroy(blackout, "bus-starboard");
         blackout.Velocity = Vector3.Forward * 100;
-        blackout.Control = new ShipControl { Thrust = Vector3.One, AimForward = Vector3.Right, FlightAssist = true };
+        blackout.Control = new ShipControl { Thrust = Vector3.One, HelmForward = Vector3.Right, FlightAssist = true };
         blackout.Step(SimWorld.TickDelta);
         Require(blackout.Velocity == Vector3.Forward * 100 && Near(blackout.AngularVelocity.Length(), 0), "Power loss must preserve inertia and prevent thrust and commanded rotation");
         var systems = Create();

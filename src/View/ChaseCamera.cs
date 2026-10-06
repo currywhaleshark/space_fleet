@@ -3,6 +3,8 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.View;
 
+public enum CameraMode { MouseAim, ShipFollow }
+
 /// <summary>
 /// 마우스 조준 추적 카메라. 마우스는 "조준 방향"을 돌리고 함선은 그 방향으로 기수를 튼다.
 /// 우주에는 위아래가 없으므로 카메라 수평선은 조종함의 위쪽(롤)을 따라간다.
@@ -12,6 +14,9 @@ public partial class ChaseCamera : Camera3D
     private Basis _aim = Basis.Identity;
     private Vector2 _pendingMouse;
     private float _zoom = 1f;
+    private Vector2 _look;
+    public CameraMode Mode { get; set; }
+    public bool FreeLooking { get; set; }
 
     public float Sensitivity { get; set; } = 0.0022f;
 
@@ -27,7 +32,12 @@ public partial class ChaseCamera : Camera3D
         Far = 1.0e6f;
     }
 
-    public void ResetAim(Quaternion orientation) => _aim = new Basis(orientation);
+    public void ResetAim(Quaternion orientation)
+    {
+        _aim = new Basis(orientation);
+        _look = _pendingMouse = Vector2.Zero;
+        FreeLooking = false;
+    }
 
     /// <summary>현재 조준 기준으로 요/피치(도)만큼 돌린다. 스크린샷 연출용.</summary>
     public void Turn(float yawDeg, float pitchDeg)
@@ -43,6 +53,20 @@ public partial class ChaseCamera : Camera3D
     public void Follow(ShipClass shipClass, Vector3 shipPosition, Quaternion shipOrientation, float delta)
     {
         float sens = Sensitivity * Fov / 70f;
+        if (Mode == CameraMode.ShipFollow)
+        {
+            if (FreeLooking)
+            {
+                _look.X = Mathf.Clamp(_look.X - _pendingMouse.X * sens, -Mathf.DegToRad(170), Mathf.DegToRad(170));
+                _look.Y = Mathf.Clamp(_look.Y - _pendingMouse.Y * sens, -Mathf.DegToRad(80), Mathf.DegToRad(80));
+            }
+            else _look *= Mathf.Exp(-delta / 0.6f);
+            _pendingMouse = Vector2.Zero;
+            Quaternion offsetRotation = new Quaternion(Vector3.Up, _look.X) * new Quaternion(Vector3.Right, _look.Y);
+            _aim = new Basis(_aim.GetRotationQuaternion().Slerp(shipOrientation * offsetRotation, 1 - Mathf.Exp(-delta / 0.25f)));
+            Place(shipClass, shipPosition);
+            return;
+        }
         if (_pendingMouse != Vector2.Zero)
         {
             _aim = _aim.Rotated(_aim.Y.Normalized(), -_pendingMouse.X * sens);
@@ -61,6 +85,11 @@ public partial class ChaseCamera : Camera3D
         }
         _aim = _aim.Orthonormalized();
 
+        Place(shipClass, shipPosition);
+    }
+
+    private void Place(ShipClass shipClass, Vector3 shipPosition)
+    {
         var offset = new Vector3(0, shipClass.CameraHeight, shipClass.CameraDistance) * _zoom;
         Transform = new Transform3D(_aim, shipPosition + _aim * offset);
     }

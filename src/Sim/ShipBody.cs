@@ -20,11 +20,13 @@ public struct ShipControl
     public Vector3 Thrust;
     /// <summary>+1 = 우롤.</summary>
     public float Roll;
+    public float Pitch;
+    public float Yaw;
     public bool Boost;
     public bool FlightAssist;
     public AssistStyle Style;
     /// <summary>기수를 돌릴 월드 방향. null이면 현재 자세 유지.</summary>
-    public Vector3? AimForward;
+    public Vector3? HelmForward;
 
     public static ShipControl Idle => new() { FlightAssist = true };
 }
@@ -163,7 +165,7 @@ public sealed class ShipBody
         float accRoll = Mathf.DegToRad(Class.RollAccelDeg) * maneuver;
 
         Vector3 desired = Vector3.Zero;
-        if (Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
+        if (Control.HelmForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
         {
             // 목표 방향을 함선 로컬로. 로컬 전방은 -Z.
             Vector3 t = (Orientation.Inverse() * aim).Normalized();
@@ -179,6 +181,11 @@ public sealed class ShipBody
             float rate = Mathf.Min(maxPitchYaw, Mathf.Sqrt(2f * accPitchYaw * angle) * 0.85f);
             rate = Mathf.Min(rate, angle * 8f);
             desired = axis * rate;
+        }
+        else
+        {
+            desired.X = Mathf.Clamp(Control.Pitch, -1f, 1f) * maxPitchYaw;
+            desired.Y = -Mathf.Clamp(Control.Yaw, -1f, 1f) * maxPitchYaw;
         }
 
         // 로컬 +Z 축 양의 회전 = 좌롤.
@@ -220,7 +227,7 @@ public sealed class ShipBody
             // 비행보조: 입력이 가리키는 목표 속도로 맞추되 추진기 한계 안에서만.
             Vector3 target = thrust * Class.MaxSpeed * boost;
             if (Control.Style == AssistStyle.Aircraft && Control.Thrust.Z > 0f
-                && Control.AimForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
+                && Control.HelmForward is Vector3 aim && aim.LengthSquared() > 1e-8f)
             {
                 // 큰 선회 입력은 스로틀을 유지한 채 감속한다. 방향이 맞으면 자동으로 재가속한다.
                 float aimAngle = Forward.AngleTo(aim);

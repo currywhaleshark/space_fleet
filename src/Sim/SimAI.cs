@@ -327,7 +327,7 @@ public sealed partial class SimWorld
             Boost = brain.WantBoost,
             FlightAssist = true,
             Style = AssistStyle.Space,
-            AimForward = aim,
+            HelmForward = aim,
         };
     }
 
