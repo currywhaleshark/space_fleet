@@ -33,6 +33,18 @@ public partial class ScaleTest
             GetViewport().SetInputAsHandled();
             return true;
         }
+        if (e.IsActionPressed(InputSetup.GunneryMenu) && Scheme == ControlScheme.Helm)
+        {
+            OpenGunneryMenu();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
+        if (e.IsActionPressed(InputSetup.SquadMenu))
+        {
+            OpenSquadMenu();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
         return false;
     }
 
@@ -55,10 +67,47 @@ public partial class ScaleTest
             ? GetViewport().GetVisibleRect().Size * 0.5f : GetViewport().GetMousePosition(), Scheme == ControlScheme.Pilot);
     }
 
+    private bool HasSelectedEnemy => InspectTarget is { } target && Controlled is { } me
+        && target.Body.Faction != me.Body.Faction && !target.Body.Damage.Destroyed && Known(target);
+
+    private void OpenGunneryMenu() => OpenMenu(InputSetup.GunneryMenu, "사격", new[]
+    {
+        new RadialItem("무력화", 0, () => SetDoctrine(FireDoctrine.Disable)),
+        new RadialItem("집중", 90, () => { SelectEnemy(InspectTarget!); SetDoctrine(FireDoctrine.Focus); }, () => HasSelectedEnemy),
+        new RadialItem("자유", 180, () => SetDoctrine(FireDoctrine.Free)),
+        new RadialItem("중지", 270, () => SetDoctrine(FireDoctrine.Hold)),
+        new RadialItem("수동", 225, () => SetDoctrine(FireDoctrine.Manual)),
+        new RadialItem("일제사격", 45, Volley, () => HasSelectedEnemy),
+    });
+
+    private void Volley()
+    {
+        if (!HasSelectedEnemy || Controlled is not { } me || InspectTarget is not { } target) return;
+        SelectEnemy(target);
+        FireAttempt missile = World.LaunchMissile(me.Body, target.Body);
+        ModuleState? module = target.Body.Damage.Modules.FirstOrDefault(m => !m.Destroyed && m.Definition.Id == Gunnery?.PriorityModuleId)
+            ?? Subsystems.Pick(target.Body, AimPart, me.Body.Position);
+        bool rail = World.TryAutoFire(me.Body, target.Body, module?.Definition.Center, double.PositiveInfinity, out GunneryStatus status);
+        Notify(rail || missile.Fired ? "일제사격" : GunneryLabels.Status(status), !rail && !missile.Fired);
+    }
+
+    private void OpenSquadMenu() => OpenMenu(InputSetup.SquadMenu, "편대", new[]
+    {
+        new RadialItem("호위", 270, () => IssueSquadCommand(SquadCommand.Escort)),
+        new RadialItem("요격", 0, () => IssueSquadCommand(SquadCommand.Intercept)),
+        new RadialItem("집중공격", 90, () => IssueSquadCommand(SquadCommand.Focus), () => HasSelectedEnemy),
+        new RadialItem("복귀", 180, () => IssueSquadCommand(SquadCommand.Return)),
+        new RadialItem("위치유지", 135, () => IssueSquadCommand(SquadCommand.Hold)),
+    });
+
     private void SetupShotRadial()
     {
-        if (_shot?.Radial != "power") return;
-        _UnhandledInput(new InputEventAction { Action = InputSetup.PowerMenu, Pressed = true });
+        if (_shot is null) return;
+        string? action = _shot.Radial switch
+        { "power" => InputSetup.PowerMenu, "gunnery" or "fire" => InputSetup.GunneryMenu, "squad" => InputSetup.SquadMenu, _ => null };
+        if (action is null) return;
+        _UnhandledInput(new InputEventAction { Action = action, Pressed = true });
+        if (!MenuOpen) return;
         if (_shot.RadialDirection is float direction)
         {
             Vector2 offset = new Vector2(Mathf.Sin(Mathf.DegToRad(direction)), -Mathf.Cos(Mathf.DegToRad(direction))) * 100;
@@ -69,10 +118,11 @@ public partial class ScaleTest
 
     private void StepShotRadial()
     {
-        if (_shot is not { RadialRelease: true } || _shotRadialReleased || _frame < _shot.RadialHoldFrames) return;
+        if (_shot is not { RadialRelease: true } || _shotRadialReleased || _frame + 1 < _shot.RadialHoldFrames) return;
         _shotRadialReleased = true;
         if (_radialAction is { } action) _UnhandledInput(new InputEventAction { Action = action, Pressed = false });
         if (Controlled?.Body.Power is { } power)
             GD.Print($"radial released: pips={string.Join('/', Enum.GetValues<PowerChannel>().Select(power.Pips))}");
+        GD.Print($"radial result: doctrine={Gunnery?.Doctrine}, squad={SquadOrder}, target={SquadTarget?.Callsign}");
     }
 }

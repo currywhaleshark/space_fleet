@@ -16,6 +16,37 @@ static class GunneryChecks
     { for (int i = 0; i < seconds * SimWorld.TickRate; i++) world.Step(); }
     public static void Run()
     {
+        foreach (var doctrine in new[] { FireDoctrine.Focus, FireDoctrine.Disable })
+        {
+            var world = new SimWorld();
+            var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
+            var enemy = Add(world, "UNLOCKED", ShipClass.Escort, Faction.Red, new Vec3d(0, 0, -500_000));
+            dd.Gunnery = new GunneryOrder { Doctrine = doctrine, Target = enemy };
+            world.Step();
+            Require(dd.Gunnery.Engaged == enemy && dd.Gunnery.Status == GunneryStatus.WaitLock, $"{doctrine} must retain selected target and wait for lock");
+        }
+        {
+            var world = new SimWorld();
+            var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
+            var enemy = Add(world, "ENEMY", ShipClass.Escort, Faction.Red, new Vec3d(0, 0, -20_000));
+            var module = enemy.Damage.Modules.First(m => m.Definition.Kind == ModuleKind.Thruster);
+            dd.Gunnery = new GunneryOrder { Doctrine = FireDoctrine.Focus, Target = enemy, PriorityModuleId = module.Definition.Id, AimPart = AimSubsystem.Sensors };
+            Step(world, 1);
+            Require(dd.Gunnery.EngagedModule == module, "Clicked module must take precedence over Y subsystem");
+            dd.Gunnery.PriorityModuleId = "missing";
+            world.Step();
+            Require(dd.Gunnery.EngagedModule?.Definition.Kind == ModuleKind.Sensor, "Missing priority must fall back to Y subsystem");
+        }
+        {
+            var world = new SimWorld();
+            var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
+            var enemy = Add(world, "ENEMY", ShipClass.Escort, Faction.Red, new Vec3d(0, 0, -20_000));
+            world.AttachBrain(dd, ShipOrder.HoldAt(dd.Position));
+            dd.Gunnery = new GunneryOrder { Doctrine = FireDoctrine.Focus, Target = enemy };
+            int rounds = dd.Railgun!.Rounds;
+            Step(world, 1);
+            Require(dd.Gunnery.Engaged is null && dd.Railgun.Rounds == rounds, "Gunnery must not take over an enabled AI ship");
+        }
         foreach (FireDoctrine doctrine in new[] { FireDoctrine.Focus, FireDoctrine.Hold, FireDoctrine.Manual })
         {
             var world = new SimWorld();

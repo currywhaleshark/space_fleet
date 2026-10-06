@@ -52,9 +52,8 @@ public partial class Hud
             string activity = mine
                 ? Game.SquadOrder switch
                 {
-                    OrderKind.Attack => $"공격 {Game.SquadTarget?.Callsign}",
-                    OrderKind.Hold => "위치 유지",
-                    _ => "나를 호위",
+                    SquadCommand.Focus => $"집중 {Game.SquadTarget?.Callsign}",
+                    _ => SquadCommands.Label(Game.SquadOrder),
                 }
                 : q.Activity;
             Label(new Vector2(panel.Position.X + 120, y + 14), $"{q.Name} · {activity}", 12, mine ? Text : Dim,

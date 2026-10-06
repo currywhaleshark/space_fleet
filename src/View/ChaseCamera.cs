@@ -42,8 +42,26 @@ public partial class ChaseCamera : Camera3D
     /// <summary>현재 조준 기준으로 요/피치(도)만큼 돌린다. 스크린샷 연출용.</summary>
     public void Turn(float yawDeg, float pitchDeg)
     {
+        if (Mode == CameraMode.ShipFollow)
+        {
+            if (yawDeg == 0 && pitchDeg == 0) return;
+            _look += new Vector2(Mathf.DegToRad(yawDeg), Mathf.DegToRad(pitchDeg));
+            _look.X = Mathf.Clamp(_look.X, -Mathf.DegToRad(170), Mathf.DegToRad(170));
+            _look.Y = Mathf.Clamp(_look.Y, -Mathf.DegToRad(80), Mathf.DegToRad(80));
+            FreeLooking = true;
+            return;
+        }
         _aim = _aim.Rotated(_aim.Y.Normalized(), Mathf.DegToRad(yawDeg));
         _aim = _aim.Rotated(_aim.X.Normalized(), Mathf.DegToRad(pitchDeg)).Orthonormalized();
+    }
+
+    /// <summary>검증 장면의 관찰 방향. 조함 입력에는 전달하지 않는다.</summary>
+    public void Observe(Vector3 direction, Quaternion orientation)
+    {
+        if (Mode == CameraMode.MouseAim) { ResetAim(Basis.LookingAt(direction, orientation * Vector3.Up).GetRotationQuaternion()); return; }
+        Vector3 local = (orientation.Inverse() * direction).Normalized();
+        _look = new Vector2(Mathf.Atan2(-local.X, -local.Z), Mathf.Asin(Mathf.Clamp(local.Y, -1, 1)));
+        FreeLooking = true;
     }
 
     public void AddMouse(Vector2 relative) => _pendingMouse += relative;

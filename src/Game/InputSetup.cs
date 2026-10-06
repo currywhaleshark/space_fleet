@@ -6,6 +6,8 @@ namespace SpaceFleet.Game;
 public static class InputSetup
 {
     public const string PowerMenu = "power_menu";
+    public const string GunneryMenu = "gunnery_menu";
+    public const string SquadMenu = "squad_menu";
     public const string ThrottleUp = "throttle_up";
     public const string ThrottleDown = "throttle_down";
     public const string ThrottleZero = "throttle_zero";
@@ -49,6 +51,8 @@ public static class InputSetup
     public static void Register()
     {
         Bind(PowerMenu, Key.F);
+        Bind(GunneryMenu, Key.B);
+        Bind(SquadMenu, Key.N);
         Bind(ThrottleUp, Key.W);
         Bind(ThrottleDown, Key.S);
         Bind(ThrottleZero, Key.X);

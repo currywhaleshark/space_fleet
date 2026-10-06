@@ -15,7 +15,7 @@ public partial class ScaleTest
     private int _timeScaleIndex;
 
     public int TimeScale => TimeScales[_timeScaleIndex];
-    public OrderKind SquadOrder { get; private set; } = OrderKind.Escort;
+    public SquadCommand SquadOrder { get; private set; } = SquadCommand.Escort;
     public ShipBody? SquadTarget { get; private set; }
     /// <summary>스크린샷 검증 등에서 AI를 끈 상태.</summary>
     public bool AiDisabled { get; private set; }
@@ -49,7 +49,7 @@ public partial class ScaleTest
         // 다른 편대로 옮겨 타면 그 편대가 내 명령을 따르고, 이전 편대는 지휘관에게 돌아간다.
         if (previous?.Squadron != next.Squadron)
         {
-            SquadOrder = OrderKind.Escort;
+            SquadOrder = SquadCommand.Escort;
             SquadTarget = null;
         }
         MarkPlayerSquadron(next);
@@ -71,50 +71,35 @@ public partial class ScaleTest
     private void ApplySquadOrder()
     {
         if (Controlled?.Body is not ShipBody leader) return;
-        var squad = World.Brains.Values
-            .Where(b => b.Ship.Squadron is not null && b.Ship.Squadron == leader.Squadron && b.Ship != leader && !b.Ship.Damage.Destroyed)
-            .OrderBy(b => b.Ship.Callsign)
-            .ToList();
-        if (SquadOrder == OrderKind.Attack && (SquadTarget is null || SquadTarget.Damage.Destroyed))
-            SquadOrder = OrderKind.Escort;
-
-        for (int i = 0; i < squad.Count; i++)
-        {
-            ShipBrain brain = squad[i];
-            ShipBody ship = brain.Ship;
-            float angle = Mathf.Tau * i / squad.Count;
-            float radius = leader.Class.Length * 0.6f + ship.Class.Length * 0.6f + 500f;
-            brain.FormationOffset = new Vector3(Mathf.Cos(angle) * radius, (i % 2 == 0 ? 1 : -1) * radius * 0.15f, Mathf.Sin(angle) * radius);
-            brain.Order = SquadOrder switch
-            {
-                OrderKind.Attack => ShipOrder.AttackOn(SquadTarget!),
-                OrderKind.Hold => ShipOrder.HoldAt(ship.Position),
-                _ => ShipOrder.EscortOf(leader),
-            };
-        }
+        if (SquadOrder == SquadCommand.Focus && (SquadTarget is null || SquadTarget.Damage.Destroyed))
+            SquadOrder = SquadCommand.Escort;
+        ShipBody? fireAt = Gunnery?.Engaged ?? (HasSelectedEnemy ? InspectTarget!.Body : null);
+        SquadCommands.Apply(World, leader, SquadOrder, SquadTarget, fireAt);
     }
 
-    private void IssueOrder(OrderKind kind)
+    private double _nextSquadUpdate;
+    private void StepSquadCommand()
     {
-        if (kind == OrderKind.Attack)
-        {
-            if (InspectTarget is not ShipView target || target.Body.Faction == Controlled?.Body.Faction || target.Body.Damage.Destroyed)
-            {
-                Notify("공격할 적을 먼저 고르세요 (R)", failed: true);
-                return;
-            }
-            SquadTarget = target.Body;
-        }
-        SquadOrder = kind;
+        if (SquadOrder is not (SquadCommand.Intercept or SquadCommand.Escort) || World.Time < _nextSquadUpdate) return;
+        _nextSquadUpdate = World.Time + 2;
         ApplySquadOrder();
-        Notify(kind switch
-        {
-            OrderKind.Attack => $"편대: {SquadTarget!.Callsign} 공격",
-            OrderKind.Hold => "편대: 위치 유지",
-            _ => "편대: 호위",
-        }, failed: false);
     }
+    private void IssueOrder(OrderKind kind) => IssueSquadCommand(kind switch
+    { OrderKind.Attack => SquadCommand.Focus, OrderKind.Hold => SquadCommand.Hold, _ => SquadCommand.Escort });
 
+    private void IssueSquadCommand(SquadCommand command)
+    {
+        if (command == SquadCommand.Focus)
+        {
+            if (!HasSelectedEnemy) { Notify("공격할 적을 먼저 고르세요 (R)", true); return; }
+            SquadTarget = InspectTarget!.Body;
+        }
+        else SquadTarget = null;
+        SquadOrder = command;
+        _nextSquadUpdate = World.Time + 2;
+        ApplySquadOrder();
+        Notify($"편대 · {SquadCommands.Label(command)}", false);
+    }
     private void CycleTimeScale(int step)
     {
         _timeScaleIndex = Mathf.Clamp(_timeScaleIndex + step, 0, TimeScales.Length - 1);

@@ -196,6 +196,11 @@
 - [x] 3차: Helm T 교리 순환과 짧은 알림, Pilot T 사격보조 유지. 빌드·460개 검사·교리 HUD 화면 확인.
 - [x] 4차: 공용 라디얼 계산·단일 실행 수명·섹터 HUD, F 전력 프리셋, 캡처/자유 커서, 클릭 차단과 취소, 검증 CLI와 도움말 구분.
 - 검증: 라디얼·전력 33개 추가, 총 493개. 화력 선택 1/1/4/2/0, 중앙 취소 2/2/2/2/0, 두 조작 방식 화면 확인. 직접 조작감은 미확인.
+- [x] 5차: B 교리·일제사격, N 호위/요격/집중/복귀/위치유지 라디얼. 2초마다 근처 요격함 분산 배정, 복귀 시 공격 해제, 내 편대 HUD 갱신.
+- 검증: 편대 9개·선택 표적/모듈 우선순위·AI 소유권 5개 추가, 총 507개. 라디얼 무력화 칩과 집중공격 점선 화면 확인. 기존 `--look-at`/`--turn` 관찰 인자도 조함 카메라에서 유지.
+- 최종 빌드 오류 0, 신규 컴파일 경고 0. 507개 검사 통과, `Fleet attack`·`Full battle`의 발사/명중/손상 결과가 작업 전 기준과 동일. NuGet 취약성 데이터 조회의 기존 네트워크 경고(NU1900)는 남아 있다.
+- 단계별 화면: `shots/helm_yaw.png`, `helm_roll.png`, `gunnery_focus.png`, `gunnery_blocked.png`, `gunnery_rolled.png`, `gunnery_hold.png`, `radial_power_helm.png`, `radial_power_pilot.png`, `radial_power_release.png`, `radial_power_cancel.png`, `radial_disable.png`, `radial_squad_focus.png`.
+- 실제 손으로 조작한 조함·카메라·라디얼의 감각은 미확인. 드론·다중 주포·다른 편대 지휘·최종 UI·밸런스는 작업 범위에서 제외.
 
 ### 7. 버티컬 슬라이스
 

@@ -313,6 +313,7 @@ public partial class ScaleTest : Node3D
         }
 
         if (Gunnery is { } order) order.AimPart = AimPart;
+        StepSquadCommand();
         World.Step();
         StepCombat();
         if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
@@ -479,12 +480,13 @@ public partial class ScaleTest : Node3D
             while (AimPart != parsed) CycleAimPart();
         if (shot.Order is "attack" or "hold" or "escort")
             IssueOrder(shot.Order switch { "attack" => OrderKind.Attack, "hold" => OrderKind.Hold, _ => OrderKind.Escort });
+        else if (Enum.TryParse<SquadCommand>(shot.Order, true, out var command)) IssueSquadCommand(command);
         Camera.Zoom(shot.Zoom);
         if (shot.LookAt is string target && Views.Find(v => v.Body.Callsign == target) is ShipView targetView)
         {
             ShipBody me = Controlled!.Body;
             Vector3 dir = (targetView.Body.Position - me.Position).ToVector3().Normalized();
-            Camera.ResetAim(Basis.LookingAt(dir, me.Up).GetRotationQuaternion());
+            Camera.Observe(dir, me.Orientation);
         }
         Camera.Turn(shot.Yaw, shot.Pitch);
         SetupShotRadial();
