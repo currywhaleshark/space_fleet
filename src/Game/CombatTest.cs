@@ -29,6 +29,7 @@ public partial class ScaleTest
             ?? throw new ArgumentException($"Unknown practice target: {callsign}");
         ShipBody player = Controlled.Body;
         _practiceTarget = target.Body;
+        SuspendBrain(target.Body);
         target.Body.Place(player.Position + Vec3d.From(player.Forward) * distance,
             (player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi)).Normalized());
         target.Body.Velocity = player.Orientation * Vector3.Right * speed;
@@ -85,6 +86,7 @@ public partial class ScaleTest
         shooter.Body.Place(player.Position + Vec3d.From(offset), Basis.LookingAt(-offset.Normalized(), Vector3.Up).GetRotationQuaternion());
         shooter.Body.Ordnance.Reset();
         _drillShooter = shooter.Body;
+        SuspendBrain(shooter.Body);
         _drillLaunched = 0;
         World.Sensors.Update(World.Ships, World.Time, force: true);
         Notify($"미사일 훈련 · {shooter.Body.Callsign} {distance / 1000:0} km", failed: false);

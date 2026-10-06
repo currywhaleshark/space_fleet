@@ -55,8 +55,8 @@ public partial class Hud
         // 거리가 주황이면 내 주포 사거리 밖이다.
         double distance = (body.Position - me.Body.Position).Length();
         bool outOfRange = me.Body.Railgun is RailgunState gun && distance > gun.Definition.MaxRange;
-        Label(new Vector2(x, y + 20f), damage.Destroyed ? "격침" : FormatDistance(distance), 13,
-            damage.Destroyed ? Hostile : outOfRange ? Motion : Dim, HorizontalAlignment.Right, inner);
+        Label(new Vector2(x, y + 20f), damage.Destroyed ? "격침" : damage.Disabled ? $"무력화 · {FormatDistance(distance)}" : FormatDistance(distance), 13,
+            damage.Destroyed || damage.Disabled ? Hostile : outOfRange ? Motion : Dim, HorizontalAlignment.Right, inner);
         DrawShieldBar(new Rect2(x, y + 30f, inner, 8f), body);
         y += 46f;
         if (enemy)

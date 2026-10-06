@@ -65,6 +65,10 @@ public sealed class ShipDamage
     /// <summary>탄약고 평균 상태(전력 무관). 미사일 발사 가능 여부에 쓴다.</summary>
     public float MagazineFraction { get; private set; }
     public bool Destroyed => _catastrophic || _allDestroyed;
+    /// <summary>
+    /// 무력화: 격침은 아니지만 발전이 없거나 추진·자세 제어를 모두 잃어 스스로 움직일 수 없다. 관성으로 떠다닌다.
+    /// </summary>
+    public bool Disabled => !Destroyed && (GenerationFraction <= 0.001f || (PropulsionFraction <= 0.001f && ManeuverFraction <= 0.001f));
     /// <summary>실드가 마지막으로 에너지를 흡수한 시뮬레이션 시각. HUD 강조용.</summary>
     public double LastShieldHitTime { get; private set; } = double.NegativeInfinity;
     public ModuleState Module(string id) => _byId[id];
@@ -182,6 +186,14 @@ public sealed class ShipDamage
     }
 
     private void Recompute()
+    {
+        bool wasDisabled = Disabled;
+        RecomputeSystems();
+        if (!wasDisabled && Disabled && _reports.Count > 0)
+            Report(_reports[^1].Time, "전원·추진 상실 · 무력화");
+    }
+
+    private void RecomputeSystems()
     {
         _allDestroyed = Modules.All(m => m.Destroyed);
         _portPower = PowerFor(PowerGrid.Port);

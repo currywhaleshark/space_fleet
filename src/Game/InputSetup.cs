@@ -38,6 +38,11 @@ public static class InputSetup
     public const string LaunchMissile = "launch_missile";
     public const string Decoys = "decoys";
     public const string MissileDrill = "missile_drill";
+    public const string OrderAttack = "order_attack";
+    public const string OrderEscort = "order_escort";
+    public const string OrderHold = "order_hold";
+    public const string TimeSlower = "time_slower";
+    public const string TimeFaster = "time_faster";
 
     public static void Register()
     {
@@ -72,6 +77,11 @@ public static class InputSetup
         Bind(Practice, Key.F7);
         Bind(Decoys, Key.C);
         Bind(MissileDrill, Key.F8);
+        Bind(OrderAttack, Key.G);
+        Bind(OrderEscort, Key.H);
+        Bind(OrderHold, Key.J);
+        Bind(TimeSlower, Key.Bracketleft);
+        Bind(TimeFaster, Key.Bracketright);
         if (!InputMap.HasAction(LaunchMissile)) InputMap.AddAction(LaunchMissile);
         InputMap.ActionAddEvent(LaunchMissile, new InputEventMouseButton { ButtonIndex = MouseButton.Right });
         if (!InputMap.HasAction(Fire)) InputMap.AddAction(Fire);

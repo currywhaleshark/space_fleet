@@ -53,6 +53,7 @@ public sealed partial class SimWorld
 
     public void Step()
     {
+        StepAI();
         _previous.Clear();
         foreach (RailProjectile projectile in _projectiles) projectile.PrevPosition = projectile.Position;
         foreach (ShipBody ship in _ships)

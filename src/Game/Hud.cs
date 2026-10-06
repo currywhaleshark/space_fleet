@@ -63,6 +63,7 @@ public partial class Hud : Control
             DrawArc(cam.UnprojectPosition(nosePoint), 9f, 0, Mathf.Tau, 24, Friendly, 1.5f);
 
         DrawMotionCues(cam, controlled, size);
+        DrawSquadOrders(cam, controlled);
         DrawMissileMarkers(cam, controlled, size);
         DrawCrosshair(cam, controlled, size);
         DrawOrdnanceArcs(controlled, size * 0.5f);
@@ -166,9 +167,12 @@ public partial class Hud : Control
                 continue; // 가까워서 화면을 덮는 함선은 표시하지 않는다.
 
             bool destroyed = view.Body.Damage.Destroyed;
+            // 무력화는 식별 이상에서만 보인다(적이면 겉보기 정보).
+            bool disabled = view.Body.Damage.Disabled && track.Level >= TrackLevel.Identified;
             float h = Mathf.Max(9f, radius);
             float arm = Mathf.Min(8f, h * 0.6f);
             Color c = destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
+            if (disabled) c = new Color(c, 0.45f);
             float width = selected ? 2.5f : 1.5f;
             foreach (var (sx, sy) in new[] { (-1, -1), (1, -1), (-1, 1), (1, 1) })
             {
@@ -181,13 +185,15 @@ public partial class Hud : Control
                 DrawLine(p + new Vector2(-h, -h) * 0.6f, p + new Vector2(h, h) * 0.6f, c, 1.5f);
                 DrawLine(p + new Vector2(-h, h) * 0.6f, p + new Vector2(h, -h) * 0.6f, c, 1.5f);
             }
+            else if (disabled)
+                DrawLine(p + new Vector2(-h * 0.7f, 0), p + new Vector2(h * 0.7f, 0), c, 2f); // 무력화: 가로줄
             else if (view.Body.Faction != controlled.Body.Faction && track.Level == TrackLevel.Locked)
                 DrawDiamond(p, Mathf.Max(5f, h * 0.55f), c); // 사격통제 잠금
             if (track.Jammed)
                 DrawJamMark(p + new Vector2(-h - 12f, -h + 2f), c);
             ClassPips(p + new Vector2(-h, h + 6f), view.Body.Class.Kind, c);
 
-            string label = $"{view.Body.Callsign}  {FormatDistance(dist)}";
+            string label = $"{view.Body.Callsign}  {FormatDistance(dist)}{(disabled ? "  무력화" : "")}";
             Vector2 at = p + new Vector2(h + 6, -h + 12);
             var rect = new Rect2(at - new Vector2(0, 12), _font.GetStringSize(label, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
             if (labels.Any(r => r.Intersects(rect)))
@@ -378,6 +384,7 @@ public partial class Hud : Control
             "마우스 조준 · W/S 스로틀 · X 정지 · A/D/Space/Ctrl 평행이동 · Q/E 롤 · Shift 부스트",
             "Z 비행보조 · V 항공식/우주식 · Tab 함선 전환 · 휠 줌 · F2 원점 방식 · F3 1,000 km 도약 · Esc 마우스 해제",
             "1 추진 · 2 실드 · 3 무장 · 4 센서 · 5 ECM에 전력 핍 하나씩(다른 채널에서 가져옴) · 0 균형 배분(ECM 꺼짐)",
+            "편대 명령: G 선택한 적 공격 · H 호위(기본) · J 위치 유지 · [ ] 시간 ×1/×4/×16",
             "좌클릭 레일건 · 우클릭 미사일 · C 디코이 · T 사격보조 · R 표적 전환 · F7 이동 표적 · F8 미사일 훈련 · F4 시험 레이 · F5 모듈 보기 · F6 전체 복구",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;

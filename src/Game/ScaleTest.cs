@@ -75,6 +75,8 @@ public partial class ScaleTest : Node3D
 
         _shot = ShotRequest.Parse(OS.GetCmdlineUserArgs());
         SelectControl(_shot?.Control ?? "IC-21");
+        // 피해·충돌 검증은 표적이 움직이면 안 되므로 AI를 끈다(--no-ai로도 끌 수 있다).
+        SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
         if (_shot is not null)
             ApplyShotSetup(_shot);
         else
@@ -100,9 +102,6 @@ public partial class ScaleTest : Node3D
         Spawn("IC-X1", ShipClass.Interceptor, Faction.Red, anchor + new Vec3d(-600, 300, 9000), facing);
         Spawn("IC-X2", ShipClass.Interceptor, Faction.Red, anchor + new Vec3d(500, 200, 9200), facing);
         enemyFlagship.AddChild(DroneSwarm.Create(enemyFlagship.Palette, 32, 650f, 1000f, seed: 9));
-
-        foreach (ShipView view in Views)
-            ApplyDefaultPips(view.Body);
 
         foreach (ShipView view in Views)
             if (view.Body.Faction == Faction.Blue)
@@ -225,9 +224,9 @@ public partial class ScaleTest : Node3D
             {
                 ship.Damage.Reset();
                 ship.Power.Reset();
-                ApplyDefaultPips(ship);
             }
             LastTestShot = null;
+            ResumeBrains();
             World.ResetWeapons();
             LastFireMessage = "전체 복구";
         }
@@ -239,6 +238,16 @@ public partial class ScaleTest : Node3D
             SetupMissileDrill();
         else if (e.IsActionPressed(InputSetup.Decoys))
             LaunchDecoys();
+        else if (e.IsActionPressed(InputSetup.OrderAttack))
+            IssueOrder(OrderKind.Attack);
+        else if (e.IsActionPressed(InputSetup.OrderEscort))
+            IssueOrder(OrderKind.Escort);
+        else if (e.IsActionPressed(InputSetup.OrderHold))
+            IssueOrder(OrderKind.Hold);
+        else if (e.IsActionPressed(InputSetup.TimeSlower))
+            CycleTimeScale(-1);
+        else if (e.IsActionPressed(InputSetup.TimeFaster))
+            CycleTimeScale(1);
         else if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right } && Input.MouseMode == Input.MouseModeEnum.Captured)
             LaunchMissileAtTarget();
         else if (Controlled?.Body.Power is ShipPower power)
@@ -258,9 +267,19 @@ public partial class ScaleTest : Node3D
         float dt = (float)SimWorld.TickDelta;
         Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
 
+        // 시간 배속: 한 물리 틱에 시뮬레이션을 여러 번 진행한다.
+        for (int step = 0; step < TimeScale; step++)
+            StepOnce();
+    }
+
+    private void StepOnce()
+    {
         ShipBody? player = Controlled?.Body;
         foreach (ShipBody ship in World.Ships)
         {
+            // AI가 켜진 함선은 World.Step 안에서 AI가 조종 입력을 쓴다.
+            if (ship != player && World.BrainOf(ship) is { Enabled: true })
+                continue;
             ship.Control = ship == _practiceTarget && ship != player
                 ? new ShipControl { FlightAssist = false }
                 : ship != player
@@ -333,9 +352,11 @@ public partial class ScaleTest : Node3D
         int index = _playable.FindIndex(v => v.Body.Callsign == callsign);
         if (index < 0)
             index = 0;
+        ShipBody? previous = _playable.Count > 0 ? _playable[_controlledIndex].Body : null;
         _controlledIndex = index;
 
         ShipBody body = _playable[index].Body;
+        HandOverControl(previous, body);
         Camera.ResetAim(body.Orientation);
         // 현재 전진 속도를 스로틀로 이어받아 전환 직후 급감속하지 않게 한다.
         Throttle = Mathf.Clamp(body.Velocity.Dot(body.Forward) / body.Class.MaxSpeed, -0.3f, 1f);
@@ -432,6 +453,9 @@ public partial class ScaleTest : Node3D
             Controlled!.Body.Power.AddHeat(shot.Heat * Controlled.Body.Definition.Power.HeatCapacityMj);
         if (shot.Drill)
             SetupMissileDrill(shot.DrillDistance);
+        _timeScaleIndex = System.Math.Max(0, System.Array.IndexOf(TimeScales, shot.StartTimeScale));
+        if (shot.Order is "attack" or "hold" or "escort")
+            IssueOrder(shot.Order switch { "attack" => OrderKind.Attack, "hold" => OrderKind.Hold, _ => OrderKind.Escort });
         Camera.Zoom(shot.Zoom);
         if (shot.LookAt is string target && Views.Find(v => v.Body.Callsign == target) is ShipView targetView)
         {
@@ -461,7 +485,8 @@ public partial class ScaleTest : Node3D
         string Path, int Frames, string? Control, string? LookAt, string? Ram, string? DamageTarget, string? DamageModule, int Pulses,
         string? BallisticsTarget, float TestDistance, float TargetSpeed, bool ManualFire,
         float Yaw, float Pitch, float Throttle, float Speed, float Zoom, bool Far, bool FixedOrigin, bool AircraftStyle,
-        int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys)
+        int[]? Pips, float Heat, Vector2 Strafe, float Roll, bool KeepEcm, int Launch, bool Drill, float DrillDistance, bool AutoDecoys,
+        bool NoAi, int StartTimeScale, string? Order)
     {
         public static ShotRequest? Parse(string[] args)
         {
@@ -516,7 +541,10 @@ public partial class ScaleTest : Node3D
                 (int)F("launch", 0),
                 map.ContainsKey("drill"),
                 F("drill-distance", 40_000f),
-                map.ContainsKey("auto-decoys"));
+                map.ContainsKey("auto-decoys"),
+                map.ContainsKey("no-ai"),
+                (int)F("time-scale", 1),
+                map.GetValueOrDefault("order"));
         }
     }
 }
