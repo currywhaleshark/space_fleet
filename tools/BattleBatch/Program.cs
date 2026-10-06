@@ -30,6 +30,7 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     var row = new Row(task.Seed, task.Mirror, world, run.Elapsed.TotalSeconds, ticks);
     rows.Add(row);
     Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")}: {world.Log.Summary()} wall={row.Wall:F1}s");
+    if (argsMap.ContainsKey("trace")) foreach(var e in world.Log.Events) Console.WriteLine(e);
 });
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();

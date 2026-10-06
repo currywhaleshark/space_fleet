@@ -88,8 +88,10 @@ public sealed partial class SimWorld
         if (selected is not null || order.Doctrine != FireDoctrine.Disable) return selected;
         if (ship.Railgun is not RailgunState gun) return null;
         // 무력화 자동 선택: 겉으로 드러난 기동·무장·센서·방열판 중 지금 뚫리는 가장 가까운 것. 내부 냉각기는 노리지 않는다.
-        return target.Damage.Modules.Where(m => !m.Destroyed && DisableParts.Any(part => Subsystems.Matches(m.Definition, part)))
-            .OrderBy(m => (Subsystems.WorldPosition(target, m.Definition) - ship.Position).LengthSquared())
+        return target.Damage.Modules.Where(m => !m.Destroyed && (DisableParts.Any(part => Subsystems.Matches(m.Definition, part))
+                || m.Definition.Kind == ModuleKind.ManeuverThruster))
+            .OrderBy(m => target.Damage.PropulsionFraction <= 0.01f && m.Definition.Kind == ModuleKind.ManeuverThruster ? 0 : 1)
+            .ThenBy(m => (Subsystems.WorldPosition(target, m.Definition) - ship.Position).LengthSquared())
             .FirstOrDefault(m => DamageRay.PreviewArmor(target, gun.MuzzlePosition,
                 (Subsystems.WorldPosition(target, m.Definition) - gun.MuzzlePosition).ToVector3(), gun.Definition.PenetrationMm, out _))
             ?? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position);

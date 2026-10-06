@@ -8,7 +8,7 @@ static class BattleChecks
     private static void Step(SimWorld world, double seconds) { for (int i = 0; i < seconds * 60; i++) world.Step(); }
     public static void Run()
     {
-        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckDeterminism(); CheckFullBattle();
+        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckPostures(); CheckDeterminism(); CheckFullBattle();
         Console.WriteLine($"PASS: {_checks} battle/setup/log/rules checks");
     }
     private static SimWorld Battle(int seed = 0, bool mirror = false)
@@ -110,10 +110,32 @@ static class BattleChecks
         }
         world.Log!.Finish();
         Require(world.Log.Side(Faction.Blue).RailHit is not null || world.Log.Side(Faction.Red).RailHit is not null, "Full battle must engage");
-        foreach (string expected in new[] { "EscortSquadron:측면 기동", "EscortSquadron:측면 공격", "InterceptorWing:요격", "BattleGroup:포격" })
-            Require(activities.Contains(expected), $"Existing squad behaviour must appear: {expected}");
+        foreach (BattlePhase expected in new[] { BattlePhase.Missile, BattlePhase.Gunnery, BattlePhase.Sniping, BattlePhase.Brawl })
+            Require(world.Log.PhaseSeconds(expected) > 0, $"Full battle phase must appear: {expected}");
         Require(world.Rules!.Outcome is not null, "Battle must have an outcome by time limit");
         Console.WriteLine($"Canonical battle: {world.Log.Summary()}");
         Console.WriteLine($"  destroyed/disabled {world.Ships.Count(s => s.Damage.Destroyed || s.Damage.Disabled)}/24");
+    }
+    private static void CheckPostures()
+    {
+        var doctrine = new FleetDoctrine { GunlineMinimumSeconds=180 }; var state = new FleetState();
+        var facts = new FleetFacts(100_000, 1, 20.5, 20.5, 1);
+        state.Update(29, doctrine, facts); Require(state.Posture == FleetPosture.Approach, "Minimum 30s hold");
+        state.Update(30, doctrine, facts); Require(state.Posture == FleetPosture.Missile, "Identified main in band starts missile phase");
+        state.Update(59, doctrine, facts with { MissileStock = 0 }); Require(state.Posture == FleetPosture.Missile, "Hold before ammo transition");
+        state.Update(60, doctrine, facts with { MissileStock = 0.35f }); Require(state.Posture == FleetPosture.Gunline, "Ammo threshold starts gunline");
+        state.Update(90, doctrine, facts with { KnownFlagshipPropulsion = 0.5f }); Require(state.Posture == FleetPosture.Gunline, "Gunline minimum hold before close");
+        state.Update(240, doctrine, facts with { KnownFlagshipPropulsion = 0.5f }); Require(state.Posture == FleetPosture.Close, "Known flagship half propulsion starts close");
+        state.Update(270, doctrine, facts); Require(state.Posture == FleetPosture.Close, "No regression from close");
+        state.Update(300, doctrine, facts with { OwnStrength = 8.2 }); Require(state.Posture == FleetPosture.Withdraw, "0.4 strength ratio withdraws");
+        state.Update(330, doctrine, facts); Require(state.Posture == FleetPosture.Withdraw, "Withdrawal must remain stable");
+        var timeout = new FleetState(); timeout.Update(30, doctrine, facts);
+        timeout.Update(270, doctrine, facts); Require(timeout.Posture == FleetPosture.Gunline, "Missile timeout");
+        timeout.Update(630, doctrine, facts); Require(timeout.Posture == FleetPosture.Close, "Gunline timeout");
+        var unseen = new FleetState(); unseen.Update(30, doctrine, facts with { IdentifiedMainRange = double.PositiveInfinity, KnownEnemyStrength = 0 });
+        Require(unseen.Posture == FleetPosture.Approach, "No omniscient transition before identification");
+        var world = Battle(); var squad = world.Squadrons[0]; squad.PlayerLed = true;
+        var leader = squad.Leader!; var order = world.BrainOf(leader)!.Order;
+        Step(world, 60); Require(world.BrainOf(leader)!.Order == order, "Commander must not force player-led squad posture orders");
     }
 }

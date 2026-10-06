@@ -73,6 +73,8 @@ public sealed class ShipBrain
     internal double NextThink;
     internal Vector3 DesiredVelocity;
     internal bool WantBoost;
+    internal float? CommandStandoff;
+    internal GunneryOrder PrecisionOrder = new() { Doctrine = FireDoctrine.Disable };
     internal int SalvoId = -1;
     internal int SalvoLaunched;
     internal double BreakUntil = double.NegativeInfinity;

@@ -73,6 +73,7 @@ public static class BattleSetup
             flagships[(int)faction] = bg[0];
         }
         // Preserve the game's commander registration order in this measurement stage.
+        world.Doctrine = new FleetDoctrine();
         world.EnableCommander(Faction.Red);
         world.EnableCommander(Faction.Blue);
         world.Sensors.Update(world.Ships, world.Time, force: true);

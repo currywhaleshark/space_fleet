@@ -8,7 +8,7 @@ namespace SpaceFleet.Sim;
 public enum BattlePhase { Approach, Missile, Gunnery, Sniping, Brawl }
 public enum BattleWeapon { Railgun, Missile, PointDefense }
 public enum BattleEventKind { ModuleDestroyed, Disabled, Destroyed, Collision }
-public sealed record BattleEvent(double Time, string Ship, Faction Victim, Faction? Attacker, BattleEventKind Kind, string? Module = null);
+public sealed record BattleEvent(double Time, string Ship, Faction Victim, Faction? Attacker, BattleEventKind Kind, string? Module = null, string? OtherShip = null);
 public sealed record BattleInterval(double Start, double Duration, BattlePhase Phase);
 public sealed record BattleStrength(double Time, double Blue, double Red);
 public sealed class BattleSideLog
@@ -41,6 +41,7 @@ public sealed class BattleLog
     private readonly List<BattleInterval> _intervals = new();
     private readonly List<BattleStrength> _strength = new();
     private readonly BattleSideLog[] _sides = { new(), new() };
+    private readonly Dictionary<(ShipBody,ShipBody),double> _collisionPairs = new();
     private int _nextInterval;
     private double _nextMinute = 60;
     public IReadOnlyList<BattleEvent> Events => _events;
@@ -144,8 +145,14 @@ public sealed class BattleLog
                 ShipBody? other = _world.Ships.FirstOrDefault(s => s.Callsign == collision.OtherCallsign);
                 if (other is not null && string.CompareOrdinal(ship.Callsign, other.Callsign) < 0)
                 {
-                    _events.Add(new(collision.Time, ship.Callsign, ship.Faction, other.Faction, BattleEventKind.Collision));
-                    if (other.Faction == ship.Faction) FriendlyCollisions++;
+                    var pair = (ship,other);
+                    // Contact lasting multiple substeps is one collision episode, not dozens of new rams.
+                    if (!_collisionPairs.TryGetValue(pair,out double last) || collision.Time-last>1)
+                    {
+                        _events.Add(new(collision.Time, ship.Callsign, ship.Faction, other.Faction, BattleEventKind.Collision, OtherShip:other.Callsign));
+                        if (other.Faction == ship.Faction) FriendlyCollisions++;
+                    }
+                    _collisionPairs[pair] = collision.Time;
                 }
                 ObserveShip(ship, collision.Time, other);
             }

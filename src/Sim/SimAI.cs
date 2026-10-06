@@ -28,6 +28,10 @@ public sealed partial class SimWorld
     private readonly Dictionary<ShipBody, ShipBrain> _brains = new();
     private readonly HashSet<Faction> _commanders = new();
     private readonly Dictionary<(Faction, ShipBody), (int Id, double Until, double NextAllowed)> _salvos = new();
+    private readonly Dictionary<(Faction, ShipBody), double> _salvoWaiting = new();
+    public FleetDoctrine? Doctrine { get; set; }
+    private readonly FleetState[] _fleetStates = { new(), new() };
+    public FleetState Fleet(Faction faction) => _fleetStates[(int)faction];
     private int _salvoSequence;
     private double _nextCommand;
 
@@ -135,6 +139,9 @@ public sealed partial class SimWorld
         }
 
         desired += Avoidance(ship, desired);
+        if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is { Damage.Shield: <= 1 } exposed
+            && Sensors.Track(ship.Faction, exposed).Level >= TrackLevel.Identified)
+            brain.AimModule = PickGunneryModule(ship, exposed, brain.PrecisionOrder);
         float limit = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
         brain.DesiredVelocity = desired.LimitLength(limit);
         if (ship.Power.HeatFraction > 0.85f) brain.WantBoost = false;
@@ -152,7 +159,7 @@ public sealed partial class SimWorld
         Vector3 rh = r / d;
         Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? target.Velocity : Vector3.Zero;
         // 잠기지 않으면(방해·먼 거리) 대치 거리를 줄여 다가간다.
-        float standoff = brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
+        float standoff = brain.CommandStandoff ?? brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
         float radial = Mathf.Clamp((d - standoff) * 0.01f, -0.6f * maxSpeed, maxSpeed);
         Vector3 desired = targetVelocity + rh * radial;
         if (d < standoff * 1.5f)
@@ -257,7 +264,7 @@ public sealed partial class SimWorld
             Vector3 rp = (other.Position - ship.Position).ToVector3();
             float dist = rp.Length();
             float safe = ship.Hull.BoundingRadius + other.Hull.BoundingRadius;
-            safe += Mathf.Max(150f, safe * 0.3f);
+            safe += Doctrine is null ? Mathf.Max(150f, safe * 0.3f) : Mathf.Max(300f, safe * 0.5f);
             if (dist > safe + 40_000f) continue;
             Vector3 rv = other.Velocity - desired;
             float tca = rv.LengthSquared() > 1e-3f ? Mathf.Clamp(-rp.Dot(rv) / rv.LengthSquared(), 0f, 10f) : 0f;
@@ -370,7 +377,9 @@ public sealed partial class SimWorld
             int capable = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && b.Target == target && Squadron.Active(b.Ship)
                 && b.Ship.Ordnance.Missiles > 0 && !b.Profile.AttackRuns
                 && (Sensors.Track(ship.Faction, target).EstimatedPosition - b.Ship.Position).Length() <= b.Profile.MissileRangeMeters * SalvoJoinFactor);
-            if (ready < Math.Max(1, capable)) return;
+            if (!_salvoWaiting.ContainsKey(key)) _salvoWaiting[key] = Time;
+            if (ready < Math.Max(1, capable) && Time - _salvoWaiting[key] < 10) return;
+            _salvoWaiting.Remove(key);
             salvo = (++_salvoSequence, Time + SalvoWindow, Time + SalvoCooldown);
             _salvos[key] = salvo;
         }
@@ -414,6 +423,17 @@ public sealed partial class SimWorld
             .Where(k => k.Track.Level >= TrackLevel.Contact)
             .ToList();
         var assigned = new Dictionary<ShipBody, int>();
+        if (Doctrine is { } doctrine)
+        {
+            var identified = known.Where(k => k.Track.Level >= TrackLevel.Identified).ToList();
+            var main = _ships.Where(s => s.Faction == faction && s.Class.Kind != HullKind.Interceptor && Squadron.Active(s)).ToList();
+            float stock = main.Count == 0 ? 0 : main.Average(s => s.Ordnance.MissileDefinition is { Rounds: > 0 } m ? (float)s.Ordnance.Missiles / m.Rounds : 0);
+            double mainRange = identified.Where(k => k.Ship.Class.Kind != HullKind.Interceptor).Select(k =>
+                main.Count == 0 ? double.PositiveInfinity : main.Min(s => (k.Track.EstimatedPosition - s.Position).Length())).DefaultIfEmpty(double.PositiveInfinity).Min();
+            float? propulsion = identified.FirstOrDefault(k => k.Ship.Class.Kind == HullKind.Battleship).Ship?.Damage.PropulsionFraction;
+            Fleet(faction).Update(Time, doctrine, new(mainRange, stock, BattleRules.Strength(_ships, faction),
+                identified.Where(k => !k.Ship.Damage.Disabled).Sum(k => BattleRules.Weight(k.Ship.Class.Kind)), propulsion));
+        }
         foreach (Squadron gone in _squadrons.Where(q => q.Faction == faction && q.Leader is null))
         {
             gone.Activity = "전멸";
@@ -429,6 +449,16 @@ public sealed partial class SimWorld
         foreach (Squadron squadron in squadrons.OrderBy(q => q.Role))
         {
             if (squadron.PlayerLed) continue;
+            foreach (ShipBody member in squadron.ActiveMembers)
+                if (BrainOf(member) is { } brain) brain.CommandStandoff = Doctrine is null ? null : Fleet(faction).Posture switch
+                {
+                    FleetPosture.Approach => 0,
+                    FleetPosture.Missile => (float)Math.Min(Doctrine.MissileBandMeters, brain.Profile.MissileRangeMeters - 2000),
+                    FleetPosture.Close => (float)Doctrine.CloseMeters,
+                    FleetPosture.Gunline when squadron.Role == SquadronRole.BattleGroup => (float)Doctrine.GunlineMeters,
+                    _ => null,
+                };
+            if (Doctrine is not null && CommandPosture(squadron, flagship, known, assigned)) continue;
             switch (squadron.Role)
             {
                 case SquadronRole.BattleGroup: CommandBattleGroup(squadron, known, assigned); break;
@@ -445,18 +475,59 @@ public sealed partial class SimWorld
         }
     }
 
+    private bool CommandPosture(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody,int> assigned)
+    {
+        FleetPosture posture = Fleet(squadron.Faction).Posture;
+        if (posture == FleetPosture.Gunline) return false;
+        var main = known.Where(k => k.Track.Level >= TrackLevel.Identified && k.Ship.Class.Kind != HullKind.Interceptor).ToList();
+        ShipBody? target = PickTarget(squadron.Leader!, main.Count > 0 ? main : known, assigned);
+        squadron.Target = target;
+        squadron.Activity = posture switch { FleetPosture.Missile => "미사일전", FleetPosture.Close => "근접", FleetPosture.Withdraw => "이탈", _ => "접근" };
+        int slot = 0;
+        foreach (ShipBody ship in squadron.ActiveMembers)
+        {
+            if (posture == FleetPosture.Withdraw)
+            {
+                Vec3d estimate = target is null ? ship.Position + Vec3d.From(ship.Forward) : Sensors.Track(ship.Faction, target).EstimatedPosition;
+                Vector3 away = (ship.Position - estimate).ToVector3().Normalized();
+                if (squadron.Role == SquadronRole.BattleGroup && ship == squadron.Leader)
+                    Assign(ship, ShipOrder.HoldAt(ship.Position + Vec3d.From(away) * 100_000, target), assigned);
+                else { SetFormation(ship, Wedge(slot++, 1800)); Assign(ship, ShipOrder.EscortOf(flagship, target), assigned); }
+            }
+            else if (posture == FleetPosture.Close && (squadron.Role != SquadronRole.BattleGroup || ship == squadron.Leader))
+                Assign(ship, target is null ? ShipOrder.HoldAt(ship.Position) : ShipOrder.AttackOn(target), assigned);
+            else if (squadron.Role == SquadronRole.BattleGroup && ship == squadron.Leader)
+                Assign(ship, target is null ? ShipOrder.HoldAt(ship.Position) : ShipOrder.AttackOn(target), assigned);
+            else
+            {
+                Vector3 offset = squadron.Role switch
+                { SquadronRole.InterceptorWing => new Vector3(0,1000+slot*250,-6000) + Wedge(slot++, 350),
+                    SquadronRole.EscortSquadron => new Vector3(-9000,slot*400,-2000) + Wedge(slot++,1800) * new Vector3(-1,0,1),
+                    _ => Wedge(slot++,1800) * new Vector3(-1,0,1) };
+                // Close: cover the BB's aft/bottom PD blind sector.
+                if (posture == FleetPosture.Close) offset += new Vector3(0,-1200,2000);
+                SetFormation(ship, offset);
+                ShipBody? fireAt = squadron.Role == SquadronRole.InterceptorWing ? known.Where(k => k.Track.Level >= TrackLevel.Identified
+                    && k.Ship.Class.Kind == HullKind.Interceptor && !k.Ship.Damage.Disabled)
+                    .OrderBy(k => (k.Track.EstimatedPosition - ship.Position).Length()).Select(k => k.Ship).FirstOrDefault() : target;
+                Assign(ship, ship == flagship ? ShipOrder.HoldAt(ship.Position, fireAt) : ShipOrder.EscortOf(flagship, fireAt), assigned);
+            }
+        }
+        return true;
+    }
+
     /// <summary>전투단: 전함은 주 표적을 대치 포격, 나머지는 전함 옆 근접 대형에서 같은 표적을 쏜다.</summary>
     private void CommandBattleGroup(Squadron squadron, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody, int> assigned)
     {
         ShipBody leader = squadron.Leader!;
         ShipBody? target = PickTarget(leader, known, assigned);
         squadron.Target = target;
-        squadron.Activity = target is null ? "전진 대기" : "포격";
+        squadron.Activity = target is null ? "전진 대기" : Doctrine is null ? "포격" : "포격선";
         Assign(leader, target is null ? ShipOrder.HoldAt(leader.Position) : ShipOrder.AttackOn(target), assigned);
         int slot = 0;
         foreach (ShipBody ship in squadron.ActiveMembers.Where(s => s != leader))
         {
-            float side = slot % 2 == 0 ? 1f : -1f;
+            float side = (slot % 2 == 0 ? 1f : -1f) * (Doctrine is null ? 1 : -1);
             float rank = 1 + slot / 2;
             SetFormation(ship, new Vector3(side * (leader.Class.Length * 0.6f + 900f) * rank, 0, -600f * rank));
             Assign(ship, ShipOrder.EscortOf(leader, target), assigned, count: false);
@@ -562,6 +633,8 @@ public sealed partial class SimWorld
             .OrderBy(k => k.Ship.Class.Kind == HullKind.Battleship ? 1 : 0)
             .ThenBy(k => k.Ship.Damage.ShieldCapacity > 0 ? k.Ship.Damage.Shield / k.Ship.Damage.ShieldCapacity : 0)
             .Select(k => k.Ship).FirstOrDefault();
+        if (Doctrine is not null && Fleet(squadron.Faction).Posture == FleetPosture.Gunline
+            && Time - Fleet(squadron.Faction).Since < 300) strike = null;
         if (squadron.Striking && squadron.Target is ShipBody current && !current.Damage.Destroyed && !current.Damage.Disabled
             && Sensors.Track(squadron.Faction, current).Level >= TrackLevel.Identified)
             strike = current; // 돌격 중엔 표적을 바꾸지 않는다.
