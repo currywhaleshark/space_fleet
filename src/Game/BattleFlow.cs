@@ -14,7 +14,8 @@ public partial class ScaleTest
     public BattleConfig? LaunchConfig { get; init; }
     public string? LaunchControl { get; init; }
     public bool AutoPlay { get; set; }
-    public bool Paused { get; set; }
+    private bool _paused;
+    public bool Paused { get => _paused; set { _paused=value; _audio?.SetPaused(value); } }
     public bool Spectating { get; private set; }
     public double BriefRemaining { get; private set; } = 3;
     public double DeathRemaining { get; private set; } = -1;
@@ -79,6 +80,7 @@ public partial class ScaleTest
     {
         bool autoplay=AutoPlay;AutoPlay=true;EnableAutoPlay();
         double end=World.Time+seconds;while(World.Time<end)World.Step();
+        _audio.Prime(World,Controlled?.Body);
         AutoPlay=autoplay;BriefRemaining=0;
         if(!AutoPlay&&Controlled is { } me){World.DetachBrain(me.Body);MarkPlayerSquadron();SetupGunnery(null,me.Body);ApplySquadOrder();}
     }

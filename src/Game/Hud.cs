@@ -389,7 +389,7 @@ public partial class Hud : Control
     {
         if (!Game.ShowHelp)
         {
-            Label(new Vector2(16, screen.Y - 12), "F1 도움말", 12, Dim);
+            Label(new Vector2(16, screen.Y - 12), SoundSettings.Muted ? "F1 도움말 · M 효과음 켜기" : "F1 도움말 · M 효과음 끄기", 12, Dim);
             return;
         }
         ShipBody body = controlled.Body;
@@ -401,7 +401,7 @@ public partial class Hud : Control
                 : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 함께 누르면 평행추력 · 중클릭 자유 관찰 · 좌클릭 선택/수동 사격",
             "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
             "우클릭 미사일 · C 디코이 · R 표적 · Y 조준 부위",
-            "Z 비행보조 · V 항공식/우주식",
+            "Z 비행보조 · V 항공식/우주식 · M 효과음 · 일시정지에서 음량 조절",
             "개발용 · 1 추진 · 2 실드 · 3 무장 · 4 센서 · 5 ECM · 0 균형 · T 사격보조/교리 순환",
             "G 집중공격 · H 호위 · J 위치 유지 · [ ] 배속 ×1/×4/×16",
             "F1 도움말 · F2 원점 · F3 1,000 km 도약 · F4 시험 레이 · F5 모듈 · F6 복구 · F7 이동 표적 · F8 미사일 훈련",
@@ -413,7 +413,7 @@ public partial class Hud : Control
             "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
             "우클릭 미사일 · C 디코이 · R 표적 · Y 조준 부위 · T 사격보조/교리",
             "Z 비행보조 · V 항공식/우주식 · [ ] 배속 ×1/×2/×4",
-            "Esc 커서 해제 후 일시정지 · 함선 상실 시 자동 인계 · F1 닫기",
+            "Esc 커서 해제 후 일시정지/음량 · M 효과음 · 함선 상실 시 자동 인계 · F1 닫기",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;
         DrawRect(new Rect2(8, 8, width, 16 + lines.Length * 19), PanelBack);

@@ -22,9 +22,12 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        InputSetup.Register();
+        SoundSettings.Initialize();
+        if (_args.ContainsKey("audio-test")) { AddChild(new CombatAudioChecks()); return; }
         if (_args.ContainsKey("shot") && !_args.ContainsKey("menu") && !_args.ContainsKey("battle") && !_args.ContainsKey("result-test"))
         { AddChild(new ScaleTest()); return; }
-        InputSetup.Register(); Input.MouseMode = Input.MouseModeEnum.Visible;
+        Input.MouseMode = Input.MouseModeEnum.Visible;
         var layer = new CanvasLayer { Layer = 10 }; AddChild(layer);
         _overlay = new BattleOverlay { Host = this }; layer.AddChild(_overlay);
         string menu = _args.GetValueOrDefault("menu", "title");
@@ -89,5 +92,10 @@ public partial class Main : Node3D
     }
     public void Quit() => GetTree().Quit();
     public override void _UnhandledInput(InputEvent e)
-    {if(Screen==BattleScreen.Pause && e.IsActionPressed(InputSetup.ReleaseMouse)){TogglePause();GetViewport().SetInputAsHandled();}}
+    {
+        if (e.IsActionPressed(InputSetup.ToggleMute))
+        { SoundSettings.ToggleMute(); _overlay?.Rebuild(); GetViewport().SetInputAsHandled(); }
+        else if(Screen==BattleScreen.Pause && e.IsActionPressed(InputSetup.ReleaseMouse))
+        {TogglePause();GetViewport().SetInputAsHandled();}
+    }
 }

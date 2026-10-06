@@ -240,6 +240,23 @@
 
 자동 비교에서는 카메라가 표적의 현재 위치를 따라간다. ON은 그 위에 선행 보정을 더하고 OFF는 현재 위치만 겨냥한다. 스크린샷 도구는 렌더링을 60Hz로 고정해 틱과 발사 시각을 재현한다.
 
+## 전투 사운드
+
+조종함의 주포 발사, 실드 피격, 선체·장갑 피격과 적 명중 피드백을 연결했다. 명중 피드백은 선체 충격음의 짧은 앞부분을 재사용하며, 아군 오사는 적 명중음을 내지 않는다. 최대 7개 음성을 겹쳐 재생하고 짧은 간격의 같은 이벤트를 묶는다. 함종에 따라 주포 음높이를 바꾸며, 함선 전환·전투 재시작·시간 건너뛰기는 이전 이벤트를 다시 재생하지 않는다.
+
+`M`으로 효과음을 끄고 켠다. `Esc` 일시정지 메뉴에서 음량을 조절하며 설정을 저장한다. 일시정지하면 재생 중인 소리도 멈췄다가 이어진다. 효과음 버스에는 -1 dB 리미터를 두었다.
+
+[Agent Audio](https://github.com/AIEGOBOT/agent-audio)의 Stable Audio 3 Medium / TFLite CPU로 세 가지 3초 원본을 생성했다. `assets/audio/source/`에 원본·프롬프트·생성 측정값을 보존하고, `assets/audio/manifest.json`에 고정 리비전·체크섬·길이·신호 검사 결과를 남겼다. 게임용 파일은 앞 공백을 줄이고 짧게 자른 뒤 -3 dB 피크와 시작·끝 페이드를 적용했다. 모델과 런타임은 저장소 밖의 사용자별 Agent Audio 폴더에 설치한다.
+
+이 PC에서 원본 하나 생성에 약 41~52초, 생성 프로세스의 관측 메모리 최고치 약 9.6~10.7 GiB를 기록했다. 파일·재생·믹서 출력은 검사했으며 청감 품질은 직접 플레이하며 확인해야 한다.
+
+```powershell
+.\tools\run.ps1 --audio-test
+python .\tools\prepare-audio.py --output shots/audio-retune
+```
+
+`--audio-test`는 실제 무기·피격·일시정지·음량 등 27개 검사를 수행하고 게임 오디오 버스의 출력을 `shots/audio_mix.wav`에 녹음한다. 다듬기 도구는 원본을 보존하며 기존 출력 파일을 덮어쓰지 않는다.
+
 ## 구조
 
 7단계 전투 계측: `.\tools\battle-batch.ps1 -Seeds (1..20) -Mirror -Parallel`은 40판을 `shots/batch/` CSV로 남긴다. `-Minutes 25 -Label baseline -Profile`로 종료 시각·라벨·틱 계측을 지정한다. `.\tools\batch-report.ps1 <CSV>`로 같은 형식의 보고 표를 만든다. 배치·승패 규칙과 단계별 결과는 [BALANCE_stage7](docs/BALANCE_stage7.md)에 있다. 개발 화면의 `--seed=N`도 같은 배치를 쓴다.

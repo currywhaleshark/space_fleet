@@ -1,0 +1,79 @@
+{
+  "generator": "Agent Audio / Stable Audio 3 Medium",
+  "backend": "TFLite CPU",
+  "agent_audio_revision": "975d804594f515e81cdb8858587af5469cf78ebf",
+  "runtime_revision": "779434a908193105335fd8d833418603625b2859",
+  "model_revision": "da6edc54ddba10bfd79a077102ded687f80e882b",
+  "sources": {
+    "railgun_fire": {
+      "sha256": "e0d04215a969bc34454ab72c557741321edc7b5867cbb9c1cc0af12311750771",
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration_seconds": 3.0,
+      "peak": 0.59930419921875,
+      "clipped_samples": 0,
+      "onset_seconds": 0.04800453514739229
+    },
+    "armor_impact": {
+      "sha256": "071d30a5ddbd13e94128e40d5987f86c6e2471de98c0406b4567247d3b1f6cc8",
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration_seconds": 3.0,
+      "peak": 0.837677001953125,
+      "clipped_samples": 0,
+      "onset_seconds": 0.1280045351473923
+    },
+    "shield_impact": {
+      "sha256": "655ad9b59db224b385a8412baa59145e35a3f9fcbb6ba7fae5b537f51afdaf59",
+      "sample_rate": 44100,
+      "channels": 2,
+      "duration_seconds": 3.0,
+      "peak": 0.541168212890625,
+      "clipped_samples": 0,
+      "onset_seconds": 0.01800453514739229
+    }
+  },
+  "assets": {
+    "armor_impact": {
+      "source": "armor_impact",
+      "duration_seconds": 1.1,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.10373962835817166,
+      "clipped_samples": 0,
+      "sha256": "ad1f00f9038d26867770f4a6fde8b82d1a82567d8ed6abd4f75a33617929a854"
+    },
+    "shield_impact": {
+      "source": "shield_impact",
+      "duration_seconds": 1.35,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.15507123284491986,
+      "clipped_samples": 0,
+      "sha256": "6995ba636cc48d101656e0e978b75c81371586871fdc00e45b1191da65515db0"
+    },
+    "railgun_fire": {
+      "source": "railgun_fire",
+      "duration_seconds": 1.2,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.09827012878330858,
+      "clipped_samples": 0,
+      "sha256": "2ac5ea9ddbe6e2d853d4e279c45f7604a7de08cc848edf99072075e71866ae44"
+    },
+    "hit_confirm": {
+      "source": "armor_impact",
+      "duration_seconds": 0.24,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.15493888324398364,
+      "clipped_samples": 0,
+      "sha256": "68c2d80097fa05000794fa15625cab6013465e9699f6b7c0a6b6c6bc3672599c"
+    }
+  },
+  "quality_scope": "PCM metadata, signal levels and trimming checked; artistic quality requires listening."
+}

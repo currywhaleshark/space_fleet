@@ -1,0 +1,19 @@
+{
+  "transport": "stdio MCP",
+  "backend": "TFLite CPU",
+  "requested_seconds": 3,
+  "assets": {
+    "armor_impact": {
+      "generation_seconds": 52.39,
+      "process_peak_working_set_gib": 9.88
+    },
+    "shield_impact": {
+      "generation_seconds": 47.61,
+      "process_peak_working_set_gib": 9.62
+    },
+    "railgun_fire": {
+      "generation_seconds": 40.92,
+      "process_peak_working_set_gib": 10.72
+    }
+  }
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "name": "armor_impact",
+    "prompt": "One heavy steel spaceship armor impact immediately at the start, a single sharp metallic slam followed by a dense low structural thump and brief rattling metal fragments, close and dry, isolated game sound effect, short decay, no voice, no music, no repeated hits."
+  },
+  {
+    "name": "shield_impact",
+    "prompt": "One energy projectile striking a spaceship force shield immediately at the start, a single sharp electrical crack followed by a deep resonant energy thump and a very short fizz, close and dry, isolated game sound effect, brief decay, no voice, no music, no repeated hits."
+  },
+  {
+    "name": "railgun_fire",
+    "prompt": "One large spaceship electromagnetic railgun shot, a single hard percussive mechanical discharge at the start with a dense low recoil thump and a brief bright electrical snap, close and dry, powerful isolated game sound effect, short tail, no voice, no music, no repeated firing."
+  }
+]

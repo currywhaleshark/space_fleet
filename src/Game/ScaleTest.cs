@@ -26,6 +26,7 @@ public partial class ScaleTest : Node3D
     private Node3D _worldRoot = null!;
     private SpaceDust _dust = null!;
     private OrdnanceView _ordnance = null!;
+    private CombatAudio _audio = null!;
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
     private bool _flightAssist = true;
@@ -63,6 +64,9 @@ public partial class ScaleTest : Node3D
         _worldRoot.AddChild(_ballistics);
         _ordnance = new OrdnanceView { Name = "Ordnance" };
         _worldRoot.AddChild(_ordnance);
+        _audio = new CombatAudio { Name = "CombatAudio" };
+        AddChild(_audio);
+        _audio.SetPaused(Paused);
 
         Camera = new ChaseCamera { Name = "Camera" };
         AddChild(Camera);
@@ -298,6 +302,7 @@ public partial class ScaleTest : Node3D
             FireTest(_testOrigin, _testDirection);
             _testShots++;
         }
+        if (!Spectating) _audio.Observe(World, Controlled?.Body);
     }
 
     public override void _Process(double delta)
@@ -350,6 +355,7 @@ public partial class ScaleTest : Node3D
         _controlledIndex = index;
 
         ShipBody body = _playable[index].Body;
+        _audio.Prime(World, body);
         StartRecord(body);
         HandOverControl(previous, body);
         SetupGunnery(previous, body);

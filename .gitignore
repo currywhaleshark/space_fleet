@@ -1,5 +1,8 @@
 # Godot
 .godot/
+# Standalone .NET helpers do not use Godot script UIDs.
+/tests/**/*.cs.uid
+/tools/**/*.cs.uid
 /android/
 export_presets.cfg
 

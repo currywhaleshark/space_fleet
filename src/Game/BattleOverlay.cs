@@ -11,6 +11,7 @@ public partial class BattleOverlay : Control
     public Main Host { get; set; } = null!;
     private Font _font = null!;
     private readonly List<(Button Button, Rect2 Bounds)> _buttons = new();
+    private HSlider? _volume;
     private static readonly Color Blue = new(.4f,.72f,1), Red = new(1,.38f,.29f), Orange = new(1,.73f,.32f), Ink = new(.8f,.89f,1);
     private static readonly Color[] Phases = {new(.23f,.3f,.4f),new(.3f,.65f,.8f),new(.95f,.68f,.27f),new(.7f,.48f,.9f),new(.94f,.35f,.32f)};
     public override void _Ready()
@@ -30,6 +31,7 @@ public partial class BattleOverlay : Control
     public void Rebuild()
     {
         foreach(var item in _buttons) {RemoveChild(item.Button);item.Button.QueueFree();} _buttons.Clear();
+        if (_volume is not null) { RemoveChild(_volume); _volume.QueueFree(); _volume = null; }
         MouseFilter = Host.Screen == BattleScreen.Battle ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
         switch(Host.Screen)
         {
@@ -44,7 +46,12 @@ public partial class BattleOverlay : Control
             case BattleScreen.Pause:
                 Button("계속",new(620,400,360,56),Host.TogglePause);
                 Button("다시",new(620,476,360,56),()=>Host.StartBattle(Host.Role));
-                Button("종료",new(620,552,360,56),Host.Quit); break;
+                Button("종료",new(620,552,360,56),Host.Quit);
+                _volume = new HSlider { MinValue = 0, MaxValue = 100, Step = 5, Value = SoundSettings.Volume };
+                _volume.ValueChanged += value => SoundSettings.SetVolume((float)value);
+                AddChild(_volume);
+                Button(SoundSettings.Muted ? "효과음 켜기 · M" : "효과음 끄기 · M",new(620,710,360,46),
+                    () => { SoundSettings.ToggleMute(); Rebuild(); }); break;
             case BattleScreen.Result:
                 Button("다시",new(260,730,320,56),()=>Host.StartBattle(Host.Role));
                 Button("함선 바꾸기",new(640,730,320,56),Host.SelectRole);
@@ -57,6 +64,7 @@ public partial class BattleOverlay : Control
     {
         float k=Mathf.Min(Size.X/1600,Size.Y/900); Vector2 offset=(Size-new Vector2(1600,900)*k)*.5f;
         foreach(var (b,r) in _buttons){b.Position=offset+r.Position*k;b.Size=r.Size*k;b.AddThemeFontSizeOverride("font_size",Math.Max(12,(int)(20*k)));}
+        if (_volume is not null) { _volume.Position=offset+new Vector2(730,650)*k;_volume.Size=new Vector2(250,34)*k; }
     }
     public override void _Process(double delta) {Size=GetViewportRect().Size;LayoutButtons(); QueueRedraw(); }
     private void Text(Vector2 at,string text,int size=20,Color? color=null) => DrawString(_font,at,text,HorizontalAlignment.Left,-1,size,color??Ink);
@@ -93,7 +101,8 @@ public partial class BattleOverlay : Control
                 Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,Blue);
             }
         }
-        else if(Host.Screen==BattleScreen.Pause){Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);}
+        else if(Host.Screen==BattleScreen.Pause)
+        {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);}
         else DrawResult();
     }
     private void Ship(Vector2 p,HullKind kind,Color color,float scale=1)
