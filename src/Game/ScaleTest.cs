@@ -248,7 +248,10 @@ public partial class ScaleTest : Node3D
             LastFireMessage = "전체 복구";
         }
         else if (e.IsActionPressed(InputSetup.FireAssist))
-            FireAssist = !FireAssist;
+        {
+            if (Scheme == ControlScheme.Helm) CycleDoctrine();
+            else FireAssist = !FireAssist;
+        }
         else if (e.IsActionPressed(InputSetup.Practice))
             SetupPractice();
         else if (e.IsActionPressed(InputSetup.MissileDrill))

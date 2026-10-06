@@ -12,6 +12,18 @@ public partial class ScaleTest
     public ShipView? SelectedFriendly { get; private set; }
     public GunneryOrder? Gunnery => Controlled?.Body.Gunnery;
 
+    private void SetDoctrine(FireDoctrine doctrine)
+    {
+        if (Gunnery is not { } order) return;
+        order.Doctrine = doctrine;
+        Notify($"사격 · {GunneryLabels.Doctrine(doctrine)}", false);
+    }
+
+    private void CycleDoctrine()
+    {
+        if (Gunnery is { } order) SetDoctrine((FireDoctrine)(((int)order.Doctrine + 1) % Enum.GetValues<FireDoctrine>().Length));
+    }
+
     private void SelectEnemy(ShipView view)
     {
         InspectTarget = view;
