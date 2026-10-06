@@ -739,5 +739,6 @@ public sealed partial class SimWorld
     private void ResetAI()
     {
         _salvos.Clear();
+        _salvoWaiting.Clear();
     }
 }

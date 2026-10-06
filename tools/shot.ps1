@@ -18,4 +18,9 @@ if (-not $proc.WaitForExit(120000)) {
     Write-Error "timed out: $Name"
     exit 1
 }
+if ($proc.ExitCode -ne 0) {
+    Get-Content -LiteralPath $log -Encoding UTF8 | Select-Object -Last 15
+    Write-Error "Godot exited with $($proc.ExitCode): $Name"
+    exit 1
+}
 if (Test-Path $out) { Write-Output "saved $out" } else { Write-Error "no shot: $Name"; exit 1 }

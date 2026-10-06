@@ -21,7 +21,11 @@ public partial class Main
         if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)
         {
-            var escape=new InputEventAction {Action=InputSetup.ReleaseMouse,Pressed=true};Battle!._UnhandledInput(escape);
+            Battle!._UnhandledInput(new InputEventAction {Action=InputSetup.PowerMenu,Pressed=true});
+            Verify(Battle.MenuOpen,"Power radial opens in battle");
+            var escape=new InputEventAction {Action=InputSetup.ReleaseMouse,Pressed=true};Battle._UnhandledInput(escape);
+            Verify(!Battle.MenuOpen&&Screen==BattleScreen.Battle,"Radial Esc cancels before pause");
+            Battle._UnhandledInput(escape);
             Verify(Screen==BattleScreen.Pause&&Battle.Paused,"Helm Esc pauses");
             _overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&!Battle.Paused,"Continue resumes");
         }

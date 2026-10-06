@@ -59,6 +59,31 @@ foreach (bool flipped in new[] { false, true })
 foreach (BattlePhase phase in Enum.GetValues<BattlePhase>()) Console.WriteLine($"phase {phase} >=60s: {ordered.Count(r => r.World.Log!.PhaseSeconds(phase) >= 60)}/{ordered.Length}");
 Console.WriteLine($"friendly collisions: mean={ordered.Average(r => r.World.Log!.FriendlyCollisions):F2}");
 Console.WriteLine($"batch wall={watch.Elapsed.TotalSeconds:F1}s jobs={jobs} csv={output}");
+if (profile) foreach (var row in ordered)
+{
+    Console.WriteLine($"step {row.Seed}/{row.Mirror} All: {Row.Describe(row.Samples())}");
+    foreach (BattlePhase phase in Enum.GetValues<BattlePhase>())
+        Console.WriteLine($"step {row.Seed}/{row.Mirror} {phase}: {Row.Describe(row.Samples(phase))}");
+}
+double postSeconds = double.Parse(argsMap.GetValueOrDefault("post-seconds", "0"));
+if (postSeconds > 0) foreach (var row in ordered)
+{
+    var world = row.World;
+    var outcome = world.Rules!.Outcome;
+    int intervals = world.Log!.Intervals.Count, strength = world.Log.Strength.Count;
+    int[] Sizes() => new[] {world.Projectiles.Count,world.Missiles.Count,world.Impacts.Count,world.OrdnanceEvents.Count,world.Log.Events.Count};
+    int[] before=Sizes(), peak=(int[])before.Clone();
+    double end=world.Time+postSeconds;
+    while(world.Time<end)
+    {
+        world.Step();
+        int[] sizes=Sizes();for(int i=0;i<peak.Length;i++)peak[i]=Math.Max(peak[i],sizes[i]);
+    }
+    if(world.Rules.Outcome!=outcome || world.Log.Intervals.Count!=intervals || world.Log.Strength.Count!=strength
+        || peak[2]>64 || peak[4]>BattleLog.EventCapacity || world.Impacts.Any(e=>world.Time-e.Time>3.001)
+        || world.OrdnanceEvents.Any(e=>world.Time-e.Time>3.001)) throw new InvalidOperationException("Post-outcome lists or frozen records exceeded bounds");
+    Console.WriteLine($"post {row.Seed}/{row.Mirror} +{postSeconds:F0}s: projectile/missile/impact/ordnance/battleEvents before={string.Join('/',before)} peak={string.Join('/',peak)} after={string.Join('/',Sizes())}; intervals={intervals}; dropped={world.Log.DroppedEvents}; PASS");
+}
 
 sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<double>? TickMs)
 {
@@ -66,7 +91,26 @@ sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<doubl
     private static readonly string[] Names = { "contact", "identified", "locked", "missileLaunch", "missileHit", "railLaunch", "railHit", "moduleDestroyedVictim", "disabledVictim", "destroyedVictim", "close" };
     public static string Header => "seed,mirror,winner,reason,outcomeTime,wallSeconds,friendlyCollisions," + string.Join(',',
         Enum.GetValues<Faction>().SelectMany(f => Names.Select(n => $"{f}_{n}").Concat(new[] { $"{f}_missiles", $"{f}_missileHits", $"{f}_rails", $"{f}_railHits" })))
-        + "," + string.Join(',', Enum.GetValues<BattlePhase>().Select(p => $"{p}_seconds")) + ",stepMeanMs,stepP99Ms,stepMaxMs";
+        + "," + string.Join(',', Enum.GetValues<BattlePhase>().Select(p => $"{p}_seconds")) + ",stepMeanMs,stepP99Ms,stepMaxMs"
+        + "," + string.Join(',', Enum.GetValues<BattlePhase>().SelectMany(p=>new[]{ $"{p}_stepMeanMs",$"{p}_stepP99Ms",$"{p}_stepMaxMs" }));
+    public IEnumerable<double> Samples(BattlePhase? phase = null)
+    {
+        if(TickMs is null)yield break;
+        if(phase is null){foreach(double sample in TickMs)yield return sample;yield break;}
+        foreach(var interval in World.Log!.Intervals.Where(i=>i.Phase==phase))
+        {
+            int start=Math.Clamp((int)Math.Round(interval.Start*SimWorld.TickRate),0,TickMs.Count);
+            int end=Math.Clamp((int)Math.Round((interval.Start+interval.Duration)*SimWorld.TickRate),0,TickMs.Count);
+            for(int i=start;i<end;i++)yield return TickMs[i];
+        }
+    }
+    private static string[] Statistics(IEnumerable<double> samples)
+    {
+        double[] sorted=samples.OrderBy(n=>n).ToArray();
+        return sorted.Length==0 ? new[]{"","",""} : new[]{N(sorted.Average()),N(sorted[(int)Math.Ceiling(sorted.Length*.99)-1]),N(sorted[^1])};
+    }
+    public static string Describe(IEnumerable<double> samples)
+    {var s=Statistics(samples);return s[0]==""?"no ticks":$"mean={s[0]} p99={s[1]} max={s[2]} ms";}
     private static string N(double? value) => value?.ToString("0.000", CultureInfo.InvariantCulture) ?? "";
     public double? Value(string name)
     {
@@ -82,8 +126,8 @@ sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<doubl
         foreach (Faction f in Enum.GetValues<Faction>())
         { var s = World.Log.Side(f); values.AddRange(s.FirstTimes.Select(N)); values.AddRange(new[] { s.Missiles, s.MissileHits, s.Rails, s.RailHits }.Select(n => n.ToString())); }
         values.AddRange(Enum.GetValues<BattlePhase>().Select(p => N(World.Log.PhaseSeconds(p))));
-        double[] sorted = TickMs?.OrderBy(n => n).ToArray() ?? Array.Empty<double>();
-        values.AddRange(sorted.Length == 0 ? new[] { "", "", "" } : new[] { N(sorted.Average()), N(sorted[(int)Math.Ceiling(sorted.Length * 0.99) - 1]), N(sorted[^1]) });
+        values.AddRange(Statistics(Samples()));
+        foreach(BattlePhase phase in Enum.GetValues<BattlePhase>())values.AddRange(Statistics(Samples(phase)));
         return string.Join(',', values);
     }
 }

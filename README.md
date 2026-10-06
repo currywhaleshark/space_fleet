@@ -37,6 +37,14 @@
 
 `--battle --seed=N`은 역할 선택을 건너뛰어 고정 시드로 시작한다. `--menu=result --result=loss`는 패배 결과 검증, `--autoplay`는 전 함선 AI·×4 관전이다. 기존 `--shot`만 쓰면 개발 ScaleTest로 바로 들어간다.
 
+```powershell
+.\tools\check-flow.ps1 # 빌드 후 메뉴·3역할·Esc·인계·결과 버튼 검사
+.\tools\battle-batch.ps1 -Seeds (0) -Profile -PostSeconds 300 -Label performance
+.\tools\run.ps1 --autoplay --autoplay-quit --perf --seed=1
+```
+
+`-Profile`은 전체 및 30초 기록으로 분류한 국면별 Step 평균/p99/최대(ms)를 CSV에 추가한다. `-PostSeconds 300`은 판정 뒤 5분 동안 탄·미사일·이벤트 크기의 시작/최대/끝을 출력하고 수명·기록 상한을 검사한다. `--perf`는 자동 관전의 시작·10분·판정·결과 화면을 저장한다. `--autoplay-quit`는 결과 확인과 추가 5분 시뮬레이션 뒤 종료한다. FPS 최소·평균은 시작부터 각 시점까지 실제 벽시계로 측정한다. 전투 이벤트는 최대4,096개, 국면·분 단위 전력은 판정 시점에 고정한다.
+
 스크린샷 모드(자동 검증용, `shots/`에 저장):
 
 ```powershell

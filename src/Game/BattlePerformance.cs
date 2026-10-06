@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using Godot;
 
 namespace SpaceFleet.Game;
@@ -10,10 +11,16 @@ public partial class Main
     private double _fpsSeconds, _fpsMin=double.PositiveInfinity;
     private int _fpsFrames, _resultPerfFrames;
     private bool _perfStart, _perfTen, _perfOutcome, _perfFinished;
+    private readonly Stopwatch _fpsWatch = new();
+    private double _previousFrameTime;
     private void TrackPerformance(double delta)
     {
         if(!_args.ContainsKey("autoplay")||Battle is null)return;
-        if(delta>0){_fpsSeconds+=delta;_fpsFrames++;_fpsMin=Math.Min(_fpsMin,1/delta);}
+        // Godot may clamp delta during stalls; measure actual elapsed frame time.
+        if(!_fpsWatch.IsRunning){_fpsWatch.Start();return;}
+        _fpsSeconds=_fpsWatch.Elapsed.TotalSeconds;
+        double elapsed=_fpsSeconds-_previousFrameTime;_previousFrameTime=_fpsSeconds;
+        if(elapsed>0){_fpsFrames++;_fpsMin=Math.Min(_fpsMin,1/elapsed);}
         if(!_perfStart&&_fpsFrames>=120){_perfStart=true;PerformanceSnapshot("start");}
         if(!_perfTen&&Battle.World.Time>=600){_perfTen=true;PerformanceSnapshot("10min");}
         if(!_perfOutcome&&Outcome is not null){_perfOutcome=true;PerformanceSnapshot("outcome");}

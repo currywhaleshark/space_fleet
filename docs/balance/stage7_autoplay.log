@@ -1,0 +1,7 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+autoplay start: sim=6.20s FPS min=9.45 mean=87.35 engine=52.0
+autoplay 10min: sim=600.00s FPS min=4.14 mean=84.07 engine=76.0
+autoplay outcome: sim=674.73s FPS min=4.14 mean=83.19 engine=76.0
+autoplay after outcome: sim=976.77s projectiles=3 missiles=0 impacts=3 ordnanceEvents=0 battleEvents=174 intervals=23

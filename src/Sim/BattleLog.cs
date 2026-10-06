@@ -28,6 +28,8 @@ public sealed class BattleShipLog
 public sealed class BattleLog
 {
     public const double IntervalSeconds = 30;
+    // Preserve the first battle events for the result; endless spectator collisions cannot grow the list.
+    public const int EventCapacity = 4096;
     private sealed class Bucket { public bool Missile, Rail, Brawl; public int Modules, UnshieldedModules; }
     private sealed class State
     {
@@ -36,6 +38,7 @@ public sealed class BattleLog
     private readonly SimWorld _world;
     private readonly Dictionary<ShipBody, State> _states = new();
     private readonly Dictionary<int, Bucket> _buckets = new();
+    private readonly Bucket _postOutcome = new();
     private readonly Dictionary<ShipBody, BattleShipLog> _ships = new();
     private readonly List<BattleEvent> _events = new();
     private readonly List<BattleInterval> _intervals = new();
@@ -45,10 +48,11 @@ public sealed class BattleLog
     private int _nextInterval;
     private double _nextMinute = 60;
     public IReadOnlyList<BattleEvent> Events => _events;
-    public IReadOnlyList<BattleInterval> Intervals => _intervals;
+    public IReadOnlyList<BattleInterval> Intervals => OutcomeIntervals ?? _intervals;
     public IReadOnlyList<BattleInterval>? OutcomeIntervals { get; private set; }
     public IReadOnlyList<BattleStrength> Strength => _strength;
     public int FriendlyCollisions { get; private set; }
+    public int DroppedEvents { get; private set; }
     public BattleSideLog Side(Faction faction) => _sides[(int)faction];
     public BattleShipLog Ship(ShipBody ship) => _ships[ship];
     public BattleLog(SimWorld world)
@@ -64,9 +68,15 @@ public sealed class BattleLog
     }
     private Bucket At(double time)
     {
+        if (OutcomeIntervals is not null) return _postOutcome;
         int index = (int)Math.Floor(time / IntervalSeconds);
         if (!_buckets.TryGetValue(index, out var bucket)) _buckets[index] = bucket = new Bucket();
         return bucket;
+    }
+    private void Record(BattleEvent entry)
+    {
+        if (_events.Count < EventCapacity) _events.Add(entry);
+        else DroppedEvents++;
     }
     private static void First(ref double? slot, double time) { if (slot is null) slot = time; }
     internal void Fire(ShipBody shooter, BattleWeapon weapon, double time)
@@ -106,7 +116,7 @@ public sealed class BattleLog
             bool destroyed = ship.Damage.Modules[i].Destroyed;
             if (destroyed && !state.Modules[i])
             {
-                _events.Add(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.ModuleDestroyed, ship.Damage.Modules[i].Definition.Id));
+                Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.ModuleDestroyed, ship.Damage.Modules[i].Definition.Id));
                 var bucket = At(time); bucket.Modules++; if (ship.Damage.Shield <= 0.001f) bucket.UnshieldedModules++;
                 First(ref side.ModuleDestroyed, time);
                 if (attacker is not null) Ship(attacker).ModulesDestroyed++;
@@ -114,9 +124,9 @@ public sealed class BattleLog
             state.Modules[i] = destroyed;
         }
         if (ship.Damage.Disabled && !state.Disabled)
-        { _events.Add(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Disabled)); First(ref side.Disabled, time); }
+        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Disabled)); First(ref side.Disabled, time); }
         if (ship.Damage.Destroyed && !state.Destroyed)
-        { _events.Add(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Destroyed)); First(ref side.Destroyed, time); }
+        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Destroyed)); First(ref side.Destroyed, time); }
         state.Disabled = ship.Damage.Disabled; state.Destroyed = ship.Damage.Destroyed;
     }
     private void ObserveSensors(double time)
@@ -150,7 +160,7 @@ public sealed class BattleLog
                     // Contact lasting multiple substeps is one collision episode, not dozens of new rams.
                     if (!_collisionPairs.TryGetValue(pair,out double last) || collision.Time-last>1)
                     {
-                        _events.Add(new(collision.Time, ship.Callsign, ship.Faction, other.Faction, BattleEventKind.Collision, OtherShip:other.Callsign));
+                        Record(new(collision.Time, ship.Callsign, ship.Faction, other.Faction, BattleEventKind.Collision, OtherShip:other.Callsign));
                         if (other.Faction == ship.Faction) FriendlyCollisions++;
                     }
                     _collisionPairs[pair] = collision.Time;
@@ -165,31 +175,43 @@ public sealed class BattleLog
             foreach (ShipBody b in _world.Ships.Where(s => s.Faction != a.Faction && s.Class.Kind != HullKind.Interceptor && !s.Damage.Destroyed))
                 if ((a.Position - b.Position).LengthSquared() <= 15_000.0 * 15_000) First(ref Side(a.Faction).Close, time);
         }
-        while ((_nextInterval + 1) * IntervalSeconds <= time + 1e-6) FinishInterval(IntervalSeconds);
-        while (_nextMinute <= time + 1e-6) { RecordStrength(_nextMinute); _nextMinute += 60; }
+        if (OutcomeIntervals is null)
+        {
+            while ((_nextInterval + 1) * IntervalSeconds <= time + 1e-6) FinishInterval(IntervalSeconds);
+            while (_nextMinute <= time + 1e-6) { RecordStrength(_nextMinute); _nextMinute += 60; }
+        }
     }
     private void RecordStrength(double time) => _strength.Add(new(time, BattleRules.Strength(_world.Ships, Faction.Blue), BattleRules.Strength(_world.Ships, Faction.Red)));
     private void FinishInterval(double duration)
     {
+        RemovePartial();
         Bucket b = _buckets.GetValueOrDefault(_nextInterval) ?? new Bucket();
         _intervals.Add(new(_nextInterval * IntervalSeconds, duration, Classify(b)));
         _buckets.Remove(_nextInterval++);
+    }
+    private void RemovePartial()
+    {
+        if (_intervals.Count > 0 && _intervals[^1].Start == _nextInterval * IntervalSeconds) _intervals.RemoveAt(_intervals.Count-1);
     }
     private static BattlePhase Classify(Bucket b) => b.Brawl ? BattlePhase.Brawl : b.Modules >= 2 && b.UnshieldedModules * 2 >= b.Modules ? BattlePhase.Sniping
         : b.Rail ? BattlePhase.Gunnery : b.Missile ? BattlePhase.Missile : BattlePhase.Approach;
     internal void CaptureOutcome(double time)
     {
         if(OutcomeIntervals is not null)return;
+        RemovePartial();
         var snapshot=_intervals.ToList();double remaining=time-_nextInterval*IntervalSeconds;
         if(remaining>1e-6)snapshot.Add(new(_nextInterval*IntervalSeconds,remaining,Classify(_buckets.GetValueOrDefault(_nextInterval)??new Bucket())));
         OutcomeIntervals=snapshot.AsReadOnly();
+        _buckets.Clear();
     }
     public void Finish()
     {
+        if (OutcomeIntervals is not null) return;
+        RemovePartial();
         double remainder = _world.Time - _nextInterval * IntervalSeconds;
-        if (remainder > 1e-6) FinishInterval(remainder);
+        if (remainder > 1e-6) _intervals.Add(new(_nextInterval * IntervalSeconds,remainder,Classify(_buckets.GetValueOrDefault(_nextInterval)??new Bucket())));
     }
-    public double PhaseSeconds(BattlePhase phase) => _intervals.Where(i => i.Phase == phase).Sum(i => i.Duration);
+    public double PhaseSeconds(BattlePhase phase) => Intervals.Where(i => i.Phase == phase).Sum(i => i.Duration);
     public string Summary()
     {
         string N(double? n) => n?.ToString("0.000", CultureInfo.InvariantCulture) ?? "-";

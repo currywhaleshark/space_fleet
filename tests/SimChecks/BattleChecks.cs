@@ -8,7 +8,7 @@ static class BattleChecks
     private static void Step(SimWorld world, double seconds) { for (int i = 0; i < seconds * 60; i++) world.Step(); }
     public static void Run()
     {
-        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckPostures(); CheckReplacement(); CheckDeterminism(); CheckFullBattle();
+        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckPostures(); CheckReplacement(); CheckLogBounds(); CheckDeterminism(); CheckFullBattle();
         Console.WriteLine($"PASS: {_checks} battle/setup/log/rules checks");
     }
     private static SimWorld Battle(int seed = 0, bool mirror = false)
@@ -115,6 +115,14 @@ static class BattleChecks
         Require(world.Rules!.Outcome is not null, "Battle must have an outcome by time limit");
         Console.WriteLine($"Canonical battle: {world.Log.Summary()}");
         Console.WriteLine($"  destroyed/disabled {world.Ships.Count(s => s.Damage.Destroyed || s.Damage.Disabled)}/24");
+        var outcome=world.Rules.Outcome;double duration=world.Log.Intervals.Sum(i=>i.Duration);
+        int intervals=world.Log.Intervals.Count, strength=world.Log.Strength.Count;
+        Step(world,300);
+        Require(world.Rules.Outcome==outcome&&world.Time>=outcome!.Time+300,"Battle continues for five minutes with latched outcome");
+        Require(world.Log.Intervals.Count==intervals&&world.Log.Intervals.Sum(i=>i.Duration)==duration&&world.Log.Strength.Count==strength,"Result history stays bounded and frozen");
+        Require(world.Log.Events.Count<=BattleLog.EventCapacity,"Battle event cap after five minutes");
+        Require(world.Impacts.Count<=64&&world.Impacts.All(e=>world.Time-e.Time<=3.001),"Impact list prunes old render events");
+        Require(world.OrdnanceEvents.All(e=>world.Time-e.Time<=3.001),"Ordnance list prunes old render events");
     }
     private static void CheckPostures()
     {
@@ -150,5 +158,23 @@ static class BattleChecks
         world=Battle();Step(world,5);world.Log!.CaptureOutcome(world.Time);
         Require(world.Log.OutcomeIntervals!.Sum(i=>i.Duration)==5,"Outcome snapshot includes partial final interval");
         Step(world,30);Require(world.Log.OutcomeIntervals!.Sum(i=>i.Duration)==5,"Post-outcome simulation must not change result timeline");
+    }
+    private static void CheckLogBounds()
+    {
+        var world=new SimWorld();var ship=world.Add(new ShipBody("LOG",ShipClass.Escort,Faction.Blue));world.Log=new BattleLog(world);
+        Step(world,5);world.Log.Finish();world.Log.Finish();
+        Require(world.Log.Intervals.Count==1&&world.Log.Intervals[0].Duration==5,"Finish must be idempotent at a partial interval");
+        Step(world,26);world.Log.Finish();
+        Require(world.Log.Intervals.Count==2&&world.Log.Intervals.Sum(i=>i.Duration)==31,"Continuing after Finish replaces the partial interval");
+        world.Log.CaptureOutcome(world.Time);
+        Require(world.Log.OutcomeIntervals!.Sum(i=>i.Duration)==31,"Outcome after Finish must not duplicate the partial interval");
+        for(int cycle=0;cycle<BattleLog.EventCapacity&&world.Log.DroppedEvents==0;cycle++)
+        {
+            ship.Damage.Reset();Step(world,1);
+            foreach(var module in ship.Damage.Modules)ship.Damage.Hurt(module,module.Health,world.Time,0,(uint)cycle);
+            Step(world,1);
+        }
+        Require(world.Log.Events.Count==BattleLog.EventCapacity&&world.Log.DroppedEvents>0,"Repeated repairs and destruction respect the event cap");
+        Require(world.Log.Events[0].Time<world.Log.Events[^1].Time,"Capped result events preserve the original battle sequence");
     }
 }
