@@ -8,7 +8,7 @@ public sealed record BattleConfig
 {
     public int Seed { get; init; }
     public double StartDistance { get; init; } = 150_000;
-    public Vector3 RedOffset { get; init; } = new(3000, 22000, 0);
+    public Vector3 RedOffset { get; init; } = Vector3.Zero;
     public bool Mirror { get; init; }
     public double PositionJitter { get; init; } = 2_000;
     public float HeadingJitterDegrees { get; init; } = 5;

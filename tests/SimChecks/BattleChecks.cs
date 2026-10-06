@@ -8,7 +8,7 @@ static class BattleChecks
     private static void Step(SimWorld world, double seconds) { for (int i = 0; i < seconds * 60; i++) world.Step(); }
     public static void Run()
     {
-        CheckSetup(); CheckRules(); CheckPhases(); CheckDeterminism(); CheckFullBattle();
+        CheckSetup(); CheckRules(); CheckPhases(); CheckSalvo(); CheckDeterminism(); CheckFullBattle();
         Console.WriteLine($"PASS: {_checks} battle/setup/log/rules checks");
     }
     private static SimWorld Battle(int seed = 0, bool mirror = false)
@@ -83,6 +83,21 @@ static class BattleChecks
     {
         string Run() { var world = Battle(1); Step(world, 300); world.Log!.Finish(); return world.Log.Summary(); }
         Require(Run() == Run(), "Same seed must repeat BattleLog summary byte for byte");
+    }
+    private static void CheckSalvo()
+    {
+        var world = new SimWorld();
+        var a = world.Add(new ShipBody("LEFT", ShipClass.Escort, Faction.Blue));
+        var b = world.Add(new ShipBody("RIGHT", ShipClass.Escort, Faction.Blue));
+        var c = world.Add(new ShipBody("C", ShipClass.Battleship, Faction.Red));
+        var d = world.Add(new ShipBody("D", ShipClass.Battleship, Faction.Red));
+        a.Place(Vec3d.Zero, Quaternion.Identity); b.Place(new Vec3d(3000,0,0), Quaternion.Identity);
+        c.Place(new Vec3d(0,0,-80_000), Quaternion.Identity); d.Place(new Vec3d(3000,0,-80_000), Quaternion.Identity);
+        world.AttachBrain(a, ShipOrder.HoldAt(a.Position, c)); world.AttachBrain(b, ShipOrder.HoldAt(b.Position, d));
+        world.Sensors.Update(world.Ships, 0, force:true); world.Log = new BattleLog(world);
+        Step(world, 3);
+        Require(world.Log.Ship(a).Missiles > 0 && world.Log.Ship(b).Missiles > 0, "Separate-target salvos must not wait for one another");
+        Require(world.BrainOf(a)!._side == new ShipBrain(c, ShipOrder.HoldAt(c.Position), 0)._side, "Tactics must depend on fleet slot, not callsign/faction");
     }
     private static void CheckFullBattle()
     {

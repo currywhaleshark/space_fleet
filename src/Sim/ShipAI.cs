@@ -41,12 +41,12 @@ public readonly record struct AiProfile(float StandoffMeters, float RailFlightSe
 /// </summary>
 public sealed class ShipBrain
 {
-    public ShipBrain(ShipBody ship, ShipOrder order)
+    public ShipBrain(ShipBody ship, ShipOrder order, int fleetSlot = 0)
     {
         Ship = ship;
         Order = order;
         Profile = AiProfile.For(ship.Class.Kind);
-        _side = (Hash(ship.Callsign) & 1) == 0 ? 1f : -1f;
+        _side = fleetSlot % 2 == 0 ? 1f : -1f;
         DefaultPips = ship.Class.Kind == HullKind.Interceptor ? new[] { 2, 2, 2, 2, 0 } : new[] { 2, 2, 1, 1, 2 };
     }
 

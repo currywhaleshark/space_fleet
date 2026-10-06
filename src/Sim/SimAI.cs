@@ -52,7 +52,8 @@ public sealed partial class SimWorld
             brain.Enabled = true;
             return brain;
         }
-        brain = new ShipBrain(ship, order) { NextThink = Time + (ShipBrain.Hash(ship.Callsign) % 15) / 60.0 };
+        int slot = _ships.Where(s => s.Faction == ship.Faction).TakeWhile(s => s != ship).Count();
+        brain = new ShipBrain(ship, order, slot) { NextThink = Time + (slot % 15) / 60.0 };
         _brains[ship] = brain;
         return brain;
     }
@@ -70,8 +71,7 @@ public sealed partial class SimWorld
         if (_commanders.Count > 0 && Time >= _nextCommand)
         {
             _nextCommand = Time + CommandInterval;
-            foreach (Faction faction in _commanders)
-                Command(faction);
+            foreach (Faction faction in _commanders.OrderBy(f => ((int)f + Tick / 120) % 2)) Command(faction);
         }
         foreach (ShipBrain brain in _brains.Values)
         {
@@ -87,8 +87,10 @@ public sealed partial class SimWorld
                 Think(brain);
             }
             Drive(brain);
-            Engage(brain);
         }
+        // Finish every decision before weapon launch. Alternate initiative each tick.
+        foreach (ShipBrain brain in Tick % 2 == 0 ? _brains.Values : _brains.Values.Reverse())
+            if (brain.Enabled && Squadron.Active(brain.Ship)) Engage(brain);
     }
 
     // ── 판단(0.25초) ──────────────────────────────────────────
@@ -115,7 +117,8 @@ public sealed partial class SimWorld
             {
                 Vec3d slot = leader.Position + Vec3d.From(leader.Orientation * brain.FormationOffset);
                 Vector3 error = (slot - ship.Position).ToVector3();
-                desired = leader.Velocity + (error * 0.05f).LimitLength(maxSpeed);
+                Vector3 slotVelocity = leader.Velocity + leader.Orientation * leader.AngularVelocity.Cross(brain.FormationOffset);
+                desired = slotVelocity + (error * 0.065f).LimitLength(maxSpeed);
                 brain.WantBoost = error.Length() > 20_000f;
                 brain.Activity = "호위";
                 break;
@@ -362,9 +365,9 @@ public sealed partial class SimWorld
             // 일제 사격: 같은 표적을 공격 중이고 사거리 안에서 장전된 함선 수가, 곧 합류할 아군(사거리 1.5배 안,
             // 미사일 잔량 있음) 수에 이르면 연다. 혼자 남았으면 혼자 쏜다. 근접방어를 한꺼번에 포화시키려는 것이다.
             int ready = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && b.Target == target
-                && !b.Ship.Damage.Destroyed && b.Ship.Ordnance.MissileReady
+                && Squadron.Active(b.Ship) && b.Ship.Ordnance.MissileReady
                 && (Sensors.Track(ship.Faction, target).EstimatedPosition - b.Ship.Position).Length() <= b.Profile.MissileRangeMeters);
-            int capable = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && !b.Ship.Damage.Destroyed
+            int capable = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && b.Target == target && Squadron.Active(b.Ship)
                 && b.Ship.Ordnance.Missiles > 0 && !b.Profile.AttackRuns
                 && (Sensors.Track(ship.Faction, target).EstimatedPosition - b.Ship.Position).Length() <= b.Profile.MissileRangeMeters * SalvoJoinFactor);
             if (ready < Math.Max(1, capable)) return;
@@ -515,7 +518,7 @@ public sealed partial class SimWorld
         Vector3 line = (targetPos - flagship.Position).ToVector3();
         Vector3 forward = line.LengthSquared() > 1f ? line.Normalized() : Vector3.Forward;
         Vector3 up = Mathf.Abs(forward.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up;
-        float side = (ShipBrain.Hash(squadron.Name) & 1) == 0 ? 1f : -1f;
+        const float side = 1f; // Same local flank for both factions; labels never choose tactics.
         Vec3d flank = targetPos - Vec3d.From(forward * (float)FlankStandBack) + Vec3d.From(forward.Cross(up).Normalized() * (float)FlankSide * side);
         Assign(leader, ShipOrder.HoldAt(flank, target), assigned);
         foreach (ShipBody ship in squadron.ActiveMembers.Where(s => s != leader))

@@ -6,8 +6,10 @@ static class SimChecks
     private const float Dt = (float)SimWorld.TickDelta;
     private static int _checks;
 
-    public static void Main()
+    public static void Main(string[] args)
     {
+        if (args.Contains("--ai")) { AIChecks.Run(); return; }
+        if (args.Contains("--battle")) { BattleChecks.Run(); return; }
         CheckCombinedG();
         CheckInertialFlight();
         CheckTurnBySpeed();
