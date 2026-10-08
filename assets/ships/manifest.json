@@ -250,8 +250,9 @@
           "plume": 90
         }
       ],
-      "meshGroups": 7,
-      "turrets": 3
+      "meshGroups": 23,
+      "turrets": 3,
+      "pointDefenseTurrets": 8
     },
     {
       "id": "escort",
@@ -481,8 +482,9 @@
           "plume": 28
         }
       ],
-      "meshGroups": 5,
-      "turrets": 2
+      "meshGroups": 13,
+      "turrets": 2,
+      "pointDefenseTurrets": 4
     },
     {
       "id": "interceptor",
@@ -712,8 +714,9 @@
           "plume": 5
         }
       ],
-      "meshGroups": 1,
-      "turrets": 0
+      "meshGroups": 3,
+      "turrets": 0,
+      "pointDefenseTurrets": 1
     }
   ]
 }

@@ -41,7 +41,8 @@ public partial class ShipModelChecks : Node
                     Node3D? hull = model.Root.GetNodeOrNull<Node3D>("BlenderHull");
                     Check(hull is not null, $"{kind}: imported asset must load without procedural fallback");
                     var meshes = ImportedShipModels.Meshes(hull!).ToArray();
-                    Check(meshes.Length == 1 + 2 * (def.Railgun?.Mounts?.Length ?? 0), $"{kind}: hull and moving groups must be merged separately");
+                    Check(meshes.Length == 1 + 2 * ((def.Railgun?.Mounts?.Length ?? 0) + (def.PointDefense?.Mounts.Length ?? 0)),
+                        $"{kind}: hull, main and PD moving groups must be merged separately");
                     MeshInstance3D mesh = meshes.Single(m => m.Name == "FleetHull");
                     Aabb bounds = mesh.GetAabb();
                     Check(bounds.Size.Z > def.Flight.Length * .85f && bounds.Size.Z < def.Flight.Length * 1.15f,
@@ -58,9 +59,23 @@ public partial class ShipModelChecks : Node
                         Check(rig.Yaw.Position.DistanceTo(mount.Pivot) < .001f, $"{kind}/{rig.ModuleId}: yaw pivot");
                         Check(rig.Elevation.GetParent() == rig.Yaw && rig.Recoil.GetParent() == rig.Elevation,
                             $"{kind}/{rig.ModuleId}: independent yaw/elevation/recoil hierarchy");
+                        var housing = rig.Yaw.GetChildren().OfType<MeshInstance3D>().Single();
+                        var barrels = rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single();
+                        Check(housing.Transform.IsEqualApprox(Transform3D.Identity) && !housing.TopLevel
+                            && barrels.Transform.IsEqualApprox(Transform3D.Identity) && !barrels.TopLevel,
+                            $"{kind}/{rig.ModuleId}: visible meshes inherit the turret rig transforms");
                         for (int i = 0; i < rig.Muzzles.Count; i++)
                             Check(rig.Muzzles[i].GlobalPosition.DistanceTo(mount.Muzzle(0, 0, i)) < .002f,
                                 $"{kind}/{rig.ModuleId}: neutral muzzle {i} matches simulation");
+                    }
+                    Check(model.PointDefense.Count == def.PointDefense!.Mounts.Length, $"{kind}: all PD mounts are rigged");
+                    foreach(var rig in model.PointDefense)
+                    {
+                        Check(rig.Yaw.Position.DistanceTo(def.PointDefense.Mounts[rig.Index])<.001f
+                            && rig.Elevation.GetParent()==rig.Yaw, $"{kind}/PD{rig.Index}: horizontal and vertical pivot hierarchy");
+                        Check(rig.Yaw.GetChildren().OfType<MeshInstance3D>().Count()==1
+                            && rig.Elevation.GetChildren().OfType<MeshInstance3D>().Count()==1,
+                            $"{kind}/PD{rig.Index}: receiver and barrels are actual moving meshes");
                     }
                     foreach (ModuleDefinition module in def.Modules)
                     {
@@ -98,6 +113,8 @@ public partial class ShipModelChecks : Node
             Check(colors[0] != colors[1], $"{kind}: faction markings remain distinguishable");
             CheckLiveFx(def);
             CheckLiveTurrets(def);
+            CheckAutomaticElevation(def);
+            CheckPointDefense(def);
         }
     }
 
@@ -148,6 +165,67 @@ public partial class ShipModelChecks : Node
             Check(flashes.All(n => !n.Visible), $"{def.Kind}: muzzle flashes expire");
             Check(Nodes(view).Where(n => n.Name.ToString().StartsWith("recoil_gun_")).All(n => n.Position.IsZeroApprox()),
                 $"{def.Kind}: barrels return to battery");
+        }
+        finally { view.Free(); }
+    }
+
+    private void CheckAutomaticElevation(ShipDefinition def)
+    {
+        if(def.Railgun?.Mounts is null) return;
+        var world=new SimWorld(); var body=world.Add(new ShipBody("AUTO",def.Flight,Faction.Blue));
+        var enemy=world.Add(new ShipBody("TARGET",ShipClass.Battleship,Faction.Red));
+        body.Control=enemy.Control=new ShipControl { FlightAssist=false };
+        body.Gunnery=new GunneryOrder { Doctrine=FireDoctrine.Focus,Target=enemy };
+        var view=ShipView.Create(body,47); AddChild(view);
+        try
+        {
+            foreach(float side in new[]{1f,-1f})
+            {
+                enemy.Place(new Vec3d(18000,side*9000,-7000),Quaternion.Identity);
+                world.Sensors.Update(world.Ships,world.Time,force:true);
+                for(int i=0;i<360;i++) { enemy.Damage.Reset(); world.Step(); view.Sync(Vec3d.Zero,1,(float)SimWorld.TickDelta); }
+                foreach(var gun in body.Railguns.Where(g=>g.Mount!.Ventral==(side<0)))
+                {
+                    var key=gun.Definition.ModuleId.Replace('-','_');
+                    var barrel=(MeshInstance3D)view.FindChild($"mesh_recoil_{key}",true,false);
+                    Check(Math.Abs(gun.Yaw)>.5f && gun.Elevation>.2f && gun.ShotCount>0,
+                        $"{def.Kind}/{key}: automatic fire slews sideways and elevates toward {(side>0 ? "upper" : "lower")} target");
+                    Check((-barrel.GlobalBasis.Z).Dot(gun.Direction)>.99999f,
+                        $"{def.Kind}/{key}: visible barrel follows automatic azimuth and elevation");
+                }
+            }
+        }
+        finally { view.Free(); }
+    }
+
+    private void CheckPointDefense(ShipDefinition def)
+    {
+        var world=new SimWorld(); var body=world.Add(new ShipBody("PD",def.Flight,Faction.Blue));
+        var enemy=world.Add(new ShipBody("RAIDER",ShipClass.Interceptor,Faction.Red));
+        Vec3d origin=new(1e9,-2e9,3e9); body.Place(origin,new Quaternion(Vector3.Forward,.37f));
+        body.Control=enemy.Control=new ShipControl { FlightAssist=false };
+        var view=ShipView.Create(body,47); AddChild(view);
+        try
+        {
+            var pd=def.PointDefense!;
+            for(int index=0;index<pd.Mounts.Length;index++)
+            {
+                Vector3 direction=(pd.Normals![index].Normalized()+Vector3.Right*.2f).Normalized();
+                Vector3 offset=pd.Mounts[index]+direction*pd.RangeMeters*.45f;
+                enemy.Place(origin+Vec3d.From(body.Orientation*offset),Quaternion.Identity);
+                for(int i=0;i<120;i++) { enemy.Damage.Reset(); world.Step(); view.Sync(origin,1,(float)SimWorld.TickDelta); }
+                var state=body.Ordnance.PointDefense[index];
+                var barrel=(MeshInstance3D)view.FindChild($"mesh_pd_pitch_{index}",true,false);
+                Check(state.LocalAim is not null && double.IsFinite(state.LastFiredAt),$"{def.Kind}/PD{index}: actual PD target and firing state recorded");
+                Check((-barrel.GlobalBasis.Z).Dot(body.Orientation*direction)>.9999f,
+                    $"{def.Kind}/PD{index}: visible PD barrel tracks sideways and vertically, including ventral mounts");
+                Check(Math.Abs(barrel.GetParent<Node3D>().Rotation.X)>.15f,$"{def.Kind}/PD{index}: nonzero gun elevation");
+            }
+            enemy.Place(origin+new Vec3d(0,0,100000),Quaternion.Identity); world.Step(); view.Sync(origin,1,.016f);
+            Check(body.Ordnance.PointDefense.All(m=>m.LocalAim is null),$"{def.Kind}: PD releases target outside range");
+            world.ResetWeapons();
+            Check(body.Ordnance.PointDefense.All(m=>m.LocalAim is null && double.IsNegativeInfinity(m.LastFiredAt)),
+                $"{def.Kind}: resetting weapons clears PD flash and target history");
         }
         finally { view.Free(); }
     }

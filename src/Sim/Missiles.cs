@@ -23,6 +23,13 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
 public sealed record PointDefenseDefinition(Vector3[] Mounts, float RangeMeters, float ShotsPerSecond, float HitChance, float DamagePerHit,
     Vector3[]? Normals = null, float ArcDegrees = 100f);
 
+/// <summary>Actual PD target and shot time for the visual mount; does not change interception probabilities.</summary>
+public sealed class PointDefenseMountState
+{
+    public Vector3? LocalAim { get; internal set; }
+    public double LastFiredAt { get; internal set; } = double.NegativeInfinity;
+}
+
 /// <summary>디코이. 한 번에 PerLaunch개를 사출하며, 신호는 함선 기본 신호 × SignatureFactor에서 수명 동안 0으로 줄어든다.</summary>
 public sealed record DecoyDefinition(int Count, int PerLaunch, float CooldownSeconds, float SignatureFactor, float LifetimeSeconds, float EjectSpeed);
 
@@ -36,12 +43,14 @@ public sealed class OrdnanceState
         _ship = ship;
         Antimatter = new AntimatterState(ship);
         Drones = new DefenseDroneState(ship);
+        PointDefense = Array.ConvertAll(ship.Definition.PointDefense?.Mounts ?? Array.Empty<Vector3>(), _ => new PointDefenseMountState());
         Reset();
     }
 
     public int Missiles { get; private set; }
     public AntimatterState Antimatter { get; }
     public DefenseDroneState Drones { get; }
+    public PointDefenseMountState[] PointDefense { get; }
     public float MissileReload { get; private set; }
     public int Decoys { get; private set; }
     public float DecoyCooldown { get; private set; }
@@ -67,6 +76,7 @@ public sealed class OrdnanceState
         // Resetting the practice guns/repair tools cannot restock a spent or jettisoned AM payload.
         Antimatter.Cancel();
         Drones.Reset();
+        foreach (var mount in PointDefense) { mount.LocalAim=null; mount.LastFiredAt=double.NegativeInfinity; }
     }
 
     internal void Step(double dt)

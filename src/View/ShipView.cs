@@ -16,6 +16,15 @@ public partial class ShipView : Node3D
     private IReadOnlyList<RcsJet> _rcs = new List<RcsJet>();
     private float[] _rcsLevel = System.Array.Empty<float>();
     private readonly List<(RailgunState Gun, TurretRig Rig, MeshInstance3D[] Flashes)> _batteries = new();
+    private sealed class DefenseVisual
+    {
+        public required PointDefenseMountState State;
+        public required PointDefenseRig Rig;
+        public required MeshInstance3D[] Flashes;
+        public float Yaw, Pitch;
+    }
+    private readonly List<DefenseVisual> _defense = new();
+    private double _defenseTime;
     private MeshInstance3D? _amGlow;
     private StandardMaterial3D? _amMaterial;
     /// <summary>롤 축(Z)에서 가장 먼 노즐까지의 거리(m).</summary>
@@ -60,6 +69,19 @@ public partial class ShipView : Node3D
             }).ToArray();
             view._batteries.Add((gun, rig, flashes));
         }
+        foreach(var rig in model.PointDefense)
+        {
+            float radius=rig.Muzzles[0].Position.DistanceTo(rig.Muzzles[1].Position)*.4f;
+            var flashes=rig.Muzzles.Select(socket=>
+            {
+                var flash=new MeshInstance3D { Name="PDFlash",Visible=false,
+                    Mesh=new SphereMesh { Radius=radius,Height=radius*2,RadialSegments=8,Rings=4 },
+                    MaterialOverride=model.Palette.Glow,CastShadow=GeometryInstance3D.ShadowCastingSetting.Off };
+                socket.AddChild(flash); return flash;
+            }).ToArray();
+            view._defense.Add(new DefenseVisual { State=body.Ordnance.PointDefense[rig.Index],Rig=rig,Flashes=flashes });
+        }
+        view._defenseTime=body.SimTime;
         return view;
     }
 
@@ -83,6 +105,7 @@ public partial class ShipView : Node3D
         }
         SyncRcs(delta);
         SyncTurrets((float)alpha);
+        SyncPointDefense();
         if (_amGlow is not null)
         {
             var am=Body.Ordnance.Antimatter;
@@ -103,6 +126,28 @@ public partial class ShipView : Node3D
             float kick = age >= 0 && age < .45 ? (float)(age < .05 ? age / .05 : (.45 - age) / .4) : 0;
             rig.Recoil.Position = Vector3.Back * kick * Body.Class.Length * .002f;
             for (int i = 0; i < flashes.Length; i++) flashes[i].Visible = i == gun.LastBarrel && age >= 0 && age < .075;
+        }
+    }
+
+    private void SyncPointDefense()
+    {
+        float dt=(float)System.Math.Max(0,Body.SimTime-_defenseTime);
+        _defenseTime=Body.SimTime;
+        foreach(var mount in _defense)
+        {
+            var rig=mount.Rig;
+            if(!Body.Damage.Destroyed && mount.State.LocalAim is Vector3 local)
+            {
+                Vector3 direction=rig.RestBasis.Inverse()*local;
+                float yaw=Mathf.Atan2(-direction.X,-direction.Z);
+                float pitch=Mathf.Atan2(direction.Y,new Vector2(direction.X,direction.Z).Length());
+                mount.Yaw+=Mathf.Clamp(Mathf.AngleDifference(mount.Yaw,yaw),-Mathf.DegToRad(540)*dt,Mathf.DegToRad(540)*dt);
+                mount.Pitch=Mathf.MoveToward(mount.Pitch,pitch,Mathf.DegToRad(360)*dt);
+                rig.Yaw.Basis=rig.RestBasis*new Basis(Vector3.Up,mount.Yaw);
+                rig.Elevation.Basis=new Basis(Vector3.Right,mount.Pitch);
+            }
+            double age=Body.SimTime-mount.State.LastFiredAt;
+            foreach(var flash in mount.Flashes) flash.Visible=!Body.Damage.Destroyed && age>=0 && age<.045;
         }
     }
 

@@ -385,6 +385,8 @@ public sealed partial class SimWorld
     /// </summary>
     private void StepPointDefense(double dt, double time)
     {
+        foreach (ShipBody ship in _ships)
+            foreach (var mount in ship.Ordnance.PointDefense) mount.LocalAim=null;
         bool anyInterceptors = false;
         foreach (ShipBody s in _ships)
             anyInterceptors |= s.Class.Kind == HullKind.Interceptor && !s.Damage.Destroyed;
@@ -430,6 +432,8 @@ public sealed partial class SimWorld
 
                 accum[i] += pd.ShotsPerSecond * (float)dt;
                 Vec3d aim = threat?.Position ?? raider!.Position;
+                var tracking = ship.Ordnance.PointDefense[i];
+                tracking.LocalAim = ship.Orientation.Inverse() * (aim-mount).ToVector3().Normalized();
                 Vector3 velocity = threat?.Velocity ?? raider!.Velocity;
                 uint salt = threat?.Id ?? ShipBrain.Hash(raider!.Callsign);
                 while (accum[i] >= 1f && (threat is null || threat.Health > 0))
@@ -445,6 +449,7 @@ public sealed partial class SimWorld
                         * (raider is null ? threat!.Assault is null ? 1f : .8f : PointDefenseShipSizeFactor);
                     bool hit = Roll(++_pointDefenseSequence * 2246822519u ^ salt) < p;
                     _pointDefenseShots.Add(new PointDefenseShot(mount, aim, time, hit, ship.Faction));
+                    tracking.LastFiredAt = time;
                     if (!hit) continue;
                     if (threat is not null)
                         threat.Health -= pd.DamagePerHit;

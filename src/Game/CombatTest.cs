@@ -54,10 +54,12 @@ public partial class ScaleTest
         Quaternion facing = _shot?.Stern == true ? player.Orientation : player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi);
         target.Body.Place(player.Position + Vec3d.From(player.Forward) * distance, facing.Normalized());
         var previewArgs = BattleArgs.Parse(OS.GetCmdlineUserArgs());
-        if (previewArgs.TryGetValue("test-bearing", out string? bearing))
+        if (previewArgs.ContainsKey("test-bearing") || previewArgs.ContainsKey("test-elevation"))
         {
-            float angle = Mathf.DegToRad(float.Parse(bearing, System.Globalization.CultureInfo.InvariantCulture));
-            var direction = player.Orientation * new Vector3(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
+            float Angle(string key) => previewArgs.TryGetValue(key,out string? value)
+                ? Mathf.DegToRad(float.Parse(value,System.Globalization.CultureInfo.InvariantCulture)) : 0;
+            float angle=Angle("test-bearing"), elevation=Angle("test-elevation");
+            var direction = player.Orientation * new Vector3(Mathf.Sin(angle)*Mathf.Cos(elevation), Mathf.Sin(elevation), -Mathf.Cos(angle)*Mathf.Cos(elevation));
             target.Body.Place(player.Position + Vec3d.From(direction) * distance, facing.Normalized());
         }
         if (_shot is { Below: > 0 })

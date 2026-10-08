@@ -454,6 +454,8 @@ class Ship:
         fit_antimatter(self.coll,self.data)
         bpy.context.window.scene=self.scene
         rig_turrets(self.coll, self.data)
+        from fleet_model_export import rig_point_defense
+        rig_point_defense(self.coll, self.data)
         stats = export_collection(self.coll, OUT/f'{self.key}.glb')
         self.lighting()
         self.scene['game_axes']='Forward -Z, up +Y; Godot meters'

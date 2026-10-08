@@ -269,7 +269,9 @@ public sealed record RcsJet(Node3D Pivot, Vector3 Position, Vector3 Exhaust);
 
 public sealed record TurretRig(string ModuleId, Node3D Yaw, Basis RestBasis, Node3D Elevation, Node3D Recoil,
     IReadOnlyList<Node3D> Muzzles);
+public sealed record PointDefenseRig(int Index, Node3D Yaw, Basis RestBasis, Node3D Elevation, IReadOnlyList<Node3D> Muzzles);
 public sealed record ShipModel(Node3D Root, IReadOnlyList<Node3D> Plumes, Palette Palette, IReadOnlyList<RcsJet> RcsJets)
 {
     public IReadOnlyList<TurretRig> Turrets { get; init; } = System.Array.Empty<TurretRig>();
+    public IReadOnlyList<PointDefenseRig> PointDefense { get; init; } = System.Array.Empty<PointDefenseRig>();
 }

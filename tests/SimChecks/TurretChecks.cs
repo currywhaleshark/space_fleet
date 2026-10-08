@@ -24,7 +24,9 @@ static class TurretChecks
             var world = new SimWorld(); var ship = Add(world, cls);
             int count = cls.Kind == HullKind.Battleship ? 3 : 2;
             Require(ship.Railguns.Length == count, $"{cls.Kind}: mount count");
-            Require(ship.Railguns.Sum(g => g.Rounds) == ship.Definition.Railgun!.Rounds, "Preserve ship magazine total");
+            Require(ship.Railguns.Sum(g => g.Rounds) == ship.Definition.Railgun!.Rounds, "Turret capacities match ship magazine total");
+            int perMount = cls.Kind == HullKind.Battleship ? 120 : 160;
+            Require(ship.Railguns.All(g => g.Rounds == perMount), "Each turret retains the former single-gun ammunition endurance");
             var attempt = world.FireRailguns(ship, Vector3.Right);
             Require(!attempt.Fired && attempt.Failure == FireFailure.Traversing, "Cannot snap-fire 90 degrees");
             Aim(world, ship, Vector3.Right, .5);
@@ -83,7 +85,7 @@ static class TurretChecks
         {
             var world = new SimWorld(); var dd = Add(world, ShipClass.Escort);
             Require(world.FireRailgun(dd, dd.Railguns[0], Vector3.Forward).Fired, "Single mount fires independently");
-            Require(!dd.Railguns[0].Ready && dd.Railguns[1].Ready && dd.Railguns[1].Rounds == 80,
+            Require(!dd.Railguns[0].Ready && dd.Railguns[1].Ready && dd.Railguns[1].Rounds == dd.Railguns[1].Definition.Rounds,
                 "One turret's reload and ammunition do not block another");
             var enemy = Add(world, ShipClass.Battleship, "ENEMY", Faction.Red);
             enemy.Place(new Vec3d(12000,0,-4000), Quaternion.Identity);

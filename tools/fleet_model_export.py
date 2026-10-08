@@ -66,7 +66,7 @@ def export_collection(collection, output):
             copy.select_set(True)
             copies.append(copy)
         bpy.context.view_layer.objects.active = copies[0]
-        bpy.ops.object.join()
+        if len(copies) > 1: bpy.ops.object.join()
         merged = bpy.context.object
         merged.name = 'FleetHull' if parent is None else 'mesh_' + parent.name
         bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
@@ -91,7 +91,36 @@ def export_collection(collection, output):
     for obj in merged_objects: bpy.data.objects.remove(obj, do_unlink=True)
     for obj in hidden: obj.hide_set(True)
     return {'triangles': triangles, 'materials': len({m.name for o in meshes for m in o.data.materials if m}),
-        'editableParts': len(meshes), 'meshGroups': len(groups), 'turrets': len([o for o in empties if o.name.startswith('turret_')])}
+        'editableParts': len(meshes), 'meshGroups': len(groups), 'turrets': len([o for o in empties if o.name.startswith('turret_')]),
+        'pointDefenseTurrets': len([o for o in empties if o.name.startswith('pd_yaw_')])}
+
+def rig_point_defense(collection, definition):
+    """Keep fixed bearings in the hull; articulate existing PD receivers and barrels."""
+    size = {'battleship': 4, 'escort': 1.5, 'interceptor': .55}[definition['id']]
+    for i, p in enumerate(definition.get('pointDefense', {}).get('mounts', [])):
+        if collection.all_objects.get(f'pd_yaw_{i}'):
+            continue
+        parts = [o for o in collection.all_objects if o.type == 'MESH' and o.name.startswith(f'PD {i} ')]
+        if not parts:
+            raise ValueError(f'Missing authored PD {i} parts')
+        def empty(name, pos, parent=None):
+            obj = bpy.data.objects.new(name, None)
+            collection.objects.link(obj)
+            obj.parent = parent
+            obj.location = pos
+            obj.empty_display_size = size
+            return obj
+        yaw = empty(f'pd_yaw_{i}', g(p))
+        sign = -1 if p[1] < 0 else 1
+        if sign < 0: yaw.rotation_euler.y = math.pi
+        pitch = empty(f'pd_pitch_{i}', g((0, size*.65, 0)), yaw)
+        bpy.context.view_layer.update()
+        for part in parts:
+            if ' mount' in part.name: continue
+            parent_keep_world(part, yaw if ' receiver' in part.name else pitch)
+        for barrel, side in enumerate((-1, 1)):
+            empty(f'pd_muzzle_{i}_{barrel}', g((side*size*.36, 0, -size*2.85)), pitch)
+    bpy.context.view_layer.update()
 
 def fit_antimatter(collection, definition):
     am = definition.get('antimatter')

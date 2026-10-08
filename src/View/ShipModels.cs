@@ -4,17 +4,14 @@ using SpaceFleet.Sim;
 namespace SpaceFleet.View;
 
 /// <summary>
-/// Blender 제작 모델을 우선 사용한다. 이전 절차 모델은 파일 누락 시 대체 외형이다.
+/// Blender 제작 모델을 사용한다. 임포트 누락을 정적인 구형 모델로 숨기지 않는다.
 /// 상부와 하부의 무장 배치를 일부러 다르게 둔다(롤 전투의 근거).
 /// </summary>
 public static class ShipModels
 {
-    public static ShipModel Build(ShipClass shipClass, Faction faction, int seed) => ImportedShipModels.TryBuild(shipClass, faction, seed) ?? shipClass.Kind switch
-    {
-        HullKind.Battleship => Battleship(faction, seed),
-        HullKind.Escort => Escort(faction, seed),
-        _ => Interceptor(faction, seed),
-    };
+    public static ShipModel Build(ShipClass shipClass, Faction faction, int seed) =>
+        ImportedShipModels.TryBuild(shipClass, faction, seed)
+        ?? throw new System.InvalidOperationException($"Missing {shipClass.Kind} model import. Run tools/build.ps1 before playing.");
 
     // 약 1,200m. 전방(-Z) -680 ~ 후방 +580.
     private static ShipModel Battleship(Faction faction, int seed)

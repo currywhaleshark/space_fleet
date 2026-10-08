@@ -49,16 +49,23 @@ public static class ImportedShipModels
         foreach (var jet in def.GetProperty("rcs").EnumerateArray())
             b.RcsNozzle(V(jet.GetProperty("position")), V(jet.GetProperty("exhaust")), jet.GetProperty("size").GetSingle(), jet.GetProperty("plume").GetSingle(), buildNozzle: false);
         var turrets = new List<TurretRig>();
+        Node3D Required(string name) => visual.FindChild(name, recursive: true, owned: false) as Node3D
+            ?? throw new InvalidOperationException($"{id}: missing Blender turret node {name}. Run tools/build.ps1 to refresh model imports.");
         foreach (TurretDefinition mount in ShipDefinitions.For(cls.Kind).Railgun?.Mounts ?? Array.Empty<TurretDefinition>())
         {
             string key = mount.ModuleId.Replace('-', '_');
-            Node3D Required(string name) => visual.FindChild(name, recursive: true, owned: false) as Node3D
-                ?? throw new InvalidOperationException($"{id}: missing Blender turret node {name}");
             Node3D yaw = Required("turret_" + key);
             turrets.Add(new(mount.ModuleId, yaw, yaw.Basis, Required("elevation_" + key), Required("recoil_" + key),
                 Enumerable.Range(0, mount.Muzzles.Length).Select(i => Required($"muzzle_{key}_{i}")).ToArray()));
         }
-        return b.Finish() with { Turrets = turrets };
+        var defense = new List<PointDefenseRig>();
+        for(int i=0;i<(ShipDefinitions.For(cls.Kind).PointDefense?.Mounts.Length ?? 0);i++)
+        {
+            var yaw=Required($"pd_yaw_{i}");
+            defense.Add(new(i,yaw,yaw.Basis,Required($"pd_pitch_{i}"),
+                Enumerable.Range(0,2).Select(j=>Required($"pd_muzzle_{i}_{j}")).ToArray()));
+        }
+        return b.Finish() with { Turrets = turrets, PointDefense = defense };
     }
 
     internal static IEnumerable<MeshInstance3D> Meshes(Node root)

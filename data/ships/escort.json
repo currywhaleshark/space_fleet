@@ -4,15 +4,15 @@
   "railgun": {
     "moduleId": "gun-1", "muzzle": [0, 32, -96], "muzzleSpeed": 8000,
     "reloadSeconds": 1.5, "energy": 600, "penetrationMm": 900, "moduleDamage": 180,
-    "maxRange": 150000, "rounds": 160, "traverseDegrees": 100,
+    "maxRange": 150000, "rounds": 320, "traverseDegrees": 100,
     "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 60,
     "mounts": [
       { "moduleId": "gun-1", "pivot": [0,26,-60], "trunnion": [0,6,0], "muzzles": [[-2.52,0,-36],[2.52,0,-36]], "ventral": false,
         "housingCenter": [0,4.95,-1.35], "housingHalfSize": [9,3.6,8.55],
-        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 80 },
+        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 160 },
       { "moduleId": "gun-2", "pivot": [0,-26,-30], "trunnion": [0,5.04,0], "muzzles": [[-2.52,0,-36],[2.52,0,-36]], "ventral": true,
         "housingCenter": [0,4.95,-1.35], "housingHalfSize": [9,3.6,8.55],
-        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 80 }
+        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 160 }
     ]
   },
   "flight": {
