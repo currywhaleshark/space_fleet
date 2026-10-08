@@ -59,7 +59,7 @@ public partial class Hud : Control
 
         UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
-        if (Game.ShowModules && Game.InspectTarget is ShipView target)
+        if (Game.ShowModules && Game.InspectTarget is ShipView target && Game.ContactOf(target)?.SignalLost != true)
             DrawModuleVolumes(cam, target);
 
         // 기수가 실제로 향하는 곳(먼 점을 투영해 시차를 줄인다)
@@ -75,16 +75,20 @@ public partial class Hud : Control
         if (Game.Scheme == ControlScheme.Pilot)
         {
             DrawCrosshair(cam, controlled, size);
-            DrawOrdnanceArcs(controlled, size * 0.5f);
+            DrawAntimatter(controlled.Body, size);
+            DrawOrdnanceArcs(controlled, Game.Camera.AimScreenPosition());
         }
         else DrawGunnery(cam, controlled, size);
         DrawInstruments(controlled, size);
+        DrawWeaponSelection(controlled.Body, size);
         DrawOwnSystems(controlled, size);
         DrawSquadrons(controlled, size);
         DrawPowerPanel(controlled, size);
         DrawTargetPanel(size);
         DrawShotFeedback(cam);
+        DrawIncomingFeedback(size);
         DrawBattleHud(size);
+        DrawRadar(controlled, size);
         DrawHelp(controlled, size);
     }
 
@@ -147,6 +151,11 @@ public partial class Hud : Control
         {
             if (view == controlled)
                 continue;
+            if (Game.ContactOf(view) is { SignalLost: true } lost)
+            {
+                DrawLostContact(cam, controlled, view, lost, labels, screen);
+                continue;
+            }
             SensorTrack track = Game.TrackOf(view);
             if (track.Level == TrackLevel.None)
                 continue; // 탐지되지 않은 적은 그리지 않는다.
@@ -172,6 +181,7 @@ public partial class Hud : Control
                 float errTarget = Mathf.Clamp(track.ErrorMeters / (float)Math.Max(dist, 1.0) * pxPerRad, 6f, 120f);
                 float err = _errorShown[view] = _errorShown.TryGetValue(view, out float shown) ? Smooth(shown, errTarget, 0.5f) : errTarget;
                 contacts.Add(new Contact(view, p, err, track, dist));
+                DrawTargetFeedback(view.Body, p, err);
                 BracketPositions.Add((p, view));
                 continue;
             }
@@ -185,6 +195,7 @@ public partial class Hud : Control
             // 무력화는 식별 이상에서만 보인다(적이면 겉보기 정보).
             bool disabled = view.Body.Damage.Disabled && track.Level >= TrackLevel.Identified;
             float h = Mathf.Max(9f, radius);
+            DrawTargetFeedback(view.Body, p, h);
             float arm = Mathf.Min(8f, h * 0.6f);
             Color c = destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
             if (disabled) c = new Color(c, 0.45f);
@@ -389,7 +400,7 @@ public partial class Hud : Control
     {
         if (!Game.ShowHelp)
         {
-            Label(new Vector2(16, screen.Y - 12), SoundSettings.Muted ? "F1 도움말 · M 효과음 켜기" : "F1 도움말 · M 효과음 끄기", 12, Dim);
+            Label(new Vector2(16, screen.Y - 12), SoundSettings.Muted ? "F1 도움말 · M 전체 지도 · F10 효과음 켜기" : "F1 도움말 · M 전체 지도 · F10 효과음 끄기", 12, Dim);
             return;
         }
         ShipBody body = controlled.Body;
@@ -397,23 +408,27 @@ public partial class Hud : Control
         {
             $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
             "플레이 조작 · W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · Tab 함선 전환 · 휠 줌",
-            Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · 좌클릭 레일건 · Esc 커서 해제"
-                : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 함께 누르면 평행추력 · 중클릭 자유 관찰 · 좌클릭 선택/수동 사격",
+            Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제"
+                : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 좌클릭 선택/사격",
+            "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
             "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
-            "우클릭 미사일 · C 디코이 · R 표적 · Y 조준 부위",
-            "Z 비행보조 · V 항공식/우주식 · M 효과음 · 일시정지에서 음량 조절",
-            "개발용 · 1 추진 · 2 실드 · 3 무장 · 4 센서 · 5 ECM · 0 균형 · T 사격보조/교리 순환",
+            "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
+            "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
+            "Z 비행보조 · V 항공식/우주식 · F10 효과음 · 일시정지에서 음량 조절",
+            "개발용 · T 사격보조/교리 순환",
             "G 집중공격 · H 호위 · J 위치 유지 · [ ] 배속 ×1/×4/×16",
             "F1 도움말 · F2 원점 · F3 1,000 km 도약 · F4 시험 레이 · F5 모듈 · F6 복구 · F7 이동 표적 · F8 미사일 훈련",
         };
         if(Game.BattleMode && !Game.DevMode) lines=new[]
         {
             "W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · 휠 줌",
-            Game.Scheme==ControlScheme.Pilot?"마우스 비행 · A/D/Space/Ctrl 평행추력 · 좌클릭 주포 · Esc 커서 해제":"A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰 · 좌클릭 표적/부위 선택",
+            Game.Scheme==ControlScheme.Pilot?"마우스 비행 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제":"A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 주포 선택 시 좌클릭 표적/부위",
+            "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
             "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
-            "우클릭 미사일 · C 디코이 · R 표적 · Y 조준 부위 · T 사격보조/교리",
+            "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
+            "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
             "Z 비행보조 · V 항공식/우주식 · [ ] 배속 ×1/×2/×4",
-            "Esc 커서 해제 후 일시정지/음량 · M 효과음 · 함선 상실 시 자동 인계 · F1 닫기",
+            "Esc 커서 해제 후 일시정지/음량 · F10 효과음 · 함선 상실 시 자동 인계 · F1 닫기",
         };
         float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;
         DrawRect(new Rect2(8, 8, width, 16 + lines.Length * 19), PanelBack);

@@ -7,18 +7,18 @@ namespace SpaceFleet.Game;
 /// <summary>
 /// 하단 오른쪽 전력·열 패널.
 /// 위 막대 = 발전(채움 = 가용 발전량, 흰 선 = 수요, 빨강 = 공급 부족분).
-/// 가운데 = 채널 5개의 핍(1~5 키, ECM은 기본 0), 옆 가는 막대 = 실제 소비 전력. 공급 부족이면 핍이 주황으로 바랜다.
+/// 가운데 = 채널 5개의 핍(F 라디얼로 조절, ECM은 기본 0), 옆 가는 막대 = 실제 소비 전력. 공급 부족이면 핍이 주황으로 바랜다.
 /// 오른쪽 세로 막대 = 열(70% 회복선, 100% 과열선). 과열이면 패널 테두리가 빨갛게 깜박인다.
 /// </summary>
 public partial class Hud
 {
-    private static readonly (PowerChannel Channel, string Label, string Key, Color Color)[] Channels =
+    private static readonly (PowerChannel Channel, string Label, Color Color)[] Channels =
     {
-        (PowerChannel.Engines, "추진", "1", new Color(1f, 0.78f, 0.35f, 0.95f)),
-        (PowerChannel.Shields, "실드", "2", new Color(0.45f, 0.75f, 1f, 0.95f)),
-        (PowerChannel.Weapons, "무장", "3", new Color(1f, 0.5f, 0.42f, 0.95f)),
-        (PowerChannel.Sensors, "센서", "4", new Color(0.35f, 0.9f, 0.7f, 0.95f)),
-        (PowerChannel.Ecm, "ECM", "5", new Color(0.78f, 0.55f, 1f, 0.95f)),
+        (PowerChannel.Engines, "추진", new Color(1f, 0.78f, 0.35f, 0.95f)),
+        (PowerChannel.Shields, "실드", new Color(0.45f, 0.75f, 1f, 0.95f)),
+        (PowerChannel.Weapons, "무장", new Color(1f, 0.5f, 0.42f, 0.95f)),
+        (PowerChannel.Sensors, "센서", new Color(0.35f, 0.9f, 0.7f, 0.95f)),
+        (PowerChannel.Ecm, "ECM", new Color(0.78f, 0.55f, 1f, 0.95f)),
     };
 
     // 소비 막대·수요선 표시값. 0.15초짜리 순간 피크가 깜박이지 않게 약 0.3초로 부드럽게 따라간다.
@@ -58,12 +58,13 @@ public partial class Hud
         DrawLine(new Vector2(dx, gen.Position.Y - 3f), new Vector2(dx, gen.End.Y + 3f), Text, 1.5f);
 
         // 채널 핍
+        CenteredLabel(new Vector2(x + barWidth * .5f, y + 27), "F 전력 배분", 10, Dim);
         float slot = barWidth / Channels.Length;
         float pipW = 13f, pipH = 11f, gap = 3f;
         float pipsBottom = y + 92f;
         for (int i = 0; i < Channels.Length; i++)
         {
-            var (channel, label, key, color) = Channels[i];
+            var (channel, label, color) = Channels[i];
             float cx = x + slot * i + slot * 0.5f;
             int pips = power.Pips(channel);
             Color lit = power.Supply < 0.99f ? color.Lerp(Motion, 0.6f) : color;
@@ -80,7 +81,6 @@ public partial class Hud
             // 실제 소비 전력(4핍 최대 활동 기준).
             float draw = _drawShown[i] = Smooth(_drawShown[i], power.DrawMw(channel) / power.MaxDrawMw(channel));
             VBar(new Rect2(cx + pipW * 0.5f - 1f, pipsBottom - 4 * (pipH + gap) + gap, 3f, 4 * (pipH + gap) - gap), draw, new Color(color, 0.8f));
-            CenteredLabel(new Vector2(cx - 2f, pipsBottom - 4 * (pipH + gap) - 3f), key, 10, Dim);
             int balanced = channel == PowerChannel.Ecm ? 0 : ShipPower.BalancedPips;
             CenteredLabel(new Vector2(cx - 2f, pipsBottom + 13f), label, 11, pips != balanced ? color : Dim);
         }

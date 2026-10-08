@@ -330,6 +330,9 @@ public sealed partial class SimWorld
         }
         if (aim is null && brain.DesiredVelocity.LengthSquared() > 25f)
             aim = brain.DesiredVelocity.Normalized();
+        if (Time>=brain.BreakUntil && ship.Ordnance.Antimatter.Mode is AntimatterMode.Arming or AntimatterMode.Armed
+            && brain.Target is { } assaultTarget && Sensors.Track(ship.Faction,assaultTarget) is { Level: >= TrackLevel.Locked } assaultTrack)
+            aim=AntimatterLaunchDirection(ship,assaultTarget,assaultTrack,brain.AimModule?.Definition.Center,out _);
 
         ship.Control = new ShipControl
         {
@@ -338,6 +341,7 @@ public sealed partial class SimWorld
             FlightAssist = true,
             Style = AssistStyle.Space,
             HelmForward = aim,
+            Roll = AntimatterDefenseRoll(ship),
         };
     }
 
@@ -351,11 +355,12 @@ public sealed partial class SimWorld
         if (ship.Ordnance.DecoyReady && _missiles.Any(m => m.Target == ship && (m.Position - ship.Position).Length() < DecoyThreatMeters))
             LaunchDecoys(ship);
 
-        if (brain.Target is not ShipBody target || target.Damage.Destroyed) return;
+        if (brain.Target is not ShipBody target || target.Damage.Destroyed) { ship.Ordnance.Antimatter.Cancel(); return; }
         SensorTrack track = Sensors.Track(ship.Faction, target);
+        EngageAntimatter(brain, target, track);
 
         // 레일건
-        if (ship.Railgun is RailgunState gun && gun.Ready && track.Level >= TrackLevel.Locked)
+        if (ship.Railguns.Length > 0 && track.Level >= TrackLevel.Locked)
         {
             TryAutoFire(ship, target, brain.AimModule?.Definition.Center, brain.Profile.RailFlightSeconds, out _);
         }
@@ -542,7 +547,8 @@ public sealed partial class SimWorld
         ShipBody leader = squadron.Leader!;
         var raiders = known.Where(k => k.Ship.Class.Kind == HullKind.Interceptor && k.Track.Level >= TrackLevel.Identified
                 && !k.Ship.Damage.Disabled && (k.Track.EstimatedPosition - flagship.Position).Length() < ScreenThreatMeters)
-            .OrderBy(k => (k.Track.EstimatedPosition - flagship.Position).Length()).ToList();
+            .OrderByDescending(k => k.Ship.Ordnance.Antimatter.Rounds > 0)
+            .ThenBy(k => (k.Track.EstimatedPosition - flagship.Position).Length()).ToList();
         int slot = 0;
 
         if (raiders.Count > 0 && flagship.Squadron != squadron)
@@ -727,6 +733,8 @@ public sealed partial class SimWorld
             double score = preference + (track.EstimatedPosition - ship.Position).Length() / 100_000.0
                 + assigned.GetValueOrDefault(enemy) * 0.8
                 + (track.Level >= TrackLevel.Identified && enemy.Damage.Disabled ? 3 : 0);
+            if (ship.Class.Kind == HullKind.Escort && track.Level >= TrackLevel.Identified && enemy.Ordnance.Antimatter.Rounds > 0
+                && !enemy.Damage.Disabled && (track.EstimatedPosition - ship.Position).Length() < 30_000) score -= 5;
             if (score < bestScore)
             {
                 bestScore = score;

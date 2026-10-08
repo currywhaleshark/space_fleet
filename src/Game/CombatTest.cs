@@ -19,7 +19,7 @@ public partial class ScaleTest
     /// <summary>사격보조가 노리는 부위(Y로 바꾼다).</summary>
     public AimSubsystem AimPart { get; private set; } = AimSubsystem.Center;
     /// <summary>지금 고른 부위의 모듈(표적·내 위치 기준). 중심이거나 남은 모듈이 없으면 null.</summary>
-    public ModuleState? AimModule => Scheme == ControlScheme.Helm ? Gunnery?.EngagedModule : FireTarget is ShipView t && Controlled?.Body is ShipBody me
+    public ModuleState? AimModule => FireTarget is null ? null : Scheme == ControlScheme.Helm ? Gunnery?.EngagedModule : FireTarget is ShipView t && Controlled?.Body is ShipBody me
         ? Subsystems.Pick(t.Body, AimPart, me.Position) : null;
 
     private void CycleAimPart()
@@ -30,9 +30,16 @@ public partial class ScaleTest
     }
 
     /// <summary>사격통제 표적. 검사 표적이 살아 있는 적일 때만 잡는다(아군에게 선행 보정을 계산하지 않는다).</summary>
-    public ShipView? FireTarget => Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
-        ? Views.Find(v => v.Body == engaged) : InspectTarget is ShipView view && Controlled is ShipView me
-        && view.Body.Faction != me.Body.Faction && !view.Body.Damage.Destroyed ? view : null;
+    public ShipView? FireTarget
+    {
+        get
+        {
+            ShipView? view = Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
+                ? Views.Find(v => v.Body == engaged) : InspectTarget;
+            return view is not null && Controlled is { } me && view.Body.Faction != me.Body.Faction
+                && TrackOf(view).Level > TrackLevel.None && !view.Body.Damage.Destroyed ? view : null;
+        }
+    }
     public double LastFireTime { get; private set; } = -100;
 
     private void SetupPractice(string callsign = "DD-X1", float distance = 6000, float speed = 180)
@@ -46,6 +53,13 @@ public partial class ScaleTest
         // 기본은 표적이 나를 마주 본다. --stern이면 꼬리를 보인다(후미 침투 검증).
         Quaternion facing = _shot?.Stern == true ? player.Orientation : player.Orientation * new Quaternion(Vector3.Up, Mathf.Pi);
         target.Body.Place(player.Position + Vec3d.From(player.Forward) * distance, facing.Normalized());
+        var previewArgs = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if (previewArgs.TryGetValue("test-bearing", out string? bearing))
+        {
+            float angle = Mathf.DegToRad(float.Parse(bearing, System.Globalization.CultureInfo.InvariantCulture));
+            var direction = player.Orientation * new Vector3(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
+            target.Body.Place(player.Position + Vec3d.From(direction) * distance, facing.Normalized());
+        }
         if (_shot is { Below: > 0 })
             target.Body.Place(player.Position - Vec3d.From(player.Up) * (_shot.Below * 1000), facing.Normalized());
         target.Body.Velocity = player.Orientation * Vector3.Right * speed;
@@ -68,7 +82,7 @@ public partial class ScaleTest
     private int _autoMissiles;
     public const int DrillSalvo = 6;
 
-    /// <summary>우클릭: 검사 표적(탐지된 적)에 미사일 한 발. 접촉 이상이면 쏠 수 있다.</summary>
+    /// <summary>미사일 선택 후 좌클릭: 검사 표적(탐지된 적)에 한 발. 접촉 이상이면 쏠 수 있다.</summary>
     private void LaunchMissileAtTarget()
     {
         if (Controlled?.Body is not ShipBody player) return;
@@ -126,6 +140,8 @@ public partial class ScaleTest
     private void StepCombat()
     {
         StepDrill();
+        StepJettison();
+        if (MapControlsBlocked) return;
         // 검증용 자동 디코이: 나를 노리는 미사일이 8 km 안이면 쿨다운마다 사출.
         if (_shot is { AutoDecoys: true } && Controlled?.Body is ShipBody me && me.Ordnance.DecoyReady
             && World.Missiles.Any(m => m.Target == me && (m.Position - me.Position).Length() < 8000))
@@ -139,16 +155,22 @@ public partial class ScaleTest
         {
             FiringSolution = Gunnery?.Solution;
             CorrectingAim = false;
-            if (!MenuOpen && Gunnery?.Doctrine == FireDoctrine.Manual && (Input.IsActionPressed(InputSetup.Fire)
-                || (_shot?.ManualFire == true && World.Tick >= 30 && _liveShots < _shot.Pulses)))
+            if (!MenuOpen && !RadarPointerCaptured && SelectedWeapon == PlayerWeapon.MainGun && Gunnery?.Doctrine == FireDoctrine.Manual)
             {
                 Vector2 cursor = GetViewport().GetMousePosition();
-                Vector3 cursorDirection = _shot?.ManualFire == true ? ManualDirection(player)
-                    : ManualDirection(player, RenderOrigin + Vec3d.From(Camera.ProjectRayOrigin(cursor)), Camera.ProjectRayNormal(cursor));
-                FireAttempt manual = World.FireRailgun(player, cursorDirection);
-                Notify(manual.Reason, !manual.Fired);
-                if (manual.Fired) _liveShots++;
+                Vec3d point = _shot?.ManualFire == true
+                    ? ManualAimPoint(player, RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward)
+                    : ManualAimPoint(player, RenderOrigin + Vec3d.From(Camera.ProjectRayOrigin(cursor)), Camera.ProjectRayNormal(cursor));
+                foreach (RailgunState gun in player.Railguns) gun.Aim((point - gun.MuzzlePosition).ToVector3());
+                if ((!_fireReleaseGuard && Input.IsActionPressed(InputSetup.Fire)) || (_shot?.ManualFire == true && World.Tick >= 30 && _liveShots < _shot.Pulses))
+                {
+                    FireAttempt manual = World.FireRailguns(player, Vector3.Forward, point);
+                    Notify(manual.Reason, !manual.Fired);
+                    if (manual.Fired) _liveShots++;
+                }
             }
+            else if (!MenuOpen && !RadarPointerCaptured && SelectedWeapon == PlayerWeapon.MainGun
+                && !_fireReleaseGuard && Input.IsActionPressed(InputSetup.Fire)) FireSelectedMainBattery();
             return;
         }
         bool automated = _shot?.BallisticsTarget is not null;
@@ -163,9 +185,10 @@ public partial class ScaleTest
         FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimModule?.Definition.Center) : null;
         CorrectingAim = FiringSolution is { Valid: true } && track is SensorTrack known
             && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
-        bool firing = Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);
+        bool firing = SelectedWeapon == PlayerWeapon.MainGun && !_fireReleaseGuard
+            && Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);
         if (automated) firing = World.Tick >= 30 && _liveShots < _shot!.Pulses && player.Railgun?.Ready == true;
-        if (MenuOpen) firing = false;
+        if (MenuOpen || RadarPointerCaptured) firing = false;
         if (!firing) return;
         // 센서가 없어도 수동 사격은 가능하다. 선택 표적이 조준 범위 안에 있을 때만 선행 보정한다.
         Vector3 direction = CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
@@ -186,10 +209,16 @@ public partial class ScaleTest
     private Vector3 ManualDirection(ShipBody shooter, Vec3d origin, Vector3 ray)
     {
         if (shooter.Railgun is not RailgunState gun) return ray;
+        return (ManualAimPoint(shooter, origin, ray) - gun.MuzzlePosition).ToVector3().Normalized();
+    }
+
+    private Vec3d ManualAimPoint(ShipBody shooter, Vec3d origin, Vector3 ray)
+    {
+        RailgunState gun = shooter.Railgun!;
         float distance = gun.Definition.MaxRange;
         foreach (ShipBody ship in World.Ships)
             if (ship != shooter && DamageRay.FirstHit(ship, origin, ray, distance, out float hit)) distance = hit;
         Vec3d point = origin + Vec3d.From(ray) * distance;
-        return (point - gun.MuzzlePosition).ToVector3().Normalized();
+        return point;
     }
 }

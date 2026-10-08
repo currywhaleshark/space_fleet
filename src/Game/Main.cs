@@ -24,6 +24,13 @@ public partial class Main : Node3D
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
         InputSetup.Register();
         SoundSettings.Initialize();
+        FeedbackSettings.Load();
+        if (_args.ContainsKey("model-test")) { AddChild(new ShipModelChecks()); return; }
+        if (_args.ContainsKey("am-game-test")) { AddChild(new AntimatterGameChecks()); return; }
+        if (_args.ContainsKey("weapon-input-test")) { AddChild(new WeaponInputChecks()); return; }
+        if (_args.ContainsKey("navigation-test")) { AddChild(new NavigationChecks()); return; }
+        if (_args.ContainsKey("contact-test")) { AddChild(new ContactMemoryChecks()); return; }
+        if (_args.ContainsKey("feedback-test")) { AddChild(new CombatFeedbackChecks()); return; }
         if (_args.ContainsKey("audio-test")) { AddChild(new CombatAudioChecks()); return; }
         if (_args.ContainsKey("shot") && !_args.ContainsKey("menu") && !_args.ContainsKey("battle") && !_args.ContainsKey("result-test"))
         { AddChild(new ScaleTest()); return; }

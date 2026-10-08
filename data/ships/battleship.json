@@ -5,7 +5,18 @@
     "moduleId": "gun-1", "muzzle": [0, 94, -410], "muzzleSpeed": 12000,
     "reloadSeconds": 3, "energy": 1400, "penetrationMm": 1800, "moduleDamage": 300,
     "maxRange": 250000, "rounds": 120, "traverseDegrees": 120,
-    "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15, "shotHeatMj": 300
+    "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15, "shotHeatMj": 300,
+    "mounts": [
+      { "moduleId": "gun-1", "pivot": [0,88,-320], "trunnion": [0,6,0], "muzzles": [[-8.4,0,-90],[8.4,0,-90]], "ventral": false,
+        "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 40 },
+      { "moduleId": "gun-2", "pivot": [0,88,160], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": false,
+        "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 40 },
+      { "moduleId": "gun-3", "pivot": [0,-88,-120], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": true,
+        "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 40 }
+    ]
   },
   "flight": {
     "kind": "Battleship",
@@ -40,6 +51,8 @@
     "normals": [[0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35]],
     "arcDegrees": 100 },
   "decoys": { "count": 16, "perLaunch": 2, "cooldownSeconds": 4, "signatureFactor": 2.5, "lifetimeSeconds": 6, "ejectSpeed": 80 },
+  "defenseDrones": { "count": 8, "orbitMeters": 900, "rangeMeters": 1800,
+    "shotsPerSecond": 3, "hitChance": 0.18, "damagePerHit": 4, "roundsPerDrone": 80 },
   "hullSections": [
     {
       "id": "hull",

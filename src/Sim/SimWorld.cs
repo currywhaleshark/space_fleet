@@ -55,6 +55,8 @@ public sealed partial class SimWorld
 
     public void Step()
     {
+        foreach (ShipBody ship in _ships)
+            foreach (RailgunState gun in ship.Railguns) { gun.PreviousYaw = gun.Yaw; gun.PreviousElevation = gun.Elevation; }
         StepAI();
         StepGunnery();
         _previous.Clear();

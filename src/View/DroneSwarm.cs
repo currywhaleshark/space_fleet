@@ -1,11 +1,12 @@
 using System;
 using Godot;
+using SpaceFleet.Sim;
 
 namespace SpaceFleet.View;
 
 /// <summary>
-/// 전함 주위를 도는 요격드론 무리(수 m급). 0단계에서는 시뮬레이션 개체가 아니라
-/// 크기 비교용 연출이다. 모함 노드의 자식이라 모함 좌표계에서 궤도를 그린다.
+/// 전함 방어 드론. 모함의 시뮬레이션 궤도와 같은 위치에서 렌더링한다.
+/// 캐리어 없는 Create 오버로드는 외형 확인용 연출이다.
 /// </summary>
 public partial class DroneSwarm : MultiMeshInstance3D
 {
@@ -19,6 +20,14 @@ public partial class DroneSwarm : MultiMeshInstance3D
 
     private Orbit[] _orbits = Array.Empty<Orbit>();
     private double _time;
+    private ShipBody? _carrier;
+
+    public static DroneSwarm Create(ShipBody carrier, Palette palette)
+    {
+        int count = carrier.Definition.DefenseDrones!.Count;
+        var swarm = Create(palette, count, 900, 900, 1);
+        swarm._carrier = carrier; return swarm;
+    }
 
     public static DroneSwarm Create(Palette palette, int count, float minRadius, float maxRadius, int seed)
     {
@@ -70,6 +79,18 @@ public partial class DroneSwarm : MultiMeshInstance3D
 
     public override void _Process(double delta)
     {
+        if (_carrier is { } ship)
+        {
+            Visible = ship.Ordnance.Drones.Active;
+            for (int i = 0; i < Multimesh.InstanceCount; i++)
+            {
+                Vector3 point = ship.Ordnance.Drones.LocalPosition(i, ship.SimTime);
+                Vector3 next = ship.Ordnance.Drones.LocalPosition(i, ship.SimTime + .01);
+                Vector3 direction = (next-point).Normalized();
+                Multimesh.SetInstanceTransform(i,new(Basis.LookingAt(direction,Mathf.Abs(direction.Dot(Vector3.Up))>.95f ? Vector3.Right : Vector3.Up),point));
+            }
+            return;
+        }
         _time += delta;
         for (int i = 0; i < _orbits.Length; i++)
         {

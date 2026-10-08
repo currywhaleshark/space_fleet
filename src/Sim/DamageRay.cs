@@ -161,6 +161,9 @@ public static class DamageRay
     private static ArmorSide Side(Vector3 normal) => normal.X < -0.5f ? ArmorSide.Port : normal.X > 0.5f ? ArmorSide.Starboard
         : normal.Y < -0.5f ? ArmorSide.Ventral : normal.Y > 0.5f ? ArmorSide.Dorsal : normal.Z < 0 ? ArmorSide.Fore : ArmorSide.Aft;
 
+    internal static bool IntersectsBox(Vector3 origin, Vector3 direction, Vector3 center, Vector3 half, float range) =>
+        Box(origin, direction, center, half, range, out _);
+
     private static bool Box(Vector3 origin, Vector3 direction, Vector3 center, Vector3 half, float range, out Span span)
     {
         float near = float.NegativeInfinity, far = float.PositiveInfinity;

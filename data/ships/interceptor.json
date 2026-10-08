@@ -35,6 +35,16 @@
   "missiles": { "rounds": 4, "reloadSeconds": 1.5, "launchPoint": [0, -1.8, -2], "ejectSpeed": 15, "accelG": 40, "burnSeconds": 25, "maxFlightSeconds": 60,
     "seekerRangeMeters": 8000, "seekerFovDegrees": 50, "seekerStrength": 2, "fuzeMeters": 10,
     "energy": 250, "penetrationMm": 300, "moduleDamage": 110, "hitPoints": 6, "launchHeatMj": 2 },
+  "antimatter": {
+    "moduleId": "am-containment", "rounds": 2, "armingSeconds": 2.5,
+    "recommendedMinMeters": 2000, "recommendedMaxMeters": 5000, "maxTravelMeters": 8000,
+    "terminalAccelG": 6, "launchConeDegrees": 15, "damageDepthMeters": 180,
+    "warningHealth": 0.85, "safeFailureHealth": 0.15, "armedFailureHealth": 0.65,
+    "flight": { "rounds": 2, "reloadSeconds": 2.5, "launchPoint": [1.2,-1.8,-7],
+      "ejectSpeed": 450, "accelG": 22, "burnSeconds": 7, "maxFlightSeconds": 7,
+      "seekerRangeMeters": 3500, "seekerFovDegrees": 35, "seekerStrength": 0.3, "fuzeMeters": 1,
+      "energy": 1100, "penetrationMm": 2400, "moduleDamage": 1200, "hitPoints": 12, "launchHeatMj": 35 }
+  },
   "pointDefense": { "mounts": [[0, -1.6, 5]],
     "rangeMeters": 1200, "shotsPerSecond": 5, "hitChance": 0.06, "damagePerHit": 4,
     "normals": [[0, -0.5, 0.85]], "arcDegrees": 110 },
@@ -159,6 +169,11 @@
     }
   ],
   "modules": [
+    {
+      "id": "am-containment", "name": "반물질 격리용기", "kind": "AntimatterContainment",
+      "center": [1.2,0,1], "halfSize": [0.7,0.8,1.4], "hitPoints": 40, "resistanceMm": 5,
+      "grid": "Starboard"
+    },
     {
       "id": "sensor",
       "name": "조준 센서",

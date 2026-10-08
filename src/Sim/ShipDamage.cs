@@ -45,6 +45,7 @@ public sealed class ShipDamage
     }
 
     public IReadOnlyList<ModuleState> Modules { get; }
+    public event Action<ModuleState, double>? ModuleDamaged;
     public IReadOnlyList<DamageReport> Reports => _reports;
     public float Shield { get; private set; }
     public float ShieldCapacity { get; private set; }
@@ -161,8 +162,17 @@ public sealed class ShipDamage
         else if (generator && wasRated && module.HealthFraction < GeneratorDegradeThreshold)
             Report(time, $"{module.Definition.Name} 출력 저하 · 50%");
         else Report(time, $"{module.Definition.Name} 손상 · {module.HealthFraction * 100:0}%");
+        ModuleDamaged?.Invoke(module, time);
         Recompute();
         return damage;
+    }
+
+    internal void Catastrophe(double time, string reason)
+    {
+        if (Destroyed) return;
+        _catastrophic = true;
+        foreach (ModuleState module in Modules) { module.Health = 0; module.LastHitTime = time; }
+        Shield = 0; Report(time, reason); Recompute();
     }
 
     /// <summary>충돌 에너지가 선체 구조 한계를 넘었을 때. 모든 모듈을 잃고 잔해로 남는다.</summary>

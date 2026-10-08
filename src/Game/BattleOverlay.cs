@@ -12,6 +12,7 @@ public partial class BattleOverlay : Control
     private Font _font = null!;
     private readonly List<(Button Button, Rect2 Bounds)> _buttons = new();
     private HSlider? _volume;
+    private HSlider? _shake;
     private static readonly Color Blue = new(.4f,.72f,1), Red = new(1,.38f,.29f), Orange = new(1,.73f,.32f), Ink = new(.8f,.89f,1);
     private static readonly Color[] Phases = {new(.23f,.3f,.4f),new(.3f,.65f,.8f),new(.95f,.68f,.27f),new(.7f,.48f,.9f),new(.94f,.35f,.32f)};
     public override void _Ready()
@@ -32,6 +33,7 @@ public partial class BattleOverlay : Control
     {
         foreach(var item in _buttons) {RemoveChild(item.Button);item.Button.QueueFree();} _buttons.Clear();
         if (_volume is not null) { RemoveChild(_volume); _volume.QueueFree(); _volume = null; }
+        if (_shake is not null) { RemoveChild(_shake); _shake.QueueFree(); _shake = null; }
         MouseFilter = Host.Screen == BattleScreen.Battle ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
         switch(Host.Screen)
         {
@@ -50,7 +52,10 @@ public partial class BattleOverlay : Control
                 _volume = new HSlider { MinValue = 0, MaxValue = 100, Step = 5, Value = SoundSettings.Volume };
                 _volume.ValueChanged += value => SoundSettings.SetVolume((float)value);
                 AddChild(_volume);
-                Button(SoundSettings.Muted ? "효과음 켜기 · M" : "효과음 끄기 · M",new(620,710,360,46),
+                _shake = new HSlider { MinValue = 0, MaxValue = 100, Step = 5, Value = FeedbackSettings.Shake };
+                _shake.ValueChanged += value => FeedbackSettings.SetShake((float)value);
+                AddChild(_shake);
+                Button(SoundSettings.Muted ? "효과음 켜기 · F10" : "효과음 끄기 · F10",new(620,760,360,46),
                     () => { SoundSettings.ToggleMute(); Rebuild(); }); break;
             case BattleScreen.Result:
                 Button("다시",new(260,730,320,56),()=>Host.StartBattle(Host.Role));
@@ -65,6 +70,7 @@ public partial class BattleOverlay : Control
         float k=Mathf.Min(Size.X/1600,Size.Y/900); Vector2 offset=(Size-new Vector2(1600,900)*k)*.5f;
         foreach(var (b,r) in _buttons){b.Position=offset+r.Position*k;b.Size=r.Size*k;b.AddThemeFontSizeOverride("font_size",Math.Max(12,(int)(20*k)));}
         if (_volume is not null) { _volume.Position=offset+new Vector2(730,650)*k;_volume.Size=new Vector2(250,34)*k; }
+        if (_shake is not null) { _shake.Position=offset+new Vector2(750,704)*k;_shake.Size=new Vector2(230,34)*k; }
     }
     public override void _Process(double delta) {Size=GetViewportRect().Size;LayoutButtons(); QueueRedraw(); }
     private void Text(Vector2 at,string text,int size=20,Color? color=null) => DrawString(_font,at,text,HorizontalAlignment.Left,-1,size,color??Ink);
@@ -74,6 +80,7 @@ public partial class BattleOverlay : Control
         float k=Mathf.Min(Size.X/1600,Size.Y/900); DrawSetTransform((Size-new Vector2(1600,900)*k)*.5f,0,Vector2.One*k);
         if(Host.Screen==BattleScreen.Battle)
         {
+            if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
             {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,"150 km · 함대 교전",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
@@ -102,7 +109,8 @@ public partial class BattleOverlay : Control
             }
         }
         else if(Host.Screen==BattleScreen.Pause)
-        {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);}
+        {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);
+            Text(new(620,725),$"흔들림 {FeedbackSettings.Shake:0}%",17,Ink);}
         else DrawResult();
     }
     private void Ship(Vector2 p,HullKind kind,Color color,float scale=1)
@@ -144,6 +152,7 @@ public partial class BattleOverlay : Control
         string[] values={$"{record.RailHits} / {record.Rails}",$"{record.MissileHits} / {record.Missiles}",$"{record.ModulesDestroyed}",$"{record.ShieldDamage:0}",$"{record.ArmorPenetrations}",$"{record.ModulesLost}"};
         string[] labels={"주포 명중 / 발사","미사일 명중 / 발사","모듈 파괴","받은 실드 피해","장갑 관통","모듈 손실"};
         for(int i=0;i<6;i++){float x=260+i*180;Text(new(x,592),values[i],32,Blue);Text(new(x,627),labels[i],16);}
+        Text(new(260,653),$"반물질 강습어뢰 · 명중 {record.TorpedoHits} / 발사 {record.Torpedoes}",16,Blue);
         Text(new(260,677),"정상 · 진영색    손상 · 주황    무력화 · 빨강    격침 · ×",16,new Color(Ink,.6f));
         Text(new(1100,843),$"SEED {Host.Seed}",14,new Color(Ink,.45f));
     }

@@ -62,7 +62,9 @@ public partial class ScaleTest
     {
         if (MenuOpen) return;
         _radialAction = action;
-        Camera.FreeLooking = false;
+        Camera.SetFreeLook(false);
+        Camera.ResetTelescope();
+        _fireReleaseGuard=true;
         _radial.Open(title, items, Scheme == ControlScheme.Pilot || _shot is not null
             ? GetViewport().GetVisibleRect().Size * 0.5f : GetViewport().GetMousePosition(), Scheme == ControlScheme.Pilot);
     }

@@ -167,7 +167,8 @@ public sealed class ShipPower
         float rcs = new Vector3(a.X, a.Y, Mathf.Max(0f, a.Z)).Length();
         float engines = Mathf.Clamp((main + RcsPowerFactor * rcs) / Mathf.Max(_ship.Class.ForwardAccel, 1e-3f), 0f, 2f);
         float shields = damage.ShieldRecharging ? 1f : IdleActivity;
-        float weapons = _ship.Railgun is RailgunState gun && gun.ReloadRemaining > 0f ? 1f : IdleActivity;
+        float weapons = System.Array.Exists(_ship.Railguns, gun => gun.ReloadRemaining > 0f) ? 1f : IdleActivity;
+        if (_ship.Ordnance.Antimatter.Mode is AntimatterMode.Arming or AntimatterMode.Armed) weapons = 1f;
         Span<float> activity = stackalloc float[] { Mathf.Max(engines, IdleActivity), shields, weapons, 1f, 1f };
 
         float demand = 0f;

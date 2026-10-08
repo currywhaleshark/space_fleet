@@ -27,6 +27,7 @@ public sealed partial class SimWorld
     private readonly List<PointDefenseShot> _pointDefenseShots = new();
     private readonly Dictionary<ShipBody, float[]> _pointDefenseAccum = new();
     private uint _pointDefenseSequence;
+    private readonly Dictionary<ShipBody, (uint Failures, uint Jettisons)> _amObserved = new();
 
     public IReadOnlyList<Missile> Missiles => _missiles;
     public IReadOnlyList<Decoy> Decoys => _decoys;
@@ -83,6 +84,7 @@ public sealed partial class SimWorld
     {
         foreach (ShipBody ship in _ships) ship.Ordnance.Reset();
         _missiles.Clear(); _decoys.Clear(); _ordnanceEvents.Clear(); _pointDefenseShots.Clear(); _pointDefenseAccum.Clear();
+        foreach (var ship in _ships) _amObserved[ship] = (ship.Ordnance.Antimatter.Failures, ship.Ordnance.Antimatter.Jettisons);
     }
 
     private void PruneOrdnanceEvents()
@@ -93,6 +95,16 @@ public sealed partial class SimWorld
 
     private void StepOrdnance(double dt, double time)
     {
+        foreach (var ship in _ships)
+        {
+            var am = ship.Ordnance.Antimatter;
+            var old = _amObserved.GetValueOrDefault(ship);
+            if (am.Failures > old.Failures)
+                _ordnanceEvents.Add(new(OrdnanceEventKind.ContainmentFailure, ship.Position, time, ship.Faction, BattleWeapon.Antimatter));
+            if (am.Jettisons > old.Jettisons)
+                _ordnanceEvents.Add(new(OrdnanceEventKind.Jettisoned, ship.Position, time, ship.Faction, BattleWeapon.Antimatter, -ship.Up));
+            _amObserved[ship] = (am.Failures, am.Jettisons);
+        }
         foreach (Decoy decoy in _decoys)
         {
             decoy.PrevPosition = decoy.Position;
@@ -107,7 +119,8 @@ public sealed partial class SimWorld
             m.Age += dt;
             if (m.Age > m.Definition.MaxFlightSeconds)
             {
-                _ordnanceEvents.Add(new(OrdnanceEventKind.Expired, m.Position, time, m.Faction));
+                Log?.EndAntimatter(m, AntimatterOutcome.Expired, time);
+                _ordnanceEvents.Add(new(OrdnanceEventKind.Expired, m.Position, time, m.Faction, m.Weapon));
                 _missiles.RemoveAt(i);
                 continue;
             }
@@ -122,11 +135,23 @@ public sealed partial class SimWorld
                 m.NextSeekerCheck = time + SeekerInterval;
             }
             StepMissile(m, dt);
+            if (m.Assault is not null && Log is not null)
+            {
+                m.ClosestTargetHull = Math.Min(m.ClosestTargetHull, HullDistance(m.Target, m.Position));
+                if (m.SeekerTarget == m.Target) m.SeekerSeconds += dt;
+            }
             if (Fuze(m, dt, time))
                 _missiles.RemoveAt(i);
+            else if (m.Assault is { } am && m.TravelMeters >= am.MaxTravelMeters - .001)
+            {
+                Log?.EndAntimatter(m, AntimatterOutcome.Expired, time);
+                _ordnanceEvents.Add(new(OrdnanceEventKind.Expired, m.Position, time, m.Faction, m.Weapon));
+                _missiles.RemoveAt(i);
+            }
         }
 
         StepPointDefense(dt, time);
+        StepDefenseDrones(dt, time);
     }
 
     private void StepMissile(Missile m, double dt)
@@ -136,12 +161,16 @@ public sealed partial class SimWorld
         switch (m.SeekerTarget)
         {
             case ShipBody ship:
-                aim = ship.Position; aimVelocity = ship.Velocity;
+                aim = ship.Position + Vec3d.From(ship.Orientation * (ship == m.Target ? m.LocalAim ?? Vector3.Zero : Vector3.Zero));
+                aimVelocity = ship.Velocity;
+                if (m.Assault is not null && ship==m.Target && m.LocalAim is Vector3 module)
+                    aimVelocity += ship.Orientation*ship.AngularVelocity.Cross(module);
                 break;
             case Decoy decoy:
                 aim = decoy.Position; aimVelocity = decoy.Velocity;
                 break;
             default:
+                if (m.Assault is not null) { aim = m.AimPoint; aimVelocity = Vector3.Zero; break; }
                 SensorTrack track = Sensors.Track(m.Faction, m.Target);
                 if (track.Level >= TrackLevel.Contact)
                 {
@@ -159,9 +188,24 @@ public sealed partial class SimWorld
         m.AimPoint = aim;
 
         Vector3 accel = m.Burning ? Guidance(m.Position, m.Velocity, aim, aimVelocity, m.Definition.Accel) : Vector3.Zero;
+        if (m.Assault is { } assault && m.Burning)
+        {
+            // The motor thrusts along the launch attitude, not inherited transverse drift.
+            // Terminal corrections use the same accelerating flight model and a limited gimbal.
+            Vector3 forward = m.LaunchDirection;
+            Vector3 lateral = Vector3.Zero;
+            if (m.SeekerLocked && AssaultGuidance.Intercept((aim-m.Position).ToVector3(),aimVelocity-m.Velocity,
+                0,m.Definition.Accel,Math.Max(.01,m.Definition.MaxFlightSeconds-m.Age),out var correction,out _))
+                lateral=(correction*m.Definition.Accel-forward*correction.Dot(forward)*m.Definition.Accel)
+                    .LimitLength(assault.TerminalAccelG*ShipBody.StandardGravity);
+            accel = forward * Mathf.Sqrt(Mathf.Max(0, m.Definition.Accel * m.Definition.Accel - lateral.LengthSquared())) + lateral;
+        }
         m.Velocity += accel * (float)dt;
         m.PrevPosition = m.Position;
-        m.Position += m.Velocity * (float)dt;
+        Vector3 travel = m.Velocity * (float)dt;
+        if (m.Assault is { } limited) travel = travel.LimitLength((float)Math.Max(0, limited.MaxTravelMeters - m.TravelMeters));
+        m.Position += travel;
+        m.TravelMeters += travel.Length();
     }
 
     /// <summary>비례항법 + 시선 방향 가속. 최대 가속을 넘지 않는다.</summary>
@@ -185,7 +229,7 @@ public sealed partial class SimWorld
     private void UpdateSeeker(Missile m, double time)
     {
         MissileDefinition def = m.Definition;
-        Vector3 forward = m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized()
+        Vector3 forward = m.Assault is not null ? m.LaunchDirection : m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized()
             : (m.AimPoint - m.Position).ToVector3().Normalized();
         float halfFov = Mathf.DegToRad(def.SeekerFovDegrees * 0.5f);
         var candidates = new List<(object Target, float Weight)>();
@@ -234,15 +278,18 @@ public sealed partial class SimWorld
     /// <summary>신관. 탐색기가 디코이를 쫓으면 디코이 근처에서 헛되이 터진다.</summary>
     private bool Fuze(Missile m, double dt, double time)
     {
+        if (m.Assault is not null && AssaultCollision(m, time)) return true;
         if (m.SeekerTarget is Decoy decoy)
         {
             if ((decoy.Position - m.Position).Length() < m.Definition.FuzeMeters * 2f)
             {
-                _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, m.Position, time, m.Faction));
+                Log?.EndAntimatter(m, AntimatterOutcome.Decoy, time);
+                _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, m.Position, time, m.Faction, m.Weapon));
                 return true;
             }
             return false;
         }
+        if (m.Assault is not null) return false; // AM transfers energy only on physical hull contact
         ShipBody victim = m.SeekerTarget as ShipBody ?? m.Target;
         Vec3d relStart = m.PrevPosition - victim.PrevPosition;
         Vec3d relEnd = m.Position - victim.Position;
@@ -278,14 +325,40 @@ public sealed partial class SimWorld
     private void Detonate(Missile m, ShipBody victim, Vec3d origin, Vector3 direction, Vec3d pose, Quaternion orientation, double time)
     {
         float shieldBefore = victim.Damage.Shield;
-        ShotResult hit = DamageRay.ApplyAtPose(victim, origin, direction, m.Definition.Packet, time, m.Id, pose, orientation);
-        Log?.Hit(m.Shooter, hit, BattleWeapon.Missile, time, shieldBefore);
-        if (hit.Target is not null)
+        DamagePacket packet = m.Assault is { } am ? m.Definition.Packet with { Range = am.DamageDepthMeters } : m.Definition.Packet;
+        ShotResult hit = DamageRay.ApplyAtPose(victim, origin, direction, packet, time, m.Id, pose, orientation);
+        Log?.EndAntimatter(m, AntimatterOutcome.Hit, time, victim);
+        Log?.Hit(m.Shooter, hit, m.Weapon, time, shieldBefore);
+        RecordImpact(m.Id, m.Shooter, hit, time, direction, m.Definition.Energy, shieldBefore, m.Weapon);
+        _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, origin, time, m.Faction, m.Weapon, direction));
+    }
+
+    private bool AssaultCollision(Missile missile, double time)
+    {
+        ShipBody? hitShip = null; double earliest = double.PositiveInfinity;
+        Vector3 hitDirection = Vector3.Zero; Quaternion hitRotation = Quaternion.Identity;
+        Vec3d hitPoint = default, hitPose = default;
+        foreach (ShipBody ship in _ships)
         {
-            _impacts.Add(new ProjectileImpact(m.Id, m.Shooter, hit, time));
-            if (_impacts.Count > 64) _impacts.RemoveAt(0);
+            if (ship == missile.Shooter) continue;
+            Vec3d relative = missile.PrevPosition - ship.PrevPosition;
+            Vec3d travel = missile.Position - missile.PrevPosition - (ship.Position - ship.PrevPosition);
+            double length = travel.Length();
+            if (length < 1e-8) continue;
+            double closest = Math.Clamp(-relative.Dot(travel) / (length * length), 0, 1);
+            if ((relative + travel * closest).Length() > ship.Hull.BoundingRadius) continue;
+            Vector3 direction = (travel * (1 / length)).ToVector3();
+            Quaternion rotation = ship.PrevOrientation.Slerp(ship.Orientation, .5f);
+            if (!DamageRay.FirstHitAtPose(ship, missile.PrevPosition, direction, (float)length, ship.PrevPosition, rotation, out float hit)) continue;
+            double fraction = hit / length;
+            if (fraction >= earliest) continue;
+            earliest = fraction; hitShip = ship; hitDirection = direction; hitRotation = rotation;
+            Vec3d offset = (ship.Position - ship.PrevPosition) * fraction;
+            hitPose = ship.PrevPosition + offset;
+            hitPoint = missile.PrevPosition + offset + Vec3d.From(direction) * Math.Max(0, hit - .01f);
         }
-        _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, origin, time, m.Faction));
+        if (hitShip is null) return false;
+        Detonate(missile, hitShip, hitPoint, hitDirection, hitPose, hitRotation, time); return true;
     }
 
     /// <summary>점에서 선체 상자들까지의 최단 거리(m). 안쪽이면 0.</summary>
@@ -369,7 +442,7 @@ public sealed partial class SimWorld
                     float crossing = (rel - rh * rel.Dot(rh)).Length();
                     float p = pd.HitChance * (1f - 0.7f * d / pd.RangeMeters)
                         * Mathf.Min(1f, PointDefenseCrossingSpeed / Mathf.Max(crossing, 1f)) * quality
-                        * (raider is null ? 1f : PointDefenseShipSizeFactor);
+                        * (raider is null ? threat!.Assault is null ? 1f : .8f : PointDefenseShipSizeFactor);
                     bool hit = Roll(++_pointDefenseSequence * 2246822519u ^ salt) < p;
                     _pointDefenseShots.Add(new PointDefenseShot(mount, aim, time, hit, ship.Faction));
                     if (!hit) continue;
@@ -380,10 +453,15 @@ public sealed partial class SimWorld
                         float shieldBefore = raider!.Damage.Shield;
                         ShotResult result = DamageRay.Apply(raider, mount, rh, PointDefenseShipPacket, time, ++_shotSequence);
                         Log?.Hit(ship, result, BattleWeapon.PointDefense, time, shieldBefore);
+                        RecordImpact(_shotSequence, ship, result, time, rh, PointDefenseShipPacket.Energy,
+                            shieldBefore, BattleWeapon.PointDefense);
                     }
                 }
                 if (threat is not null && threat.Health <= 0 && _missiles.Remove(threat))
-                    _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction));
+                {
+                    Log?.EndAntimatter(threat, AntimatterOutcome.PointDefense, time);
+                    _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction, threat.Weapon));
+                }
             }
         }
     }

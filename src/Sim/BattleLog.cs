@@ -6,7 +6,7 @@ using System.Linq;
 namespace SpaceFleet.Sim;
 
 public enum BattlePhase { Approach, Missile, Gunnery, Sniping, Brawl }
-public enum BattleWeapon { Railgun, Missile, PointDefense }
+public enum BattleWeapon { Railgun, Missile, PointDefense, Antimatter }
 public enum BattleEventKind { ModuleDestroyed, Disabled, Destroyed, Collision }
 public sealed record BattleEvent(double Time, string Ship, Faction Victim, Faction? Attacker, BattleEventKind Kind, string? Module = null, string? OtherShip = null);
 public sealed record BattleInterval(double Start, double Duration, BattlePhase Phase);
@@ -15,11 +15,13 @@ public sealed class BattleSideLog
 {
     public double? Contact, Identified, Locked, MissileLaunch, MissileHit, RailLaunch, RailHit, ModuleDestroyed, Disabled, Destroyed, Close;
     public int Missiles, MissileHits, Rails, RailHits;
+    public int Torpedoes, TorpedoHits;
     public double?[] FirstTimes => new[] { Contact, Identified, Locked, MissileLaunch, MissileHit, RailLaunch, RailHit, ModuleDestroyed, Disabled, Destroyed, Close };
 }
 public sealed class BattleShipLog
 {
     public int Rails, RailHits, Missiles, MissileHits, ModulesDestroyed;
+    public int Torpedoes, TorpedoHits;
     public float ShieldDamage, ModuleDamage;
     public int ArmorPenetrations;
 }
@@ -41,6 +43,15 @@ public sealed class BattleLog
     private readonly Bucket _postOutcome = new();
     private readonly Dictionary<ShipBody, BattleShipLog> _ships = new();
     private readonly List<BattleEvent> _events = new();
+    private readonly List<AntimatterFlight> _antimatterFlights = new();
+    public IReadOnlyList<AntimatterFlight> AntimatterFlights => _antimatterFlights;
+    internal void EndAntimatter(Missile missile, AntimatterOutcome outcome, double time, ShipBody? hit = null)
+    {
+        if (missile.Assault is null || _antimatterFlights.Count >= EventCapacity) return;
+        _antimatterFlights.Add(new(missile.Faction, missile.Shooter.Callsign, missile.Target.Callsign,
+            missile.Target.Class.Kind, time-missile.Age, missile.LaunchRange, missile.Age, missile.TravelMeters,
+            missile.SeekerSeconds, missile.ClosestTargetHull, outcome, hit?.Callsign));
+    }
     private readonly List<BattleInterval> _intervals = new();
     private readonly List<BattleStrength> _strength = new();
     private readonly BattleSideLog[] _sides = { new(), new() };
@@ -85,6 +96,7 @@ public sealed class BattleLog
         var stats = Ship(shooter);
         var bucket = At(time);
         if (weapon == BattleWeapon.Missile) { side.Missiles++; stats.Missiles++; First(ref side.MissileLaunch, time); bucket.Missile = true; }
+        else if (weapon == BattleWeapon.Antimatter) { side.Torpedoes++; stats.Torpedoes++; bucket.Brawl = true; }
         else if (weapon == BattleWeapon.Railgun)
         {
             side.Rails++; stats.Rails++; First(ref side.RailLaunch, time);
@@ -102,6 +114,7 @@ public sealed class BattleLog
         var side = Side(shooter.Faction); var stats = Ship(shooter); var received = Ship(victim);
         if (weapon == BattleWeapon.Railgun) { side.RailHits++; stats.RailHits++; First(ref side.RailHit, time); }
         else if (weapon == BattleWeapon.Missile) { side.MissileHits++; stats.MissileHits++; First(ref side.MissileHit, time); }
+        else if (weapon == BattleWeapon.Antimatter) { side.TorpedoHits++; stats.TorpedoHits++; }
         if (shooter.Class.Kind == HullKind.Interceptor && victim.Class.Kind != HullKind.Interceptor) At(time).Brawl = true;
         received.ShieldDamage += Math.Max(0, shieldBefore - victim.Damage.Shield);
         received.ModuleDamage += hit.Modules.Sum(m => m.Damage);
@@ -215,7 +228,7 @@ public sealed class BattleLog
     public string Summary()
     {
         string N(double? n) => n?.ToString("0.000", CultureInfo.InvariantCulture) ?? "-";
-        string SideSummary(Faction f) { var s = Side(f); return $"{f}:{string.Join('/', s.FirstTimes.Select(N))};M={s.Missiles}/{s.MissileHits};R={s.Rails}/{s.RailHits}"; }
+        string SideSummary(Faction f) { var s = Side(f); return $"{f}:{string.Join('/', s.FirstTimes.Select(N))};M={s.Missiles}/{s.MissileHits};R={s.Rails}/{s.RailHits};AM={s.Torpedoes}/{s.TorpedoHits}"; }
         var outcome = _world.Rules?.Outcome;
         string phases = string.Join(',', Enum.GetValues<BattlePhase>().Select(p => $"{p}:{N(PhaseSeconds(p))}"));
         return $"{SideSummary(Faction.Blue)}|{SideSummary(Faction.Red)}|{phases}|collisions={FriendlyCollisions}|events={_events.Count}|winner={outcome?.Winner?.ToString() ?? "Draw"};time={N(outcome?.Time)}";

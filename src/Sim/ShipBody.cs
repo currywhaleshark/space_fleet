@@ -48,7 +48,9 @@ public sealed class ShipBody
         Faction = faction;
         Definition = definition ?? ShipDefinitions.For(shipClass.Kind);
         Damage = new ShipDamage(Definition, callsign);
-        Railgun = Definition.Railgun is null ? null : new RailgunState(this);
+        Railguns = Definition.Railgun is not { } gun ? System.Array.Empty<RailgunState>()
+            : gun.Mounts is { Length: > 0 } mounts ? System.Array.ConvertAll(mounts, mount => new RailgunState(this, mount))
+            : new[] { new RailgunState(this) };
         Power = new ShipPower(this);
         Ordnance = new OrdnanceState(this);
     }
@@ -58,7 +60,9 @@ public sealed class ShipBody
     public Faction Faction { get; }
     public ShipDefinition Definition { get; }
     public ShipDamage Damage { get; }
-    public RailgunState? Railgun { get; }
+    public RailgunState[] Railguns { get; }
+    /// <summary>Primary gun for single-gun callers; battery fire uses Railguns.</summary>
+    public RailgunState? Railgun => Railguns.Length > 0 ? Railguns[0] : null;
     public ShipPower Power { get; }
     /// <summary>미사일·디코이 잔량과 재장전.</summary>
     public OrdnanceState Ordnance { get; }
@@ -142,7 +146,7 @@ public sealed class ShipBody
         SimTime += dt;
         Damage.Step(dt, Power.ShieldEffect);
         Power.Step(dt);
-        Railgun?.Step(dt);
+        foreach (RailgunState gun in Railguns) gun.Step(dt);
         Ordnance.Step(dt);
 
         StepRotation((float)dt);

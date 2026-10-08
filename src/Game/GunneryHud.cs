@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
 using SpaceFleet.View;
@@ -19,7 +20,7 @@ public partial class Hud
     private const int SphereAzimuthCells = 48;
     private const float SphereCellDegrees = 6f;
 
-    /// <summary>함선별 선체 가림 격자(함선 로컬 기준이라 자세와 무관, 한 번만 계산).</summary>
+    /// <summary>함선별 사각 격자. 포탑 회전·모듈 파손을 반영해 주기적으로 갱신한다.</summary>
     private readonly Dictionary<ShipBody, bool[,]> _blindZones = new();
 
     private void DrawGunnery(Camera3D cam, ShipView controlled, Vector2 screen)
@@ -34,13 +35,17 @@ public partial class Hud
         // 왼쪽 고리
         var ring = new Vector2(x + 52f, cy);
         CenteredLabel(ring, GunneryLabels.Doctrine(order.Doctrine), 14, order.Doctrine == FireDoctrine.Hold ? Motion : Text);
-        ArcGauge(ring, 40f, Mathf.DegToRad(145), Mathf.DegToRad(70), gun.Rounds / (float)gun.Definition.Rounds, Friendly, 4);
-        ArcGauge(ring, 40f, Mathf.DegToRad(35), Mathf.DegToRad(-70), gun.Output <= 0.01f || controlled.Body.Power.Overheated ? 0
-            : 1 - gun.ReloadRemaining / gun.Definition.ReloadSeconds, gun.Ready ? Good : Motion, 4);
+        var battery = controlled.Body.Railguns;
+        float ammo = battery.Sum(g => g.Rounds) / (float)battery.Sum(g => g.Definition.Rounds);
+        ArcGauge(ring, 40f, Mathf.DegToRad(145), Mathf.DegToRad(70), ammo, Friendly, 4);
+        float reload = battery.Average(g => g.Output <= .01f || controlled.Body.Power.Overheated ? 0 : 1-g.ReloadRemaining/g.Definition.ReloadSeconds);
+        ArcGauge(ring, 40f, Mathf.DegToRad(35), Mathf.DegToRad(-70), reload, battery.Any(g => g.Ready) ? Good : Motion, 4);
         DrawOrdnanceArcs(controlled, ring, 40f);
 
         // 가운데: 표적
         float mx = x + 150f;
+        ContactSnapshot? lost = Game.FireTarget is null && Game.InspectTarget is { } inspect
+            && Game.ContactOf(inspect) is { SignalLost: true } memory ? memory : null;
         if (Game.FireTarget is ShipView target)
         {
             CenteredLabel(new Vector2(mx, cy - 14f), target.Body.Callsign, 14, Hostile);
@@ -48,12 +53,25 @@ public partial class Hud
             double dist = (target.SimPosition + track.Offset - controlled.SimPosition).Length();
             CenteredLabel(new Vector2(mx, cy + 6f), FormatDistance(dist), 12, Dim);
         }
-        string? reason = order.Status switch
+        else if (lost is not null)
         {
-            GunneryStatus.WaitLock or GunneryStatus.Range or GunneryStatus.Armor or GunneryStatus.FriendlyLine => GunneryLabels.Status(order.Status),
+            CenteredLabel(new(mx, cy - 14), lost.Name, 14, ContactMemory.LostColor);
+            CenteredLabel(new(mx, cy + 6), FormatDistance((lost.Position - controlled.SimPosition).Length()), 12, ContactMemory.LostColor);
+        }
+        string? reason = lost is not null ? "신호 소실" : order.Status switch
+        {
+            GunneryStatus.WaitLock or GunneryStatus.Range or GunneryStatus.Armor or GunneryStatus.FriendlyLine or GunneryStatus.Traversing => GunneryLabels.Status(order.Status),
             _ => null,
         };
-        if (reason is not null) CenteredLabel(new Vector2(mx, cy + 30f), reason, 12, Motion);
+        if (reason is not null) CenteredLabel(new Vector2(mx, cy + 30f), reason, 12, lost is null ? Motion : ContactMemory.LostColor);
+        for (int i = 0; i < battery.Length; i++)
+        {
+            RailgunState mount = battery[i];
+            string label = mount.Output <= .01f ? $"{i+1} 파손" : mount.Rounds == 0 ? $"{i+1} 소진"
+                : mount.Ready ? $"{i+1} 준비" : $"{i+1} 장전";
+            CenteredLabel(new(mx + (i-(battery.Length-1)*.5f)*52, cy+49), label, 10,
+                mount.Output <= .01f || mount.Rounds == 0 ? Hostile : mount.Ready ? Good : Motion);
+        }
 
         if (panel.Size.X > 270f)
             DrawFiringSphere(new Vector2(panel.End.X - SphereRadius - 12f, cy), controlled.Body);
@@ -74,7 +92,7 @@ public partial class Hud
     private void DrawFiringSphere(Vector2 c, ShipBody me)
     {
         RailgunState gun = me.Railgun!;
-        float traverse = gun.Definition.TraverseDegrees;
+        float traverse = me.Definition.Railgun!.Mounts?.Max(m => m.YawDegrees) ?? gun.Definition.TraverseDegrees;
         float rTraverse = traverse / 180f * SphereRadius;
         DrawCircle(c, SphereRadius, new Color(0, 0, 0, 0.25f));
         DrawCircle(c, rTraverse, new Color(Good, 0.16f));
@@ -126,8 +144,11 @@ public partial class Hud
     /// <summary>방위구 격자 칸마다 그 방향이 자함 선체에 가리는지(포각 안만).</summary>
     private bool[,] BlindZone(ShipBody me)
     {
+        // Module losses can change the available hemisphere; refresh the small grid periodically.
+        ulong now = Time.GetTicksMsec();
+        if (now >= _blindRefresh) { _blindZones.Clear(); _blindRefresh = now + 300; }
         if (_blindZones.TryGetValue(me, out var cached)) return cached;
-        float traverse = me.Railgun!.Definition.TraverseDegrees;
+        float traverse = me.Definition.Railgun!.Mounts?.Max(m => m.YawDegrees) ?? me.Railgun!.Definition.TraverseDegrees;
         int rings = Mathf.CeilToInt(traverse / SphereCellDegrees);
         var blind = new bool[SphereAzimuthCells, rings];
         for (int i = 0; i < SphereAzimuthCells; i++)
@@ -138,9 +159,10 @@ public partial class Hud
                 float polar = Mathf.DegToRad(Mathf.Min((j + 0.5f) * SphereCellDegrees, traverse - 0.1f));
                 // SpherePoint의 역: 화면 (cos, sin) 방향 → 로컬 (x, -y).
                 var local = new Vector3(Mathf.Sin(polar) * Mathf.Cos(azimuth), -Mathf.Sin(polar) * Mathf.Sin(azimuth), -Mathf.Cos(polar));
-                blind[i, j] = SimWorld.RailLineLocal(me, local) == FireFailure.HullBlocked;
+                blind[i, j] = SimWorld.RailLineLocal(me, local) != FireFailure.None;
             }
         }
         return _blindZones[me] = blind;
     }
+    private ulong _blindRefresh;
 }

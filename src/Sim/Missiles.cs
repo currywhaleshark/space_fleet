@@ -34,10 +34,14 @@ public sealed class OrdnanceState
     public OrdnanceState(ShipBody ship)
     {
         _ship = ship;
+        Antimatter = new AntimatterState(ship);
+        Drones = new DefenseDroneState(ship);
         Reset();
     }
 
     public int Missiles { get; private set; }
+    public AntimatterState Antimatter { get; }
+    public DefenseDroneState Drones { get; }
     public float MissileReload { get; private set; }
     public int Decoys { get; private set; }
     public float DecoyCooldown { get; private set; }
@@ -60,12 +64,16 @@ public sealed class OrdnanceState
         Decoys = DecoyDefinition?.Count ?? 0;
         MissileReload = 0;
         DecoyCooldown = 0;
+        // Resetting the practice guns/repair tools cannot restock a spent or jettisoned AM payload.
+        Antimatter.Cancel();
+        Drones.Reset();
     }
 
     internal void Step(double dt)
     {
         MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
         DecoyCooldown = Mathf.Max(0f, DecoyCooldown - (float)dt);
+        Antimatter.Step(dt);
     }
 
     internal void ConsumeMissile()
@@ -90,6 +98,14 @@ public sealed class Missile
     public required ShipBody Shooter { get; init; }
     public required ShipBody Target { get; init; }
     public required MissileDefinition Definition { get; init; }
+    public BattleWeapon Weapon { get; init; } = BattleWeapon.Missile;
+    public AntimatterDefinition? Assault { get; init; }
+    public Vector3? LocalAim { get; init; }
+    public Vector3 LaunchDirection { get; init; }
+    public double TravelMeters { get; internal set; }
+    public double LaunchRange { get; init; }
+    public double SeekerSeconds { get; internal set; }
+    public float ClosestTargetHull { get; internal set; } = float.PositiveInfinity;
     public Faction Faction => Shooter.Faction;
     public Vec3d Position { get; internal set; }
     public Vec3d PrevPosition { get; internal set; }
@@ -127,9 +143,12 @@ public enum OrdnanceEventKind
     Detonation,
     Intercepted,
     Expired,
+    ContainmentFailure,
+    Jettisoned,
 }
 
-public readonly record struct OrdnanceEvent(OrdnanceEventKind Kind, Vec3d Position, double Time, Faction Faction);
+public readonly record struct OrdnanceEvent(OrdnanceEventKind Kind, Vec3d Position, double Time, Faction Faction,
+    BattleWeapon Weapon = BattleWeapon.Missile, Vector3 Direction = default);
 
 /// <summary>근접방어 사격 한 발(연출용). Hit이면 미사일 체력을 깎았다.</summary>
 public readonly record struct PointDefenseShot(Vec3d From, Vec3d To, double Time, bool Hit, Faction Faction);

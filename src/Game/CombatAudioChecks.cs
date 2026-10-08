@@ -32,7 +32,7 @@ public partial class CombatAudioChecks : Node
             _world.Log = new BattleLog(_world);
             _outgoing = new CombatAudio(); _incoming = new CombatAudio();
             AddChild(_outgoing); AddChild(_incoming);
-            Check(_outgoing.AssetsReady && _incoming.AssetsReady, "Four runtime WAVs load");
+            Check(_outgoing.AssetsReady && _incoming.AssetsReady, "Six runtime WAVs load");
             Check(_outgoing.GetChildren().Cast<AudioStreamPlayer>().All(p => p.Stream.GetLength() > .1), "Loaded streams contain useful audio");
             int buses = AudioServer.BusCount; SoundSettings.Initialize();
             Check(AudioServer.BusCount == buses, "Scene restarts reuse one sound bus");
@@ -97,7 +97,10 @@ public partial class CombatAudioChecks : Node
                 Check(_world.FireRailgun(_blue,Vector3.Forward).Fired,"Second projectile fires against spent shield");
                 _outgoing.Observe(_world,_blue); Step(45);
                 Check(_world.Impacts.Any(i=>i.Hit.Target==_red&&!i.Hit.ShieldStopped),"Actual projectile reaches armor");
-                Check(_incoming.PlayCount(CombatSound.ArmorImpact)==1,"Armor impact uses structural cue");
+                HitKind result = CombatFeedback.Describe(_world.Impacts.Last(i=>i.Shooter==_blue&&i.Hit.Target==_red)).Kind;
+                CombatSound expected = result == HitKind.Armor ? CombatSound.ArmorImpact
+                    : result == HitKind.Critical ? CombatSound.Critical : CombatSound.Penetration;
+                Check(_incoming.PlayCount(expected)==1,"Hull impact uses the actual defense/penetration result");
                 Check(_outgoing.PlayCount(CombatSound.HitConfirm)==2,"Second enemy impact is audible");
                 int hits=_outgoing.PlayCount(CombatSound.HitConfirm);
                 _outgoing.Prime(_world,_red); _outgoing.Observe(_world,_red);
@@ -117,7 +120,33 @@ public partial class CombatAudioChecks : Node
                 Check(_outgoing.PlayCount(CombatSound.HitConfirm)==2,"Friendly fire does not sound like enemy confirmation");
                 _stage++;
             }
-            else if (_stage == 5 && elapsed >= 3_550)
+            else if (_stage == 5 && elapsed >= 2_500)
+            {
+                int before = _incoming.PlayCount(CombatSound.ArmorImpact);
+                CombatFeedbackChecks.Strike(_world, _blue, _red, HitKind.Armor, 9000);
+                _incoming.Observe(_world, _red);
+                Check(_incoming.PlayCount(CombatSound.ArmorImpact)==before+1, "Blocked armor uses the short metallic cue");
+                _stage++;
+            }
+            else if (_stage == 6 && elapsed >= 3_000)
+            {
+                int before = _incoming.PlayCount(CombatSound.Penetration), blocked = _incoming.PlayCount(CombatSound.ArmorImpact);
+                CombatFeedbackChecks.Strike(_world, _blue, _red, HitKind.Penetration, 9001);
+                _incoming.Observe(_world, _red);
+                Check(_incoming.PlayCount(CombatSound.Penetration)==before+1, "Penetration plays its deeper layered cue");
+                Check(_incoming.PlayCount(CombatSound.ArmorImpact)==blocked, "Penetration does not also trigger a blocked hit");
+                _stage++;
+            }
+            else if (_stage == 7 && elapsed >= 3_600)
+            {
+                int before = _incoming.PlayCount(CombatSound.Critical);
+                CombatFeedbackChecks.Strike(_world, _blue, _red, HitKind.Critical, 9002);
+                _incoming.Observe(_world, _red);
+                Check(_incoming.PlayCount(CombatSound.Critical)==before+1, "Module destruction plays critical cue");
+                Check(_incoming.GetChildren().Cast<AudioStreamPlayer>().Sum(p=>p.MaxPolyphony)==11, "Voice count is bounded");
+                _stage++;
+            }
+            else if (_stage == 8 && elapsed >= 5_800)
             {
                 _recording.SetRecordingActive(false);
                 using var mixed = _recording.GetRecording();

@@ -82,10 +82,13 @@ public sealed class HullBuilder
     }
 
     /// <summary>엔진 노즐 + 발광 디스크 + 화염. 화염 노드는 ShipView가 출력에 맞춰 늘인다.</summary>
-    public void Engine(Vector3 nozzleExit, float radius, float plumeLength)
+    public void Engine(Vector3 nozzleExit, float radius, float plumeLength, bool buildNozzle = true)
     {
-        CylinderZ(nozzleExit + new Vector3(0, 0, -radius * 0.9f), radius, radius * 0.72f, radius * 1.8f, Palette.Dark, 20);
-        CylinderZ(nozzleExit + new Vector3(0, 0, -radius * 0.05f), radius * 0.86f, radius * 0.86f, radius * 0.1f, Palette.Glow, 20);
+        if (buildNozzle)
+        {
+            CylinderZ(nozzleExit + new Vector3(0, 0, -radius * 0.9f), radius, radius * 0.72f, radius * 1.8f, Palette.Dark, 20);
+            CylinderZ(nozzleExit + new Vector3(0, 0, -radius * 0.05f), radius * 0.86f, radius * 0.86f, radius * 0.1f, Palette.Glow, 20);
+        }
 
         // 화염: 노즐 출구에서 +Z(후방)로 뻗는 원뿔. 부모 노드의 Y 스케일로 길이를 조절한다.
         var pivot = new Node3D
@@ -119,10 +122,10 @@ public sealed class HullBuilder
     /// 보조 추진기 노즐 하나. exhaust는 분사 방향(함선 로컬)이며 함선은 그 반대로 밀린다.
     /// 분사 세기는 ShipView가 횡·상하·제동 가속과 회전 가속으로 정한다.
     /// </summary>
-    public void RcsNozzle(Vector3 position, Vector3 exhaust, float size, float plumeLength)
+    public void RcsNozzle(Vector3 position, Vector3 exhaust, float size, float plumeLength, bool buildNozzle = true)
     {
         Vector3 y = exhaust.Normalized();
-        Box(position - y * size * 0.25f, Vector3.One * size, Palette.Dark);
+        if (buildNozzle) Box(position - y * size * 0.25f, Vector3.One * size, Palette.Dark);
 
         // 원뿔 기본축 +Y를 분사 방향으로. x × y = z가 되게 직교 기저를 만든다.
         Vector3 helper = Mathf.Abs(y.Dot(Vector3.Up)) > 0.9f ? Vector3.Right : Vector3.Up;
@@ -264,4 +267,9 @@ public sealed class HullBuilder
 /// <param name="Exhaust">분사 방향(함선 로컬, 단위 벡터). 함선은 반대로 밀린다.</param>
 public sealed record RcsJet(Node3D Pivot, Vector3 Position, Vector3 Exhaust);
 
-public sealed record ShipModel(Node3D Root, IReadOnlyList<Node3D> Plumes, Palette Palette, IReadOnlyList<RcsJet> RcsJets);
+public sealed record TurretRig(string ModuleId, Node3D Yaw, Basis RestBasis, Node3D Elevation, Node3D Recoil,
+    IReadOnlyList<Node3D> Muzzles);
+public sealed record ShipModel(Node3D Root, IReadOnlyList<Node3D> Plumes, Palette Palette, IReadOnlyList<RcsJet> RcsJets)
+{
+    public IReadOnlyList<TurretRig> Turrets { get; init; } = System.Array.Empty<TurretRig>();
+}

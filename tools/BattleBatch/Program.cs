@@ -35,6 +35,13 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
 File.WriteAllLines(output, new[] { Row.Header }.Concat(ordered.Select(r => r.Csv())), new System.Text.UTF8Encoding(false));
+string flightOutput = Path.ChangeExtension(output, ".am.csv");
+File.WriteAllLines(flightOutput, new[] { "seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip" }
+    .Concat(ordered.SelectMany(row => row.World.Log!.AntimatterFlights.Select(f =>
+        $"{row.Seed},{(row.Mirror ? 1 : 0)},{f.Faction},{f.Shooter},{f.Target},{f.TargetKind},{f.LaunchTime:F3},{f.Range:F1},{f.FlightSeconds:F3},{f.TravelMeters:F1},{f.SeekerSeconds:F3},{f.ClosestHull:F1},{f.Outcome},{f.HitShip}"))));
+foreach(var group in ordered.SelectMany(r=>r.World.Log!.AntimatterFlights).GroupBy(f=>f.Outcome))
+    Console.WriteLine($"AM {group.Key}: {group.Count()} (mean launch {group.Average(f=>f.Range):F0}m, closest hull {group.Average(f=>f.ClosestHull):F1}m)");
+Console.WriteLine($"AM InFlight at outcome: {ordered.Sum(r=>r.World.Missiles.Count(m=>m.Assault is not null))}");
 foreach (string metric in Row.Metrics.Concat(new[] { "Outcome", "Wall" }))
 {
     PrintMetric(metric, ordered.Select(r => r.Value(metric)));
@@ -90,7 +97,8 @@ sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<doubl
     public static readonly string[] Metrics = { "Contact", "Identified", "Locked", "MissileLaunch", "MissileHit", "RailLaunch", "RailHit", "ModuleDestroyed", "Disabled", "Destroyed", "Close" };
     private static readonly string[] Names = { "contact", "identified", "locked", "missileLaunch", "missileHit", "railLaunch", "railHit", "moduleDestroyedVictim", "disabledVictim", "destroyedVictim", "close" };
     public static string Header => "seed,mirror,winner,reason,outcomeTime,wallSeconds,friendlyCollisions," + string.Join(',',
-        Enum.GetValues<Faction>().SelectMany(f => Names.Select(n => $"{f}_{n}").Concat(new[] { $"{f}_missiles", $"{f}_missileHits", $"{f}_rails", $"{f}_railHits" })))
+        Enum.GetValues<Faction>().SelectMany(f => Names.Select(n => $"{f}_{n}").Concat(new[] { $"{f}_missiles", $"{f}_missileHits", $"{f}_rails", $"{f}_railHits",
+            $"{f}_torpedoes", $"{f}_torpedoHits", $"{f}_amFailures", $"{f}_amJettisons" })))
         + "," + string.Join(',', Enum.GetValues<BattlePhase>().Select(p => $"{p}_seconds")) + ",stepMeanMs,stepP99Ms,stepMaxMs"
         + "," + string.Join(',', Enum.GetValues<BattlePhase>().SelectMany(p=>new[]{ $"{p}_stepMeanMs",$"{p}_stepP99Ms",$"{p}_stepMaxMs" }));
     public IEnumerable<double> Samples(BattlePhase? phase = null)
@@ -124,7 +132,12 @@ sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<doubl
         var outcome = World.Rules!.Outcome;
         var values = new List<string> { Seed.ToString(), Mirror ? "1" : "0", outcome is null ? "Unresolved" : outcome.Winner?.ToString() ?? "Draw", outcome?.Reason ?? "", N(outcome?.Time), N(Wall), World.Log!.FriendlyCollisions.ToString() };
         foreach (Faction f in Enum.GetValues<Faction>())
-        { var s = World.Log.Side(f); values.AddRange(s.FirstTimes.Select(N)); values.AddRange(new[] { s.Missiles, s.MissileHits, s.Rails, s.RailHits }.Select(n => n.ToString())); }
+        {
+            var s = World.Log.Side(f); values.AddRange(s.FirstTimes.Select(N));
+            values.AddRange(new[] { s.Missiles, s.MissileHits, s.Rails, s.RailHits, s.Torpedoes, s.TorpedoHits,
+                (int)World.Ships.Where(ship=>ship.Faction==f).Sum(ship=>ship.Ordnance.Antimatter.Failures),
+                (int)World.Ships.Where(ship=>ship.Faction==f).Sum(ship=>ship.Ordnance.Antimatter.Jettisons) }.Select(n => n.ToString()));
+        }
         values.AddRange(Enum.GetValues<BattlePhase>().Select(p => N(World.Log.PhaseSeconds(p))));
         values.AddRange(Statistics(Samples()));
         foreach(BattlePhase phase in Enum.GetValues<BattlePhase>())values.AddRange(Statistics(Samples(phase)));

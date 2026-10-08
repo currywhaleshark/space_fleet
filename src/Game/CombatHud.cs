@@ -17,17 +17,16 @@ public partial class Hud
 
     private void DrawCrosshair(Camera3D cam, ShipView controlled, Vector2 screen)
     {
-        Vector2 c = screen * 0.5f;
+        Vector2 c = Game.Camera.AimScreenPosition();
         RailgunState? weapon = controlled.Body.Railgun;
-        Color cross = Game.CorrectingAim ? Lead : Game.FireAssist ? Text : Motion;
+        Color cross = Game.SelectedWeapon == PlayerWeapon.MainGun && Game.CorrectingAim ? Lead : Game.FireAssist ? Text : Motion;
 
         DrawLine(c + new Vector2(-14, 0), c + new Vector2(-5, 0), cross, 1.5f);
         DrawLine(c + new Vector2(5, 0), c + new Vector2(14, 0), cross, 1.5f);
         DrawLine(c + new Vector2(0, -14), c + new Vector2(0, -5), cross, 1.5f);
         DrawLine(c + new Vector2(0, 5), c + new Vector2(0, 14), cross, 1.5f);
-        if (weapon is null)
-            return;
-
+        if (weapon is not null && Game.SelectedWeapon == PlayerWeapon.MainGun)
+        {
         // 왼쪽 호: 남은 탄약(아래에서 위로).
         float ammo = weapon.Rounds / (float)weapon.Definition.Rounds;
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(145), Mathf.DegToRad(70), ammo, ammo > 0.2f ? Dim : Hostile, 3f);
@@ -38,6 +37,7 @@ public partial class Hud
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(35), Mathf.DegToRad(-70), reload, weapon.Ready ? Good : Motion, 3f);
         if (disabled)
             DrawArc(c, CrosshairRadius, Mathf.DegToRad(35), Mathf.DegToRad(-35), 12, Hostile, 3f);
+        }
 
         DrawLeadMarker(cam, screen);
         DrawHitMarker(cam, controlled, c);
@@ -50,7 +50,10 @@ public partial class Hud
 
     private void DrawLeadMarker(Camera3D cam, Vector2 screen)
     {
-        FiringSolution? current = Game.Scheme == ControlScheme.Helm ? Game.Gunnery?.Solution : Game.FiringSolution;
+        if (Game.SelectedWeapon == PlayerWeapon.Missile) return;
+        bool amSelected=Game.Scheme==ControlScheme.Pilot && Game.AntimatterSelected;
+        FiringSolution? current = amSelected ? Game.AntimatterSolution
+            : Game.Scheme == ControlScheme.Helm ? Game.Gunnery?.Solution : Game.FiringSolution;
         if ((Game.Scheme == ControlScheme.Pilot && !Game.FireAssist) || current is not { Valid: true } solution)
             return;
         Vector3 point = (solution.AimPoint - Game.RenderOrigin).ToVector3();
@@ -60,6 +63,12 @@ public partial class Hud
         // 조함 방식: 표적이 포각 밖이거나 선체에 가리면 선행점이 빨갛다(OffscreenHud의 사선 상태).
         Color color = Game.Scheme == ControlScheme.Helm ? (_hasEngagedLine && _engagedLine != FireFailure.None ? Hostile : Lead)
             : Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
+        if(amSelected && Game.Controlled is { } carrier && carrier.Body.Definition.Antimatter is { } am)
+        {
+            bool aligned=carrier.Body.Forward.AngleTo(solution.Direction)<=Mathf.DegToRad(am.LaunchConeDegrees);
+            color=aligned && solution.FlightTime<=am.Flight.MaxFlightSeconds && solution.Range<=am.MaxTravelMeters ? Lead : Motion;
+            Label(p+new Vector2(18,31),$"AM {solution.FlightTime:0.0}s",12,color);
+        }
         DrawRect(new Rect2(p - new Vector2(6, 6), new Vector2(12, 12)), color, false, 1.5f);
         // 관측 오차 원: 예상 탄착 분산의 크기.
         float pixels = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);
@@ -72,25 +81,26 @@ public partial class Hud
 
     private void DrawHitMarker(Camera3D cam, ShipView controlled, Vector2 c)
     {
-        ProjectileImpact? impact = Game.World.Impacts.LastOrDefault(i => i.Shooter == controlled.Body);
-        if (impact is null)
-            return;
-        float age = (float)(Game.World.Time - impact.Time);
-        if (age > 0.6f)
-            return;
-        ShotResult hit = impact.Hit;
-        bool destroyedModule = hit.Modules.Any(m => m.Destroyed);
-        Color color = hit.ShieldStopped ? Friendly : hit.Modules.Count > 0 ? Hostile : Motion;
-        color = new Color(color, 1f - age / 0.6f);
-        float inner = 7f, outer = destroyedModule ? 18f : 13f;
-        foreach (var (sx, sy) in new[] { (-1, -1), (1, -1), (-1, 1), (1, 1) })
+        if (Game.Feedback.Outgoing is not { } hit) return;
+        Color color = new(FeedbackColor(hit.Kind), hit.Fade);
+        float pulse = 1 + .35f * Mathf.Exp(-hit.Age * 16);
+        if (hit.Kind == HitKind.Shield)
+            DrawArc(c, 19 * pulse, 0, Mathf.Tau, 32, color, 2);
+        else if (hit.Kind == HitKind.Armor)
+            DrawDiamond(c, 19 * pulse, color);
+        else
         {
-            var d = new Vector2(sx, sy).Normalized();
-            DrawLine(c + d * inner, c + d * outer, color, destroyedModule ? 2.5f : 2f);
+            foreach (var (sx, sy) in new[] { (-1, -1), (1, -1), (-1, 1), (1, 1) })
+            {
+                var d = new Vector2(sx, sy).Normalized();
+                DrawLine(c + d * 9, c + d * (hit.Kind == HitKind.Critical ? 25 : 19) * pulse, color, 2.5f);
+            }
+            if (hit.Kind == HitKind.Critical) DrawDiamond(c, 30 * pulse, color);
         }
-
-        Vector3 point = (hit.Point - Game.RenderOrigin).ToVector3();
-        if (!cam.IsPositionBehind(point))
-            DrawArc(cam.UnprojectPosition(point), 13, 0, Mathf.Tau, 24, color, 2);
+        string label = "명중 · " + hit.Label;
+        Vector2 at = c + new Vector2(0, 83);
+        Vector2 textSize = _font.GetStringSize(label, fontSize: 15);
+        DrawRect(new Rect2(at - new Vector2(textSize.X * .5f + 9, 17), textSize + new Vector2(18, 6)), new Color(PanelBack, .65f * hit.Fade));
+        CenteredLabel(at, label, 15, color);
     }
 }

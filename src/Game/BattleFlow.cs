@@ -15,7 +15,7 @@ public partial class ScaleTest
     public string? LaunchControl { get; init; }
     public bool AutoPlay { get; set; }
     private bool _paused;
-    public bool Paused { get => _paused; set { _paused=value; _audio?.SetPaused(value); } }
+    public bool Paused { get => _paused; set { _paused=value; _audio?.SetPaused(value); if (value) { JettisonProgress=0; Camera?.SetFreeLook(false); Camera?.ResetTelescope(); CloseWorldMap(); } } }
     public bool Spectating { get; private set; }
     public double BriefRemaining { get; private set; } = 3;
     public double DeathRemaining { get; private set; } = -1;
@@ -45,13 +45,13 @@ public partial class ScaleTest
         if(Paused||Spectating)return true;
         if(e.IsActionPressed(InputSetup.ReleaseMouse))
         {
+            Camera.ResetTelescope();
             if(Scheme==ControlScheme.Pilot&&Input.MouseMode==Input.MouseModeEnum.Captured)Input.MouseMode=Input.MouseModeEnum.Visible;
             else PauseRequested?.Invoke();
             GetViewport().SetInputAsHandled();return true;
         }
         if(!DevMode&&new[]{InputSetup.SwitchShip,InputSetup.ToggleOrigin,InputSetup.JumpFar,InputSetup.TestFire,InputSetup.ShowModules,
-            InputSetup.Repair,InputSetup.Practice,InputSetup.MissileDrill,InputSetup.PowerEngines,InputSetup.PowerShields,
-            InputSetup.PowerWeapons,InputSetup.PowerSensors,InputSetup.PowerEcm,InputSetup.PowerReset,InputSetup.OrderAttack,
+            InputSetup.Repair,InputSetup.Practice,InputSetup.MissileDrill,InputSetup.OrderAttack,
             InputSetup.OrderEscort,InputSetup.OrderHold}.Any(action=>e.IsActionPressed(action)))return true;
         return false;
     }
@@ -75,12 +75,15 @@ public partial class ScaleTest
         Input.MouseMode=Input.MouseModeEnum.Visible;
     }
     public void BeginSpectating()
-    {CloseRecord();if(MenuOpen)_radial.Cancel();Spectating=true;AutoPlay=true;EnableAutoPlay();DeathRemaining=-1;BriefRemaining=0;}
+    {CloseRecord();if(MenuOpen)_radial.Cancel();Spectating=true;AutoPlay=true;EnableAutoPlay();DeathRemaining=-1;BriefRemaining=0;
+        CloseWorldMap();_audio.StopAll();Feedback.ClearPresentation();Camera.ClearImpacts();Camera.ResetTelescope();}
     public void AdvanceBattle(double seconds)
     {
         bool autoplay=AutoPlay;AutoPlay=true;EnableAutoPlay();
         double end=World.Time+seconds;while(World.Time<end)World.Step();
+        UpdateContacts();
         _audio.Prime(World,Controlled?.Body);
+        Camera.ClearImpacts();
         AutoPlay=autoplay;BriefRemaining=0;
         if(!AutoPlay&&Controlled is { } me){World.DetachBrain(me.Body);MarkPlayerSquadron();SetupGunnery(null,me.Body);ApplySquadOrder();}
     }

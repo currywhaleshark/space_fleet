@@ -10,6 +10,10 @@ static class SimChecks
     {
         if (args.Contains("--ai")) { AIChecks.Run(); return; }
         if (args.Contains("--battle")) { BattleChecks.Run(); return; }
+        if (args.Contains("--turrets")) { TurretChecks.Run(); GunneryChecks.Run(); return; }
+        if (args.Contains("--antimatter")) { AntimatterChecks.Run(); return; }
+        if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
+        if (args.Contains("--am-moving")) { AntimatterTrials.Moving(); return; }
         CheckCombinedG();
         CheckInertialFlight();
         CheckTurnBySpeed();
@@ -27,6 +31,8 @@ static class SimChecks
         InfiltrationChecks.Run();
         HelmChecks.Run();
         GunneryChecks.Run();
+        TurretChecks.Run();
+        AntimatterChecks.Run();
         RadialChecks.Run();
         SquadCommandChecks.Run();
         AIChecks.Run();

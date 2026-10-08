@@ -27,6 +27,7 @@ public partial class ScaleTest : Node3D
     private SpaceDust _dust = null!;
     private OrdnanceView _ordnance = null!;
     private CombatAudio _audio = null!;
+    public CombatFeedback Feedback => _audio.Feedback;
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
     private bool _flightAssist = true;
@@ -71,6 +72,7 @@ public partial class ScaleTest : Node3D
         Camera = new ChaseCamera { Name = "Camera" };
         AddChild(Camera);
         Camera.MakeCurrent();
+        Feedback.Received += hit => Camera.AddImpact(hit.SourceDirection, hit.Strength, hit.Target.Class.Kind);
         _dust = SpaceDust.Create(seed: 11);
         AddChild(_dust);
 
@@ -81,12 +83,19 @@ public partial class ScaleTest : Node3D
         layer.AddChild(_radial);
         AddChild(layer);
 
+        CreateWorldMap();
+
         SelectControl(LaunchControl ?? _shot?.Control ?? "IC-21");
         // 피해·충돌 검증은 표적이 움직이면 안 되므로 AI를 끈다(--no-ai로도 끌 수 있다).
         SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
         if (_shot is not null)
             ApplyShotSetup(_shot);
+        if (_shot is not null && BattleArgs.Parse(OS.GetCmdlineUserArgs()).TryGetValue("am-demo",out var amDemo))
+            SetupAntimatterPractice(amDemo);
         if (AutoPlay) {EnableAutoPlay();SetBattleSpeed(4);}
+        UpdateContacts();
+        if (BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("full-map")) ToggleWorldMap();
+        if (_shot is not null && BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("telescope")) Camera.SetTelescope(true);
     }
 
     /// <summary>
@@ -103,11 +112,8 @@ public partial class ScaleTest : Node3D
             _worldRoot.AddChild(view);
             Views.Add(view);
             if (body.Faction == Faction.Blue) _playable.Add(view);
-            if (body.Class.Kind == HullKind.Battleship)
-            {
-                bool blue = body.Faction == Faction.Blue;
-                view.AddChild(DroneSwarm.Create(view.Palette, blue ? 48 : 32, 650f, 1000f, seed: blue ? 5 : 9));
-            }
+            if (body.Definition.DefenseDrones is not null)
+                view.AddChild(DroneSwarm.Create(body, view.Palette));
         }
     }
     private void BuildEnvironment()
@@ -172,26 +178,31 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if (e.IsActionReleased(InputSetup.Fire)) _fireReleaseGuard = false;
+        if (e.IsActionReleased(InputSetup.Telescope)) Camera.SetTelescope(false);
+        if (WorldMapOpen) { _worldMap.HandleInput(e); return; }
         if (Paused || Spectating) return;
+        if (e.IsActionPressed(InputSetup.WorldMap))
+        { ToggleWorldMap(); GetViewport().SetInputAsHandled(); return; }
+        if (_mapReleaseGuard && e is InputEventMouseButton or InputEventMouseMotion)
+        { GetViewport().SetInputAsHandled(); return; }
         if (HandleRadialInput(e)) return;
         if (HandleBattleInput(e)) return;
+        if (HandleRadarInput(e)) return;
+        if (HandleWeaponMouse(e)) return;
         switch (e)
         {
             case InputEventMouseMotion motion when (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
                 Camera.AddMouse(motion.Relative);
                 return;
             case InputEventMouseButton button when button.ButtonIndex == MouseButton.Middle && Scheme == ControlScheme.Helm:
-                Camera.FreeLooking = button.Pressed;
+                Camera.SetFreeLook(button.Pressed);
                 return;
             case InputEventMouseButton { Pressed: true } button when button.ButtonIndex != MouseButton.Right:
                 if (button.ButtonIndex == MouseButton.WheelUp)
                     Camera.Zoom(0.9f);
                 else if (button.ButtonIndex == MouseButton.WheelDown)
                     Camera.Zoom(1.1f);
-                else if (button.ButtonIndex == MouseButton.Left && Scheme == ControlScheme.Pilot)
-                    Input.MouseMode = Input.MouseModeEnum.Captured;
-                else if (button.ButtonIndex == MouseButton.Left && Gunnery?.Doctrine != FireDoctrine.Manual)
-                    SelectAt(button.Position);
                 return;
         }
 
@@ -208,7 +219,7 @@ public partial class ScaleTest : Node3D
         else if (e.IsActionPressed(InputSetup.ThrottleZero))
             Throttle = 0f;
         else if (e.IsActionPressed(InputSetup.ReleaseMouse) && Scheme == ControlScheme.Pilot)
-            Input.MouseMode = Input.MouseModeEnum.Visible;
+        { Input.MouseMode = Input.MouseModeEnum.Visible; Camera.ResetTelescope(); }
         else if (e.IsActionPressed(InputSetup.InspectTarget))
             NextInspectTarget();
         else if (e.IsActionPressed(InputSetup.TestFire))
@@ -240,6 +251,12 @@ public partial class ScaleTest : Node3D
             SetupMissileDrill();
         else if (e.IsActionPressed(InputSetup.Decoys))
             LaunchDecoys();
+        else if (e.IsActionPressed(InputSetup.SelectMainGun))
+            SelectWeapon(PlayerWeapon.MainGun);
+        else if (e.IsActionPressed(InputSetup.SelectMissile))
+            SelectWeapon(PlayerWeapon.Missile);
+        else if (e.IsActionPressed(InputSetup.SelectAntimatter))
+            SelectWeapon(PlayerWeapon.Antimatter);
         else if (e.IsActionPressed(InputSetup.AimPart))
             CycleAimPart();
         else if (e.IsActionPressed(InputSetup.OrderAttack))
@@ -252,18 +269,6 @@ public partial class ScaleTest : Node3D
             CycleTimeScale(-1);
         else if (e.IsActionPressed(InputSetup.TimeFaster))
             CycleTimeScale(1);
-        else if (e is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right } && (Scheme == ControlScheme.Helm || Input.MouseMode == Input.MouseModeEnum.Captured))
-            LaunchMissileAtTarget();
-        else if (Controlled?.Body.Power is ShipPower power)
-        {
-            // 전력 배분: 1~5는 해당 채널에 핍 하나(다른 채널 중 가장 많은 곳에서 가져온다), 0은 균형(ECM 꺼짐).
-            if (e.IsActionPressed(InputSetup.PowerEngines)) power.AddPip(PowerChannel.Engines);
-            else if (e.IsActionPressed(InputSetup.PowerShields)) power.AddPip(PowerChannel.Shields);
-            else if (e.IsActionPressed(InputSetup.PowerWeapons)) power.AddPip(PowerChannel.Weapons);
-            else if (e.IsActionPressed(InputSetup.PowerSensors)) power.AddPip(PowerChannel.Sensors);
-            else if (e.IsActionPressed(InputSetup.PowerEcm)) power.AddPip(PowerChannel.Ecm);
-            else if (e.IsActionPressed(InputSetup.PowerReset)) power.ResetPips();
-        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -271,7 +276,7 @@ public partial class ScaleTest : Node3D
         if (Paused) return;
         StepBattleFlow(delta);
         float dt = (float)SimWorld.TickDelta;
-        if (!AutoPlay) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
+        if (!AutoPlay && !MapControlsBlocked) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
 
         // 시간 배속: 한 물리 틱에 시뮬레이션을 여러 번 진행한다.
         for (int step = 0; step < TimeScale; step++)
@@ -296,7 +301,9 @@ public partial class ScaleTest : Node3D
         if (Gunnery is { } order) order.AimPart = AimPart;
         if (!AutoPlay) StepSquadCommand();
         World.Step();
+        UpdateContacts();
         if (!AutoPlay && !Spectating) StepCombat();
+        StepAntimatterPreview();
         if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
         {
             FireTest(_testOrigin, _testDirection);
@@ -307,7 +314,12 @@ public partial class ScaleTest : Node3D
 
     public override void _Process(double delta)
     {
+        UpdateMapInputGuard();
+        if (!Input.IsActionPressed(InputSetup.Fire) && !Input.IsMouseButtonPressed(MouseButton.Left)) _fireReleaseGuard = false;
+        else if (Paused || MenuOpen || WorldMapOpen || RadarPointerCaptured) _fireReleaseGuard = true;
         StepShotRadial();
+        PreviewFeedback();
+        PreviewLostContact();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
         if (!BattleMode && _shot is not null && ++_frame >= _shot.Frames)
         {
@@ -327,8 +339,11 @@ public partial class ScaleTest : Node3D
         _ballistics.Sync(World, RenderOrigin, alpha);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
 
+        float feedbackDelta = Paused ? 0 : (float)delta;
+        Feedback.Advance(feedbackDelta);
+        Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
         Camera.Follow(controlled.Body.Class, controlled.Position,
-            controlled.Body.InterpolatedOrientation((float)alpha), (float)delta);
+            controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
         _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position);
         _dust.Sync(RenderOrigin + Vec3d.From(Camera.Position), Camera.Position, controlled.Body.Velocity,
             controlled.Body.Class.CameraDistance * DustBoxPerCameraDistance);
@@ -352,6 +367,9 @@ public partial class ScaleTest : Node3D
         if (index < 0)
             index = 0;
         ShipBody? previous = _playable.Count > 0 ? _playable[_controlledIndex].Body : null;
+        previous?.Ordnance.Antimatter.Cancel();
+        SelectedWeapon=PlayerWeapon.MainGun; JettisonProgress=0;
+        _fireReleaseGuard=Input.IsActionPressed(InputSetup.Fire) || Input.IsMouseButtonPressed(MouseButton.Left);
         _controlledIndex = index;
 
         ShipBody body = _playable[index].Body;
@@ -377,9 +395,9 @@ public partial class ScaleTest : Node3D
         {
             ShipView candidate = Views[(start + i) % Views.Count];
             // 탐지되지 않은 적은 고를 수 없다(아군은 데이터 링크로 항상 안다).
-            if (candidate == Controlled || !Known(candidate) || (Scheme == ControlScheme.Helm && candidate.Body.Faction == Controlled!.Body.Faction)) continue;
+            if (candidate == Controlled || ContactOf(candidate) is null || (Scheme == ControlScheme.Helm && candidate.Body.Faction == Controlled!.Body.Faction)) continue;
             SelectEnemy(candidate);
-            Vector3 direction = (candidate.Body.Position - Controlled!.Body.Position).ToVector3().Normalized();
+            Vector3 direction = (ContactOf(candidate)!.DisplayPosition(candidate.SimPosition) - Controlled!.Body.Position).ToVector3().Normalized();
             if (Scheme == ControlScheme.Pilot && direction.LengthSquared() > 0.1f)
                 Camera.ResetAim(Basis.LookingAt(direction, Controlled.Body.Up).GetRotationQuaternion());
             break;
@@ -481,6 +499,10 @@ public partial class ScaleTest : Node3D
     {
         if (Gunnery is { } order)
             GD.Print($"gunnery: doctrine={order.Doctrine}, engaged={order.Engaged?.Callsign}, status={order.Status}, rounds={Controlled?.Body.Railgun?.Rounds}");
+        if (Controlled is { } ship)
+            GD.Print("turrets: " + string.Join("; ", ship.Body.Railguns.Select(g => $"{g.Definition.ModuleId} yaw={Mathf.RadToDeg(g.Yaw):0.0} pitch={Mathf.RadToDeg(g.Elevation):0.0} shots={g.ShotCount} rounds={g.Rounds}")));
+        if (Controlled?.Body.Ordnance.Antimatter is { Definition: not null } am)
+            GD.Print($"AM: {am.Status} rounds={am.Rounds} launches={am.Launches} containment={am.Containment:0.00} jettisoned={am.Jettisoned}");
         if (_shot?.BallisticsTarget is not null)
             GD.Print($"railgun test: shots={_liveShots}, recent hits={World.Impacts.Count}, active={World.Projectiles.Count}, target shield={_practiceTarget?.Damage.Shield:0}, damaged modules={_practiceTarget?.Damage.Modules.Count(m => m.HealthFraction < 1)}");
         if (_shot is { Drill: true } || _shot is { Launch: > 0 })

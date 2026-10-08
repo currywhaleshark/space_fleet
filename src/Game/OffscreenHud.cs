@@ -41,6 +41,8 @@ public partial class Hud
 
     private Vector3 EstimatedDirection(ShipView controlled, ShipView target)
     {
+        if (Game.ContactOf(target) is { SignalLost: true } lost)
+            return (lost.Position - controlled.SimPosition).ToVector3().Normalized();
         SensorTrack track = Game.TrackOf(target);
         return (target.SimPosition + track.Offset - controlled.SimPosition).ToVector3().Normalized();
     }
@@ -48,21 +50,23 @@ public partial class Hud
     private void DrawOffscreenShips(Camera3D cam, ShipView controlled, Vector2 screen)
     {
         _edgeMarks.Clear();
-        ShipView? focus = Game.FireTarget;
+        ShipView? focus = Game.InspectTarget is { } selected && Game.ContactOf(selected)?.SignalLost == true ? selected : Game.FireTarget;
         var candidates = new List<(ShipView View, double Dist)>();
         foreach (ShipView view in Game.Views)
         {
-            if (view == controlled || view.Body.Faction == controlled.Body.Faction || view.Body.Damage.Destroyed) continue;
+            if (view == controlled || view.Body.Faction == controlled.Body.Faction) continue;
             SensorTrack track = Game.TrackOf(view);
             bool isFocus = view == focus;
-            if (track.Level < (isFocus ? TrackLevel.Contact : TrackLevel.Identified)) continue;
-            Vec3d at = view.SimPosition + track.Offset;
+            ContactSnapshot? memory = Game.ContactOf(view);
+            bool lost = memory?.SignalLost == true;
+            if (lost ? !isFocus : view.Body.Damage.Destroyed || track.Level < (isFocus ? TrackLevel.Contact : TrackLevel.Identified)) continue;
+            Vec3d at = lost ? memory!.Position : view.SimPosition + track.Offset;
             double dist = (at - controlled.SimPosition).Length();
             if (!isFocus && dist > OffscreenShipRange) continue;
             Vector3 render = (at - Game.RenderOrigin).ToVector3();
             if (!cam.IsPositionBehind(render) && new Rect2(Vector2.Zero, screen).Grow(-8f).HasPoint(cam.UnprojectPosition(render)))
             {
-                if (isFocus) DrawOnscreenBlocked(cam.UnprojectPosition(render));
+                if (isFocus && !lost) DrawOnscreenBlocked(cam.UnprojectPosition(render));
                 continue;
             }
             candidates.Add((view, isFocus ? -1 : dist));
@@ -78,6 +82,13 @@ public partial class Hud
             _edgeMarks.Add(at);
             Vector2 n = new(-d.Y, d.X);
             Vector2[] head = { at + d * 11f, at - d * 5f + n * 9f, at - d * 5f - n * 9f, at + d * 11f };
+            if (Game.ContactOf(view) is { SignalLost: true })
+            {
+                DrawPolyline(head, ContactMemory.LostColor, 2.5f);
+                DrawArc(at - d * 22, 10, 0, Mathf.Tau, 24, ContactMemory.LostColor, 1.5f);
+                CenteredLabel(at - d * 45, "신호 소실", 11, ContactMemory.LostColor);
+                continue;
+            }
             if (view != focus)
             {
                 DrawPolyline(head, Hostile, 1.5f);

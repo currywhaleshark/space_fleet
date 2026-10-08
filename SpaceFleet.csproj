@@ -11,5 +11,6 @@
     <Compile Remove="tools/**/*.cs" />
     <Compile Remove="shots/**/*.cs" />
     <EmbeddedResource Include="data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="assets/ships/manifest.json" LogicalName="SpaceFleet.assets.ships.manifest.json" />
   </ItemGroup>
 </Project>

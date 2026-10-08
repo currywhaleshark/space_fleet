@@ -14,6 +14,8 @@ public partial class ScaleTest
 
     private ShipControl PlayerControl()
     {
+        if (MapControlsBlocked) return new ShipControl
+        { Thrust = new Vector3(0, 0, Throttle), FlightAssist = _flightAssist, Style = AssistStyle };
         bool translate = Scheme == ControlScheme.Pilot || Input.IsPhysicalKeyPressed(Key.Alt);
         float horizontal = Input.GetAxis(InputSetup.StrafeLeft, InputSetup.StrafeRight);
         float vertical = Input.GetAxis(InputSetup.StrafeDown, InputSetup.StrafeUp);
@@ -32,9 +34,10 @@ public partial class ScaleTest
 
     private void SetControlScheme(ShipBody ship)
     {
+        Camera.ResetTelescope();
         Camera.Mode = SchemeFor(ship) == ControlScheme.Pilot ? CameraMode.MouseAim : CameraMode.ShipFollow;
         Camera.ResetAim(ship.Orientation);
-        Input.MouseMode = SchemeFor(ship) == ControlScheme.Pilot && _shot is null
+        Input.MouseMode = SchemeFor(ship) == ControlScheme.Pilot && _shot is null && !WorldMapOpen
             ? Input.MouseModeEnum.Captured : Input.MouseModeEnum.Visible;
     }
 }

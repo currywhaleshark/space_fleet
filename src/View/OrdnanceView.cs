@@ -16,6 +16,7 @@ public partial class OrdnanceView : Node3D
     private readonly Dictionary<uint, MeshInstance3D> _decoys = new();
     private readonly List<MeshInstance3D> _tracers = new();
     private readonly List<MeshInstance3D> _flashes = new();
+    private readonly List<MeshInstance3D> _shards = new();
 
     private readonly BoxMesh _body = new() { Size = new Vector3(0.6f, 0.6f, 4f) };
     private readonly CylinderMesh _trail = new() { TopRadius = 0f, BottomRadius = 1f, Height = 1f, RadialSegments = 6, CapTop = false, CapBottom = false };
@@ -30,6 +31,8 @@ public partial class OrdnanceView : Node3D
     private readonly StandardMaterial3D _tracerHit = Glow(new Color(1f, 0.6f, 0.3f), 6f, additive: true);
     private readonly StandardMaterial3D _boom = Glow(new Color(1f, 0.6f, 0.25f), 6f, additive: true);
     private readonly StandardMaterial3D _puff = Glow(new Color(0.9f, 0.95f, 1f), 4f, additive: true);
+    private readonly StandardMaterial3D _am = Glow(new Color(.55f,.9f,1),10f,additive:true);
+    private readonly StandardMaterial3D _fragment = new() { AlbedoColor=new Color(.18f,.23f,.28f), Metallic=.8f, Roughness=.6f };
 
     public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition)
     {
@@ -40,10 +43,10 @@ public partial class OrdnanceView : Node3D
         {
             active.Add(m.Id);
             if (!_missiles.TryGetValue(m.Id, out Node3D? node))
-                _missiles[m.Id] = node = MakeMissile(m.Faction == Faction.Blue ? _blue : _red);
+                _missiles[m.Id] = node = MakeMissile(m.Assault is not null ? _am : m.Faction == Faction.Blue ? _blue : _red, m.Assault is not null);
             Vector3 pos = (Vec3d.Lerp(m.PrevPosition, m.Position, alpha) - origin).ToVector3();
-            Vector3 dir = m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized() : Vector3.Forward;
-            float s = Scale(pos, 1f);
+            Vector3 dir = m.Assault is not null ? m.LaunchDirection : m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized() : Vector3.Forward;
+            float s = Scale(pos, m.Assault is null ? 1f : .7f);
             node.Transform = new Transform3D(Basis.LookingAt(dir, Mathf.Abs(dir.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up).Scaled(Vector3.One * s), pos);
             node.GetChild<Node3D>(1).Visible = m.Burning;
         }
@@ -84,9 +87,35 @@ public partial class OrdnanceView : Node3D
 
         // 폭발(주황)·요격(흰 구름) 섬광.
         int f = 0;
+        int shardCount=0;
         foreach (OrdnanceEvent e in world.OrdnanceEvents)
         {
             float age = (float)(world.Time - e.Time);
+            if(e.Weapon==BattleWeapon.Antimatter)
+            {
+                bool energetic=e.Kind is OrdnanceEventKind.Detonation or OrdnanceEventKind.ContainmentFailure;
+                Vector3 at=(e.Position-origin).ToVector3();
+                if(energetic && age<.8f || e.Kind==OrdnanceEventKind.Jettisoned && age<1.5f)
+                {
+                    int count=energetic ? 7 : 2;
+                    for(int j=0;j<count;j++)
+                    {
+                        var fragment=shardCount<_shards.Count ? _shards[shardCount] : Add(_shards,_body,_fragment);
+                        var vector=new Vector3(Mathf.Sin(j*2.4f),Mathf.Cos(j*1.7f),Mathf.Sin(j*3.8f+.5f)).Normalized();
+                        Vector3 travel=energetic ? vector*(18+j*7)*age : e.Direction*age*35+vector*age*4;
+                        float fragmentSize=Scale(at,1)*(energetic ? 1-age/.8f : .7f);
+                        fragment.Transform=new(new Basis(Vector3.Up,j+age*5).Scaled(Vector3.One*fragmentSize),at+travel);
+                        fragment.Visible=true; shardCount++;
+                    }
+                }
+                if(age>=.22f) continue;
+                MeshInstance3D amFlash=f<_flashes.Count ? _flashes[f] : Add(_flashes,_sphere,_am);
+                amFlash.MaterialOverride=energetic ? _am : _puff;
+                amFlash.Position=at;
+                float radius=Scale(at,energetic ? 32 : 3)*(1-age/.22f);
+                amFlash.Scale=new Vector3(radius,radius*.32f,radius);
+                amFlash.Visible=true; f++; continue;
+            }
             if (age > 0.5f || e.Kind == OrdnanceEventKind.Expired) continue;
             MeshInstance3D flash = f < _flashes.Count ? _flashes[f] : Add(_flashes, _sphere, _boom);
             flash.MaterialOverride = e.Kind == OrdnanceEventKind.Detonation ? _boom : _puff;
@@ -98,9 +127,10 @@ public partial class OrdnanceView : Node3D
             f++;
         }
         for (; f < _flashes.Count; f++) _flashes[f].Visible = false;
+        for (; shardCount<_shards.Count; shardCount++) _shards[shardCount].Visible=false;
     }
 
-    private Node3D MakeMissile(Material body)
+    private Node3D MakeMissile(Material body, bool antimatter=false)
     {
         var root = new Node3D();
         root.AddChild(new MeshInstance3D { Mesh = _body, MaterialOverride = body, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off });
@@ -108,8 +138,8 @@ public partial class OrdnanceView : Node3D
         var flame = new Node3D { Transform = new Transform3D(new Basis(Vector3.Right, Mathf.Pi / 2f), new Vector3(0, 0, 2f)) };
         flame.AddChild(new MeshInstance3D
         {
-            Mesh = _trail, MaterialOverride = _flame, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
-            Transform = new Transform3D(Basis.Identity.Scaled(new Vector3(0.5f, 14f, 0.5f)), new Vector3(0, 7f, 0)),
+            Mesh = _trail, MaterialOverride = antimatter ? _am : _flame, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            Transform = new Transform3D(Basis.Identity.Scaled(new Vector3(0.5f, antimatter ? 8f : 14f, 0.5f)), new Vector3(0, antimatter ? 4f : 7f, 0)),
         });
         root.AddChild(flame);
         AddChild(root);

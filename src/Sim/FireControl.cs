@@ -14,9 +14,10 @@ public static class FireControl
 {
     /// <param name="localAim">표적 로컬 좌표의 조준점(부위 조준). null이면 함선 중심.</param>
     public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null,
-        Vector3? localAim = null)
+        Vector3? localAim = null, RailgunState? weapon = null)
     {
-        if (shooter.Railgun is not RailgunState weapon)
+        weapon ??= shooter.Railgun;
+        if (weapon is null)
             return new(false, "주포 없음", Vector3.Zero, target.Position, 0, 0, (target.Position - shooter.Position).Length());
         Vec3d muzzle = weapon.MuzzlePosition;
         double range = (target.Position - muzzle).Length();

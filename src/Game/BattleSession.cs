@@ -9,11 +9,13 @@ public sealed record ControlSegment(string Ship, double Start, double End);
 public sealed class PlayerRecord
 {
     public int Rails, RailHits, Missiles, MissileHits, ModulesDestroyed, ArmorPenetrations, ModulesLost;
+    public int Torpedoes, TorpedoHits;
     public float ShieldDamage;
     public static PlayerRecord Sample(ShipBody ship, BattleLog log)
     {
         var s = log.Ship(ship);
         return new() { Rails=s.Rails, RailHits=s.RailHits, Missiles=s.Missiles, MissileHits=s.MissileHits,
+            Torpedoes=s.Torpedoes,TorpedoHits=s.TorpedoHits,
             ModulesDestroyed=s.ModulesDestroyed, ArmorPenetrations=s.ArmorPenetrations, ShieldDamage=s.ShieldDamage,
             ModulesLost=ship.Damage.Modules.Count(m=>m.Destroyed) };
     }
@@ -23,6 +25,7 @@ public sealed class PlayerRecord
         MissileHits+=end.MissileHits-start.MissileHits; ModulesDestroyed+=end.ModulesDestroyed-start.ModulesDestroyed;
         ArmorPenetrations+=end.ArmorPenetrations-start.ArmorPenetrations; ShieldDamage+=end.ShieldDamage-start.ShieldDamage;
         ModulesLost+=end.ModulesLost-start.ModulesLost;
+        Torpedoes+=end.Torpedoes-start.Torpedoes; TorpedoHits+=end.TorpedoHits-start.TorpedoHits;
     }
     public PlayerRecord Copy() => (PlayerRecord)MemberwiseClone();
 }

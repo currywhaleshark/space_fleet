@@ -32,6 +32,7 @@ static class BallisticsChecks
         data["hullSections"] = JsonNode.Parse("""
             [{"id":"hull","name":"시험 선체","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":0}}]
             """);
+        data.Remove("antimatter");
         data["modules"] = JsonNode.Parse("""
             [{"id":"sensor","name":"센서","kind":"Sensor","center":[0,0,0],"halfSize":[1,1,1],"hitPoints":1000,"resistanceMm":0},
              {"id":"gun","name":"주포","kind":"Gun","center":[5,0,0],"halfSize":[1,1,1],"hitPoints":1000,"resistanceMm":0},

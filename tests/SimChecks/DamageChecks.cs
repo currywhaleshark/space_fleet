@@ -49,6 +49,7 @@ static class DamageChecks
     {
         JsonObject data = Data();
         data.Remove("railgun");
+        data.Remove("antimatter");
         data["shield"] = JsonNode.Parse("""{"capacity":0,"rechargePerSecond":20,"rechargeDelay":2}""");
         data["shield"]!["capacity"] = shield;
         data["hullSections"] = JsonNode.Parse("""
@@ -152,6 +153,7 @@ static class DamageChecks
         Require(n.ArmorStopped && n.Summary.Contains("출구"), "Exit armor must also consume remaining penetration");
         JsonObject data = Data();
         data.Remove("railgun");
+        data.Remove("antimatter");
         // Keep fixture geometry and change only the authored armor/face data.
         data["shield"]!["capacity"] = 0;
         data["hullSections"] = JsonNode.Parse("""
@@ -193,6 +195,7 @@ static class DamageChecks
         Require(inside.Modules.Count == 1 && Near(internalShot.Damage.Shield, 600), "A ray originating inside must not charge exterior shield or entry armor");
         JsonObject overlapData = Data();
         overlapData.Remove("railgun");
+        overlapData.Remove("antimatter");
         overlapData["shield"]!["capacity"] = 0;
         overlapData["hullSections"] = JsonNode.Parse("""
             [{"id":"a","name":"A","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":100}},

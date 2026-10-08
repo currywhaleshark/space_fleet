@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
 
@@ -14,6 +15,9 @@ public partial class ShipView : Node3D
     private float _plumeLevel;
     private IReadOnlyList<RcsJet> _rcs = new List<RcsJet>();
     private float[] _rcsLevel = System.Array.Empty<float>();
+    private readonly List<(RailgunState Gun, TurretRig Rig, MeshInstance3D[] Flashes)> _batteries = new();
+    private MeshInstance3D? _amGlow;
+    private StandardMaterial3D? _amMaterial;
     /// <summary>롤 축(Z)에서 가장 먼 노즐까지의 거리(m).</summary>
     private float _rollArm = 1f;
 
@@ -34,6 +38,28 @@ public partial class ShipView : Node3D
         foreach (RcsJet jet in model.RcsJets)
             view._rollArm = Mathf.Max(view._rollArm, new Vector2(jet.Position.X, jet.Position.Y).Length());
         view.AddChild(model.Root);
+        if (body.Definition.Antimatter is { } am)
+        {
+            view._amMaterial = new StandardMaterial3D { ShadingMode=BaseMaterial3D.ShadingModeEnum.Unshaded,
+                EmissionEnabled=true, Emission=new Color(.3f,1,1), AlbedoColor=new Color(.3f,1,1), EmissionEnergyMultiplier=3 };
+            view._amGlow = new MeshInstance3D { Name="AntimatterContainmentGlow",
+                Mesh=new BoxMesh { Size=new Vector3(1.1f,.08f,1.9f) }, MaterialOverride=view._amMaterial, Visible=false,
+                Position=body.Damage.Module(am.ModuleId).Definition.Center+new Vector3(0,-1.85f,0) };
+            model.Root.AddChild(view._amGlow);
+        }
+        foreach (TurretRig rig in model.Turrets)
+        {
+            RailgunState gun = body.Railguns.Single(g => g.Definition.ModuleId == rig.ModuleId);
+            var flashes = rig.Muzzles.Select(socket =>
+            {
+                float radius = body.Class.Length * .003f;
+                var flash = new MeshInstance3D { Name = "MuzzleFlash", Visible = false,
+                    Mesh = new SphereMesh { Radius = radius, Height = radius * 2, RadialSegments = 8, Rings = 4 },
+                    MaterialOverride = model.Palette.Glow, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
+                socket.AddChild(flash); return flash;
+            }).ToArray();
+            view._batteries.Add((gun, rig, flashes));
+        }
         return view;
     }
 
@@ -56,6 +82,28 @@ public partial class ShipView : Node3D
                 plume.Scale = new Vector3(1f, level, 1f);
         }
         SyncRcs(delta);
+        SyncTurrets((float)alpha);
+        if (_amGlow is not null)
+        {
+            var am=Body.Ordnance.Antimatter;
+            _amGlow.Visible=!Body.Damage.Destroyed && am.Rounds>0 && (am.Warning || am.Mode is AntimatterMode.Arming or AntimatterMode.Armed);
+            Color color=am.Warning ? new Color(1,.12f,.02f) : new Color(.3f,1,1);
+            _amMaterial!.AlbedoColor=color; _amMaterial.Emission=color;
+            _amMaterial.EmissionEnergyMultiplier=am.Mode==AntimatterMode.Armed ? 5 : 2.5f+Mathf.Sin((float)Body.SimTime*8)*1.5f;
+        }
+    }
+
+    private void SyncTurrets(float alpha)
+    {
+        foreach (var (gun, rig, flashes) in _batteries)
+        {
+            rig.Yaw.Basis = rig.RestBasis * new Basis(Vector3.Up, Mathf.Lerp(gun.PreviousYaw, gun.Yaw, alpha));
+            rig.Elevation.Basis = new Basis(Vector3.Right, Mathf.Lerp(gun.PreviousElevation, gun.Elevation, alpha));
+            double age = Body.SimTime - gun.LastFiredAt;
+            float kick = age >= 0 && age < .45 ? (float)(age < .05 ? age / .05 : (.45 - age) / .4) : 0;
+            rig.Recoil.Position = Vector3.Back * kick * Body.Class.Length * .002f;
+            for (int i = 0; i < flashes.Length; i++) flashes[i].Visible = i == gun.LastBarrel && age >= 0 && age < .075;
+        }
     }
 
     /// <summary>

@@ -4,12 +4,12 @@ using SpaceFleet.Sim;
 namespace SpaceFleet.View;
 
 /// <summary>
-/// 0단계용 절차적 함선 외형. 실제 모델이 들어오기 전까지 "크기 계층"을 보여 주는 것이 목적이다.
+/// Blender 제작 모델을 우선 사용한다. 이전 절차 모델은 파일 누락 시 대체 외형이다.
 /// 상부와 하부의 무장 배치를 일부러 다르게 둔다(롤 전투의 근거).
 /// </summary>
 public static class ShipModels
 {
-    public static ShipModel Build(ShipClass shipClass, Faction faction, int seed) => shipClass.Kind switch
+    public static ShipModel Build(ShipClass shipClass, Faction faction, int seed) => ImportedShipModels.TryBuild(shipClass, faction, seed) ?? shipClass.Kind switch
     {
         HullKind.Battleship => Battleship(faction, seed),
         HullKind.Escort => Escort(faction, seed),

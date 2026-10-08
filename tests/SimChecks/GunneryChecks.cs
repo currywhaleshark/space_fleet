@@ -64,7 +64,7 @@ static class GunneryChecks
             var ic = Add(world, "IC", ShipClass.Interceptor, Faction.Red, new Vec3d(0, 0, -15_000));
             Add(world, "BB", ShipClass.Battleship, Faction.Red, new Vec3d(0, 0, -60_000));
             dd.Gunnery = new GunneryOrder();
-            Step(world, 2);
+            Step(world, .5); // Inspect selection before the direct hit can detonate the interceptor's containment.
             Require(dd.Gunnery.Engaged == ic, "Free must prefer nearby interceptor");
         }
         {
@@ -102,17 +102,17 @@ static class GunneryChecks
             Require(!attempt.Fired && attempt.Failure == FireFailure.Arc, $"Rear shot failure: {attempt.Failure}");
             var bb = Add(world, "BB", ShipClass.Battleship, Faction.Blue, new Vec3d(50_000, 0, 0));
             attempt = world.FireRailgun(bb, new Vector3(0, -1, -0.2f).Normalized());
-            Require(!attempt.Fired && attempt.Failure == FireFailure.HullBlocked, $"Below shot failure: {attempt.Failure}");
+            Require(!attempt.Fired && attempt.Failure == FireFailure.Arc, $"Dorsal gun below arc: {attempt.Failure}");
         }
         {
             var world = new SimWorld();
             var bb = Add(world, "BB", ShipClass.Battleship, Faction.Blue, Vec3d.Zero);
-            var enemy = Add(world, "BELOW", ShipClass.Escort, Faction.Red, new Vec3d(0, -8000, 0));
+            var enemy = Add(world, "BELOW", ShipClass.Escort, Faction.Red, new Vec3d(0, -8000, -2000));
             bb.Gunnery = new GunneryOrder { Doctrine = FireDoctrine.Focus, Target = enemy };
             int rounds = bb.Railgun!.Rounds;
-            Step(world, 3);
-            Require(bb.Railgun.Rounds == rounds, "Blocked battleship must not fire");
-            Require(bb.Gunnery.Status == GunneryStatus.HullBlocked, $"Below target status: {bb.Gunnery.Status}");
+            Step(world, 8);
+            Require(bb.Railgun.Rounds == rounds, "Dorsal gun cannot shoot through its deck");
+            Require(bb.Railguns[2].Rounds < rounds, "Ventral gun must engage below independently");
             bb.Control = new ShipControl { Roll = 1 };
             for (int i = 0; bb.Up.Y > -0.99f && i < 1800; i++) world.Step();
             bb.Control = ShipControl.Idle;

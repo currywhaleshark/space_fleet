@@ -31,7 +31,7 @@ static class MissileChecks
         using var stream = typeof(ShipDefinitions).Assembly.GetManifestResourceStream($"SpaceFleet.data.ships.{name}.json")!;
         using var reader = new StreamReader(stream);
         JsonObject data = JsonNode.Parse(reader.ReadToEnd())!.AsObject();
-        if (!pointDefense) data.Remove("pointDefense");
+        if (!pointDefense) { data.Remove("pointDefense"); data.Remove("defenseDrones"); }
         if (!decoys) data.Remove("decoys");
         foreach (JsonNode? m in data["modules"]!.AsArray()) m!["criticalChance"] = 0;
         return ShipDefinition.Parse(data.ToJsonString());

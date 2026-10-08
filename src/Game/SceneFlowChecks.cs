@@ -21,6 +21,14 @@ public partial class Main
         if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)
         {
+            float range = Battle!.Radar.Range;
+            Battle._UnhandledInput(new InputEventAction {Action=InputSetup.RadarNear,Pressed=true});
+            Verify(Battle.Radar.Range<range,"Radar near shortcut changes tactical range");
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.WheelDown,Pressed=true,Position=new Vector2(80,80)});
+            Verify(Battle.Radar.Range==range,"Wheel over radar changes map range");
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Middle,Pressed=true});
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Middle,Pressed=false});
+            Verify(!Battle.Camera.FreeLooking&&Battle.Camera.FreeLookHoldRemaining==3,"Middle release starts observation delay");
             Battle!._UnhandledInput(new InputEventAction {Action=InputSetup.PowerMenu,Pressed=true});
             Verify(Battle.MenuOpen,"Power radial opens in battle");
             var escape=new InputEventAction {Action=InputSetup.ReleaseMouse,Pressed=true};Battle._UnhandledInput(escape);
@@ -29,15 +37,52 @@ public partial class Main
             Verify(Screen==BattleScreen.Pause&&Battle.Paused,"Helm Esc pauses");
             _overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&!Battle.Paused,"Continue resumes");
         }
+        if(frame==34) Battle!.CheckContactSelection(Verify);
         if(frame==40)
         {
             int old=Seed;TogglePause();_overlay.ActivateButton(1);
             Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01"&&Seed!=old,"Restart keeps role and changes seed");
         }
+        if(frame==32)
+        {
+            Battle!._UnhandledInput(new InputEventMouseButton { ButtonIndex=MouseButton.Left,Pressed=true,Position=new(80,80) });
+            Verify(Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"Clicking the radar globe opens the full map");
+            var before=Battle.WorldMap.Center;
+            double span=Battle.WorldMap.HalfSpan;
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Left,Pressed=true,Position=new(350,300)});
+            Battle._UnhandledInput(new InputEventMouseMotion {Position=new(420,330),Relative=new(70,30)});
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Left,Pressed=false,Position=new(420,330)});
+            Verify(Battle.WorldMap.Center!=before,"Full map drag pans world coordinates");
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.WheelUp,Pressed=true,Position=new(420,330)});
+            Verify(Battle.WorldMap.HalfSpan<span,"Full map wheel zoom works");
+            Battle._UnhandledInput(new InputEventAction {Action=InputSetup.ReleaseMouse,Pressed=true});
+            Verify(!Battle.WorldMapOpen && !Battle.Paused && Screen==BattleScreen.Battle,"Esc closes the map before pausing battle");
+            before=Battle.WorldMap.Center; span=Battle.WorldMap.HalfSpan;
+            Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
+            Verify(Battle.WorldMapOpen && Battle.WorldMap.Center==before && Battle.WorldMap.HalfSpan==span,"M reopens at the remembered world position and zoom");
+            Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.Home,Pressed=true});
+            Verify(Battle.WorldMap.HalfSpan>span,"Home refits the whole battlefield");
+            Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
+            Verify(!Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"M closes the helm map with a visible cursor");
+        }
         if(frame==50){SelectRole();_overlay.ActivateButton(1);Verify(Battle!.Controlled!.Body.Callsign=="DD-31"&&Battle.Scheme==ControlScheme.Helm,"DD role starts helm");}
         if(frame==60)
         {
             SelectRole();_overlay.ActivateButton(2);Verify(Battle!.Controlled!.Body.Callsign=="IC-21"&&Battle.Scheme==ControlScheme.Pilot,"IC role starts pilot");
+            Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
+            Verify(Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"Pilot map releases the captured mouse");
+            Battle._UnhandledInput(new InputEventAction {Action=InputSetup.PowerMenu,Pressed=true});
+            Verify(!Battle.MenuOpen,"Map blocks ship command menus");
+            Input.ActionPress(InputSetup.Fire); Input.ActionPress(InputSetup.ThrottleUp); Input.ActionPress(InputSetup.RollRight);
+            int rounds=Battle.Controlled.Body.Railgun!.Rounds; float throttle=Battle.Throttle;
+            Battle._PhysicsProcess(1.0/60);
+            Verify(Battle.Controlled.Body.Railgun.Rounds==rounds && Battle.Throttle==throttle && Battle.Controlled.Body.Control.Roll==0,
+                "Map blocks held fire, throttle and roll while simulation runs");
+            Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
+            Battle._PhysicsProcess(1.0/60);
+            Verify(!Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Captured && Battle.Controlled.Body.Railgun.Rounds==rounds,
+                "Closing restores pilot capture without firing a held map click");
+            Input.ActionRelease(InputSetup.Fire); Input.ActionRelease(InputSetup.ThrottleUp); Input.ActionRelease(InputSetup.RollRight);
             Input.MouseMode=Input.MouseModeEnum.Captured;Battle._UnhandledInput(new InputEventAction{Action=InputSetup.ReleaseMouse,Pressed=true});
             Verify(Screen==BattleScreen.Battle&&Input.MouseMode==Input.MouseModeEnum.Visible,"First pilot Esc releases mouse");
             Battle._UnhandledInput(new InputEventAction{Action=InputSetup.ReleaseMouse,Pressed=true});Verify(Screen==BattleScreen.Pause,"Second Esc pauses");

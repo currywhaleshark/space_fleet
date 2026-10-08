@@ -5,7 +5,7 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public enum FireDoctrine { Free, Focus, Disable, Hold, Manual }
-public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual }
+public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual, Traversing }
 
 public sealed class GunneryOrder
 {
@@ -26,6 +26,7 @@ public static class GunneryLabels
     public static string Status(GunneryStatus status) => status switch
     {
         GunneryStatus.Firing => "발사", GunneryStatus.Reload => "재장전", GunneryStatus.WaitLock => "잠금 대기",
+        GunneryStatus.Traversing => "포탑 선회 중",
         GunneryStatus.Range => "사거리 밖", GunneryStatus.Arc => "포각 밖",
         GunneryStatus.HullBlocked => "선체 가림", GunneryStatus.FriendlyLine => "아군 사선",
         GunneryStatus.Armor => "장갑 관통 불가", GunneryStatus.Hold => "사격 정지", GunneryStatus.Manual => "수동 사격",
@@ -41,26 +42,52 @@ public sealed partial class SimWorld
     private bool TryAutoFire(ShipBody ship, ShipBody target, Vector3? localAim, double maxFlightSeconds,
         out GunneryStatus status, out FiringSolution? solved)
     {
+        solved = null; status = GunneryStatus.NoTarget;
+        bool fired = false;
+        int priority = -1;
+        foreach (RailgunState gun in ship.Railguns)
+        {
+            bool shot = TryAutoFireGun(ship, gun, target, localAim, maxFlightSeconds, out var state, out var solution);
+            fired |= shot;
+            int rank = state switch { GunneryStatus.Firing => 10, GunneryStatus.Traversing => 9,
+                GunneryStatus.Reload => 8, GunneryStatus.FriendlyLine => 7, GunneryStatus.HullBlocked => 6,
+                GunneryStatus.Arc => 5, _ => 4 };
+            if (gun.Output <= .01f || gun.Rounds == 0) rank = 0;
+            if (rank > priority) { priority = rank; status = state; solved = solution; }
+        }
+        return fired;
+    }
+
+    private bool TryAutoFireGun(ShipBody ship, RailgunState gun, ShipBody target, Vector3? localAim, double maxFlightSeconds,
+        out GunneryStatus status, out FiringSolution? solved)
+    {
         solved = null;
         status = GunneryStatus.NoTarget;
         if (ship.Damage.Destroyed || target.Damage.Destroyed || target.Faction == ship.Faction) return false;
-        if (ship.Railgun is not RailgunState gun || !gun.Ready) { status = GunneryStatus.Reload; return false; }
+        if (gun.Output <= .01f || gun.Rounds <= 0) { status = GunneryStatus.Reload; return false; }
         SensorTrack track = Sensors.Track(ship.Faction, target);
         if (track.Level < TrackLevel.Locked) { status = GunneryStatus.WaitLock; return false; }
-        FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: localAim);
+        FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: localAim, weapon: gun);
         solved = solution;
+        if (solution.Valid) gun.Aim(solution.Direction); // track while reloading, too
         // Keep the existing AI's solution/armor evaluation and firing conditions.
         bool worthIt = target.Damage.Shield > 1f
             || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
         if (!solution.Valid || solution.FlightTime > maxFlightSeconds) { status = GunneryStatus.Range; return false; }
+        FireFailure line = RailLineLocal(ship, gun, ship.Orientation.Inverse() * solution.Direction);
+        if (line != FireFailure.None) { status = line == FireFailure.Arc ? GunneryStatus.Arc : GunneryStatus.HullBlocked; return false; }
+        if (!gun.Aligned(solution.Direction)) { status = GunneryStatus.Traversing; return false; }
+        if (!gun.Ready) { status = GunneryStatus.Reload; return false; }
         if (!worthIt) { status = GunneryStatus.Armor; return false; }
-        if (FriendlyInLine(ship, gun.MuzzlePosition, solution.Direction, (float)solution.Range))
+        Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
+        if (FriendlyInLine(ship, gun.MuzzlePosition, bore, (float)solution.Range))
         { status = GunneryStatus.FriendlyLine; return false; }
-        FireAttempt attempt = FireRailgun(ship, solution.Direction);
+        FireAttempt attempt = FireRailgun(ship, gun, solution.Direction);
         status = attempt.Fired ? GunneryStatus.Firing : attempt.Failure switch
         {
             FireFailure.HullBlocked => GunneryStatus.HullBlocked,
             FireFailure.Arc => GunneryStatus.Arc,
+            FireFailure.Traversing => GunneryStatus.Traversing,
             _ => GunneryStatus.Reload,
         };
         return attempt.Fired;
@@ -74,7 +101,8 @@ public sealed partial class SimWorld
         .Select(s => (s.Ship, Range: (s.Track.EstimatedPosition - ship.Position).Length()))
         .OrderByDescending(s => (s.Ship.Class.Kind == HullKind.Interceptor && s.Range < 20_000 ? 3
             : s.Ship.Class.Kind == HullKind.Escort ? 2 : s.Ship.Class.Kind == HullKind.Battleship ? 1 : 0)
-            * 1_000_000.0 - s.Range)
+            * 1_000_000.0 - s.Range + (ship.Class.Kind == HullKind.Escort && s.Range < 30_000
+                && s.Ship.Ordnance.Antimatter.Rounds > 0 ? 5_000_000 : 0))
         .ThenBy(s => s.Ship.Callsign, StringComparer.Ordinal).Select(s => s.Ship).FirstOrDefault();
 
     private static readonly AimSubsystem[] DisableParts =

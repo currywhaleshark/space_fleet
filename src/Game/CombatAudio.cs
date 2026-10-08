@@ -5,26 +5,28 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-public enum CombatSound { RailFire, ArmorImpact, ShieldImpact, HitConfirm }
+public enum CombatSound { RailFire, ArmorImpact, ShieldImpact, HitConfirm, Penetration, Critical }
 
 /// <summary>조종함의 구조 전달음과 명중 피드백. 시뮬레이션 판정에는 관여하지 않는다.</summary>
 public partial class CombatAudio : Node
 {
-    private readonly AudioStreamPlayer[] _players = new AudioStreamPlayer[4];
-    private readonly ulong[] _nextPlay = new ulong[4];
-    private readonly int[] _plays = new int[4];
+    private readonly AudioStreamPlayer[] _players = new AudioStreamPlayer[6];
+    private readonly ulong[] _nextPlay = new ulong[6];
+    private readonly int[] _plays = new int[6];
     private ShipBody? _controlled;
-    private int _rails, _missileHits;
-    private uint _enemyImpact;
-    private double _shieldTime, _moduleTime, _armorTime, _collisionTime, _worldTime;
+    private int _rails;
+    private uint _amLaunches, _amJettisons;
+    private AntimatterMode _amMode;
+    private double _worldTime;
     private bool _paused;
+    public CombatFeedback Feedback { get; } = new();
     public bool AssetsReady { get; private set; }
     public int PlayCount(CombatSound sound) => _plays[(int)sound];
 
     public override void _Ready()
     {
         SoundSettings.Initialize();
-        string[] files = { "railgun_fire", "armor_impact", "shield_impact", "hit_confirm" };
+        string[] files = { "railgun_fire", "armor_block", "shield_impact", "hit_confirm", "hull_penetration", "critical_impact" };
         AssetsReady = true;
         for (int i = 0; i < files.Length; i++)
         {
@@ -36,6 +38,10 @@ public partial class CombatAudio : Node
             AddChild(_players[i]);
         }
         if (!AssetsReady) GD.PushWarning("Combat audio assets are missing; see assets/audio.");
+        Feedback.Received += PlayIncoming;
+        Feedback.Confirmed += hit => Play(CombatSound.HitConfirm,
+            hit.Kind == HitKind.Critical ? -10 : -15, hit.Kind switch
+            { HitKind.Shield => 1.35f, HitKind.Armor => 1.15f, HitKind.Penetration => .95f, _ => .72f });
     }
 
     public void Prime(SimWorld world, ShipBody? ship)
@@ -43,15 +49,12 @@ public partial class CombatAudio : Node
         StopAll();
         _controlled = ship;
         _worldTime = world.Time;
+        Feedback.Prime(world, ship);
         if (ship is null) return;
         var stats = world.Log?.Ship(ship);
         _rails = stats?.Rails ?? 0;
-        _missileHits = stats?.MissileHits ?? 0;
-        _enemyImpact = EnemyImpact(world, ship);
-        _shieldTime = ship.Damage.LastShieldHitTime;
-        _moduleTime = ModuleTime(ship);
-        _armorTime = ArmorTime(world, ship);
-        _collisionTime = ship.LastCollision?.Time ?? double.NegativeInfinity;
+        _amLaunches=ship.Ordnance.Antimatter.Launches; _amJettisons=ship.Ordnance.Antimatter.Jettisons;
+        _amMode=ship.Ordnance.Antimatter.Mode;
     }
 
     public void Observe(SimWorld world, ShipBody? ship)
@@ -60,30 +63,29 @@ public partial class CombatAudio : Node
         if (ship is null) return;
         var stats = world.Log?.Ship(ship);
         int rails = stats?.Rails ?? 0;
-        int missileHits = stats?.MissileHits ?? 0;
-        uint enemyImpact = EnemyImpact(world, ship);
-        double shield = ship.Damage.LastShieldHitTime, module = ModuleTime(ship);
-        double armor = ArmorTime(world, ship), collision = ship.LastCollision?.Time ?? double.NegativeInfinity;
+        var am=ship.Ordnance.Antimatter;
         if (!_paused)
         {
-            if (rails > _rails) Play(CombatSound.RailFire, -8, ship.Class.Kind switch
+            if(am.Launches>_amLaunches) Play(CombatSound.RailFire,-6,.68f);
+            if(am.Mode==AntimatterMode.Armed && _amMode!=am.Mode) Play(CombatSound.HitConfirm,-19,.72f);
+            if(am.Jettisons>_amJettisons) Play(CombatSound.ArmorImpact,-18,1.5f);
+            if (rails > _rails) Play(CombatSound.RailFire, -8 + Mathf.Min(3, (rails - _rails - 1) * 1.2f), ship.Class.Kind switch
                 { HullKind.Battleship => .85f, HullKind.Interceptor => 1.15f, _ => 1f });
-            // 같은 충격이 실드와 선체를 관통하면 더 무거운 선체음을 우선한다.
-            if (module > _moduleTime || armor > _armorTime || (collision > _collisionTime && ship.LastCollision!.Value.ClosingSpeed > 2))
-                Play(CombatSound.ArmorImpact, -5, .98f);
-            else if (shield > _shieldTime) Play(CombatSound.ShieldImpact, -7, 1f);
-            if (missileHits > _missileHits || enemyImpact > _enemyImpact) Play(CombatSound.HitConfirm, -14, 1.12f);
         }
-        _rails = rails; _missileHits = missileHits; _enemyImpact = enemyImpact; _shieldTime = shield; _moduleTime = module;
-        _armorTime = armor; _collisionTime = collision; _worldTime = world.Time;
+        Feedback.Observe(world, ship, _paused);
+        _rails = rails; _worldTime = world.Time;
+        _amLaunches=am.Launches; _amJettisons=am.Jettisons; _amMode=am.Mode;
     }
 
-    private static double ModuleTime(ShipBody ship) => ship.Damage.Modules.Max(m => m.LastHitTime);
-    private static double ArmorTime(SimWorld world, ShipBody ship) => world.Impacts
-        .Where(i => i.Hit.Target == ship && !i.Hit.ShieldStopped).Select(i => i.Time).DefaultIfEmpty(double.NegativeInfinity).Max();
-    private static uint EnemyImpact(SimWorld world, ShipBody ship) => world.Impacts
-        .Where(i => i.Shooter == ship && i.Hit.Target is { } target && target.Faction != ship.Faction)
-        .Select(i => i.Id).DefaultIfEmpty(0U).Max();
+    private void PlayIncoming(HitFeedback hit)
+    {
+        CombatSound sound = hit.Kind switch { HitKind.Shield => CombatSound.ShieldImpact, HitKind.Armor => CombatSound.ArmorImpact,
+            HitKind.Penetration => CombatSound.Penetration, _ => CombatSound.Critical };
+        float bodyPitch = hit.Target.Class.Kind switch { HullKind.Battleship => .82f, HullKind.Escort => .95f, _ => 1.08f };
+        float db = hit.Kind switch { HitKind.Shield => -11, HitKind.Armor => -8, HitKind.Penetration => -5, _ => -3 };
+        Play(sound, db + Mathf.LinearToDb(Mathf.Lerp(.65f, 1f, hit.Strength)), bodyPitch);
+        if (hit.ShieldBroken && hit.Kind != HitKind.Shield) Play(CombatSound.ShieldImpact, -15, .7f);
+    }
 
     private void Play(CombatSound sound, float db, float pitch)
     {

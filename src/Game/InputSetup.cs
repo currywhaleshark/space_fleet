@@ -6,6 +6,9 @@ namespace SpaceFleet.Game;
 public static class InputSetup
 {
     public const string ToggleMute = "toggle_mute";
+    public const string WorldMap = "world_map";
+    public const string RadarNear = "radar_near";
+    public const string RadarFar = "radar_far";
     public const string PowerMenu = "power_menu";
     public const string GunneryMenu = "gunnery_menu";
     public const string SquadMenu = "squad_menu";
@@ -29,17 +32,15 @@ public static class InputSetup
     public const string TestFire = "test_fire";
     public const string ShowModules = "show_modules";
     public const string ToggleHelp = "toggle_help";
-    public const string PowerEngines = "power_engines";
-    public const string PowerShields = "power_shields";
-    public const string PowerWeapons = "power_weapons";
-    public const string PowerSensors = "power_sensors";
-    public const string PowerEcm = "power_ecm";
-    public const string PowerReset = "power_reset";
     public const string Repair = "repair";
-    public const string Fire = "fire_railgun";
+    public const string Fire = "fire_selected";
     public const string FireAssist = "fire_assist";
     public const string Practice = "shooting_practice";
-    public const string LaunchMissile = "launch_missile";
+    public const string SelectMainGun = "select_main_gun";
+    public const string SelectMissile = "select_missile";
+    public const string Telescope = "telescope";
+    public const string SelectAntimatter = "select_antimatter";
+    public const string JettisonAntimatter = "jettison_antimatter";
     public const string Decoys = "decoys";
     public const string MissileDrill = "missile_drill";
     public const string AimPart = "aim_part";
@@ -51,7 +52,10 @@ public static class InputSetup
 
     public static void Register()
     {
-        Bind(ToggleMute, Key.M);
+        Bind(ToggleMute, Key.F10);
+        Bind(WorldMap, Key.M);
+        Bind(RadarNear, Key.Pageup);
+        Bind(RadarFar, Key.Pagedown);
         Bind(PowerMenu, Key.F);
         Bind(GunneryMenu, Key.B);
         Bind(SquadMenu, Key.N);
@@ -75,16 +79,16 @@ public static class InputSetup
         Bind(TestFire, Key.F4);
         Bind(ShowModules, Key.F5);
         Bind(ToggleHelp, Key.F1);
-        Bind(PowerEngines, Key.Key1);
-        Bind(PowerShields, Key.Key2);
-        Bind(PowerWeapons, Key.Key3);
-        Bind(PowerSensors, Key.Key4);
-        Bind(PowerEcm, Key.Key5);
-        Bind(PowerReset, Key.Key0);
+        foreach(string old in new[]{"power_engines","power_shields","power_weapons","power_sensors","power_ecm","power_reset","launch_missile","fire_railgun"})
+            if(InputMap.HasAction(old)) InputMap.EraseAction(old);
+        Bind(SelectMainGun, Key.Key1);
+        Bind(SelectMissile, Key.Key2);
         Bind(Repair, Key.F6);
         Bind(FireAssist, Key.T);
         Bind(Practice, Key.F7);
         Bind(Decoys, Key.C);
+        Bind(SelectAntimatter, Key.Key3);
+        Bind(JettisonAntimatter, Key.Backspace);
         Bind(MissileDrill, Key.F8);
         Bind(AimPart, Key.Y);
         Bind(OrderAttack, Key.G);
@@ -92,16 +96,22 @@ public static class InputSetup
         Bind(OrderHold, Key.J);
         Bind(TimeSlower, Key.Bracketleft);
         Bind(TimeFaster, Key.Bracketright);
-        if (!InputMap.HasAction(LaunchMissile)) InputMap.AddAction(LaunchMissile);
-        InputMap.ActionAddEvent(LaunchMissile, new InputEventMouseButton { ButtonIndex = MouseButton.Right });
-        if (!InputMap.HasAction(Fire)) InputMap.AddAction(Fire);
-        InputMap.ActionAddEvent(Fire, new InputEventMouseButton { ButtonIndex = MouseButton.Left });
+        BindMouse(Telescope, MouseButton.Right);
+        BindMouse(Fire, MouseButton.Left);
+    }
+
+    private static void BindMouse(string action, MouseButton button)
+    {
+        if(!InputMap.HasAction(action)) InputMap.AddAction(action);
+        InputMap.ActionEraseEvents(action);
+        InputMap.ActionAddEvent(action,new InputEventMouseButton { ButtonIndex=button });
     }
 
     private static void Bind(string action, Key key)
     {
         if (!InputMap.HasAction(action))
             InputMap.AddAction(action);
+        InputMap.ActionEraseEvents(action);
         InputMap.ActionAddEvent(action, new InputEventKey { PhysicalKeycode = key });
     }
 }

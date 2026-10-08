@@ -10,7 +10,7 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public enum ArmorSide { Fore, Aft, Port, Starboard, Dorsal, Ventral }
-public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter }
+public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter, AntimatterContainment }
 public enum PowerGrid { Port, Starboard, Shared }
 
 public sealed record ShieldDefinition(float Capacity, float RechargePerSecond, float RechargeDelay);
@@ -42,6 +42,8 @@ public sealed class ShipDefinition
     public required ModuleDefinition[] Modules { get; init; }
     public RailgunDefinition? Railgun { get; init; }
     public MissileDefinition? Missiles { get; init; }
+    public AntimatterDefinition? Antimatter { get; init; }
+    public DefenseDroneDefinition? DefenseDrones { get; init; }
     public PointDefenseDefinition? PointDefense { get; init; }
     public DecoyDefinition? Decoys { get; init; }
     public CollisionHull Hull { get; private set; } = null!;
@@ -114,8 +116,43 @@ public sealed class ShipDefinition
                 && float.IsFinite(gun.VelocityError) && gun.VelocityError >= 0
                 && float.IsFinite(gun.ShotHeatMj) && gun.ShotHeatMj >= 0, "invalid railgun parameters");
             gun.Packet.Validate();
+            if (gun.Mounts is { } mounts)
+            {
+                Require(mounts.Length > 0 && mounts.All(m => m is not null), "empty/null turret mounts");
+                Require(mounts.Select(m => m.ModuleId).Distinct().Count() == mounts.Length, "duplicate turret module");
+                Require(mounts[0].ModuleId == gun.ModuleId, "first turret must be the primary gun");
+                foreach (TurretDefinition m in mounts)
+                {
+                    Require(Modules.Any(module => module.Id == m.ModuleId && module.Kind == ModuleKind.Gun), "turret must reference a gun module");
+                    Require(m.Pivot.IsFinite() && m.Trunnion.IsFinite() && m.Muzzles is { Length: > 0 }
+                        && m.Muzzles.All(p => p.IsFinite() && p.Z < 0), "invalid turret geometry");
+                    Require(m.HousingCenter.IsFinite() && m.HousingHalfSize.IsFinite()
+                        && (m.HousingHalfSize == Vector3.Zero || m.HousingHalfSize.X > 0 && m.HousingHalfSize.Y > 0 && m.HousingHalfSize.Z > 0),
+                        "invalid turret obstruction bounds");
+                    Require(Positive(m.YawDegrees) && m.YawDegrees <= 180 && float.IsFinite(m.MinElevation)
+                        && float.IsFinite(m.MaxElevation) && m.MinElevation >= -90 && m.MinElevation <= 0
+                        && m.MaxElevation > 0 && m.MaxElevation <= 90 && Positive(m.YawRate) && Positive(m.ElevationRate)
+                        && Positive(m.ToleranceDegrees) && m.ToleranceDegrees <= 1 && m.Rounds > 0, "invalid turret drive/ammunition");
+                }
+                Require(mounts.Sum(m => m.Rounds) == gun.Rounds, "turret ammunition must equal ship magazine loadout");
+            }
         }
-        if (Missiles is MissileDefinition ms)
+        if (Antimatter is { } am)
+        {
+            Require(Kind == HullKind.Interceptor && Modules.Any(m => m.Id == am.ModuleId && m.Kind == ModuleKind.AntimatterContainment), "AM requires interceptor containment module");
+            Require(am.Rounds > 0 && Positive(am.ArmingSeconds) && Positive(am.RecommendedMinMeters)
+                && Positive(am.RecommendedMaxMeters) && Positive(am.MaxTravelMeters)
+                && am.RecommendedMaxMeters >= am.RecommendedMinMeters && am.MaxTravelMeters > am.RecommendedMaxMeters
+                && Positive(am.TerminalAccelG) && Positive(am.LaunchConeDegrees) && am.LaunchConeDegrees <= 30
+                && Positive(am.DamageDepthMeters) && am.SafeFailureHealth > 0 && am.SafeFailureHealth < am.ArmedFailureHealth
+                && am.ArmedFailureHealth < am.WarningHealth && am.WarningHealth <= 1 && am.Flight is not null,
+                "invalid AM configuration");
+            ValidateMissile(am.Flight!);
+            Require(am.Flight!.Rounds == am.Rounds && am.Flight.MaxFlightSeconds <= 8 && am.Flight.SeekerRangeMeters <= am.MaxTravelMeters
+                && am.TerminalAccelG <= am.Flight.AccelG, "invalid AM lifetime/guidance");
+        }
+        if (Missiles is MissileDefinition ms) ValidateMissile(ms);
+        void ValidateMissile(MissileDefinition ms)
         {
             Require(ms.Rounds > 0 && Positive(ms.ReloadSeconds) && ms.LaunchPoint.IsFinite() && float.IsFinite(ms.EjectSpeed) && ms.EjectSpeed >= 0
                 && Positive(ms.AccelG) && Positive(ms.BurnSeconds) && Positive(ms.MaxFlightSeconds) && Positive(ms.SeekerRangeMeters)
@@ -131,6 +168,10 @@ public sealed class ShipDefinition
         if (Decoys is DecoyDefinition dc)
             Require(dc.Count > 0 && dc.PerLaunch > 0 && Positive(dc.CooldownSeconds) && Positive(dc.SignatureFactor)
                 && Positive(dc.LifetimeSeconds) && float.IsFinite(dc.EjectSpeed) && dc.EjectSpeed >= 0, "invalid decoys");
+        if (DefenseDrones is { } drones)
+            Require(drones.Count > 0 && drones.Count <= 64 && Positive(drones.OrbitMeters) && Positive(drones.RangeMeters)
+                && Positive(drones.ShotsPerSecond) && Positive(drones.HitChance) && drones.HitChance <= 1
+                && Positive(drones.DamagePerHit) && drones.RoundsPerDrone > 0, "invalid defense drones");
     }
 
     private static bool Contains(HullSection section, Vector3 center, Vector3 half) =>

@@ -25,6 +25,8 @@ public partial class Hud
     {
         if (Game.InspectTarget is not ShipView target || Game.Controlled is not ShipView me)
             return;
+        if (Game.ContactOf(target) is { SignalLost: true } lost)
+        { DrawLostTargetPanel(screen, lost, me); return; }
         ShipBody body = target.Body;
         ShipDamage damage = body.Damage;
         SensorTrack track = Game.TrackOf(target);

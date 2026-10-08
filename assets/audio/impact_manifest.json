@@ -1,0 +1,38 @@
+{
+  "method": "Derived from existing Agent Audio WAVs by trimming/filtering/resampling/layering; no new generation.",
+  "sources": {
+    "armor_impact": "ad1f00f9038d26867770f4a6fde8b82d1a82567d8ed6abd4f75a33617929a854",
+    "railgun_fire": "2ac5ea9ddbe6e2d853d4e279c45f7604a7de08cc848edf99072075e71866ae44",
+    "shield_impact": "6995ba636cc48d101656e0e978b75c81371586871fdc00e45b1191da65515db0"
+  },
+  "assets": {
+    "armor_block": {
+      "seconds": 0.28,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.12190521485828007,
+      "clipped_samples": 0,
+      "sha256": "4f3fb7ff6c14989d1b4955e861c9fbe2673cd78d48b95b7e6b05753d91396057"
+    },
+    "hull_penetration": {
+      "seconds": 1.2,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.1424269335040479,
+      "clipped_samples": 0,
+      "sha256": "7b5252905e05a844063a434b53d216350dbe1745892d29bfc24ad993f5cd357e"
+    },
+    "critical_impact": {
+      "seconds": 1.65,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.707916259765625,
+      "rms": 0.12924415183503024,
+      "clipped_samples": 0,
+      "sha256": "908b7dddf7eb10187c904c248018fb11578b16264cc81882f6e54e6a4cd63619"
+    }
+  },
+  "quality_scope": "Signal and runtime mixer checked; artistic quality requires listening."
+}
