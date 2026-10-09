@@ -72,7 +72,7 @@ public partial class NavigationChecks : Node
     {
         var camera = new ChaseCamera { Mode = CameraMode.ShipFollow }; AddChild(camera);
         camera.ResetAim(Quaternion.Identity); camera.SetFreeLook(true); camera.AddMouse(new Vector2(350, -100));
-        void Follow(float delta) => camera.Follow(ShipClass.Battleship, Vector3.Zero, Quaternion.Identity, delta);
+        void Follow(float delta) => camera.Follow(ShipDefinitions.For(HullKind.Battleship), Vector3.Zero, Quaternion.Identity, delta);
         for (int i = 0; i < 120; i++) Follow(1f / 60);
         Vector3 released = camera.AimForward;
         camera.SetFreeLook(false);

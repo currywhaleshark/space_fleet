@@ -1,0 +1,17 @@
+{
+  "Baseline": "e9b2765f716b7b9351341136289559f44bb59d54",
+  "Seeds": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+  "Mirror": true,
+  "LimitMinutes": 25,
+  "Variants": [
+    "baseline",
+    "guns_only",
+    "pd_only",
+    "current"
+  ],
+  "BattlesPerVariant": 40,
+  "Roster": "24 ships: 2 battleships, 12 escorts, 10 interceptors",
+  "Mode": "AI, measured at battle verdict",
+  "SourceHashes": "source-hashes.csv",
+  "Summary": "summary.json"
+}

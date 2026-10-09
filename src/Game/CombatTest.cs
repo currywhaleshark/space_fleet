@@ -34,7 +34,7 @@ public partial class ScaleTest
     {
         get
         {
-            ShipView? view = Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
+            ShipView? view = !Camera.TelescopeHeld && Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
                 ? Views.Find(v => v.Body == engaged) : InspectTarget;
             return view is not null && Controlled is { } me && view.Body.Faction != me.Body.Faction
                 && TrackOf(view).Level > TrackLevel.None && !view.Body.Damage.Destroyed ? view : null;
@@ -160,12 +160,13 @@ public partial class ScaleTest
             if (!MenuOpen && !RadarPointerCaptured && SelectedWeapon == PlayerWeapon.MainGun && Gunnery?.Doctrine == FireDoctrine.Manual)
             {
                 Vector2 cursor = GetViewport().GetMousePosition();
-                Vec3d point = _shot?.ManualFire == true
+                Vec3d point = Camera.TelescopeHeld || _shot?.ManualFire == true
                     ? ManualAimPoint(player, RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward)
                     : ManualAimPoint(player, RenderOrigin + Vec3d.From(Camera.ProjectRayOrigin(cursor)), Camera.ProjectRayNormal(cursor));
                 foreach (RailgunState gun in player.Railguns) gun.Aim((point - gun.MuzzlePosition).ToVector3());
                 if ((!_fireReleaseGuard && Input.IsActionPressed(InputSetup.Fire)) || (_shot?.ManualFire == true && World.Tick >= 30 && _liveShots < _shot.Pulses))
                 {
+                    if (Camera.TelescopeHeld && ScopeHullBlocked) { Notify("선체에 시야 가림",true); return; }
                     FireAttempt manual = World.FireRailguns(player, Vector3.Forward, point);
                     Notify(manual.Reason, !manual.Fired);
                     if (manual.Fired) _liveShots++;
@@ -192,6 +193,7 @@ public partial class ScaleTest
         if (automated) firing = World.Tick >= 30 && _liveShots < _shot!.Pulses && player.Railgun?.Ready == true;
         if (MenuOpen || RadarPointerCaptured) firing = false;
         if (!firing) return;
+        if (Camera.TelescopeHeld && ScopeHullBlocked) { Notify("선체에 시야 가림",true); return; }
         // 센서가 없어도 수동 사격은 가능하다. 선택 표적이 조준 범위 안에 있을 때만 선행 보정한다.
         Vector3 direction = CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
         FireAttempt attempt = World.FireRailgun(player, direction);

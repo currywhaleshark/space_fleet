@@ -414,7 +414,7 @@ class Ship:
         for j in range(4): self.box('Dorsal service armor',(0,1.64,.5+j*1.6),(2.1,.15,1.3),'armor',.04)
         self.box('Shield projector',(0,1.86,5),(.8,.4,1.45),'edge',.08)
         for j in range(3): self.box('Shield emitter',(0,2.07,4.55+j*.4),(.55,.04,.12),'shield',0)
-        self.point_defense(self.data['pointDefense']['mounts'][0],.55,0)
+        for i, p in enumerate(self.data['pointDefense']['mounts']): self.point_defense(p,.55,i)
         for i,x in enumerate((-1.1,1.1)): self.engine((x,0,12),.91,9,i)
         self.rcs_clusters(-11,7,(1.0,1.0),(2.3,1.6),.45,5,.7)
         self.modules()
@@ -454,7 +454,8 @@ class Ship:
         fit_antimatter(self.coll,self.data)
         bpy.context.window.scene=self.scene
         rig_turrets(self.coll, self.data)
-        from fleet_model_export import rig_point_defense
+        from fleet_model_export import rig_point_defense, fit_interceptor_dorsal_pd
+        fit_interceptor_dorsal_pd(self.coll, self.data)
         rig_point_defense(self.coll, self.data)
         stats = export_collection(self.coll, OUT/f'{self.key}.glb')
         self.lighting()

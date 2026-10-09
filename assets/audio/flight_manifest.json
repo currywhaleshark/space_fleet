@@ -1,0 +1,253 @@
+{
+  "generator": "Agent Audio / Stable Audio 3 Medium",
+  "backend": "TFLite CPU",
+  "runtime_revision": "779434a908193105335fd8d833418603625b2859",
+  "model_revision": "da6edc54ddba10bfd79a077102ded687f80e882b",
+  "sources": {
+    "source/engine_drive_20261010": {
+      "sha256": "5120661e28864b4bc6864546f992f82109bb4efcf615cff8fd1047f8487edc54",
+      "seconds": 5.0,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "source/boost_drive_20261010": {
+      "sha256": "0ed58ffadf4e877f03d23c2e44925638273d9c5f20f5d7bbf4aab26b60e6ef89",
+      "seconds": 4.0,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "source/pd_fire_20261010": {
+      "sha256": "1b6c56f1cba66619952395394f6c7be86ff25bb37c4a5bdf1bd14360014b7c89",
+      "seconds": 3.0,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "source/hull_strike_20261010": {
+      "sha256": "544e636183ed59e21f1d4ed05f68a67e992ac0ae7c8b7a2d741df0e59e30bbef",
+      "seconds": 3.0,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "armor_impact": {
+      "sha256": "ad1f00f9038d26867770f4a6fde8b82d1a82567d8ed6abd4f75a33617929a854",
+      "seconds": 1.1,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "shield_impact": {
+      "sha256": "6995ba636cc48d101656e0e978b75c81371586871fdc00e45b1191da65515db0",
+      "seconds": 1.35,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "railgun_fire": {
+      "sha256": "2ac5ea9ddbe6e2d853d4e279c45f7604a7de08cc848edf99072075e71866ae44",
+      "seconds": 1.2,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "hull_penetration": {
+      "sha256": "7b5252905e05a844063a434b53d216350dbe1745892d29bfc24ad993f5cd357e",
+      "seconds": 1.2,
+      "sample_rate": 44100,
+      "channels": 2
+    },
+    "critical_impact": {
+      "sha256": "908b7dddf7eb10187c904c248018fb11578b16264cc81882f6e54e6a4cd63619",
+      "seconds": 1.65,
+      "sample_rate": 44100,
+      "channels": 2
+    }
+  },
+  "method": "New engine/boost/PD/metal sources; spectral editing, resampling, layering, fades, crossfaded propulsion loops.",
+  "quality_scope": "PCM levels, clipping, loop boundaries and runtime mixer checked; no listening assessment.",
+  "assets": {
+    "engine_drive_loop": {
+      "seconds": 3.3,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.50115966796875,
+      "rms": 0.13166864007902745,
+      "clipped_samples": 0,
+      "loop": true,
+      "boundary_step": 0.0,
+      "sha256": "9382246d7a5cb3ff2881e9e4c5d8c7355539740b35bf304a25b72c83cf2014d7"
+    },
+    "boost_drive_loop": {
+      "seconds": 2.5,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.50115966796875,
+      "rms": 0.10822857503275206,
+      "clipped_samples": 0,
+      "loop": true,
+      "boundary_step": 0.0,
+      "sha256": "01ef5b4ad8b8adafcfd27c467085e6ef7f34e893971962c60164cbdb3d22a2f4"
+    },
+    "pd_fire_01": {
+      "seconds": 0.19,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.05451755552039336,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "664f7f86f6f9a1095d3e761ad331a024ca5a92c4309992d4f46dd6e51b4deb89"
+    },
+    "pd_fire_02": {
+      "seconds": 0.22,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.06193419388804659,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "612afb00a7f72073b4d282b9f4c06f927bdc7fbe3e550bb14fe9d07af76eee5a"
+    },
+    "pd_fire_03": {
+      "seconds": 0.16,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.05611551350224225,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "f0911f2f6fa220868fd6863be53ac5439f6ca703ed9ce2fcca59307e8502bb4f"
+    },
+    "armor_block_v2": {
+      "seconds": 0.32,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.11780093135631976,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "ab58d953a2da6f48a3f1a2083117017a3c216e546f895a07473ae761963e970f"
+    },
+    "armor_block_v3": {
+      "seconds": 0.36,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.08173427525814171,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "81c8f6efa01efd4239dc571e6f99afbfcf48733b91f109acd2323b686ddee201"
+    },
+    "armor_block_v4": {
+      "seconds": 0.27,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.10499267231598997,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "47c6fbf661159a97f42700d3b03c325f38c297f373c43f04f88075dcbdf8dc93"
+    },
+    "shield_impact_v2": {
+      "seconds": 0.65,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.06461215835664862,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "23e12a698e9b2ccff60b5436c6dbc398b8e7cf2e9d8a0cc71846896287b3ba98"
+    },
+    "shield_impact_v3": {
+      "seconds": 0.85,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.07078931510409957,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "c59fbe3cca9f41356dedf898650974d1c187cf1cca0c60a3ed1a78cc81092b0d"
+    },
+    "shield_impact_v4": {
+      "seconds": 0.5,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.05468341162618492,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "e5ba9b507f2310f3263792c1efec6b87a0483e0bfae638c590db0f630bd60ea0"
+    },
+    "hull_penetration_v2": {
+      "seconds": 0.95,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.12286439984951594,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "ebcf057792909f98957243d3da161bc965274d4bb7194bcc4a7c6a1894727a22"
+    },
+    "hull_penetration_v3": {
+      "seconds": 1.15,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.08354244255578658,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "411d4057dfd7594f3bccb33ca83d670c6e57c14d68699ade79255d8e327a1550"
+    },
+    "hull_penetration_v4": {
+      "seconds": 0.8,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.10907928333584037,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "8b6f888e5ccb486a47574008b92305b4535fb529693fc11cd1cac3b6eb66a6be"
+    },
+    "critical_impact_v2": {
+      "seconds": 1.4,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.12936029202949836,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "c8253c7eccd185f6eec48bae1457a2f0638304fc7e1ba8a64be6794580de56ad"
+    },
+    "critical_impact_v3": {
+      "seconds": 1.7,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.09808225917830164,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "41361f97e7711d3ff52b1311766f61570c644f3cdd1d9885a35e15956d44b3af"
+    },
+    "critical_impact_v4": {
+      "seconds": 1.2,
+      "sample_rate": 44100,
+      "channels": 2,
+      "peak": 0.630950927734375,
+      "rms": 0.10502253416877758,
+      "clipped_samples": 0,
+      "loop": false,
+      "boundary_step": 0.0,
+      "sha256": "be22ef1cf59035e04934f415b1695393fbf21880ca28a6b52f5cab7c00119c14"
+    }
+  }
+}

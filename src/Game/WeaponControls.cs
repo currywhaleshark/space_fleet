@@ -41,6 +41,7 @@ public partial class ScaleTest
         if(Scheme==ControlScheme.Pilot && Input.MouseMode!=Input.MouseModeEnum.Captured)
         { Input.MouseMode=Input.MouseModeEnum.Captured; _fireReleaseGuard=true; return true; }
         if(_fireReleaseGuard) return true;
+        if(Camera.TelescopeHeld && ScopeHullBlocked) { Notify("선체에 시야 가림",true); return true; }
         if(SelectedWeapon!=PlayerWeapon.MainGun) FireSelectedWeapon();
         else if(Scheme==ControlScheme.Helm && Gunnery?.Doctrine!=FireDoctrine.Manual && e is InputEventMouseButton mouse)
         {
@@ -62,6 +63,7 @@ public partial class ScaleTest
     {
         if(what!=NotificationApplicationFocusOut) return;
         Camera?.ResetTelescope(); _fireReleaseGuard=true; JettisonProgress=0;
+        if (MenuOpen) { _radial.Cancel(); _radialAction=null; }
     }
 }
 
@@ -79,7 +81,5 @@ public partial class Hud
             DrawRect(rect,PanelBack); DrawRect(rect,selected ? Lead : Faint,false,selected ? 2 : 1);
             CenteredLabel(rect.Position+new Vector2(63,17),labels[i],12,selected ? Lead : Dim);
         }
-        if(Game.Camera.TelescopeHeld)
-            CenteredLabel(new Vector2(screen.X*.5f,28),"망원 ×4 · 우클릭을 놓으면 복귀",12,Text);
     }
 }

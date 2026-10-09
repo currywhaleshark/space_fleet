@@ -19,8 +19,25 @@ public partial class ChaseCamera : Camera3D
     public const float TelescopeMagnification = 4f;
     public static float TelescopeFov => Mathf.RadToDeg(2 * Mathf.Atan(Mathf.Tan(Mathf.DegToRad(NormalFov / 2)) / TelescopeMagnification));
     public bool TelescopeHeld { get; private set; }
-    public void SetTelescope(bool held) => TelescopeHeld = held;
-    public void ResetTelescope() { TelescopeHeld = false; Fov = NormalFov; }
+    public event System.Action<bool>? TelescopeChanged;
+    public void SetTelescope(bool held)
+    {
+        if (held == TelescopeHeld) return;
+        if (Mode == CameraMode.ShipFollow)
+        {
+            if (!held || !FreeLooking)
+            {
+                Vector3 local = _followOrientation.Inverse() * AimForward;
+                _look = new Vector2(Mathf.Atan2(-local.X, -local.Z), Mathf.Asin(Mathf.Clamp(local.Y, -1, 1)));
+            }
+            FreeLookHoldRemaining = held ? 0 : FreeLookHoldSeconds;
+            if (held) FreeLooking = false;
+        }
+        _pendingMouse = Vector2.Zero;
+        TelescopeHeld = held;
+        TelescopeChanged?.Invoke(held);
+    }
+    public void ResetTelescope() { SetTelescope(false); Fov = NormalFov; }
     private Vector2 _look;
     private Quaternion _followOrientation = Quaternion.Identity;
     public const float FreeLookHoldSeconds = 3f;
@@ -137,14 +154,19 @@ public partial class ChaseCamera : Camera3D
 
     public void Zoom(float factor) => _zoom = Mathf.Clamp(_zoom * factor, 0.35f, 4f);
 
-    public void Follow(ShipClass shipClass, Vector3 shipPosition, Quaternion shipOrientation, float delta)
+    public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta)
     {
         _followOrientation = shipOrientation;
         Fov = Mathf.Lerp(Fov, TelescopeHeld ? TelescopeFov : NormalFov, 1 - Mathf.Exp(-delta / .12f));
         float sens = Sensitivity * Mathf.Tan(Mathf.DegToRad(Fov / 2)) / Mathf.Tan(Mathf.DegToRad(NormalFov / 2));
         if (Mode == CameraMode.ShipFollow)
         {
-            if (FreeLooking)
+            if (TelescopeHeld)
+            {
+                _look.X = Mathf.Wrap(_look.X - _pendingMouse.X * sens, -Mathf.Pi, Mathf.Pi);
+                _look.Y = Mathf.Clamp(_look.Y - _pendingMouse.Y * sens, -Mathf.DegToRad(85), Mathf.DegToRad(85));
+            }
+            else if (FreeLooking)
             {
                 _look.X = Mathf.Clamp(_look.X - _pendingMouse.X * sens, -Mathf.DegToRad(170), Mathf.DegToRad(170));
                 _look.Y = Mathf.Clamp(_look.Y - _pendingMouse.Y * sens, -Mathf.DegToRad(80), Mathf.DegToRad(80));
@@ -157,8 +179,9 @@ public partial class ChaseCamera : Camera3D
             }
             _pendingMouse = Vector2.Zero;
             Quaternion offsetRotation = new Quaternion(Vector3.Up, _look.X) * new Quaternion(Vector3.Right, _look.Y);
-            _aim = new Basis(_aim.GetRotationQuaternion().Slerp(shipOrientation * offsetRotation, 1 - Mathf.Exp(-delta / 0.25f)));
-            Place(shipClass, shipPosition);
+            _aim = new Basis(TelescopeHeld ? shipOrientation * offsetRotation
+                : _aim.GetRotationQuaternion().Slerp(shipOrientation * offsetRotation, 1 - Mathf.Exp(-delta / 0.25f)));
+            Place(definition, shipPosition, shipOrientation);
             return;
         }
         if (_pendingMouse != Vector2.Zero)
@@ -179,12 +202,36 @@ public partial class ChaseCamera : Camera3D
         }
         _aim = _aim.Orthonormalized();
 
-        Place(shipClass, shipPosition);
+        Place(definition, shipPosition, shipOrientation);
     }
 
-    private void Place(ShipClass shipClass, Vector3 shipPosition)
+    private static Vector3 TelescopeOffset(ShipDefinition definition, Vector3 localAim)
     {
+        float clearance = Mathf.Max(1, definition.Flight.Length * .01f);
+        Vector3 outward = new Vector3(localAim.X, 0, localAim.Z).Normalized();
+        if (outward.LengthSquared() < .01f) outward = Vector3.Forward;
+        foreach (var section in definition.HullSections)
+            if (section.Id == "bridge")
+            {
+                // A circle outside the bridge's corners stays clear at every azimuth, including astern.
+                float radius = new Vector2(section.HalfSize.X, section.HalfSize.Z).Length() + clearance;
+                return section.Center + Vector3.Up * section.HalfSize.Y * .6f + outward * radius;
+            }
+        // Small craft retain mouse-to-nose flight. Orbit outside their envelope during turn lag.
+        float hullRadius = 0;
+        foreach (var section in definition.HullSections)
+            hullRadius = Mathf.Max(hullRadius, new Vector2(Mathf.Abs(section.Center.X) + section.HalfSize.X,
+                Mathf.Abs(section.Center.Z) + section.HalfSize.Z).Length());
+        return Vector3.Up * definition.Flight.CameraHeight * .25f + outward * (hullRadius + clearance);
+    }
+
+    private void Place(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation)
+    {
+        var shipClass = definition.Flight;
         var offset = new Vector3(0, shipClass.CameraHeight, shipClass.CameraDistance) * _zoom;
-        Transform = new Transform3D(_aim * Basis.FromEuler(VisualRotation), shipPosition + _aim * offset);
+        // Cut to the exterior optic instead of interpolating through the ship's superstructure.
+        // Orbit horizontally at bridge height; looking down can still naturally reveal/occlude the deck.
+        Vector3 position = TelescopeHeld ? shipOrientation * TelescopeOffset(definition, shipOrientation.Inverse() * AimForward) : _aim * offset;
+        Transform = new Transform3D(_aim * Basis.FromEuler(VisualRotation), shipPosition + position);
     }
 }

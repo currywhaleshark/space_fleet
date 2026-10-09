@@ -488,9 +488,9 @@
     },
     {
       "id": "interceptor",
-      "triangles": 13472,
+      "triangles": 13800,
       "materials": 10,
-      "editableParts": 278,
+      "editableParts": 284,
       "modules": 16,
       "source": "art/blender/interceptor.blend",
       "model": "assets/ships/interceptor.glb",
@@ -714,9 +714,9 @@
           "plume": 5
         }
       ],
-      "meshGroups": 3,
+      "meshGroups": 5,
       "turrets": 0,
-      "pointDefenseTurrets": 1
+      "pointDefenseTurrets": 2
     }
   ]
 }

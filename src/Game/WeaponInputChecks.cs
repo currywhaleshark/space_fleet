@@ -18,7 +18,7 @@ public partial class WeaponInputChecks : Node
     private static void Follow(ScaleTest game,int frames=120)
     {
         var ship=game.Controlled!.Body;
-        for(int i=0;i<frames;i++) game.Camera.Follow(ship.Class,Vector3.Zero,ship.Orientation,1f/60);
+        for(int i=0;i<frames;i++) game.Camera.Follow(ship.Definition,Vector3.Zero,ship.Orientation,1f/60);
     }
     private static void Tick(ScaleTest game,int frames=1)
     { for(int i=0;i<frames;i++) game._PhysicsProcess(SimWorld.TickDelta); }
@@ -70,7 +70,8 @@ public partial class WeaponInputChecks : Node
         Check(am.Mode==AntimatterMode.Safe,"Switch to missile also cancels preparation");
         foreach(var key in new[]{Key.Key4,Key.Key5,Key.Key0,Key.Key6}) KeyEvent(game,key);
         Check(game.SelectedWeapon==PlayerWeapon.Missile && pips.SequenceEqual(Enum.GetValues<PowerChannel>().Select(ship.Power.Pips)),
-            "Number keys never change power allocation; legacy 4/5/0/6 are unassigned");
+            "Number keys never change power allocation; a ship without drones cannot open their radial");
+        Check(!game.MenuOpen,"Key 4 on an interceptor reports unavailable hardware without trapping input");
 
         Mouse(game,MouseButton.Right); KeyEvent(game,Key.F);
         Check(game.MenuOpen && !game.Camera.TelescopeHeld && game.Camera.Fov==70,"Power radial still opens and exits scope");
@@ -125,13 +126,60 @@ public partial class WeaponInputChecks : Node
         KeyEvent(game,Key.Tab);
         Check(!game.Camera.TelescopeHeld && game.SelectedWeapon==PlayerWeapon.MainGun,"Ship handover resets scope and weapon selection");
         game.Free();
+        CheckDroneInput();
+    }
+    private void CheckDroneInput()
+    {
+        var game=new ScaleTest { BattleMode=true,DevMode=false,LaunchControl="BB-01" }; AddChild(game);
+        game.SetProcess(false); game.SetPhysicsProcess(false);
+        foreach(var body in game.World.Ships) game.World.DetachBrain(body);
+        var ship=game.Controlled!.Body; var drones=ship.Ordnance.Drones;
+        var radial=game.GetNode<RadialMenu>("HudLayer/RadialMenu");
+        int battery=ship.Railguns.Sum(g=>g.Rounds),missiles=ship.Ordnance.Missiles;
+        var pips=Enum.GetValues<PowerChannel>().Select(ship.Power.Pips).ToArray();
+        void Point(float degrees) => game._UnhandledInput(new InputEventMouseMotion {
+            Position=radial.Center+new Vector2(Mathf.Sin(Mathf.DegToRad(degrees)),-Mathf.Cos(Mathf.DegToRad(degrees)))*100 });
+        Check(InputMap.ActionGetEvents(InputSetup.DroneMenu).Count==1,"Drone key registered once across scene restarts");
+        foreach(var (angle,sector) in new[]{(0f,DroneSector.Fore),(90f,DroneSector.Starboard),(180f,DroneSector.Aft),(270f,DroneSector.Port),(225f,DroneSector.AllAround)})
+        {
+            Mouse(game,MouseButton.Right); KeyEvent(game,Key.Key4);
+            Check(game.MenuOpen && !game.Camera.TelescopeHeld,"4 opens drone radial in a normal battle and clears telescope");
+            var before=drones.Sector; Point(angle); KeyEvent(game,Key.Key2); Mouse(game,MouseButton.Left);
+            Check(drones.Sector==before && game.SelectedWeapon==PlayerWeapon.MainGun,"Highlighting a sector waits for release and blocks weapon changes");
+            KeyEvent(game,Key.Key4,false); Mouse(game,MouseButton.Left,false);
+            Check(!game.MenuOpen && drones.Sector==sector,"Release applies exactly the highlighted defense direction");
+        }
+        Check(ship.Railguns.Sum(g=>g.Rounds)==battery && ship.Ordnance.Missiles==missiles && drones.Rounds.Sum()==640
+            && pips.SequenceEqual(Enum.GetValues<PowerChannel>().Select(ship.Power.Pips)),"Drone commands do not fire, consume ammo or alter power allocation");
+        KeyEvent(game,Key.Key4); KeyEvent(game,Key.Key4,false);
+        Check(drones.Sector==DroneSector.AllAround,"Center release cancels without changing command");
+        KeyEvent(game,Key.Key4); Point(0); KeyEvent(game,Key.Escape); KeyEvent(game,Key.Key4,false);
+        Check(!game.MenuOpen && !game.Paused && drones.Sector==DroneSector.AllAround,"Escape cancels the drone radial before pausing");
+        KeyEvent(game,Key.Key4); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.Key4,false);
+        Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Pause cancels a pending drone command");
+        KeyEvent(game,Key.Key4); Point(180); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.Key4,false);
+        Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Focus loss cannot leave an armed radial gesture");
+        KeyEvent(game,Key.Key4); Point(270); KeyEvent(game,Key.M); KeyEvent(game,Key.M); KeyEvent(game,Key.Key4,false);
+        Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Full map cancels a pending drone command");
+        drones.Assign(DroneSector.Fore); Tick(game,720);
+        game.Controlled.Sync(game.RenderOrigin,.5,1f/60);
+        var swarm=game.Controlled.Drones!;
+        Check(swarm.Multimesh.InstanceCount==8 && Enumerable.Range(0,8).All(i=>swarm.Multimesh.GetInstanceTransform(i).Origin
+            .IsEqualApprox(drones.InterpolatedPosition(i,.5f))),"Rendered drones match physical positions and interpolation after reassignment");
+        foreach(var module in ship.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor)) ship.Damage.Hurt(module,module.Health,game.World.Time,0,1);
+        KeyEvent(game,Key.Key4); Point(180); KeyEvent(game,Key.Key4,false); game.Controlled.Sync(game.RenderOrigin,1,1f/60);
+        Check(drones.Sector==DroneSector.Fore && swarm.Visible,"Disabled controls cannot change sectors or make deployed drones disappear");
+        game.Free();
     }
     private void CheckOptics(ScaleTest game)
     {
         var cam=game.Camera; cam.ResetAim(Quaternion.Identity); cam.ResetTelescope(); Follow(game);
         var aim=cam.AimForward; var position=cam.Position;
         Mouse(game,MouseButton.Right); Follow(game);
-        Check(cam.AimForward.IsEqualApprox(aim) && cam.Position.IsEqualApprox(position),"Optical zoom preserves aim and camera distance");
+        float nose=game.Controlled!.Body.Definition.HullSections.Min(s=>s.Center.Z-s.HalfSize.Z);
+        Check(cam.AimForward.IsEqualApprox(aim) && (game.Controlled.Body.Orientation.Inverse()*cam.Position).Z<nose
+            && !cam.Position.IsEqualApprox(position),
+            "Optical zoom preserves aim and moves a bridgeless ship's viewpoint forward");
         cam.AddMouse(new Vector2(100,0)); Follow(game,1);
         float scoped=cam.AimForward.AngleTo(aim);
         cam.ResetAim(Quaternion.Identity); cam.ResetTelescope(); cam.AddMouse(new Vector2(100,0)); Follow(game,1);
@@ -140,5 +188,45 @@ public partial class WeaponInputChecks : Node
         cam.ResetAim(Quaternion.Identity); cam.Zoom(.9f); Follow(game); position=cam.Position;
         Mouse(game,MouseButton.Right); Follow(game); Mouse(game,MouseButton.Right,false); Follow(game);
         Check(cam.Position.IsEqualApprox(position),"Telescope preserves wheel camera distance on release");
+        CheckBridgeOptics();
+    }
+
+    private void CheckBridgeOptics()
+    {
+        var cam=new ChaseCamera { Mode=CameraMode.MouseAim }; AddChild(cam);
+        foreach(var kind in new[]{HullKind.Battleship,HullKind.Escort})
+        {
+            var def=ShipDefinitions.For(kind);
+            var bridge=def.HullSections.Single(s=>s.Id=="bridge");
+            var position=new Vector3(12000,-2000,5000);
+            var rotation=new Quaternion(Vector3.Up,.8f)*new Quaternion(Vector3.Forward,.6f);
+            cam.ResetAim(rotation); cam.ResetTelescope(); cam.Follow(def,position,rotation,1f/60);
+            var chase=cam.Position; var aim=cam.AimForward;
+            cam.SetTelescope(true); cam.Follow(def,position,rotation,1f/60);
+            var local=rotation.Inverse()*(cam.Position-position);
+            Check(local.Z<bridge.Center.Z-bridge.HalfSize.Z && local.Y>bridge.Center.Y
+                && local.Y<bridge.Center.Y+bridge.HalfSize.Y,$"{kind}: first scoped frame is outside the bridge front at viewing height");
+            Check(cam.AimForward.IsEqualApprox(aim),$"{kind}: scope movement does not steer the ship or firing direction");
+            Check(!DamageRay.FirstHitAtPose(new ShipBody("OPTIC",def.Flight,Faction.Blue,def),
+                Vec3d.From(cam.Position),aim,def.Flight.Length,Vec3d.From(position),rotation,out _),
+                $"{kind}: forward scope sightline is clear of own hull and bridge");
+            cam.AddMouse(new Vector2(90,30)); cam.Follow(def,position,rotation,1f/60);
+            Vector3 orbited=rotation.Inverse()*(cam.Position-position);
+            Check(Math.Abs(orbited.Y-local.Y)<.003f && orbited.DistanceTo(local)>.1f,
+                $"{kind}: scope orbits at constant bridge height while aim changes");
+            cam.ResetAim(rotation); cam.SetTelescope(false); cam.Follow(def,position,rotation,1f/60);
+            Check(cam.Position.DistanceTo(chase)<.003f,$"{kind}: release restores the saved chase distance");
+            cam.SetTelescope(true);
+            foreach(float yaw in new[]{0f,45,90,135,179,-179,-135,-90,-45})
+            {
+                cam.ResetAim(rotation*new Quaternion(Vector3.Up,Mathf.DegToRad(yaw)));
+                cam.Follow(def,position,rotation,1);
+                Check(!DamageRay.FirstHitAtPose(new ShipBody("ORBIT",def.Flight,Faction.Blue,def),
+                    Vec3d.From(cam.Position),cam.AimForward,def.Flight.Length,Vec3d.From(position),rotation,out _),
+                    $"{kind}: bridge orbit remains unobstructed at {yaw} degrees, including astern and corners");
+            }
+            cam.ResetTelescope();
+        }
+        cam.Free();
     }
 }

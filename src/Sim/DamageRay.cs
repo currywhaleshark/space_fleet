@@ -16,7 +16,15 @@ public readonly record struct DamagePacket(float Energy, float PenetrationMm, fl
 }
 public readonly record struct ModuleHit(string Id, float Damage, bool Destroyed);
 public sealed record ShotResult(ShipBody? Target, Vec3d Point, float Distance, bool ShieldStopped, bool ArmorStopped,
-    IReadOnlyList<ModuleHit> Modules, string Summary);
+    IReadOnlyList<ModuleHit> Modules, string Summary)
+{
+    public Vec3d? ShieldPoint { get; init; }
+    public Vector3? LocalPoint { get; init; }
+    public Vector3 LocalNormal { get; init; }
+    public Vector3? ShieldLocalPoint { get; init; }
+    public float ShieldAbsorbed { get; init; }
+    public bool HullHit { get; init; } = true;
+}
 
 /// <summary>명중 뒤의 관통 경로. 외부 실드, 선체 장갑 경계, 내부 모듈, 출구 장갑 순서로 진행한다.</summary>
 public static class DamageRay
@@ -26,6 +34,18 @@ public static class DamageRay
 
     public static bool FirstHit(ShipBody ship, Vec3d origin, Vector3 direction, float range, out float distance)
         => FirstHitAtPose(ship, origin, direction, range, ship.Position, ship.Orientation, out distance);
+
+    public static float DefenseRadius(ShipBody ship) => ship.Damage.Shield>0
+        ? Mathf.Max(ship.Hull.BoundingRadius,ship.Definition.ShieldEnvelope.BoundingRadius) : ship.Hull.BoundingRadius;
+
+    public static bool FirstDefenseHitAtPose(ShipBody ship,Vec3d origin,Vector3 direction,float range,
+        Vec3d position,Quaternion orientation,out float distance)
+    {
+        bool hull=FirstHitAtPose(ship,origin,direction,range,position,orientation,out distance);
+        if(ship.Damage.Shield>0 && ship.Definition.ShieldEnvelope.Entry(orientation.Inverse()*(origin-position).ToVector3(),
+            orientation.Inverse()*direction,range,out float shield)) { distance=Mathf.Min(distance,shield); return true; }
+        return hull;
+    }
 
     /// <summary>
     /// 사격 전 미리보기: 처음 맞는 선체 구획의 입구 장갑만 본다(실드·모듈·상태 변화 없음).
@@ -57,6 +77,12 @@ public static class DamageRay
         Vector3 localOrigin = orientation.Inverse() * (origin - position).ToVector3();
         Vector3 localDirection = orientation.Inverse() * direction;
         distance = float.PositiveInfinity;
+        if(ship.Damage.Destroyed)
+        {
+            foreach(var box in ship.Hull.Boxes)
+                if(Box(localOrigin,localDirection,box.Center,box.HalfSize,range,out Span span)) distance=Mathf.Min(distance,Mathf.Max(0,span.Enter));
+            return float.IsFinite(distance);
+        }
         foreach (HullSection s in ship.Definition.HullSections)
             if (Box(localOrigin, localDirection, s.Center, s.HalfSize, range, out Span span))
                 distance = Mathf.Min(distance, Mathf.Max(0f, span.Enter));
@@ -76,10 +102,32 @@ public static class DamageRay
         Vector3 o = orientation.Inverse() * (origin - position).ToVector3();
         Vector3 d = orientation.Inverse() * direction;
         var spans = new List<(HullSection Section, Span Span)>();
+        if(ship.Damage.Destroyed)
+        {
+            if(!FirstHitAtPose(ship,origin,direction,packet.Range,position,orientation,out float wreckDistance))
+                return new ShotResult(null,origin,0,false,false,Array.Empty<ModuleHit>(),"빗나감") { HullHit=false };
+            return new ShotResult(ship,origin+Vec3d.From(direction)*wreckDistance,wreckDistance,false,true,Array.Empty<ModuleHit>(),"잔해 피격")
+                { LocalPoint=o+d*wreckDistance,LocalNormal=-d };
+        }
         foreach (HullSection s in ship.Definition.HullSections)
             if (Box(o, d, s.Center, s.HalfSize, packet.Range, out Span span)) spans.Add((s, span));
         spans.Sort((a, b) => a.Span.Enter.CompareTo(b.Span.Enter));
-        if (spans.Count == 0) return new ShotResult(null, origin, 0, false, false, Array.Empty<ModuleHit>(), "빗나감");
+        float energy=packet.Energy, penetration=packet.PenetrationMm, absorbed=0;
+        Vector3? shieldLocal=null;
+        Vec3d? shieldPoint=null;
+        float shieldDistance=0;
+        if(shieldApplies && ship.Damage.Shield>0 && ship.Definition.ShieldEnvelope.Entry(o,d,packet.Range,out shieldDistance))
+        {
+            shieldLocal=o+d*shieldDistance; shieldPoint=origin+Vec3d.From(direction)*shieldDistance;
+            energy=ship.Damage.AbsorbShield(energy,time); absorbed=packet.Energy-energy;
+            penetration*=energy/packet.Energy;
+            if(energy<=0 || spans.Count==0)
+                return new ShotResult(ship,shieldPoint.Value,shieldDistance,energy<=0,false,Array.Empty<ModuleHit>(),
+                    energy<=0?"실드가 차단":"실드 외곽 피격") {
+                    ShieldPoint=shieldPoint, ShieldLocalPoint=shieldLocal, ShieldAbsorbed=absorbed, HullHit=false,
+                    LocalPoint=shieldLocal, LocalNormal=ship.Definition.ShieldEnvelope.Normal(shieldLocal.Value) };
+        }
+        if (spans.Count == 0) return new ShotResult(null, origin, 0, false, false, Array.Empty<ModuleHit>(), "빗나감") { HullHit=false };
 
         // 겹치는 부품은 한 선체 구간으로 묶어 내부 경계에 외부 장갑을 중복 적용하지 않는다.
         var regions = new List<Region>();
@@ -98,15 +146,8 @@ public static class DamageRay
         var touched = new HashSet<string>();
         float first = Mathf.Max(0f, spans[0].Span.Enter);
         Vec3d point = origin + Vec3d.From(direction) * first;
-        float energy = packet.Energy, penetration = packet.PenetrationMm;
         bool armorStopped = false;
         string summary = "선체 관통";
-        if (shieldApplies && spans[0].Span.Enter >= 0f)
-        {
-            energy = ship.Damage.AbsorbShield(energy, time);
-            if (energy <= 0f) return new ShotResult(ship, point, first, true, false, hits, "실드가 차단");
-            penetration *= energy / packet.Energy;
-        }
         foreach (Region r in regions)
         {
             if (r.Entry.Enter >= 0 && !Armor(r.EntrySection, r.Entry.EnterNormal, entering: true)) break;
@@ -131,7 +172,9 @@ public static class DamageRay
         }
         Done:
         if (hits.Count > 0 && summary == "선체 관통") summary = $"{hits.Count}개 모듈 타격";
-        return new ShotResult(ship, point, first, false, armorStopped, hits, summary);
+        return new ShotResult(ship, point, first, false, armorStopped, hits, summary) {
+            ShieldPoint=shieldPoint, ShieldLocalPoint=shieldLocal, ShieldAbsorbed=absorbed,
+            LocalPoint=o+d*first, LocalNormal=spans[0].Span.EnterNormal };
 
         bool Armor(HullSection section, Vector3 normal, bool entering)
         {

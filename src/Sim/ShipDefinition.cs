@@ -47,6 +47,7 @@ public sealed class ShipDefinition
     public PointDefenseDefinition? PointDefense { get; init; }
     public DecoyDefinition? Decoys { get; init; }
     public CollisionHull Hull { get; private set; } = null!;
+    public ShieldEnvelope ShieldEnvelope { get; private set; } = null!;
 
     private static readonly JsonSerializerOptions Options = new()
     {
@@ -60,6 +61,7 @@ public sealed class ShipDefinition
             ?? throw new InvalidDataException("Empty ship definition");
         definition.Validate();
         definition.Hull = new CollisionHull(definition.HullSections.Select(s => new HullBox(s.Center, s.HalfSize)).ToArray());
+        definition.ShieldEnvelope = new ShieldEnvelope(definition.HullSections, definition.Flight.Length);
         return definition;
     }
 
@@ -157,21 +159,31 @@ public sealed class ShipDefinition
             Require(ms.Rounds > 0 && Positive(ms.ReloadSeconds) && ms.LaunchPoint.IsFinite() && float.IsFinite(ms.EjectSpeed) && ms.EjectSpeed >= 0
                 && Positive(ms.AccelG) && Positive(ms.BurnSeconds) && Positive(ms.MaxFlightSeconds) && Positive(ms.SeekerRangeMeters)
                 && Positive(ms.SeekerFovDegrees) && ms.SeekerFovDegrees <= 180 && Positive(ms.SeekerStrength) && Positive(ms.FuzeMeters)
-                && Positive(ms.HitPoints) && float.IsFinite(ms.LaunchHeatMj) && ms.LaunchHeatMj >= 0, "invalid missiles");
+                && Positive(ms.HitPoints) && float.IsFinite(ms.LaunchHeatMj) && ms.LaunchHeatMj >= 0
+                && Positive(ms.TurnRateDegrees) && ms.TurnRateDegrees<=180
+                && Positive(ms.MaxSteeringAngleDegrees) && ms.MaxSteeringAngleDegrees<=90
+                && float.IsFinite(ms.ThrustGimbalDegrees) && ms.ThrustGimbalDegrees>=0 && ms.ThrustGimbalDegrees<=45, "invalid missiles");
             ms.Packet.Validate();
         }
         if (PointDefense is PointDefenseDefinition pd)
             Require(pd.Mounts is { Length: > 0 } && pd.Mounts.All(v => v.IsFinite()) && Positive(pd.RangeMeters) && Positive(pd.ShotsPerSecond)
                 && pd.HitChance > 0 && pd.HitChance <= 1 && Positive(pd.DamagePerHit)
                 && (pd.Normals is null || pd.Normals.Length == pd.Mounts.Length && pd.Normals.All(n => n.IsFinite() && n.LengthSquared() > 1e-6f))
-                && Positive(pd.ArcDegrees) && pd.ArcDegrees <= 180, "invalid point defense");
+                && Positive(pd.ArcDegrees) && pd.ArcDegrees <= 180
+                && Positive(pd.YawDegrees) && pd.YawDegrees <= 180
+                && float.IsFinite(pd.MinElevation) && pd.MinElevation >= -90 && pd.MinElevation <= 0
+                && Positive(pd.MaxElevation) && pd.MaxElevation <= 90
+                && Positive(pd.YawRate) && Positive(pd.ElevationRate)
+                && Positive(pd.ToleranceDegrees) && pd.ToleranceDegrees <= 5, "invalid point defense");
         if (Decoys is DecoyDefinition dc)
             Require(dc.Count > 0 && dc.PerLaunch > 0 && Positive(dc.CooldownSeconds) && Positive(dc.SignatureFactor)
                 && Positive(dc.LifetimeSeconds) && float.IsFinite(dc.EjectSpeed) && dc.EjectSpeed >= 0, "invalid decoys");
         if (DefenseDrones is { } drones)
             Require(drones.Count > 0 && drones.Count <= 64 && Positive(drones.OrbitMeters) && Positive(drones.RangeMeters)
                 && Positive(drones.ShotsPerSecond) && Positive(drones.HitChance) && drones.HitChance <= 1
-                && Positive(drones.DamagePerHit) && drones.RoundsPerDrone > 0, "invalid defense drones");
+                && Positive(drones.DamagePerHit) && drones.RoundsPerDrone > 0 && Positive(drones.RepositionSpeed)
+                && Positive(drones.HitPoints) && Positive(drones.RadiusMeters) && Positive(drones.ShipEnergy)
+                && Positive(drones.ShipPenetrationMm) && Positive(drones.ShipModuleDamage), "invalid defense drones");
     }
 
     private static bool Contains(HullSection section, Vector3 center, Vector3 half) =>

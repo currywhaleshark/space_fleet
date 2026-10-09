@@ -15,6 +15,11 @@ config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 
 window/size/viewport_width=1600
 window/size/viewport_height=900
+window/size/viewport_width.movie=1920
+window/size/viewport_height.movie=1080
+window/size/window_width_override.movie=1280
+window/size/window_height_override.movie=720
+window/stretch/mode.movie="viewport"
 
 [dotnet]
 

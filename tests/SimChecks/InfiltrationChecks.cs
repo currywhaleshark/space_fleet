@@ -58,7 +58,8 @@ static class InfiltrationChecks
         int above = ShotsAt(new Vec3d(0, 2500, 0));
         int below = ShotsAt(new Vec3d(0, -2500, 200));
         int aftBelow = ShotsAt(new Vec3d(0, -1500, 2500));
-        Require(above > 50, $"Dorsal point defense must engage an interceptor above the battleship: {above} shots");
+        Require(above > 0 && above < 8 * 8 * 5,
+            $"Dorsal PD engages above the battleship with limited traverse/elevation coverage: {above} shots");
         Require(below == 0 && aftBelow == 0, $"The battleship's belly and lower stern must be blind spots: below {below}, aft-below {aftBelow}");
 
         var world = new SimWorld();

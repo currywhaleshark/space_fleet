@@ -17,6 +17,7 @@ public sealed partial class SimWorld
         if (hit.Target is not { } target) return;
         _impacts.Add(new ProjectileImpact(id, shooter, hit, time) {
             IncomingDirection = direction, Energy = energy, Weapon = weapon,
+            TargetVelocity=target.Velocity, TargetOrientation=target.Orientation,
             ShieldBroken = shieldBefore > 0 && target.Damage.Shield <= 0,
             TargetDestroyed = target.Damage.Destroyed });
         if (_impacts.Count > 64) _impacts.RemoveAt(0);
@@ -39,10 +40,10 @@ public sealed partial class SimWorld
         {
             Vector3 aim = aimPoint is Vec3d point ? (point - gun.MuzzlePosition).ToVector3() : direction;
             FireAttempt shot = FireRailgun(shooter, gun, aim);
-            if (shot.Fired) { if (count == 0) first = shot; count++; }
+            if (shot.Fired) { if (count == 0) first = shot; count += shot.Shots; }
             else if (count == 0 && (first.Failure is FireFailure.NoGun or FireFailure.NotReady || shot.Failure == FireFailure.Traversing)) first = shot;
         }
-        return count > 0 ? first with { Shots = count, Reason = $"주포 {count}문 발사" } : first;
+        return count > 0 ? first with { Shots = count, Reason = $"주포 {count}발 발사" } : first;
     }
 
     public FireAttempt FireRailgun(ShipBody shooter, RailgunState gun, Vector3 direction)
@@ -63,18 +64,24 @@ public sealed partial class SimWorld
         if (gun.Mount is not null) direction = gun.Direction;
         if (BarrelBlocked(shooter, gun, gun.Yaw, gun.Elevation))
             return new(false, "선체 가림", Failure: FireFailure.HullBlocked);
-        _shotSequence++;
-        var projectile = new RailProjectile
+        int rounds = gun.SalvoRounds;
+        RailProjectile? first = null;
+        for (int barrel = 0; barrel < rounds; barrel++)
         {
-            Id = _shotSequence, Shooter = shooter, Position = gun.MuzzlePosition, PrevPosition = gun.MuzzlePosition,
-            ModuleId = gun.Definition.ModuleId, Barrel = gun.Barrel,
-            Velocity = shooter.Velocity + direction * gun.Definition.MuzzleSpeed, Packet = gun.Definition.Packet,
-            Lifetime = gun.Definition.MaxRange / gun.Definition.MuzzleSpeed,
-        };
-        _projectiles.Add(projectile);
-        gun.Consume();
-        Log?.Fire(shooter, BattleWeapon.Railgun, Time);
-        return new(true, "레일건 발사", projectile, Shots: 1);
+            Vec3d muzzle = gun.BarrelPosition(barrel);
+            var projectile = new RailProjectile
+            {
+                Id = ++_shotSequence, Shooter = shooter, Position = muzzle, PrevPosition = muzzle,
+                ModuleId = gun.Definition.ModuleId, Barrel = barrel,
+                Velocity = shooter.Velocity + direction * gun.Definition.MuzzleSpeed, Packet = gun.Definition.Packet,
+                Lifetime = gun.Definition.MaxRange / gun.Definition.MuzzleSpeed,
+            };
+            _projectiles.Add(projectile);
+            first ??= projectile;
+            Log?.Fire(shooter, BattleWeapon.Railgun, Time);
+        }
+        gun.Consume(rounds);
+        return new(true, $"레일건 {rounds}발 발사", first, Shots: rounds);
     }
 
     /// <summary>
@@ -110,10 +117,17 @@ public sealed partial class SimWorld
 
     private static bool BarrelBlocked(ShipBody ship, RailgunState gun, float yaw, float pitch)
     {
+        for (int barrel = 0; barrel < gun.SalvoRounds; barrel++)
+            if (BarrelBlocked(ship, gun, yaw, pitch, barrel)) return true;
+        return false;
+    }
+
+    private static bool BarrelBlocked(ShipBody ship, RailgunState gun, float yaw, float pitch, int barrel)
+    {
         if (gun.Mount is not { } mount) return false; // fixed gun checked by RailLineLocal
         Vector3 direction = mount.AimBasis(yaw, pitch) * Vector3.Forward;
-        Vector3 muzzle = mount.Muzzle(yaw, pitch, gun.Barrel);
-        Vector3 breech = muzzle - direction * Mathf.Abs(mount.Muzzles[gun.Barrel].Z);
+        Vector3 muzzle = mount.Muzzle(yaw, pitch, barrel);
+        Vector3 breech = muzzle - direction * Mathf.Abs(mount.Muzzles[barrel].Z);
         if (DamageRay.FirstHitAtPose(ship, Vec3d.From(breech), direction, gun.Definition.MaxRange,
             Vec3d.Zero, Quaternion.Identity, out _)) return true;
         foreach (RailgunState other in ship.Railguns)
@@ -162,16 +176,22 @@ public sealed partial class SimWorld
                 double length = relativeTravel.Length();
                 if (length < 1e-8) continue;
                 double closest = Math.Clamp(-relativeStart.Dot(relativeTravel) / (length * length), 0, 1);
-                if ((relativeStart + relativeTravel * closest).Length() > ship.Hull.BoundingRadius) continue;
+                if ((relativeStart + relativeTravel * closest).Length() > DamageRay.DefenseRadius(ship)) continue;
                 Vector3 direction = (relativeTravel * (1 / length)).ToVector3();
                 Quaternion orientation = ship.PrevOrientation.Slerp(ship.Orientation, (float)(travelTime / dt * 0.5));
-                if (!DamageRay.FirstHitAtPose(ship, start, direction, (float)length, ship.PrevPosition, orientation, out float distance)) continue;
+                if (!DamageRay.FirstDefenseHitAtPose(ship, start, direction, (float)length, ship.PrevPosition, orientation, out float distance)) continue;
                 double fraction = distance / length;
                 if (fraction >= earliest) continue;
                 earliest = fraction; target = ship; hitDirection = direction; hitOrientation = orientation; targetTravel = movement;
             }
             p.Age += travelTime;
             p.Position = end;
+            if (FirstDroneHit(p.Shooter,start,end,travelTime/dt,earliest,out var carrier,out int droneIndex,out double droneFraction))
+            {
+                DamageDrone(p.Shooter,carrier!,droneIndex,p.Packet.Energy,time+travelTime*droneFraction);
+                _projectiles.RemoveAt(index);
+                continue;
+            }
             if (target is not null)
             {
                 // 상대 경로를 명중 시각의 선체 위치에 옮겨 같은 교차점에서 내부 관통을 계산한다.

@@ -4,18 +4,18 @@
   "railgun": {
     "moduleId": "gun-1", "muzzle": [0, 94, -410], "muzzleSpeed": 12000,
     "reloadSeconds": 3, "energy": 1400, "penetrationMm": 1800, "moduleDamage": 300,
-    "maxRange": 250000, "rounds": 360, "traverseDegrees": 120,
+    "maxRange": 250000, "rounds": 720, "traverseDegrees": 120,
     "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15, "shotHeatMj": 300,
     "mounts": [
       { "moduleId": "gun-1", "pivot": [0,88,-320], "trunnion": [0,6,0], "muzzles": [[-8.4,0,-90],[8.4,0,-90]], "ventral": false,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 120 },
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 },
       { "moduleId": "gun-2", "pivot": [0,88,160], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": false,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 120 },
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 },
       { "moduleId": "gun-3", "pivot": [0,-88,-120], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": true,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 120 }
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 }
     ]
   },
   "flight": {
@@ -45,14 +45,16 @@
   "sensors": { "strength": 1150, "signature": 100, "jammer": 2 },
   "missiles": { "rounds": 24, "reloadSeconds": 4, "launchPoint": [0, 90, 40], "ejectSpeed": 60, "accelG": 25, "burnSeconds": 80, "maxFlightSeconds": 180,
     "seekerRangeMeters": 20000, "seekerFovDegrees": 40, "seekerStrength": 4, "fuzeMeters": 40,
+    "turnRateDegrees": 90, "maxSteeringAngleDegrees": 90, "thrustGimbalDegrees": 10,
     "energy": 900, "penetrationMm": 1000, "moduleDamage": 260, "hitPoints": 16, "launchHeatMj": 20 },
   "pointDefense": { "mounts": [[66, 62, -260], [-66, 62, -260], [66, 62, -100], [-66, 62, -100], [66, 62, 60], [-66, 62, 60], [66, 62, 220], [-66, 62, 220]],
     "rangeMeters": 4500, "shotsPerSecond": 8, "hitChance": 0.08, "damagePerHit": 4,
     "normals": [[0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35], [0.55, 0.75, -0.35], [-0.55, 0.75, -0.35]],
-    "arcDegrees": 100 },
+    "arcDegrees": 100, "yawDegrees": 110, "minElevation": -5, "maxElevation": 85, "yawRate": 60, "elevationRate": 45, "toleranceDegrees": 1.5 },
   "decoys": { "count": 16, "perLaunch": 2, "cooldownSeconds": 4, "signatureFactor": 2.5, "lifetimeSeconds": 6, "ejectSpeed": 80 },
   "defenseDrones": { "count": 8, "orbitMeters": 900, "rangeMeters": 1800,
-    "shotsPerSecond": 3, "hitChance": 0.18, "damagePerHit": 4, "roundsPerDrone": 80 },
+    "shotsPerSecond": 3, "hitChance": 0.18, "damagePerHit": 4, "roundsPerDrone": 80, "repositionSpeed": 240,
+    "hitPoints": 8, "radiusMeters": 4, "shipEnergy": 10, "shipPenetrationMm": 30, "shipModuleDamage": 6 },
   "hullSections": [
     {
       "id": "hull",

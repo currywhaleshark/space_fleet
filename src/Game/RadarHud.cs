@@ -111,7 +111,7 @@ public partial class Hud
 public partial class ScaleTest
 {
     public TacticalRadar Radar { get; } = new();
-    private bool RadarPointerCaptured => !MenuOpen && !ShowHelp && !Camera.FreeLooking
+    private bool RadarPointerCaptured => !MenuOpen && !ShowHelp && !Camera.FreeLooking && !Camera.TelescopeHeld
         && Input.MouseMode == Input.MouseModeEnum.Visible && _hud.RadarContains(GetViewport().GetMousePosition());
 
     private bool HandleRadarInput(InputEvent e)
@@ -119,7 +119,7 @@ public partial class ScaleTest
         if (e.IsActionPressed(InputSetup.RadarNear)) Radar.Zoom(-1);
         else if (e.IsActionPressed(InputSetup.RadarFar)) Radar.Zoom(1);
         else if (e is InputEventMouseButton button && Input.MouseMode == Input.MouseModeEnum.Visible
-            && !ShowHelp && !Camera.FreeLooking && _hud.RadarContains(button.Position)
+            && !ShowHelp && !Camera.FreeLooking && !Camera.TelescopeHeld && _hud.RadarContains(button.Position)
             && button.ButtonIndex != MouseButton.Middle)
         {
             if (button.Pressed)

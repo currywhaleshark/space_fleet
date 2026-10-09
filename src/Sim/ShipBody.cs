@@ -69,7 +69,30 @@ public sealed class ShipBody
     public GunneryOrder? Gunnery { get; set; }
     /// <summary>소속 편대(없을 수 있다).</summary>
     public Squadron? Squadron { get; internal set; }
-    public CollisionHull Hull => Definition.Hull;
+    private WreckLayout? _wreck;
+    private CollisionHull? _wreckHull;
+    private double _wreckAt=double.NaN, _wreckHullTime=double.NaN;
+    private uint _wreckVersion;
+    public WreckLayout? Wreck
+    {
+        get
+        {
+            if(!Damage.Destroyed) { _wreck=null; _wreckHull=null; return null; }
+            if(_wreck is null || _wreckAt!=Damage.DestroyedAt || _wreckVersion!=Damage.ResetVersion)
+            { _wreck=new WreckLayout(Definition,Damage.Destruction,Damage.DestructionPoint); _wreckAt=Damage.DestroyedAt; _wreckVersion=Damage.ResetVersion; _wreckHullTime=double.NaN; }
+            return _wreck;
+        }
+    }
+    public float WreckAge => (float)System.Math.Max(0,SimTime-Damage.DestroyedAt-.12);
+    public CollisionHull Hull
+    {
+        get
+        {
+            if(Wreck is not {} wreck) return Definition.Hull;
+            if(_wreckHull is null || _wreckHullTime!=SimTime) { _wreckHull=wreck.Hull(WreckAge); _wreckHullTime=SimTime; }
+            return _wreckHull;
+        }
+    }
     /// <summary>이 함선이 진행한 시뮬레이션 시간(초). 월드에 처음부터 있던 함선은 SimWorld.Time과 같다.</summary>
     public double SimTime { get; private set; }
     public CollisionImpact? LastCollision { get; internal set; }

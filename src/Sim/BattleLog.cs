@@ -6,7 +6,7 @@ using System.Linq;
 namespace SpaceFleet.Sim;
 
 public enum BattlePhase { Approach, Missile, Gunnery, Sniping, Brawl }
-public enum BattleWeapon { Railgun, Missile, PointDefense, Antimatter }
+public enum BattleWeapon { Railgun, Missile, PointDefense, Antimatter, DefenseDrone }
 public enum BattleEventKind { ModuleDestroyed, Disabled, Destroyed, Collision }
 public sealed record BattleEvent(double Time, string Ship, Faction Victim, Faction? Attacker, BattleEventKind Kind, string? Module = null, string? OtherShip = null);
 public sealed record BattleInterval(double Start, double Duration, BattlePhase Phase);
@@ -23,6 +23,7 @@ public sealed class BattleShipLog
     public int Rails, RailHits, Missiles, MissileHits, ModulesDestroyed;
     public int Torpedoes, TorpedoHits;
     public float ShieldDamage, ModuleDamage;
+    public int DronesDestroyed;
     public int ArmorPenetrations;
 }
 

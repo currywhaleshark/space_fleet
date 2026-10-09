@@ -21,12 +21,20 @@ public partial class ShipView : Node3D
         public required PointDefenseMountState State;
         public required PointDefenseRig Rig;
         public required MeshInstance3D[] Flashes;
-        public float Yaw, Pitch;
     }
     private readonly List<DefenseVisual> _defense = new();
-    private double _defenseTime;
     private MeshInstance3D? _amGlow;
     private StandardMaterial3D? _amMaterial;
+    public DroneSwarm? Drones { get; private set; }
+    public ShieldView Shield { get; private set; } = null!;
+    public WreckView Wreck { get; private set; } = null!;
+    private Node3D _model=null!;
+    private VisualHullSurface? _surface;
+    public Vector3 ProjectFxPoint(Vector3 localPoint,Vector3 incoming)
+        => ProjectFxSurface(localPoint,incoming).Point;
+    public (Vector3 Point,Vector3 Normal) ProjectFxSurface(Vector3 localPoint,Vector3 incoming)
+        => (_surface??=new VisualHullSurface(this,_model)).Project(localPoint,incoming);
+    private readonly List<(StandardMaterial3D Material,float Energy)> _poweredLights=new();
     /// <summary>롤 축(Z)에서 가장 먼 노즐까지의 거리(m).</summary>
     private float _rollArm = 1f;
 
@@ -47,6 +55,25 @@ public partial class ShipView : Node3D
         foreach (RcsJet jet in model.RcsJets)
             view._rollArm = Mathf.Max(view._rollArm, new Vector2(jet.Position.X, jet.Position.Y).Length());
         view.AddChild(model.Root);
+        view._model=model.Root;
+        view.Shield=new ShieldView { Name="ShieldSkin" }; view.AddChild(view.Shield);
+        view.Wreck=new WreckView { Name="Wreck" }; view.AddChild(view.Wreck);
+        var powerMaterials=new Dictionary<StandardMaterial3D,StandardMaterial3D>();
+        foreach(var mesh in ImportedShipModels.Meshes(model.Root))
+        for(int surface=0;surface<mesh.Mesh.GetSurfaceCount();surface++)
+        {
+            if(mesh.GetActiveMaterial(surface) is not StandardMaterial3D { EmissionEnabled:true } original) continue;
+            if(!powerMaterials.TryGetValue(original,out var local)) {
+                local=(StandardMaterial3D)original.Duplicate(); powerMaterials.Add(original,local);
+                view._poweredLights.Add((local,original.EmissionEnergyMultiplier)); }
+            mesh.SetSurfaceOverrideMaterial(surface,local);
+        }
+        if (body.Definition.DefenseDrones is not null)
+        {
+            view.Drones=DroneSwarm.Create(body,view.Palette);
+            view.AddChild(view.Drones);
+            view.Drones.Sync(1);
+        }
         if (body.Definition.Antimatter is { } am)
         {
             view._amMaterial = new StandardMaterial3D { ShadingMode=BaseMaterial3D.ShadingModeEnum.Unshaded,
@@ -81,7 +108,6 @@ public partial class ShipView : Node3D
             }).ToArray();
             view._defense.Add(new DefenseVisual { State=body.Ordnance.PointDefense[rig.Index],Rig=rig,Flashes=flashes });
         }
-        view._defenseTime=body.SimTime;
         return view;
     }
 
@@ -105,7 +131,9 @@ public partial class ShipView : Node3D
         }
         SyncRcs(delta);
         SyncTurrets((float)alpha);
-        SyncPointDefense();
+        SyncPointDefense((float)alpha);
+        foreach(var (material,energy) in _poweredLights) material.EmissionEnergyMultiplier=Body.Damage.GenerationFraction>.001f?energy:0;
+        Drones?.Sync((float)alpha);
         if (_amGlow is not null)
         {
             var am=Body.Ordnance.Antimatter;
@@ -116,6 +144,9 @@ public partial class ShipView : Node3D
         }
     }
 
+    public void SyncCombat(SimWorld world,Camera3D camera)
+    { Shield.Sync(this,world); Wreck.Sync(this,_model,camera); }
+
     private void SyncTurrets(float alpha)
     {
         foreach (var (gun, rig, flashes) in _batteries)
@@ -125,27 +156,21 @@ public partial class ShipView : Node3D
             double age = Body.SimTime - gun.LastFiredAt;
             float kick = age >= 0 && age < .45 ? (float)(age < .05 ? age / .05 : (.45 - age) / .4) : 0;
             rig.Recoil.Position = Vector3.Back * kick * Body.Class.Length * .002f;
-            for (int i = 0; i < flashes.Length; i++) flashes[i].Visible = i == gun.LastBarrel && age >= 0 && age < .075;
+            for (int i = 0; i < flashes.Length; i++) {
+                float muzzleAge=CarbonCombatFx.MuzzleAge(Body.SimTime,gun.LastFiredAt,i,0,gun.LastSalvoRounds);
+                flashes[i].Visible = !Body.Damage.Destroyed && muzzleAge >= 0 && muzzleAge < .075;
+            }
         }
     }
 
-    private void SyncPointDefense()
+    private void SyncPointDefense(float alpha)
     {
-        float dt=(float)System.Math.Max(0,Body.SimTime-_defenseTime);
-        _defenseTime=Body.SimTime;
         foreach(var mount in _defense)
         {
             var rig=mount.Rig;
-            if(!Body.Damage.Destroyed && mount.State.LocalAim is Vector3 local)
-            {
-                Vector3 direction=rig.RestBasis.Inverse()*local;
-                float yaw=Mathf.Atan2(-direction.X,-direction.Z);
-                float pitch=Mathf.Atan2(direction.Y,new Vector2(direction.X,direction.Z).Length());
-                mount.Yaw+=Mathf.Clamp(Mathf.AngleDifference(mount.Yaw,yaw),-Mathf.DegToRad(540)*dt,Mathf.DegToRad(540)*dt);
-                mount.Pitch=Mathf.MoveToward(mount.Pitch,pitch,Mathf.DegToRad(360)*dt);
-                rig.Yaw.Basis=rig.RestBasis*new Basis(Vector3.Up,mount.Yaw);
-                rig.Elevation.Basis=new Basis(Vector3.Right,mount.Pitch);
-            }
+            var state=mount.State;
+            rig.Yaw.Basis=rig.RestBasis*new Basis(Vector3.Up,Mathf.Lerp(state.PreviousYaw,state.Yaw,alpha));
+            rig.Elevation.Basis=new Basis(Vector3.Right,Mathf.Lerp(state.PreviousElevation,state.Elevation,alpha));
             double age=Body.SimTime-mount.State.LastFiredAt;
             foreach(var flash in mount.Flashes) flash.Visible=!Body.Damage.Destroyed && age>=0 && age<.045;
         }

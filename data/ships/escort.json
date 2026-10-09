@@ -4,15 +4,15 @@
   "railgun": {
     "moduleId": "gun-1", "muzzle": [0, 32, -96], "muzzleSpeed": 8000,
     "reloadSeconds": 1.5, "energy": 600, "penetrationMm": 900, "moduleDamage": 180,
-    "maxRange": 150000, "rounds": 320, "traverseDegrees": 100,
+    "maxRange": 150000, "rounds": 640, "traverseDegrees": 100,
     "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 60,
     "mounts": [
       { "moduleId": "gun-1", "pivot": [0,26,-60], "trunnion": [0,6,0], "muzzles": [[-2.52,0,-36],[2.52,0,-36]], "ventral": false,
         "housingCenter": [0,4.95,-1.35], "housingHalfSize": [9,3.6,8.55],
-        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 160 },
+        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 320 },
       { "moduleId": "gun-2", "pivot": [0,-26,-30], "trunnion": [0,5.04,0], "muzzles": [[-2.52,0,-36],[2.52,0,-36]], "ventral": true,
         "housingCenter": [0,4.95,-1.35], "housingHalfSize": [9,3.6,8.55],
-        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 160 }
+        "yawDegrees": 165, "minElevation": -5, "maxElevation": 85, "yawRate": 48, "elevationRate": 36, "rounds": 320 }
     ]
   },
   "flight": {
@@ -42,10 +42,11 @@
   "sensors": { "strength": 800, "signature": 20, "jammer": 3 },
   "missiles": { "rounds": 16, "reloadSeconds": 3, "launchPoint": [0, 30, -20], "ejectSpeed": 50, "accelG": 30, "burnSeconds": 60, "maxFlightSeconds": 150,
     "seekerRangeMeters": 15000, "seekerFovDegrees": 40, "seekerStrength": 3, "fuzeMeters": 25,
+    "turnRateDegrees": 120, "maxSteeringAngleDegrees": 90, "thrustGimbalDegrees": 10,
     "energy": 500, "penetrationMm": 600, "moduleDamage": 160, "hitPoints": 12, "launchHeatMj": 8 },
   "pointDefense": { "mounts": [[18, 22, 60], [-18, 22, 60], [0, -20, 40], [0, 24, -40]],
     "rangeMeters": 4500, "shotsPerSecond": 12, "hitChance": 0.09, "damagePerHit": 4,
-    "normals": [[0.6, 0.8, 0], [-0.6, 0.8, 0], [0, -1, 0], [0, 0.8, -0.6]], "arcDegrees": 100 },
+    "normals": [[0.6, 0.8, 0], [-0.6, 0.8, 0], [0, -1, 0], [0, 0.8, -0.6]], "arcDegrees": 100, "yawDegrees": 110, "minElevation": -5, "maxElevation": 85, "yawRate": 90, "elevationRate": 60, "toleranceDegrees": 1.5 },
   "decoys": { "count": 10, "perLaunch": 2, "cooldownSeconds": 3, "signatureFactor": 2.5, "lifetimeSeconds": 5, "ejectSpeed": 60 },
   "hullSections": [
     {

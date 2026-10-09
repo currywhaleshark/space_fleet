@@ -80,8 +80,9 @@ public sealed partial class SimWorld
         if (!gun.Ready) { status = GunneryStatus.Reload; return false; }
         if (!worthIt) { status = GunneryStatus.Armor; return false; }
         Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
-        if (FriendlyInLine(ship, gun.MuzzlePosition, bore, (float)solution.Range))
-        { status = GunneryStatus.FriendlyLine; return false; }
+        for (int barrel = 0; barrel < gun.SalvoRounds; barrel++)
+            if (FriendlyInLine(ship, gun.BarrelPosition(barrel), bore, (float)solution.Range))
+            { status = GunneryStatus.FriendlyLine; return false; }
         FireAttempt attempt = FireRailgun(ship, gun, solution.Direction);
         status = attempt.Fired ? GunneryStatus.Firing : attempt.Failure switch
         {

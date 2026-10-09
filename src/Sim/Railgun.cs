@@ -32,15 +32,20 @@ public sealed class RailgunState
     public float Elevation { get; private set; }
     public float PreviousYaw { get; internal set; }
     public float PreviousElevation { get; internal set; }
-    public int Barrel { get; private set; }
-    public int LastBarrel { get; private set; }
+    public int BarrelCount => Mount?.Muzzles.Length ?? 1;
+    public int SalvoRounds => Math.Min(Rounds, BarrelCount);
+    public int LastSalvoRounds { get; private set; }
     public double LastFiredAt { get; private set; } = double.NegativeInfinity;
     public uint ShotCount { get; private set; }
     private Vector3? _aimDirection;
     private double _aimUntil;
     public Vector3 LocalDirection => Mount?.AimBasis(Yaw, Elevation) * Vector3.Forward ?? Vector3.Forward;
     public Vector3 Direction => _ship.Orientation * LocalDirection;
-    public Vector3 LocalMuzzle => Mount?.Muzzle(Yaw, Elevation, Barrel) ?? Definition.Muzzle;
+    // Fire control solves from the battery centre; projectiles leave individual physical muzzles.
+    public Vector3 LocalMuzzle => Mount is { } mount
+        ? (mount.Muzzle(Yaw, Elevation, 0) + mount.Muzzle(Yaw, Elevation, BarrelCount - 1)) * .5f : Definition.Muzzle;
+    public Vec3d BarrelPosition(int barrel) => _ship.Position
+        + Vec3d.From(_ship.Orientation * (Mount?.Muzzle(Yaw, Elevation, barrel) ?? Definition.Muzzle));
     public void Aim(Vector3 worldDirection)
     {
         if (!worldDirection.IsFinite() || worldDirection.LengthSquared() < 1e-8f) return;
@@ -61,7 +66,7 @@ public sealed class RailgunState
     public void Reset()
     {
         Rounds = Definition.Rounds; ReloadRemaining = 0; Yaw = Elevation = PreviousYaw = PreviousElevation = 0;
-        Barrel = LastBarrel = 0; LastFiredAt = double.NegativeInfinity; ShotCount = 0; _aimDirection = null;
+        LastSalvoRounds = 0; LastFiredAt = double.NegativeInfinity; ShotCount = 0; _aimDirection = null;
     }
     internal void Step(double dt)
     {
@@ -76,13 +81,13 @@ public sealed class RailgunState
         Yaw = Mathf.MoveToward(Yaw, yaw, Mathf.DegToRad(mount.YawRate) * (float)dt * drive);
         Elevation = Mathf.MoveToward(Elevation, pitch, Mathf.DegToRad(mount.ElevationRate) * (float)dt * drive);
     }
-    internal void Consume()
+    internal void Consume(int rounds)
     {
-        Rounds--;
+        Rounds -= rounds;
         ReloadRemaining = Definition.ReloadSeconds;
-        _ship.Power.AddHeat(Definition.ShotHeatMj);
-        LastBarrel = Barrel; Barrel = (Barrel + 1) % (Mount?.Muzzles.Length ?? 1);
-        LastFiredAt = _ship.SimTime; ShotCount++;
+        _ship.Power.AddHeat(Definition.ShotHeatMj * rounds);
+        LastSalvoRounds = rounds;
+        LastFiredAt = _ship.SimTime; ShotCount += (uint)rounds;
     }
 }
 
@@ -112,4 +117,6 @@ public sealed record ProjectileImpact(uint Id, ShipBody Shooter, ShotResult Hit,
     public bool ShieldBroken { get; init; }
     public bool TargetDestroyed { get; init; }
     public BattleWeapon Weapon { get; init; }
+    public Vector3 TargetVelocity { get; init; }
+    public Quaternion TargetOrientation { get; init; } = Quaternion.Identity;
 }

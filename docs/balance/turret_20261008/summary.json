@@ -1,0 +1,724 @@
+{
+  "summaries": {
+    "baseline": {
+      "battles": 40,
+      "wins": {
+        "Blue": 21,
+        "Red": 19
+      },
+      "positions": {
+        "normal": {
+          "Blue": 9,
+          "Red": 11
+        },
+        "mirror": {
+          "Blue": 12,
+          "Red": 8
+        }
+      },
+      "outcomeSeconds": {
+        "median": 734.675,
+        "mean": 764.8395250000001,
+        "min": 624.867,
+        "max": 1025.217,
+        "q25": 700.1705,
+        "q75": 821.41675
+      },
+      "in15to20Minutes": 3,
+      "rails": {
+        "fired": 25951,
+        "hit": 22155,
+        "hitPercent": 85.37243266155447
+      },
+      "missiles": {
+        "fired": 10687,
+        "hit": 6894,
+        "hitPercent": 64.50828108917376
+      },
+      "am": {
+        "fired": 237,
+        "hit": 127,
+        "hitPercent": 53.586497890295355
+      },
+      "amOutcomes": {
+        "Drone": 1,
+        "Expired": 7,
+        "Hit": 127,
+        "PointDefense": 96
+      },
+      "amFlightsPending": 6,
+      "battlesWithAmLaunch": 23,
+      "amFailures": 11,
+      "amJettisons": 10,
+      "meanFriendlyCollisions": 0.2,
+      "byClass": {
+        "Battleship": {
+          "count": 80,
+          "operationalPercent": 50,
+          "destroyedPercent": 8.75,
+          "disabledPercent": 41.25,
+          "meanModuleHealthPercent": 44.528749999999995,
+          "rails": {
+            "fired": 1703,
+            "hit": 1496,
+            "hitPercent": 87.84497944803289
+          },
+          "missiles": {
+            "fired": 1914,
+            "hit": 1198,
+            "hitPercent": 62.5914315569488
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 338.7125,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 11828.479374999999,
+          "meanModuleDamageReceived": 2145.1603124999992
+        },
+        "Escort": {
+          "count": 480,
+          "operationalPercent": 51.458333333333336,
+          "destroyedPercent": 5,
+          "disabledPercent": 43.541666666666664,
+          "meanModuleHealthPercent": 64.66041666666673,
+          "rails": {
+            "fired": 9230,
+            "hit": 6679,
+            "hitPercent": 72.36186348862405
+          },
+          "missiles": {
+            "fired": 7680,
+            "hit": 5461,
+            "hitPercent": 71.10677083333333
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 300.7708333333333,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 478.3507354166666,
+          "meanModuleDamageReceived": 594.4666999999998
+        },
+        "Interceptor": {
+          "count": 400,
+          "operationalPercent": 97.25,
+          "destroyedPercent": 2.75,
+          "disabledPercent": 0,
+          "meanModuleHealthPercent": 95.78200000000004,
+          "rails": {
+            "fired": 15018,
+            "hit": 13980,
+            "hitPercent": 93.08829404714342
+          },
+          "missiles": {
+            "fired": 1093,
+            "hit": 235,
+            "hitPercent": 21.50045745654163
+          },
+          "am": {
+            "fired": 237,
+            "hit": 127,
+            "hitPercent": 53.586497890295355
+          },
+          "meanRailAmmoLeft": 162.455,
+          "emptyGunsPercent": 0.25,
+          "amLaunchingShips": 150,
+          "amReadyButUnused": 230,
+          "meanShieldDamageReceived": 63.60822500000001,
+          "meanModuleDamageReceived": 13.561915
+        }
+      },
+      "phases": {
+        "Approach": {
+          "medianSeconds": 120,
+          "over60Seconds": 40
+        },
+        "Missile": {
+          "medianSeconds": 390,
+          "over60Seconds": 40
+        },
+        "Gunnery": {
+          "medianSeconds": 30,
+          "over60Seconds": 3
+        },
+        "Sniping": {
+          "medianSeconds": 120,
+          "over60Seconds": 39
+        },
+        "Brawl": {
+          "medianSeconds": 102.9,
+          "over60Seconds": 28
+        }
+      },
+      "blueScore": {
+        "fraction": 0.525,
+        "seedClusterBootstrap95": [
+          0.35,
+          0.7
+        ]
+      }
+    },
+    "guns_only": {
+      "battles": 40,
+      "wins": {
+        "Blue": 18,
+        "Red": 22
+      },
+      "positions": {
+        "normal": {
+          "Blue": 8,
+          "Red": 12
+        },
+        "mirror": {
+          "Blue": 10,
+          "Red": 10
+        }
+      },
+      "outcomeSeconds": {
+        "median": 776.5,
+        "mean": 805.511225,
+        "min": 629.717,
+        "max": 1225.817,
+        "q25": 691.2455,
+        "q75": 883.733
+      },
+      "in15to20Minutes": 8,
+      "rails": {
+        "fired": 40036,
+        "hit": 34033,
+        "hitPercent": 85.00599460485563
+      },
+      "missiles": {
+        "fired": 10698,
+        "hit": 7035,
+        "hitPercent": 65.75995513180034
+      },
+      "am": {
+        "fired": 257,
+        "hit": 137,
+        "hitPercent": 53.30739299610895
+      },
+      "amOutcomes": {
+        "Drone": 5,
+        "Expired": 3,
+        "Hit": 137,
+        "PointDefense": 111
+      },
+      "amFlightsPending": 1,
+      "battlesWithAmLaunch": 21,
+      "amFailures": 10,
+      "amJettisons": 9,
+      "meanFriendlyCollisions": 0.425,
+      "byClass": {
+        "Battleship": {
+          "count": 80,
+          "operationalPercent": 46.25,
+          "destroyedPercent": 12.5,
+          "disabledPercent": 41.25,
+          "meanModuleHealthPercent": 41.045,
+          "rails": {
+            "fired": 2466,
+            "hit": 2189,
+            "hitPercent": 88.76723438767235
+          },
+          "missiles": {
+            "fired": 1916,
+            "hit": 1216,
+            "hitPercent": 63.46555323590814
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 689.175,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 11818.4299125,
+          "meanModuleDamageReceived": 2221.1928125000004
+        },
+        "Escort": {
+          "count": 480,
+          "operationalPercent": 44.583333333333336,
+          "destroyedPercent": 4.583333333333333,
+          "disabledPercent": 50.833333333333336,
+          "meanModuleHealthPercent": 59.79687500000001,
+          "rails": {
+            "fired": 16332,
+            "hit": 11627,
+            "hitPercent": 71.19152583884399
+          },
+          "missiles": {
+            "fired": 7680,
+            "hit": 5431,
+            "hitPercent": 70.71614583333333
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 605.975,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 483.1405520833332,
+          "meanModuleDamageReceived": 697.9178020833334
+        },
+        "Interceptor": {
+          "count": 400,
+          "operationalPercent": 96.75,
+          "destroyedPercent": 2.75,
+          "disabledPercent": 0.5,
+          "meanModuleHealthPercent": 95.09224999999998,
+          "rails": {
+            "fired": 21238,
+            "hit": 20217,
+            "hitPercent": 95.19257933892081
+          },
+          "missiles": {
+            "fired": 1102,
+            "hit": 388,
+            "hitPercent": 35.208711433756804
+          },
+          "am": {
+            "fired": 257,
+            "hit": 137,
+            "hitPercent": 53.30739299610895
+          },
+          "meanRailAmmoLeft": 146.905,
+          "emptyGunsPercent": 4.25,
+          "amLaunchingShips": 146,
+          "amReadyButUnused": 238,
+          "meanShieldDamageReceived": 96.83775999999997,
+          "meanModuleDamageReceived": 19.83502750000001
+        }
+      },
+      "phases": {
+        "Approach": {
+          "medianSeconds": 120,
+          "over60Seconds": 40
+        },
+        "Missile": {
+          "medianSeconds": 390,
+          "over60Seconds": 40
+        },
+        "Gunnery": {
+          "medianSeconds": 30,
+          "over60Seconds": 4
+        },
+        "Sniping": {
+          "medianSeconds": 105.69149999999999,
+          "over60Seconds": 39
+        },
+        "Brawl": {
+          "medianSeconds": 76.9415,
+          "over60Seconds": 27
+        }
+      },
+      "blueScore": {
+        "fraction": 0.45,
+        "seedClusterBootstrap95": [
+          0.3,
+          0.6
+        ]
+      }
+    },
+    "pd_only": {
+      "battles": 40,
+      "wins": {
+        "Blue": 14,
+        "Draw": 1,
+        "Red": 25
+      },
+      "positions": {
+        "normal": {
+          "Blue": 9,
+          "Red": 11
+        },
+        "mirror": {
+          "Blue": 5,
+          "Draw": 1,
+          "Red": 14
+        }
+      },
+      "outcomeSeconds": {
+        "median": 790.3834999999999,
+        "mean": 822.7267000000002,
+        "min": 637.617,
+        "max": 1500,
+        "q25": 702.575,
+        "q75": 892.3795
+      },
+      "in15to20Minutes": 8,
+      "rails": {
+        "fired": 37171,
+        "hit": 33311,
+        "hitPercent": 89.61556051760782
+      },
+      "missiles": {
+        "fired": 10734,
+        "hit": 8298,
+        "hitPercent": 77.30575740637228
+      },
+      "am": {
+        "fired": 309,
+        "hit": 204,
+        "hitPercent": 66.01941747572816
+      },
+      "amOutcomes": {
+        "Expired": 16,
+        "Hit": 204,
+        "PointDefense": 78
+      },
+      "amFlightsPending": 11,
+      "battlesWithAmLaunch": 30,
+      "amFailures": 6,
+      "amJettisons": 3,
+      "meanFriendlyCollisions": 0.225,
+      "byClass": {
+        "Battleship": {
+          "count": 80,
+          "operationalPercent": 51.25,
+          "destroyedPercent": 7.5,
+          "disabledPercent": 41.25,
+          "meanModuleHealthPercent": 44.299999999999976,
+          "rails": {
+            "fired": 1610,
+            "hit": 1406,
+            "hitPercent": 87.32919254658385
+          },
+          "missiles": {
+            "fired": 1909,
+            "hit": 1363,
+            "hitPercent": 71.3986380303824
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 339.875,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 12390.405837499999,
+          "meanModuleDamageReceived": 2199.7275625
+        },
+        "Escort": {
+          "count": 480,
+          "operationalPercent": 43.541666666666664,
+          "destroyedPercent": 3.75,
+          "disabledPercent": 52.708333333333336,
+          "meanModuleHealthPercent": 60.342708333333334,
+          "rails": {
+            "fired": 10090,
+            "hit": 7540,
+            "hitPercent": 74.72745292368681
+          },
+          "missiles": {
+            "fired": 7679,
+            "hit": 6382,
+            "hitPercent": 83.10977991926032
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 298.9791666666667,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 492.1783624999999,
+          "meanModuleDamageReceived": 685.7944708333338
+        },
+        "Interceptor": {
+          "count": 400,
+          "operationalPercent": 98.25,
+          "destroyedPercent": 1.5,
+          "disabledPercent": 0.25,
+          "meanModuleHealthPercent": 96.69975000000008,
+          "rails": {
+            "fired": 25471,
+            "hit": 24365,
+            "hitPercent": 95.65780691767108
+          },
+          "missiles": {
+            "fired": 1146,
+            "hit": 553,
+            "hitPercent": 48.25479930191972
+          },
+          "am": {
+            "fired": 309,
+            "hit": 204,
+            "hitPercent": 66.01941747572816
+          },
+          "meanRailAmmoLeft": 136.3225,
+          "emptyGunsPercent": 9.25,
+          "amLaunchingShips": 184,
+          "amReadyButUnused": 206,
+          "meanShieldDamageReceived": 96.16262250000001,
+          "meanModuleDamageReceived": 13.953552500000002
+        }
+      },
+      "phases": {
+        "Approach": {
+          "medianSeconds": 120,
+          "over60Seconds": 40
+        },
+        "Missile": {
+          "medianSeconds": 390,
+          "over60Seconds": 40
+        },
+        "Gunnery": {
+          "medianSeconds": 30,
+          "over60Seconds": 5
+        },
+        "Sniping": {
+          "medianSeconds": 120,
+          "over60Seconds": 39
+        },
+        "Brawl": {
+          "medianSeconds": 119.9915,
+          "over60Seconds": 29
+        }
+      },
+      "blueScore": {
+        "fraction": 0.3625,
+        "seedClusterBootstrap95": [
+          0.225,
+          0.5125
+        ]
+      }
+    },
+    "current": {
+      "battles": 40,
+      "wins": {
+        "Blue": 18,
+        "Red": 22
+      },
+      "positions": {
+        "normal": {
+          "Blue": 8,
+          "Red": 12
+        },
+        "mirror": {
+          "Blue": 10,
+          "Red": 10
+        }
+      },
+      "outcomeSeconds": {
+        "median": 721.7665,
+        "mean": 758.44165,
+        "min": 613.867,
+        "max": 1030.783,
+        "q25": 691.94175,
+        "q75": 802.26225
+      },
+      "in15to20Minutes": 6,
+      "rails": {
+        "fired": 34928,
+        "hit": 29156,
+        "hitPercent": 83.47457627118644
+      },
+      "missiles": {
+        "fired": 10609,
+        "hit": 8312,
+        "hitPercent": 78.34857196719766
+      },
+      "am": {
+        "fired": 191,
+        "hit": 122,
+        "hitPercent": 63.87434554973822
+      },
+      "amOutcomes": {
+        "Expired": 17,
+        "Hit": 122,
+        "PointDefense": 49
+      },
+      "amFlightsPending": 3,
+      "battlesWithAmLaunch": 19,
+      "amFailures": 7,
+      "amJettisons": 4,
+      "meanFriendlyCollisions": 0.2,
+      "byClass": {
+        "Battleship": {
+          "count": 80,
+          "operationalPercent": 50,
+          "destroyedPercent": 13.75,
+          "disabledPercent": 36.25,
+          "meanModuleHealthPercent": 42.97875,
+          "rails": {
+            "fired": 2296,
+            "hit": 1841,
+            "hitPercent": 80.1829268292683
+          },
+          "missiles": {
+            "fired": 1914,
+            "hit": 1386,
+            "hitPercent": 72.41379310344827
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 691.3,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 11789.397512500003,
+          "meanModuleDamageReceived": 2117.4750000000004
+        },
+        "Escort": {
+          "count": 480,
+          "operationalPercent": 51.041666666666664,
+          "destroyedPercent": 4.583333333333333,
+          "disabledPercent": 44.375,
+          "meanModuleHealthPercent": 62.664166666666674,
+          "rails": {
+            "fired": 16714,
+            "hit": 12160,
+            "hitPercent": 72.75338039966495
+          },
+          "missiles": {
+            "fired": 7679,
+            "hit": 6456,
+            "hitPercent": 84.07344706341972
+          },
+          "am": {
+            "fired": 0,
+            "hit": 0,
+            "hitPercent": null
+          },
+          "meanRailAmmoLeft": 605.1791666666667,
+          "emptyGunsPercent": 0,
+          "amLaunchingShips": 0,
+          "amReadyButUnused": 0,
+          "meanShieldDamageReceived": 456.3216999999998,
+          "meanModuleDamageReceived": 646.837497916666
+        },
+        "Interceptor": {
+          "count": 400,
+          "operationalPercent": 98.25,
+          "destroyedPercent": 1.75,
+          "disabledPercent": 0,
+          "meanModuleHealthPercent": 97.59475000000002,
+          "rails": {
+            "fired": 15918,
+            "hit": 15155,
+            "hitPercent": 95.20668425681619
+          },
+          "missiles": {
+            "fired": 1016,
+            "hit": 470,
+            "hitPercent": 46.25984251968504
+          },
+          "am": {
+            "fired": 191,
+            "hit": 122,
+            "hitPercent": 63.87434554973822
+          },
+          "meanRailAmmoLeft": 160.205,
+          "emptyGunsPercent": 2.5,
+          "amLaunchingShips": 119,
+          "amReadyButUnused": 271,
+          "meanShieldDamageReceived": 40.1880125,
+          "meanModuleDamageReceived": 5.8242949999999984
+        }
+      },
+      "phases": {
+        "Approach": {
+          "medianSeconds": 120,
+          "over60Seconds": 40
+        },
+        "Missile": {
+          "medianSeconds": 375,
+          "over60Seconds": 40
+        },
+        "Gunnery": {
+          "medianSeconds": 30,
+          "over60Seconds": 6
+        },
+        "Sniping": {
+          "medianSeconds": 120,
+          "over60Seconds": 40
+        },
+        "Brawl": {
+          "medianSeconds": 63.3335,
+          "over60Seconds": 22
+        }
+      },
+      "blueScore": {
+        "fraction": 0.45,
+        "seedClusterBootstrap95": [
+          0.275,
+          0.625
+        ]
+      }
+    }
+  },
+  "paired": {
+    "baseline->guns_only": {
+      "meanOutcomeSecondsDelta": 40.6717,
+      "medianOutcomeSecondsDelta": 49.033000000000015,
+      "seedClusterBootstrap95": [
+        -7.324678125000015,
+        90.81911062499996
+      ],
+      "fasterBattles": 12,
+      "winnerChanged": 23
+    },
+    "baseline->pd_only": {
+      "meanOutcomeSecondsDelta": 57.88717499999998,
+      "medianOutcomeSecondsDelta": 55.133500000000026,
+      "seedClusterBootstrap95": [
+        5.997364999999998,
+        113.59749124999999
+      ],
+      "fasterBattles": 16,
+      "winnerChanged": 23
+    },
+    "baseline->current": {
+      "meanOutcomeSecondsDelta": -6.397875000000004,
+      "medianOutcomeSecondsDelta": -20.61700000000002,
+      "seedClusterBootstrap95": [
+        -47.601369375000004,
+        38.11554249999995
+      ],
+      "fasterBattles": 24,
+      "winnerChanged": 23
+    },
+    "guns_only->current": {
+      "meanOutcomeSecondsDelta": -47.069574999999986,
+      "medianOutcomeSecondsDelta": -28.583000000000027,
+      "seedClusterBootstrap95": [
+        -104.31667,
+        9.206255624999994
+      ],
+      "fasterBattles": 25,
+      "winnerChanged": 20
+    },
+    "pd_only->current": {
+      "meanOutcomeSecondsDelta": -64.28505,
+      "medianOutcomeSecondsDelta": -38.19150000000002,
+      "seedClusterBootstrap95": [
+        -132.44060687500001,
+        -5.110400000000006
+      ],
+      "fasterBattles": 23,
+      "winnerChanged": 20
+    }
+  }
+}

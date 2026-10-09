@@ -6,6 +6,21 @@ namespace SpaceFleet.Game;
 
 public partial class Hud
 {
+    private void DrawOffscreenExplosions(Vector2 screen)
+    {
+        foreach(var ship in Game.World.Ships)
+        {
+            double age=Game.World.Time-ship.Damage.DestroyedAt;
+            if(!ship.Damage.Destroyed || age<0 || age>1.2) continue;
+            Vector3 point=(ship.Position-Game.RenderOrigin).ToVector3();
+            if(!Game.Camera.IsPositionBehind(point) && new Rect2(Vector2.Zero,screen).HasPoint(Game.Camera.UnprojectPosition(point))) continue;
+            Vector2 d=EdgeDirection(Game.Camera,(point-Game.Camera.Position).Normalized());
+            Vector2 at=EdgePoint(d,screen,130);
+            Color color=new(1,.8f,.5f,(float)(1-age/1.2));
+            DrawDiamond(at,8,color); DrawLine(at-d*5,at+d*14,color,2);
+            CenteredLabel(at-d*30+new Vector2(0,5),"섬광",11,color);
+        }
+    }
     private static Color FeedbackColor(HitKind kind) => kind switch
     { HitKind.Shield => Friendly, HitKind.Armor => Motion, HitKind.Penetration => Hostile, _ => new Color(1, .23f, .16f) };
 

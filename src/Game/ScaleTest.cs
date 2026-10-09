@@ -70,6 +70,7 @@ public partial class ScaleTest : Node3D
         _audio.SetPaused(Paused);
 
         Camera = new ChaseCamera { Name = "Camera" };
+        Camera.TelescopeChanged += OnTelescopeChanged;
         AddChild(Camera);
         Camera.MakeCurrent();
         Feedback.Received += hit => Camera.AddImpact(hit.SourceDirection, hit.Strength, hit.Target.Class.Kind);
@@ -112,8 +113,6 @@ public partial class ScaleTest : Node3D
             _worldRoot.AddChild(view);
             Views.Add(view);
             if (body.Faction == Faction.Blue) _playable.Add(view);
-            if (body.Definition.DefenseDrones is not null)
-                view.AddChild(DroneSwarm.Create(body, view.Palette));
         }
     }
     private void BuildEnvironment()
@@ -187,15 +186,18 @@ public partial class ScaleTest : Node3D
         if (_mapReleaseGuard && e is InputEventMouseButton or InputEventMouseMotion)
         { GetViewport().SetInputAsHandled(); return; }
         if (HandleRadialInput(e)) return;
+        if (Camera.TelescopeHeld && e.IsActionPressed(InputSetup.ReleaseMouse))
+        { Camera.ResetTelescope(); Input.MouseMode=Input.MouseModeEnum.Visible; _fireReleaseGuard=true; GetViewport().SetInputAsHandled(); return; }
         if (HandleBattleInput(e)) return;
         if (HandleRadarInput(e)) return;
         if (HandleWeaponMouse(e)) return;
         switch (e)
         {
-            case InputEventMouseMotion motion when (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
+            case InputEventMouseMotion motion when Camera.TelescopeHeld || (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
                 Camera.AddMouse(motion.Relative);
                 return;
             case InputEventMouseButton button when button.ButtonIndex == MouseButton.Middle && Scheme == ControlScheme.Helm:
+                if (Camera.TelescopeHeld) return;
                 Camera.SetFreeLook(button.Pressed);
                 return;
             case InputEventMouseButton { Pressed: true } button when button.ButtonIndex != MouseButton.Right:
@@ -221,7 +223,7 @@ public partial class ScaleTest : Node3D
         else if (e.IsActionPressed(InputSetup.ReleaseMouse) && Scheme == ControlScheme.Pilot)
         { Input.MouseMode = Input.MouseModeEnum.Visible; Camera.ResetTelescope(); }
         else if (e.IsActionPressed(InputSetup.InspectTarget))
-            NextInspectTarget();
+        { if (Camera.TelescopeHeld) SelectScopeTarget(); else NextInspectTarget(); }
         else if (e.IsActionPressed(InputSetup.TestFire))
             FireTest(RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward);
         else if (e.IsActionPressed(InputSetup.ToggleHelp))
@@ -336,15 +338,17 @@ public partial class ScaleTest : Node3D
 
         foreach (ShipView view in Views)
             view.Sync(RenderOrigin, alpha, (float)delta);
-        _ballistics.Sync(World, RenderOrigin, alpha);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
 
         float feedbackDelta = Paused ? 0 : (float)delta;
         Feedback.Advance(feedbackDelta);
         Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
-        Camera.Follow(controlled.Body.Class, controlled.Position,
+        Camera.Follow(controlled.Body.Definition, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
-        _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position);
+        _audio.SyncListener(RenderOrigin + Vec3d.From(Camera.Position), Camera.GlobalBasis);
+        _ballistics.Sync(World,RenderOrigin,alpha,Camera,Views);
+        foreach(var view in Views) view.SyncCombat(World,Camera);
+        _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position,Camera);
         _dust.Sync(RenderOrigin + Vec3d.From(Camera.Position), Camera.Position, controlled.Body.Velocity,
             controlled.Body.Class.CameraDistance * DustBoxPerCameraDistance);
     }

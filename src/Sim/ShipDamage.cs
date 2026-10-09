@@ -16,6 +16,7 @@ public sealed class ModuleState
     public double LastHitTime { get; internal set; } = double.NegativeInfinity;
 }
 public readonly record struct DamageReport(double Time, string Message);
+public enum DestructionKind { None, Structural, Magazine, Reactor, Antimatter, Collision }
 
 /// <summary>실드·모듈과 전력 계통의 상태. 수치는 프로토타입용 게임 단위이며 노드에 의존하지 않는다.</summary>
 public sealed class ShipDamage
@@ -66,6 +67,10 @@ public sealed class ShipDamage
     /// <summary>탄약고 평균 상태(전력 무관). 미사일 발사 가능 여부에 쓴다.</summary>
     public float MagazineFraction { get; private set; }
     public bool Destroyed => _catastrophic || _allDestroyed;
+    public DestructionKind Destruction { get; private set; }
+    public Vector3 DestructionPoint { get; private set; }
+    public double DestroyedAt { get; private set; } = double.NegativeInfinity;
+    public uint ResetVersion { get; private set; }
     /// <summary>
     /// 무력화: 격침은 아니지만 발전이 없거나 추진·자세 제어를 모두 잃어 스스로 움직일 수 없다. 관성으로 떠다닌다.
     /// </summary>
@@ -98,6 +103,7 @@ public sealed class ShipDamage
 
     public void Reset()
     {
+        ResetVersion++;
         foreach (ModuleState module in Modules)
         {
             module.Health = module.Definition.HitPoints;
@@ -105,6 +111,7 @@ public sealed class ShipDamage
         }
         LastShieldHitTime = double.NegativeInfinity;
         _catastrophic = false;
+        Destruction=DestructionKind.None; DestructionPoint=Vector3.Zero; DestroyedAt=double.NegativeInfinity;
         _sinceHit = 0;
         _reports.Clear();
         Recompute();
@@ -154,6 +161,8 @@ public sealed class ShipDamage
                 && Roll(_seed ^ Hash(module.Definition.Id) ^ shotSequence) < module.Definition.CriticalChance)
             {
                 _catastrophic = true;
+                Destruction=module.Definition.Kind==ModuleKind.Magazine?DestructionKind.Magazine:DestructionKind.Reactor;
+                DestructionPoint=module.Definition.Center; DestroyedAt=time;
                 foreach (ModuleState state in Modules) state.Health = 0;
                 Shield = 0;
                 Report(time, module.Definition.Kind == ModuleKind.Magazine ? "탄약고 유폭 · 함선 격침" : "반응로 폭주 · 함선 격침");
@@ -171,6 +180,9 @@ public sealed class ShipDamage
     {
         if (Destroyed) return;
         _catastrophic = true;
+        Destruction=DestructionKind.Antimatter;
+        DestructionPoint=Modules.FirstOrDefault(m=>m.Definition.Kind==ModuleKind.AntimatterContainment)?.Definition.Center??Vector3.Zero;
+        DestroyedAt=time;
         foreach (ModuleState module in Modules) { module.Health = 0; module.LastHitTime = time; }
         Shield = 0; Report(time, reason); Recompute();
     }
@@ -181,6 +193,7 @@ public sealed class ShipDamage
         if (Destroyed) return;
         _sinceHit = 0;
         _catastrophic = true;
+        Destruction=DestructionKind.Collision; DestructionPoint=Vector3.Zero; DestroyedAt=time;
         foreach (ModuleState state in Modules)
         {
             state.Health = 0;
@@ -208,6 +221,8 @@ public sealed class ShipDamage
     private void RecomputeSystems()
     {
         _allDestroyed = Modules.All(m => m.Destroyed);
+        if(_allDestroyed && Destruction==DestructionKind.None)
+        { Destruction=DestructionKind.Structural; DestroyedAt=Modules.Max(m=>m.LastHitTime); }
         _portPower = PowerFor(PowerGrid.Port);
         _starboardPower = PowerFor(PowerGrid.Starboard);
         GenerationFraction = Generation();

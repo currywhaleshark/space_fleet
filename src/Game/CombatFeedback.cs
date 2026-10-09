@@ -124,6 +124,7 @@ public sealed class CombatFeedback
         ShipBody target = hit.Target!;
         ModuleHit? destroyed = hit.Modules.Where(m => m.Destroyed).Select(m => (ModuleHit?)m).FirstOrDefault();
         HitKind kind = impact.TargetDestroyed || destroyed is not null ? HitKind.Critical
+            : !hit.HullHit && hit.ShieldAbsorbed>0 ? HitKind.Shield
             : hit.Modules.Count > 0 || (!hit.ShieldStopped && !hit.ArmorStopped) ? HitKind.Penetration
             : hit.ShieldStopped ? HitKind.Shield : HitKind.Armor;
         string label = impact.TargetDestroyed ? "격침" : destroyed is { } module

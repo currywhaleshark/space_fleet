@@ -21,10 +21,13 @@ public partial class Hud
         RailgunState? weapon = controlled.Body.Railgun;
         Color cross = Game.SelectedWeapon == PlayerWeapon.MainGun && Game.CorrectingAim ? Lead : Game.FireAssist ? Text : Motion;
 
+        if (!Game.Camera.TelescopeHeld)
+        {
         DrawLine(c + new Vector2(-14, 0), c + new Vector2(-5, 0), cross, 1.5f);
         DrawLine(c + new Vector2(5, 0), c + new Vector2(14, 0), cross, 1.5f);
         DrawLine(c + new Vector2(0, -14), c + new Vector2(0, -5), cross, 1.5f);
         DrawLine(c + new Vector2(0, 5), c + new Vector2(0, 14), cross, 1.5f);
+        }
         if (weapon is not null && Game.SelectedWeapon == PlayerWeapon.MainGun)
         {
         // 왼쪽 호: 남은 탄약(아래에서 위로).

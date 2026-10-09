@@ -72,6 +72,8 @@ public partial class Hud : Control
         DrawAimPart(cam, controlled);
         DrawMissileMarkers(cam, controlled, size);
         DrawOffscreenShips(cam, controlled, size);
+        DrawOffscreenExplosions(size);
+        if (Game.Camera.TelescopeHeld) DrawTelescope(controlled,size);
         if (Game.Scheme == ControlScheme.Pilot)
         {
             DrawCrosshair(cam, controlled, size);
@@ -84,6 +86,7 @@ public partial class Hud : Control
         DrawOwnSystems(controlled, size);
         DrawSquadrons(controlled, size);
         DrawPowerPanel(controlled, size);
+        DrawDrones(cam, controlled, size);
         DrawTargetPanel(size);
         DrawShotFeedback(cam);
         DrawIncomingFeedback(size);
@@ -411,9 +414,11 @@ public partial class Hud : Control
             Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제"
                 : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 좌클릭 선택/사격",
             "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
+            "F 전력 · B 사격 교리(조함) · N 내 편대 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
             "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
+            "망원 · 마우스 조준 · R 중앙 표적 선택 · 요격함 기수 연동 / 대형함 독립 조준",
             "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
+            "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
             "Z 비행보조 · V 항공식/우주식 · F10 효과음 · 일시정지에서 음량 조절",
             "개발용 · T 사격보조/교리 순환",
             "G 집중공격 · H 호위 · J 위치 유지 · [ ] 배속 ×1/×4/×16",
@@ -424,9 +429,11 @@ public partial class Hud : Control
             "W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · 휠 줌",
             Game.Scheme==ControlScheme.Pilot?"마우스 비행 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제":"A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 주포 선택 시 좌클릭 표적/부위",
             "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 내 편대 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
+            "F 전력 · B 사격 교리(조함) · N 내 편대 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
             "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
+            "망원 · 마우스 조준 · R 중앙 표적 선택 · 요격함 기수 연동 / 대형함 독립 조준",
             "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
+            "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
             "Z 비행보조 · V 항공식/우주식 · [ ] 배속 ×1/×2/×4",
             "Esc 커서 해제 후 일시정지/음량 · F10 효과음 · 함선 상실 시 자동 인계 · F1 닫기",
         };

@@ -69,14 +69,17 @@ static class BattleChecks
             Require(fired, "Phase fixture weapon must fire");
             Step(world, 30);
             Require(world.Log.Intervals[0].Phase == expected, $"Phase classification {expected}");
-            Require(weapon == BattleWeapon.Missile ? world.Log.Side(Faction.Blue).Missiles == 1 : world.Log.Side(Faction.Blue).Rails == 1, "Direct weapon log must count once");
+            Require(weapon == BattleWeapon.Missile ? world.Log.Side(Faction.Blue).Missiles == 1 : world.Log.Side(Faction.Blue).Rails == 2,
+                "Direct weapon log counts every physical round once, including both twin barrels");
         }
         var scene = Battle();
         foreach (var brain in scene.Brains.Values) brain.Enabled = false;
+        Require(scene.FireRailgun(scene.Ships[0], scene.Ships[0].Forward).Shots == 2,
+            "Mixed-phase fixture includes a real twin rail volley");
         scene.Ships[0].Damage.AbsorbShield(10_000, 0);
         foreach (var module in scene.Ships[0].Damage.Modules.Take(2)) scene.Ships[0].Damage.Hurt(module, module.Health, 1, 0, 1);
         Step(scene, 30);
-        Require(scene.Log!.Intervals[0].Phase == BattlePhase.Sniping, "Two unshielded module kills must classify as sniping");
+        Require(scene.Log!.Intervals[0].Phase == BattlePhase.Sniping, "Unshielded module kills take phase priority over simultaneous rail fire");
         Require(scene.Log.Events.Count(e => e.Kind == BattleEventKind.ModuleDestroyed) >= 2, "Module events must be recorded");
     }
     private static void CheckDeterminism()
@@ -110,15 +113,20 @@ static class BattleChecks
         }
         world.Log!.Finish();
         Require(world.Log.Side(Faction.Blue).RailHit is not null || world.Log.Side(Faction.Red).RailHit is not null, "Full battle must engage");
-        foreach (BattlePhase expected in new[] { BattlePhase.Missile, BattlePhase.Gunnery, BattlePhase.Sniping, BattlePhase.Brawl })
+        // Twin volleys can turn every gunfire interval into the higher-priority subsystem-damage phase.
+        Require(world.Log.PhaseSeconds(BattlePhase.Gunnery) + world.Log.PhaseSeconds(BattlePhase.Sniping) > 0,
+            "Full battle must record gunfire, including intervals classified as subsystem strikes");
+        foreach (BattlePhase expected in new[] { BattlePhase.Missile, BattlePhase.Sniping, BattlePhase.Brawl })
             Require(world.Log.PhaseSeconds(expected) > 0, $"Full battle phase must appear: {expected}");
         Require(world.Rules!.Outcome is not null, "Battle must have an outcome by time limit");
         Console.WriteLine($"Canonical battle: {world.Log.Summary()}");
         Console.WriteLine($"  destroyed/disabled {world.Ships.Count(s => s.Damage.Destroyed || s.Damage.Disabled)}/24");
         var outcome=world.Rules.Outcome;double duration=world.Log.Intervals.Sum(i=>i.Duration);
+        long outcomeTick=world.Tick;
         int intervals=world.Log.Intervals.Count, strength=world.Log.Strength.Count;
         Step(world,300);
-        Require(world.Rules.Outcome==outcome&&world.Time>=outcome!.Time+300,"Battle continues for five minutes with latched outcome");
+        // Tick/60 and outcome.Time+300 can differ by one double ULP at non-integer outcomes.
+        Require(world.Rules.Outcome==outcome&&world.Tick==outcomeTick+(long)(300*SimWorld.TickRate),"Battle continues for five minutes with latched outcome");
         Require(world.Log.Intervals.Count==intervals&&world.Log.Intervals.Sum(i=>i.Duration)==duration&&world.Log.Strength.Count==strength,"Result history stays bounded and frozen");
         Require(world.Log.Events.Count<=BattleLog.EventCapacity,"Battle event cap after five minutes");
         Require(world.Impacts.Count<=64&&world.Impacts.All(e=>world.Time-e.Time<=3.001),"Impact list prunes old render events");

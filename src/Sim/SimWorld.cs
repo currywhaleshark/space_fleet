@@ -45,7 +45,7 @@ public sealed partial class SimWorld
         foreach (ShipBody ship in _ships)
         {
             if (ship == shooter) continue;
-            if (DamageRay.FirstHit(ship, origin, direction, packet.Range, out float distance) && distance < nearest)
+            if (DamageRay.FirstDefenseHitAtPose(ship, origin, direction, packet.Range,ship.Position,ship.Orientation,out float distance) && distance < nearest)
             { target = ship; nearest = distance; }
         }
         _shotSequence++;
@@ -56,11 +56,16 @@ public sealed partial class SimWorld
     public void Step()
     {
         foreach (ShipBody ship in _ships)
+        {
             foreach (RailgunState gun in ship.Railguns) { gun.PreviousYaw = gun.Yaw; gun.PreviousElevation = gun.Elevation; }
+            foreach (var mount in ship.Ordnance.PointDefense) { mount.PreviousYaw = mount.Yaw; mount.PreviousElevation = mount.Elevation; }
+            ship.Ordnance.Drones.CapturePrevious();
+        }
         StepAI();
         StepGunnery();
         _previous.Clear();
         foreach (RailProjectile projectile in _projectiles) projectile.PrevPosition = projectile.Position;
+        foreach (Missile missile in _missiles) missile.PreviousNoseDirection = missile.NoseDirection;
         foreach (ShipBody ship in _ships)
             _previous.Add((ship.Position, ship.Orientation));
         double dt = TickDelta / CollisionSubsteps;

@@ -122,6 +122,51 @@ def rig_point_defense(collection, definition):
             empty(f'pd_muzzle_{i}_{barrel}', g((side*size*.36, 0, -size*2.85)), pitch)
     bpy.context.view_layer.update()
 
+def fit_interceptor_dorsal_pd(collection, definition):
+    """Add the aft dorsal auxiliary in place; keep every existing authored part."""
+    if definition['id'] != 'interceptor':
+        return
+    mounts = definition['pointDefense']['mounts']
+    if len(mounts) < 2:
+        return
+    bpy.context.view_layer.update()
+    if not any(o.name.startswith('PD 1 ') for o in collection.all_objects):
+        parts = [o for o in collection.all_objects if o.type == 'MESH' and o.name.startswith('PD 0 ')]
+        if not parts:
+            raise ValueError('Missing ventral PD geometry to copy')
+        # Roll around the longitudinal axis: preserve winding and turn the inverted deck upright.
+        transform = Matrix.Translation(g(mounts[1])) @ Matrix.Rotation(math.pi, 4, 'Y') @ Matrix.Translation(-g(mounts[0]))
+        for part in parts:
+            world = transform @ part.matrix_world
+            copy = part.copy()
+            copy.data = part.data.copy()
+            copy.name = part.name.replace('PD 0 ', 'PD 1 ', 1)
+            copy.parent = None
+            copy.matrix_parent_inverse = Matrix.Identity(4)
+            collection.objects.link(copy)
+            copy.matrix_world = world
+    if not collection.all_objects.get('socket_point_defense_1'):
+        socket = bpy.data.objects.new('socket_point_defense_1', None)
+        collection.objects.link(socket)
+        socket.location = g(mounts[1])
+        socket.empty_display_size = .55
+        socket.hide_set(True)
+    if not collection.all_objects.get('Dorsal auxiliary foundation'):
+        # The collision deck is at Y=1.6; bridge the small gap to the beveled visual hull.
+        x, y, z = mounts[1]
+        bpy.ops.mesh.primitive_cube_add(size=1, location=g((x, y-.15, z)))
+        support = bpy.context.object
+        support.name = 'Dorsal auxiliary foundation'
+        support.dimensions = (1.2, 1.4, .4)
+        bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
+        for coll in list(support.users_collection): coll.objects.unlink(support)
+        collection.objects.link(support)
+        support.data.materials.append(next(m for m in bpy.data.materials if m.name.startswith('Armor - raised')))
+        bevel = support.modifiers.new('Armored edge bevel', 'BEVEL')
+        bevel.width = .06
+        bevel.segments = 2
+    rig_point_defense(collection, definition)
+
 def fit_antimatter(collection, definition):
     am = definition.get('antimatter')
     if not am or collection.all_objects.get('socket_antimatter_launch'):

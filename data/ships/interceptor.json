@@ -34,6 +34,7 @@
   "sensors": { "strength": 60, "signature": 3, "jammer": 1 },
   "missiles": { "rounds": 4, "reloadSeconds": 1.5, "launchPoint": [0, -1.8, -2], "ejectSpeed": 15, "accelG": 40, "burnSeconds": 25, "maxFlightSeconds": 60,
     "seekerRangeMeters": 8000, "seekerFovDegrees": 50, "seekerStrength": 2, "fuzeMeters": 10,
+    "turnRateDegrees": 160, "maxSteeringAngleDegrees": 90, "thrustGimbalDegrees": 10,
     "energy": 250, "penetrationMm": 300, "moduleDamage": 110, "hitPoints": 6, "launchHeatMj": 2 },
   "antimatter": {
     "moduleId": "am-containment", "rounds": 2, "armingSeconds": 2.5,
@@ -45,9 +46,9 @@
       "seekerRangeMeters": 3500, "seekerFovDegrees": 35, "seekerStrength": 0.3, "fuzeMeters": 1,
       "energy": 1100, "penetrationMm": 2400, "moduleDamage": 1200, "hitPoints": 12, "launchHeatMj": 35 }
   },
-  "pointDefense": { "mounts": [[0, -1.6, 5]],
+  "pointDefense": { "mounts": [[0, -1.6, 5], [0, 1.6, 10]],
     "rangeMeters": 1200, "shotsPerSecond": 5, "hitChance": 0.06, "damagePerHit": 4,
-    "normals": [[0, -0.5, 0.85]], "arcDegrees": 110 },
+    "normals": [[0, -0.5, 0.85], [0, 0.5, 0.85]], "arcDegrees": 110, "yawDegrees": 100, "minElevation": -5, "maxElevation": 85, "yawRate": 90, "elevationRate": 60, "toleranceDegrees": 1.5 },
   "decoys": { "count": 6, "perLaunch": 2, "cooldownSeconds": 2, "signatureFactor": 3, "lifetimeSeconds": 4, "ejectSpeed": 30 },
   "hullSections": [
     {

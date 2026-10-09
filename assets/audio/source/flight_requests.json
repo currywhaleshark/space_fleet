@@ -1,0 +1,22 @@
+[
+  {
+    "name": "engine_drive_20261010",
+    "seconds": 5,
+    "prompt": "Continuous spaceship propulsion heard through the interior hull: steady low mechanical turbine drone, warm deep reactor rumble with fine textured electromagnetic whine, solid and restrained, close dry structural vibration, even sustained sound throughout for a game engine loop, no start or stop, no impacts, no voice, no music."
+  },
+  {
+    "name": "boost_drive_20261010",
+    "seconds": 4,
+    "prompt": "Sustained high-power spaceship booster heard from inside its armored hull, dense low pressure roar beneath a rising bright turbine whine and gritty electrical vibration, intense but controlled and dry, steady full-throttle texture throughout, no impacts, no voice, no music, isolated game propulsion sound."
+  },
+  {
+    "name": "pd_fire_20261010",
+    "seconds": 3,
+    "prompt": "One extremely short burst from a compact spaceship point-defense autocannon immediately at the start, three tightly spaced dry mechanical cracks and a crisp electric snap, light metal cycling with a restrained low structural thud, short decay under a quarter second, no large explosion, no echoes, no voice, no music."
+  },
+  {
+    "name": "hull_strike_20261010",
+    "seconds": 3,
+    "prompt": "One projectile slamming into a thick steel spaceship bulkhead immediately at the start, hard dry metallic crack, deep compressed structural thump, rough irregular rattle of small metal fragments fading quickly, close interior sound, no long ringing tone, no voice, no music, no repeated impacts."
+  }
+]

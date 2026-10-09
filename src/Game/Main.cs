@@ -25,13 +25,20 @@ public partial class Main : Node3D
         InputSetup.Register();
         SoundSettings.Initialize();
         FeedbackSettings.Load();
+        if(_args.ContainsKey("teaser") || _args.ContainsKey("teaser-preview")) {
+            AddChild(new CinematicTeaser { Options=_args }); return; }
+        if(_args.ContainsKey("combat-visual-test") || _args.ContainsKey("fx-preview")) {
+            AddChild(new CombatVisualChecks { Preview=_args.GetValueOrDefault("fx-preview"),Output=_args.GetValueOrDefault("shot"),
+                PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f }); return; }
         if (_args.ContainsKey("model-test")) { AddChild(new ShipModelChecks()); return; }
         if (_args.ContainsKey("am-game-test")) { AddChild(new AntimatterGameChecks()); return; }
         if (_args.ContainsKey("weapon-input-test")) { AddChild(new WeaponInputChecks()); return; }
+        if (_args.ContainsKey("telescope-test")) { AddChild(new TelescopeChecks()); return; }
         if (_args.ContainsKey("navigation-test")) { AddChild(new NavigationChecks()); return; }
         if (_args.ContainsKey("contact-test")) { AddChild(new ContactMemoryChecks()); return; }
         if (_args.ContainsKey("feedback-test")) { AddChild(new CombatFeedbackChecks()); return; }
         if (_args.ContainsKey("audio-test")) { AddChild(new CombatAudioChecks()); return; }
+        if (_args.ContainsKey("fleet-audio-test")) { AddChild(new FleetAudioChecks()); return; }
         if (_args.ContainsKey("shot") && !_args.ContainsKey("menu") && !_args.ContainsKey("battle") && !_args.ContainsKey("result-test"))
         { AddChild(new ScaleTest()); return; }
         Input.MouseMode = Input.MouseModeEnum.Visible;

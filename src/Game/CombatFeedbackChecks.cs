@@ -89,11 +89,11 @@ public partial class CombatFeedbackChecks : Node
 
         var camera = new ChaseCamera(); AddChild(camera); camera.MakeCurrent();
         camera.ResetAim(Quaternion.Identity);
-        camera.Follow(ShipClass.Interceptor, Vector3.Zero, Quaternion.Identity, .016f);
+        camera.Follow(ShipDefinitions.For(HullKind.Interceptor), Vector3.Zero, Quaternion.Identity, .016f);
         Vector3 position = camera.Position, aim = camera.AimForward;
         camera.AddImpact(Vector3.Right, .8f, HullKind.Interceptor);
         camera.AdvanceImpacts(.04f, 1);
-        camera.Follow(ShipClass.Interceptor, Vector3.Zero, Quaternion.Identity, .016f);
+        camera.Follow(ShipDefinitions.For(HullKind.Interceptor), Vector3.Zero, Quaternion.Identity, .016f);
         Check(camera.VisualRotation.Length() > .001f, "Impact changes visual rotation");
         Check(camera.Position.IsEqualApprox(position) && camera.AimForward.IsEqualApprox(aim), "Visual kick preserves firing origin and aim");
         Check(camera.ProjectRayNormal(camera.AimScreenPosition()).AngleTo(aim) < .001f, "Displayed reticle projects onto unchanged aim ray");

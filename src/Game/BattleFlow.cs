@@ -15,7 +15,7 @@ public partial class ScaleTest
     public string? LaunchControl { get; init; }
     public bool AutoPlay { get; set; }
     private bool _paused;
-    public bool Paused { get => _paused; set { _paused=value; _audio?.SetPaused(value); if (value) { JettisonProgress=0; Camera?.SetFreeLook(false); Camera?.ResetTelescope(); CloseWorldMap(); } } }
+    public bool Paused { get => _paused; set { _paused=value; _audio?.SetPaused(value); if (value) { JettisonProgress=0; Camera?.SetFreeLook(false); Camera?.ResetTelescope(); CloseWorldMap(); if(MenuOpen) { _radial.Cancel(); _radialAction=null; } } } }
     public bool Spectating { get; private set; }
     public double BriefRemaining { get; private set; } = 3;
     public double DeathRemaining { get; private set; } = -1;

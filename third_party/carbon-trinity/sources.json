@@ -1,0 +1,36 @@
+{
+  "repository": "https://github.com/carbonengine/trinity",
+  "commit": "c4fd6af4fcda38416cdd6a044a04740f6e06aad6",
+  "files": [
+    {
+      "upstream": "LICENSE.md",
+      "local": "LICENSE.md",
+      "sha256": "59eb0c0fb09f61c094ed19d75316c17e0f265229489472ee37323b047910e709"
+    },
+    {
+      "upstream": "NOTICE.md",
+      "local": "NOTICE.md",
+      "sha256": "cccb601d7fdbfafe79f4c2f35ec01b96419bc90b9bb1dab212dfdb76438c661e"
+    },
+    {
+      "upstream": "trinity/Eve/SpaceObject/Children/EveChildExplosion.cpp",
+      "local": "reference/EveChildExplosion.cpp",
+      "sha256": "f0fcf57575dc56bb8e21d2df2bb683f60cd390d0b4dffd5f5f9ad51fa33c0704"
+    },
+    {
+      "upstream": "trinity/Eve/SpaceObject/Attachments/EveImpactOverlay.cpp",
+      "local": "reference/EveImpactOverlay.cpp",
+      "sha256": "0466f36a6074bb3058a6445734f39e4c51ae2cf235d35e0abd05767b8ef8d492"
+    },
+    {
+      "upstream": "trinity/Eve/SpaceObject/Attachments/EveDamageOverlay.h",
+      "local": "reference/EveDamageOverlay.h",
+      "sha256": "e52e2f80eb68c797281d3b3e79c29e615165d49bb86eaf751b6d5de3a23403c4"
+    },
+    {
+      "upstream": "trinity/Eve/Turret/EveTurretFiringFX.cpp",
+      "local": "reference/EveTurretFiringFX.cpp",
+      "sha256": "253c4e7eed72eccfea3bb65156bf5ee0266d4de2c8117aa4836d5d2c4f9260c0"
+    }
+  ]
+}

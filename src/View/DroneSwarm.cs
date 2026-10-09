@@ -79,18 +79,7 @@ public partial class DroneSwarm : MultiMeshInstance3D
 
     public override void _Process(double delta)
     {
-        if (_carrier is { } ship)
-        {
-            Visible = ship.Ordnance.Drones.Active;
-            for (int i = 0; i < Multimesh.InstanceCount; i++)
-            {
-                Vector3 point = ship.Ordnance.Drones.LocalPosition(i, ship.SimTime);
-                Vector3 next = ship.Ordnance.Drones.LocalPosition(i, ship.SimTime + .01);
-                Vector3 direction = (next-point).Normalized();
-                Multimesh.SetInstanceTransform(i,new(Basis.LookingAt(direction,Mathf.Abs(direction.Dot(Vector3.Up))>.95f ? Vector3.Right : Vector3.Up),point));
-            }
-            return;
-        }
+        if (_carrier is not null) return; // ShipView.Sync supplies the same interpolation as the carrier.
         _time += delta;
         for (int i = 0; i < _orbits.Length; i++)
         {
@@ -100,6 +89,24 @@ public partial class DroneSwarm : MultiMeshInstance3D
             Vector3 tangent = o.Plane * new Vector3(-Mathf.Sin(a), 0, Mathf.Cos(a));
             Vector3 up = o.Plane * Vector3.Up;
             Multimesh.SetInstanceTransform(i, new Transform3D(Basis.LookingAt(tangent, up), pos));
+        }
+    }
+
+    public void Sync(float alpha)
+    {
+        if (_carrier is not { } ship) return;
+        Visible = !ship.Damage.Destroyed; // A lost command link does not make deployed drones disappear.
+        for (int i = 0; i < Multimesh.InstanceCount; i++)
+        {
+            Vector3 point = ship.Ordnance.Drones.InterpolatedPosition(i,alpha);
+            if (!ship.Ordnance.Drones.Alive(i))
+            {
+                Multimesh.SetInstanceTransform(i,new(new Basis(Vector3.Zero,Vector3.Zero,Vector3.Zero),point));
+                continue;
+            }
+            Vector3 direction = ship.Ordnance.Drones.LocalDirection(i);
+            Multimesh.SetInstanceTransform(i,new(Basis.LookingAt(direction,
+                Mathf.Abs(direction.Dot(Vector3.Up))>.95f ? Vector3.Right : Vector3.Up),point));
         }
     }
 }

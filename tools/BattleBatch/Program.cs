@@ -35,6 +35,21 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
 File.WriteAllLines(output, new[] { Row.Header }.Concat(ordered.Select(r => r.Csv())), new System.Text.UTF8Encoding(false));
+// Capture at the verdict, before optional post-outcome stability simulation changes surviving ships.
+string shipOutput = Path.ChangeExtension(output, ".ships.csv");
+File.WriteAllLines(shipOutput, new[] { "seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction" }
+    .Concat(ordered.SelectMany(row => row.World.Ships.Select(ship =>
+    {
+        var stats = row.World.Log!.Ship(ship);
+        string F(double value) => value.ToString("0.000", CultureInfo.InvariantCulture);
+        return string.Join(',', new[] { row.Seed.ToString(), row.Mirror ? "1" : "0", ship.Faction.ToString(), ship.Callsign, ship.Class.Kind.ToString(),
+            ship.Damage.Destroyed ? "1" : "0", ship.Damage.Disabled ? "1" : "0", !ship.Damage.Destroyed && !ship.Damage.Disabled ? "1" : "0",
+            F(ship.Damage.Shield / ship.Definition.Shield.Capacity), F(ship.Damage.Modules.Sum(m => m.Health) / ship.Damage.Modules.Sum(m => m.Definition.HitPoints)),
+            F(ship.Damage.PropulsionFraction), F(ship.Damage.WeaponsFraction), stats.Rails.ToString(), stats.RailHits.ToString(), ship.Railguns.Sum(g => g.Rounds).ToString(),
+            stats.Missiles.ToString(), stats.MissileHits.ToString(), ship.Ordnance.Missiles.ToString(), stats.Torpedoes.ToString(), stats.TorpedoHits.ToString(),
+            ship.Ordnance.Antimatter.Rounds.ToString(), ship.Ordnance.Antimatter.Failures.ToString(), ship.Ordnance.Antimatter.Jettisons.ToString(),
+            F(stats.ShieldDamage), F(stats.ModuleDamage), stats.ModulesDestroyed.ToString(), F(ship.Power.HeatFraction) });
+    }))), new System.Text.UTF8Encoding(false));
 string flightOutput = Path.ChangeExtension(output, ".am.csv");
 File.WriteAllLines(flightOutput, new[] { "seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip" }
     .Concat(ordered.SelectMany(row => row.World.Log!.AntimatterFlights.Select(f =>

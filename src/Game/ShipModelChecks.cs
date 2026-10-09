@@ -116,6 +116,52 @@ public partial class ShipModelChecks : Node
             CheckAutomaticElevation(def);
             CheckPointDefense(def);
         }
+        CheckDroneCombatVisuals(0);
+        CheckDroneCombatVisuals(1);
+    }
+
+    private void CheckDroneCombatVisuals(int mountIndex)
+    {
+        var world=new SimWorld();
+        var carrier=world.Add(new ShipBody("DRONE-CARRIER",ShipClass.Battleship,Faction.Red));
+        var interceptor=world.Add(new ShipBody("AUX-INTERCEPTOR",ShipClass.Interceptor,Faction.Blue));
+        carrier.Control=interceptor.Control=new ShipControl { FlightAssist=false };
+        foreach(var module in carrier.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor))
+            carrier.Damage.Hurt(module,module.Health,0,0,1);
+        var drone=carrier.Ordnance.Drones;
+        Vector3 direction=interceptor.Definition.PointDefense!.Normals![mountIndex].Normalized();
+        interceptor.Place(drone.WorldPosition(0)-Vec3d.From(direction)*500,Quaternion.Identity);
+        var carrierView=ShipView.Create(carrier,3); var interceptorView=ShipView.Create(interceptor,4);
+        AddChild(carrierView); AddChild(interceptorView);
+        try
+        {
+            var turret=interceptor.Ordnance.PointDefense[mountIndex];
+            for(int i=0;i<600 && turret.ShotCount==0;i++) world.Step();
+            carrierView.Sync(Vec3d.Zero,1,.016f); interceptorView.Sync(Vec3d.Zero,1,.016f);
+            var barrel=(MeshInstance3D)interceptorView.FindChild($"mesh_pd_pitch_{mountIndex}",true,false);
+            Check(turret.TargetKind==PointDefenseTarget.Drone && turret.ShotCount>0,"Interceptor auxiliary fires at actual deployed drones");
+            Check((-barrel.GlobalBasis.Z).Dot(interceptor.Orientation*turret.LocalDirection)>.99999f,
+                "Rendered auxiliary yaw and pitch match physical drone tracking");
+            Check(Nodes(interceptorView).Any(n=>n.Name=="PDFlash" && n.Visible),"Actual anti-drone fire flashes the auxiliary muzzles");
+            var swarm=carrierView.Drones!;
+            int alive=Enumerable.Range(0,8).First(drone.Alive);
+            world.DamageDrone(interceptor,carrier,alive,100,world.Time); carrierView.Sync(Vec3d.Zero,1,.016f);
+            Check(swarm.Multimesh.GetInstanceTransform(alive).Basis.Determinant()==0,"Only the destroyed drone's mesh is removed");
+            Check(Enumerable.Range(0,8).Where(drone.Alive).All(i=>Math.Abs(swarm.Multimesh.GetInstanceTransform(i).Basis.Determinant()-1)<.001),"Surviving drone meshes retain their transforms");
+            carrier.Damage.Reset(); carrierView.Sync(Vec3d.Zero,1,.016f);
+            Check(swarm.Multimesh.GetInstanceTransform(alive).Basis.Determinant()==0,"Carrier repair cannot resurrect a destroyed visual drone");
+            var effects=new OrdnanceView(); AddChild(effects);
+            try
+            {
+                effects.Sync(world,Vec3d.Zero,1,Vector3.Zero);
+                Check(effects.GetChildren().OfType<MeshInstance3D>().Count(n=>n.Visible)>=6,"Drone destruction shows a brief flash and five debris fragments");
+                for(int i=0;i<60;i++) world.Step();
+                effects.Sync(world,Vec3d.Zero,1,Vector3.Zero);
+                Check(world.OrdnanceEvents.Any(e=>e.Kind==OrdnanceEventKind.DroneDestroyed),"Destruction remains observable until the shared event prune window");
+            }
+            finally { effects.Free(); }
+        }
+        finally { carrierView.Free(); interceptorView.Free(); }
     }
 
     private void CheckLiveTurrets(ShipDefinition def)
@@ -152,10 +198,10 @@ public partial class ShipModelChecks : Node
                 }
             }
             var attempt = world.FireRailguns(body, aim);
-            Check(attempt.Shots == body.Railguns.Length, $"{def.Kind}: visual broadside can fire every mount");
+            Check(attempt.Shots == body.Railguns.Length * 2, $"{def.Kind}: visual broadside fires both barrels of every mount");
             view.Sync(origin, 1, .016f);
             var flashes = Nodes(view).Where(n => n.Name == "MuzzleFlash").ToArray();
-            Check(flashes.Count(n => n.Visible) == body.Railguns.Length, $"{def.Kind}: flash only at each fired barrel");
+            Check(flashes.Count(n => n.Visible) == body.Railguns.Length * 2, $"{def.Kind}: both fired barrels flash together");
             for (int i = 0; i < 3; i++) world.Step();
             view.Sync(origin, 1, .05f);
             Check(Nodes(view).Where(n => n.Name.ToString().StartsWith("recoil_gun_")).All(n => n.Position.Z > 0),
@@ -213,9 +259,21 @@ public partial class ShipModelChecks : Node
                 Vector3 direction=(pd.Normals![index].Normalized()+Vector3.Right*.2f).Normalized();
                 Vector3 offset=pd.Mounts[index]+direction*pd.RangeMeters*.45f;
                 enemy.Place(origin+Vec3d.From(body.Orientation*offset),Quaternion.Identity);
-                for(int i=0;i<120;i++) { enemy.Damage.Reset(); world.Step(); view.Sync(origin,1,(float)SimWorld.TickDelta); }
                 var state=body.Ordnance.PointDefense[index];
                 var barrel=(MeshInstance3D)view.FindChild($"mesh_pd_pitch_{index}",true,false);
+                for(int i=0;i<120;i++)
+                {
+                    enemy.Damage.Reset(); world.Step();
+                    if(i==0)
+                    {
+                        view.Sync(origin,.5,(float)SimWorld.TickDelta);
+                        Vector3 bore=state.MountBasis*new Basis(Vector3.Up,Mathf.Lerp(state.PreviousYaw,state.Yaw,.5f))
+                            *new Basis(Vector3.Right,Mathf.Lerp(state.PreviousElevation,state.Elevation,.5f))*Vector3.Forward;
+                        Check((-barrel.GlobalBasis.Z).Dot(body.Orientation*bore)>.99999f,
+                            $"{def.Kind}/PD{index}: mesh interpolates the simulation drive during traverse");
+                    }
+                    view.Sync(origin,1,(float)SimWorld.TickDelta);
+                }
                 Check(state.LocalAim is not null && double.IsFinite(state.LastFiredAt),$"{def.Kind}/PD{index}: actual PD target and firing state recorded");
                 Check((-barrel.GlobalBasis.Z).Dot(body.Orientation*direction)>.9999f,
                     $"{def.Kind}/PD{index}: visible PD barrel tracks sideways and vertically, including ventral mounts");

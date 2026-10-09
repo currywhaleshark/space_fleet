@@ -49,17 +49,28 @@ public partial class Main
             Verify(Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"Clicking the radar globe opens the full map");
             var before=Battle.WorldMap.Center;
             double span=Battle.WorldMap.HalfSpan;
+            float yaw=Battle.WorldMap.Yaw,pitch=Battle.WorldMap.Pitch;
             Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Left,Pressed=true,Position=new(350,300)});
             Battle._UnhandledInput(new InputEventMouseMotion {Position=new(420,330),Relative=new(70,30)});
             Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Left,Pressed=false,Position=new(420,330)});
-            Verify(Battle.WorldMap.Center!=before,"Full map drag pans world coordinates");
+            Verify(Battle.WorldMap.Center==before && Battle.WorldMap.HalfSpan==span
+                && Battle.WorldMap.Yaw!=yaw && Battle.WorldMap.Pitch!=pitch,"Left drag rotates the full map without moving its world center or scale");
+            yaw=Battle.WorldMap.Yaw; pitch=Battle.WorldMap.Pitch;
+            Battle._UnhandledInput(new InputEventMouseMotion {Position=new(440,340),Relative=new(20,10)});
+            Verify(Battle.WorldMap.Yaw==yaw && Battle.WorldMap.Pitch==pitch,"Releasing left drag stops map rotation");
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Middle,Pressed=true,Position=new(350,300)});
+            Battle._UnhandledInput(new InputEventMouseMotion {Position=new(420,330),Relative=new(70,30)});
+            Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.Middle,Pressed=false,Position=new(420,330)});
+            Verify(Battle.WorldMap.Center!=before && Battle.WorldMap.Yaw==yaw && Battle.WorldMap.Pitch==pitch,
+                "Middle drag pans without rotating the map or starting ship freelook");
             Battle._UnhandledInput(new InputEventMouseButton {ButtonIndex=MouseButton.WheelUp,Pressed=true,Position=new(420,330)});
             Verify(Battle.WorldMap.HalfSpan<span,"Full map wheel zoom works");
             Battle._UnhandledInput(new InputEventAction {Action=InputSetup.ReleaseMouse,Pressed=true});
             Verify(!Battle.WorldMapOpen && !Battle.Paused && Screen==BattleScreen.Battle,"Esc closes the map before pausing battle");
             before=Battle.WorldMap.Center; span=Battle.WorldMap.HalfSpan;
             Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
-            Verify(Battle.WorldMapOpen && Battle.WorldMap.Center==before && Battle.WorldMap.HalfSpan==span,"M reopens at the remembered world position and zoom");
+            Verify(Battle.WorldMapOpen && Battle.WorldMap.Center==before && Battle.WorldMap.HalfSpan==span
+                && Battle.WorldMap.Yaw==yaw && Battle.WorldMap.Pitch==pitch,"M reopens at the remembered world position, zoom and rotation");
             Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.Home,Pressed=true});
             Verify(Battle.WorldMap.HalfSpan>span,"Home refits the whole battlefield");
             Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});

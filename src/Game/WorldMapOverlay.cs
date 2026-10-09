@@ -102,8 +102,8 @@ public partial class WorldMapOverlay : Control
             _moved |= motion.Position.DistanceTo(_press) > 4;
             if (_moved)
             {
-                if (_drag == MouseButton.Right) Map.Orbit(motion.Relative);
-                else Map.Pan(motion.Relative / Radius);
+                if (_drag == MouseButton.Middle) Map.Pan(motion.Relative / Radius);
+                else Map.Orbit(motion.Relative);
             }
         }
         GetViewport().SetInputAsHandled(); return true;
@@ -157,7 +157,7 @@ public partial class WorldMapOverlay : Control
             Text(this, new(x, 338), $"Z  {Map.Center.Z / 1000:0.0} km", 13);
         }
         DrawLine(new(24, Size.Y - 56), new(Size.X - 24, Size.Y - 56), new Color(Blue, .2f));
-        Text(this, new(28, Size.Y - 29), "좌드래그 이동 · 우드래그 회전 · 휠 확대 · Home 전체 보기", Size.X < 1000 ? 12 : 14);
+        Text(this, new(28, Size.Y - 29), "좌/우드래그 회전 · 중드래그 이동 · 휠 확대 · Home 전체 보기", Size.X < 1000 ? 12 : 14);
         Text(this, new(x, Size.Y - 29), $"구 반경 {Map.HalfSpan / 1000:0.##} km", 13, Blue);
     }
 

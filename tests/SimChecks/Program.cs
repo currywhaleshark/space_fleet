@@ -9,9 +9,12 @@ static class SimChecks
     public static void Main(string[] args)
     {
         if (args.Contains("--ai")) { AIChecks.Run(); return; }
+        if (args.Contains("--missiles")) { MissileChecks.Run(); return; }
+        if (args.Contains("--shield")) { ShieldEnvelopeChecks.Run(); return; }
         if (args.Contains("--battle")) { BattleChecks.Run(); return; }
-        if (args.Contains("--turrets")) { TurretChecks.Run(); GunneryChecks.Run(); return; }
+        if (args.Contains("--turrets")) { TurretChecks.Run(); GunneryChecks.Run(); PointDefenseChecks.Run(); return; }
         if (args.Contains("--antimatter")) { AntimatterChecks.Run(); return; }
+        if (args.Contains("--drones")) { DefenseDroneChecks.Run(); DroneCombatChecks.Run(); return; }
         if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
         if (args.Contains("--am-moving")) { AntimatterTrials.Moving(); return; }
         CheckCombinedG();
@@ -24,6 +27,7 @@ static class SimChecks
         Console.WriteLine($"PASS: {_checks} simulation checks");
         CollisionChecks.Run();
         DamageChecks.Run();
+        ShieldEnvelopeChecks.Run();
         BallisticsChecks.Run();
         PowerChecks.Run();
         SensorChecks.Run();
@@ -32,6 +36,9 @@ static class SimChecks
         HelmChecks.Run();
         GunneryChecks.Run();
         TurretChecks.Run();
+        PointDefenseChecks.Run();
+        DefenseDroneChecks.Run();
+        DroneCombatChecks.Run();
         AntimatterChecks.Run();
         RadialChecks.Run();
         SquadCommandChecks.Run();

@@ -54,6 +54,7 @@ public partial class Hud
         if(am.Definition is not { } def) return;
         float width=294;
         Vector2 start=screen.X>=1450 ? new(screen.X*.5f+212,screen.Y-155) : new(screen.X*.5f-width*.5f,screen.Y-325);
+        if(Game.Camera.TelescopeHeld && screen.X<1450) start=new(16,screen.Y*.5f-40);
         var panel=new Rect2(start,new Vector2(width,125));
         DrawRect(panel,PanelBack);
         Color color=am.Warning || am.Mode==AntimatterMode.Failed ? Hostile : Game.AntimatterSelected ? Lead : Dim;

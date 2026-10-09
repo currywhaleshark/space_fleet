@@ -45,6 +45,12 @@ public partial class ScaleTest
             GetViewport().SetInputAsHandled();
             return true;
         }
+        if (e.IsActionPressed(InputSetup.DroneMenu))
+        {
+            OpenDroneMenu();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
         return false;
     }
 
@@ -102,11 +108,28 @@ public partial class ScaleTest
         new RadialItem("위치유지", 135, () => IssueSquadCommand(SquadCommand.Hold)),
     });
 
+    private void OpenDroneMenu()
+    {
+        if (Controlled?.Body is not { } ship) return;
+        if (ship.Definition.DefenseDrones is null) { Notify("방어 드론 미탑재",true); return; }
+        var drones=ship.Ordnance.Drones;
+        RadialItem Item(DroneSector sector,float angle) => new(DefenseDroneState.Label(sector),angle,() =>
+        {
+            if (drones.Assign(sector)) Notify($"드론 · {DefenseDroneState.Label(sector)} 방어",false);
+        },() => drones.Active);
+        OpenMenu(InputSetup.DroneMenu,"드론",new[]
+        {
+            Item(DroneSector.Fore,0), Item(DroneSector.Starboard,90),
+            Item(DroneSector.Aft,180), Item(DroneSector.Port,270), Item(DroneSector.AllAround,225),
+        });
+    }
+
     private void SetupShotRadial()
     {
         if (_shot is null) return;
         string? action = _shot.Radial switch
-        { "power" => InputSetup.PowerMenu, "gunnery" or "fire" => InputSetup.GunneryMenu, "squad" => InputSetup.SquadMenu, _ => null };
+        { "power" => InputSetup.PowerMenu, "gunnery" or "fire" => InputSetup.GunneryMenu, "squad" => InputSetup.SquadMenu,
+            "drone" => InputSetup.DroneMenu, _ => null };
         if (action is null) return;
         _UnhandledInput(new InputEventAction { Action = action, Pressed = true });
         if (!MenuOpen) return;
@@ -125,6 +148,6 @@ public partial class ScaleTest
         if (_radialAction is { } action) _UnhandledInput(new InputEventAction { Action = action, Pressed = false });
         if (Controlled?.Body.Power is { } power)
             GD.Print($"radial released: pips={string.Join('/', Enum.GetValues<PowerChannel>().Select(power.Pips))}");
-        GD.Print($"radial result: doctrine={Gunnery?.Doctrine}, squad={SquadOrder}, target={SquadTarget?.Callsign}");
+        GD.Print($"radial result: doctrine={Gunnery?.Doctrine}, squad={SquadOrder}, target={SquadTarget?.Callsign}, drones={Controlled?.Body.Ordnance.Drones.Sector}");
     }
 }

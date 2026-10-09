@@ -5,7 +5,7 @@ namespace SpaceFleet.Sim;
 
 /// <summary>
 /// 함선 미사일 데이터. 가속은 G, 거리 m, 시간 s.
-/// 연소 중에는 늘 최대 가속으로 비례항법 + 남는 추력으로 가속하고, 연료가 떨어지면 관성으로 난다.
+/// 비례항법이 요구한 가속을 기수 선회·추력 편향 한계 안에서 실행하며, 연료가 떨어지면 관성으로 난다.
 /// </summary>
 public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 LaunchPoint, float EjectSpeed,
     float AccelG, float BurnSeconds, float MaxFlightSeconds, float SeekerRangeMeters, float SeekerFovDegrees,
@@ -14,21 +14,23 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
 {
     public DamagePacket Packet => new(Energy, PenetrationMm, ModuleDamage, Math.Max(FuzeMeters * 20f, 2000f));
     public float Accel => AccelG * ShipBody.StandardGravity;
+    /// <summary>Body attitude slew, degrees/s. Flight-path curvature is also limited by available lateral thrust.</summary>
+    public float TurnRateDegrees { get; init; } = 90f;
+    /// <summary>Maximum commanded thrust angle from momentum; at most 90 degrees prevents commanded retro-thrust.</summary>
+    public float MaxSteeringAngleDegrees { get; init; } = 90f;
+    /// <summary>Engine nozzle deflection from the actual body attitude.</summary>
+    public float ThrustGimbalDegrees { get; init; } = 10f;
 }
 
 /// <summary>
 /// 근접방어 포대. Mounts는 함선 로컬 위치이며 포대마다 독립적으로 사격한다.
 /// Normals(로컬, 포대가 바라보는 방향)가 있으면 그 방향에서 ArcDegrees 안만 쏠 수 있다(선체가 만드는 사각).
+/// YawDegrees는 포대 담당 방위 중심에서 좌우 한계, 고각은 갑판 기준, 구동 속도는 초당 도 단위다.
 /// </summary>
 public sealed record PointDefenseDefinition(Vector3[] Mounts, float RangeMeters, float ShotsPerSecond, float HitChance, float DamagePerHit,
-    Vector3[]? Normals = null, float ArcDegrees = 100f);
-
-/// <summary>Actual PD target and shot time for the visual mount; does not change interception probabilities.</summary>
-public sealed class PointDefenseMountState
-{
-    public Vector3? LocalAim { get; internal set; }
-    public double LastFiredAt { get; internal set; } = double.NegativeInfinity;
-}
+    Vector3[]? Normals = null, float ArcDegrees = 100f, float YawDegrees = 110f,
+    float MinElevation = -5f, float MaxElevation = 85f, float YawRate = 60f,
+    float ElevationRate = 45f, float ToleranceDegrees = 1.5f);
 
 /// <summary>디코이. 한 번에 PerLaunch개를 사출하며, 신호는 함선 기본 신호 × SignatureFactor에서 수명 동안 0으로 줄어든다.</summary>
 public sealed record DecoyDefinition(int Count, int PerLaunch, float CooldownSeconds, float SignatureFactor, float LifetimeSeconds, float EjectSpeed);
@@ -43,7 +45,8 @@ public sealed class OrdnanceState
         _ship = ship;
         Antimatter = new AntimatterState(ship);
         Drones = new DefenseDroneState(ship);
-        PointDefense = Array.ConvertAll(ship.Definition.PointDefense?.Mounts ?? Array.Empty<Vector3>(), _ => new PointDefenseMountState());
+        PointDefense = new PointDefenseMountState[ship.Definition.PointDefense?.Mounts.Length ?? 0];
+        for (int i = 0; i < PointDefense.Length; i++) PointDefense[i] = new PointDefenseMountState(ship.Definition.PointDefense!, i);
         Reset();
     }
 
@@ -76,7 +79,7 @@ public sealed class OrdnanceState
         // Resetting the practice guns/repair tools cannot restock a spent or jettisoned AM payload.
         Antimatter.Cancel();
         Drones.Reset();
-        foreach (var mount in PointDefense) { mount.LocalAim=null; mount.LastFiredAt=double.NegativeInfinity; }
+        foreach (var mount in PointDefense) mount.Reset();
     }
 
     internal void Step(double dt)
@@ -84,6 +87,7 @@ public sealed class OrdnanceState
         MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
         DecoyCooldown = Mathf.Max(0f, DecoyCooldown - (float)dt);
         Antimatter.Step(dt);
+        Drones.Step(dt);
     }
 
     internal void ConsumeMissile()
@@ -112,6 +116,9 @@ public sealed class Missile
     public AntimatterDefinition? Assault { get; init; }
     public Vector3? LocalAim { get; init; }
     public Vector3 LaunchDirection { get; init; }
+    /// <summary>Actual body/motor attitude, independent of momentum. AM uses its fixed launch direction.</summary>
+    public Vector3 NoseDirection { get; internal set; }
+    public Vector3 PreviousNoseDirection { get; internal set; }
     public double TravelMeters { get; internal set; }
     public double LaunchRange { get; init; }
     public double SeekerSeconds { get; internal set; }
@@ -155,6 +162,7 @@ public enum OrdnanceEventKind
     Expired,
     ContainmentFailure,
     Jettisoned,
+    DroneDestroyed,
 }
 
 public readonly record struct OrdnanceEvent(OrdnanceEventKind Kind, Vec3d Position, double Time, Faction Faction,

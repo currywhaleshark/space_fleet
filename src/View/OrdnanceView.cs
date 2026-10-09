@@ -34,7 +34,8 @@ public partial class OrdnanceView : Node3D
     private readonly StandardMaterial3D _am = Glow(new Color(.55f,.9f,1),10f,additive:true);
     private readonly StandardMaterial3D _fragment = new() { AlbedoColor=new Color(.18f,.23f,.28f), Metallic=.8f, Roughness=.6f };
 
-    public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition)
+    private ShaderMaterial? _flashWhite, _flashWarm;
+    public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition,Camera3D? camera=null)
     {
         float Scale(Vector3 at, float minimum) => Mathf.Max(minimum, at.DistanceTo(cameraPosition) * 0.0025f);
 
@@ -45,7 +46,10 @@ public partial class OrdnanceView : Node3D
             if (!_missiles.TryGetValue(m.Id, out Node3D? node))
                 _missiles[m.Id] = node = MakeMissile(m.Assault is not null ? _am : m.Faction == Faction.Blue ? _blue : _red, m.Assault is not null);
             Vector3 pos = (Vec3d.Lerp(m.PrevPosition, m.Position, alpha) - origin).ToVector3();
-            Vector3 dir = m.Assault is not null ? m.LaunchDirection : m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized() : Vector3.Forward;
+            Vector3 dir = m.Assault is not null ? m.LaunchDirection
+                : m.NoseDirection.LengthSquared()>.5f ? (m.PreviousNoseDirection.LengthSquared()>.5f
+                    ? m.PreviousNoseDirection.Slerp(m.NoseDirection,(float)alpha).Normalized() : m.NoseDirection)
+                : m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized() : Vector3.Forward;
             float s = Scale(pos, m.Assault is null ? 1f : .7f);
             node.Transform = new Transform3D(Basis.LookingAt(dir, Mathf.Abs(dir.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up).Scaled(Vector3.One * s), pos);
             node.GetChild<Node3D>(1).Visible = m.Burning;
@@ -91,6 +95,24 @@ public partial class OrdnanceView : Node3D
         foreach (OrdnanceEvent e in world.OrdnanceEvents)
         {
             float age = (float)(world.Time - e.Time);
+            if(e.Kind==OrdnanceEventKind.DroneDestroyed)
+            {
+                Vector3 at=(e.Position-origin).ToVector3();
+                if(age<.65f)
+                    for(int j=0;j<5;j++)
+                    {
+                        var fragment=shardCount<_shards.Count ? _shards[shardCount] : Add(_shards,_body,_fragment);
+                        Vector3 direction=new(Mathf.Sin(j*2.4f),Mathf.Cos(j*1.7f),Mathf.Sin(j*3.8f+.5f));
+                        fragment.Transform=new(new Basis(Vector3.Up,j+age*5).Scaled(Vector3.One*Scale(at,.8f)*(1-age/.65f)),
+                            at+direction.Normalized()*(14+j*5)*age);
+                        fragment.Visible=true; shardCount++;
+                    }
+                if(age>=.18f) continue;
+                var spark=f<_flashes.Count ? _flashes[f] : Add(_flashes,_sphere,_puff);
+                spark.MaterialOverride=_puff; spark.Position=at;
+                spark.Scale=Vector3.One*Scale(at,7)*(1-age/.18f); spark.Visible=true; f++;
+                continue;
+            }
             if(e.Weapon==BattleWeapon.Antimatter)
             {
                 bool energetic=e.Kind is OrdnanceEventKind.Detonation or OrdnanceEventKind.ContainmentFailure;
@@ -126,8 +148,21 @@ public partial class OrdnanceView : Node3D
             flash.Visible = true;
             f++;
         }
-        for (; f < _flashes.Count; f++) _flashes[f].Visible = false;
+        // Keep f as the active count: re-billboarding retired pool entries would
+        // resurrect them and double their size every frame after the event ended.
+        for (int i=f; i < _flashes.Count; i++) _flashes[i].Visible = false;
         for (; shardCount<_shards.Count; shardCount++) _shards[shardCount].Visible=false;
+        if(camera is not null)
+        {
+            _flashWhite??=CombatFx.Glow(new Color(.75f,.9f,1)); _flashWarm??=CombatFx.Glow(new Color(1,.75f,.45f));
+            for(int i=0;i<f;i++)
+            {
+                var flash=_flashes[i]; float size=flash.Scale.X*2;
+                bool warm=flash.MaterialOverride==_boom;
+                flash.Mesh=CombatFx.Quad; flash.MaterialOverride=warm?_flashWarm:_flashWhite;
+                CombatFx.Flare(flash,camera,flash.Position,size,8);
+            }
+        }
     }
 
     private Node3D MakeMissile(Material body, bool antimatter=false)
