@@ -55,16 +55,17 @@ static class AntimatterChecks
     private static void CheckState()
     {
         var (w, ic, bb) = Fixture(); var am = ic.Ordnance.Antimatter;
-        Check(am.Rounds == 2 && ic.Ordnance.Missiles == 4, "Independent 2 AM + 4 normal missiles");
+        Check(am.Rounds == 3 && ic.Ordnance.Missiles == 4, "Independent 3 AM + 4 light missiles");
         Check(!w.LaunchAntimatter(ic, bb).Fired, "SAFE cannot fire");
         Check(am.BeginArming(), "Start arming"); Step(w, 2);
         Check(am.Mode == AntimatterMode.Arming && !w.LaunchAntimatter(ic,bb).Fired, "No early launch");
-        Check(am.Cancel() && am.Rounds == 2 && am.Mode == AntimatterMode.Safe, "Cancel preserves ammo");
+        Check(am.Cancel() && am.Rounds == 3 && am.Mode == AntimatterMode.Safe, "Cancel preserves ammo");
         Arm(w, ic);
-        Check(w.LaunchMissile(ic,bb).Fired && am.Ready && am.Rounds == 2, "Normal missile independent of ARMED AM");
-        Check(w.LaunchAntimatter(ic,bb).Fired && am.Rounds == 1 && ic.Ordnance.Missiles == 3, "Launch consumes only AM");
+        Check(w.LaunchMissile(ic,bb).Fired && am.Ready && am.Rounds == 3, "Normal missile independent of ARMED AM");
+        Check(w.LaunchAntimatter(ic,bb).Fired && am.Rounds == 2 && ic.Ordnance.Missiles == 3, "Launch consumes only AM");
         Check(am.Mode == AntimatterMode.Safe && !w.LaunchAntimatter(ic,bb).Fired, "Every AM shot requires re-arming");
-        Arm(w,ic); Check(w.LaunchAntimatter(ic,bb).Fired && am.Rounds == 0, "Second shot exhausts AM");
+        Arm(w,ic); Check(w.LaunchAntimatter(ic,bb).Fired && am.Rounds == 1, "Second shot leaves one AM");
+        Arm(w,ic); Check(w.LaunchAntimatter(ic,bb).Fired && am.Rounds == 0, "Third shot exhausts AM");
         Check(!am.BeginArming(), "Empty cannot arm");
         w.ResetWeapons(); ic.Damage.Reset();
         Check(am.Rounds == 0, "Repair/practice reset cannot restock spent AM");
@@ -94,7 +95,7 @@ static class AntimatterChecks
         {
             var (w,ic,bb) = Fixture(); Arm(w,ic);
             ic.Orientation = new Quaternion(Vector3.Up, Mathf.Pi);
-            Check(!w.LaunchAntimatter(ic,bb).Fired && ic.Ordnance.Antimatter.Rounds == 2, "Off-axis launch cannot snap around");
+            Check(!w.LaunchAntimatter(ic,bb).Fired && ic.Ordnance.Antimatter.Rounds == 3, "Off-axis launch cannot snap around");
         }
     }
     private static void CheckMovingLaunch()

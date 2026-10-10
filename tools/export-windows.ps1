@@ -45,13 +45,22 @@ New-Item -ItemType File -Force -Path (Join-Path $sfRoot '.gdignore') | Out-Null
 $sfLogs = Join-Path $ProjectDir "shots/$Name"
 New-Item -ItemType Directory -Force -Path $sfLogs | Out-Null
 New-Item -ItemType File -Force -Path (Join-Path $ProjectDir 'shots/.gdignore') | Out-Null
+function Invoke-ExportEngine([string[]]$EngineArguments, [string]$LogName) {
+    $sfEngineLog = Join-Path $sfLogs $LogName
+    $sfEngineArgs = @('--headless', '--path', ('"' + $ProjectDir + '"'), '--log-file', ('"' + $sfEngineLog + '"')) + $EngineArguments
+    # Launch the engine directly: the console wrapper can keep redirected pipes open after export.
+    $sfEngineProcess = Start-Process -FilePath $Godot -ArgumentList $sfEngineArgs -WindowStyle Hidden -PassThru
+    if (!$sfEngineProcess.WaitForExit(120000)) {
+        Stop-Process -Id $sfEngineProcess.Id -ErrorAction SilentlyContinue
+        throw "Godot timed out: $LogName"
+    }
+    if ($sfEngineProcess.ExitCode -ne 0) { throw "Godot failed: $LogName (exit $($sfEngineProcess.ExitCode))" }
+}
 Write-Output 'Importing resources...'
-& $GodotConsole --headless --path $ProjectDir --editor --import --log-file (Join-Path $sfLogs 'import.log') *> (Join-Path $sfLogs 'import-console.log')
-if ($LASTEXITCODE -ne 0) { throw 'Godot resource import failed.' }
+Invoke-ExportEngine @('--editor', '--import') 'import.log'
 $sfExe = Join-Path $sfOutput 'SpaceFleet.exe'
 Write-Output 'Exporting Windows x64 release...'
-& $GodotConsole --headless --path $ProjectDir --export-release 'Windows Desktop' $sfExe --log-file (Join-Path $sfLogs 'export.log') *> (Join-Path $sfLogs 'export-console.log')
-if ($LASTEXITCODE -ne 0) { throw 'Godot Windows export failed.' }
+Invoke-ExportEngine @('--export-release', '"Windows Desktop"', ('"' + $sfExe + '"')) 'export.log'
 if (Select-String -LiteralPath (Join-Path $sfLogs 'export.log') -Pattern 'ERROR:|Exception' -Quiet) { throw 'Export log contains an error.' }
 
 # Runtime/engine licenses accompany the application, including the adapted Carbon code.
@@ -85,14 +94,25 @@ SpaceFleet.pck와 data_* 폴더도 실행에 필요합니다.
 시작 → 함선 선택 → 전투. F1: 조작 도움말 / Esc: 일시정지·메뉴.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
 F 전력 / B 사격 / N 편대 / 4 드론 방어구역: 누른 채 방향 선택 후 놓기.
+5 응급복구: 자동/계통 우선/중지 선택. 자재를 사용해 손상 모듈을 35%까지 응급복구.
 M 전장 지도 / F10 효과음 켜기·끄기.
+요격함 N: 정찰/방공/제공/강습/복귀/자동 임무/프로브 사출.
+요격함 경량 미사일 4발: 함선/미사일 겸용. R 적 미사일 지정 → 2 → 좌클릭으로 요격.
+지구 85G/화성 95G, 대함 위력 약 15% 감소. AM 어뢰는 3발, 전투 중 보충 없음.
+프로브는 2개·수명 120초. M 지도에서 Shift로 위치·탐지범위를 미리 보고 좌클릭으로 전개.
+청색은 아군 함선, 녹색은 프로브, 황색은 전개 예정 탐지범위. 반투명 구체가 겹치면 통합 영역으로 표시.
+R: 마우스(비행/망원은 중앙 조준선)에 가장 가까운 적 함선·미사일·프로브 지정.
+요격함: 1 주포 → R 미사일 지정 → 좌클릭 유지. 기수가 선행점으로 추적하고 사계 진입 시 발사.
+마우스를 움직이면 수동 조종 우선. 클릭 해제·T 보조 해제로 자동 추적 중단. 지나간 미사일은 추적 중단.
+지정 미사일 요격탄은 지구 40m/화성 32m 근접신관, 단일 표적 피해 6. 일반 탄약·연사력·선회 한계 유지.
+탐지된 미사일의 조준 보조는 지구 14km/화성 12km부터 가능. 모든 고속 횡단 표적의 요격을 보장하지 않음.
 
 THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임의 고지가 있습니다.
 '@ | Set-Content -LiteralPath (Join-Path $sfOutput '읽어주세요.txt') -Encoding UTF8
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test','fleet-audio-test')) {
+foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }
@@ -103,7 +123,7 @@ foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test'
     Write-Output $sfPass
 }
 $sfInfo = [ordered]@{
-    name=$Name; builtAt=[DateTimeOffset]::Now.ToString('o'); engine=(& $GodotConsole --version).Trim()
+    name=$Name; builtAt=[DateTimeOffset]::Now.ToString('o'); engine=(Get-Content -LiteralPath (Join-Path $sfLogs 'export.log') -Encoding UTF8 -TotalCount 1).Trim()
     sourceCommit=(& git -C $ProjectDir rev-parse HEAD).Trim(); localChanges=[bool](& git -C $ProjectDir status --porcelain)
     platform='Windows x64'; selfContained=$true; checks=$sfChecks
 }

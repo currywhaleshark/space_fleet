@@ -153,7 +153,15 @@ public sealed class ShipDamage
 
     internal float Hurt(ModuleState module, float amount, double time, float energy, uint shotSequence)
     {
-        if (Destroyed || module.Destroyed || amount <= 0f) return 0f;
+        if (Destroyed || amount <= 0f) return 0f;
+        // A penetrated wrecked compartment still interrupts work inside it.
+        // It cannot roll another magazine/reactor catastrophe until restored.
+        if (module.Destroyed)
+        {
+            module.LastHitTime = time;
+            ModuleDamaged?.Invoke(module, time);
+            return 0f;
+        }
         _sinceHit = 0;
         bool generator = module.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator;
         bool wasRated = module.HealthFraction >= GeneratorDegradeThreshold;
@@ -192,6 +200,18 @@ public sealed class ShipDamage
         DestroyedAt=time;
         foreach (ModuleState module in Modules) { module.Health = 0; module.LastHitTime = time; }
         Shield = 0; Report(time, reason); Recompute();
+    }
+
+    internal bool EmergencyRestore(ModuleState module, float fraction, double time)
+    {
+        if (Destroyed || module.Definition.Kind == ModuleKind.AntimatterContainment
+            || module.HealthFraction >= fraction) return false;
+        bool disabled = Disabled;
+        module.Health = module.Definition.HitPoints * fraction;
+        Recompute();
+        Report(time, $"{module.Definition.Name} 응급복구 · {fraction * 100:0}%");
+        if (disabled && !Disabled) Report(time, "전원·추진 응급복구 · 무력화 해제");
+        return true;
     }
 
     /// <summary>충돌 에너지가 선체 구조 한계를 넘었을 때. 모든 모듈을 잃고 잔해로 남는다.</summary>

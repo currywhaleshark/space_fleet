@@ -46,7 +46,9 @@ public sealed class ShipDefinition
     public AntimatterDefinition? Antimatter { get; init; }
     public DefenseDroneDefinition? DefenseDrones { get; init; }
     public PointDefenseDefinition? PointDefense { get; init; }
+    public ReconProbeDefinition? ReconProbes { get; init; }
     public DecoyDefinition? Decoys { get; init; }
+    public DamageControlDefinition DamageControl { get; init; } = new();
     public CollisionHull Hull { get; private set; } = null!;
     public ShieldEnvelope ShieldEnvelope { get; private set; } = null!;
 
@@ -76,6 +78,9 @@ public sealed class ShipDefinition
         bool Size(Vector3 value) => value.IsFinite() && value.X > 0 && value.Y > 0 && value.Z > 0;
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
+        Require(DamageControl is not null && DamageControl.Kits >= 0 && DamageControl.Kits <= 32
+            && Positive(DamageControl.RepairSeconds) && Positive(DamageControl.RestoreFraction)
+            && DamageControl.RestoreFraction <= .5f && Positive(DamageControl.QuietSeconds), "invalid damage control");
         Require(Flight is not null && Shield is not null && Power is not null && Sensors is not null && HullSections is not null && Modules is not null, "null definition fields");
         Require(Positive(Sensors.Strength) && Positive(Sensors.Signature) && float.IsFinite(Sensors.Jammer) && Sensors.Jammer >= 0, "invalid sensors");
         Require(Positive(Power.OutputMw) && Positive(Power.Engines) && Positive(Power.Shields) && Positive(Power.Weapons)
@@ -154,6 +159,11 @@ public sealed class ShipDefinition
             Require(am.Flight!.Rounds == am.Rounds && am.Flight.MaxFlightSeconds <= 8 && am.Flight.SeekerRangeMeters <= am.MaxTravelMeters
                 && am.TerminalAccelG <= am.Flight.AccelG, "invalid AM lifetime/guidance");
         }
+        if (ReconProbes is { } probe)
+            Require(Kind == HullKind.Interceptor && Enum.IsDefined(probe.Kind) && probe.Count > 0 && probe.Count <= 8
+                && Positive(probe.LifetimeSeconds) && Positive(probe.DeploymentMeters) && Positive(probe.Acceleration)
+                && Positive(probe.BurnSeconds) && Positive(probe.SensorStrength) && Positive(probe.Signature)
+                && Positive(probe.HitPoints) && Positive(probe.Radius) && Positive(probe.CooldownSeconds), "invalid recon probe");
         if (Missiles is MissileDefinition ms) ValidateMissile(ms);
         void ValidateMissile(MissileDefinition ms)
         {
@@ -161,10 +171,14 @@ public sealed class ShipDefinition
                 && Positive(ms.AccelG) && Positive(ms.BurnSeconds) && Positive(ms.MaxFlightSeconds) && Positive(ms.SeekerRangeMeters)
                 && Positive(ms.SeekerFovDegrees) && ms.SeekerFovDegrees <= 180 && Positive(ms.SeekerStrength) && Positive(ms.FuzeMeters)
                 && Positive(ms.HitPoints) && float.IsFinite(ms.LaunchHeatMj) && ms.LaunchHeatMj >= 0
-                && Positive(ms.TurnRateDegrees) && ms.TurnRateDegrees<=180
+                && Positive(ms.TurnRateDegrees) && ms.TurnRateDegrees <= (ms.CanInterceptMissiles ? 360 : 180)
                 && Positive(ms.MaxSteeringAngleDegrees) && ms.MaxSteeringAngleDegrees<=90
                 && float.IsFinite(ms.ThrustGimbalDegrees) && ms.ThrustGimbalDegrees>=0 && ms.ThrustGimbalDegrees<=45, "invalid missiles");
             ms.Packet.Validate();
+            Require(Positive(ms.BodyScale) && ms.BodyScale <= 2, "invalid missile scale");
+            if (ms.CanInterceptMissiles)
+                Require(Kind == HullKind.Interceptor && Positive(ms.InterceptRangeMeters)
+                    && Positive(ms.InterceptFuzeMeters) && ms.InterceptFuzeMeters <= 100 && Positive(ms.InterceptDamage), "invalid counter-missile equipment");
         }
         if (PointDefense is PointDefenseDefinition pd)
             Require(pd.Mounts is { Length: > 0 } && pd.Mounts.All(v => v.IsFinite()) && Positive(pd.RangeMeters) && Positive(pd.ShotsPerSecond)

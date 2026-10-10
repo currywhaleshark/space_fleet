@@ -44,7 +44,11 @@ public partial class Main : Node3D
                 PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f }); return; }
         if (_args.ContainsKey("model-test")) { AddChild(new ShipModelChecks()); return; }
         if (_args.ContainsKey("am-game-test")) { AddChild(new AntimatterGameChecks()); return; }
+        if (_args.ContainsKey("tracking-assist-test")) { AddChild(new WeaponInputChecks { TrackingOnly=true }); return; }
+        if (_args.ContainsKey("counter-missile-input-test")) { AddChild(new WeaponInputChecks { CounterMissileOnly=true }); return; }
+        if (_args.ContainsKey("sensor-coverage-test")) { AddChild(new SensorCoverageChecks()); return; }
         if (_args.ContainsKey("weapon-input-test")) { AddChild(new WeaponInputChecks()); return; }
+        if (_args.ContainsKey("damage-control-test")) { AddChild(new WeaponInputChecks { DamageControlOnly=true }); return; }
         if (_args.ContainsKey("telescope-test")) { AddChild(new TelescopeChecks()); return; }
         if (_args.ContainsKey("navigation-test")) { AddChild(new NavigationChecks()); return; }
         if (_args.ContainsKey("contact-test")) { AddChild(new ContactMemoryChecks()); return; }

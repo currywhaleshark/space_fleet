@@ -53,10 +53,13 @@ public partial class BallisticsView : Node3D
             float length=(float)(p.Velocity.Length()*Math.Min(.095,p.Age));
             Vector3 tail=head-p.Velocity.Normalized()*length;
             bool hostile=p.Shooter.Faction==Faction.Red;
-            CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,hostile?_enemyHalo:_halo),camera,head,tail,Mathf.Max(.5f,CombatFx.PixelSize(camera,head,5)));
+            // 화면 크기 하한은 가까울 때만 넉넉하게: 1.5 km 밖부터 거리에 반비례해 줄여 먼 탄이 크게 빛나지 않게 한다.
+            float near=Mathf.Clamp(1500f/Mathf.Max(1f,head.DistanceTo(camera.GlobalPosition)),.25f,1f);
+            if(near>.3f)
+                CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,hostile?_enemyHalo:_halo),camera,head,tail,Mathf.Max(.5f,CombatFx.PixelSize(camera,head,4*near)));
             var trail=Next(_streaks,t++,CombatFx.Quad,hostile?_enemyTail:_tail);
-            CombatFx.Streak(trail,camera,head,tail,Mathf.Max(.18f,CombatFx.PixelSize(camera,head,2.2f)));
-            CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,head,.65f,14);
+            CombatFx.Streak(trail,camera,head,tail,Mathf.Max(.18f,CombatFx.PixelSize(camera,head,Mathf.Max(1.1f,2f*near))));
+            CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,head,.65f,Mathf.Max(2.5f,9*near));
         }
         foreach(var ship in world.Ships)
         foreach(var gun in ship.Railguns)
@@ -101,8 +104,9 @@ public partial class BallisticsView : Node3D
             if(age<.25f)
             {
                 float pulse=1-age/.25f;
+                float nearHit=Mathf.Clamp(2000f/Mathf.Max(1f,at.DistanceTo(camera.GlobalPosition)),.25f,1f);
                 CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,shield?_shield:_impact),camera,at,
-                    Mathf.Clamp(Mathf.Sqrt(Mathf.Max(impact.Energy,1))*.8f,1,80)*pulse,(shield?8:12)*pulse);
+                    Mathf.Clamp(Mathf.Sqrt(Mathf.Max(impact.Energy,1))*.8f,1,80)*pulse,(shield?8:12)*pulse*nearHit);
                 if(impact.Weapon==BattleWeapon.Railgun && age<.14f)
                 {
                     float speed=impact.Shooter.Railgun?.Definition.MuzzleSpeed??6000;

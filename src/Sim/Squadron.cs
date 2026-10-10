@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 namespace SpaceFleet.Sim;
 
@@ -42,8 +43,14 @@ public sealed class Squadron
     public ShipBody? Target { get; internal set; }
     public string Activity { get; internal set; } = "";
 
-    internal double GatherStarted = double.NegativeInfinity;
-    internal bool Striking;
+    public InterceptorMission Mission { get; internal set; } = InterceptorMission.Recon;
+    public InterceptorMission? OrderedMission { get; internal set; }
+    public ShipBody? MissionTarget { get; internal set; }
+    public ShipBody? ProtectedShip { get; internal set; }
+    public bool AssaultAvailable { get; internal set; }
+    public int MissionChanges { get; internal set; }
+    public double MissionSince { get; internal set; } = double.NegativeInfinity;
+    internal Vector3? ReconDirection;
 
     public static bool Active(ShipBody ship) => !ship.Damage.Destroyed && !ship.Damage.Disabled;
 }

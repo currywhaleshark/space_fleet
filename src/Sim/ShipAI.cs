@@ -83,8 +83,10 @@ public sealed class ShipBrain
     /// <summary>방해를 뚫으려고 센서 핍을 올린 상태.</summary>
     public bool Eccm { get; internal set; }
 
+    public object? SmallTarget { get; internal set; }
     internal double NextThink;
     internal Vector3 DesiredVelocity;
+    internal Vector3 StationVelocity;
     internal bool WantBoost;
     internal float? CommandStandoff;
     internal GunneryOrder PrecisionOrder = new() { Doctrine = FireDoctrine.Disable };

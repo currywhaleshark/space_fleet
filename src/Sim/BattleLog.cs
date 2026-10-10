@@ -51,7 +51,7 @@ public sealed class BattleLog
     public IReadOnlyList<AntimatterFlight> AntimatterFlights => _antimatterFlights;
     internal void EndAntimatter(Missile missile, AntimatterOutcome outcome, double time, ShipBody? hit = null)
     {
-        if (missile.Assault is null || _antimatterFlights.Count >= EventCapacity) return;
+        if (missile.Assault is null || missile.Target is null || _antimatterFlights.Count >= EventCapacity) return;
         _antimatterFlights.Add(new(missile.Faction, missile.Shooter.Callsign, missile.Target.Callsign,
             missile.Target.Class.Kind, time-missile.Age, missile.LaunchRange, missile.Age, missile.TravelMeters,
             missile.SeekerSeconds, missile.ClosestTargetHull, outcome, hit?.Callsign));
@@ -96,6 +96,7 @@ public sealed class BattleLog
     private static void First(ref double? slot, double time) { if (slot is null) slot = time; }
     internal void Fire(ShipBody shooter, BattleWeapon weapon, double time)
     {
+        shooter.Ordnance.Interceptor.FirstAction ??= time;
         var side = Side(shooter.Faction);
         var stats = Ship(shooter);
         var bucket = At(time);

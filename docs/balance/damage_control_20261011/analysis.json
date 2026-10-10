@@ -1,0 +1,216 @@
+{
+  "symmetric_fleet": {
+    "before": {
+      "winners": {
+        "Earth": 4,
+        "Draw": 2,
+        "Mars": 2
+      },
+      "side_winners": {
+        "Earth-Earth/Red": 2,
+        "Earth-Earth/Blue": 2,
+        "Mars-Mars/Draw": 2,
+        "Mars-Mars/Red": 1,
+        "Mars-Mars/Blue": 1
+      },
+      "median_seconds": 712.4169999999999,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 226,
+          "zero_shots": 0
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 148,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    },
+    "after": {
+      "winners": {
+        "Earth": 4,
+        "Draw": 2,
+        "Mars": 2
+      },
+      "side_winners": {
+        "Earth-Earth/Red": 2,
+        "Earth-Earth/Blue": 2,
+        "Mars-Mars/Draw": 2,
+        "Mars-Mars/Red": 1,
+        "Mars-Mars/Blue": 1
+      },
+      "median_seconds": 859.567,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 472,
+          "zero_shots": 0
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 816,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    }
+  },
+  "mixed_fleet": {
+    "before": {
+      "winners": {
+        "Earth": 8
+      },
+      "side_winners": {
+        "Earth-Mars/Blue": 4,
+        "Mars-Earth/Red": 4
+      },
+      "median_seconds": 1500.0,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 0,
+          "zero_shots": 8
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 3050,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    },
+    "after": {
+      "winners": {
+        "Mars": 1,
+        "Earth": 5,
+        "Draw": 2
+      },
+      "side_winners": {
+        "Earth-Mars/Red": 1,
+        "Earth-Mars/Blue": 3,
+        "Mars-Earth/Red": 2,
+        "Mars-Earth/Draw": 2
+      },
+      "median_seconds": 1500.0,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 26,
+          "zero_shots": 3
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 3126,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    }
+  },
+  "duel_20km": {
+    "before": {
+      "winners": {
+        "Draw": 8
+      },
+      "side_winners": {
+        "duel-Battleship-20000-Earth-Mars/Draw": 4,
+        "duel-Battleship-20000-Mars-Earth/Draw": 4
+      },
+      "median_seconds": 1500.0,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 40,
+          "zero_shots": 0
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 3840,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    },
+    "after": {
+      "winners": {
+        "Earth": 8
+      },
+      "side_winners": {
+        "duel-Battleship-20000-Earth-Mars/Blue": 4,
+        "duel-Battleship-20000-Mars-Earth/Red": 4
+      },
+      "median_seconds": 145.5915,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 286,
+          "zero_shots": 0
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 364,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    }
+  },
+  "duel_130km": {
+    "before": {
+      "winners": {
+        "Draw": 8
+      },
+      "side_winners": {
+        "duel-Battleship-130000-Earth-Mars/Draw": 4,
+        "duel-Battleship-130000-Mars-Earth/Draw": 4
+      },
+      "median_seconds": 1500.0,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 0,
+          "zero_shots": 8
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 3840,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    },
+    "after": {
+      "winners": {
+        "Draw": 6,
+        "Mars": 2
+      },
+      "side_winners": {
+        "duel-Battleship-130000-Earth-Mars/Draw": 3,
+        "duel-Battleship-130000-Earth-Mars/Red": 1,
+        "duel-Battleship-130000-Mars-Earth/Draw": 3,
+        "duel-Battleship-130000-Mars-Earth/Blue": 1
+      },
+      "median_seconds": 1500.0,
+      "battleships": {
+        "Earth": {
+          "ships": 8,
+          "shots": 2,
+          "zero_shots": 7
+        },
+        "Mars": {
+          "ships": 8,
+          "shots": 3132,
+          "zero_shots": 0
+        }
+      },
+      "runs": 8
+    }
+  },
+  "sampled_repairs": {
+    "minimum_completions": 751,
+    "ships_with_completion": 202,
+    "note": "5-second telemetry may miss completions immediately before the final outcome."
+  }
+}

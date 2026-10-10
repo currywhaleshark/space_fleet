@@ -34,6 +34,7 @@ public partial class ScaleTest
     {
         get
         {
+            if (SelectedSmallContact is not null) return null;
             ShipView? view = !Camera.TelescopeHeld && Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
                 ? Views.Find(v => v.Body == engaged) : InspectTarget;
             return view is not null && Controlled is { } me && view.Body.Faction != me.Body.Faction
@@ -88,6 +89,11 @@ public partial class ScaleTest
     private void LaunchMissileAtTarget()
     {
         if (Controlled?.Body is not ShipBody player) return;
+        if (SelectedSmallContact is { } small)
+        {
+            if (small.Target is not Missile missile) { Notify("미사일은 함선/미사일 표적용", true); return; }
+            var shot = World.LaunchCounterMissile(player, missile); Notify(shot.Reason, !shot.Fired); return;
+        }
         if (InspectTarget is not ShipView target || target.Body.Faction == player.Faction)
         {
             Notify("미사일 표적 없음 (R로 적 선택)", failed: true);
@@ -153,8 +159,10 @@ public partial class ScaleTest
             && InspectTarget is ShipView mt && World.LaunchMissile(Controlled.Body, mt.Body).Fired)
             _autoMissiles++;
         if (Controlled?.Body is not ShipBody player) return;
+        UpdateSmallAim(player);
         if (Scheme == ControlScheme.Helm)
         {
+            if (SelectedSmallContact is not null) { StepSmallTargetBattery(player); return; }
             FiringSolution = Gunnery?.Solution;
             CorrectingAim = false;
             if (!MenuOpen && !RadarPointerCaptured && SelectedWeapon == PlayerWeapon.MainGun && Gunnery?.Doctrine == FireDoctrine.Manual)
@@ -195,8 +203,10 @@ public partial class ScaleTest
         if (!firing) return;
         if (Camera.TelescopeHeld && ScopeHullBlocked) { Notify("선체에 시야 가림",true); return; }
         // 센서가 없어도 수동 사격은 가능하다. 선택 표적이 조준 범위 안에 있을 때만 선행 보정한다.
-        Vector3 direction = CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
-        FireAttempt attempt = World.FireRailgun(player, direction);
+        if (FireAssist && SelectedSmallContact is not null && !CorrectingSmallAim) { Notify(SmallAimStatus, true); return; }
+        Vector3 direction = CorrectingSmallAim ? SmallAimDirection : CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
+        FireAttempt attempt = FireAssist && CorrectingSmallAim && SelectedSmallContact is { Kind: SmallContactKind.Missile } missile
+            ? World.FireMissileIntercept(player, missile) : World.FireRailgun(player, direction);
         LastFireMessage = attempt.Reason;
         LastFireFailed = !attempt.Fired;
         LastFireTime = World.Time;

@@ -1,0 +1,27 @@
+{
+  "build": {
+    "name": "SpaceFleet-20261011-interceptor-roles-Windows-x64",
+    "builtAt": "2026-10-11T01:17:34.4209154+09:00",
+    "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+    "sourceCommit": "4ac58b7406d415db3a9d4054bbf777e21e0fd16c",
+    "localChanges": true,
+    "platform": "Windows x64",
+    "selfContained": true,
+    "checks": [
+      "PASS: 46 scene flow checks",
+      "PASS: 1204 ship model checks",
+      "PASS: 216 combat visual checks",
+      "PASS: 116 audio checks; recorded peak 0.668",
+      "PASS: 104 fleet audio checks",
+      "PASS: 183 weapon selection/telescope/damage-control checks"
+    ]
+  },
+  "zip_bytes": 81155750,
+  "zip_sha256": "c6ac8a0d504f6c7cb37b68e5f0642462cf0060abccab1b595e3bbaa5546ebec9",
+  "zip_entries_verified": 203,
+  "game_dll_sha256": "7dc18ef8bf32b9c9298c1ac89e1ea1c65d08cbc916f97508e51593b041621d64",
+  "notes": [
+    "Export engine completed; its console wrapper remained after its child exited and was stopped before packaging resumed.",
+    "Initial combat-visual test launch timed out before logging; standalone retry exited successfully with all 216 checks. All six exported test groups passed."
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "id": "escort",
+  "damageControl": { "kits": 5, "repairSeconds": 14, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Escort",
   "railgun": {
     "moduleId": "gun-1", "muzzle": [0, 32, -96], "muzzleSpeed": 8000,

@@ -124,8 +124,9 @@ public partial class BattleFx : Node3D
             {
                 Vec3d at = Vec3d.Lerp(m.PrevPosition, m.Position, (j + 1.0) / n);
                 double born = now - SimWorld.TickDelta * (1 - (j + 1.0) / n);
-                if (j % 2 == 0) Add(_light, Kind.Puff, at, m.Velocity * 0.02f, born, 0.3f, 2.5f, 5f, new Color(1f, 0.75f, 0.45f, 0.7f));
-                Add(_smoke, Kind.Puff, at, RandomUnit() * 1.5f, born, 2.6f, 3f, 11f, new Color(0.62f, 0.64f, 0.7f, 0.22f));
+                // 짧은 배기 연무: 진공이라 금방 흩어진다(긴 연기 띠·불꽃 꼬리를 끌지 않게).
+                if (j % 3 == 0) Add(_light, Kind.Puff, at, m.Velocity * 0.02f, born, 0.12f, 1.5f, 2.5f, new Color(1f, 0.75f, 0.45f, 0.5f));
+                Add(_smoke, Kind.Puff, at, RandomUnit() * 1.5f, born, 0.9f, 2f, 6f, new Color(0.62f, 0.64f, 0.7f, 0.12f));
             }
         }
         foreach (OrdnanceEvent e in world.OrdnanceEvents)

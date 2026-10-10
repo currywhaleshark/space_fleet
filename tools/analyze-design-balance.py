@@ -47,7 +47,7 @@ cross=[row for case,(_,ships) in raw.items() if case in ('Earth-Mars','Mars-Eart
 groups=collections.defaultdict(list)
 for s in cross: groups[(s['design'],s['kind'])].append(s)
 lines += ['', '## 비대칭 함대전의 함종별 기여', '',
-    'Earth-Mars와 Mars-Earth를 합산한다. 피해는 함선 1척당 누적 실드/모듈 피해의 평균이다. 생존은 최초 무력화 또는 격침까지이며, 끝까지 전투 가능하면 판정 시각에서 관측을 종료한다. 격침과 무력화 수는 종료 시점이며 서로 겹칠 수 있다.', '',
+    'Earth-Mars와 Mars-Earth를 합산한다. 피해는 함선 1척당 누적 실드/모듈 피해의 평균이다. 생존은 최초 무력화 또는 격침까지이며, 끝까지 전투 가능하면 판정 시각에서 관측을 종료한다. 격침과 무력화 수는 종료 시점 상태이며 서로 겹치지 않는다.', '',
     '| 설계 / 함종 | 표본 함선 | 실드 피해 | 모듈 피해 | 생존(s) | 격침 / 무력화 | 주포 명중률 | 평균 발사거리(km) |',
     '|---|---:|---:|---:|---:|---:|---:|---:|']
 for (design,kind),rows in sorted(groups.items()):

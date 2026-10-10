@@ -55,6 +55,7 @@ public sealed class ShipBody
             : new[] { new RailgunState(this) };
         Power = new ShipPower(this);
         Ordnance = new OrdnanceState(this);
+        DamageControl = new DamageControlState(this);
     }
 
     public string Callsign { get; }
@@ -62,6 +63,7 @@ public sealed class ShipBody
     public Faction Faction { get; }
     public ShipDefinition Definition { get; }
     public ShipDamage Damage { get; }
+    public DamageControlState DamageControl { get; }
     public RailgunState[] Railguns { get; }
     /// <summary>Primary gun for single-gun callers; battery fire uses Railguns.</summary>
     public RailgunState? Railgun => Railguns.Length > 0 ? Railguns[0] : null;
@@ -169,6 +171,7 @@ public sealed class ShipBody
         PrevPosition = Position;
         PrevOrientation = Orientation;
         SimTime += dt;
+        DamageControl.Step(dt);
         Damage.Step(dt, Power.ShieldEffect);
         Power.Step(dt);
         foreach (RailgunState gun in Railguns) gun.Step(dt);

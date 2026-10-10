@@ -30,6 +30,7 @@ public partial class CombatAudio : Node
     private int _rails;
     private int _droneKills;
     private ulong _pdShots;
+    private int _probesLaunched, _smallKills;
     private uint _amLaunches, _amJettisons;
     private AntimatterMode _amMode;
     private double _worldTime;
@@ -110,6 +111,8 @@ public partial class CombatAudio : Node
         _rails = stats?.Rails ?? 0;
         _droneKills=stats?.DronesDestroyed??0;
         _pdShots = PointDefenseShots(ship);
+        _probesLaunched = ship.Ordnance.Interceptor.Launched;
+        _smallKills = ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills;
         _amLaunches=ship.Ordnance.Antimatter.Launches; _amJettisons=ship.Ordnance.Antimatter.Jettisons;
         _amMode=ship.Ordnance.Antimatter.Mode;
     }
@@ -127,6 +130,8 @@ public partial class CombatAudio : Node
         SetPropulsion(ship);
         if (!_paused)
         {
+            if(ship.Ordnance.Interceptor.Launched > _probesLaunched) Play(CombatSound.ArmorImpact, -22, 1.6f);
+            if(ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills > _smallKills) Play(CombatSound.HitConfirm, -13, 1.25f);
             if(droneKills>_droneKills) Play(CombatSound.HitConfirm,-13,1.2f);
             if(am.Launches>_amLaunches) Play(CombatSound.RailFire,-6,.68f);
             if(am.Mode==AntimatterMode.Armed && _amMode!=am.Mode) Play(CombatSound.HitConfirm,-19,.72f);
@@ -141,6 +146,8 @@ public partial class CombatAudio : Node
         _rails = rails; _worldTime = world.Time;
         _droneKills=droneKills;
         _pdShots = pdShots;
+        _probesLaunched = ship.Ordnance.Interceptor.Launched;
+        _smallKills = ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills;
         _amLaunches=am.Launches; _amJettisons=am.Jettisons; _amMode=am.Mode;
     }
 

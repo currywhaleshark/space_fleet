@@ -19,7 +19,7 @@ public partial class Hud
     {
         Vector2 c = Game.Camera.AimScreenPosition();
         RailgunState? weapon = controlled.Body.Railgun;
-        Color cross = Game.SelectedWeapon == PlayerWeapon.MainGun && Game.CorrectingAim ? Lead : Game.FireAssist ? Text : Motion;
+        Color cross = Game.SelectedWeapon == PlayerWeapon.MainGun && (Game.CorrectingAim || Game.CorrectingSmallAim) ? Lead : Game.FireAssist ? Text : Motion;
 
         if (!Game.Camera.TelescopeHeld)
         {
@@ -63,6 +63,8 @@ public partial class Hud
         if (cam.IsPositionBehind(point))
             return;
         Vector2 p = cam.UnprojectPosition(point);
+        if (Game.Scheme == ControlScheme.Pilot && solution.ViaDatalink)
+            CenteredLabel(p + new Vector2(0, -19), "아군 링크", 11, Friendly);
         // 조함 방식: 표적이 포각 밖이거나 선체에 가리면 선행점이 빨갛다(OffscreenHud의 사선 상태).
         Color color = Game.Scheme == ControlScheme.Helm ? (_hasEngagedLine && _engagedLine != FireFailure.None ? Hostile : Lead)
             : Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);

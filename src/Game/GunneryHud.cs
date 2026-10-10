@@ -44,6 +44,8 @@ public partial class Hud
 
         // 가운데: 표적
         float mx = x + 150f;
+        if (order.Solution is { Valid: true, ViaDatalink: true })
+            CenteredLabel(new Vector2(mx, cy - 37f), "아군 링크", 11, Friendly);
         ContactSnapshot? lost = Game.FireTarget is null && Game.InspectTarget is { } inspect
             && Game.ContactOf(inspect) is { SignalLost: true } memory ? memory : null;
         if (Game.FireTarget is ShipView target)

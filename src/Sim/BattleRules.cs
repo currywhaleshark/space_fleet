@@ -37,8 +37,11 @@ public sealed class BattleRules
     public BattleOutcome? Evaluate(double time)
     {
         if (Outcome is not null) return Outcome;
-        bool Lost(Faction f) => Fraction(f) <= DefeatFraction ||
-            (_flagships[(int)f] is { } flagship && (flagship.Damage.Destroyed || flagship.Damage.Disabled) && Fraction(f) <= FlagshipDefeatFraction);
+        double RecoverableFraction(Faction f) => Initial(f) <= 0 ? 0 : (Strength(_world.Ships, f)
+            + _world.Ships.Where(s => s.Faction == f && s.DamageControl.RecoveringDisable).Sum(s => Weight(s.Class.Kind))) / Initial(f);
+        bool Lost(Faction f) => RecoverableFraction(f) <= DefeatFraction ||
+            (_flagships[(int)f] is { } flagship && (flagship.Damage.Destroyed || flagship.Damage.Disabled && !flagship.DamageControl.RecoveringDisable)
+                && RecoverableFraction(f) <= FlagshipDefeatFraction);
         bool blue = Lost(Faction.Blue), red = Lost(Faction.Red);
         if (blue || red) Outcome = new(blue && red ? null : blue ? Faction.Red : Faction.Blue,
             blue && red ? "동시 전력 상실" : "전력 상실", time);

@@ -15,8 +15,9 @@ public partial class Hud
     {
         var squadrons = Game.World.Squadrons.Where(q => q.Faction == controlled.Body.Faction).ToList();
         if (squadrons.Count == 0) return;
+        DrawInterceptorStatus(controlled, screen);
         const float row = 20f;
-        var panel = new Rect2(16, screen.Y - 160 - squadrons.Count * row - 12, 250, squadrons.Count * row + 8);
+        var panel = new Rect2(16, screen.Y - 228 - squadrons.Count * row - 12, 250, squadrons.Count * row + 8);
         DrawRect(panel, PanelBack);
 
         for (int i = 0; i < squadrons.Count; i++)
@@ -49,7 +50,7 @@ public partial class Hud
                 x += r * 2 + 4;
             }
 
-            string activity = mine
+            string activity = q.Role == SquadronRole.InterceptorWing ? q.Activity : mine
                 ? Game.SquadOrder switch
                 {
                     SquadCommand.Focus => $"집중 {Game.SquadTarget?.Callsign}",

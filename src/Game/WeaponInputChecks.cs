@@ -9,6 +9,7 @@ namespace SpaceFleet.Game;
 /// <summary>--weapon-input-test: actual input routing, independent ammo and optical camera transitions.</summary>
 public partial class WeaponInputChecks : Node
 {
+    public bool DamageControlOnly { get; init; }
     private int _checks;
     private void Check(bool ok,string why) { if(!ok) throw new InvalidOperationException(why); _checks++; }
     private static void KeyEvent(ScaleTest game,Key key,bool pressed=true)
@@ -24,12 +25,17 @@ public partial class WeaponInputChecks : Node
     { for(int i=0;i<frames;i++) game._PhysicsProcess(SimWorld.TickDelta); }
     public override void _Ready()
     {
-        try { Run(); GD.Print($"PASS: {_checks} weapon selection/telescope checks"); GetTree().Quit(); }
+        try { if (CounterMissileOnly) { CheckCounterMissileInput(); } else if (TrackingOnly) { CheckMissileTracking(); } else if (DamageControlOnly) { InputSetup.Register(); CheckDamageControlInput(); } else Run();
+            GD.Print($"PASS: {_checks} weapon selection/telescope/damage-control checks"); GetTree().Quit(); }
         catch(Exception e) { GD.PushError(e.ToString()); GetTree().Quit(1); }
         finally { Input.ActionRelease(InputSetup.Fire); }
     }
     private void Run()
     {
+        CheckCounterMissileInput();
+        CheckMissileTracking();
+        CheckPointerTargets();
+        CheckInterceptorInput();
         InputSetup.Register(); InputSetup.Register();
         Check(InputMap.ActionGetEvents(InputSetup.Fire).Count==1 && InputMap.ActionGetEvents(InputSetup.Telescope).Count==1,
             "Registering scenes twice does not duplicate mouse bindings");
@@ -44,13 +50,13 @@ public partial class WeaponInputChecks : Node
         Input.MouseMode=Input.MouseModeEnum.Captured;
         int rail=ship.Railgun!.Rounds;
         Input.ActionPress(InputSetup.Fire); Tick(game); Input.ActionRelease(InputSetup.Fire);
-        Check(ship.Railgun.Rounds==rail-1 && ship.Ordnance.Missiles==4 && am.Rounds==2,"Main gun click consumes only main ammo");
+        Check(ship.Railgun.Rounds==rail-1 && ship.Ordnance.Missiles==4 && am.Rounds==3,"Main gun click consumes only main ammo");
         rail=ship.Railgun.Rounds;
         KeyEvent(game,Key.Key2);
         Check(game.SelectedWeapon==PlayerWeapon.Missile,"Key 2 selects missile in non-dev battle");
         Mouse(game,MouseButton.Right); Follow(game);
         Check(game.Camera.TelescopeHeld && Math.Abs(game.Camera.Fov-ChaseCamera.TelescopeFov)<.01,"Right hold reaches fourfold optical magnification");
-        Check(ship.Ordnance.Missiles==4 && am.Rounds==2,"Right click never fires secondary weapons");
+        Check(ship.Ordnance.Missiles==4 && am.Rounds==3,"Right click never fires secondary weapons");
         Mouse(game,MouseButton.Left); Input.ActionPress(InputSetup.Fire); Tick(game,155); Input.ActionRelease(InputSetup.Fire);
         Mouse(game,MouseButton.Left,false);
         Check(ship.Ordnance.Missiles==3 && ship.Railgun.Rounds==rail,"Scoped missile click fires once, holding never fires railgun or extra missiles");
@@ -64,11 +70,11 @@ public partial class WeaponInputChecks : Node
         KeyEvent(game,Key.Key3); Tick(game,155);
         Check(am.Ready,"Selected torpedo becomes armed");
         Mouse(game,MouseButton.Right); Mouse(game,MouseButton.Left); Mouse(game,MouseButton.Left,false);
-        Check(am.Rounds==1 && ship.Ordnance.Missiles==3 && ship.Railgun.Rounds==rail,"Scoped left click fires only selected torpedo");
+        Check(am.Rounds==2 && ship.Ordnance.Missiles==3 && ship.Railgun.Rounds==rail,"Scoped left click fires only selected torpedo");
         Check(am.Mode==AntimatterMode.Safe,"Next torpedo requires a new preparation");
         KeyEvent(game,Key.Key3); KeyEvent(game,Key.Key2);
         Check(am.Mode==AntimatterMode.Safe,"Switch to missile also cancels preparation");
-        foreach(var key in new[]{Key.Key4,Key.Key5,Key.Key0,Key.Key6}) KeyEvent(game,key);
+        foreach(var key in new[]{Key.Key4,Key.Key0,Key.Key6}) KeyEvent(game,key);
         Check(game.SelectedWeapon==PlayerWeapon.Missile && pips.SequenceEqual(Enum.GetValues<PowerChannel>().Select(ship.Power.Pips)),
             "Number keys never change power allocation; a ship without drones cannot open their radial");
         Check(!game.MenuOpen,"Key 4 on an interceptor reports unavailable hardware without trapping input");
@@ -127,6 +133,156 @@ public partial class WeaponInputChecks : Node
         Check(!game.Camera.TelescopeHeld && game.SelectedWeapon==PlayerWeapon.MainGun,"Ship handover resets scope and weapon selection");
         game.Free();
         CheckDroneInput();
+        CheckDamageControlInput();
+        CheckDatalinkInput();
+    }
+    private void CheckDatalinkInput()
+    {
+        foreach(string control in new[]{"IC-21","BB-01"})
+        {
+            var game=new ScaleTest {LaunchControl=control}; AddChild(game);
+            game.SetProcess(false); game.SetPhysicsProcess(false);
+            foreach(var body in game.World.Ships) {game.World.DetachBrain(body); body.DamageControl.Priority=RepairPriority.Hold;}
+            KeyEvent(game,Key.F7);
+            var ship=game.Controlled!.Body;
+            var target=game.FireTarget!.Body;
+            var scout=game.World.Ships.First(s=>s!=ship&&s.Faction==ship.Faction&&s.Class.Kind==HullKind.Escort);
+            scout.Place(ship.Position+Vec3d.From(ship.Orientation*Vector3.Right)*4000+Vec3d.From(ship.Forward)*3000,ship.Orientation);
+            foreach(var body in game.World.Ships.Where(s=>s.Faction==ship.Faction&&s!=scout))
+            foreach(var sensor in body.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor))
+                body.Damage.Hurt(sensor,sensor.Health,body.SimTime,0,1);
+            target.Velocity=Vector3.Zero;
+            if(game.Gunnery is {} order) {order.Doctrine=FireDoctrine.Focus;order.Target=target;}
+            Tick(game,90);
+            var solution=game.Scheme==ControlScheme.Pilot?game.FiringSolution:game.Gunnery?.Solution;
+            Check(ship.Damage.SensorFraction==0&&solution is {Valid:true,ViaDatalink:true},
+                "Pilot lead marker and capital gunnery receive a linked solution while own sensors are destroyed");
+            foreach(var sensor in scout.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor))
+                scout.Damage.Hurt(sensor,sensor.Health,scout.SimTime,0,1);
+            Tick(game,30);
+            solution=game.Scheme==ControlScheme.Pilot?game.FiringSolution:game.Gunnery?.Solution;
+            Check(solution is not {Valid:true},"Lost allied lock removes the HUD firing solution");
+            game.Free();
+        }
+    }
+    private void CheckInterceptorInput()
+    {
+        InputSetup.Register();
+        var game = new ScaleTest { BattleMode=true, DevMode=false, LaunchControl="IC-21" }; AddChild(game);
+        game.SetProcess(false); game.SetPhysicsProcess(false);
+        foreach (var body in game.World.Ships) game.World.DetachBrain(body);
+        var ship = game.Controlled!.Body; var wing = ship.Squadron!;
+        var radial = game.GetNode<RadialMenu>("HudLayer/RadialMenu");
+        void Point(float degrees)
+        {
+            Vector2 offset = new Vector2(Mathf.Sin(Mathf.DegToRad(degrees)), -Mathf.Cos(Mathf.DegToRad(degrees))) * 100;
+            game._UnhandledInput(new InputEventMouseMotion { Relative=offset, Position=radial.Center+offset });
+        }
+        foreach (var mission in Enum.GetValues<InterceptorMission>())
+        {
+            Input.MouseMode=Input.MouseModeEnum.Captured;
+            var aim=game.Camera.AimForward;
+            KeyEvent(game,Key.N);
+            Check(game.MenuOpen && Input.MouseMode==Input.MouseModeEnum.Visible, "Pilot radial releases mouse capture");
+            Point((int)mission*51.43f);
+            int rounds=ship.Railgun!.Rounds;
+            Input.ActionPress(InputSetup.Fire); Tick(game); Input.ActionRelease(InputSetup.Fire);
+            Check(ship.Railgun.Rounds==rounds && game.Camera.AimForward==aim && ship.Control.HelmForward is null,
+                "Mission gesture cannot fire or steer the nose");
+            KeyEvent(game,Key.N,false);
+            Check(wing.OrderedMission==mission && Input.MouseMode==Input.MouseModeEnum.Captured, "Mission applies and capture restores");
+        }
+        KeyEvent(game,Key.N); Point(308.58f); KeyEvent(game,Key.N,false);
+        Check(ship.Ordnance.Interceptor.Probes==1 && game.World.Probes.Count(p=>p.Owner==ship)==1, "N radial deploys one probe from player ship");
+        Check(ship.Ordnance.Missiles==4 && ship.Ordnance.Antimatter.Rounds==3, "Player probe leaves both missile stores intact");
+        KeyEvent(game,Key.N); Point(257.15f); KeyEvent(game,Key.N,false);
+        Check(wing.OrderedMission is null, "Automatic mission option clears manual override");
+        KeyEvent(game,Key.N); Point(0); KeyEvent(game,Key.Escape);
+        Check(!game.MenuOpen && wing.OrderedMission is null, "Cancel does not issue mission");
+        // Mission orders can attach wingmate brains. Isolate the player's shot from their
+        // newly operational counter-missiles and the rest of the fleet's point defense.
+        int isolated = 0;
+        foreach (var other in game.World.Ships.Where(s => s != ship))
+        { game.World.DetachBrain(other); other.Place(new Vec3d(1e9, ++isolated * 10000, 0), Quaternion.Identity); other.Velocity = Vector3.Zero; }
+        var enemy=game.World.Ships.First(s=>s.Faction!=ship.Faction && s.Class.Kind==HullKind.Interceptor);
+        enemy.Place(ship.Position+Vec3d.From(ship.Forward)*8000,ship.Orientation);
+        game.World.Sensors.Update(game.World.Ships,game.World.Time,true);
+        Check(game.World.LaunchMissile(enemy,ship).Fired,"Player defense fixture launches real incoming missile");
+        var missile=game.World.Missiles.Last(); missile.Position=ship.Position+Vec3d.From(ship.Forward)*2800;
+        missile.Velocity=-ship.Forward*1000; missile.NoseDirection=-ship.Forward;
+        // This check isolates passive aim/input against a steady track. Powered maneuvering
+        // targets and active selection are exercised by CheckPointerTargets/CheckMissileTracking.
+        missile.Age=missile.Definition.BurnSeconds+1;
+        game.World.Sensors.Update(game.World.Ships,game.World.Time,true,game.World.Probes,game.World.Missiles);
+        game.Camera.ResetAim(ship.Orientation); Input.MouseMode=Input.MouseModeEnum.Captured;
+        Mouse(game,MouseButton.Left,false); Tick(game);
+        Check(game.SmallAimTarget?.Target==missile && game.CorrectingSmallAim,"Player gets an incoming missile marker and finite nose-cone aim assist");
+        Input.ActionPress(InputSetup.Fire); Tick(game,30); Input.ActionRelease(InputSetup.Fire);
+        Check(ship.Ordnance.Interceptor.MissileKills>0,$"Actual player left-click forward gun intercepts missile: ammo={ship.Railgun!.Rounds}, message={game.LastFireMessage}, health={missile.Health}, active={game.World.Missiles.Contains(missile)}, ownV={ship.Velocity}, targetV={missile.Velocity}, correcting={game.CorrectingSmallAim}, lead={game.SmallAimDirection}");
+        KeyEvent(game,Key.M);
+        Check(game.WorldMapOpen, "Full map still opens");
+        var probe=game.World.Probes.Single(p=>p.Owner==ship);
+        Check(game.ProbeMarkers().Any(p=>p.Position==probe.Position), "Map/HUD markers expose real friendly probe position");
+        KeyEvent(game,Key.M);
+        var helm = new ScaleTest { BattleMode=true, DevMode=false, LaunchControl="BB-01" }; AddChild(helm);
+        helm.SetProcess(false); helm.SetPhysicsProcess(false);
+        var selectedWing = helm.World.Squadrons.First(q => q.Faction==Faction.Blue && q.Role==SquadronRole.InterceptorWing);
+        helm.SelectMapContact(helm.Views.First(v => v.Body.Squadron==selectedWing));
+        KeyEvent(helm,Key.N);
+        var helmRadial=helm.GetNode<RadialMenu>("HudLayer/RadialMenu");
+        Vector2 selection=new Vector2(Mathf.Sin(Mathf.DegToRad(51.43f)),-Mathf.Cos(Mathf.DegToRad(51.43f)))*100;
+        helm._UnhandledInput(new InputEventMouseMotion { Position=helmRadial.Center+selection, Relative=selection });
+        KeyEvent(helm,Key.N,false);
+        Check(selectedWing.OrderedMission==InterceptorMission.AirDefense, "Capital player can command selected interceptor wing");
+        RemoveChild(helm); helm.Free();
+        RemoveChild(game); game.Free();
+    }
+
+    private void CheckDamageControlInput()
+    {
+        foreach(string control in new[]{"IC-21", "BB-01"})
+        {
+            var game=new ScaleTest { BattleMode=true,DevMode=false,LaunchControl=control }; AddChild(game);
+            game.SetProcess(false); game.SetPhysicsProcess(false);
+            foreach(var body in game.World.Ships) game.World.DetachBrain(body);
+            if(game.Gunnery is {} gunnery) gunnery.Doctrine=FireDoctrine.Hold;
+            var ship=game.Controlled!.Body; var dc=ship.DamageControl;
+            var radial=game.GetNode<RadialMenu>("HudLayer/RadialMenu");
+            void Point(float angle)
+            {
+                var offset=new Vector2(Mathf.Sin(Mathf.DegToRad(angle)),-Mathf.Cos(Mathf.DegToRad(angle)))*100;
+                game._UnhandledInput(new InputEventMouseMotion {Position=radial.Center+offset,Relative=offset});
+            }
+            Check(InputMap.ActionGetEvents(InputSetup.DamageControlMenu).Count==1,"5 is bound exactly once");
+            foreach(var priority in Enum.GetValues<RepairPriority>())
+            {
+                Mouse(game,MouseButton.Right); KeyEvent(game,Key.Key5);
+                Check(game.MenuOpen&&!game.Camera.TelescopeHeld,"Damage-control radial opens in both control schemes and exits telescope");
+                Point((int)priority*45); Mouse(game,MouseButton.Left); KeyEvent(game,Key.Key2);
+                Check(game.SelectedWeapon==PlayerWeapon.MainGun,"Damage-control gesture blocks weapon input");
+                KeyEvent(game,Key.Key5,false); Mouse(game,MouseButton.Left,false);
+                Check(dc.Priority==priority&&!game.MenuOpen,"5 release applies highlighted repair priority");
+            }
+            dc.Priority=RepairPriority.Automatic;
+            KeyEvent(game,Key.Key5); Point(90); KeyEvent(game,Key.Escape); KeyEvent(game,Key.Key5,false);
+            Check(dc.Priority==RepairPriority.Automatic&&!game.Paused,"Escape cancels repair gesture before pause");
+            KeyEvent(game,Key.Key5); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.Key5,false);
+            Check(dc.Priority==RepairPriority.Automatic&&!game.MenuOpen,"Pause cancels pending repair command");
+            KeyEvent(game,Key.Key5); Point(90); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.Key5,false);
+            Check(dc.Priority==RepairPriority.Automatic&&!game.MenuOpen,"Focus loss cancels pending repair command");
+            foreach(var module in ship.Damage.Modules.Where(m=>m.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator))
+                ship.Damage.Hurt(module,module.Health,ship.SimTime,0,1);
+            Tick(game,360); game._Process(6);
+            Check(game.Controlled.Body==ship&&game.DeathRemaining<0&&ship.DamageControl.RecoveringDisable,
+                "Recoverable power loss keeps the player aboard beyond the old three-second handover");
+            KeyEvent(game,Key.Key5); Point(45); KeyEvent(game,Key.Key5,false);
+            Check(dc.Priority==RepairPriority.Power,"Disabled ship still accepts repair commands");
+            Tick(game,1800); game._Process(30);
+            Check(!ship.Damage.Disabled&&game.Controlled.Body==ship,"Restored ship resumes without an unwanted handover");
+            ship.Damage.Breakup(ship.SimTime,"irreversible test"); Tick(game,200);
+            Check(game.Controlled.Body!=ship||game.Spectating,"Destroyed ship still hands control away");
+            game.Free();
+        }
     }
     private void CheckDroneInput()
     {

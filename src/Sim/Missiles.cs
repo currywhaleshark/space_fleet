@@ -20,6 +20,11 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
     public float MaxSteeringAngleDegrees { get; init; } = 90f;
     /// <summary>Engine nozzle deflection from the actual body attitude.</summary>
     public float ThrustGimbalDegrees { get; init; } = 10f;
+    public bool CanInterceptMissiles { get; init; }
+    public float InterceptRangeMeters { get; init; } = 12000;
+    public float InterceptFuzeMeters { get; init; } = 24;
+    public float InterceptDamage { get; init; } = 12;
+    public float BodyScale { get; init; } = 1;
 }
 
 /// <summary>
@@ -43,6 +48,7 @@ public sealed class OrdnanceState
     public OrdnanceState(ShipBody ship)
     {
         _ship = ship;
+        Interceptor = new InterceptorEquipment(ship);
         Antimatter = new AntimatterState(ship);
         Drones = new DefenseDroneState(ship);
         PointDefense = new PointDefenseMountState[ship.Definition.PointDefense?.Mounts.Length ?? 0];
@@ -51,6 +57,7 @@ public sealed class OrdnanceState
     }
 
     public int Missiles { get; private set; }
+    public InterceptorEquipment Interceptor { get; }
     public AntimatterState Antimatter { get; }
     public DefenseDroneState Drones { get; }
     public PointDefenseMountState[] PointDefense { get; }
@@ -110,7 +117,10 @@ public sealed class Missile
 {
     public required uint Id { get; init; }
     public required ShipBody Shooter { get; init; }
-    public required ShipBody Target { get; init; }
+    public ShipBody? Target { get; init; }
+    public Missile? InterceptTarget { get; init; }
+    internal bool InterceptClosing, InterceptPassed;
+    internal Vector3 LastAimVelocity;
     public required MissileDefinition Definition { get; init; }
     public BattleWeapon Weapon { get; init; } = BattleWeapon.Missile;
     public AntimatterDefinition? Assault { get; init; }
@@ -133,7 +143,7 @@ public sealed class Missile
     public object? SeekerTarget { get; internal set; }
     /// <summary>마지막으로 향한 목표점. 센서망이 표적을 놓치면 여기로 계속 난다.</summary>
     public Vec3d AimPoint { get; internal set; }
-    public bool Burning => Age < Definition.BurnSeconds;
+    public bool Burning => Age < Definition.BurnSeconds && !InterceptPassed;
     public bool SeekerLocked => SeekerTarget is not null;
     public bool OnDecoy => SeekerTarget is Decoy;
     internal double NextSeekerCheck;
@@ -163,6 +173,7 @@ public enum OrdnanceEventKind
     ContainmentFailure,
     Jettisoned,
     DroneDestroyed,
+    ProbeDestroyed,
 }
 
 public readonly record struct OrdnanceEvent(OrdnanceEventKind Kind, Vec3d Position, double Time, Faction Faction,

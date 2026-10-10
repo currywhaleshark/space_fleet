@@ -43,7 +43,7 @@ public partial class ScaleTest
         if(_fireReleaseGuard) return true;
         if(Camera.TelescopeHeld && ScopeHullBlocked) { Notify("선체에 시야 가림",true); return true; }
         if(SelectedWeapon!=PlayerWeapon.MainGun) FireSelectedWeapon();
-        else if(Scheme==ControlScheme.Helm && Gunnery?.Doctrine!=FireDoctrine.Manual && e is InputEventMouseButton mouse)
+        else if(SelectedSmallContact is null && Scheme==ControlScheme.Helm && Gunnery?.Doctrine!=FireDoctrine.Manual && e is InputEventMouseButton mouse)
         {
             SelectAt(mouse.Position);
             FireSelectedMainBattery();
@@ -62,7 +62,7 @@ public partial class ScaleTest
     public override void _Notification(int what)
     {
         if(what!=NotificationApplicationFocusOut) return;
-        Camera?.ResetTelescope(); _fireReleaseGuard=true; JettisonProgress=0;
+        Camera?.ResetTelescope(); _selectionPointer=null; _fireReleaseGuard=true; JettisonProgress=0;
         if (MenuOpen) { _radial.Cancel(); _radialAction=null; }
     }
 }
