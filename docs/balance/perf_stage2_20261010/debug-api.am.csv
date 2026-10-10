@@ -1,0 +1,9 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+1,0,Blue,IC-24,DD-X5,Escort,714.562,4992.7,4.304,4436.3,1.304,0.0,Hit,DD-X5
+1,0,Red,IC-X5,DD-32,Escort,716.496,3256.4,2.938,2627.2,0.500,1176.1,PointDefense,
+1,0,Red,IC-X3,DD-32,Escort,719.746,4179.3,2.083,2011.6,0.000,2406.6,PointDefense,
+1,0,Blue,IC-23,DD-X5,Escort,719.496,4977.4,4.208,4599.2,1.208,0.0,Hit,DD-X5
+1,0,Blue,IC-24,DD-X5,Escort,723.062,3307.5,3.450,2779.1,1.950,0.0,Hit,DD-X5
+1,0,Red,IC-X4,DD-32,Escort,722.396,4992.6,4.467,5799.0,1.467,0.0,Hit,DD-32
+1,0,Red,IC-X5,DD-32,Escort,724.996,4630.6,5.296,5676.4,1.796,0.0,Hit,DD-32
+1,0,Blue,IC-23,DD-X5,Escort,727.996,2994.5,3.063,2871.3,2.062,0.0,Hit,DD-X5

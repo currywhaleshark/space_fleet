@@ -12,6 +12,10 @@ public sealed record BattleConfig
     public bool Mirror { get; init; }
     public double PositionJitter { get; init; } = 2_000;
     public float HeadingJitterDegrees { get; init; } = 5;
+    public DesignFamily BlueDesign { get; init; } = DesignFamily.Earth;
+    public DesignFamily RedDesign { get; init; } = DesignFamily.Earth;
+    // Explicit IDs allow mixed-design fleets, without turning a team into a design faction.
+    public IReadOnlyDictionary<string, string>? HullOverrides { get; init; }
 }
 
 public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship);
@@ -19,6 +23,24 @@ public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFl
 /// <summary>Canonical game/test fleet placement. Jitter belongs to a spatial squad slot, so mirrors swap the same poses.</summary>
 public static class BattleSetup
 {
+    public static void SpawnDuel(SimWorld world, BattleConfig config, HullKind kind)
+    {
+        if (world.Ships.Count != 0 || !double.IsFinite(config.StartDistance) || config.StartDistance <= 0)
+            throw new ArgumentException("Duel requires an empty world and a positive separation");
+        var blue = world.Add(new ShipBody("DUEL-B", ShipDefinitions.For(kind, config.BlueDesign), Faction.Blue));
+        var red = world.Add(new ShipBody("DUEL-R", ShipDefinitions.For(kind, config.RedDesign), Faction.Red));
+        var random = new Random(config.Seed);
+        foreach (var ship in new[] { blue, red })
+        {
+            bool front = (ship.Faction == Faction.Blue) != config.Mirror;
+            ship.Place(new Vec3d(0, (random.NextDouble()-.5)*config.PositionJitter, front ? 0 : -config.StartDistance),
+                new Quaternion(Vector3.Up, front ? 0 : Mathf.Pi));
+            world.AttachBrain(ship, ShipOrder.AttackOn(ship == blue ? red : blue));
+        }
+        world.Doctrine = new FleetDoctrine();
+        world.Sensors.Update(world.Ships, 0, force:true);
+        world.Rules = new BattleRules(world); world.Log = new BattleLog(world);
+    }
     public static BattleRoster Spawn(SimWorld world, BattleConfig config)
     {
         if (world.Ships.Count != 0) throw new ArgumentException("Battle setup requires an empty world");
@@ -46,7 +68,10 @@ public static class BattleSetup
             Vec3d origin = side == 0 ? Vec3d.Zero : Vec3d.From(config.RedOffset) + new Vec3d(0, 0, -config.StartDistance);
             ShipBody Make(string call, ShipClass cls, int squad, double x, double y, double z)
             {
-                var ship = world.Add(new ShipBody(call, cls, faction));
+                ShipDefinition definition = config.HullOverrides?.TryGetValue(call, out string? id) == true
+                    ? ShipDefinitions.ById(id) : ShipDefinitions.For(cls.Kind, blue ? config.BlueDesign : config.RedDesign);
+                if (definition.Kind != cls.Kind) throw new ArgumentException($"{call}: hull override must be {cls.Kind}");
+                var ship = world.Add(new ShipBody(call, definition, faction));
                 ship.Place(origin + offsets[side, squad] + new Vec3d(x * dir, y, z * dir),
                     new Quaternion(Vector3.Up, (side == 0 ? 0 : Mathf.Pi) + headings[side, squad]));
                 ship.Control = ShipControl.Idle;

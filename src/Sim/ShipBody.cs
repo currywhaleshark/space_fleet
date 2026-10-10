@@ -37,6 +37,8 @@ public struct ShipControl
 /// </summary>
 public sealed class ShipBody
 {
+    public ShipBody(string callsign, ShipDefinition definition, Faction faction)
+        : this(callsign, definition.Flight, faction, definition) { }
     public const float StandardGravity = 9.80665f;
     // 제동과 횡미끄럼 보정에 쓸 추력을 남긴다. 횡추력을 전부 선회에 쓰면 감속 중 경로가 뒤처진다.
     private const float TurnThrustFraction = 0.7f;
@@ -46,7 +48,7 @@ public sealed class ShipBody
         Callsign = callsign;
         Class = shipClass;
         Faction = faction;
-        Definition = definition ?? ShipDefinitions.For(shipClass.Kind);
+        Definition = definition ?? ShipDefinitions.For(shipClass);
         Damage = new ShipDamage(Definition, callsign);
         Railguns = Definition.Railgun is not { } gun ? System.Array.Empty<RailgunState>()
             : gun.Mounts is { Length: > 0 } mounts ? System.Array.ConvertAll(mounts, mount => new RailgunState(this, mount))

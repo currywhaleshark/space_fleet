@@ -1,0 +1,164 @@
+{
+  "base_commit": "d5824a2760a51b6e8528906e0d1dc22c82526fa3",
+  "stage": "1 - instrumented pre-optimization baseline; no algorithm or balance change",
+  "batches": {
+    "baseline": {
+      "source": "base commit, compiled before edits",
+      "configuration": "Release",
+      "seeds": "1-10 + mirror",
+      "jobs": 6,
+      "profiling": false
+    },
+    "profile-release": {
+      "configuration": "Release",
+      "seeds": "1-10 + mirror",
+      "jobs": 1,
+      "profiling": "sections + outer tick"
+    },
+    "profile-off": {
+      "configuration": "Release",
+      "seeds": "1-10 + mirror",
+      "jobs": 6,
+      "profiling": false
+    },
+    "profile-debug": {
+      "configuration": "Debug",
+      "seeds": "1",
+      "jobs": 1,
+      "profiling": "sections + outer tick"
+    },
+    "tick-only-release": {
+      "configuration": "Release",
+      "seeds": "1",
+      "jobs": 1,
+      "profiling": "outer tick only"
+    }
+  },
+  "game_arguments": "--autoplay --seed=1 --perf-trace --perf-seconds=600 --autoplay-quit --post-seconds=0",
+  "game_export": "builds/SpaceFleet-20261010-profiler-verified-Windows-x64/SpaceFleet.exe",
+  "game_window_aggregation": "tick-weighted; only complete windows within each time band; first frame and last partial window excluded",
+  "comparisons": {
+    "profile-release": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "original_matching_sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      }
+    },
+    "profile-off": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "original_matching_sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      }
+    }
+  },
+  "sim_checks": 1415,
+  "export_checks": {
+    "flow-test": [
+      "PASS: 39 scene flow checks"
+    ],
+    "model-test": [
+      "PASS: 681 ship model checks"
+    ],
+    "combat-visual-test": [
+      "PASS: 36 combat visual checks"
+    ],
+    "audio-test": [
+      "PASS: 116 audio checks; recorded peak 0.492"
+    ],
+    "fleet-audio-test": [
+      "PASS: 104 fleet audio checks"
+    ]
+  },
+  "limitations": [
+    "one machine; CPU clocks, OS load and JIT not controlled",
+    "p99 spreads are per-battle, not pooled",
+    "game and batch startup paths differ; section comparisons are not identical-state CPU-overhead experiments",
+    "exact profiler overhead and human-play stutter have not been evaluated",
+    "Release gameplay logged one nonfatal polygon triangulation error; see raw log and report"
+  ],
+  "file_sha256": {
+    "baseline-commit.txt": "3c4373b1fa627d9c00ac0e1a094f6d4df65f9b90b66d93b8f3350abe4532f3eb",
+    "baseline-console.log": "ea135294d93d13a6b617c19b5496a7a8725351e423284e52c16d7e7c84715674",
+    "baseline.am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef",
+    "baseline.csv": "9c40c02a1c2c48e8153d4c642420395dffcaee48b591b9e75de6057ecef4d084",
+    "baseline.ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+    "baseline.summaries.json": "02727f56e76f007e612a19e7a900a30aa2ab6287d4c7e7910f7ce51bc2a63602",
+    "environment.json": "43c0f667fd1cd8b754742f930b98ebebda8e233fae57ffbd6c2ddc40b262d9ab",
+    "export-audio-test.log": "7ae6cf9b94ed7ad9a4562f695940ad7d2d946afaa7f89acde6d5f0f4e57769b5",
+    "export-build-info.json": "910953b0ad5f42081d13f3cd38f40026a89fcaf9038df30a9be142de3b64942e",
+    "export-combat-visual-test.log": "a5da7918e27e8e117af30838c8f433a03d8c860dd92beaea1fe6fd8334383748",
+    "export-fleet-audio-test.log": "945d07577265a9064656541c8e39d6637a8cea5bc1744dfc6b24311d3fee1b22",
+    "export-flow-test.log": "72050157ec2137ad2ed9fefb0a271b25d2c6f8e30ebfc190937cc94b53efd74b",
+    "export-model-test.log": "3b59b7e9b273124a6730df1bb93b8c15eff5dab2d0965c34681f3a8c7cfe366a",
+    "game-analysis.json": "af579bd82a7a0acc821e6da0efa7eb3260e1cdac9a6b92077d3f56ce93148a4e",
+    "game-debug.log": "bb081f91c9c592a8fb5f054384072835bf318777e97d57537e3e79ed2d6c6a93",
+    "game-release.log": "d1c55ce456cd97370eec2b2bda67403820215a302989b00b7863fdf024d7095c",
+    "profile-debug.analysis.json": "bbfe743c1ec2c2b29e64bea974a4141ec8aa95da09187c2d054111b8c11e6d2a",
+    "profile-debug.csv": "f13d5a210379a8e557c264a31cdc1e9b1cef9514c101e8608c4066def4441aaf",
+    "profile-debug.log": "8263556fa1cd3b8166d7ab7bc4068a1ad29f4707f955741f2acf26a0dbb5f379",
+    "profile-debug.sections.csv": "9c6bc6ad78ff06185d3ac57d2f7b1c5d195141092c5fb29550c957ad10f70834",
+    "profile-off.csv": "9403a30b2a2d347f86f01798175845a5b3a6ac88cf4b206cd8c88cf1f0cd8834",
+    "profile-off.log": "1f931b9155fcfc02807cd32cc8f3f23e965e75b0bd4aa3bdf76fa811ba60bc56",
+    "profile-off.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "profile-release.analysis.json": "ddf9ce94070178953b01c692b92576c42bfa8d5c50a99e8a8ab1513101bf10a6",
+    "profile-release.csv": "8440bb62e0d5a8656f61f14aae9070166cab053d1597ab14dc110390d5620b0a",
+    "profile-release.log": "5705d893d1a17ec211417523083a6515848b76e30b37b5917c91476e32d7123d",
+    "profile-release.sections.csv": "0e8d030bee0115e448bb2b03b944143f44d041e4f159e01f0e3372868a40d26d",
+    "profile-release.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "sim-checks.log": "8bc6ba3af909af4721630cfd4c10ce6b2258aac28eeb30bd6dbeb2e5ce3cb0e5",
+    "summary-coverage-expected-failure.log": "4bf33f91c3729759c7e2d3093a660ad151ef2dc2d0ee2e2877d967cc91dd0487",
+    "summary-coverage-pass.log": "24fd54d2747bdebae7ebb260938ead13e8c8fd469ea710a8a45eef3d8d604c93",
+    "tick-only-release.csv": "f09d5c48464c3d67cfe02ad1667768c9f01a64ff2653767821aaba47b445172a",
+    "tick-only-release.log": "25d518bccca28d24862e6e93543b8fe8e03dbc63ae92da3ffcde34c849015785"
+  },
+  "source_sha256": {
+    "data/ships/battleship.json": "1d5a2ec6349451ea1d2c676f6524b5e5f1d6ba26c62d98e70bf1e6c09f7ea1be",
+    "data/ships/escort.json": "f52b024850bd81415d7dd6dcbc81e8993810a1cd2b376e5a6d48edf2b8ae67f0",
+    "data/ships/interceptor.json": "1f04e6028ca1c6e9e6dc8fa34097d4bbc9359854f7a572169a8eae347404bb6b",
+    "src/Game/PerfTrace.cs": "abba196623d99276464592d4a8dd0f6697b1cbd4a6bc17f60101d4aaa67a4d2d",
+    "src/Game/ScaleTest.cs": "f0e869cfdc1b01baa517da81732c5feb16472766085ad13225319f8cea3e6f3f",
+    "src/Game/ShipModelChecks.cs": "4223d358bbf6528f4e14fdad4d20627a70b34919ed22b31a13e464e52659c5e7",
+    "src/Sim/Antimatter.cs": "6621a3a366b8c5275b48bb53231d39fae4361bb82020fbb9d2ff0f4649475477",
+    "src/Sim/AntimatterAI.cs": "8b263393ee4731705faf710c21e6d43f4e958090e123f52804ca18739785681c",
+    "src/Sim/AssaultGuidance.cs": "99ced624705d5f3f41f015ee6f6693311010110ee047237319555a7f1f57f2c2",
+    "src/Sim/BattleLog.cs": "ba04df43d648a62f7f16282da53e0299c9c68392ecc3afb321695979188b0377",
+    "src/Sim/BattleRules.cs": "26cadfe1af6a1175819715f797c0f7aaa1224cd338eaec09e12dc5841d2b2589",
+    "src/Sim/BattleSetup.cs": "466a21eab905cc1c0ba027b667fff4d4e0032f8a394150c27680303db46fc225",
+    "src/Sim/CollisionDamage.cs": "d45b2ed8e8cc1108ab9791bac8f783748982325b57a4a51aca88ec00a79f9c49",
+    "src/Sim/CollisionHull.cs": "55379d77f39fc551d5bf341aea3bd3b50226b4467d40870a365b83ec6da019d9",
+    "src/Sim/DamageRay.cs": "9874d43f98df106b9554991539bc81fb4509ecbfc10886bab925f3acffe76347",
+    "src/Sim/DefenseDrones.cs": "bc3d69905f708e77647014c3171f024358b4477ee729052465bf9026330ba27e",
+    "src/Sim/DroneCombat.cs": "67428e68b20af6dd82618504e401b58386fafcf8a24e3bad479b3045721e2174",
+    "src/Sim/FireControl.cs": "e7d821b46c3c246662c3757a8e8d699014af83d7abe3047c55ae505f951dbeef",
+    "src/Sim/FleetDoctrine.cs": "63b80479d717f96a64c3753e9219e8a32c6447940f9f686e73bcfc59b0188fdd",
+    "src/Sim/Gunnery.cs": "1d02924ab0e1c18e2b9ced4451256f8ce3fd874b7cfded4e74722c6559dc981c",
+    "src/Sim/Missiles.cs": "160e04fc9c1b2e69bec3d529a3582bc620213ff6972c4cc84d03605fbda9552e",
+    "src/Sim/PointDefense.cs": "ebabad88354e8659e3fdebecf1d4302ce0540b8bff4f42d65494090db84c56f0",
+    "src/Sim/PowerPresets.cs": "440e4616095a552b0cc273803a38b689795b3a0b00232919520c72e61f6db9f3",
+    "src/Sim/Railgun.cs": "cff4ffbe1b523f5a10d9ce0f9eade91243cae61f35b40ea4df4b91267482a438",
+    "src/Sim/SensorNet.cs": "bc9afa2da40d7bf7369196b6d4e19d51b3e05e1ef00d4228fbb595621f08a9e7",
+    "src/Sim/ShieldEnvelope.cs": "493722174a36e7cc072c039f9568d91e7f40f03872d089a5129ebf36608bbc4e",
+    "src/Sim/ShipAI.cs": "c14f106c603a1b646e672f7a25ecb9b79fa5d0cb1016fd8d878b98901194ece5",
+    "src/Sim/ShipBody.cs": "9e738e1794e24763773cb9d4fb609a215539993dacf697831dd9197b8d847727",
+    "src/Sim/ShipClass.cs": "ec988a34b729a6e1dff29c270918255fa46a5833a1911b573d5e32d745103db5",
+    "src/Sim/ShipCollision.cs": "6bfe0fd0678661ff3365fadd86172ffac14ec6a8ed5557ead4bd0d5e489cc83c",
+    "src/Sim/ShipDamage.cs": "d06d396747ca4f01ed07398630441301a7598c026c126546c80d1c54f24f1239",
+    "src/Sim/ShipDefinition.cs": "1b86ce620a428f84bbb5c03531f23302184728bd0ec1251c7bb2cd91e8aa61fa",
+    "src/Sim/ShipPower.cs": "c8c590b86ccb9e003ba3ea0186fd310df1638d865f77e7391c957e3e8ec39b0c",
+    "src/Sim/SimAI.cs": "8dd156a3f40c7a07fb41cae59002ba8b437ad3c065d325eb939d9d16d96668f8",
+    "src/Sim/SimBallistics.cs": "47a50a9080337611559ca1f5507432e6adf9be0eb6a99b6d4faa00a33b5bf204",
+    "src/Sim/SimMissiles.cs": "72bc1a48411c9ca78a0d09973243d8484766904481a3a0ab36d0d65b4a818711",
+    "src/Sim/SimProfiler.cs": "6d195b5c29ee7d3d7be9a6beb054076d75bfc879a6d348090731febbd48d1050",
+    "src/Sim/SimWorld.cs": "f774fc871ab73bb17bc562477d21a0cf21b7406b2e02c2d0fbcec5784bae796b",
+    "src/Sim/SquadCommands.cs": "7fd6120ec2389283de1e260fcdf41db6180b4dee3bebff32eabb2c35b6b8287a",
+    "src/Sim/Squadron.cs": "54d80426ad2853ae078fb95e127a16e70317a764a9f07d9f4d9f34668c7f7ceb",
+    "src/Sim/Subsystems.cs": "ed05e4ba81912bf7bbb98fc016c138facd13923b568e0c81582d727d02347b13",
+    "src/Sim/Turret.cs": "4ede701686c52fe92fdb2a31f93738e00a456f63519a5714fae3e794352946cb",
+    "src/Sim/Vec3d.cs": "c2405f25964b1dd1ab1a6b7f19314d6f85d6e4e88006b888f7849807641369e0",
+    "src/Sim/WreckLayout.cs": "2dba7c13a6186dcc74aed94dd479fda79bdee36402afa69332869d932cd0a01b",
+    "tools/BattleBatch/Program.cs": "cbc8323e88f83b7335b11294f39087930a5b937b308744060246d4307b50de6a",
+    "tools/BattleBatch/SectionProfile.cs": "6522f8a4ff468709b886a682d41cd09b8754726a861add67d313190e53cef921"
+  }
+}

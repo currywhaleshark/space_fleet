@@ -25,6 +25,9 @@ public sealed class BattleShipLog
     public float ShieldDamage, ModuleDamage;
     public int DronesDestroyed;
     public int ArmorPenetrations;
+    public double ShieldDamageInflicted, ModuleDamageInflicted, RailRangeSum;
+    public int RailRangeSamples, MissilesIntercepted, TorpedoesIntercepted;
+    public double? DisabledAt, DestroyedAt;
 }
 
 /// <summary>World-local observer; direct weapon hooks prevent lost/deduplicated transient render events.</summary>
@@ -101,6 +104,9 @@ public sealed class BattleLog
         else if (weapon == BattleWeapon.Railgun)
         {
             side.Rails++; stats.Rails++; First(ref side.RailLaunch, time);
+            var target = _world.BrainOf(shooter)?.Target ?? shooter.Gunnery?.Engaged ?? shooter.Gunnery?.Target;
+            if (target is not null && _world.Sensors.Track(shooter.Faction, target) is { Level: >= TrackLevel.Contact } track)
+            { stats.RailRangeSum += (track.EstimatedPosition - shooter.Position).Length(); stats.RailRangeSamples++; }
             if (shooter.Class.Kind != HullKind.Interceptor)
             {
                 bucket.Rail = true;
@@ -108,6 +114,11 @@ public sealed class BattleLog
                     && (s.Position - shooter.Position).LengthSquared() <= 15_000.0 * 15_000)) bucket.Brawl = true;
             }
         }
+    }
+    internal void Intercept(ShipBody defender, Missile missile)
+    {
+        if (missile.Assault is null) Ship(defender).MissilesIntercepted++;
+        else Ship(defender).TorpedoesIntercepted++;
     }
     internal void Hit(ShipBody shooter, ShotResult hit, BattleWeapon weapon, double time, float shieldBefore)
     {
@@ -119,6 +130,8 @@ public sealed class BattleLog
         if (shooter.Class.Kind == HullKind.Interceptor && victim.Class.Kind != HullKind.Interceptor) At(time).Brawl = true;
         received.ShieldDamage += Math.Max(0, shieldBefore - victim.Damage.Shield);
         received.ModuleDamage += hit.Modules.Sum(m => m.Damage);
+        stats.ShieldDamageInflicted += Math.Max(0, shieldBefore - victim.Damage.Shield);
+        stats.ModuleDamageInflicted += hit.Modules.Sum(m => m.Damage);
         if (!hit.ShieldStopped && !hit.ArmorStopped) received.ArmorPenetrations++;
         ObserveShip(victim, time, shooter);
     }
@@ -138,9 +151,9 @@ public sealed class BattleLog
             state.Modules[i] = destroyed;
         }
         if (ship.Damage.Disabled && !state.Disabled)
-        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Disabled)); First(ref side.Disabled, time); }
+        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Disabled)); First(ref side.Disabled, time); Ship(ship).DisabledAt ??= time; }
         if (ship.Damage.Destroyed && !state.Destroyed)
-        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Destroyed)); First(ref side.Destroyed, time); }
+        { Record(new(time, ship.Callsign, ship.Faction, attacker?.Faction, BattleEventKind.Destroyed)); First(ref side.Destroyed, time); Ship(ship).DestroyedAt ??= time; }
         state.Disabled = ship.Damage.Disabled; state.Destroyed = ship.Damage.Destroyed;
     }
     private void ObserveSensors(double time)

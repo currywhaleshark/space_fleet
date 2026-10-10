@@ -1,0 +1,9 @@
+seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction,design,hullId,shieldDamageInflicted,moduleDamageInflicted,firstDisabled,firstDestroyed,survivalSeconds,railRangeSum,railRangeSamples,missilesIntercepted,torpedoesIntercepted
+1,0,Blue,DUEL-B,Interceptor,0,0,1,0.000,1.000,1.000,1.000,2,1,198,1,0,3,0,0,2,0,0,120.000,0.000,16,0.010,Earth,interceptor,120.000,40.000,,,0.667,7976.488,2,0,0
+1,0,Red,DUEL-R,Interceptor,1,0,0,0.000,0.000,0.000,0.000,2,1,198,1,0,3,0,0,0,1,0,120.000,40.000,0,0.010,Earth,interceptor,120.000,0.000,,0.660,0.660,7990.124,2,0,0
+1,1,Blue,DUEL-B,Interceptor,1,0,0,0.000,0.000,0.000,0.000,3,2,197,1,0,3,0,0,0,1,0,120.000,40.000,3,0.010,Earth,interceptor,120.000,220.113,,1.273,1.273,12037.951,3,0,0
+1,1,Red,DUEL-R,Interceptor,0,0,1,0.000,0.736,0.500,1.000,2,2,198,1,0,3,0,0,2,0,0,120.000,220.113,16,0.000,Earth,interceptor,120.000,40.000,,,1.283,8026.138,2,0,0
+2,0,Blue,DUEL-B,Interceptor,0,0,1,1.000,1.000,1.000,1.000,52,50,148,4,2,0,0,0,2,0,0,120.000,0.000,11,0.006,Earth,interceptor,120.000,570.279,,,116.550,194670.856,52,0,0
+2,0,Red,DUEL-R,Interceptor,0,1,0,0.000,0.317,0.000,0.000,3,3,197,1,0,3,0,0,0,0,1,120.000,570.279,0,0.000,Earth,interceptor,120.000,0.000,116.539,,116.539,12122.268,3,0,0
+2,1,Blue,DUEL-B,Interceptor,1,0,0,0.000,0.000,0.000,0.000,2,2,198,1,0,3,0,0,0,1,0,120.000,40.000,2,0.000,Earth,interceptor,120.000,194.808,,1.282,1.282,8168.388,2,0,0
+2,1,Red,DUEL-R,Interceptor,0,0,1,0.000,0.767,1.000,0.000,3,2,197,1,0,3,0,0,2,0,0,120.000,194.808,16,0.010,Earth,interceptor,120.000,40.000,,,1.283,12167.323,3,0,0

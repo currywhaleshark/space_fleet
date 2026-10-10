@@ -55,28 +55,43 @@ public sealed partial class SimWorld
 
     public void Step()
     {
+        long tickTiming = SimProfiler.Begin(), sectionTiming = SimProfiler.Begin();
         foreach (ShipBody ship in _ships)
         {
             foreach (RailgunState gun in ship.Railguns) { gun.PreviousYaw = gun.Yaw; gun.PreviousElevation = gun.Elevation; }
             foreach (var mount in ship.Ordnance.PointDefense) { mount.PreviousYaw = mount.Yaw; mount.PreviousElevation = mount.Elevation; }
             ship.Ordnance.Drones.CapturePrevious();
         }
+        SimProfiler.End(SimSection.Post, sectionTiming);
+        sectionTiming = SimProfiler.Begin();
         StepAI();
+        SimProfiler.End(SimSection.AI, sectionTiming);
+        sectionTiming = SimProfiler.Begin();
         StepGunnery();
+        SimProfiler.End(SimSection.Gunnery, sectionTiming);
+        sectionTiming = SimProfiler.Begin();
         _previous.Clear();
         foreach (RailProjectile projectile in _projectiles) projectile.PrevPosition = projectile.Position;
         foreach (Missile missile in _missiles) missile.PreviousNoseDirection = missile.NoseDirection;
         foreach (ShipBody ship in _ships)
             _previous.Add((ship.Position, ship.Orientation));
         double dt = TickDelta / CollisionSubsteps;
+        SimProfiler.End(SimSection.Post, sectionTiming);
         for (int substep = 0; substep < CollisionSubsteps; substep++)
         {
+            sectionTiming = SimProfiler.Begin();
             foreach (ShipBody ship in _ships)
                 ship.Step(dt);
+            SimProfiler.End(SimSection.ShipStep, sectionTiming);
+            sectionTiming = SimProfiler.Begin();
             ShipCollision.Resolve(_ships, Time + (substep + 1) * dt);
+            SimProfiler.End(SimSection.Collision, sectionTiming);
+            sectionTiming = SimProfiler.Begin();
             StepProjectiles(dt, Time + substep * dt);
+            SimProfiler.End(SimSection.Projectiles, sectionTiming);
             StepOrdnance(dt, Time + substep * dt);
         }
+        sectionTiming = SimProfiler.Begin();
         // 렌더 보간은 하위 틱이 아니라 전체 60Hz 틱의 양 끝 상태를 사용한다.
         for (int i = 0; i < _ships.Count; i++)
         {
@@ -84,11 +99,17 @@ public sealed partial class SimWorld
             _ships[i].PrevOrientation = _previous[i].Orientation;
         }
         Tick++;
+        SimProfiler.End(SimSection.Post, sectionTiming);
+        sectionTiming = SimProfiler.Begin();
         Sensors.Update(_ships, Time);
+        SimProfiler.End(SimSection.Sensors, sectionTiming);
+        sectionTiming = SimProfiler.Begin();
         _impacts.RemoveAll(i => Time - i.Time > 3);
         PruneOrdnanceEvents();
         Log?.Step();
         Rules?.Evaluate(Time);
         if(Rules?.Outcome is {} outcome)Log?.CaptureOutcome(outcome.Time);
+        SimProfiler.End(SimSection.Post, sectionTiming);
+        SimProfiler.End(SimSection.Tick, tickTiming);
     }
 }

@@ -10,6 +10,27 @@ public sealed partial class SimWorld
     private readonly List<ProjectileImpact> _impacts = new();
     public IReadOnlyList<RailProjectile> Projectiles => _projectiles;
     public IReadOnlyList<ProjectileImpact> Impacts => _impacts;
+    private SpatialBounds[] _projectileShipBounds = Array.Empty<SpatialBounds>();
+    private SpatialBounds[] _projectileDroneBounds = Array.Empty<SpatialBounds>();
+
+    private void PrepareProjectileBounds()
+    {
+        if (_projectileShipBounds.Length < _ships.Count)
+        { Array.Resize(ref _projectileShipBounds, _ships.Count); Array.Resize(ref _projectileDroneBounds, _ships.Count); }
+        for (int i = 0; i < _ships.Count; i++)
+        {
+            var ship = _ships[i];
+            _projectileShipBounds[i] = SpatialBounds.Segment(ship.PrevPosition, ship.Position);
+            if (ship.Damage.Destroyed || ship.Definition.DefenseDrones is not { } def) continue;
+            var bounds = _projectileShipBounds[i];
+            for (int j = 0; j < def.Count; j++)
+            {
+                if (!ship.Ordnance.Drones.Alive(j)) continue;
+                bounds = bounds.Include(ship.Ordnance.Drones.PreviousWorldPosition(j)).Include(ship.Ordnance.Drones.WorldPosition(j));
+            }
+            _projectileDroneBounds[i] = bounds.Expanded(def.RadiusMeters);
+        }
+    }
 
     internal void RecordImpact(uint id, ShipBody shooter, ShotResult hit, double time,
         Vector3 direction, float energy, float shieldBefore, BattleWeapon weapon)
@@ -154,6 +175,8 @@ public sealed partial class SimWorld
 
     private void StepProjectiles(double dt, double time)
     {
+        if (_projectiles.Count == 0) return;
+        PrepareProjectileBounds();
         for (int index = _projectiles.Count - 1; index >= 0; index--)
         {
             RailProjectile p = _projectiles[index];
@@ -161,14 +184,19 @@ public sealed partial class SimWorld
             double travelTime = Math.Min(dt, remaining);
             if (travelTime <= 1e-9) { _projectiles.RemoveAt(index); continue; }
             Vec3d start = p.Position, end = start + Vec3d.From(p.Velocity) * travelTime;
+            var bounds = SpatialBounds.Segment(start, end).Expanded(0);
             ShipBody? target = null;
             double earliest = double.PositiveInfinity;
             Vector3 hitDirection = Vector3.Zero;
             Quaternion hitOrientation = Quaternion.Identity;
             Vec3d targetTravel = Vec3d.Zero;
-            foreach (ShipBody ship in _ships)
+            for (int shipIndex = 0; shipIndex < _ships.Count; shipIndex++)
             {
+                ShipBody ship = _ships[shipIndex];
                 if (ship == p.Shooter) continue;
+                // Positions cannot change in this loop, but an earlier round can destroy a hull
+                // or its shield. Read the live radius; never cache a pre-hit shield/wreck state.
+                if (!bounds.Overlaps(_projectileShipBounds[shipIndex], DamageRay.DefenseRadius(ship))) continue;
                 Vec3d movement = (ship.Position - ship.PrevPosition) * (travelTime / dt);
                 Vec3d relativeStart = start - ship.PrevPosition;
                 Vec3d relativeTravel = end - start - movement;
@@ -186,7 +214,7 @@ public sealed partial class SimWorld
             }
             p.Age += travelTime;
             p.Position = end;
-            if (FirstDroneHit(p.Shooter,start,end,travelTime/dt,earliest,out var carrier,out int droneIndex,out double droneFraction))
+            if (FirstDroneHit(p.Shooter,start,end,bounds,travelTime/dt,earliest,out var carrier,out int droneIndex,out double droneFraction))
             {
                 DamageDrone(p.Shooter,carrier!,droneIndex,p.Packet.Energy,time+travelTime*droneFraction);
                 _projectiles.RemoveAt(index);

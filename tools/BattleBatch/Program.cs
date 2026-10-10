@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Globalization;
+using System.Text.Json;
 using SpaceFleet.Sim;
 
 CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
@@ -9,35 +10,77 @@ for (int i = 0; i < args.Length; i++) argsMap[args[i].TrimStart('-')] = i + 1 < 
 int[] seeds = argsMap.GetValueOrDefault("seeds", "1").Split(',').Select(int.Parse).ToArray();
 double minutes = double.Parse(argsMap.GetValueOrDefault("minutes", "25"));
 int jobs = int.Parse(argsMap.GetValueOrDefault("jobs", "1"));
+var blueDesign = Enum.Parse<DesignFamily>(argsMap.GetValueOrDefault("blue-design", "Earth"), true);
+var redDesign = Enum.Parse<DesignFamily>(argsMap.GetValueOrDefault("red-design", "Earth"), true);
+HullKind? duel = argsMap.TryGetValue("duel", out string? duelKind) ? Enum.Parse<HullKind>(duelKind, true) : null;
+double startDistance = double.Parse(argsMap.GetValueOrDefault("distance", "150000"));
 bool mirror = argsMap.ContainsKey("mirror"), profile = argsMap.ContainsKey("profile");
+bool tickProfile = profile || argsMap.ContainsKey("tick-profile");
 string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batch/battle.csv"));
 var tasks = seeds.SelectMany(seed => mirror ? new[] { (Seed: seed, Mirror: false), (Seed: seed, Mirror: true) } : new[] { (Seed: seed, Mirror: false) }).ToArray();
 var rows = new ConcurrentBag<Row>();
 var watch = Stopwatch.StartNew();
 Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, task =>
 {
-    var world = new SimWorld();
-    BattleSetup.Spawn(world, new BattleConfig { Seed = task.Seed, Mirror = task.Mirror });
-    var run = Stopwatch.StartNew();
-    var ticks = profile ? new List<double>() : null;
-    while (world.Time < minutes * 60 && world.Rules!.Outcome is null)
+    // A worker may be reused for another battle. Never share/reset another worker's timings.
+    SimProfiler.Enabled = profile; SimProfiler.Reset();
+    try
     {
-        long start = profile ? Stopwatch.GetTimestamp() : 0;
-        world.Step();
-        if (profile) ticks!.Add(Stopwatch.GetElapsedTime(start).TotalMilliseconds);
+        var world = new SimWorld();
+        var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance };
+        if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
+        var run = Stopwatch.StartNew();
+        var ticks = tickProfile ? new List<double>() : null;
+        var sections = profile ? new SectionProfile() : null;
+        while (world.Time < minutes * 60 && world.Rules!.Outcome is null)
+        {
+            long start = tickProfile ? Stopwatch.GetTimestamp() : 0;
+            world.Step();
+            if (tickProfile) ticks!.Add(Stopwatch.GetElapsedTime(start).TotalMilliseconds);
+            sections?.Capture(world.Tick);
+        }
+        sections?.Capture(world.Tick, final: true);
+        world.Log!.Finish();
+        var row = new Row(task.Seed, task.Mirror, world, run.Elapsed.TotalSeconds, ticks, sections);
+        rows.Add(row);
+        Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")}: {world.Log.Summary()} wall={row.Wall:F1}s");
+        if (argsMap.ContainsKey("trace")) foreach(var e in world.Log.Events) Console.WriteLine(e);
     }
-    world.Log!.Finish();
-    var row = new Row(task.Seed, task.Mirror, world, run.Elapsed.TotalSeconds, ticks);
-    rows.Add(row);
-    Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")}: {world.Log.Summary()} wall={row.Wall:F1}s");
-    if (argsMap.ContainsKey("trace")) foreach(var e in world.Log.Events) Console.WriteLine(e);
+    finally { SimProfiler.Enabled = false; SimProfiler.Reset(); }
 });
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
 File.WriteAllLines(output, new[] { Row.Header }.Concat(ordered.Select(r => r.Csv())), new System.Text.UTF8Encoding(false));
+var summaries = ordered.Select(r => new SummaryRow(r.Seed, r.Mirror, r.World.Log!.Summary())).ToArray();
+File.WriteAllText(Path.ChangeExtension(output, ".summaries.json"), JsonSerializer.Serialize(summaries,
+    new JsonSerializerOptions { WriteIndented = true }), new System.Text.UTF8Encoding(false));
+if (argsMap.TryGetValue("compare-summaries", out string? reference))
+{
+    var expected = JsonSerializer.Deserialize<SummaryRow[]>(File.ReadAllText(reference))
+        ?? throw new InvalidDataException("Empty summary reference");
+    var byBattle = expected.ToDictionary(s => (s.Seed, s.Mirror));
+    var actualKeys = summaries.Select(s => (s.Seed, s.Mirror)).ToHashSet();
+    var differences = summaries.Where(s => !byBattle.TryGetValue((s.Seed, s.Mirror), out var old) || old.Summary != s.Summary).ToArray();
+    if (expected.Length != summaries.Length || actualKeys.Count != summaries.Length ||
+        !actualKeys.SetEquals(byBattle.Keys) || differences.Length > 0)
+        throw new InvalidOperationException($"Battle summary mismatch: expected {expected.Length}, actual {summaries.Length}; " +
+            string.Join(", ", differences.Select(s => $"{s.Seed}/{s.Mirror}")));
+    Console.WriteLine($"PASS: {summaries.Length}/{summaries.Length} battle summaries match {reference} byte for byte");
+}
+if (profile)
+{
+    var sections = ordered.SelectMany(r => r.Sections!.Rows(r.Seed, r.Mirror, r.World)).ToArray();
+    string sectionOutput = Path.ChangeExtension(output, ".sections.csv");
+    File.WriteAllLines(sectionOutput, new[] { SectionRow.Header }.Concat(sections.Select(s => s.Csv())), new System.Text.UTF8Encoding(false));
+    foreach (var scope in sections.GroupBy(s => s.Scope))
+        Console.WriteLine($"sections {scope.Key} weighted us/tick: " + string.Join(" ", scope.GroupBy(s => s.Section)
+            .Select(g => $"{g.Key}={g.Sum(s => s.TotalMs) * 1000 / g.Sum(s => s.Ticks):F2}")));
+    Console.WriteLine($"section csv={sectionOutput}; Tick includes all sections; AI includes its four child sections.");
+    if (jobs > 1) Console.WriteLine("Profile warning: parallel battles contend for CPU; use --jobs 1 for latency baselines.");
+}
 // Capture at the verdict, before optional post-outcome stability simulation changes surviving ships.
 string shipOutput = Path.ChangeExtension(output, ".ships.csv");
-File.WriteAllLines(shipOutput, new[] { "seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction" }
+File.WriteAllLines(shipOutput, new[] { "seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction,design,hullId,shieldDamageInflicted,moduleDamageInflicted,firstDisabled,firstDestroyed,survivalSeconds,railRangeSum,railRangeSamples,missilesIntercepted,torpedoesIntercepted" }
     .Concat(ordered.SelectMany(row => row.World.Ships.Select(ship =>
     {
         var stats = row.World.Log!.Ship(ship);
@@ -48,7 +91,11 @@ File.WriteAllLines(shipOutput, new[] { "seed,mirror,faction,callsign,kind,destro
             F(ship.Damage.PropulsionFraction), F(ship.Damage.WeaponsFraction), stats.Rails.ToString(), stats.RailHits.ToString(), ship.Railguns.Sum(g => g.Rounds).ToString(),
             stats.Missiles.ToString(), stats.MissileHits.ToString(), ship.Ordnance.Missiles.ToString(), stats.Torpedoes.ToString(), stats.TorpedoHits.ToString(),
             ship.Ordnance.Antimatter.Rounds.ToString(), ship.Ordnance.Antimatter.Failures.ToString(), ship.Ordnance.Antimatter.Jettisons.ToString(),
-            F(stats.ShieldDamage), F(stats.ModuleDamage), stats.ModulesDestroyed.ToString(), F(ship.Power.HeatFraction) });
+            F(stats.ShieldDamage), F(stats.ModuleDamage), stats.ModulesDestroyed.ToString(), F(ship.Power.HeatFraction),
+            ship.Definition.Design.ToString(),ship.Definition.Id,F(stats.ShieldDamageInflicted),F(stats.ModuleDamageInflicted),
+            stats.DisabledAt?.ToString("0.000") ?? "",stats.DestroyedAt?.ToString("0.000") ?? "",
+            F(Math.Min(stats.DisabledAt ?? row.World.Time,stats.DestroyedAt ?? row.World.Time)),
+            F(stats.RailRangeSum),stats.RailRangeSamples.ToString(),stats.MissilesIntercepted.ToString(),stats.TorpedoesIntercepted.ToString() });
     }))), new System.Text.UTF8Encoding(false));
 string flightOutput = Path.ChangeExtension(output, ".am.csv");
 File.WriteAllLines(flightOutput, new[] { "seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip" }
@@ -81,7 +128,23 @@ foreach (bool flipped in new[] { false, true })
 foreach (BattlePhase phase in Enum.GetValues<BattlePhase>()) Console.WriteLine($"phase {phase} >=60s: {ordered.Count(r => r.World.Log!.PhaseSeconds(phase) >= 60)}/{ordered.Length}");
 Console.WriteLine($"friendly collisions: mean={ordered.Average(r => r.World.Log!.FriendlyCollisions):F2}");
 Console.WriteLine($"batch wall={watch.Elapsed.TotalSeconds:F1}s jobs={jobs} csv={output}");
-if (profile) foreach (var row in ordered)
+if (tickProfile)
+{
+    // Exact pooled percentiles, not an average of each battle's percentile.
+    var pooled = new List<string> { "scope,ticks,meanMs,p50Ms,p95Ms,p99Ms,maxMs" };
+    string Pooled(string scope, IEnumerable<double> samples)
+    {
+        double[] sorted = samples.OrderBy(x => x).ToArray();
+        if (sorted.Length == 0) return $"{scope},0,,,,,";
+        double P(double percentile) => sorted[(int)Math.Ceiling(sorted.Length*percentile)-1];
+        return $"{scope},{sorted.Length},{sorted.Average():F6},{P(.5):F6},{P(.95):F6},{P(.99):F6},{sorted[^1]:F6}";
+    }
+    pooled.Add(Pooled("All", ordered.SelectMany(r => r.Samples())));
+    foreach (BattlePhase phase in Enum.GetValues<BattlePhase>())
+        pooled.Add(Pooled(phase.ToString(), ordered.SelectMany(r => r.Samples(phase))));
+    File.WriteAllLines(Path.ChangeExtension(output, ".ticks.csv"), pooled, new System.Text.UTF8Encoding(false));
+}
+if (tickProfile) foreach (var row in ordered)
 {
     Console.WriteLine($"step {row.Seed}/{row.Mirror} All: {Row.Describe(row.Samples())}");
     foreach (BattlePhase phase in Enum.GetValues<BattlePhase>())
@@ -107,7 +170,7 @@ if (postSeconds > 0) foreach (var row in ordered)
     Console.WriteLine($"post {row.Seed}/{row.Mirror} +{postSeconds:F0}s: projectile/missile/impact/ordnance/battleEvents before={string.Join('/',before)} peak={string.Join('/',peak)} after={string.Join('/',Sizes())}; intervals={intervals}; dropped={world.Log.DroppedEvents}; PASS");
 }
 
-sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<double>? TickMs)
+sealed record Row(int Seed, bool Mirror, SimWorld World, double Wall, List<double>? TickMs, SectionProfile? Sections)
 {
     public static readonly string[] Metrics = { "Contact", "Identified", "Locked", "MissileLaunch", "MissileHit", "RailLaunch", "RailHit", "ModuleDestroyed", "Disabled", "Destroyed", "Close" };
     private static readonly string[] Names = { "contact", "identified", "locked", "missileLaunch", "missileHit", "railLaunch", "railHit", "moduleDestroyedVictim", "disabledVictim", "destroyedVictim", "close" };

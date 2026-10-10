@@ -1,0 +1,65 @@
+Interceptor straight boost: 5.00 G
+Turn rate at 0.1s: 20m/s=36.0deg/s, 380m/s=4.3deg/s
+180deg from 100m/s: aligned at 3.55s, min speed=14.6, peak=4.98G, max slip=0.0deg
+180deg from 380m/s: aligned at 10.20s, min speed=17.5, peak=4.98G, max slip=0.0deg
+180deg from 760m/s: aligned at 20.50s, min speed=33.5, peak=5.00G, max slip=3.8deg
+Space 90deg at 380m/s: nose 1.05s, velocity aligned 10.07s, min speed 251
+PASS: 44 simulation checks
+World 380m/s half turn: 10.23s
+PASS: 73 collision/world checks
+Collision: 380 m/s ram → BB modules hit 2, 60 m/s ram → IC modules hit 2
+PASS: 128 damage/data checks
+PASS: 218 shield boundary/breakup checks
+PASS: 78 ballistics/fire-control checks
+RCS cost (IC 3° nudge at 380 m/s): engines peak 9.2 MW (38% of full main burn)
+Brownout (BB, main reactor lost, full activity): supply 73%, 1048/1437 MW
+Heat (IC, boost+fire+shields): overheat at 19.8s, recovered 5.7s later
+Cooling lost (IC idle): overheat at 90.9s
+PASS: 28 power/heat checks
+Sensor ranges BB vs BB: contact 339 km, identify 196 km, lock 120 km
+Contact at 150 km: error 2298 m, worst offset step per 0.25 s update 11.0%
+PASS: 26 sensor/EW checks
+Missile DD->BB 60 km stationary: impact after 20.3s
+Missile DD->DD 30 km crossing 200 m/s: impact after 14.5s
+Salvo BB->DD, four directions at 40 km: no PD 24/24 hits / PD 3 intercepted, 21 hits
+Salvo BB->DD x6 at 40 km: decoys 1 hits (no decoys 6)
+Group defense, four directions at 30/60 km: 7/64 intercepted, 57 hit
+Near miss battleship at 2500 m/s: reapproach=42.5s, no hit, coast/expiry OK
+Near miss escort at 2500 m/s: reapproach=35.0s, no hit, coast/expiry OK
+Near miss interceptor at 2500 m/s: reapproach=none, no hit, coast/expiry OK
+Low-speed rear-target reattack: hit after 33.2s, turn reaches 15.5 km
+PASS: 92 missile/PD/decoy checks
+PD arcs (BB vs IC at 2.5 km, 5 s): above 48 shots, below 0, aft-below 0; exposed IC shield 0/120
+Infiltration (IC vs BB with PD, from 25 km ahead): first engine hit 41s, BB propulsion 0%, IC 0 modules lost
+PASS: 12 infiltration checks
+PASS: 6 helm checks
+PASS: 20 gunnery checks
+PASS: 71 turret checks
+Tracking: BB->DD 3 km 200 m/s pass 17 (total 82), BB->IC 1.5 km 400 m/s pass 0 (total 5), DD->IC 1.5 km 400 m/s pass 6 (total 30), BB->DD 12 km pass 69
+PASS: 4 tracking checks
+PD interceptor flyby / 5 s: slow-near 33, fast-near 12, fast-far 34 shots
+PD missile flyby / 5 s: slow-near 33, fast-near 12, fast-far 34 shots
+PASS: 182 point-defense tracking checks
+Drone fore approach / 3 s: all-around 12, fore 64, aft 0 shots
+PASS: 76 defense drone checks
+IC auxiliary 0 stock drone kill: 6.92s, 32 shots
+IC auxiliary 0 vs drone / 5 s: slow 22, fast 2 shots
+IC auxiliary 1 stock drone kill: 6.92s, 32 shots
+IC auxiliary 1 vs drone / 5 s: slow 22, fast 2 shots
+PASS: 49 drone combat checks
+AM range 2.0 km: hit=True, expired=False, flight=1.88s, path=1220m
+AM range 5.0 km: hit=True, expired=False, flight=4.52s, path=4217m
+AM range 7.8 km: hit=True, expired=False, flight=6.25s, path=7014m
+AM range 10.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+AM range 15.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+PASS: 144 antimatter checks
+PASS: 33 radial/preset checks
+PASS: 9 player squad command checks
+Fleet attack (RBB+2DD vs BB, 110 km): first missile 2s, first railgun 160s, first damage 32s
+Attack run (IC vs DD, 25 km, 180 s): 4 passes, DD shield 0/200
+PASS: 30 AI/fleet checks
+Canonical battle: Blue:0.000/0.000/136.250/142.000/212.750/558.867/566.846/593.045/-/-/-;M=120/90;R=130/107;AM=0/0|Red:0.000/0.000/136.250/146.000/212.750/551.833/556.791/494.246/591.036/-/-;M=120/84;R=52/52;AM=0/0|Approach:120.000,Missile:390.000,Gunnery:30.000,Sniping:83.667,Brawl:0.000|collisions=0|events=49|winner=Blue;time=623.667
+  destroyed/disabled 4/24
+Brawl statistics (seeds 1-6): 5/6 battles, brawl s = 135 497 286 63 53 0, outcome s = 735 1217 916 663 683 680
+PASS: 66 battle/setup/log/rules checks
+PASS: 26 simulation profiler checks

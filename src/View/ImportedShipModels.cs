@@ -15,9 +15,10 @@ public static class ImportedShipModels
     private static JsonDocument? _manifest;
     private static Vector3 V(JsonElement a) => new(a[0].GetSingle(), a[1].GetSingle(), a[2].GetSingle());
 
-    public static ShipModel? TryBuild(ShipClass cls, Faction faction, int seed)
+    public static ShipModel? TryBuild(ShipDefinition definition, Faction faction, int seed)
     {
-        string id = cls.Kind.ToString().ToLowerInvariant();
+        ShipClass cls = definition.Flight;
+        string id = definition.Id;
         string path = $"res://assets/ships/{id}.glb";
         if (!ResourceLoader.Exists(path)) return null;
         if (!Scenes.TryGetValue(id, out PackedScene? scene)) Scenes[id] = scene = GD.Load<PackedScene>(path);
@@ -29,7 +30,7 @@ public static class ImportedShipModels
             _manifest = JsonDocument.Parse(stream);
         }
         var def = _manifest.RootElement.GetProperty("ships").EnumerateArray().First(s => s.GetProperty("id").GetString() == id);
-        var b = new HullBuilder(Palette.For(faction, cls.Length / 10), seed);
+        var b = new HullBuilder(Palette.For(faction, cls.Length / 10, definition.Design), seed);
         var visual = scene.Instantiate<Node3D>();
         visual.Name = "BlenderHull";
         b.Root.AddChild(visual);
@@ -51,7 +52,7 @@ public static class ImportedShipModels
         var turrets = new List<TurretRig>();
         Node3D Required(string name) => visual.FindChild(name, recursive: true, owned: false) as Node3D
             ?? throw new InvalidOperationException($"{id}: missing Blender turret node {name}. Run tools/build.ps1 to refresh model imports.");
-        foreach (TurretDefinition mount in ShipDefinitions.For(cls.Kind).Railgun?.Mounts ?? Array.Empty<TurretDefinition>())
+        foreach (TurretDefinition mount in definition.Railgun?.Mounts ?? Array.Empty<TurretDefinition>())
         {
             string key = mount.ModuleId.Replace('-', '_');
             Node3D yaw = Required("turret_" + key);
@@ -59,7 +60,7 @@ public static class ImportedShipModels
                 Enumerable.Range(0, mount.Muzzles.Length).Select(i => Required($"muzzle_{key}_{i}")).ToArray()));
         }
         var defense = new List<PointDefenseRig>();
-        for(int i=0;i<(ShipDefinitions.For(cls.Kind).PointDefense?.Mounts.Length ?? 0);i++)
+        for(int i=0;i<(definition.PointDefense?.Mounts.Length ?? 0);i++)
         {
             var yaw=Required($"pd_yaw_{i}");
             defense.Add(new(i,yaw,yaw.Basis,Required($"pd_pitch_{i}"),

@@ -46,13 +46,15 @@ public sealed partial class SimWorld
         return fraction>=0 && fraction<=1;
     }
 
-    private bool FirstDroneHit(ShipBody shooter,Vec3d start,Vec3d end,double stepFraction,double maximum,
+    private bool FirstDroneHit(ShipBody shooter,Vec3d start,Vec3d end,SpatialBounds bounds,double stepFraction,double maximum,
         out ShipBody? carrier,out int index,out double fraction)
     {
         carrier=null; index=-1; fraction=maximum;
-        foreach(var ship in _ships)
+        for(int shipIndex=0;shipIndex<_ships.Count;shipIndex++)
         {
+            var ship=_ships[shipIndex];
             if(ship==shooter || ship.Damage.Destroyed || ship.Definition.DefenseDrones is not { } def) continue;
+            if(!bounds.Overlaps(_projectileDroneBounds[shipIndex])) continue;
             var drones=ship.Ordnance.Drones;
             for(int i=0;i<def.Count;i++)
             {

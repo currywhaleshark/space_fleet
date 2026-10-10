@@ -97,6 +97,7 @@ public sealed partial class SimWorld
 
     private void StepOrdnance(double dt, double time)
     {
+        long timing = SimProfiler.Begin();
         foreach (var ship in _ships)
         {
             var am = ship.Ordnance.Antimatter;
@@ -152,8 +153,13 @@ public sealed partial class SimWorld
             }
         }
 
+        SimProfiler.End(SimSection.Missiles, timing);
+        timing = SimProfiler.Begin();
         StepPointDefense(dt, time);
+        SimProfiler.End(SimSection.PointDefense, timing);
+        timing = SimProfiler.Begin();
         StepDefenseDrones(dt, time);
+        SimProfiler.End(SimSection.Drones, timing);
     }
 
     private void StepMissile(Missile m, double dt)
@@ -414,6 +420,12 @@ public sealed partial class SimWorld
     /// <summary>요격함은 미사일보다 커서 맞히기 쉽다.</summary>
     private const float PointDefenseShipSizeFactor = 2f;
 
+    // Reused per defending ship/substep. Preserve source order and recheck live health per mount:
+    // an earlier mount can kill/remove a candidate without invalidating these scratch lists.
+    private readonly List<Missile> _pdMissileCandidates = new();
+    private readonly List<ShipBody> _pdRaiderCandidates = new(), _pdCarrierCandidates = new();
+    private Vec3d[] _pdMountPositions = Array.Empty<Vec3d>();
+
     /// <summary>
     /// 사거리 안 표적을 우선한다. 미사일 우선, 요격함 보조포는 드론 다음 요격함,
     /// 대형함 PD는 요격함 다음 드론. 사거리 밖 표적은 조기 추적만 한다.
@@ -437,37 +449,63 @@ public sealed partial class SimWorld
                 continue;
             }
 
+            if (pd.Mounts.Length == 0) continue;
+            if (_pdMountPositions.Length < pd.Mounts.Length) Array.Resize(ref _pdMountPositions, pd.Mounts.Length);
+            var bounds = SpatialBounds.Segment(ship.Position, ship.Position);
             for (int i = 0; i < pd.Mounts.Length; i++)
             {
-                Vec3d mount = ship.Position + Vec3d.From(ship.Orientation * pd.Mounts[i]);
+                _pdMountPositions[i] = ship.Position + Vec3d.From(ship.Orientation * pd.Mounts[i]);
+                bounds = bounds.Include(_pdMountPositions[i]);
+            }
+            bounds = bounds.Expanded(pd.RangeMeters * PointDefenseTrackingRangeMultiplier);
+            _pdMissileCandidates.Clear(); _pdRaiderCandidates.Clear(); _pdCarrierCandidates.Clear();
+            foreach (var missile in _missiles)
+                if (missile.Faction != ship.Faction && missile.Health > 0 && bounds.Contains(missile.Position))
+                    _pdMissileCandidates.Add(missile);
+            foreach (var other in _ships)
+            {
+                if (other.Faction == ship.Faction || other.Damage.Destroyed) continue;
+                if (other.Class.Kind == HullKind.Interceptor && bounds.Contains(other.Position)) _pdRaiderCandidates.Add(other);
+                if (other.Definition.DefenseDrones is { } drones && bounds.Expanded(drones.OrbitMeters).Contains(other.Position))
+                    _pdCarrierCandidates.Add(other);
+            }
+            if (_pdMissileCandidates.Count == 0 && _pdRaiderCandidates.Count == 0 && _pdCarrierCandidates.Count == 0)
+            {
+                foreach (var state in ship.Ordnance.PointDefense) state.ClearTracking();
+                continue;
+            }
+            Quaternion inverse = ship.Orientation.Inverse();
+            for (int i = 0; i < pd.Mounts.Length; i++)
+            {
+                Vec3d mount = _pdMountPositions[i];
                 var tracking = ship.Ordnance.PointDefense[i];
-                bool Clear(Vec3d target) => tracking.Contains(ship.Orientation.Inverse() * (target - mount).ToVector3());
                 Missile? threat = null;
                 ShipBody? raider = null, droneCarrier = null;
                 int droneIndex=-1, bestPriority=int.MaxValue;
                 double nearest = pd.RangeMeters * PointDefenseTrackingRangeMultiplier;
-                bool Candidate(Vec3d point,int priority)
+                bool Candidate(Vec3d point,int priority, out double distance, out int rank)
                 {
-                    double distance=(point-mount).Length();
-                    if(distance>pd.RangeMeters*PointDefenseTrackingRangeMultiplier || !Clear(point)) return false;
-                    int rank=(distance<=pd.RangeMeters ? 0 : 10)+priority;
+                    distance=(point-mount).Length(); rank=(distance<=pd.RangeMeters ? 0 : 10)+priority;
+                    if(distance>pd.RangeMeters*PointDefenseTrackingRangeMultiplier) return false;
                     if(rank>bestPriority || rank==bestPriority && distance>=nearest) return false;
-                    bestPriority=rank; nearest=distance; return true;
+                    return tracking.Contains(inverse * (point-mount).ToVector3());
                 }
-                foreach (Missile m in _missiles)
+                foreach (Missile m in _pdMissileCandidates)
                 {
                     if (m.Faction == ship.Faction || m.Health<=0) continue;
-                    if (Candidate(m.Position,0)) threat = m;
+                    if (Candidate(m.Position,0,out double distance,out int rank))
+                    { bestPriority=rank; nearest=distance; threat=m; }
                 }
 
                 if (anyInterceptors)
-                    foreach (ShipBody other in _ships)
+                    foreach (ShipBody other in _pdRaiderCandidates)
                     {
                         if (other.Faction == ship.Faction || other.Class.Kind != HullKind.Interceptor || other.Damage.Destroyed) continue;
-                        if (Candidate(other.Position,ship.Class.Kind==HullKind.Interceptor ? 2 : 1)) { raider=other; threat=null; }
+                        if (Candidate(other.Position,ship.Class.Kind==HullKind.Interceptor ? 2 : 1,out double distance,out int rank))
+                        { bestPriority=rank; nearest=distance; raider=other; threat=null; }
                     }
                 if (anyDrones)
-                    foreach (var carrier in _ships)
+                    foreach (var carrier in _pdCarrierCandidates)
                     {
                         if (carrier.Faction==ship.Faction || carrier.Damage.Destroyed || carrier.Definition.DefenseDrones is not { } droneDef) continue;
                         double range=pd.RangeMeters*PointDefenseTrackingRangeMultiplier+droneDef.OrbitMeters;
@@ -477,17 +515,19 @@ public sealed partial class SimWorld
                         {
                             if (!drones.Alive(j)) continue;
                             Vec3d point=drones.WorldPosition(j);
+                            if (!Candidate(point,ship.Class.Kind==HullKind.Interceptor ? 1 : 2,out double distance,out int rank)) continue;
+                            // Only a candidate that can replace the current target needs an occlusion ray.
                             // The pivot lies on the armor surface; start just outside the local deck.
                             Vec3d clearOrigin=mount+Vec3d.From(ship.Orientation*(tracking.MountBasis*Vector3.Up)*.05f);
-                            if (!Clear(point) || !ClearDefenseLine(clearOrigin,point)) continue;
-                            if (Candidate(point,ship.Class.Kind==HullKind.Interceptor ? 1 : 2))
-                            { droneCarrier=carrier; droneIndex=j; threat=null; raider=null; }
+                            if (!ClearDefenseLine(clearOrigin,point)) continue;
+                            bestPriority=rank; nearest=distance;
+                            droneCarrier=carrier; droneIndex=j; threat=null; raider=null;
                         }
                     }
                 if (threat is null && raider is null && droneCarrier is null) { tracking.ClearTracking(); continue; }
 
                 Vec3d aim = threat?.Position ?? raider?.Position ?? droneCarrier!.Ordnance.Drones.WorldPosition(droneIndex);
-                tracking.Track(ship.Orientation.Inverse() * (aim-mount).ToVector3(), dt, ship.Power.WeaponEffect);
+                tracking.Track(inverse * (aim-mount).ToVector3(), dt, ship.Power.WeaponEffect);
                 tracking.TargetKind=threat is not null ? PointDefenseTarget.Missile : raider is not null ? PointDefenseTarget.Interceptor : PointDefenseTarget.Drone;
                 if (!tracking.Aligned || nearest > pd.RangeMeters) { tracking.FireAccumulator = 0; continue; }
                 tracking.FireAccumulator += pd.ShotsPerSecond * (float)dt;
@@ -527,6 +567,7 @@ public sealed partial class SimWorld
                 }
                 if (threat is not null && threat.Health <= 0 && _missiles.Remove(threat))
                 {
+                    Log?.Intercept(ship, threat);
                     Log?.EndAntimatter(threat, AntimatterOutcome.PointDefense, time);
                     _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction, threat.Weapon));
                 }

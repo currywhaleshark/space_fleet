@@ -83,15 +83,16 @@ public sealed class RailgunState
     }
     internal void Step(double dt)
     {
-        ReloadRemaining = Mathf.Max(0, ReloadRemaining - (float)dt * ReloadRate);
-        if (Mount is not { } mount || Output <= .01f || _ship.Damage.Destroyed) return;
+        float output = Output;
+        ReloadRemaining = Mathf.Max(0, ReloadRemaining - (float)dt * (output * _ship.Power.WeaponEffect));
+        if (Mount is not { } mount || output <= .01f || _ship.Damage.Destroyed) return;
         // 추적 앞당김: 요청 방향을 조준 각속도만큼 지금 시각까지 돌려서 겨눈다. 다음 틱 정렬 판정 때 포탑이 이미 그 방향에 있다.
         // 그래서 따라갈 수 있는 한계는 포탑 구동 속도(YawRate·ElevationRate)다.
         Vector2 desired = _aimDirection is Vector3 direction && _ship.SimTime <= _aimUntil
             ? mount.Angles(_ship.Orientation.Inverse() * Lead(direction)) : new Vector2(Yaw, Elevation);
         float yaw = Mathf.Clamp(desired.X, -Mathf.DegToRad(mount.YawDegrees), Mathf.DegToRad(mount.YawDegrees));
         float pitch = Mathf.Clamp(desired.Y, Mathf.DegToRad(mount.MinElevation), Mathf.DegToRad(mount.MaxElevation));
-        float drive = Output * _ship.Power.WeaponEffect;
+        float drive = output * _ship.Power.WeaponEffect;
         // Deliberately do not wrap through the mechanical stop at +/- yaw limit.
         Yaw = Mathf.MoveToward(Yaw, yaw, Mathf.DegToRad(mount.YawRate) * (float)dt * drive);
         Elevation = Mathf.MoveToward(Elevation, pitch, Mathf.DegToRad(mount.ElevationRate) * (float)dt * drive);

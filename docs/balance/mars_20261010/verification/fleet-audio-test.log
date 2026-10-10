@@ -1,0 +1,11 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+Fleet audio phase 0: L 0.00995, R 0.02281, peak 0.068
+Fleet audio phase 1: L 0.01983, R 0.01143, peak 0.060
+Fleet audio phase 2: L 0.00061, R 0.00143, peak 0.004
+Fleet audio phase 3: L 0.00995, R 0.02300, peak 0.079
+Fleet audio phase 4: L 0.00000, R 0.00000, peak 0.000
+Fleet audio phase 5: L 0.00000, R 0.00000, peak 0.000
+Fleet audio phase 6: L 0.00991, R 0.02181, peak 0.067
+PASS: 104 fleet audio checks

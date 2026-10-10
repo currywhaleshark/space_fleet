@@ -457,6 +457,8 @@ class Ship:
         from fleet_model_export import rig_point_defense, fit_interceptor_dorsal_pd
         fit_interceptor_dorsal_pd(self.coll, self.data)
         rig_point_defense(self.coll, self.data)
+        from fleet_model_alignment import align_ship_parts
+        align_ship_parts(self.coll, self.data)
         stats = export_collection(self.coll, OUT/f'{self.key}.glb')
         self.lighting()
         self.scene['game_axes']='Forward -Z, up +Y; Godot meters'
@@ -472,15 +474,17 @@ class Ship:
         return {'id':self.key,**stats,
             'modules':len(self.data['modules']),'source':f'art/blender/{self.key}.blend','model':f'assets/ships/{self.key}.glb',**self.fx}
 
-# This process starts with a factory scene; never touches another running Blender session.
-manifest={'version':1,'coordinateSystem':'Godot meters, +Y up, -Z forward','ships':[]}
-for key in ('battleship','escort','interceptor'):
-    bpy.ops.wm.read_factory_settings(use_empty=True)
-    initial=bpy.context.scene
-    ship=Ship(key)
-    bpy.data.scenes.remove(initial)
-    ship.interceptor() if key=='interceptor' else ship.capital()
-    manifest['ships'].append(ship.export())
-    print('BUILT',key,manifest['ships'][-1]['triangles'],'triangles',flush=True)
-(OUT/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
-print('FLEET BUILD COMPLETE',flush=True)
+if __name__ == '__main__':
+    # Rebuild only Earth. Preserve independently authored Mars entries.
+    manifest=json.loads((OUT/'manifest.json').read_text(encoding='utf-8')) if (OUT/'manifest.json').exists() else {
+        'version':1,'coordinateSystem':'Godot meters, +Y up, -Z forward','ships':[]}
+    for key in ('battleship','escort','interceptor'):
+        bpy.ops.wm.read_factory_settings(use_empty=True)
+        initial=bpy.context.scene
+        ship=Ship(key)
+        bpy.data.scenes.remove(initial)
+        ship.interceptor() if key=='interceptor' else ship.capital()
+        manifest['ships']=[entry for entry in manifest['ships'] if entry['id']!=key]+[ship.export()]
+        print('BUILT',key,manifest['ships'][-1]['triangles'],'triangles',flush=True)
+    (OUT/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+    print('FLEET BUILD COMPLETE',flush=True)

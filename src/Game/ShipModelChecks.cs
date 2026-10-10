@@ -28,13 +28,13 @@ public partial class ShipModelChecks : Node
 
     private void Run()
     {
-        foreach (HullKind kind in Enum.GetValues<HullKind>())
+        foreach (ShipDefinition def in ShipDefinitions.All)
         {
-            ShipDefinition def = ShipDefinitions.For(kind);
+            HullKind kind = def.Kind;
             var colors = new List<Color>();
             foreach (Faction faction in new[] { Faction.Blue, Faction.Red })
             {
-                ShipModel model = ShipModels.Build(def.Flight, faction, 47);
+                ShipModel model = ShipModels.Build(def, faction, 47);
                 AddChild(model.Root);
                 try
                 {
@@ -178,7 +178,7 @@ public partial class ShipModelChecks : Node
             var nodes = Nodes(view).Where(n => n.Name.ToString().StartsWith("muzzle_gun_")).ToDictionary(n => n.Name.ToString());
             var localAim = new Vector3(1, .035f, -.4f).Normalized();
             var aim = body.Orientation * localAim;
-            for (int tick = 0; tick < 360; tick++)
+            for (int tick = 0; tick < TurretSettleTicks(body); tick++)
             {
                 foreach (var gun in body.Railguns) gun.Aim(aim);
                 world.Step(); view.Sync(origin, .5, (float)SimWorld.TickDelta);
@@ -229,7 +229,7 @@ public partial class ShipModelChecks : Node
             {
                 enemy.Place(new Vec3d(18000,side*9000,-7000),Quaternion.Identity);
                 world.Sensors.Update(world.Ships,world.Time,force:true);
-                for(int i=0;i<360;i++) { enemy.Damage.Reset(); world.Step(); view.Sync(Vec3d.Zero,1,(float)SimWorld.TickDelta); }
+                for(int i=0;i<TurretSettleTicks(body);i++) { enemy.Damage.Reset(); world.Step(); view.Sync(Vec3d.Zero,1,(float)SimWorld.TickDelta); }
                 foreach(var gun in body.Railguns.Where(g=>g.Mount!.Ventral==(side<0)))
                 {
                     var key=gun.Definition.ModuleId.Replace('-','_');
@@ -243,6 +243,11 @@ public partial class ShipModelChecks : Node
         }
         finally { view.Free(); }
     }
+
+    // These stationary targets require less than 90 degrees on either axis.
+    // Allow the actual drive to settle; the battleship now traverses at 8 deg/s.
+    private static int TurretSettleTicks(ShipBody body) => (int)Math.Ceiling(Math.Max(6,
+        90.0 / body.Railguns.Min(g => Math.Min(g.Mount!.YawRate, g.Mount.ElevationRate)) + 1) * SimWorld.TickRate);
 
     private void CheckPointDefense(ShipDefinition def)
     {

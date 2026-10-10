@@ -1,0 +1,52 @@
+done 2/normal: Blue:0.000/43.750/148.250/43.750/-/-/-/73.324/154.976/-/-;M=9/0;R=0/0;AM=0/0|Red:0.000/0.000/43.750/0.000/94.788/43.817/50.082/-/-/-/-;M=14/2;R=48/24;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:90.000,Sniping:34.983,Brawl:0.000|collisions=0|events=11|winner=Red;time=154.983 wall=1.6s
+done 1/normal: Blue:0.000/43.750/-/43.750/-/-/-/73.324/157.578/-/-;M=8/0;R=0/0;AM=0/0|Red:0.000/0.000/43.750/0.000/94.788/43.817/50.082/-/-/-/-;M=14/3;R=52/22;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:90.000,Sniping:37.583,Brawl:0.000|collisions=0|events=12|winner=Red;time=157.583 wall=1.6s
+done 2/mirror: Blue:0.000/43.750/-/43.750/-/-/-/73.327/-/73.327/-;M=2/0;R=0/0;AM=0/0|Red:0.000/0.000/43.750/0.000/-/43.817/50.083/-/-/-/-;M=6/0;R=20/6;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:30.000,Sniping:13.333,Brawl:0.000|collisions=0|events=20|winner=Red;time=73.333 wall=0.2s
+done 1/mirror: Blue:0.000/43.750/-/43.750/-/-/-/73.326/-/73.326/-;M=2/0;R=0/0;AM=0/0|Red:0.000/0.000/43.750/0.000/-/43.817/50.083/-/-/-/-;M=6/0;R=20/6;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:30.000,Sniping:13.333,Brawl:0.000|collisions=0|events=20|winner=Red;time=73.333 wall=0.2s
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=43.75 min=43.75 max=43.75 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=43.75 min=43.75 max=43.75 occurred=4/4
+Blue Locked: median=148.25 min=148.25 max=148.25 occurred=1/4
+Red Locked: median=43.75 min=43.75 max=43.75 occurred=4/4
+MissileLaunch: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue MissileLaunch: median=43.75 min=43.75 max=43.75 occurred=4/4
+Red MissileLaunch: median=0.00 min=0.00 max=0.00 occurred=4/4
+MissileHit: median=94.79 min=94.79 max=94.79 occurred=2/4
+Blue MissileHit: no events
+Red MissileHit: median=94.79 min=94.79 max=94.79 occurred=2/4
+RailLaunch: median=43.82 min=43.82 max=43.82 occurred=4/4
+Blue RailLaunch: no events
+Red RailLaunch: median=43.82 min=43.82 max=43.82 occurred=4/4
+RailHit: median=50.08 min=50.08 max=50.08 occurred=4/4
+Blue RailHit: no events
+Red RailHit: median=50.08 min=50.08 max=50.08 occurred=4/4
+ModuleDestroyed: median=73.33 min=73.32 max=73.33 occurred=4/4
+Blue ModuleDestroyed: median=73.33 min=73.32 max=73.33 occurred=4/4
+Red ModuleDestroyed: no events
+Disabled: median=156.28 min=154.98 max=157.58 occurred=2/4
+Blue Disabled: median=156.28 min=154.98 max=157.58 occurred=2/4
+Red Disabled: no events
+Destroyed: median=73.33 min=73.33 max=73.33 occurred=2/4
+Blue Destroyed: median=73.33 min=73.33 max=73.33 occurred=2/4
+Red Destroyed: no events
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=114.16 min=73.33 max=157.58 occurred=4/4
+Wall: median=0.89 min=0.20 max=1.59 occurred=4/4
+wins Blue: 0/4
+wins Red: 4/4
+draws: 0/4; unresolved: 0
+position normal: Blue 0/2, Red 2/2
+position mirror: Blue 0/2, Red 2/2
+phase Approach >=60s: 0/4
+phase Missile >=60s: 0/4
+phase Gunnery >=60s: 2/4
+phase Sniping >=60s: 0/4
+phase Brawl >=60s: 0/4
+friendly collisions: mean=0.00
+batch wall=2.1s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\mars-balance-final\duel-Escort-80000-Earth-Mars.csv

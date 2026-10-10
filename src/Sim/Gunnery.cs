@@ -70,14 +70,15 @@ public sealed partial class SimWorld
         FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: localAim, weapon: gun);
         solved = solution;
         if (solution.Valid) gun.Aim(solution.Direction); // track while reloading, too
-        // Keep the existing AI's solution/armor evaluation and firing conditions.
-        bool worthIt = target.Damage.Shield > 1f
-            || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
         if (!solution.Valid || solution.FlightTime > maxFlightSeconds) { status = GunneryStatus.Range; return false; }
         FireFailure line = RailLineLocal(ship, gun, ship.Orientation.Inverse() * solution.Direction);
         if (line != FireFailure.None) { status = line == FireFailure.Arc ? GunneryStatus.Arc : GunneryStatus.HullBlocked; return false; }
         if (!gun.Aligned(solution.Direction)) { status = GunneryStatus.Traversing; return false; }
         if (!gun.Ready) { status = GunneryStatus.Reload; return false; }
+        // Armor preview has no state effects. Only evaluate it when it can affect this attempt;
+        // preserve every Aim call and the existing range/arc/traverse/reload status precedence.
+        bool worthIt = target.Damage.Shield > 1f
+            || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
         if (!worthIt) { status = GunneryStatus.Armor; return false; }
         Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
         for (int barrel = 0; barrel < gun.SalvoRounds; barrel++)
@@ -140,7 +141,7 @@ public sealed partial class SimWorld
             if (target is null) { order.Status = GunneryStatus.NoTarget; continue; }
             order.Engaged = target;
             order.EngagedModule = PickGunneryModule(ship, target, order);
-            TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, AiProfile.For(ship.Class.Kind).RailFlightSeconds * 1.5,
+            TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, AiProfile.For(ship.Definition).RailFlightSeconds * 1.5,
                 out var status, out var solution);
             order.Status = status; order.Solution = solution;
             if (solution is null && Sensors.Track(ship.Faction, target).Level >= TrackLevel.Locked)

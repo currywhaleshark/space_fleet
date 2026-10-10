@@ -1,0 +1,586 @@
+{
+  "id": "mars_interceptor",
+  "kind": "Interceptor",
+  "railgun": {
+    "moduleId": "gun",
+    "muzzle": [
+      0.0,
+      -0.48,
+      -17.6
+    ],
+    "muzzleSpeed": 6000,
+    "reloadSeconds": 0.7,
+    "energy": 200,
+    "penetrationMm": 250,
+    "moduleDamage": 105,
+    "maxRange": 80000,
+    "rounds": 200,
+    "traverseDegrees": 12,
+    "sensorErrorMeters": 0.275,
+    "sensorErrorPerKm": 0.0825,
+    "velocityError": 0.165,
+    "shotHeatMj": 6
+  },
+  "flight": {
+    "kind": "Interceptor",
+    "displayName": "포보스급 요격함",
+    "length": 26,
+    "massKg": 81600.0,
+    "forwardAccel": 47.25,
+    "strafeAccel": 54.0,
+    "brakeAccel": 54.0,
+    "maxAccelG": 6.0,
+    "maxSpeed": 463.59999999999997,
+    "boostMultiplier": 2,
+    "pitchYawRateDeg": 143.0,
+    "pitchYawAccelDeg": 468.0,
+    "rollRateDeg": 260.0,
+    "rollAccelDeg": 780.0,
+    "cameraDistance": 35.699999999999996,
+    "cameraHeight": 7.2
+  },
+  "shield": {
+    "capacity": 81.60000000000001,
+    "rechargePerSecond": 5.6,
+    "rechargeDelay": 4
+  },
+  "power": {
+    "outputMw": 60,
+    "engines": 24,
+    "shields": 12,
+    "weapons": 10,
+    "sensors": 2,
+    "ecm": 6,
+    "heatCapacityMj": 600,
+    "coolingMw": 42
+  },
+  "sensors": {
+    "strength": 90.0,
+    "signature": 2.46,
+    "jammer": 1.15
+  },
+  "missiles": {
+    "rounds": 4,
+    "reloadSeconds": 1.5,
+    "launchPoint": [
+      0.0,
+      -1.44,
+      -1.7
+    ],
+    "ejectSpeed": 15,
+    "accelG": 40,
+    "burnSeconds": 25,
+    "maxFlightSeconds": 60,
+    "seekerRangeMeters": 8000,
+    "seekerFovDegrees": 50,
+    "seekerStrength": 2,
+    "fuzeMeters": 10,
+    "turnRateDegrees": 160,
+    "maxSteeringAngleDegrees": 90,
+    "thrustGimbalDegrees": 10,
+    "energy": 250,
+    "penetrationMm": 300,
+    "moduleDamage": 110,
+    "hitPoints": 6,
+    "launchHeatMj": 2
+  },
+  "antimatter": {
+    "moduleId": "am-containment",
+    "rounds": 2,
+    "armingSeconds": 2.5,
+    "recommendedMinMeters": 2000,
+    "recommendedMaxMeters": 5000,
+    "maxTravelMeters": 8000,
+    "terminalAccelG": 6,
+    "launchConeDegrees": 15,
+    "damageDepthMeters": 180,
+    "warningHealth": 0.85,
+    "safeFailureHealth": 0.15,
+    "armedFailureHealth": 0.65,
+    "flight": {
+      "rounds": 2,
+      "reloadSeconds": 2.5,
+      "launchPoint": [
+        0.84,
+        -1.44,
+        -5.95
+      ],
+      "ejectSpeed": 450,
+      "accelG": 22,
+      "burnSeconds": 7,
+      "maxFlightSeconds": 7,
+      "seekerRangeMeters": 3500,
+      "seekerFovDegrees": 35,
+      "seekerStrength": 0.3,
+      "fuzeMeters": 1,
+      "energy": 1100,
+      "penetrationMm": 2400,
+      "moduleDamage": 1200,
+      "hitPoints": 12,
+      "launchHeatMj": 35
+    }
+  },
+  "pointDefense": {
+    "mounts": [
+      [
+        0.0,
+        1.28,
+        8.5
+      ]
+    ],
+    "rangeMeters": 1000,
+    "shotsPerSecond": 4,
+    "hitChance": 0.06,
+    "damagePerHit": 4,
+    "normals": [
+      [
+        0,
+        0.5,
+        0.85
+      ]
+    ],
+    "arcDegrees": 110,
+    "yawDegrees": 100,
+    "minElevation": -5,
+    "maxElevation": 85,
+    "yawRate": 90,
+    "elevationRate": 60,
+    "toleranceDegrees": 1.5
+  },
+  "decoys": {
+    "count": 6,
+    "perLaunch": 2,
+    "cooldownSeconds": 2,
+    "signatureFactor": 3,
+    "lifetimeSeconds": 4,
+    "ejectSpeed": 30
+  },
+  "hullSections": [
+    {
+      "id": "nose",
+      "name": "기수",
+      "center": [
+        0.0,
+        -0.08,
+        -9.35
+      ],
+      "halfSize": [
+        0.91,
+        0.8,
+        5.95
+      ],
+      "armor": {
+        "thicknessMm": 8.4
+      },
+      "faces": {
+        "Fore": {
+          "thicknessMm": 14.0,
+          "slopeDegrees": 25
+        }
+      }
+    },
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0.0,
+        0.0,
+        2.55
+      ],
+      "halfSize": [
+        1.61,
+        1.28,
+        7.65
+      ],
+      "armor": {
+        "thicknessMm": 12.6
+      },
+      "faces": {
+        "Aft": {
+          "thicknessMm": 5.6
+        }
+      }
+    },
+    {
+      "id": "wing-front",
+      "name": "전방 날개",
+      "center": [
+        0.0,
+        -0.16,
+        -1.9125
+      ],
+      "halfSize": [
+        4.2,
+        0.28,
+        3.1875
+      ],
+      "armor": {
+        "thicknessMm": 2.1
+      },
+      "faces": {}
+    },
+    {
+      "id": "wing-back",
+      "name": "후방 날개",
+      "center": [
+        0.0,
+        -0.16,
+        4.4625
+      ],
+      "halfSize": [
+        7.0,
+        0.28,
+        3.1875
+      ],
+      "armor": {
+        "thicknessMm": 2.1
+      },
+      "faces": {}
+    },
+    {
+      "id": "fins",
+      "name": "수직 핀",
+      "center": [
+        0.0,
+        1.44,
+        4.675
+      ],
+      "halfSize": [
+        1.33,
+        1.44,
+        2.975
+      ],
+      "armor": {
+        "thicknessMm": 2.1
+      },
+      "faces": {}
+    },
+    {
+      "id": "engine-block",
+      "name": "엔진 블록",
+      "center": [
+        0.0,
+        0.0,
+        9.35
+      ],
+      "halfSize": [
+        1.61,
+        1.28,
+        1.02
+      ],
+      "armor": {
+        "thicknessMm": 5.6
+      },
+      "faces": {}
+    }
+  ],
+  "modules": [
+    {
+      "id": "am-containment",
+      "name": "반물질 격리용기",
+      "kind": "AntimatterContainment",
+      "center": [
+        0.84,
+        0.0,
+        0.85
+      ],
+      "halfSize": [
+        0.49,
+        0.64,
+        1.19
+      ],
+      "hitPoints": 40,
+      "resistanceMm": 4.0,
+      "grid": "Starboard"
+    },
+    {
+      "id": "sensor",
+      "name": "조준 센서",
+      "kind": "Sensor",
+      "center": [
+        0.0,
+        0.48,
+        -5.95
+      ],
+      "halfSize": [
+        0.28,
+        0.16,
+        0.85
+      ],
+      "hitPoints": 32.8,
+      "resistanceMm": 6.4,
+      "grid": "Shared"
+    },
+    {
+      "id": "gun",
+      "name": "기수 주포",
+      "kind": "Gun",
+      "center": [
+        0.0,
+        -0.48,
+        -11.9
+      ],
+      "halfSize": [
+        0.21,
+        0.24,
+        1.7
+      ],
+      "hitPoints": 57.4,
+      "resistanceMm": 8.0,
+      "grid": "Shared"
+    },
+    {
+      "id": "magazine",
+      "name": "탄약고",
+      "kind": "Magazine",
+      "center": [
+        0.0,
+        0.0,
+        -7.65
+      ],
+      "halfSize": [
+        0.42,
+        0.4,
+        1.02
+      ],
+      "hitPoints": 45.1,
+      "resistanceMm": 9.6,
+      "grid": "Shared",
+      "criticalChance": 0.08,
+      "criticalEnergy": 250
+    },
+    {
+      "id": "reactor",
+      "name": "소형 반응로",
+      "kind": "Reactor",
+      "center": [
+        0.0,
+        0.0,
+        0.85
+      ],
+      "halfSize": [
+        0.42,
+        0.56,
+        1.02
+      ],
+      "hitPoints": 82.0,
+      "resistanceMm": 20.0,
+      "grid": "Shared",
+      "feeds": [
+        "Port",
+        "Starboard"
+      ],
+      "criticalChance": 0.02,
+      "criticalEnergy": 400
+    },
+    {
+      "id": "generator-port",
+      "name": "좌현 보조 발전기",
+      "kind": "Generator",
+      "center": [
+        -0.91,
+        0.0,
+        2.55
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.51
+      ],
+      "hitPoints": 32.8,
+      "resistanceMm": 6.4,
+      "grid": "Port",
+      "feeds": [
+        "Port"
+      ],
+      "capacity": 0.3
+    },
+    {
+      "id": "bus-port",
+      "name": "좌현 전력망",
+      "kind": "PowerBus",
+      "center": [
+        -1.05,
+        0.0,
+        0.0
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.68
+      ],
+      "hitPoints": 32.8,
+      "resistanceMm": 6.4,
+      "grid": "Port"
+    },
+    {
+      "id": "cooling-port",
+      "name": "좌현 냉각 장치",
+      "kind": "Cooling",
+      "center": [
+        -1.05,
+        0.0,
+        5.1
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.68
+      ],
+      "hitPoints": 36.9,
+      "resistanceMm": 6.4,
+      "grid": "Port"
+    },
+    {
+      "id": "engine-0",
+      "name": "좌현 추진기",
+      "kind": "Thruster",
+      "center": [
+        -0.77,
+        0.0,
+        8.5
+      ],
+      "halfSize": [
+        0.42,
+        0.48,
+        1.02
+      ],
+      "hitPoints": 57.4,
+      "resistanceMm": 9.6,
+      "grid": "Port",
+      "visualEngineIndex": 0
+    },
+    {
+      "id": "maneuver-port",
+      "name": "좌현 기동 추진기",
+      "kind": "ManeuverThruster",
+      "center": [
+        -1.05,
+        0.0,
+        -2.55
+      ],
+      "halfSize": [
+        0.21,
+        0.32,
+        0.68
+      ],
+      "hitPoints": 36.9,
+      "resistanceMm": 6.4,
+      "grid": "Port"
+    },
+    {
+      "id": "generator-starboard",
+      "name": "우현 보조 발전기",
+      "kind": "Generator",
+      "center": [
+        0.91,
+        0.0,
+        2.55
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.51
+      ],
+      "hitPoints": 32.8,
+      "resistanceMm": 6.4,
+      "grid": "Starboard",
+      "feeds": [
+        "Starboard"
+      ],
+      "capacity": 0.3
+    },
+    {
+      "id": "bus-starboard",
+      "name": "우현 전력망",
+      "kind": "PowerBus",
+      "center": [
+        1.05,
+        0.0,
+        0.0
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.68
+      ],
+      "hitPoints": 32.8,
+      "resistanceMm": 6.4,
+      "grid": "Starboard"
+    },
+    {
+      "id": "cooling-starboard",
+      "name": "우현 냉각 장치",
+      "kind": "Cooling",
+      "center": [
+        1.05,
+        0.0,
+        5.1
+      ],
+      "halfSize": [
+        0.21,
+        0.4,
+        0.68
+      ],
+      "hitPoints": 36.9,
+      "resistanceMm": 6.4,
+      "grid": "Starboard"
+    },
+    {
+      "id": "engine-1",
+      "name": "우현 추진기",
+      "kind": "Thruster",
+      "center": [
+        0.77,
+        0.0,
+        8.5
+      ],
+      "halfSize": [
+        0.42,
+        0.48,
+        1.02
+      ],
+      "hitPoints": 57.4,
+      "resistanceMm": 9.6,
+      "grid": "Starboard",
+      "visualEngineIndex": 1
+    },
+    {
+      "id": "maneuver-starboard",
+      "name": "우현 기동 추진기",
+      "kind": "ManeuverThruster",
+      "center": [
+        1.05,
+        0.0,
+        -2.55
+      ],
+      "halfSize": [
+        0.21,
+        0.32,
+        0.68
+      ],
+      "hitPoints": 36.9,
+      "resistanceMm": 6.4,
+      "grid": "Starboard"
+    },
+    {
+      "id": "shield",
+      "name": "실드 발생기",
+      "kind": "ShieldEmitter",
+      "center": [
+        0.0,
+        0.48,
+        4.25
+      ],
+      "halfSize": [
+        0.21,
+        0.32,
+        0.68
+      ],
+      "hitPoints": 41.0,
+      "resistanceMm": 8.0,
+      "grid": "Shared"
+    }
+  ],
+  "design": "Mars"
+}

@@ -18,9 +18,19 @@ public partial class Main
     {
         int frame=++_flowFrame;
         if(frame==10){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Select,"Title button selects roles");}
+        if(frame==14)
+        {
+            _overlay.ActivateButton(3);
+            Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"Player design selector is independent of the opponent");
+            _overlay.ActivateButton(4);
+            Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Earth,"Opponent design selector supports Mars vs Earth");
+        }
         if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)
         {
+            Verify(Battle!.Controlled!.Body.Definition.Id=="mars_battleship" && Battle.Controlled.Body.Faction==Faction.Blue,
+                "Mars battleship starts on Blue via ID-based model/data loading");
+            Verify(Battle.World.Ships.Where(s=>s.Faction==Faction.Red).All(s=>s.Definition.Design==DesignFamily.Earth),"Red can use Earth hulls");
             float range = Battle!.Radar.Range;
             Battle._UnhandledInput(new InputEventAction {Action=InputSetup.RadarNear,Pressed=true});
             Verify(Battle.Radar.Range<range,"Radar near shortcut changes tactical range");
@@ -114,6 +124,12 @@ public partial class Main
         {
             Verify(Screen==BattleScreen.Result&&Battle!.TimeScale==1,"Outcome opens result after delay at x1");
             _overlay.ActivateButton(1);Verify(Screen==BattleScreen.Select&&Battle is null,"Result can change role");
+            _overlay.ActivateButton(3);
+            Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Earth,"UI supports Earth vs Earth");
+            _overlay.ActivateButton(3); _overlay.ActivateButton(4);
+            Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"UI supports Mars vs Mars");
+            _overlay.ActivateButton(3);
+            Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Mars,"UI supports Earth vs Mars");
         }
         if(frame==480){GD.Print($"PASS: {_flowChecks} scene flow checks");GetTree().Quit();}
     }

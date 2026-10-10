@@ -1,0 +1,50 @@
+done 1/normal: Blue:0.000/0.000/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:0.000/0.000/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=- wall=0.0s
+done 2/normal: Blue:0.000/0.000/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:0.000/0.000/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=- wall=0.0s
+PASS: 2/2 battle summaries match C:\Users\yurib\Documents\New project\space_fleet\shots\perf-stage1-20261010\coverage-reference.summaries.json byte for byte
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Locked: no events
+Blue Locked: no events
+Red Locked: no events
+MissileLaunch: no events
+Blue MissileLaunch: no events
+Red MissileLaunch: no events
+MissileHit: no events
+Blue MissileHit: no events
+Red MissileHit: no events
+RailLaunch: no events
+Blue RailLaunch: no events
+Red RailLaunch: no events
+RailHit: no events
+Blue RailHit: no events
+Red RailHit: no events
+ModuleDestroyed: no events
+Blue ModuleDestroyed: no events
+Red ModuleDestroyed: no events
+Disabled: no events
+Blue Disabled: no events
+Red Disabled: no events
+Destroyed: no events
+Blue Destroyed: no events
+Red Destroyed: no events
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: no events
+Wall: median=0.00 min=0.00 max=0.00 occurred=2/2
+wins Blue: 0/2
+wins Red: 0/2
+draws: 0/2; unresolved: 2
+position normal: Blue 0/2, Red 0/2
+phase Approach >=60s: 0/2
+phase Missile >=60s: 0/2
+phase Gunnery >=60s: 0/2
+phase Sniping >=60s: 0/2
+phase Brawl >=60s: 0/2
+friendly collisions: mean=0.00
+batch wall=0.2s jobs=1 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\perf-stage1-20261010\coverage-pass.csv

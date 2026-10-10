@@ -13,6 +13,14 @@ public partial class Main : Node3D
     public ScaleTest? Battle { get; private set; }
     public int Seed { get; private set; }
     public string Role { get; private set; } = "IC-21";
+    public DesignFamily PlayerDesign { get; private set; } = DesignFamily.Earth;
+    public DesignFamily EnemyDesign { get; private set; } = DesignFamily.Mars;
+    public void ToggleDesign(bool enemy)
+    {
+        if (enemy) EnemyDesign = EnemyDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
+        else PlayerDesign = PlayerDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
+        _overlay.Rebuild();
+    }
     public BattleOutcome? Outcome => _fixtureOutcome ?? Battle?.World.Rules?.Outcome;
     private BattleOutcome? _fixtureOutcome;
     private BattleOverlay _overlay = null!;
@@ -22,6 +30,8 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if (_args.TryGetValue("blue-design", out var blue)) PlayerDesign = Enum.Parse<DesignFamily>(blue, true);
+        if (_args.TryGetValue("red-design", out var red)) EnemyDesign = Enum.Parse<DesignFamily>(red, true);
         InputSetup.Register();
         SoundSettings.Initialize();
         FeedbackSettings.Load();
@@ -70,7 +80,7 @@ public partial class Main : Node3D
         Seed = useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
             : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue);
         Battle = new ScaleTest { BattleMode = true, DevMode = _args.ContainsKey("dev"), AutoPlay = _args.ContainsKey("autoplay"),
-            LaunchConfig = new BattleConfig { Seed=Seed }, LaunchControl=role };
+            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign }, LaunchControl=role };
         Battle.PauseRequested += TogglePause;
         AddChild(Battle); ChangeScreen(BattleScreen.Battle);
         if (_args.TryGetValue("advance", out string? advance)) Battle.AdvanceBattle(double.Parse(advance, System.Globalization.CultureInfo.InvariantCulture));

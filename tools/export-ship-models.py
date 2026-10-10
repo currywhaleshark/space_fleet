@@ -13,7 +13,7 @@ from mathutils import Vector
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--root', required=True)
-parser.add_argument('--ship', choices=('battleship', 'escort', 'interceptor'))
+parser.add_argument('--ship', help='Exact hull ID, e.g. mars_battleship')
 args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
 root = Path(args.root)
 sys.path.insert(0, str(root / 'tools'))

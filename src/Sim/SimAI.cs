@@ -72,11 +72,13 @@ public sealed partial class SimWorld
 
     private void StepAI()
     {
+        long timing = SimProfiler.Begin();
         if (_commanders.Count > 0 && Time >= _nextCommand)
         {
             _nextCommand = Time + CommandInterval;
             foreach (Faction faction in _commanders.OrderBy(f => ((int)f + Tick / 120) % 2)) Command(faction);
         }
+        SimProfiler.End(SimSection.AICommand, timing);
         foreach (ShipBrain brain in _brains.Values)
         {
             if (brain.Ship.Damage.Destroyed || brain.Ship.Damage.Disabled)
@@ -88,13 +90,19 @@ public sealed partial class SimWorld
             if (Time >= brain.NextThink)
             {
                 brain.NextThink = Time + ThinkInterval;
+                timing = SimProfiler.Begin();
                 Think(brain);
+                SimProfiler.End(SimSection.AIThink, timing);
             }
+            timing = SimProfiler.Begin();
             Drive(brain);
+            SimProfiler.End(SimSection.AIDrive, timing);
         }
         // Finish every decision before weapon launch. Alternate initiative each tick.
+        timing = SimProfiler.Begin();
         foreach (ShipBrain brain in Tick % 2 == 0 ? _brains.Values : _brains.Values.Reverse())
             if (brain.Enabled && Squadron.Active(brain.Ship)) Engage(brain);
+        SimProfiler.End(SimSection.AIEngage, timing);
     }
 
     // ── 판단(0.25초) ──────────────────────────────────────────
@@ -139,7 +147,9 @@ public sealed partial class SimWorld
         }
 
         desired += Avoidance(ship, desired);
-        if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is { Damage.Shield: <= 1 } exposed
+        if (ship.Definition.Design == DesignFamily.Mars && brain.Target is { } precisionTarget)
+            brain.AimModule = MarsAimModule(brain, precisionTarget);
+        else if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is { Damage.Shield: <= 1 } exposed
             && Sensors.Track(ship.Faction, exposed).Level >= TrackLevel.Identified)
             brain.AimModule = PickGunneryModule(ship, exposed, brain.PrecisionOrder);
         float limit = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
@@ -160,6 +170,8 @@ public sealed partial class SimWorld
         Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? target.Velocity : Vector3.Zero;
         // 잠기지 않으면(방해·먼 거리) 대치 거리를 줄여 다가간다.
         float standoff = brain.CommandStandoff ?? brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
+        if (ship.Definition.Design == DesignFamily.Mars)
+            standoff = brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : .72f);
         float radial = Mathf.Clamp((d - standoff) * 0.01f, -0.6f * maxSpeed, maxSpeed);
         Vector3 desired = targetVelocity + rh * radial;
         if (d < standoff * 1.5f)
@@ -192,7 +204,7 @@ public sealed partial class SimWorld
         float breakRange = 1500f + target.Hull.BoundingRadius;
         bool capital = target.Class.Kind != HullKind.Interceptor && track.Level >= TrackLevel.Identified;
         Vector3 sector = target.Orientation * InfiltrationSector;
-        brain.AimModule = capital
+        brain.AimModule = ship.Definition.Design == DesignFamily.Mars ? MarsAimModule(brain, target) : capital
             ? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position) ?? Subsystems.Pick(target, AimSubsystem.Radiators, ship.Position)
             : null;
 
@@ -478,6 +490,7 @@ public sealed partial class SimWorld
             ShipBody? target = PickTarget(brain.Ship, known, assigned);
             Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
+        CommandMars(faction, known, assigned);
     }
 
     private bool CommandPosture(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody,int> assigned)

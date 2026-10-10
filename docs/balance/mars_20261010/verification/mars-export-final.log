@@ -1,0 +1,9 @@
+Importing resources...
+Exporting Windows x64 release...
+PASS: 46 scene flow checks
+PASS: 1204 ship model checks
+PASS: 36 combat visual checks
+PASS: 116 audio checks; recorded peak 0.495
+PASS: 104 fleet audio checks
+Executable: C:\Users\yurib\Documents\New project\space_fleet\builds\SpaceFleet-20261010-mars-fleet-Windows-x64\SpaceFleet.exe
+Archive: C:\Users\yurib\Documents\New project\space_fleet\builds\SpaceFleet-20261010-mars-fleet-Windows-x64.zip

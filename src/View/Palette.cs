@@ -24,7 +24,7 @@ public sealed class Palette
     public required StandardMaterial3D Canopy { get; init; }
 
     /// <param name="panelMeters">패널 텍스처 한 장이 덮는 길이(m). 함선 크기에 맞춰 키운다.</param>
-    public static Palette For(Faction faction, float panelMeters)
+    public static Palette For(Faction faction, float panelMeters, DesignFamily design = DesignFamily.Earth)
     {
         _panelTexture ??= MeshKit.PanelTexture();
         bool blue = faction == Faction.Blue;
@@ -32,6 +32,7 @@ public sealed class Palette
         Color hull = blue ? new Color(0.46f, 0.49f, 0.54f) : new Color(0.36f, 0.30f, 0.29f);
         Color light = blue ? new Color(0.55f, 0.82f, 1.0f) : new Color(1.0f, 0.55f, 0.28f);
         Color engine = blue ? new Color(0.45f, 0.68f, 1.0f) : new Color(1.0f, 0.48f, 0.18f);
+        if (design == DesignFamily.Mars) engine = new Color(1f, .32f, .065f);
         float uv = 1f / panelMeters;
 
         return new Palette

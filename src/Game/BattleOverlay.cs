@@ -44,6 +44,8 @@ public partial class BattleOverlay : Control
                 Button("함장  ·  BB-01",new(260,560,320,58),()=>Host.StartBattle("BB-01",true));
                 Button("전투지휘관  ·  DD-31",new(640,560,320,58),()=>Host.StartBattle("DD-31",true));
                 Button("조종사  ·  IC-21",new(1020,560,320,58),()=>Host.StartBattle("IC-21",true));
+                Button($"아군 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(390,230,380,42),()=>Host.ToggleDesign(false));
+                Button($"적군 설계 · {DesignName(Host.EnemyDesign)}  ↔",new(830,230,380,42),()=>Host.ToggleDesign(true));
                 Button("뒤로",new(650,716,300,46),()=>Host.ChangeScreen(BattleScreen.Title)); break;
             case BattleScreen.Pause:
                 Button("계속",new(620,400,360,56),Host.TogglePause);
@@ -95,18 +97,23 @@ public partial class BattleOverlay : Control
             Center(198,"SPACE FLEET",58);Center(244,"한 판의 함대전",22,Blue);
             Ship(new(675,425),HullKind.Battleship,Blue,1.5f);Ship(new(860,440),HullKind.Escort,Blue);Ship(new(965,370),HullKind.Interceptor,Red);
             DrawArc(new(800,435),185,-2.8f,.2f,64,new(.4f,.72f,1,.22f),2);
-            Center(820,"24척 · 세 역할 · 150 km에서 시작하는 전투",18,new Color(Ink,.5f));
+            Center(820,"지구권 · 화성권  /  6종의 함체 · 24척 함대전",18,new Color(Ink,.5f));
         }
         else if(Host.Screen==BattleScreen.Select)
         {
-            Center(164,"지휘권을 선택하세요",38);Center(206,"파랑 함대 · 선택한 함선의 편대를 지휘합니다",19,Blue);
-            string[] descriptions={"전투단을 이끌고 포격선을 만든다","측면을 돌아 적 주력함을 친다","요격함을 막고 주력함 후미를 판다"};
+            bool mars = Host.PlayerDesign == DesignFamily.Mars;
+            Color accent = mars ? Orange : Blue;
+            Center(145,"함대 설계와 지휘권을 선택하세요",34);Center(187,"아군 Blue · 적군 Red  /  설계 계통은 팀과 별개입니다",18,Blue);
+            string[] descriptions=mars ? new[]{"장거리 정밀포격 · 가벼운 방어","센서망 지원 · ECM · 분산 기동","고속 침투 · 반물질 강습 후 이탈"}
+                : new[]{"전열 유지 · 지속포격 · 높은 방어","상호방공 · 측면 지원 · 집중사격","요격전 · 근접 기동 · 반물질 강습"};
             for(int i=0;i<3;i++)
             {
-                float x=260+i*380;DrawRect(new(x,275,320,370),new(.025f,.06f,.095f));
-                Ship(new(x+160,390),(HullKind)i,Blue,i==0?1.3f:1.6f);
-                Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,Blue);
+                float x=260+i*380;DrawRect(new(x,295,320,350),new(.025f,.06f,.095f));
+                Ship(new(x+160,395),(HullKind)i,accent,i==0?1.1f:1.35f);
+                Text(new(x+22,325),ShipDefinitions.For((HullKind)i, Host.PlayerDesign).Flight.DisplayName,21,accent);
+                Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
             }
+            Center(680,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
         }
         else if(Host.Screen==BattleScreen.Pause)
         {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);
@@ -122,6 +129,7 @@ public partial class BattleOverlay : Control
         DrawColoredPolygon(points.Select(v=>p+v*scale).ToArray(),new Color(color,.55f));
         DrawLine(p+new Vector2(0,-30)*scale,p+new Vector2(0,36)*scale,color,2);
     }
+    private static string DesignName(DesignFamily family) => family == DesignFamily.Mars ? "화성권" : "지구권";
     private void DrawResult()
     {
         if(Host.Battle is not { } battle || Host.Outcome is not { } outcome)return;

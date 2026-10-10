@@ -1,0 +1,237 @@
+{
+  "base_commit": "d5824a2760a51b6e8528906e0d1dc22c82526fa3",
+  "stage": "2 - conservative candidate filtering and repeated read reduction; no balance or physics rate changes",
+  "baseline_artifacts": "../perf_stage1_20261010",
+  "batches": {
+    "pd/pd-projectiles/ship-state/collision": {
+      "configuration": "Release",
+      "seeds": "1-10 + mirror",
+      "jobs": 6,
+      "profiling": false
+    },
+    "profile-release/final-release": {
+      "configuration": "Release",
+      "seeds": "1-10 + mirror",
+      "jobs": 1,
+      "profiling": "sections + outer tick"
+    },
+    "profile-debug": {
+      "configuration": "Debug",
+      "seeds": "1",
+      "jobs": 1,
+      "profiling": "sections + outer tick"
+    }
+  },
+  "game_arguments": "--autoplay --seed=1 --perf-trace --perf-seconds=600 --autoplay-quit --post-seconds=0",
+  "game_export": "builds/SpaceFleet-20261010-optimized-Windows-x64/SpaceFleet.exe",
+  "game_window_aggregation": "tick-weighted; only complete windows within each time band; first frame and last partial window excluded",
+  "comparisons": {
+    "pd": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "pd-projectiles": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "ship-state": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "collision": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "profile-release": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "final-release": {
+      "summaries": "PASS 20/20 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+        "am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef"
+      },
+      "final_state_csvs_equal_baseline": true
+    },
+    "profile-debug": {
+      "summaries": "PASS 1/1 ordinal strings and seed/mirror coverage",
+      "sha256": {
+        "ships.csv": "fddc37bce5edf773c34e013cb46c3bee666bb22ac0bd2623f878b269fe9a3494",
+        "am.csv": "45db6dbcbf9ad293aa745fca61eaca804bbcc6f2f157963a20f00b0cbc2199fc"
+      },
+      "final_state_csvs_equal_baseline": false
+    }
+  },
+  "sim_checks": 7023,
+  "export_checks": {
+    "flow-test": [
+      "PASS: 39 scene flow checks"
+    ],
+    "model-test": [
+      "PASS: 681 ship model checks"
+    ],
+    "combat-visual-test": [
+      "PASS: 36 combat visual checks"
+    ],
+    "audio-test": [
+      "PASS: 116 audio checks; recorded peak 0.478"
+    ],
+    "fleet-audio-test": [
+      "PASS: 104 fleet audio checks"
+    ]
+  },
+  "diagnostics": {
+    "godotsharp_sha256": {
+      "game_loaded": "af104a6fdca648c2092b542ce49a773ee4c3a1388d065968bb42a80ace49e84e",
+      "original_debug_batch": "2afe2686aacfefac36da6601b59aeb05e560f06e4970cd5036100acd2ca4249d",
+      "debug_api_probe": "af104a6fdca648c2092b542ce49a773ee4c3a1388d065968bb42a80ace49e84e"
+    },
+    "debug_api_probe": "same Debug BattleBatch executable and seed; only GodotSharp.dll swapped; exact baseline summary retained",
+    "debug_headless_game": "--headless --fixed-fps 60 added; same summary as rendered Debug game; throughput is not display FPS",
+    "game_snapshot_summary": "recorded on a render frame, after the outcome step; may include extra combat events and is not used for exact batch acceptance"
+  },
+  "limitations": [
+    "one machine; CPU clocks, OS load and JIT not controlled",
+    "first final-code run per-battle brawl p99 maximum was 0.646 ms; retained separately",
+    "Debug game vs canonical batch battle-state divergence remains unresolved; GPU removal and math-library swap did not explain it",
+    "exact profiler overhead and human-play stutter have not been evaluated"
+  ],
+  "source_sha256": {
+    "data/ships/battleship.json": "1d5a2ec6349451ea1d2c676f6524b5e5f1d6ba26c62d98e70bf1e6c09f7ea1be",
+    "data/ships/escort.json": "f52b024850bd81415d7dd6dcbc81e8993810a1cd2b376e5a6d48edf2b8ae67f0",
+    "data/ships/interceptor.json": "1f04e6028ca1c6e9e6dc8fa34097d4bbc9359854f7a572169a8eae347404bb6b",
+    "src/Game/BattlePerformance.cs": "0c4a65120e7aa0678b1e0af529779004e51d34af82b6eebe3d4d35f366117f05",
+    "src/Game/PerfTrace.cs": "abba196623d99276464592d4a8dd0f6697b1cbd4a6bc17f60101d4aaa67a4d2d",
+    "src/Game/ScaleTest.cs": "f0e869cfdc1b01baa517da81732c5feb16472766085ad13225319f8cea3e6f3f",
+    "src/Game/ShipModelChecks.cs": "4223d358bbf6528f4e14fdad4d20627a70b34919ed22b31a13e464e52659c5e7",
+    "src/Sim/Antimatter.cs": "6621a3a366b8c5275b48bb53231d39fae4361bb82020fbb9d2ff0f4649475477",
+    "src/Sim/AntimatterAI.cs": "8b263393ee4731705faf710c21e6d43f4e958090e123f52804ca18739785681c",
+    "src/Sim/AssaultGuidance.cs": "99ced624705d5f3f41f015ee6f6693311010110ee047237319555a7f1f57f2c2",
+    "src/Sim/BattleLog.cs": "ba04df43d648a62f7f16282da53e0299c9c68392ecc3afb321695979188b0377",
+    "src/Sim/BattleRules.cs": "26cadfe1af6a1175819715f797c0f7aaa1224cd338eaec09e12dc5841d2b2589",
+    "src/Sim/BattleSetup.cs": "466a21eab905cc1c0ba027b667fff4d4e0032f8a394150c27680303db46fc225",
+    "src/Sim/CollisionDamage.cs": "d45b2ed8e8cc1108ab9791bac8f783748982325b57a4a51aca88ec00a79f9c49",
+    "src/Sim/CollisionHull.cs": "55379d77f39fc551d5bf341aea3bd3b50226b4467d40870a365b83ec6da019d9",
+    "src/Sim/DamageRay.cs": "9874d43f98df106b9554991539bc81fb4509ecbfc10886bab925f3acffe76347",
+    "src/Sim/DefenseDrones.cs": "d70e1d152316ca8bf892e341d0a2102787eaf50a6499529a61de19bb4905199d",
+    "src/Sim/DroneCombat.cs": "d8e080f22ae5147c2c5f0af12ce8aaacdd702bb2d408351e271ad6d158d63561",
+    "src/Sim/FireControl.cs": "e7d821b46c3c246662c3757a8e8d699014af83d7abe3047c55ae505f951dbeef",
+    "src/Sim/FleetDoctrine.cs": "63b80479d717f96a64c3753e9219e8a32c6447940f9f686e73bcfc59b0188fdd",
+    "src/Sim/Gunnery.cs": "b4e03fab48fcaa78be471614e51e23983742793fb8895200843fdc5b82c47541",
+    "src/Sim/Missiles.cs": "160e04fc9c1b2e69bec3d529a3582bc620213ff6972c4cc84d03605fbda9552e",
+    "src/Sim/PointDefense.cs": "b3d7ea503b4f6a837af73c3036ffefeb6209adaa78ecc27040111c72a0d82e9a",
+    "src/Sim/PowerPresets.cs": "440e4616095a552b0cc273803a38b689795b3a0b00232919520c72e61f6db9f3",
+    "src/Sim/Railgun.cs": "7bb37041918520e9e21130061fc94defdea90dbd7731a3ed42b60e1aff569006",
+    "src/Sim/SensorNet.cs": "bc9afa2da40d7bf7369196b6d4e19d51b3e05e1ef00d4228fbb595621f08a9e7",
+    "src/Sim/ShieldEnvelope.cs": "493722174a36e7cc072c039f9568d91e7f40f03872d089a5129ebf36608bbc4e",
+    "src/Sim/ShipAI.cs": "c14f106c603a1b646e672f7a25ecb9b79fa5d0cb1016fd8d878b98901194ece5",
+    "src/Sim/ShipBody.cs": "9e738e1794e24763773cb9d4fb609a215539993dacf697831dd9197b8d847727",
+    "src/Sim/ShipClass.cs": "ec988a34b729a6e1dff29c270918255fa46a5833a1911b573d5e32d745103db5",
+    "src/Sim/ShipCollision.cs": "32a858af715558c0a1cc5495883613dce7cb51c7953d18efdc04030ca651bee1",
+    "src/Sim/ShipDamage.cs": "37711dceb68e9be093ef724fb8b64449ef2eeefc25cd48dd33d9b77d582bad72",
+    "src/Sim/ShipDefinition.cs": "1b86ce620a428f84bbb5c03531f23302184728bd0ec1251c7bb2cd91e8aa61fa",
+    "src/Sim/ShipPower.cs": "c8c590b86ccb9e003ba3ea0186fd310df1638d865f77e7391c957e3e8ec39b0c",
+    "src/Sim/SimAI.cs": "8dd156a3f40c7a07fb41cae59002ba8b437ad3c065d325eb939d9d16d96668f8",
+    "src/Sim/SimBallistics.cs": "ab76267c0d61044c17d3ec8b68948cc73a55086869968e453240e39b010e6da5",
+    "src/Sim/SimMissiles.cs": "0a5a2b29e4d8f5ea8d943512babea682240bf8db0623a0a8b00cd82f6b52771a",
+    "src/Sim/SimProfiler.cs": "6d195b5c29ee7d3d7be9a6beb054076d75bfc879a6d348090731febbd48d1050",
+    "src/Sim/SimWorld.cs": "f774fc871ab73bb17bc562477d21a0cf21b7406b2e02c2d0fbcec5784bae796b",
+    "src/Sim/SpatialBounds.cs": "8375cd4b9522e95bcf2997c61e14be99a18c1b821949db05762dc07250b1f751",
+    "src/Sim/SquadCommands.cs": "7fd6120ec2389283de1e260fcdf41db6180b4dee3bebff32eabb2c35b6b8287a",
+    "src/Sim/Squadron.cs": "54d80426ad2853ae078fb95e127a16e70317a764a9f07d9f4d9f34668c7f7ceb",
+    "src/Sim/Subsystems.cs": "ed05e4ba81912bf7bbb98fc016c138facd13923b568e0c81582d727d02347b13",
+    "src/Sim/Turret.cs": "4ede701686c52fe92fdb2a31f93738e00a456f63519a5714fae3e794352946cb",
+    "src/Sim/Vec3d.cs": "c2405f25964b1dd1ab1a6b7f19314d6f85d6e4e88006b888f7849807641369e0",
+    "src/Sim/WreckLayout.cs": "2dba7c13a6186dcc74aed94dd479fda79bdee36402afa69332869d932cd0a01b",
+    "tools/BattleBatch/Program.cs": "3d52444e0172c490552dae6cb8b8fa441eaf635d237f4edb387e067233e53b38",
+    "tools/BattleBatch/SectionProfile.cs": "6522f8a4ff468709b886a682d41cd09b8754726a861add67d313190e53cef921"
+  },
+  "file_sha256": {
+    "collision-probe.csv": "9b58f70fc443d7286ac6030f6630423c1e3730311f0ebf1763cf3e923c1865ec",
+    "collision-probe.log": "8be93c08b367ab4fa7e2bf23e6c6355ab240b37b6d516365d649aa2d0c97e06f",
+    "collision-probe.sections.csv": "c5919047a96fe23da23fd4672d51686f2b08420be4ca3e2efe724c876baf2f4d",
+    "collision-probe.summaries.json": "596a3a8032d0ca36a0d1896d88abe0abcc2c0584c01a6f19e1f7b1c89e6f2c1f",
+    "collision.csv": "e5fe2b96a71cf37c165cda478f5a3b95aa12883a7c1a6b7447bf3f75b2e740b0",
+    "collision.log": "c379c4d4da47e7784d24ce387aa74d6226173595f7c685a4433da907ca1f4ba9",
+    "collision.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "debug-api.am.csv": "45db6dbcbf9ad293aa745fca61eaca804bbcc6f2f157963a20f00b0cbc2199fc",
+    "debug-api.analysis.json": "1c243698f9f84413c970029d52d70bf41665922daa5a3810ebe1694c246cc87d",
+    "debug-api.csv": "4b31cb20570607f4b23fd1fc2336a4ae2a1ef7afe7e45ac47a31de67edcbf67c",
+    "debug-api.log": "4b26f42e514c386b05d5153fce443ae79f2f35b7ddd3cddb1c41af2bf429af66",
+    "debug-api.sections.csv": "13bc6d959b0d4c21f89ad6ad1214f38d5eba7b6c99ba436994a5b94d2f6cad3a",
+    "debug-api.ships.csv": "fddc37bce5edf773c34e013cb46c3bee666bb22ac0bd2623f878b269fe9a3494",
+    "debug-api.summaries.json": "596a3a8032d0ca36a0d1896d88abe0abcc2c0584c01a6f19e1f7b1c89e6f2c1f",
+    "debug-api.ticks.csv": "d94546eacf2c682df4e001e0c6133074f8447b3e2f4c48eb654c0f55d6abc2ed",
+    "export-audio-test.log": "7d1c296f2e327d51db1fab3ef5a8094633477167df81eb614fc3e4dde800c99a",
+    "export-build-info.json": "672d33b8cf398695087377dd293609c0aba4d45dc0573734f874c0e803e6292f",
+    "export-combat-visual-test.log": "a5da7918e27e8e117af30838c8f433a03d8c860dd92beaea1fe6fd8334383748",
+    "export-fleet-audio-test.log": "945d07577265a9064656541c8e39d6637a8cea5bc1744dfc6b24311d3fee1b22",
+    "export-flow-test.log": "72050157ec2137ad2ed9fefb0a271b25d2c6f8e30ebfc190937cc94b53efd74b",
+    "export-model-test.log": "3b59b7e9b273124a6730df1bb93b8c15eff5dab2d0965c34681f3a8c7cfe366a",
+    "final-release.am.csv": "bf7884d17db3a17e9531806cc53033fb218b9462b43797c272e33dfdfe9125ef",
+    "final-release.analysis.json": "20258487dae176109e0d072fc6c47d02724c424951c0934ab626ee47dd20672e",
+    "final-release.csv": "bb478967110adbf0a23d6c293700c1fb50669725098987fdf77376158e424f6c",
+    "final-release.log": "3552ee978ba3ddbb11ddb68b18af597f9ad93a74d5f9a30eebf805b50f374500",
+    "final-release.sections.csv": "55504c60094eb2ccb7893c51b6b57b4d0ad4fb1390e3777a148f90b9708898aa",
+    "final-release.ships.csv": "4a0eab338e1bf2e336d5bd83c8ed8fab93e0b18f8a7dba3f8540d885012ac0a6",
+    "final-release.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "final-release.ticks.csv": "fd37b9e246445435b99531ea75eca8ec9224cfe47ac218faeb7670b0d72ca049",
+    "game-analysis.json": "b44a2ff5983c9effb0341726d16d9871d10e2db42e02125c085777c75e267638",
+    "game-build.log": "78b9651be8f3fb13ce9fee59947c3f313b0fb70f6d784b786ca58a75b121afd5",
+    "game-debug-headless.log": "99a8907fdbd126a9dde73e68103ec97de60aa26bacd82e28a5df2db44a40f273",
+    "game-debug.log": "b7d6ffa697e8ac986c5da02186ba5e5cac3143d2699ff2ef5aa97c5707ca0ed3",
+    "game-release.log": "5cb5f86ba3872473b1f9af3fb5d788d87d0be45df7c45f391be33e6894e4272e",
+    "loaded-godotsharp.json": "bdf67ec22a4a9e78a7c1c625824152f307cfc733c619cf8acc68a3b6102d5c27",
+    "machine-environment.json": "43c0f667fd1cd8b754742f930b98ebebda8e233fae57ffbd6c2ddc40b262d9ab",
+    "package-evidence.py": "5aa0d33524e853b11f90792218649ccea141960e582f908835ad2e6ada293608",
+    "pd-projectile-probe.csv": "434fa8d0cfaf3781a60260e72a8140579da74e7c177f5eedce7bb625d5cdfd91",
+    "pd-projectile-probe.log": "bdd592ee358a0c9c7076708e2a5a9841cec40fbe9b116423051133070d5820bd",
+    "pd-projectile-probe.sections.csv": "b9a7dd1ba6412a0882a5a25d0c4ab6c614ffbe8668078c120f65bc47d2edeadd",
+    "pd-projectile-probe.summaries.json": "596a3a8032d0ca36a0d1896d88abe0abcc2c0584c01a6f19e1f7b1c89e6f2c1f",
+    "pd-projectiles.csv": "e2a523e0019a3f9443c8dcec605b2ceec6fcdb7b8111d0eecfcb265bcd59366a",
+    "pd-projectiles.log": "cb651b6bc9f29baec9331e7bea8f320769c2fc9f742555b96b372a4e1b6b6a95",
+    "pd-projectiles.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "pd.csv": "f7597589e754be271531216fde1f0022888bd9968ff2b50e20be92a31eb8d0d8",
+    "pd.log": "4638c490dbf15e97883e0dc0c53fb59ff11e2e493c2e07e927874621a6f9589c",
+    "pd.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "profile-debug.am.csv": "45db6dbcbf9ad293aa745fca61eaca804bbcc6f2f157963a20f00b0cbc2199fc",
+    "profile-debug.analysis.json": "6206285ef2f10ae114bcc27546018a8460a46c5f20f4add368a6886b3294f861",
+    "profile-debug.csv": "6af3db88c2c891f83aaf384041e6d1356e7bea3bb721ca5c636dd0b343f637f0",
+    "profile-debug.log": "cb480d4f0d79bddcc330d1bfeb148183353de4161583def72a9a9d0078e3c22c",
+    "profile-debug.sections.csv": "52d6f5b1cb3eeeccf06d4f11ca3df62d914c58b1b5e383dc4d0d51b0b3b13c39",
+    "profile-debug.ships.csv": "fddc37bce5edf773c34e013cb46c3bee666bb22ac0bd2623f878b269fe9a3494",
+    "profile-debug.summaries.json": "596a3a8032d0ca36a0d1896d88abe0abcc2c0584c01a6f19e1f7b1c89e6f2c1f",
+    "profile-debug.ticks.csv": "2338cef14dcae2120456649820d7e6c455ae4fb8cf4f98d8d00e3d1aee220eff",
+    "profile-release.analysis.json": "0b8a0a1828d6cf9686b727bb40a4c1d0adea379af2ed6b0b9a93612e2ce3edc7",
+    "profile-release.csv": "782fb5ac9e182a9cba161768df859abf5f84b39f7391ace6f909d1c6227c24c3",
+    "profile-release.log": "3e8eabeca2ea54b1ecf447cc17ca6fc5a8f4f75f8216108b780c4214a21f95ec",
+    "profile-release.sections.csv": "3e25017cd45e12386696b8ff94a54fe10d651912b415318ae1fd8bbab125735a",
+    "profile-release.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "run-game-perf.ps1": "04ac22b7f3884d687b5548eff506d1e0dd5ca782065ceba08454224a9d429985",
+    "ship-state.csv": "2bf5224c749503dd35eec9a2c008fc791b58d6a8ec2386698f1765524771a984",
+    "ship-state.log": "de950b3cda2c24792ffc81f0a365ab67dcdff6d372f5a58cdd19fa3dae6e7f4f",
+    "ship-state.summaries.json": "f8710f3a3481f08d0a2e291364a3d37ba3eaf345ac8466bf478bbcb750583eec",
+    "sim-checks.log": "a506a6b282a1c7ec756d92f54c89cfe63ecfca1c78367483aebf016aa7d88d97"
+  }
+}

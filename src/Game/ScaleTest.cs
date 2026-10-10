@@ -99,7 +99,9 @@ public partial class ScaleTest : Node3D
         var perfArgs = BattleArgs.Parse(OS.GetCmdlineUserArgs());
         if (AutoPlay) {EnableAutoPlay();SetBattleSpeed(int.Parse(perfArgs.GetValueOrDefault("autoplay-speed", "4")));}
         if (perfArgs.ContainsKey("perf-trace"))
-            PerfTrace.Enable(double.Parse(perfArgs.GetValueOrDefault("perf-seconds", "1e9"), CultureInfo.InvariantCulture));
+            PerfTrace.Enable(double.Parse(perfArgs.GetValueOrDefault("perf-seconds", "1e9"), CultureInfo.InvariantCulture),
+                profileSim: !perfArgs.ContainsKey("perf-no-sim-profile"));
+        else PerfTrace.Disable();
         UpdateContacts();
         if (BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("full-map")) ToggleWorldMap();
         if (_shot is not null && BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("telescope")) Camera.SetTelescope(true);

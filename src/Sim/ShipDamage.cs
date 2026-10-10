@@ -28,6 +28,7 @@ public sealed class ShipDamage
     private readonly uint _seed;
     private readonly Dictionary<string, ModuleState> _byId;
     private readonly Dictionary<int, ModuleState> _engines;
+    private readonly Dictionary<ModuleKind, ModuleState[]> _byKind;
     private readonly List<DamageReport> _reports = new();
     private double _sinceHit;
     private float _portPower = 1f, _starboardPower = 1f;
@@ -40,6 +41,8 @@ public sealed class ShipDamage
         _seed = Hash(callsign);
         Modules = Array.AsReadOnly(definition.Modules.Select(m => new ModuleState(m)).ToArray());
         _byId = Modules.ToDictionary(m => m.Definition.Id);
+        // Immutable membership, live ModuleState references, original summation order.
+        _byKind = Modules.GroupBy(m => m.Definition.Kind).ToDictionary(g => g.Key, g => g.ToArray());
         _engines = Modules.Where(m => m.Definition.Kind == ModuleKind.Thruster && m.Definition.VisualEngineIndex >= 0)
             .ToDictionary(m => m.Definition.VisualEngineIndex);
         Reset();
@@ -78,8 +81,12 @@ public sealed class ShipDamage
     /// <summary>실드가 마지막으로 에너지를 흡수한 시뮬레이션 시각. HUD 강조용.</summary>
     public double LastShieldHitTime { get; private set; } = double.NegativeInfinity;
     public ModuleState Module(string id) => _byId[id];
-    public float WeaponFraction(string id) => Destroyed ? 0 : _byId[id].HealthFraction
-        * GridPower(_byId[id].Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
+    public float WeaponFraction(string id)
+    {
+        if (Destroyed) return 0;
+        var module = _byId[id];
+        return module.HealthFraction * GridPower(module.Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
+    }
 
     /// <summary>
     /// 해당 전력망의 연결 상태(1 = 버스가 살아 있고 급전하는 발전 모듈이 있다, 0 = 정전).
@@ -286,10 +293,10 @@ public sealed class ShipDamage
 
     private float Average(ModuleKind kind, bool powered)
     {
+        if (!_byKind.TryGetValue(kind, out var modules)) return Destroyed ? 0f : 1f;
         float sum = 0; int count = 0;
-        foreach (ModuleState m in Modules)
+        foreach (ModuleState m in modules)
         {
-            if (m.Definition.Kind != kind) continue;
             sum += m.HealthFraction * (powered ? GridPower(m.Definition.Grid) : 1f);
             count++;
         }

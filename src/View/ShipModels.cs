@@ -10,8 +10,10 @@ namespace SpaceFleet.View;
 public static class ShipModels
 {
     public static ShipModel Build(ShipClass shipClass, Faction faction, int seed) =>
-        ImportedShipModels.TryBuild(shipClass, faction, seed)
-        ?? throw new System.InvalidOperationException($"Missing {shipClass.Kind} model import. Run tools/build.ps1 before playing.");
+        Build(ShipDefinitions.For(shipClass), faction, seed);
+    public static ShipModel Build(ShipDefinition definition, Faction faction, int seed) =>
+        ImportedShipModels.TryBuild(definition, faction, seed)
+        ?? throw new System.InvalidOperationException($"Missing {definition.Id} model import. Run tools/build.ps1 before playing.");
 
     // 약 1,200m. 전방(-Z) -680 ~ 후방 +580.
     private static ShipModel Battleship(Faction faction, int seed)

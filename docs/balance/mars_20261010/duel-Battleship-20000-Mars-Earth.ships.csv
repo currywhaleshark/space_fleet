@@ -1,0 +1,9 @@
+seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction,design,hullId,shieldDamageInflicted,moduleDamageInflicted,firstDisabled,firstDestroyed,survivalSeconds,railRangeSum,railRangeSamples,missilesIntercepted,torpedoesIntercepted
+1,0,Blue,DUEL-B,Battleship,0,0,1,0.500,0.832,0.500,1.000,480,479,0,16,12,0,0,0,0,0,0,816.000,492.000,5,0.000,Mars,mars_battleship,37715.809,1205.873,,,1500.000,22518452.542,480,0,0
+1,0,Red,DUEL-R,Battleship,0,0,1,1.000,0.724,0.931,0.167,4,4,716,1,0,23,0,0,0,0,0,37715.809,1205.873,1,0.000,Earth,battleship,816.000,492.000,,,1500.000,79962.333,4,0,0
+1,1,Blue,DUEL-B,Battleship,0,0,1,0.500,0.832,0.500,1.000,480,479,0,16,12,0,0,0,0,0,0,816.000,492.000,5,0.000,Mars,mars_battleship,37661.644,1156.658,,,1500.000,22508538.564,480,0,0
+1,1,Red,DUEL-R,Battleship,0,0,1,1.000,0.735,1.000,0.167,4,4,716,1,0,23,0,0,0,0,0,37661.645,1156.658,1,0.000,Earth,battleship,816.000,492.000,,,1500.000,80050.493,4,0,0
+2,0,Blue,DUEL-B,Battleship,0,0,1,0.500,0.832,0.500,1.000,480,480,0,16,14,0,0,0,0,0,0,816.000,492.000,6,0.000,Mars,mars_battleship,36807.015,1774.164,,,1500.000,22540335.227,480,0,0
+2,0,Red,DUEL-R,Battleship,0,0,1,1.000,0.594,0.823,0.167,6,6,714,1,0,23,0,0,0,0,0,36807.023,1774.164,1,0.000,Earth,battleship,816.000,492.000,,,1500.000,119924.367,6,0,0
+2,1,Blue,DUEL-B,Battleship,0,0,1,0.500,0.832,0.500,1.000,480,480,0,16,14,0,0,0,0,0,0,816.000,492.000,6,0.000,Mars,mars_battleship,36803.754,1774.961,,,1500.000,22536230.469,480,0,0
+2,1,Red,DUEL-R,Battleship,0,0,1,1.000,0.594,0.823,0.167,6,6,714,1,0,23,0,0,0,0,0,36803.754,1774.961,1,0.000,Earth,battleship,816.000,492.000,,,1500.000,120216.579,6,0,0

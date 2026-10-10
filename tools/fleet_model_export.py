@@ -96,7 +96,7 @@ def export_collection(collection, output):
 
 def rig_point_defense(collection, definition):
     """Keep fixed bearings in the hull; articulate existing PD receivers and barrels."""
-    size = {'battleship': 4, 'escort': 1.5, 'interceptor': .55}[definition['id']]
+    size = {'Battleship': 4, 'Escort': 1.5, 'Interceptor': .55}[definition['kind']]
     for i, p in enumerate(definition.get('pointDefense', {}).get('mounts', [])):
         if collection.all_objects.get(f'pd_yaw_{i}'):
             continue

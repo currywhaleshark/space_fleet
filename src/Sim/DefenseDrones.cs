@@ -34,7 +34,10 @@ public sealed class DefenseDroneState
     public DroneSector Sector { get; private set; }
     public uint Interceptions { get; internal set; }
     public uint ShipHits { get; internal set; }
-    public int SurvivingCount => _health.Count(h => h > 0);
+    public int SurvivingCount
+    {
+        get { int count=0; foreach(float health in _health) if(health>0) count++; return count; }
+    }
     public bool Alive(int index) => !_ship.Damage.Destroyed && _health[index]>0;
     public float HealthFraction(int index) => _health[index]/_ship.Definition.DefenseDrones!.HitPoints;
     public int RemainingRounds => Enumerable.Range(0,Rounds.Length).Where(Alive).Sum(i=>Rounds[i]);
@@ -216,6 +219,7 @@ public sealed partial class SimWorld
                 }
                 if(target is not null && target.Health<=0 && _missiles.Remove(target))
                 {
+                    Log?.Intercept(ship, target);
                     drones.Interceptions++;
                     Log?.EndAntimatter(target,AntimatterOutcome.Drone,time);
                     _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted,target.Position,time,target.Faction,target.Weapon));

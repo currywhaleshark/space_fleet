@@ -26,6 +26,12 @@ public readonly record struct ShipOrder(OrderKind Kind, ShipBody? Target = null,
 /// </summary>
 public readonly record struct AiProfile(float StandoffMeters, float RailFlightSeconds, float MissileRangeMeters, bool AttackRuns)
 {
+    public static AiProfile For(ShipDefinition definition) => definition.Design != DesignFamily.Mars ? For(definition.Kind) : definition.Kind switch
+    {
+        HullKind.Battleship => new(90_000f, 7.5f, 140_000f, false),
+        HullKind.Escort => new(52_000f, 6.5f, 110_000f, false),
+        _ => new(7_000f, 2.5f, 15_000f, true),
+    };
     public static AiProfile For(HullKind kind) => kind switch
     {
         // 미사일 사거리 > 레일건 유효 거리(전함 12 km/s × 8 s ≈ 96 km): 장거리 미사일전이 포격전보다 먼저 온다.
@@ -45,9 +51,16 @@ public sealed class ShipBrain
     {
         Ship = ship;
         Order = order;
-        Profile = AiProfile.For(ship.Class.Kind);
+        Profile = AiProfile.For(ship.Definition);
         _side = fleetSlot % 2 == 0 ? 1f : -1f;
         DefaultPips = ship.Class.Kind == HullKind.Interceptor ? new[] { 2, 2, 2, 2, 0 } : new[] { 2, 2, 1, 1, 2 };
+        if (ship.Definition.Design == DesignFamily.Mars)
+            DefaultPips = ship.Class.Kind switch
+            {
+                HullKind.Battleship => new[] { 2, 1, 2, 2, 1 },
+                HullKind.Escort => new[] { 2, 1, 1, 2, 2 },
+                _ => new[] { 3, 1, 2, 2, 0 },
+            };
     }
 
     public ShipBody Ship { get; }

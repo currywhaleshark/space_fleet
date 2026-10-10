@@ -1,0 +1,52 @@
+done 1/normal: Blue:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:1500.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=1500.000 wall=1.3s
+done 2/normal: Blue:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:1500.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=1500.000 wall=1.3s
+done 1/mirror: Blue:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:1500.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=1500.000 wall=0.4s
+done 2/mirror: Blue:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Red:-/-/-/-/-/-/-/-/-/-/-;M=0/0;R=0/0;AM=0/0|Approach:1500.000,Missile:0.000,Gunnery:0.000,Sniping:0.000,Brawl:0.000|collisions=0|events=0|winner=Draw;time=1500.000 wall=0.5s
+AM InFlight at outcome: 0
+Contact: no events
+Blue Contact: no events
+Red Contact: no events
+Identified: no events
+Blue Identified: no events
+Red Identified: no events
+Locked: no events
+Blue Locked: no events
+Red Locked: no events
+MissileLaunch: no events
+Blue MissileLaunch: no events
+Red MissileLaunch: no events
+MissileHit: no events
+Blue MissileHit: no events
+Red MissileHit: no events
+RailLaunch: no events
+Blue RailLaunch: no events
+Red RailLaunch: no events
+RailHit: no events
+Blue RailHit: no events
+Red RailHit: no events
+ModuleDestroyed: no events
+Blue ModuleDestroyed: no events
+Red ModuleDestroyed: no events
+Disabled: no events
+Blue Disabled: no events
+Red Disabled: no events
+Destroyed: no events
+Blue Destroyed: no events
+Red Destroyed: no events
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=1500.00 min=1500.00 max=1500.00 occurred=4/4
+Wall: median=0.87 min=0.44 max=1.29 occurred=4/4
+wins Blue: 0/4
+wins Red: 0/4
+draws: 4/4; unresolved: 0
+position normal: Blue 0/2, Red 0/2
+position mirror: Blue 0/2, Red 0/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 0/4
+phase Gunnery >=60s: 0/4
+phase Sniping >=60s: 0/4
+phase Brawl >=60s: 0/4
+friendly collisions: mean=0.00
+batch wall=2.0s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\mars-balance-final\duel-Interceptor-30000-Mars-Mars.csv

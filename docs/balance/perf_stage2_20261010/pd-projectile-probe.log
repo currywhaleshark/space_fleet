@@ -1,0 +1,65 @@
+done 1/normal: Blue:0.000/0.000/130.750/142.000/179.517/515.683/523.607/432.167/693.713/726.395/-;M=140/99;R=364/311;AM=4/4|Red:0.000/0.000/130.750/142.000/247.517/511.617/519.569/428.763/619.778/559.554/-;M=140/86;R=306/268;AM=4/2|Approach:120.000,Missile:360.000,Gunnery:0.000,Sniping:120.000,Brawl:135.217|collisions=0|events=123|winner=Red;time=735.217 wall=11.6s
+sections All weighted us/tick: Tick=261.80 AI=49.97 AICommand=1.14 AIThink=3.05 AIDrive=14.91 AIEngage=29.92 Gunnery=0.11 ShipStep=83.64 Collision=40.30 Projectiles=8.27 Missiles=18.03 PointDefense=41.04 Drones=15.65 Sensors=1.11 Post=2.99
+sections phase:Approach weighted us/tick: Tick=254.41 AI=28.53 AICommand=3.99 AIThink=2.52 AIDrive=17.34 AIEngage=3.33 Gunnery=0.23 ShipStep=98.10 Collision=66.32 Projectiles=0.34 Missiles=5.27 PointDefense=35.87 Drones=11.50 Sensors=1.78 Post=5.42
+sections phase:Missile weighted us/tick: Tick=247.60 AI=46.44 AICommand=0.65 AIThink=2.81 AIDrive=13.93 AIEngage=28.18 Gunnery=0.08 ShipStep=82.39 Collision=33.09 Projectiles=0.13 Missiles=21.26 PointDefense=43.44 Drones=16.87 Sensors=0.94 Post=2.35
+sections phase:Sniping weighted us/tick: Tick=297.54 AI=66.27 AICommand=0.52 AIThink=3.75 AIDrive=14.83 AIEngage=46.26 Gunnery=0.09 ShipStep=81.50 Collision=35.63 Projectiles=18.42 Missiles=25.69 PointDefense=45.61 Drones=20.11 Sensors=0.99 Post=2.61
+sections phase:Brawl weighted us/tick: Tick=274.47 AI=63.95 AICommand=0.45 AIThink=3.50 AIDrive=15.44 AIEngage=43.67 Gunnery=0.10 ShipStep=76.05 Collision=40.57 Projectiles=27.96 Missiles=13.97 PointDefense=35.20 Drones=12.12 Sensors=1.05 Post=2.85
+sections time:0-300 weighted us/tick: Tick=221.55 AI=31.17 AICommand=2.13 AIThink=1.75 AIDrive=14.95 AIEngage=11.29 Gunnery=0.14 ShipStep=87.55 Collision=46.28 Projectiles=0.21 Missiles=9.27 PointDefense=30.93 Drones=10.45 Sensors=1.27 Post=3.51
+sections time:300-540 weighted us/tick: Tick=300.50 AI=61.03 AICommand=0.40 AIThink=4.17 AIDrive=14.61 AIEngage=40.96 Gunnery=0.09 ShipStep=84.15 Collision=33.28 Projectiles=2.44 Missiles=31.84 PointDefense=59.22 Drones=24.36 Sensors=0.97 Post=2.50
+sections time:540+ weighted us/tick: Tick=276.08 AI=65.26 AICommand=0.52 AIThink=3.64 AIDrive=15.22 AIEngage=44.98 Gunnery=0.10 ShipStep=77.02 Collision=39.75 Projectiles=27.81 Missiles=14.52 PointDefense=34.24 Drones=12.92 Sensors=1.03 Post=2.78
+section csv=C:\Users\yurib\Documents\New project\space_fleet\shots\perf-stage2-20261010\pd-projectile-probe.sections.csv; Tick includes all sections; AI includes its four child sections.
+AM Hit: 6 (mean launch 4316m, closest hull 0.0m)
+AM PointDefense: 2 (mean launch 3718m, closest hull 1791.4m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=1/1
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=1/1
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=1/1
+Identified: median=0.00 min=0.00 max=0.00 occurred=1/1
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=1/1
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=1/1
+Locked: median=130.75 min=130.75 max=130.75 occurred=1/1
+Blue Locked: median=130.75 min=130.75 max=130.75 occurred=1/1
+Red Locked: median=130.75 min=130.75 max=130.75 occurred=1/1
+MissileLaunch: median=142.00 min=142.00 max=142.00 occurred=1/1
+Blue MissileLaunch: median=142.00 min=142.00 max=142.00 occurred=1/1
+Red MissileLaunch: median=142.00 min=142.00 max=142.00 occurred=1/1
+MissileHit: median=179.52 min=179.52 max=179.52 occurred=1/1
+Blue MissileHit: median=179.52 min=179.52 max=179.52 occurred=1/1
+Red MissileHit: median=247.52 min=247.52 max=247.52 occurred=1/1
+RailLaunch: median=511.62 min=511.62 max=511.62 occurred=1/1
+Blue RailLaunch: median=515.68 min=515.68 max=515.68 occurred=1/1
+Red RailLaunch: median=511.62 min=511.62 max=511.62 occurred=1/1
+RailHit: median=519.57 min=519.57 max=519.57 occurred=1/1
+Blue RailHit: median=523.61 min=523.61 max=523.61 occurred=1/1
+Red RailHit: median=519.57 min=519.57 max=519.57 occurred=1/1
+ModuleDestroyed: median=428.76 min=428.76 max=428.76 occurred=1/1
+Blue ModuleDestroyed: median=432.17 min=432.17 max=432.17 occurred=1/1
+Red ModuleDestroyed: median=428.76 min=428.76 max=428.76 occurred=1/1
+Disabled: median=619.78 min=619.78 max=619.78 occurred=1/1
+Blue Disabled: median=693.71 min=693.71 max=693.71 occurred=1/1
+Red Disabled: median=619.78 min=619.78 max=619.78 occurred=1/1
+Destroyed: median=559.55 min=559.55 max=559.55 occurred=1/1
+Blue Destroyed: median=726.39 min=726.39 max=726.39 occurred=1/1
+Red Destroyed: median=559.55 min=559.55 max=559.55 occurred=1/1
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=735.22 min=735.22 max=735.22 occurred=1/1
+Wall: median=11.56 min=11.56 max=11.56 occurred=1/1
+wins Blue: 0/1
+wins Red: 1/1
+draws: 0/1; unresolved: 0
+position normal: Blue 0/1, Red 1/1
+phase Approach >=60s: 1/1
+phase Missile >=60s: 1/1
+phase Gunnery >=60s: 0/1
+phase Sniping >=60s: 1/1
+phase Brawl >=60s: 1/1
+friendly collisions: mean=0.00
+batch wall=11.8s jobs=1 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\perf-stage2-20261010\pd-projectile-probe.csv
+step 1/False All: mean=0.262 p99=0.743 max=50.849 ms
+step 1/False Approach: mean=0.255 p99=1.480 max=50.849 ms
+step 1/False Missile: mean=0.248 p99=0.495 max=8.154 ms
+step 1/False Gunnery: no ticks
+step 1/False Sniping: mean=0.298 p99=0.514 max=3.540 ms
+step 1/False Brawl: mean=0.275 p99=0.551 max=2.931 ms

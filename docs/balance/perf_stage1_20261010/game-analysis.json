@@ -1,0 +1,318 @@
+{
+  "debug": {
+    "stages": {
+      "start": {
+        "sim_seconds": 6.93,
+        "min_fps": 5.63,
+        "mean_fps": 75.78,
+        "engine_fps": 87.0
+      },
+      "10min": {
+        "sim_seconds": 600.47,
+        "min_fps": 2.92,
+        "mean_fps": 54.24,
+        "engine_fps": 6.0
+      },
+      "outcome": {
+        "sim_seconds": 683.73,
+        "min_fps": 2.92,
+        "mean_fps": 48.52,
+        "engine_fps": 7.0
+      }
+    },
+    "engine_errors": [],
+    "nearest_frame_report": {
+      "10min": {
+        "sim_seconds": 599.0,
+        "fps": 6.8,
+        "ms_per_frame": {
+          "physics": 133.2,
+          "sim": 131.0,
+          "hudDraw": 4.1,
+          "fxSync": 2.1,
+          "ballistics": 1.3,
+          "shipViews": 0.9,
+          "contacts": 0.7,
+          "audioObserve": 0.7,
+          "fxObserve": 0.6,
+          "ordnance": 0.1,
+          "shipCombat": 0.1,
+          "combat+am": 0.0,
+          "audioListener": 0.0
+        }
+      },
+      "outcome": {
+        "sim_seconds": 683.0,
+        "fps": 7.4,
+        "ms_per_frame": {
+          "physics": 110.5,
+          "sim": 108.5,
+          "ballistics": 12.7,
+          "hudDraw": 4.0,
+          "audioObserve": 0.9,
+          "shipViews": 0.8,
+          "contacts": 0.6,
+          "fxSync": 0.6,
+          "fxObserve": 0.4,
+          "shipCombat": 0.1,
+          "ordnance": 0.1,
+          "combat+am": 0.0,
+          "audioListener": 0.0
+        }
+      }
+    },
+    "section_windows": {
+      "All": {
+        "ticks": 40928,
+        "windows": 172,
+        "from": 0.5333333333333332,
+        "to": 682.667,
+        "us_per_tick": {
+          "Tick": 2515.4891,
+          "AI": 201.5852,
+          "AICommand": 1.4242,
+          "AIThink": 17.864,
+          "AIDrive": 69.5695,
+          "AIEngage": 109.471,
+          "Gunnery": 0.5921,
+          "ShipStep": 444.5785,
+          "Collision": 497.8286,
+          "Projectiles": 311.9974,
+          "Missiles": 103.1747,
+          "PointDefense": 796.4565,
+          "Drones": 136.0769,
+          "Sensors": 7.1336,
+          "Post": 14.5921
+        }
+      },
+      "time:0-300": {
+        "ticks": 17880,
+        "windows": 74,
+        "from": 0.5333333333333332,
+        "to": 298.533,
+        "us_per_tick": {
+          "Tick": 1742.6451,
+          "AI": 103.2525,
+          "AICommand": 1.7435,
+          "AIThink": 11.5101,
+          "AIDrive": 65.3322,
+          "AIEngage": 21.3883,
+          "Gunnery": 0.5593,
+          "ShipStep": 428.8014,
+          "Collision": 498.8257,
+          "Projectiles": 0.6179,
+          "Missiles": 36.3975,
+          "PointDefense": 570.5533,
+          "Drones": 80.4253,
+          "Sensors": 7.2938,
+          "Post": 14.4863
+        }
+      },
+      "time:300-540": {
+        "ticks": 14188,
+        "windows": 58,
+        "from": 302.53366666666665,
+        "to": 539.0,
+        "us_per_tick": {
+          "Tick": 2695.5707,
+          "AI": 228.5575,
+          "AICommand": 1.1373,
+          "AIThink": 22.9341,
+          "AIDrive": 72.2067,
+          "AIEngage": 129.0597,
+          "Gunnery": 0.6149,
+          "ShipStep": 465.5177,
+          "Collision": 504.6967,
+          "Projectiles": 0.6092,
+          "Missiles": 184.0538,
+          "PointDefense": 1073.8471,
+          "Drones": 214.7619,
+          "Sensors": 7.1673,
+          "Post": 14.2774
+        }
+      },
+      "time:540+": {
+        "ticks": 8372,
+        "windows": 38,
+        "from": 543.1336666666667,
+        "to": 682.667,
+        "us_per_tick": {
+          "Tick": 3859.1568,
+          "AI": 361.6816,
+          "AICommand": 1.2607,
+          "AIThink": 22.7249,
+          "AIDrive": 73.9528,
+          "AIEngage": 260.4622,
+          "Gunnery": 0.6245,
+          "ShipStep": 441.447,
+          "Collision": 484.9292,
+          "Projectiles": 1522.8715,
+          "Missiles": 107.7517,
+          "PointDefense": 795.9936,
+          "Drones": 120.0699,
+          "Sensors": 6.759,
+          "Post": 15.4506
+        }
+      }
+    }
+  },
+  "release": {
+    "stages": {
+      "start": {
+        "sim_seconds": 5.33,
+        "min_fps": 8.73,
+        "mean_fps": 104.93,
+        "engine_fps": 27.0
+      },
+      "10min": {
+        "sim_seconds": 600.0,
+        "min_fps": 8.73,
+        "mean_fps": 132.19,
+        "engine_fps": 109.0
+      },
+      "outcome": {
+        "sim_seconds": 735.27,
+        "min_fps": 8.73,
+        "mean_fps": 131.71,
+        "engine_fps": 142.0
+      }
+    },
+    "engine_errors": [
+      "ERROR: Invalid polygon data, triangulation failed."
+    ],
+    "nearest_frame_report": {
+      "10min": {
+        "sim_seconds": 599.0,
+        "fps": 103.8,
+        "ms_per_frame": {
+          "hudDraw": 3.6,
+          "physics": 1.1,
+          "sim": 1.0,
+          "shipViews": 0.5,
+          "fxSync": 0.2,
+          "ballistics": 0.2,
+          "audioObserve": 0.0,
+          "ordnance": 0.0,
+          "shipCombat": 0.0,
+          "contacts": 0.0,
+          "fxObserve": 0.0,
+          "audioListener": 0.0,
+          "combat+am": 0.0
+        }
+      },
+      "outcome": {
+        "sim_seconds": 735.0,
+        "fps": 140.0,
+        "ms_per_frame": {
+          "hudDraw": 2.1,
+          "physics": 0.6,
+          "sim": 0.6,
+          "shipViews": 0.5,
+          "fxSync": 0.3,
+          "ballistics": 0.2,
+          "ordnance": 0.0,
+          "shipCombat": 0.0,
+          "audioObserve": 0.0,
+          "contacts": 0.0,
+          "fxObserve": 0.0,
+          "audioListener": 0.0,
+          "combat+am": 0.0
+        }
+      }
+    },
+    "section_windows": {
+      "All": {
+        "ticks": 43880,
+        "windows": 182,
+        "from": 0.5333333333333332,
+        "to": 731.867,
+        "us_per_tick": {
+          "Tick": 371.1621,
+          "AI": 64.3309,
+          "AICommand": 0.8355,
+          "AIThink": 5.5828,
+          "AIDrive": 20.6577,
+          "AIEngage": 36.0485,
+          "Gunnery": 0.148,
+          "ShipStep": 90.1027,
+          "Collision": 40.8561,
+          "Projectiles": 35.8879,
+          "Missiles": 19.7064,
+          "PointDefense": 96.6935,
+          "Drones": 16.1842,
+          "Sensors": 1.3751,
+          "Post": 5.1047
+        }
+      },
+      "time:0-300": {
+        "ticks": 17852,
+        "windows": 74,
+        "from": 0.5333333333333332,
+        "to": 298.067,
+        "us_per_tick": {
+          "Tick": 257.1656,
+          "AI": 36.3684,
+          "AICommand": 1.0458,
+          "AIThink": 2.2525,
+          "AIDrive": 18.4206,
+          "AIEngage": 13.4611,
+          "Gunnery": 0.1535,
+          "ShipStep": 90.1482,
+          "Collision": 42.7422,
+          "Projectiles": 0.1862,
+          "Missiles": 9.1013,
+          "PointDefense": 62.119,
+          "Drones": 9.3402,
+          "Sensors": 1.4316,
+          "Post": 4.8231
+        }
+      },
+      "time:300-540": {
+        "ticks": 14220,
+        "windows": 59,
+        "from": 302.067,
+        "to": 539.067,
+        "us_per_tick": {
+          "Tick": 438.9924,
+          "AI": 80.1527,
+          "AICommand": 0.6052,
+          "AIThink": 7.7362,
+          "AIDrive": 21.958,
+          "AIEngage": 48.6636,
+          "Gunnery": 0.1466,
+          "ShipStep": 94.0382,
+          "Collision": 36.6997,
+          "Projectiles": 5.9684,
+          "Missiles": 35.8062,
+          "PointDefense": 152.2671,
+          "Drones": 26.6349,
+          "Sensors": 1.3399,
+          "Post": 5.1384
+        }
+      },
+      "time:540+": {
+        "ticks": 11332,
+        "windows": 47,
+        "from": 543.0,
+        "to": 731.867,
+        "us_per_tick": {
+          "Tick": 467.0113,
+          "AI": 88.9458,
+          "AICommand": 0.7945,
+          "AIThink": 8.1822,
+          "AIDrive": 22.6076,
+          "AIEngage": 56.1042,
+          "Gunnery": 0.1417,
+          "ShipStep": 85.3558,
+          "Collision": 43.3021,
+          "Projectiles": 130.0614,
+          "Missiles": 16.1416,
+          "PointDefense": 81.5877,
+          "Drones": 13.8517,
+          "Sensors": 1.3314,
+          "Post": 5.5225
+        }
+      }
+    }
+  }
+}

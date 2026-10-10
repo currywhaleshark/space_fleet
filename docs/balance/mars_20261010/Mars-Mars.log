@@ -1,0 +1,62 @@
+done 4/normal: Blue:0.000/0.000/200.500/88.433/196.217/201.683/211.795/261.200/-/280.500/-;M=128/76;R=615/153;AM=0/0|Red:0.000/0.000/200.500/95.000/233.117/203.017/211.532/246.846/284.279/259.556/-;M=113/29;R=524/76;AM=0/0|Approach:120.000,Missile:150.000,Gunnery:120.000,Sniping:126.350,Brawl:90.000|collisions=0|events=172|winner=Blue;time=606.350 wall=24.7s
+done 1/normal: Blue:0.000/0.000/201.500/95.250/243.213/204.667/251.861/214.978/240.479/265.267/-;M=118/61;R=1313/418;AM=0/0|Red:0.000/0.000/201.500/97.000/240.479/206.517/214.786/243.213/316.202/243.213/-;M=128/80;R=1084/650;AM=3/3|Approach:660.000,Missile:90.000,Gunnery:480.000,Sniping:150.000,Brawl:120.000|collisions=0|events=130|winner=Draw;time=1500.000 wall=50.5s
+done 4/mirror: Blue:0.000/0.000/203.250/100.733/173.600/205.567/255.216/263.225/308.121/286.008/-;M=130/37;R=1664/275;AM=0/0|Red:0.000/0.000/203.250/100.000/259.788/208.850/266.443/58.529/135.350/-/-;M=116/62;R=822/261;AM=8/8|Approach:300.000,Missile:60.000,Gunnery:210.000,Sniping:139.300,Brawl:390.000|collisions=8|events=182|winner=Red;time=1099.300 wall=37.8s
+done 1/mirror: Blue:0.000/0.000/203.000/100.933/140.600/206.950/249.777/263.200/310.114/263.200/-;M=124/66;R=458/248;AM=1/1|Red:0.000/0.000/203.000/100.250/238.454/209.400/255.378/258.821/283.433/301.654/-;M=128/53;R=1362/461;AM=2/2|Approach:90.000,Missile:90.000,Gunnery:180.000,Sniping:137.167,Brawl:180.000|collisions=0|events=161|winner=Red;time=677.167 wall=24.3s
+done 5/normal: Blue:0.000/0.000/200.000/91.000/194.179/204.350/254.097/257.319/409.758/286.867/-;M=132/70;R=370/199;AM=0/0|Red:0.000/0.000/200.000/96.250/199.308/245.883/248.158/244.179/287.458/285.771/-;M=126/68;R=1104/658;AM=0/0|Approach:1080.000,Missile:210.000,Gunnery:30.000,Sniping:30.000,Brawl:150.000|collisions=1|events=130|winner=Blue;time=1500.000 wall=30.7s
+done 2/normal: Blue:0.000/0.000/201.250/90.783/198.717/206.250/251.332/52.600/420.039/265.133/-;M=122/44;R=2354/2064;AM=2/2|Red:0.000/0.000/201.250/96.250/205.075/207.233/252.545/261.221/305.008/438.054/-;M=132/63;R=1366/850;AM=6/6|Approach:630.000,Missile:150.000,Gunnery:420.000,Sniping:90.000,Brawl:210.000|collisions=1|events=126|winner=Draw;time=1500.000 wall=29.0s
+done 2/mirror: Blue:0.000/0.000/203.000/100.500/168.604/205.233/258.074/266.842/318.224/281.183/-;M=130/54;R=540/393;AM=6/6|Red:0.000/0.000/203.000/90.000/246.217/207.450/264.016/53.521/387.042/267.379/-;M=112/57;R=561/240;AM=5/4|Approach:90.000,Missile:90.000,Gunnery:60.000,Sniping:10.183,Brawl:240.000|collisions=6|events=140|winner=Blue;time=490.183 wall=10.9s
+done 5/mirror: Blue:0.000/0.000/200.500/100.750/140.921/204.600/210.974/243.954/286.363/285.708/-;M=129/37;R=1162/565;AM=2/2|Red:0.000/0.000/200.500/100.250/243.954/205.183/252.937/261.654/387.288/270.338/-;M=126/47;R=538/215;AM=2/2|Approach:420.000,Missile:180.000,Gunnery:480.000,Sniping:300.000,Brawl:120.000|collisions=0|events=225|winner=Draw;time=1500.000 wall=30.4s
+done 3/normal: Blue:0.000/0.000/203.250/133.750/202.250/207.050/261.801/266.790/-/272.000/-;M=129/41;R=1114/583;AM=4/4|Red:0.000/0.000/203.250/129.250/246.150/207.083/253.837/250.771/394.387/250.771/-;M=124/42;R=617/250;AM=2/2|Approach:120.000,Missile:60.000,Gunnery:69.033,Sniping:180.000,Brawl:240.000|collisions=0|events=171|winner=Blue;time=669.033 wall=13.3s
+done 6/normal: Blue:0.000/0.000/205.000/134.250/203.288/208.133/216.686/251.671/403.902/292.796/-;M=130/70;R=572/246;AM=6/6|Red:0.000/0.000/205.000/130.750/251.671/207.767/256.583/270.420/315.514/291.617/-;M=126/40;R=744/335;AM=4/4|Approach:150.000,Missile:60.000,Gunnery:90.000,Sniping:126.133,Brawl:180.000|collisions=0|events=157|winner=Blue;time=606.133 wall=12.2s
+done 3/mirror: Blue:0.000/0.000/204.000/141.500/181.533/206.850/256.812/247.604/372.663/247.604/-;M=123/41;R=2342/1769;AM=0/0|Red:0.000/0.000/204.000/139.750/247.604/206.750/255.494/258.271/347.721/258.271/-;M=118/58;R=345/48;AM=0/0|Approach:720.000,Missile:180.000,Gunnery:420.000,Sniping:90.000,Brawl:90.000|collisions=0|events=179|winner=Red;time=1500.000 wall=26.2s
+done 6/mirror: Blue:0.000/0.000/205.000/142.750/244.629/207.800/259.750/266.758/324.445/289.908/-;M=123/60;R=1127/653;AM=0/0|Red:0.000/0.000/205.000/140.250/243.517/207.967/258.970/244.629/828.353/253.079/-;M=127/59;R=1407/570;AM=2/2|Approach:360.000,Missile:60.000,Gunnery:570.000,Sniping:330.000,Brawl:180.000|collisions=0|events=188|winner=Red;time=1500.000 wall=22.8s
+AM Hit: 54 (mean launch 3478m, closest hull 0.7m)
+AM PointDefense: 1 (mean launch 1914m, closest hull 1389.0m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=12/12
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=12/12
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=12/12
+Identified: median=0.00 min=0.00 max=0.00 occurred=12/12
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=12/12
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=12/12
+Locked: median=203.00 min=200.00 max=205.00 occurred=12/12
+Blue Locked: median=203.00 min=200.00 max=205.00 occurred=12/12
+Red Locked: median=203.00 min=200.00 max=205.00 occurred=12/12
+MissileLaunch: median=100.12 min=88.43 max=140.25 occurred=12/12
+Blue MissileLaunch: median=100.74 min=88.43 max=142.75 occurred=12/12
+Red MissileLaunch: median=100.12 min=90.00 max=140.25 occurred=12/12
+MissileHit: median=195.20 min=140.60 max=243.52 occurred=12/12
+Blue MissileHit: median=195.20 min=140.60 max=244.63 occurred=12/12
+Red MissileHit: median=243.74 min=199.31 max=259.79 occurred=12/12
+RailLaunch: median=205.91 min=201.68 max=207.80 occurred=12/12
+Blue RailLaunch: median=205.91 min=201.68 max=208.13 occurred=12/12
+Red RailLaunch: median=207.34 min=203.02 max=245.88 occurred=12/12
+RailHit: median=250.55 min=210.97 max=258.97 occurred=12/12
+Blue RailHit: median=252.98 min=210.97 max=261.80 occurred=12/12
+Red RailHit: median=254.61 min=211.53 max=266.44 occurred=12/12
+ModuleDestroyed: median=244.40 min=52.60 max=258.82 occurred=12/12
+Blue ModuleDestroyed: median=259.26 min=52.60 max=266.84 occurred=12/12
+Red ModuleDestroyed: median=248.81 min=53.52 max=270.42 occurred=12/12
+Disabled: median=296.23 min=135.35 max=394.39 occurred=12/12
+Blue Disabled: median=321.33 min=240.48 max=420.04 occurred=10/12
+Red Disabled: median=315.86 min=135.35 max=828.35 occurred=12/12
+Destroyed: median=264.17 min=243.21 max=291.62 occurred=12/12
+Blue Destroyed: median=280.84 min=247.60 max=292.80 occurred=12/12
+Red Destroyed: median=267.38 min=243.21 max=438.05 occurred=11/12
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=1299.65 min=490.18 max=1500.00 occurred=12/12
+Wall: median=25.41 min=10.88 max=50.49 occurred=12/12
+wins Blue: 5/12
+wins Red: 4/12
+draws: 3/12; unresolved: 0
+position normal: Blue 4/6, Red 0/6
+position mirror: Blue 1/6, Red 4/6
+phase Approach >=60s: 12/12
+phase Missile >=60s: 12/12
+phase Gunnery >=60s: 11/12
+phase Sniping >=60s: 10/12
+phase Brawl >=60s: 12/12
+friendly collisions: mean=1.33
+batch wall=159.0s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\mars-balance-final\Mars-Mars.csv

@@ -34,6 +34,7 @@ public partial class Main
     private void PerformanceSnapshot(string stage)
     {
         GD.Print($"autoplay {stage}: sim={Battle!.World.Time:F2}s FPS min={_fpsMin:F2} mean={_fpsFrames/Math.Max(_fpsSeconds,.0001):F2} engine={Engine.GetFramesPerSecond():F1}");
+        if (stage == "outcome") GD.Print($"autoplay summary: {Battle.World.Log!.Summary()}");
         SavePerformanceShot(stage);
     }
     private void SavePerformanceShot(string stage)

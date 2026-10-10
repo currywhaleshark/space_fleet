@@ -8,10 +8,13 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if (args.Contains("--designs")) { DesignChecks.Run(); return; }
         if (args.Contains("--ai")) { AIChecks.Run(); return; }
         if (args.Contains("--missiles")) { MissileChecks.Run(); return; }
         if (args.Contains("--shield")) { ShieldEnvelopeChecks.Run(); return; }
         if (args.Contains("--battle")) { BattleChecks.Run(); return; }
+        if (args.Contains("--profiler")) { ProfilerChecks.Run(); return; }
+        if (args.Contains("--spatial")) { SpatialBoundsChecks.Run(); return; }
         if (args.Contains("--tracking")) { TrackingChecks.Run(); return; }
         if (args.Contains("--track-probe")) { TrackingChecks.Probe(); return; }
         if (args.Contains("--turrets")) { TurretChecks.Run(); TrackingChecks.Run(); GunneryChecks.Run(); PointDefenseChecks.Run(); return; }
@@ -47,6 +50,9 @@ static class SimChecks
         SquadCommandChecks.Run();
         AIChecks.Run();
         BattleChecks.Run();
+        ProfilerChecks.Run();
+        SpatialBoundsChecks.Run();
+        DesignChecks.Run();
     }
 
     private static ShipBody Create(ShipClass? shipClass = null, float speed = 0f)

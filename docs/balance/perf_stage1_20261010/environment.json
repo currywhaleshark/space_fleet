@@ -1,0 +1,16 @@
+{
+  "cpu": {
+    "Name": "Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz",
+    "NumberOfCores": 6,
+    "NumberOfLogicalProcessors": 12
+  },
+  "memoryBytes": 17097609216,
+  "os": {
+    "Caption": "Microsoft Windows 11 Home",
+    "Version": "10.0.26200"
+  },
+  "gpu": "NVIDIA GeForce RTX 2060",
+  "engine": "4.7.2.stable.mono.official.ed1daf0bf",
+  "renderer": "Vulkan 1.4.341 / Forward+",
+  "measuredAt": "2026-10-10T15:48:19.9204734+09:00"
+}

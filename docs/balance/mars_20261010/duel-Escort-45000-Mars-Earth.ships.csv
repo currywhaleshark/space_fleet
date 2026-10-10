@@ -1,0 +1,9 @@
+seed,mirror,faction,callsign,kind,destroyed,disabled,operational,shieldFraction,moduleHealthFraction,propulsionFraction,weaponsFraction,rails,railHits,railRoundsRemaining,missiles,missileHits,missilesRemaining,torpedoes,torpedoHits,torpedoesRemaining,amFailures,amJettisons,shieldDamageReceived,moduleDamageReceived,modulesDestroyedInflicted,heatFraction,design,hullId,shieldDamageInflicted,moduleDamageInflicted,firstDisabled,firstDestroyed,survivalSeconds,railRangeSum,railRangeSamples,missilesIntercepted,torpedoesIntercepted
+1,0,Blue,DUEL-B,Escort,0,0,1,1.000,1.000,1.000,1.000,72,52,568,12,9,4,0,0,0,0,0,0.000,0.000,10,0.000,Mars,mars_escort,2544.817,1157.048,,,146.833,3117146.226,72,0,0
+1,0,Red,DUEL-R,Escort,0,1,0,0.000,0.378,0.000,0.000,0,0,640,1,0,15,0,0,0,0,0,2544.817,1157.047,0,0.000,Earth,escort,0.000,0.000,146.821,,146.821,0.000,0,0,0
+1,1,Blue,DUEL-B,Escort,0,0,1,1.000,1.000,1.000,1.000,76,51,564,12,9,4,0,0,0,0,0,0.000,0.000,13,0.024,Mars,mars_escort,2107.619,1401.638,,,144.017,3360569.866,76,0,0
+1,1,Red,DUEL-R,Escort,0,1,0,0.000,0.246,0.000,0.000,0,0,640,1,0,15,0,0,0,0,0,2107.619,1401.638,0,0.070,Earth,escort,0.000,0.000,144.011,,144.011,0.000,0,0,0
+2,0,Blue,DUEL-B,Escort,0,0,1,1.000,1.000,1.000,1.000,76,55,564,12,8,4,0,0,0,0,0,0.000,0.000,10,0.000,Mars,mars_escort,2037.422,1290.068,,,144.867,3350062.708,76,0,0
+2,0,Red,DUEL-R,Escort,0,1,0,0.000,0.306,0.000,0.000,0,0,640,1,0,15,0,0,0,0,0,2037.422,1290.068,0,0.000,Earth,escort,0.000,0.000,144.864,,144.864,0.000,0,0,0
+2,1,Blue,DUEL-B,Escort,0,0,1,1.000,1.000,1.000,1.000,108,91,532,16,14,0,0,0,0,0,0,0.000,0.000,11,0.000,Mars,mars_escort,2440.382,1253.569,,,197.967,4886897.399,108,0,0
+2,1,Red,DUEL-R,Escort,0,1,0,0.000,0.326,0.000,0.000,0,0,640,1,0,15,0,0,0,0,0,2440.381,1253.569,0,0.548,Earth,escort,0.000,0.000,197.958,,197.958,0.000,0,0,0

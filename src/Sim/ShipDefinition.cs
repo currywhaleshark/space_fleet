@@ -33,6 +33,7 @@ public sealed record ModuleDefinition(string Id, string Name, ModuleKind Kind, V
 public sealed class ShipDefinition
 {
     public required string Id { get; init; }
+    public DesignFamily Design { get; init; } = DesignFamily.Earth;
     public required HullKind Kind { get; init; }
     public required ShipClass Flight { get; init; }
     public required ShieldDefinition Shield { get; init; }
@@ -80,7 +81,7 @@ public sealed class ShipDefinition
         Require(Positive(Power.OutputMw) && Positive(Power.Engines) && Positive(Power.Shields) && Positive(Power.Weapons)
             && Positive(Power.Sensors) && Positive(Power.Ecm) && Positive(Power.HeatCapacityMj) && float.IsFinite(Power.CoolingMw) && Power.CoolingMw >= 0
             && Power.Engines + Power.Shields + Power.Weapons + Power.Sensors <= Power.OutputMw, "invalid power (balanced draw must fit rated output)");
-        Require(!string.IsNullOrWhiteSpace(Id) && Enum.IsDefined(Kind) && Flight.Kind == Kind, "kind/flight mismatch");
+        Require(!string.IsNullOrWhiteSpace(Id) && Enum.IsDefined(Design) && Enum.IsDefined(Kind) && Flight.Kind == Kind, "design/kind/flight mismatch");
         Require(Positive(Flight.MassKg) && Positive(Flight.Length) && Positive(Flight.ForwardAccel)
             && Positive(Flight.StrafeAccel) && Positive(Flight.BrakeAccel) && Positive(Flight.MaxAccelG)
             && Positive(Flight.MaxSpeed) && Positive(Flight.BoostMultiplier) && Positive(Flight.PitchYawRateDeg)
@@ -211,19 +212,28 @@ public sealed class ShipDefinition
 
 public static class ShipDefinitions
 {
-    private static readonly Dictionary<HullKind, ShipDefinition> Definitions = Load();
-    public static ShipDefinition For(HullKind kind) => Definitions[kind];
+    private static readonly Dictionary<string, ShipDefinition> Definitions = Load();
+    public static IReadOnlyCollection<ShipDefinition> All => Definitions.Values;
+    public static ShipDefinition ById(string id) => Definitions.TryGetValue(id, out var definition)
+        ? definition : throw new ArgumentException($"Unknown ship ID: {id}", nameof(id));
+    public static ShipDefinition For(HullKind kind, DesignFamily design = DesignFamily.Earth) =>
+        Definitions.Values.Single(d => d.Kind == kind && d.Design == design);
+    public static ShipDefinition For(ShipClass flight) => Definitions.Values.FirstOrDefault(d => ReferenceEquals(d.Flight, flight))
+        ?? For(flight.Kind);
 
-    private static Dictionary<HullKind, ShipDefinition> Load()
+    private static Dictionary<string, ShipDefinition> Load()
     {
-        var result = new Dictionary<HullKind, ShipDefinition>();
-        foreach (string name in new[] { "battleship", "escort", "interceptor" })
+        var result = new Dictionary<string, ShipDefinition>(StringComparer.Ordinal);
+        const string prefix = "SpaceFleet.data.ships.";
+        foreach (string resource in typeof(ShipDefinitions).Assembly.GetManifestResourceNames()
+            .Where(n => n.StartsWith(prefix, StringComparison.Ordinal) && n.EndsWith(".json", StringComparison.Ordinal)).OrderBy(n => n, StringComparer.Ordinal))
         {
-            using Stream stream = typeof(ShipDefinitions).Assembly.GetManifestResourceStream($"SpaceFleet.data.ships.{name}.json")
-                ?? throw new InvalidDataException($"Missing ship definition: {name}");
+            using Stream stream = typeof(ShipDefinitions).Assembly.GetManifestResourceStream(resource)
+                ?? throw new InvalidDataException($"Missing ship definition: {resource}");
             using var reader = new StreamReader(stream);
             ShipDefinition definition = ShipDefinition.Parse(reader.ReadToEnd());
-            result.Add(definition.Kind, definition);
+            if (resource != prefix + definition.Id + ".json") throw new InvalidDataException($"Ship ID/file mismatch: {resource}");
+            result.Add(definition.Id, definition);
         }
         return result;
     }

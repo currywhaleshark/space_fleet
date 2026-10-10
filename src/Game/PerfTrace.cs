@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Godot;
+using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
@@ -17,11 +18,15 @@ internal static class PerfTrace
     private static double _windowStart, _started, _quitAfter = double.PositiveInfinity;
     private static int _frames;
 
-    public static void Enable(double quitAfterSeconds)
+    public static void Enable(double quitAfterSeconds, bool profileSim = true)
     {
         On = true; _quitAfter = quitAfterSeconds;
+        _frames = 0; Sections.Clear(); SimProfiler.Enabled = profileSim; SimProfiler.Reset();
         _started = -1; // 첫 프레임부터 잰다(시작 전 빨리 감기 시간을 빼기 위해).
     }
+
+    public static void Disable()
+    { On = false; Sections.Clear(); SimProfiler.Enabled = false; SimProfiler.Reset(); }
 
     private static double Now() => Stopwatch.GetTimestamp() / (double)Stopwatch.Frequency;
     public static long Begin() => On ? Stopwatch.GetTimestamp() : 0;
@@ -39,7 +44,7 @@ internal static class PerfTrace
     {
         if (!On) return;
         double now = Now();
-        if (_started < 0) { _started = _windowStart = now; Sections.Clear(); return; }
+        if (_started < 0) { _started = _windowStart = now; Sections.Clear(); SimProfiler.Reset(); return; }
         _frames++;
         double window = now - _windowStart;
         if (window < 1) return;
@@ -51,6 +56,14 @@ internal static class PerfTrace
             $"prims={Performance.GetMonitor(Performance.Monitor.RenderTotalPrimitivesInFrame):0} " +
             $"nodes={Performance.GetMonitor(Performance.Monitor.ObjectNodeCount):0} " +
             $"gpu={Performance.GetMonitor(Performance.Monitor.RenderVideoMemUsed) / 1048576:0}MB");
+        if (SimProfiler.Enabled)
+        {
+            var sim = SimProfiler.Snapshot(); long ticks = sim[SimSection.Tick].Calls;
+            if (ticks > 0)
+                GD.Print($"sim-profile t={simTime:0.000}s ticks={ticks} us/tick | " + string.Join(" ", sim.Select(s =>
+                    $"{s.Key}={s.Value.TotalMs * 1000 / ticks:0.00}")));
+            SimProfiler.Reset();
+        }
         Sections.Clear(); _frames = 0; _windowStart = now;
         if (now - _started > _quitAfter) node.GetTree().Quit();
     }

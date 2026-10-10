@@ -25,14 +25,23 @@ public static class ShipCollision
 
     public static void Resolve(IReadOnlyList<ShipBody> ships, double time)
     {
+        Span<SpatialBounds> bounds = ships.Count <= 256 ? stackalloc SpatialBounds[ships.Count] : new SpatialBounds[ships.Count];
+        for (int i = 0; i < ships.Count; i++) bounds[i] = SweptBounds(ships[i]);
+        bool anyCandidate = false;
         // 한 하위 틱의 이동 구간을 검사하므로 끝 위치가 이미 반대편이어도 통과를 막는다.
         for (int i = 0; i < ships.Count; i++)
         for (int j = i + 1; j < ships.Count; j++)
         {
+            if (!bounds[i].Overlaps(bounds[j])) continue;
+            anyCandidate = true;
             ShipBody a = ships[i], b = ships[j];
             if (BroadPhase(a, b, swept: true) && TryContact(a, b, swept: true, out Contact contact))
+            {
                 Apply(a, b, contact, time);
+                bounds[i] = SweptBounds(a); bounds[j] = SweptBounds(b);
+            }
         }
+        if (!anyCandidate) return;
 
         // 여러 부품·여러 함선의 동시 접촉 및 시작부터 겹친 배치를 분리한다.
         for (int pass = 0; pass < OverlapPasses; pass++)
@@ -41,10 +50,12 @@ public static class ShipCollision
             for (int i = 0; i < ships.Count; i++)
             for (int j = i + 1; j < ships.Count; j++)
             {
+                if (!bounds[i].Overlaps(bounds[j])) continue;
                 ShipBody a = ships[i], b = ships[j];
                 if (BroadPhase(a, b, swept: false) && TryContact(a, b, swept: false, out Contact contact))
                 {
                     Apply(a, b, contact, time);
+                    bounds[i] = SweptBounds(a); bounds[j] = SweptBounds(b);
                     corrected = true;
                 }
             }
@@ -56,11 +67,20 @@ public static class ShipCollision
         for (int i = 0; i < ships.Count; i++)
         for (int j = i + 1; j < ships.Count; j++)
         {
+            if (!bounds[i].Overlaps(bounds[j])) continue;
             ShipBody a = ships[i], b = ships[j];
             if (Overlaps(a, b) && TryBoundsContact(a, b, out Contact contact))
+            {
                 Apply(a, b, contact, time);
+                bounds[i] = SweptBounds(a); bounds[j] = SweptBounds(b);
+            }
         }
     }
+
+    // Rebuild immediately after each contact. Corrections can push a ship into a
+    // previously distant neighbour, and collision damage can create a wreck hull.
+    private static SpatialBounds SweptBounds(ShipBody ship) =>
+        SpatialBounds.Segment(ship.PrevPosition, ship.Position).Expanded(ship.Hull.BoundingRadius + Skin);
 
     public static bool Overlaps(ShipBody a, ShipBody b) =>
         BroadPhase(a, b, swept: false) && TryContact(a, b, swept: false, out _);

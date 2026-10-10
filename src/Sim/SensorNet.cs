@@ -81,7 +81,7 @@ public sealed class SensorNet
         * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction);
 
     /// <summary>관측함 한 척이 표적을 보는 신호(접촉용·추적용)와 방해 비율.</summary>
-    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target)
+    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0)
     {
         double km = Math.Max((target.Position - observer.Position).Length() / 1000.0, 1e-3);
         float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km));
@@ -89,6 +89,7 @@ public sealed class SensorNet
             ? target.Definition.Sensors.Jammer * target.Power.EcmEffect / Mathf.Max(observer.Power.SensorEffect, 0.05f)
             : 0f;
         float strobe = target.Power.EcmActive ? 1f + JamStrobe * target.Power.EcmEffect : 1f;
+        jam = Mathf.Max(jam, screenJammer / Mathf.Max(observer.Power.SensorEffect, .05f));
         return (baseSnr / (1f + jam), baseSnr * strobe, jam);
     }
 
@@ -105,11 +106,19 @@ public sealed class SensorNet
                 continue;
             float bestTrack = 0f, bestDetect = 0f, bestJam = 0f;
             double bestRange = double.PositiveInfinity;
+            float screen = 0;
+            foreach (ShipBody support in ships)
+            {
+                if (support == target || support.Faction != target.Faction || support.Definition.Design != DesignFamily.Mars
+                    || support.Class.Kind != HullKind.Escort || !Squadron.Active(support) || !support.Power.EcmActive) continue;
+                float falloff = Mathf.Clamp(1f - (float)(support.Position - target.Position).Length() / 12_000f, 0, 1);
+                screen = Mathf.Max(screen, support.Definition.Sensors.Jammer * support.Power.EcmEffect * .6f * falloff);
+            }
             foreach (ShipBody observer in ships)
             {
                 if (observer.Faction != side || observer.Damage.Destroyed)
                     continue;
-                var (track, detect, jam) = Measure(observer, target);
+                var (track, detect, jam) = Measure(observer, target, screen);
                 bestDetect = Mathf.Max(bestDetect, detect);
                 if (track > bestTrack)
                 {

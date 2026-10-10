@@ -46,7 +46,7 @@ public partial class ShipView : Node3D
 
     public static ShipView Create(ShipBody body, int seed)
     {
-        ShipModel model = ShipModels.Build(body.Class, body.Faction, seed);
+        ShipModel model = ShipModels.Build(body.Definition, body.Faction, seed);
         var view = new ShipView
         {
             Name = body.Callsign, Body = body, Palette = model.Palette, _plumes = model.Plumes,

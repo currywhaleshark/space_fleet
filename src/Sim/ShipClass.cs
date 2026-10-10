@@ -6,6 +6,9 @@ public enum Faction
     Red,
 }
 
+/// <summary>Hull design lineage, independent of the Blue/Red battle team.</summary>
+public enum DesignFamily { Earth, Mars }
+
 public enum HullKind
 {
     Battleship,
