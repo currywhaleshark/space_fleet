@@ -16,3 +16,6 @@ obj/
 /shots/
 /builds/
 __pycache__/
+
+# Blender autosave copies
+*.blend1

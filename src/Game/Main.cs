@@ -37,6 +37,7 @@ public partial class Main : Node3D
         FeedbackSettings.Load();
         if(_args.ContainsKey("teaser") || _args.ContainsKey("teaser-preview")) {
             AddChild(new CinematicTeaser { Options=_args }); return; }
+        if (_args.ContainsKey("gallery")) { AddChild(ModelGallery.FromArgs(_args)); return; }
         if(_args.ContainsKey("combat-visual-test") || _args.ContainsKey("fx-preview")) {
             AddChild(new CombatVisualChecks { Preview=_args.GetValueOrDefault("fx-preview"),Output=_args.GetValueOrDefault("shot"),
                 PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f }); return; }

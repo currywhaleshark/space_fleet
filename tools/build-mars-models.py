@@ -40,8 +40,13 @@ class MarsShip(base.Ship):
             self.coll.objects.unlink(guide); self.guides.objects.link(guide); self.meshes.remove(guide)
             guide.display_type='WIRE'; guide.hide_render=True; guide.hide_set(True)
             if kind=='Thruster':
-                # Nozzle lives on the aft face of the exact engine module box.
-                p=[c[0],c[1],c[2]+h[2]]; r=min(h[0],h[1])*.92
+                # Nozzle lives on the aft face of the engine module, or on the hull skin when the module is buried.
+                aft=c[2]+h[2]
+                for sec in self.data['hullSections']:
+                    sc,sh=sec['center'],sec['halfSize']
+                    if sec['id'].startswith('radiator'): continue
+                    if abs(c[0]-sc[0])<=sh[0] and abs(c[1]-sc[1])<=sh[1]: aft=max(aft,sc[2]+sh[2])
+                r=min(h[0],h[1])*.92; p=[c[0],c[1],max(c[2]+h[2],aft+r*.55)]
                 self.box('Engine load cradle '+m['id'],(c[0],c[1],c[2]-h[2]*.4),
                          (r*1.7,r*1.7,h[2]*2.5),'edge',r*.08)
                 self.engine(p,r,L*.10,m['visualEngineIndex'])
@@ -51,7 +56,10 @@ class MarsShip(base.Ship):
                 if not small:
                     bridge=self.section('bridge'); top=bridge['center'][1]+bridge['halfSize'][1]
                     self.box('Sensor head pedestal',(c[0],(top+c[1]-h[1])/2,c[2]),(h[0]*.9,c[1]-h[1]-top+2,h[2]*.9),'edge',.5)
-                self.box('Sensor housing '+m['id'],c,[a*1.98 for a in h],'edge')
+                if small: self.box('Sensor housing '+m['id'],c,[a*1.98 for a in h],'edge')
+                else:
+                    self.box('Sensor housing '+m['id'],(c[0],c[1]-h[1]*.35,c[2]),(h[0]*1.6,h[1]*1.3,h[2]*1.7),'edge',L*.002)
+                    self.box('Sensor crown '+m['id'],(c[0],c[1]+h[1]*.5,c[2]),(h[0]*.9,h[1]*.7,h[2]*1.0),'armor',L*.001)
                 for side in (-1,1):
                     self.box('External phased array', (c[0]+side*h[0],c[1],c[2]),(h[0]*.12,h[1]*1.85,h[2]*1.85),'dark',0)
                     for j in range(5):
@@ -90,24 +98,37 @@ class MarsShip(base.Ship):
         name='Rail battery '+m['moduleId']
         h=m['housingHalfSize']; c=m['housingCenter']; s=h[0]
         self.support(p,s*.88,name+' foundation')
-        self.cylinder(name+' bearing',p,s*.98,s*.18,'edge',axis=(0,1,0),sides=24)
+        # Wide barbette ring and a low, long base slab: the gun house reads planted, not perched.
+        self.cylinder(name+' bearing',p,s*1.22,s*.22,'edge',axis=(0,1,0),sides=28)
+        base_top=max(.2*s,t[1]-s*.42)
+        self.box(name+' gun house base',world((0,base_top/2,-h[2]*.15)),(s*2.25,base_top,h[2]*2.7),'armor',s*.08)
+        self.box(name+' base glacis',world((0,base_top*.55,-h[2]*1.55)),(s*1.9,base_top*.8,h[2]*.5),'plate',s*.06)
         # Two stationary cheeks leave the entire elevation sweep open between them.
         for side in (-1,1):
-            self.box(name+' armored cheek',world((side*s*.79,c[1],c[2])),(s*.4,h[1]*2,h[2]*2),'armor',s*.09)
-            self.box(name+' cheek insert',world((side*s*.80,c[1]+h[1]*.92,c[2])),(s*.3,s*.035,h[2]*1.65),'plate',s*.012)
-            self.cylinder(name+' armored hinge',world((side*s*.9,t[1],0)),s*.24,s*.26,'plate',axis=(1,0,0))
-        self.box(name+' rear counterweight',world((0,c[1],h[2]*.65)),(s*1.6,h[1]*1.35,h[2]*.6),'armor',s*.07)
-        self.cylinder(name+' conductor trunnion',world(t),s*.22,s*1.85,'edge',axis=(1,0,0))
+            self.box(name+' armored cheek',world((side*s*.86,c[1]+h[1]*.1,c[2]-h[2]*.25)),(s*.48,h[1]*2.3,h[2]*2.5),'armor',s*.09)
+            self.box(name+' cheek insert',world((side*s*.87,c[1]+h[1]*1.18,c[2]-h[2]*.25)),(s*.36,s*.04,h[2]*2.05),'plate',s*.012)
+            self.box(name+' cheek sponson',world((side*s*1.12,base_top*.5+h[1]*.4,c[2]+h[2]*.2)),(s*.22,h[1]*1.5,h[2]*1.6),'plate',s*.05)
+            self.cylinder(name+' armored hinge',world((side*s*.93,t[1],0)),s*.3,s*.3,'plate',axis=(1,0,0))
+        self.box(name+' rear counterweight',world((0,c[1],h[2]*1.05)),(s*1.95,h[1]*1.7,h[2]*.95),'armor',s*.08)
+        self.box(name+' counterweight cap',world((0,c[1]+h[1]*.9,h[2]*1.05)),(s*1.5,s*.06,h[2]*.75),'plate',s*.02)
+        self.cylinder(name+' conductor trunnion',world(t),s*.26,s*1.95,'edge',axis=(1,0,0))
+        far=min(m['muzzles'][0][2],-s)
+        # Elevating mantlet and armoured cradle: the barrels grow out of a heavy sleeve, then step down.
+        self.box(name+' rail shroud mantlet',world(t+Vector((0,0,-s*.25))),(s*1.12,s*.62,s*.85),'armor',s*.06)
+        self.box(name+' rail shroud cradle',world(t+Vector((0,0,far*.18))),(s*.98,s*.5,abs(far)*.3),'armor',s*.05)
+        self.box(name+' rail shroud cradle step',world(t+Vector((0,0,far*.42))),(s*.82,s*.38,abs(far)*.2),'plate',s*.04)
         for muzzle in m['muzzles']:
             start=t+Vector((muzzle[0],0,s*.15)); end=t+Vector(muzzle)
             mid=(start+end)/2; length=abs(end.z-start.z)
-            self.box(name+' rail shroud',world(mid),(s*.21,s*.21,length),'dark',s*.025)
+            self.box(name+' rail shroud',world(mid),(s*.26,s*.26,length),'dark',s*.03)
+            jacket=start.lerp(end,.62)
+            self.box(name+' rail shroud jacket',world((start+jacket)/2),(s*.34,s*.34,(jacket-start).length),'edge',s*.03)
             for side in (-1,1):
-                self.box(name+' conductor',world(mid+Vector((side*s*.14,0,0))),(s*.08,s*.15,length*.985),'edge',s*.013)
+                self.box(name+' conductor',world(mid+Vector((side*s*.16,0,0))),(s*.08,s*.17,length*.985),'edge',s*.013)
             for j in range(6):
-                at=start.lerp(end,(j+.5)/6)
-                self.box(name+' accelerator clamp',world(at),(s*.42,s*.32,s*.20),'plate' if j%3==0 else 'armor',s*.025)
-            self.tube(name+' open muzzle',world(end+Vector((0,0,s*.09))),s*.095,s*.18,'edge')
+                at=start.lerp(end,(j+.5)/6); grow=1.25-j*.08
+                self.box(name+' accelerator clamp',world(at),(s*.42*grow,s*.36*grow,s*.22),'plate' if j%3==0 else 'armor',s*.025)
+            self.tube(name+' open muzzle',world(end+Vector((0,0,s*.11))),s*.14,s*.24,'edge')
 
     def vertical_radiator(self,m):
         c=Vector(m['center']); w,h,d=m['halfSize']; sign=1 if c.x>0 else -1
@@ -129,9 +150,18 @@ class MarsShip(base.Ship):
         bb=self.data['kind']=='Battleship'; L=self.data['flight']['length']; k=L/1080
         hull=self.section('hull'); c=Vector(hull['center']); w,h,d=hull['halfSize']
         # Collision sections are also the base shell: module compartments sit inside actual visible solids.
+        bays=12; span=2*d/bays
+        truss0, truss1 = c.z-d+3*span, c.z-d+9*span   # open-frame middle (bays 3..8)
         for sec in self.data['hullSections']:
             if sec['id'].startswith(('radiator','bow','sensor-head')) or sec['id'] in ('bridge','engine-block'): continue
             p=sec['center']; half=sec['halfSize']
+            if sec['id']=='hull':
+                # Solid armoured fore/aft blocks; the middle is a narrow core inside an exposed space frame.
+                z0,z1=p[2]-half[2],p[2]+half[2]
+                self.loft('Pressure hull fore',[(z0,half[0]*.97,half[1],p[1]),(truss0,half[0]*.97,half[1],p[1])],'dark')
+                self.loft('Pressure hull core',[(truss0,half[0]*.48,half[1]*.94,p[1]),(truss1,half[0]*.48,half[1]*.94,p[1])],'dark')
+                self.loft('Pressure hull aft',[(truss1,half[0]*.97,half[1],p[1]),(z1,half[0]*.97,half[1],p[1])],'dark')
+                continue
             self.loft('Pressure hull '+sec['id'],[(p[2]-half[2],half[0]*.97,half[1],p[1]),
                       (p[2]+half[2],half[0]*.97,half[1],p[1])],'dark')
         bow=min(s['center'][2]-s['halfSize'][2] for s in self.data['hullSections'])
@@ -145,22 +175,34 @@ class MarsShip(base.Ship):
                 self.box('Prow armored splint',(side*a*.30,p[1]+b*.87,p[2]),(a*.35,k*3,f*1.80),'plate',k*.65)
                 self.rod('Prow seam',(side*a*.55,p[1]+b*.66,p[2]-f*.8),(side*a*.78,p[1]+b*.66,p[2]+f*.85),k*.9)
                 for j in range(5): self.box('Prow plate fastener',(side*a*.57,p[1]+b*.90,p[2]-f*.7+j*f*.33),(k*2,k*.6,k*2),'copper',0)
-        bays=12; span=2*d/bays
         for j in range(bays):
             z=c.z-d+(j+.5)*span
+            open_bay=3<=j<=8
             for side in (-1,1):
                 x=side*w*1.01
-                self.box('Deck armor tile',(side*w*.52,h*.98,z),(w*.94,h*.12,span*.91),'armor',k*1.5)
-                self.box('Ventral armor tile',(side*w*.52,-h*.98,z),(w*.94,h*.10,span*.91),'armor',k*1.1)
-                if j<4 or j>9:
+                tile=w*(.46 if open_bay else .94); tx=side*(w*.24 if open_bay else w*.52)
+                self.box('Deck armor tile',(tx,h*.98,z),(tile,h*.12,span*.91),'armor',k*1.5)
+                self.box('Ventral armor tile',(tx,-h*.98,z),(tile,h*.10,span*.91),'armor',k*1.1)
+                if not open_bay:
                     self.box('Armored end cassette',(x,0,z),(w*.08,h*1.30,span*.87),'plate' if j%3==0 else 'armor',k)
                     self.box('Inset cassette',(x+side*k*2,0,z),(k*.7,h*.80,span*.61),'dark',k*.35)
+                    if j<3:   # fore armour sponsons widen the solid prow block
+                        self.box('Fore armour sponson',(side*(w+k*7),-h*.05,z),(k*12,h*1.25,span*.95),'armor' if j%2 else 'plate',k*1.2)
+                        self.box('Sponson seam',(side*(w+k*13.2),-h*.05,z),(k*.8,h*.9,span*.7),'dark',0)
                 else:
-                    for y in (-h*.60,h*.60):
-                        self.rod('Exposed longitudinal truss',(x,y,z-span/2),(x,y,z+span/2),k*1.8)
-                    self.rod('Cross truss',(x,-h*.60,z-span/2),(x,h*.60,z+span/2),k*1.5)
-                    self.rod('Cross truss',(x,h*.60,z-span/2),(x,-h*.60,z+span/2),k*1.5)
-                self.box('Frame bulkhead',(x,0,z-span*.5),(k*3.7,h*1.9,k*3.7),'edge',k*.3)
+                    # Open space frame: heavy chords, posts and X bracing on the side and top/bottom faces.
+                    for y in (-h*.9,h*.9):
+                        self.box('Truss chord',(x,y,z),(k*6,k*6,span*1.01),'edge',k*.6)
+                        self.box('Truss chord inner',(side*w*.55,y,z),(k*4,k*4,span*1.01),'edge',k*.4)
+                    self.rod('Cross truss',(x,-h*.88,z-span/2),(x,h*.88,z+span/2),k*2.6)
+                    self.rod('Cross truss',(x,h*.88,z-span/2),(x,-h*.88,z+span/2),k*2.6)
+                    for y in (-h*.9,h*.9):
+                        self.rod('Lateral truss',(side*w*.5,y,z-span/2),(x,y,z+span/2),k*1.8)
+                        self.rod('Lateral truss',(side*w*.5,y,z+span/2),(x,y,z-span/2),k*1.8)
+                        self.rod('Frame cross beam',(side*w*.5,y,z-span/2),(x,y,z-span/2),k*2.2)
+                    if j%2==0:
+                        self.rod('Core coolant loop',(side*w*.5,-h*.4,z-span*.4),(side*w*.5,-h*.4,z+span*.4),k*3,'copper')
+                self.box('Frame bulkhead',(x,0,z-span*.5),(k*4.5,h*1.9,k*4.5),'edge',k*.3)
                 for y in (-h*.7,h*.7): self.box('Frame bolt',(x+side*k*1.5,y,z-span*.5),(k*2,k*3,k*3),'copper',k*.25)
                 self.box('Service cable',(x+side*k,0,z),(k*1.3,k*2,span*.96),'copper',k*.15)
                 for t in (-.25,.25): self.box('Service indicator',(x+side*k*1.8,k*2.5,z+t*span),(k*.6,k*1.3,k*2),'amber',0)
@@ -178,23 +220,49 @@ class MarsShip(base.Ship):
                     self.box('Spinal deck panel',(side*dh[0]*.5,dc[1]+dh[1],z),(dh[0]*.94,k*1.8,dh[2]*2/14*.91),'armor',k*.4)
                     self.box('Spinal conduit',(side*dh[0]*.88,dc[1]+dh[1]+k,z),(k*2.4,k*2,dh[2]*2/14*.9),'edge',k*.3)
                     for q in (-1,1): self.box('Spinal captive bolt',(side*dh[0]*.71,dc[1]+dh[1]+k,z+q*dh[2]/14*.65),(k*2,k,k*2),'copper',0)
+        # Exposed machinery inside the open frame (the module boxes themselves, armoured as equipment).
+        for mod in self.data['modules']:
+            mc,mh=mod['center'],mod['halfSize']
+            if not (truss0<mc[2]<truss1) or mod['kind'] in ('Cooling','Sensor','Gun','Thruster') or abs(mc[0])+mh[0]<w*.45: continue
+            self.box('Exposed machinery '+mod['id'],mc,(mh[0]*1.9,mh[1]*1.9,mh[2]*1.9),'edge',k)
+            for q in (-1,1): self.box('Machinery band',(mc[0],mc[1],mc[2]+q*mh[2]*.6),(mh[0]*2.02,mh[1]*2.02,k*2.5),'copper',0)
+        # Aft drive nacelles bulk out the stern silhouette.
+        for side in (-1,1):
+            rad_end=max((r['center'][2]+r['halfSize'][2] for r in self.data['hullSections'] if r['id'].startswith('radiator')),default=truss1)
+            nz0,nz1=max(truss1+span*.2,rad_end+span*.1),aft-span*.15
+            self.cylinder('Drive nacelle',(side*(w+h*.28),-h*.15,(nz0+nz1)/2),h*.46,nz1-nz0,'armor',sides=10)
+            for q in range(4): self.cylinder('Nacelle frame ring',(side*(w+h*.28),-h*.15,nz0+(q+.5)*(nz1-nz0)/4),h*.5,k*4,'edge',sides=10)
+            self.tube('Nacelle exhaust bell',(side*(w+h*.28),-h*.15,nz1+k*3),h*.36,k*8,'edge')
+            self.cylinder('Nacelle exhaust glow',(side*(w+h*.28),-h*.15,nz1+k*1),h*.3,k*.8,'engine',sides=16)
         bridge=self.section('bridge'); bc=Vector(bridge['center']); bw,bh,bd=bridge['halfSize']
         self.box('Command tower foot',(0,(h+bc.y-bh)/2,bc.z),(bw*1.85,abs(bc.y-bh-h)+k*5,bd*1.95),'edge',k)
-        for j in range(4):
-            y=bc.y-bh+(j+.5)*bh*.5; factor=1-j*.17
-            self.loft('Command tower tier',[(bc.z-bd*factor,bw*factor,bh*.255,y),
-                      (bc.z+bd*factor,bw*factor,bh*.255,y)],'armor' if j%2==0 else 'plate')
+        # Compact two-tier command block; height comes from a slim spire cluster, not stacked decks.
+        for j in range(2):
+            y=bc.y-bh+(j+.5)*bh*.36; factor=1-j*.22
+            self.loft('Command tower tier',[(bc.z-bd*factor,bw*factor,bh*.18,y),
+                      (bc.z+bd*factor,bw*factor,bh*.18,y)],'armor' if j%2==0 else 'plate')
             for side in (-1,1):
                 for q in range(4): self.box('Command viewport',(side*bw*factor,y,bc.z+(q-1.5)*bd*.32*factor),(k*.7,k*2.2,bd*.19),'glass',0)
                 self.box('Command cooling fascia',(side*bw*factor,y-bh*.17,bc.z),(k,k*3,bd*1.3*factor),'edge',k*.25)
                 for q in (-1,1): self.rod('Command tier brace',(side*bw*factor*.72,y-bh*.24,bc.z+q*bd*factor),
                     (side*bw*factor*.72,y+bh*.24,bc.z+q*bd*factor),k*1.2)
-        top=bc.y+bh
-        self.rod('Mast cross spar',(-bw*.64,top-bh*.22,bc.z),(bw*.64,top-bh*.22,bc.z),k*1.3)
-        for j in (-2,-1,0,1,2):
-            x=j*bw*.29; high=top+(85-abs(j)*18)*k
-            self.rod('Telemetry mast',(x,top-bh*.25,bc.z),(x,high,bc.z),k*.6)
-            self.box('Mast beacon',(x,high,bc.z),(k*1.7,k*1.7,k*1.7),'amber',k*.3)
+        tier_top=bc.y-bh+bh*.72
+        sensor=next(m for m in self.data['modules'] if m['kind']=='Sensor')
+        sy=sensor['center'][1]-sensor['halfSize'][1]
+        # Slim column up to the sensor head, ringed by short spires (lower than the old telemetry masts).
+        self.box('Sensor column',(0,(tier_top+sy)/2,bc.z),(bw*.42,sy-tier_top,bd*.5),'armor',k)
+        for q in range(3): self.box('Sensor column band',(0,tier_top+(q+1)*(sy-tier_top)/4,bc.z),(bw*.5,k*2.2,bd*.58),'plate',k*.3)
+        spires=[(-.62,-.45,.95),(.62,-.4,1.0),(-.55,.55,.8),(.55,.6,.85),(0,-.8,.7)]
+        for dx,dz,kk in spires:
+            px,pz=dx*bw,bc.z+dz*bd; high=tier_top+(sy-tier_top)*1.15*kk+bh*.25
+            self.box('Spire foot',(px,tier_top+k*4,pz),(k*5,k*8,k*5),'edge',k*.4)
+            self.rod('Sensor spire',(px,tier_top,pz),(px,high,pz),k*2.4)
+            self.rod('Sensor spire tip',(px,high,pz),(px,high+bh*.2,pz),k*1.1)
+            self.rod('Spire collar',(px-k*3,tier_top+(high-tier_top)*.6,pz),(px+k*3,tier_top+(high-tier_top)*.6,pz),k*.9)
+            self.box('Spire beacon',(px,high+bh*.2,pz),(k*2.6,k*2.6,k*2.6),'amber',k*.3)
+        stop=sensor['center'][1]+sensor['halfSize'][1]
+        self.rod('Sensor mast',(0,stop,bc.z),(0,stop+28*k,bc.z),k*1.1)
+        self.box('Sensor mast beacon',(0,stop+28*k,bc.z),(k*2.2,k*2.2,k*2.2),'amber',k*.3)
         launch=self.data['missiles']['launchPoint']; self.support(launch,10*k,'Missile bay riser')
         self.box('Missile bay',(launch[0],launch[1]-k,launch[2]),(24*k,4*k,30*k),'edge',k)
         for x in (-7*k,0,7*k):

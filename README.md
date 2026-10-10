@@ -422,6 +422,14 @@ $blender = 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe'
 .\tools\run.ps1 --model-test
 ```
 
+시안 반영 외형 보강(2026-10-10): `tools/detail-ship-models.py`가 저장된 원본에 `DETAIL | …` 부품만 다시 만들어 넣는다(재실행 가능, 충돌·모듈·무장·소켓·JSON 불변). 갑판 장비 줄(미사일 셀·통풍구·작업 상자), 겹친 측면 장갑판, 지구 전함·호위함의 세로 방열 패널, 화성의 주황 발광 방열 격자·센서 첨탑 무리·함수 녹색 띠와 역삼각 문장, 요격함 아래쪽 경사 미익(뒤에서 X자)·날개 끝 추진 포드, 포보스 앞날개를 더한다. 게임에서는 장갑·모서리·홈·표식 재질을 `shaders/hull_panels.gdshader`(모델 좌표 장갑판 이음새·판 명암·통풍구 줄·드문 주황 작업등, 판 크기는 함선 길이 비례)로 바꾼다. 검토 컷: `.	ools\gallery.ps1 mars_battleship hero`(시점 hero·side·rear·front·top) → `shots/gallery/`. 조명은 `src/View/BattleLook.cs` 한곳에서 게임과 같이 쓴다(차가운 테두리광 추가, 해 2.4→2.0).
+
+```powershell
+$blender = 'C:/Program Files/Blender Foundation/Blender 5.1/blender.exe'
+& $blender --background --python-exit-code 1 --python tools/detail-ship-models.py -- --root $PWD.Path
+& $blender --background --python tools/export-ship-models.py -- --root $PWD.Path
+```
+
 `tools/build-ship-models.py`는 지구권 세 원본과 GLB를 **처음부터 재생성하여 덮어쓰는** 제작 스크립트다. 수작업 수정 후에는 위의 export 도구를 사용한다. 재생성에 `--render`를 더하면 `shots/models/`에 확인용 렌더도 만든다. `--model-test`는 실제 GLB 로딩, 축·크기, 모듈·무장 좌표, 진영 구분, 추진기와 파손 분사, 움직이는 포구의 보간 좌표·반동·섬광과 AM 소켓, 자동 사격의 실제 포신 메시 수평/고저 회전 및 PD 기계 구동의 렌더 보간을 검사한다. 드론 표적에 대한 상·하부 보조 포탑 구동·격추된 개별 드론 메시 제거·파편과 지구/화성 6종의 연결까지 포함해 1,204개다. MultiMesh 저장값 검사는 실제 렌더러가 필요하므로 `--headless` 없이 실행한다.
 
 `tools/build.ps1`과 이를 호출하는 `tools/run.ps1`은 기존 `.godot` 폴더가 있어도 변경된 모델을 임포트한다. 임포트 누락을 움직이지 않는 구형 외형으로 대체하지 않으며, 모델 갱신 후에는 게임을 다시 실행해야 한다.

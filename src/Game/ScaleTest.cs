@@ -125,49 +125,8 @@ public partial class ScaleTest : Node3D
     }
     private void BuildEnvironment()
     {
-        var env = new Godot.Environment
-        {
-            BackgroundMode = Godot.Environment.BGMode.Sky,
-            Sky = new Sky
-            {
-                SkyMaterial = new ShaderMaterial { Shader = GD.Load<Shader>("res://shaders/starfield.gdshader") },
-                RadianceSize = Sky.RadianceSizeEnum.Size256,
-            },
-            AmbientLightSource = Godot.Environment.AmbientSource.Color,
-            AmbientLightColor = new Color(0.24f, 0.28f, 0.36f),
-            AmbientLightEnergy = 0.3f,
-            ReflectedLightSource = Godot.Environment.ReflectionSource.Sky,
-            TonemapMode = Godot.Environment.ToneMapper.Agx,
-            GlowEnabled = true,
-            GlowIntensity = 0.7f,
-            GlowBloom = 0.02f,
-            GlowHdrThreshold = 1.4f,
-            GlowBlendMode = Godot.Environment.GlowBlendModeEnum.Additive,
-        };
-        AddChild(new WorldEnvironment { Name = "Environment", Environment = env });
-
-        var sun = new DirectionalLight3D
-        {
-            Name = "Sun",
-            LightEnergy = 2.4f,
-            LightColor = new Color(1f, 0.95f, 0.88f),
-            ShadowEnabled = true,
-            DirectionalShadowMaxDistance = 6000f,
-            DirectionalShadowMode = DirectionalLight3D.ShadowMode.Parallel4Splits,
-            Basis = Basis.LookingAt(new Vector3(-0.75f, -0.35f, -0.35f).Normalized(), Vector3.Up),
-        };
-        AddChild(sun);
-
-        // 행성 반사광 역할의 약한 보조광(하늘에 원반은 그리지 않는다)
-        var fill = new DirectionalLight3D
-        {
-            Name = "PlanetFill",
-            LightEnergy = 0.18f,
-            LightColor = new Color(0.55f, 0.62f, 0.85f),
-            SkyMode = DirectionalLight3D.SkyModeEnum.LightOnly,
-            Basis = Basis.LookingAt(new Vector3(0.6f, 0.55f, 0.3f).Normalized(), Vector3.Up),
-        };
-        AddChild(fill);
+        AddChild(new WorldEnvironment { Name = "Environment", Environment = BattleLook.Environment() });
+        foreach (DirectionalLight3D light in BattleLook.Lights()) AddChild(light);
     }
 
     private void BuildPlanet()
