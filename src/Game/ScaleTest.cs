@@ -26,6 +26,7 @@ public partial class ScaleTest : Node3D
     private Node3D _worldRoot = null!;
     private SpaceDust _dust = null!;
     private OrdnanceView _ordnance = null!;
+    private BattleFx _battleFx = null!;
     private CombatAudio _audio = null!;
     public CombatFeedback Feedback => _audio.Feedback;
     private MeshInstance3D _planet = null!;
@@ -65,6 +66,8 @@ public partial class ScaleTest : Node3D
         _worldRoot.AddChild(_ballistics);
         _ordnance = new OrdnanceView { Name = "Ordnance" };
         _worldRoot.AddChild(_ordnance);
+        _battleFx = new BattleFx { Name = "BattleFx", Enabled = !BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("no-battle-fx") };
+        _worldRoot.AddChild(_battleFx);
         _audio = new CombatAudio { Name = "CombatAudio" };
         AddChild(_audio);
         _audio.SetPaused(Paused);
@@ -93,7 +96,10 @@ public partial class ScaleTest : Node3D
             ApplyShotSetup(_shot);
         if (_shot is not null && BattleArgs.Parse(OS.GetCmdlineUserArgs()).TryGetValue("am-demo",out var amDemo))
             SetupAntimatterPractice(amDemo);
-        if (AutoPlay) {EnableAutoPlay();SetBattleSpeed(4);}
+        var perfArgs = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if (AutoPlay) {EnableAutoPlay();SetBattleSpeed(int.Parse(perfArgs.GetValueOrDefault("autoplay-speed", "4")));}
+        if (perfArgs.ContainsKey("perf-trace"))
+            PerfTrace.Enable(double.Parse(perfArgs.GetValueOrDefault("perf-seconds", "1e9"), CultureInfo.InvariantCulture));
         UpdateContacts();
         if (BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("full-map")) ToggleWorldMap();
         if (_shot is not null && BattleArgs.Parse(OS.GetCmdlineUserArgs()).ContainsKey("telescope")) Camera.SetTelescope(true);
@@ -281,8 +287,10 @@ public partial class ScaleTest : Node3D
         if (!AutoPlay && !MapControlsBlocked) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
 
         // 시간 배속: 한 물리 틱에 시뮬레이션을 여러 번 진행한다.
+        long physics = PerfTrace.Begin();
         for (int step = 0; step < TimeScale; step++)
             StepOnce();
+        PerfTrace.End("physics", physics);
     }
 
     private void StepOnce()
@@ -302,20 +310,29 @@ public partial class ScaleTest : Node3D
 
         if (Gunnery is { } order) order.AimPart = AimPart;
         if (!AutoPlay) StepSquadCommand();
+        long t = PerfTrace.Begin();
         World.Step();
+        PerfTrace.End("sim", t); t = PerfTrace.Begin();
+        _battleFx.Observe(World, RenderOrigin + Vec3d.From(Camera.Position));
+        PerfTrace.End("fxObserve", t); t = PerfTrace.Begin();
         UpdateContacts();
+        PerfTrace.End("contacts", t); t = PerfTrace.Begin();
         if (!AutoPlay && !Spectating) StepCombat();
         StepAntimatterPreview();
+        PerfTrace.End("combat+am", t);
         if (_shot?.DamageTarget is not null && _testShots < _shot.Pulses && World.Tick >= 30 + _testShots * 12)
         {
             FireTest(_testOrigin, _testDirection);
             _testShots++;
         }
+        t = PerfTrace.Begin();
         if (!Spectating) _audio.Observe(World, Controlled?.Body);
+        PerfTrace.End("audioObserve", t);
     }
 
     public override void _Process(double delta)
     {
+        PerfTrace.Frame(this, World.Time);
         UpdateMapInputGuard();
         if (!Input.IsActionPressed(InputSetup.Fire) && !Input.IsMouseButtonPressed(MouseButton.Left)) _fireReleaseGuard = false;
         else if (Paused || MenuOpen || WorldMapOpen || RadarPointerCaptured) _fireReleaseGuard = true;
@@ -336,8 +353,10 @@ public partial class ScaleTest : Node3D
         double alpha = Engine.GetPhysicsInterpolationFraction();
         RenderOrigin = FloatingOrigin ? controlled.Body.InterpolatedPosition(alpha) : Vec3d.Zero;
 
+        long p = PerfTrace.Begin();
         foreach (ShipView view in Views)
             view.Sync(RenderOrigin, alpha, (float)delta);
+        PerfTrace.End("shipViews", p);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
 
         float feedbackDelta = Paused ? 0 : (float)delta;
@@ -345,10 +364,17 @@ public partial class ScaleTest : Node3D
         Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
         Camera.Follow(controlled.Body.Definition, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
+        p = PerfTrace.Begin();
         _audio.SyncListener(RenderOrigin + Vec3d.From(Camera.Position), Camera.GlobalBasis);
+        PerfTrace.End("audioListener", p); p = PerfTrace.Begin();
         _ballistics.Sync(World,RenderOrigin,alpha,Camera,Views);
+        PerfTrace.End("ballistics", p); p = PerfTrace.Begin();
         foreach(var view in Views) view.SyncCombat(World,Camera);
+        PerfTrace.End("shipCombat", p); p = PerfTrace.Begin();
         _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position,Camera);
+        PerfTrace.End("ordnance", p); p = PerfTrace.Begin();
+        _battleFx.Sync(RenderOrigin, World.Time + alpha * SimWorld.TickDelta, Camera);
+        PerfTrace.End("fxSync", p);
         _dust.Sync(RenderOrigin + Vec3d.From(Camera.Position), Camera.Position, controlled.Body.Velocity,
             controlled.Body.Class.CameraDistance * DustBoxPerCameraDistance);
     }

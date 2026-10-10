@@ -33,7 +33,9 @@ static class TurretChecks
             Aim(world, ship, Vector3.Right, .5);
             Require(ship.Railguns.All(g => !g.Aligned(Vector3.Right)), "Traverse takes physical time");
             Require(ship.Railguns.All(g => Math.Abs(g.Yaw) <= Mathf.DegToRad(g.Mount!.YawRate) * .6f), "Rated slew limit");
-            Aim(world, ship, Vector3.Right, 5);
+            // 90° 선회 시간은 포탑 구동 속도에 달렸다(전함 주포는 느리다).
+            double settle = 90 / ship.Railguns.Min(g => Math.Min(g.Mount!.YawRate, g.Mount.ElevationRate)) + 1;
+            Aim(world, ship, Vector3.Right, settle);
             Require(ship.Railguns.All(g => g.Aligned(Vector3.Right)), "All dorsal/ventral mounts reach broadside");
             var muzzles = ship.Railguns.SelectMany(g => Enumerable.Range(0, g.BarrelCount)
                 .Select(b => (Key: (g.Definition.ModuleId, b), Position: g.BarrelPosition(b)))).ToDictionary(p => p.Key, p => p.Position);
@@ -54,7 +56,7 @@ static class TurretChecks
             var damaged = ship.Damage.Modules.Single(m => m.Definition.Id == "gun-1");
             damaged.Health = 0;
             float failedYaw = ship.Railgun!.Yaw;
-            Aim(world, ship, Vector3.Left, 16);
+            Aim(world, ship, Vector3.Left, settle * 2);
             Require(ship.Railgun.Yaw == failedYaw, "Destroyed turret freezes");
             attempt = world.FireRailguns(ship, Vector3.Left);
             Require(attempt.Fired && attempt.Shots == (count - 1) * 2, "Other guns traverse/reload/fire with primary destroyed");
@@ -68,7 +70,7 @@ static class TurretChecks
                 "Rear dorsal gun cannot fire through forward turret/bridge");
             var below = new Vector3(0, -1, -.5f).Normalized();
             Require(SimWorld.RailLineLocal(bb, bb.Railguns[0], below) == FireFailure.Arc, "Dorsal depression stop");
-            Aim(world, bb, below, 6);
+            Aim(world, bb, below, 90 / bb.Railguns[2].Mount!.ElevationRate + 1);
             Require(world.FireRailguns(bb, below).Shots == 2 && bb.Railguns[2].ShotCount == 2, "Only ventral battery fires below, with both barrels");
             var oldYaw = bb.Railguns[2].Yaw;
             for (int i = 0; i < 120; i++) world.Step();

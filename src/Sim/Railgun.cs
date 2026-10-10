@@ -38,7 +38,9 @@ public sealed class RailgunState
     public double LastFiredAt { get; private set; } = double.NegativeInfinity;
     public uint ShotCount { get; private set; }
     private Vector3? _aimDirection;
-    private double _aimUntil;
+    private double _aimUntil, _aimTime;
+    /// <summary>요청 조준 방향의 각속도(월드, rad/s). 움직이는 표적을 따라갈 때 포탑을 한 틱 앞으로 미리 돌린다.</summary>
+    private Vector3 _aimRate;
     public Vector3 LocalDirection => Mount?.AimBasis(Yaw, Elevation) * Vector3.Forward ?? Vector3.Forward;
     public Vector3 Direction => _ship.Orientation * LocalDirection;
     // Fire control solves from the battery centre; projectiles leave individual physical muzzles.
@@ -49,7 +51,18 @@ public sealed class RailgunState
     public void Aim(Vector3 worldDirection)
     {
         if (!worldDirection.IsFinite() || worldDirection.LengthSquared() < 1e-8f) return;
-        _aimDirection = worldDirection.Normalized(); _aimUntil = _ship.SimTime + .12;
+        Vector3 next = worldDirection.Normalized();
+        double now = _ship.SimTime, dt = now - _aimTime;
+        if (_aimDirection is Vector3 previous && dt > 1e-6)
+        {
+            // 같은 표적을 계속 따라가는 중이면 조준 방향이 도는 속도를 잰다. 오래 끊겼거나 크게 튀면 새 표적으로 본다.
+            float angle = previous.AngleTo(next);
+            Vector3 axis = previous.Cross(next);
+            _aimRate = dt > .25 || angle > Mathf.DegToRad(10) || axis.LengthSquared() < 1e-12f
+                ? Vector3.Zero : axis.Normalized() * angle / (float)dt;
+        }
+        else if (_aimDirection is null) _aimRate = Vector3.Zero;
+        _aimDirection = next; _aimTime = now; _aimUntil = now + .12;
     }
     public bool Aligned(Vector3 worldDirection) => Mount is null
         || Direction.AngleTo(worldDirection) <= Mathf.DegToRad(Mount.ToleranceDegrees);
@@ -66,20 +79,27 @@ public sealed class RailgunState
     public void Reset()
     {
         Rounds = Definition.Rounds; ReloadRemaining = 0; Yaw = Elevation = PreviousYaw = PreviousElevation = 0;
-        LastSalvoRounds = 0; LastFiredAt = double.NegativeInfinity; ShotCount = 0; _aimDirection = null;
+        LastSalvoRounds = 0; LastFiredAt = double.NegativeInfinity; ShotCount = 0; _aimDirection = null; _aimRate = Vector3.Zero;
     }
     internal void Step(double dt)
     {
         ReloadRemaining = Mathf.Max(0, ReloadRemaining - (float)dt * ReloadRate);
         if (Mount is not { } mount || Output <= .01f || _ship.Damage.Destroyed) return;
+        // 추적 앞당김: 요청 방향을 조준 각속도만큼 지금 시각까지 돌려서 겨눈다. 다음 틱 정렬 판정 때 포탑이 이미 그 방향에 있다.
+        // 그래서 따라갈 수 있는 한계는 포탑 구동 속도(YawRate·ElevationRate)다.
         Vector2 desired = _aimDirection is Vector3 direction && _ship.SimTime <= _aimUntil
-            ? mount.Angles(_ship.Orientation.Inverse() * direction) : new Vector2(Yaw, Elevation);
+            ? mount.Angles(_ship.Orientation.Inverse() * Lead(direction)) : new Vector2(Yaw, Elevation);
         float yaw = Mathf.Clamp(desired.X, -Mathf.DegToRad(mount.YawDegrees), Mathf.DegToRad(mount.YawDegrees));
         float pitch = Mathf.Clamp(desired.Y, Mathf.DegToRad(mount.MinElevation), Mathf.DegToRad(mount.MaxElevation));
         float drive = Output * _ship.Power.WeaponEffect;
         // Deliberately do not wrap through the mechanical stop at +/- yaw limit.
         Yaw = Mathf.MoveToward(Yaw, yaw, Mathf.DegToRad(mount.YawRate) * (float)dt * drive);
         Elevation = Mathf.MoveToward(Elevation, pitch, Mathf.DegToRad(mount.ElevationRate) * (float)dt * drive);
+    }
+    private Vector3 Lead(Vector3 direction)
+    {
+        float angle = _aimRate.Length() * (float)(_ship.SimTime - _aimTime);
+        return angle > 1e-7f ? direction.Rotated(_aimRate.Normalized(), angle) : direction;
     }
     internal void Consume(int rounds)
     {

@@ -12,7 +12,9 @@ static class SimChecks
         if (args.Contains("--missiles")) { MissileChecks.Run(); return; }
         if (args.Contains("--shield")) { ShieldEnvelopeChecks.Run(); return; }
         if (args.Contains("--battle")) { BattleChecks.Run(); return; }
-        if (args.Contains("--turrets")) { TurretChecks.Run(); GunneryChecks.Run(); PointDefenseChecks.Run(); return; }
+        if (args.Contains("--tracking")) { TrackingChecks.Run(); return; }
+        if (args.Contains("--track-probe")) { TrackingChecks.Probe(); return; }
+        if (args.Contains("--turrets")) { TurretChecks.Run(); TrackingChecks.Run(); GunneryChecks.Run(); PointDefenseChecks.Run(); return; }
         if (args.Contains("--antimatter")) { AntimatterChecks.Run(); return; }
         if (args.Contains("--drones")) { DefenseDroneChecks.Run(); DroneCombatChecks.Run(); return; }
         if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
@@ -36,6 +38,7 @@ static class SimChecks
         HelmChecks.Run();
         GunneryChecks.Run();
         TurretChecks.Run();
+        TrackingChecks.Run();
         PointDefenseChecks.Run();
         DefenseDroneChecks.Run();
         DroneCombatChecks.Run();

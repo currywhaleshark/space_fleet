@@ -110,7 +110,8 @@ static class GunneryChecks
             var enemy = Add(world, "BELOW", ShipClass.Escort, Faction.Red, new Vec3d(0, -8000, -2000));
             bb.Gunnery = new GunneryOrder { Doctrine = FireDoctrine.Focus, Target = enemy };
             int rounds = bb.Railgun!.Rounds;
-            Step(world, 8);
+            // 하부 주포가 아래로 약 76° 숙이는 시간(전함 포탑 8°/s) + 잠금.
+            Step(world, 14);
             Require(bb.Railgun.Rounds == rounds, "Dorsal gun cannot shoot through its deck");
             Require(bb.Railguns[2].Rounds < rounds, "Ventral gun must engage below independently");
             bb.Control = new ShipControl { Roll = 1 };

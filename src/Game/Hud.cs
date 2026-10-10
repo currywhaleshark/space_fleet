@@ -49,6 +49,13 @@ public partial class Hud : Control
 
     public override void _Draw()
     {
+        long perf = PerfTrace.Begin();
+        DrawHudFrame();
+        PerfTrace.End("hudDraw", perf);
+    }
+
+    private void DrawHudFrame()
+    {
         ModuleRegions.Clear();
         BracketPositions.Clear();
         if (Game?.Controlled is not ShipView controlled)

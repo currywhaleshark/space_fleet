@@ -9,13 +9,13 @@
     "mounts": [
       { "moduleId": "gun-1", "pivot": [0,88,-320], "trunnion": [0,6,0], "muzzles": [[-8.4,0,-90],[8.4,0,-90]], "ventral": false,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 },
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 8, "elevationRate": 8, "rounds": 240 },
       { "moduleId": "gun-2", "pivot": [0,88,160], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": false,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 },
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 8, "elevationRate": 8, "rounds": 240 },
       { "moduleId": "gun-3", "pivot": [0,-88,-120], "trunnion": [0,16.8,0], "muzzles": [[-8.4,0,-120],[8.4,0,-120]], "ventral": true,
         "housingCenter": [0,16.5,-4.5], "housingHalfSize": [30,12,28.5],
-        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 24, "elevationRate": 18, "rounds": 240 }
+        "yawDegrees": 150, "minElevation": -5, "maxElevation": 85, "yawRate": 8, "elevationRate": 8, "rounds": 240 }
     ]
   },
   "flight": {
