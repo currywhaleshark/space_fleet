@@ -11,6 +11,8 @@ public partial class CombatVisualChecks : Node3D
 {
     public string? Preview { get; init; }
     public string? Output { get; init; }
+    public string ShipId { get; init; }="battleship";
+    public string PreviewView { get; init; }="hero";
     public float PreviewAge { get; init; }=.12f;
     private readonly SimWorld _world=new();
     private ShipView _ship=null!;
@@ -22,27 +24,40 @@ public partial class CombatVisualChecks : Node3D
     private void Check(bool ok,string why) { if(!ok) throw new InvalidOperationException(why); _checks++; }
     public override void _Ready()
     {
-        var body=_world.Add(new ShipBody("FX-BB",ShipClass.Battleship,Faction.Blue));
+        var body=_world.Add(new ShipBody("FX-BB",ShipDefinitions.ById(ShipId),Faction.Blue));
         body.Place(Vec3d.Zero,Quaternion.Identity);
         _source=_world.Add(new ShipBody("FX-SOURCE",ShipClass.Interceptor,Faction.Red));
         _source.Place(new Vec3d(0,0,-20000),Quaternion.Identity);
         _ship=ShipView.Create(body,5); AddChild(_ship);
-        _camera=new Camera3D { Position=new Vector3(1100,680,-1100),Far=1e6f,Fov=48 }; AddChild(_camera);
-        _camera.LookAt(new Vector3(0,30,-30)); _camera.MakeCurrent();
+        float length=body.Class.Length;
+        _camera=new Camera3D { Position=new Vector3(1100,680,-1100)*(length/1200),Near=Mathf.Max(.05f,length*.002f),
+            Far=Preview is null or "far"?1e6f:Mathf.Max(1000,length*30),Fov=48 }; AddChild(_camera);
+        _camera.LookAt(new Vector3(0,30,-30)*(length/1200)); _camera.MakeCurrent();
+        if(PreviewView=="cut") { _camera.Position=new Vector3(.48f,.23f,-.06f)*length; _camera.LookAt(Vector3.Zero); }
         if(Preview is "penetration" or "armor" or "critical") {
             Vector3 part=body.Definition.Modules.First(m=>m.Kind==ModuleKind.Gun).Center;
             _camera.Position=part+new Vector3(420,180,-160); _camera.LookAt(part); }
-        AddChild(new WorldEnvironment { Environment=new Godot.Environment {
+        AddChild(new WorldEnvironment { Environment=Preview is not null?BattleLook.Environment():new Godot.Environment {
             BackgroundMode=Godot.Environment.BGMode.Color,BackgroundColor=new Color(.006f,.012f,.022f),
             AmbientLightSource=Godot.Environment.AmbientSource.Color,AmbientLightColor=new Color(.35f,.42f,.55f),AmbientLightEnergy=.6f,
             TonemapMode=Godot.Environment.ToneMapper.Agx,GlowEnabled=true,GlowIntensity=.75f,GlowHdrThreshold=1.2f,GlowBloom=.015f } });
-        var light=new DirectionalLight3D { LightEnergy=2.5f }; AddChild(light); light.RotationDegrees=new Vector3(-35,-45,0);
+        if(Preview is not null) { foreach(var light in BattleLook.Lights()) AddChild(light); }
+        else { var light=new DirectionalLight3D { LightEnergy=2.5f }; AddChild(light); light.RotationDegrees=new Vector3(-35,-45,0); }
         _ballistics=new BallisticsView(); AddChild(_ballistics);
         UpdateViews();
         if(Preview is null) { try { Run(); GD.Print($"PASS: {_checks} combat visual checks"); } catch(Exception ex) { GD.PushError(ex.ToString()); GetTree().Quit(1); return; } GetTree().Quit(); }
     }
     private void UpdateViews()
-    { _ship.Sync(Vec3d.Zero,1,1f/60); _ship.SyncCombat(_world,_camera); _ballistics.Sync(_world,Vec3d.Zero,1,_camera,new[]{_ship}); }
+    {
+        _ship.Sync(Vec3d.Zero,1,1f/60); _ship.SyncCombat(_world,_camera); _ballistics.Sync(_world,Vec3d.Zero,1,_camera,new[]{_ship});
+        if(Preview is null) { _ship.Wreck.CompleteConstructionForChecks(); _ship.SyncCombat(_world,_camera); }
+        if(PreviewView=="section" && _ship.Body.Wreck is {} layout)
+        {
+            var part=layout.Pieces[1]; var pose=_ship.GlobalTransform*part.Pose(_ship.Body.WreckAge);
+            Vector3 at=pose*new Vector3(0,0,part.Minimum.Z);
+            _camera.LookAtFromPosition(at+pose.Basis*new Vector3(.23f,.12f,-.24f)*_ship.Body.Class.Length,at);
+        }
+    }
     private void Advance(int ticks)
     { for(int i=0;i<ticks;i++) _world.Step(); UpdateViews(); }
     private ProjectileImpact Hit(string mode)
@@ -155,6 +170,7 @@ public partial class CombatVisualChecks : Node3D
         _world.ResetWeapons();
         ordnance.Sync(_world,Vec3d.Zero,1,_camera.Position,_camera);
         Check(!GodotObject.IsInstanceValid(missileNode) || missileNode.IsQueuedForDeletion(),"Reset removes missile visuals and their saved attitude");
+        _checks+=WreckChecks.Run(this,_camera);
     }
     public override void _Process(double delta)
     {
@@ -181,6 +197,7 @@ public partial class CombatVisualChecks : Node3D
             GD.Print($"FX surface: hit={local}, visible={skin.Point}, normal={skin.Normal}, sparks={_ballistics.VisibleBurstSparks}");
         }
         if(Output is not null) GetViewport().GetTexture().GetImage().SavePng(Output);
+        GD.Print($"Wreck: pieces={_ship.Wreck.PieceCount}, detached={_ship.Wreck.DetachedPartCount}, sections={_ship.Wreck.InteriorSectionCount}, buildMs={_ship.Wreck.BuildMilliseconds:0.0}, longestStepMs={_ship.Wreck.LongestConstructionStepMs:0.0}, pending={_ship.Wreck.ConstructionPending}");
         GD.Print("combat visual preview saved: "+Output); GetTree().Quit();
     }
 }

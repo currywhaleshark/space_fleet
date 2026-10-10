@@ -10,6 +10,15 @@ public partial class WreckView : Node3D
 {
     private readonly List<Node3D> _pieces=new();
     private WreckLayout? _layout;
+    private IEnumerator<bool>? _construction;
+    private Node3D? _intactModel;
+    private static ulong _constructionFrame=ulong.MaxValue;
+    private static double _constructionSpent;
+    internal bool ConstructionPending => _construction is not null;
+    internal int ConstructionSteps { get; private set; }
+    public double LongestConstructionStepMs { get; private set; }
+    // Shared across the visible fleet, not a fresh budget for each exploding ship.
+    private const double ConstructionBudgetMs=4;
     private CombatBurstBatch? _bursts;
     private CarbonCombatFx.ExplosionTimeline? _timeline;
     private readonly List<(int Piece,Vector3 Position,Vector3 Normal)> _blastSites=new();
@@ -41,18 +50,23 @@ public partial class WreckView : Node3D
         _bursts?.Begin();
         if(ship.Body.Wreck is not {} layout)
         {
-            if(_layout is not null) { foreach(var p in _pieces) p.QueueFree(); _pieces.Clear(); _layout=null; model.Visible=true; }
+            if(_layout is not null) { CancelConstruction(); ClearGeometry(); _layout=null; model.Visible=true; }
             _timeline=null; _blastSites.Clear(); _bursts?.End();
             return;
         }
         if(_layout!=layout)
         {
-            foreach(var p in _pieces) p.QueueFree(); _pieces.Clear();
-            model.Visible=true; Build(ship,model,layout); _layout=layout; model.Visible=false;
+            CancelConstruction(); ClearGeometry();
+            model.Visible=true; _intactModel=model; _layout=layout;
+            BuildMilliseconds=LongestConstructionStepMs=0; ConstructionSteps=0;
+            _construction=Build(ship,model,layout).GetEnumerator();
             PrepareExplosions(ship,layout,camera);
         }
+        ContinueConstruction();
         for(int i=0;i<_pieces.Count;i++) _pieces[i].Transform=layout.Pieces[i].Pose(ship.Body.WreckAge);
         float age=(float)(ship.Body.SimTime-ship.Body.Damage.DestroyedAt);
+        SyncLoose(ship.Body.WreckAge,layout);
+        foreach(var heat in _interiorHeat) heat.EmissionEnergyMultiplier=age<16?1.8f*Mathf.Exp(-age*.24f):0;
         if(_timeline is null || _bursts is null) return;
         uint seed=CarbonCombatFx.Seed(ship.Body.Callsign);
         float size=ship.Body.Class.Length;
@@ -105,59 +119,61 @@ public partial class WreckView : Node3D
         }
         return closest;
     }
-    private void Build(ShipView ship,Node3D model,WreckLayout layout)
+    private void CancelConstruction() { _construction?.Dispose(); _construction=null; _intactModel=null; }
+    private void StepConstruction()
     {
-        var sources=new List<(MeshInstance3D Node,Transform3D Pose)>();
+        if(_construction is null) return;
+        var timer=System.Diagnostics.Stopwatch.StartNew();
+        bool more=_construction.MoveNext();
+        double elapsed=timer.Elapsed.TotalMilliseconds;
+        ConstructionSteps++; BuildMilliseconds+=elapsed; _constructionSpent+=elapsed;
+        LongestConstructionStepMs=Math.Max(LongestConstructionStepMs,elapsed);
+        if(more) return;
+        _construction.Dispose(); _construction=null;
+        foreach(var piece in _pieces) piece.Visible=true;
+        if(_intactModel is not null) _intactModel.Visible=false;
+    }
+    private void ContinueConstruction()
+    {
+        ulong frame=Engine.GetProcessFrames();
+        if(_constructionFrame!=frame) { _constructionFrame=frame; _constructionSpent=0; }
+        while(_construction is not null && _constructionSpent<ConstructionBudgetMs) StepConstruction();
+    }
+    // Deterministic fixtures can finish the same iterator without waiting for a render frame.
+    internal void CompleteConstructionForChecks() { while(_construction is not null) StepConstruction(); }
+    public override void _ExitTree() => CancelConstruction();
+    private IEnumerable<bool> Build(ShipView ship,Node3D model,WreckLayout layout)
+    {
+        var sources=new List<Source>(); var materials=new Dictionary<Material,Material>();
         foreach(var mesh in ImportedShipModels.Meshes(model))
         {
             if(mesh.Mesh is not ArrayMesh || !mesh.IsVisibleInTree()) continue;
-            sources.Add((mesh,ship.GlobalTransform.AffineInverse()*mesh.GlobalTransform));
+            sources.Add(Snapshot(mesh,ship.GlobalTransform.AffineInverse()*mesh.GlobalTransform,ship.Body.Class.Length,materials));
+            yield return true;
         }
-        foreach(var part in layout.Pieces)
+        foreach(var source in sources) SourceTriangleCount+=source.Triangles.Count;
+        Detach(ship,sources,layout);
+        yield return true;
+        RetainedTriangleCount=SourceTriangleCount-DetachedTriangleCount;
+        for(int i=0;i<layout.Pieces.Count;i++)
         {
-            var root=new Node3D(); AddChild(root); _pieces.Add(root);
-            foreach(var (source,pose) in sources)
+            var part=layout.Pieces[i];
+            var root=new Node3D { Name=$"HullFragment{i}",Visible=false }; AddChild(root); _pieces.Add(root);
+            foreach(var source in sources)
             {
-                var result=new ArrayMesh();
-                for(int surface=0;surface<source.Mesh.GetSurfaceCount();surface++)
+                var surfaces=Surfaces(source.Materials.Length);
+                for(int j=0;j<source.Triangles.Count;j++)
                 {
-                    if(((ArrayMesh)source.Mesh).SurfaceGetPrimitiveType(surface)!=Mesh.PrimitiveType.Triangles) continue;
-                    var arrays=source.Mesh.SurfaceGetArrays(surface);
-                    var positions=arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
-                    var normals=arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
-                    var uv=arrays[(int)Mesh.ArrayType.TexUV].VariantType==Variant.Type.Nil?Array.Empty<Vector2>():arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
-                    var indices=arrays[(int)Mesh.ArrayType.Index].VariantType==Variant.Type.Nil?Array.Empty<int>():arrays[(int)Mesh.ArrayType.Index].AsInt32Array();
-                    var data=new Surface();
-                    int count=indices.Length>0?indices.Length:positions.Length;
-                    Vertex V(int i) { int index=indices.Length>0?indices[i]:i; return new(pose*positions[index],(pose.Basis*normals[index]).Normalized(),uv.Length>index?uv[index]:Vector2.Zero); }
-                    for(int i=0;i+2<count;i+=3) Cut(data,V(i),V(i+1),V(i+2),part.Minimum,part.Maximum);
-                    if(data.Positions.Count==0) continue;
-                    var output=new Godot.Collections.Array(); output.Resize((int)Mesh.ArrayType.Max);
-                    output[(int)Mesh.ArrayType.Vertex]=data.Positions.ToArray(); output[(int)Mesh.ArrayType.Normal]=data.Normals.ToArray(); output[(int)Mesh.ArrayType.TexUV]=data.UV.ToArray();
-                    result.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,output);
-                    Material material=source.GetActiveMaterial(surface);
-                    if(material is StandardMaterial3D standard)
-                    { var dark=(StandardMaterial3D)standard.Duplicate(); dark.EmissionEnabled=false; dark.AlbedoColor=standard.AlbedoColor.Darkened(.22f); material=dark; }
-                    result.SurfaceSetMaterial(result.GetSurfaceCount()-1,material);
+                    var t=source.Triangles[j];
+                    if(!source.Detached.Contains(t.Component)) Cut(surfaces[t.Surface],t.A,t.B,t.C,part.Minimum,part.Maximum);
+                    if(j%2048==2047) yield return true;
                 }
-                if(result.GetSurfaceCount()>0) CombatFx.Make(root,result,null!);
+                var result=MeshFrom(surfaces,source.Materials,source.Pose);
+                if(result.GetSurfaceCount()>0) CombatFx.Make(root,result,null!).Transform=source.Pose;
+                yield return true;
             }
-            // Dark structural bulkheads cover exposed interiors; no transparent hollow hulls at the fracture.
-            var interior=new StandardMaterial3D { AlbedoColor=new Color(.07f,.09f,.11f),Metallic=.65f,Roughness=.9f };
-            Vector3 allMin=ship.Body.Definition.Hull.Bounds.Center-ship.Body.Definition.Hull.Bounds.HalfSize;
-            Vector3 allMax=ship.Body.Definition.Hull.Bounds.Center+ship.Body.Definition.Hull.Bounds.HalfSize;
-            foreach(var box in part.Boxes)
-            for(int axis=0;axis<3;axis++)
-            for(int side=0;side<2;side++)
-            {
-                float plane=side==0?part.Minimum[axis]:part.Maximum[axis];
-                if(plane<=allMin[axis]+.01f || plane>=allMax[axis]-.01f) continue;
-                float face=box.Center[axis]+box.HalfSize[axis]*(side==0?-1:1);
-                if(Mathf.Abs(face-plane)>.01f) continue;
-                Vector3 size=box.HalfSize*1.7f,position=box.Center;
-                size[axis]=Mathf.Max(.05f,ship.Body.Class.Length*.0003f); position[axis]=plane;
-                var core=CombatFx.Make(root,new BoxMesh { Size=size },interior); core.Position=position;
-            }
+            BuildInterior(root,sources,part,ship.Body.Class.Length);
+            yield return true;
         }
     }
     private static void Cut(Surface output,Vertex a,Vertex b,Vertex c,Vector3 minimum,Vector3 maximum)

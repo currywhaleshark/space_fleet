@@ -357,7 +357,9 @@ python .\tools\prepare-audio.py --output shots/audio-retune
 
 - 미사일 연기 줄과 폭발(`BattleFx`, 티저에서 가져옴): 연소 중인 미사일 뒤로 끊김 없는 연기·불빛 줄, 미사일 폭발과 모듈 파괴에 여러 겹 불덩이·연기·충격파 고리·불꽃·순간광, 격침 시 선체를 따라 1.5초 연쇄 폭발 뒤 큰 섬광과 파편, 이후 40초 동안 불타는 잔해. 카메라에서 80 km 밖 사건은 만들지 않는다. 모든 판은 종류별 MultiMesh 네 개로 그리며 순간광은 8개를 돌려 쓴다. 성능 비교용으로 `--no-battle-fx`로 끈다.
 
-현재 선체 분해는 자동 평면 절단과 간략한 절단면 표현이다. 개별 조각의 완전한 독립 강체 물리는 아직 아니며, 회전한 조각을 감싸는 충돌 상자와 모함의 공통 충돌 응답을 사용한다. 또한 활성 실드의 피격 면적이 기존 선체보다 커졌으므로 기존 승률 자료는 이 변경 이후의 밸런스를 대표하지 않는다. 무장 위력·탄속은 유지했다.
+현재 선체 분해는 자동 평면 절단에 노출 골조·설비·단선된 배관과 식어 가는 잔열을 더한다. 최신 선체 셰이더의 작업등도 발전 정지 시 꺼지고, 잔해는 재질을 별도로 복제해 그을린다. 실제 GLB의 장갑판·방열판을 찾아 큰 잔해에서 제거한 뒤 독립적으로 흩어지게 한다. 작은 탈락 부품은 최대 전함 24·호위함 16·요격함 8개, 22~25초의 시각 효과이며 충돌 판정을 추가하지 않는다. 자세한 검증과 재현은 [잔해 표현](docs/WRECK_visuals_20261010.md)에 있다.
+
+개별 큰 조각의 완전한 독립 강체 물리는 아직 아니며, 회전한 조각을 감싸는 충돌 상자와 모함의 공통 충돌 응답을 사용한다. 또한 활성 실드의 피격 면적이 기존 선체보다 커졌으므로 기존 승률 자료는 이 변경 이후의 밸런스를 대표하지 않는다. 무장 위력·탄속은 유지했다.
 
 ```powershell
 dotnet run --project tests/SimChecks -- --shield
@@ -366,6 +368,7 @@ dotnet run --project tests/SimChecks -- --shield
 .\tools\shot.ps1 fx_collapse --fx-preview=collapse --fx-age=0.30
 .\tools\shot.ps1 fx_breakup --fx-preview=breakup --fx-age=3
 .\tools\shot.ps1 fx_shatter --fx-preview=shatter --fx-age=3
+.\tools\shot.ps1 fx_mars_cut --fx-preview=breakup --fx-ship=mars_battleship --fx-view=section --fx-age=4
 ```
 
 `--fx-preview`는 `rail`, `shield`, `collapse`, `armor`, `penetration`, `critical`, `breakup`, `shatter`, `far`를 지원한다. 실제 피해·발사 경로로 연출하며 `far`는 3,000 km 거리의 섬광을 검사한다.

@@ -16,6 +16,8 @@ uniform float light_density = 0.0;      // 작업등이 켜진 판의 비율
 uniform vec3 light_color : source_color = vec3(1.0, 0.5, 0.12);
 uniform float light_energy = 4.0;
 uniform float seed = 0.0;
+uniform float power = 1.0;
+uniform float wreck_burn = 0.0;
 
 varying vec3 obj_pos;
 varying vec3 obj_nrm;
@@ -83,8 +85,9 @@ void fragment() {
     float dirt = vnoise(obj_pos.zx / (panel * 9.0)) * 0.6 + vnoise(obj_pos.zy / (panel * 3.5)) * 0.4;
     vec3 color = base_color * (1.0 + p.y * variation) * (1.0 - grime * dirt);
     color *= 1.0 - p.x * 0.7;
-    ALBEDO = color;
+    float char_pattern = mix(0.38, 0.65, vnoise(obj_pos.zy / (panel * 2.3)));
+    ALBEDO = mix(color, color * char_pattern, wreck_burn);
     METALLIC = metallic_value;
-    ROUGHNESS = clamp(roughness_value + p.w * 0.16 + p.x * 0.2 + dirt * 0.1, 0.05, 1.0);
-    EMISSION = light_color * light_energy * p.z;
+    ROUGHNESS = clamp(roughness_value + p.w * 0.16 + p.x * 0.2 + dirt * 0.1 + wreck_burn * 0.3, 0.05, 1.0);
+    EMISSION = light_color * light_energy * p.z * power * (1.0 - wreck_burn);
 }

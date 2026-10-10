@@ -35,6 +35,7 @@ public partial class ShipView : Node3D
     public (Vector3 Point,Vector3 Normal) ProjectFxSurface(Vector3 localPoint,Vector3 incoming)
         => (_surface??=new VisualHullSurface(this,_model)).Project(localPoint,incoming);
     private readonly List<(StandardMaterial3D Material,float Energy)> _poweredLights=new();
+    private readonly List<ShaderMaterial> _poweredPanels=new();
     /// <summary>롤 축(Z)에서 가장 먼 노즐까지의 거리(m).</summary>
     private float _rollArm = 1f;
 
@@ -59,9 +60,18 @@ public partial class ShipView : Node3D
         view.Shield=new ShieldView { Name="ShieldSkin" }; view.AddChild(view.Shield);
         view.Wreck=new WreckView { Name="Wreck" }; view.AddChild(view.Wreck);
         var powerMaterials=new Dictionary<StandardMaterial3D,StandardMaterial3D>();
+        var panelMaterials=new Dictionary<ShaderMaterial,ShaderMaterial>();
         foreach(var mesh in ImportedShipModels.Meshes(model.Root))
         for(int surface=0;surface<mesh.Mesh.GetSurfaceCount();surface++)
         {
+            if(mesh.GetActiveMaterial(surface) is ShaderMaterial panel && WreckView.IsHullPanel(panel))
+            {
+                if(!panelMaterials.TryGetValue(panel,out var localPanel)) {
+                    localPanel=(ShaderMaterial)panel.Duplicate(); panelMaterials.Add(panel,localPanel);
+                    view._poweredPanels.Add(localPanel); }
+                mesh.SetSurfaceOverrideMaterial(surface,localPanel);
+                continue;
+            }
             if(mesh.GetActiveMaterial(surface) is not StandardMaterial3D { EmissionEnabled:true } original) continue;
             if(!powerMaterials.TryGetValue(original,out var local)) {
                 local=(StandardMaterial3D)original.Duplicate(); powerMaterials.Add(original,local);
@@ -108,6 +118,7 @@ public partial class ShipView : Node3D
             }).ToArray();
             view._defense.Add(new DefenseVisual { State=body.Ordnance.PointDefense[rig.Index],Rig=rig,Flashes=flashes });
         }
+        WreckView.PrepareGeometry(model.Root,body.Class.Length);
         return view;
     }
 
@@ -133,6 +144,7 @@ public partial class ShipView : Node3D
         SyncTurrets((float)alpha);
         SyncPointDefense((float)alpha);
         foreach(var (material,energy) in _poweredLights) material.EmissionEnergyMultiplier=Body.Damage.GenerationFraction>.001f?energy:0;
+        foreach(var material in _poweredPanels) material.SetShaderParameter("power",Body.Damage.GenerationFraction>.001f?1f:0f);
         Drones?.Sync((float)alpha);
         if (_amGlow is not null)
         {
