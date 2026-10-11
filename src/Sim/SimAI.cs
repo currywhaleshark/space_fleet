@@ -492,6 +492,7 @@ public sealed partial class SimWorld
             Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
         CommandMars(faction, known, assigned);
+        if (Rules?.Objective == BattleObjective.Flagship) CommandFlagshipObjective(faction);
     }
 
     private bool CommandPosture(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody,int> assigned)
