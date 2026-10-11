@@ -155,7 +155,7 @@ public sealed partial class SimWorld
                 break;
         }
 
-        if(Obstacles.Count>0)desired=NavigateTerrain(brain,desired);
+        if(Obstacles.Count>0)desired=NavigateTerrain(brain,FindFiringPosition(brain,desired));
         desired += Avoidance(ship, desired);
         if (ship.Definition.Design == DesignFamily.Mars && brain.Target is { } precisionTarget)
             brain.AimModule = MarsAimModule(brain, precisionTarget);
@@ -423,7 +423,8 @@ public sealed partial class SimWorld
         // 레일건
         if (ship.Railguns.Length > 0 && track.Level >= TrackLevel.Locked)
         {
-            TryAutoFire(ship, target, brain.AimModule?.Definition.Center, brain.Profile.RailFlightSeconds, out _);
+            bool fired=TryAutoFire(ship, target, brain.AimModule?.Definition.Center, brain.Profile.RailFlightSeconds, out var status);
+            if(Obstacles.Count>0)RecordTerrainFire(brain,target,status==GunneryStatus.Obstructed,fired);
         }
 
         // 미사일: 일제 사격 창
@@ -454,8 +455,12 @@ public sealed partial class SimWorld
             brain.SalvoId = salvo.Id;
             brain.SalvoLaunched = 0;
         }
-        if (brain.SalvoLaunched < MissilesPerSalvo && ship.Ordnance.MissileReady && LaunchMissile(ship, target).Fired)
-            brain.SalvoLaunched++;
+        if (brain.SalvoLaunched < MissilesPerSalvo && ship.Ordnance.MissileReady)
+        {
+            var launch=LaunchMissile(ship,target);
+            if(launch.Fired)brain.SalvoLaunched++;
+            if(Obstacles.Count>0)RecordTerrainFire(brain,target,launch.Reason=="지형 가림",launch.Fired);
+        }
     }
 
     /// <summary>사선(포구에서 사거리까지)에 아군 선체가 있는가.</summary>

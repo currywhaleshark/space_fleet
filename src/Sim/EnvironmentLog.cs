@@ -22,6 +22,12 @@ public sealed class EnvironmentLog
     public double PathMilliseconds { get; internal set; }
     public int StuckReplans { get; internal set; }
     public int FormationCompressions { get; internal set; }
+    public double BlockedFireSeconds { get; internal set; }
+    public int SightAttempts { get; internal set; }
+    public int SightStarts { get; internal set; }
+    public int SightSuccesses { get; internal set; }
+    public int SightFailures { get; internal set; }
+    public double SightReopenSeconds { get; internal set; }
     internal void Weapon(double time,string source,ObstacleHit hit,BattleWeapon? weapon)
     {
         if(weapon is null) BlockedProbes++;
