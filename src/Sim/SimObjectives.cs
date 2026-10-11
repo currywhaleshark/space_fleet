@@ -63,4 +63,24 @@ public sealed partial class SimWorld
             brain.CommandStandoff = null;
         }
     }
+    private void CommandFlagshipObjective(Faction faction)
+    {
+        if (Rules is not { Objective: BattleObjective.Flagship } rules) return;
+        Faction other = faction == Faction.Blue ? Faction.Red : Faction.Blue;
+        ShipBody? enemy = rules.Flagship(other);
+        if (enemy is null || enemy.Damage.Destroyed || enemy.Damage.Disabled) return;
+        SensorTrack track = Sensors.Track(faction, enemy);
+        if (track.Level < TrackLevel.Identified) return; // Never reveal unobserved flagship identities.
+        foreach (Squadron squad in _squadrons.Where(s => s.Faction == faction && !s.PlayerLed && s.Leader is not null))
+        {
+            if (squad.Role == SquadronRole.InterceptorWing &&
+                (track.EstimatedPosition - squad.Leader!.Position).Length() > 40_000) continue;
+            var assigned = new System.Collections.Generic.Dictionary<ShipBody, int>();
+            foreach (ShipBody ship in squad.ActiveMembers)
+                Assign(ship, ShipOrder.AttackOn(enemy), assigned);
+            squad.Target = enemy;
+            squad.Activity = "기함 공격";
+        }
+    }
+
 }
