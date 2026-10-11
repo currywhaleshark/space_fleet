@@ -23,6 +23,30 @@ public partial class Hud
         float unknownStart=enemyBar.Position.X+185*known, unknownEnd=Mathf.Min(enemyBar.End.X,unknownStart+185*unknown);
         for(float at=unknownStart;at<unknownEnd;at+=7)
             DrawLine(new(at,32),new(Mathf.Min(at+5,unknownEnd),24),Dim,1);
+        // The mode banner augments the legacy strength bars without revealing unknown enemy internals.
+        if (rules.Objective == BattleObjective.Flagship)
+        {
+            ShipBody? own = rules.Flagship(Faction.Blue), enemyFlagship = rules.Flagship(Faction.Red);
+            string ownState = own is null ? "기함 없음" : own.Damage.Destroyed ? "격침" : own.Damage.Disabled ? "무력화" : "작전 가능";
+            bool identified = enemyFlagship is not null && Game.World.Sensors.Track(Faction.Blue, enemyFlagship).Level >= TrackLevel.Identified;
+            string enemyState = enemyFlagship is null ? "미확인" : !identified ? "상태 불명"
+                : enemyFlagship.Damage.Destroyed ? "격침" : enemyFlagship.Damage.Disabled ? "무력화" : "작전 가능";
+            DrawRect(new Rect2(x-12,51,424,25),PanelBack);
+            Label(new Vector2(x,69),$"기함전   아군 {ownState}  /  적군 {enemyState}",13,Text);
+        }
+        else if (rules.Objective == BattleObjective.Domination)
+        {
+            DrawRect(new Rect2(x-12,49,424,49),PanelBack);
+            Label(new Vector2(x,65),$"점령전   {rules.Score(Faction.Blue):0} : {rules.Score(Faction.Red):0}   /   {rules.ScoreLimit}",14,Text);
+            int i = 0;
+            foreach (CaptureZone zone in rules.CaptureZones)
+            {
+                Color color = zone.Owner == Faction.Blue ? Friendly : zone.Owner == Faction.Red ? Hostile : Motion;
+                float zx=x+5+i*135;
+                Label(new Vector2(zx,87),zone.Name+(zone.Contested?"  경합":zone.Owner is null?"  중립":zone.Owner==Faction.Blue?"  아군":"  적군"),12,color);
+                i++;
+            }
+        }
         float y=screen.Y-272;DrawRect(new(16,y,250,32),PanelBack);
         FleetPosture posture=Game.World.Fleet(Faction.Blue).Posture;
         for(int i=0;i<4;i++)
