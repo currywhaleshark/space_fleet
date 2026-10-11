@@ -9,6 +9,7 @@ public static partial class ShipCollision
     public static void ResolveObstacles(IReadOnlyList<ShipBody> ships, ObstacleSet obstacles, double time, BattleLog? log = null)
     {
         if (obstacles.Count == 0) return;
+        long terrainTiming=SimProfiler.Begin();
         Span<int> candidates=obstacles.Count<=1024?stackalloc int[obstacles.Count]:new int[obstacles.Count];
         foreach (var ship in ships)
         {
@@ -56,6 +57,7 @@ public static partial class ShipCollision
                 if(!corrected) break;
             }
         }
+        SimProfiler.End(SimSection.TerrainCollision,terrainTiming);
     }
 
     /// <summary>Continuous translation of the current OBB pose, matching the existing 240 Hz rotation approximation.</summary>

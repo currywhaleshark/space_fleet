@@ -5,6 +5,7 @@ static class ObstacleBvhChecks
 {
     public static void Run()
     {
+        SphereDistanceChecks.Run();
         int checks=0;void Check(bool ok,string why){if(!ok)throw new Exception(why);checks++;}
         var random=new Random(9413);
         Vec3d V(double size)=>new((random.NextDouble()*2-1)*size,(random.NextDouble()*2-1)*size,(random.NextDouble()*2-1)*size);

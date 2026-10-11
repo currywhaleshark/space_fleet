@@ -8,11 +8,13 @@ public partial class WorldMapOverlay
 {
     private void DrawObstacles(Control canvas,Func<Vec3d,Vector2> at)
     {
-        var color=new Color(.66f,.68f,.7f,.7f);
+        var color=new Color(.66f,.68f,.7f,.36f);
         foreach(var obstacle in Game.World.Obstacles)
         {
             if(obstacle.Name.StartsWith("Rock-",StringComparison.Ordinal) && obstacle.BoundingRadius/Map.HalfSpan*Radius<2)continue;
             if((obstacle.Position-Map.Center).Length()>Map.HalfSpan+obstacle.BoundingRadius)continue;
+            Vector2 center=at(obstacle.Position),foot=at(new(obstacle.Position.X,Map.Center.Y,obstacle.Position.Z));
+            if(center.DistanceSquaredTo(foot)>16)canvas.DrawLine(foot,center,new Color(.66f,.68f,.7f,.15f),1,true);
             foreach(var part in obstacle.Parts)
             {
                 Vector2 a=at(obstacle.ToWorld(part.A)),b=at(obstacle.ToWorld(part.B));

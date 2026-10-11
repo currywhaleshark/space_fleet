@@ -3,20 +3,20 @@ using SpaceFleet.Sim;
 
 static class NavigationChecks
 {
-    public static void Trace()
+    public static void Trace(bool asteroids=false)
     {
-        foreach(bool mirror in new[]{false,true})
+        foreach(var (field,seed,mirror) in asteroids?new[]{(1,6,false),(1,9,true),(2,6,true)}:new[]{(0,5,false),(0,5,true)})
         {
-            var world=new SimWorld();BattleSetup.Spawn(world,new(){Seed=5,Mirror=mirror,Objective=BattleObjective.Domination});
+            var world=new SimWorld();BattleSetup.Spawn(world,new(){Seed=seed,Mirror=mirror,Objective=BattleObjective.Domination,Battlefield=asteroids?Battlefield.AsteroidCluster:Battlefield.DeepSpace,FieldSeed=field==0?1:field});
             int count=0;
             while(world.Time<1000 && world.Rules!.Outcome is null)
             {
                 world.Step();
                 if(world.Log!.Environment.StuckDetections==count)continue;count=world.Log.Environment.StuckDetections;
                 var e=world.Log.Environment.Events.Last(x=>x.Kind=="회피 갇힘");var ship=world.Ships.First(s=>s.Callsign==e.Source);var brain=world.BrainOf(ship)!;
-                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new{mirror,time=world.Time,ship=ship.Callsign,position=ship.Position.ToString(),propulsion=ship.Damage.PropulsionFraction,
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new{field,seed,mirror,time=world.Time,ship=ship.Callsign,position=ship.Position.ToString(),propulsion=ship.Damage.PropulsionFraction,
                     velocity=ship.Velocity.ToString(),desired=brain.DesiredVelocity.ToString(),order=brain.Order.Kind.ToString(),goal=brain.NavigationGoal?.ToString(),waypoint=brain.NavigationWaypoint?.ToString(),
-                    active=brain.NavigationActive,obstacle=e.Obstacle,pathPlans=world.Log.Environment.PathPlans,failures=world.Log.Environment.PathFailures,
+                    active=brain.NavigationActive,directBlocked=brain.NavigationGoal is { } goal && world.Obstacles.BlocksSegment(ship.Position,goal,world.NavigationRadius(ship.Class.Kind)),obstacle=e.Obstacle,pathPlans=world.Log.Environment.PathPlans,failures=world.Log.Environment.PathFailures,
                     modules=ship.Damage.Modules.Where(m=>m.Definition.Kind is ModuleKind.Thruster or ModuleKind.ManeuverThruster).Select(m=>new{id=m.Definition.Id,hp=m.Health})}));
             }
         }

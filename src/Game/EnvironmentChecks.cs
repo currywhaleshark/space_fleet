@@ -58,6 +58,23 @@ public partial class EnvironmentChecks : Node
             Check(!camera.AvoidObstacles(obstacles,origin,origin),"Third-person clip leaves the telescope's authored orbit intact"); camera.SetTelescope(false);
         }
         Check(GunneryLabels.Status(GunneryStatus.Obstructed)=="지형 가림" && GunneryLabels.Status(GunneryStatus.HullBlocked)=="선체 가림","Terrain has a distinct HUD status");
+        var screen=new ObstacleSet();screen.Add(new("SCREEN",new(0,0,600),Quaternion.Identity,ObstaclePart.Sphere(Vec3d.Zero,150)));
+        camera.ResetAim(Quaternion.Identity);camera.Position=new(0,0,1000);camera.AvoidObstacles(screen,Vec3d.Zero,Vec3d.Zero);
+        double pulled=camera.Position.Z;
+        screen.Clear();screen.Add(new("FAR",new(10000,0,0),Quaternion.Identity,ObstaclePart.Sphere(Vec3d.Zero,150)));
+        camera.Follow(me.Definition,Vector3.Zero,Quaternion.Identity,.016f);camera.Position=new(0,0,1000);camera.AvoidObstacles(screen,Vec3d.Zero,Vec3d.Zero);
+        Check(System.Math.Abs(camera.Position.Z-pulled)<.001,"A clear frame does not immediately snap the camera out");
+        double previous=camera.Position.Z;
+        for(int i=0;i<180;i++)
+        {
+            camera.Follow(me.Definition,Vector3.Zero,Quaternion.Identity,.016f);camera.Position=new(0,0,1000);camera.AvoidObstacles(screen,Vec3d.Zero,Vec3d.Zero);
+            Check(camera.Position.Z>=previous && camera.Position.Z-previous<25,"Camera restores smoothly and monotonically");previous=camera.Position.Z;
+        }
+        Check(camera.Position.Z>995,"Camera eventually restores the complete orbit");
+        screen.Clear();screen.Add(new("AHEAD",new(0,0,-3000),Quaternion.Identity,ObstaclePart.Sphere(Vec3d.Zero,1000)));
+        me.Velocity=new(0,0,-1000);Check(Hud.PredictTerrainImpact(screen,me,out _),"Four-second collision prediction includes hull radius");
+        me.Velocity=new(0,0,1000);Check(!Hud.PredictTerrainImpact(screen,me,out _),"Receding terrain does not warn");
+        me.Velocity=Vector3.Zero;Check(!Hud.PredictTerrainImpact(screen,me,out _),"Stationary ship does not flash a prediction");
         camera.QueueFree();
     }
 }

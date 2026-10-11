@@ -213,6 +213,7 @@ internal static class ObstacleMath
     }
     public static bool SegmentCapsule(Vec3d start, Vec3d end, Vec3d a, Vec3d b, double radius, out double t)
     {
+        if(a==b)return SegmentSphere(start,end,a,radius,out t);
         t = double.PositiveInfinity;
         if ((start - OnSegment(start, a, b)).LengthSquared() <= radius*radius) { t = 0; return true; }
         if (SegmentSphere(start, end, a, radius, out double first)) t = first;
@@ -233,6 +234,7 @@ internal static class ObstacleMath
     /// <summary>Exact closest pair of a segment and axis-aligned box via piecewise quadratic distance.</summary>
     public static double SegmentBoxDistance(Vec3d a, Vec3d b, Vec3d half, out Vec3d axisPoint, out Vec3d boxPoint)
     {
+        if(a==b){axisPoint=a;boxPoint=Clamp(a,half);return (a-boxPoint).Length();}
         Vec3d d = b - a;
         Span<double> cuts = stackalloc double[8]; cuts[0] = 0; cuts[1] = 1; int count = 2;
         for (int axis = 0; axis < 3; axis++)

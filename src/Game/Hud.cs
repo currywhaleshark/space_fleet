@@ -99,6 +99,7 @@ public partial class Hud : Control
         DrawShotFeedback(cam);
         DrawIncomingFeedback(size);
         DrawBattleHud(size);
+        DrawTerrainWarning(controlled,size);
         DrawRadar(controlled, size);
         DrawHelp(controlled, size);
     }

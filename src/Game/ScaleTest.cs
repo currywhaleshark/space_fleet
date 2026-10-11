@@ -319,6 +319,7 @@ public partial class ScaleTest : Node3D
         PreviewFeedback();
         PreviewLostContact();
         PreviewEnvironment();
+        PreviewAsteroids();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
         if (!BattleMode && _shot is not null && ++_frame >= _shot.Frames)
         {

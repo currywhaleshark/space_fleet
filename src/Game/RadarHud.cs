@@ -50,6 +50,7 @@ public partial class Hud
         CenteredLabel(Project(Vector3.Up * 1.1f), "상", 12, Dim);
         CenteredLabel(Project(Vector3.Back * 1.1f), "후", 12, Dim);
 
+        DrawRadarTerrain(controlled,Project);
         var contacts = new List<(ShipView View, RadarContact Contact)>();
         ShipView? selected = Game.InspectTarget ?? Game.FireTarget;
         bool Focus(ShipView view) => view == selected || view == Game.SelectedFriendly;

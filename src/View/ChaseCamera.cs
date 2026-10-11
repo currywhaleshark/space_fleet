@@ -123,6 +123,7 @@ public partial class ChaseCamera : Camera3D
         FreeLookHoldRemaining = 0;
         _followOrientation = orientation;
         ClearImpacts();
+        _terrainFraction=1;_terrainClear=0;
     }
 
     /// <summary>현재 조준 기준으로 요/피치(도)만큼 돌린다. 스크린샷 연출용.</summary>
@@ -165,21 +166,31 @@ public partial class ChaseCamera : Camera3D
 
     public void Zoom(float factor) => _zoom = Mathf.Clamp(_zoom * factor, 0.35f, 4f);
 
-    /// <summary>Clip the desired third-person orbit in double world coordinates; keep aim and FOV unchanged.</summary>
+    private double _terrainFraction=1;
+    private float _terrainDelta=.016f,_terrainClear;
+    /// <summary>Pull in immediately for safety; delay and ease outward restoration.</summary>
     public bool AvoidObstacles(ObstacleSet obstacles,Vec3d renderOrigin,Vec3d shipPosition)
     {
-        if(TelescopeHeld || obstacles.Count==0) return false;
-        Vec3d desired=renderOrigin+Vec3d.From(Position);
-        double padding=System.Math.Max(2,Near*2);
-        if(!obstacles.SegmentBlocked(shipPosition,desired,out var hit,padding))return false;
-        Vec3d travel=desired-shipPosition;
-        double fraction=System.Math.Max(0,hit.Fraction-padding/System.Math.Max(1,travel.Length()));
-        Position=(shipPosition+travel*fraction-renderOrigin).ToVector3();
-        return true;
+        if(TelescopeHeld || obstacles.Count==0){_terrainFraction=1;_terrainClear=0;return false;}
+        Vec3d desired=renderOrigin+Vec3d.From(Position),travel=desired-shipPosition;
+        // Include the sampled mesh envelope (1.511% of rock radius) as well as the near plane.
+        double padding=System.Math.Max(2,Near*2)+obstacles.MaximumRadius*.016,limit=1;
+        if(obstacles.SegmentBlocked(shipPosition,desired,out var hit,padding))
+            limit=System.Math.Max(0,hit.Fraction-padding/System.Math.Max(1,travel.Length()));
+        if(limit<_terrainFraction){_terrainFraction=limit;_terrainClear=0;}
+        else
+        {
+            _terrainClear+=_terrainDelta;
+            if(_terrainClear>.2f)_terrainFraction+= (limit-_terrainFraction)*(1-System.Math.Exp(-_terrainDelta/.45));
+        }
+        if(_terrainFraction>.9999)_terrainFraction=1;
+        Position=(shipPosition+travel*_terrainFraction-renderOrigin).ToVector3();
+        return _terrainFraction<1;
     }
 
     public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta)
     {
+        _terrainDelta=Mathf.Clamp(delta,0,.1f);
         _followOrientation = shipOrientation;
         Fov = Mathf.Lerp(Fov, TelescopeHeld ? TelescopeFov : NormalFov, 1 - Mathf.Exp(-delta / .12f));
         float sens = Sensitivity * Mathf.Tan(Mathf.DegToRad(Fov / 2)) / Mathf.Tan(Mathf.DegToRad(NormalFov / 2));
