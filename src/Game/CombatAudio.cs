@@ -5,12 +5,12 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-public enum CombatSound { RailFire, ArmorImpact, ShieldImpact, HitConfirm, Penetration, Critical, PointDefense }
+public enum CombatSound { RailFire, ArmorImpact, ShieldImpact, HitConfirm, Penetration, Critical, PointDefense, MissileLaunch }
 
 /// <summary>조종함의 구조 전달음과 명중 피드백. 시뮬레이션 판정에는 관여하지 않는다.</summary>
 public partial class CombatAudio : Node
 {
-    private const int SoundCount = 7;
+    private const int SoundCount = 8;
     private const float EngineGain = .8f;
     private const float BoostGain = .9f;
     private const float IdleEngineLevel = .38f;
@@ -30,7 +30,7 @@ public partial class CombatAudio : Node
     private int _rails;
     private int _droneKills;
     private ulong _pdShots;
-    private int _probesLaunched, _smallKills;
+    private int _probesLaunched, _smallKills, _missiles;
     private uint _amLaunches, _amJettisons;
     private AntimatterMode _amMode;
     private double _worldTime;
@@ -55,13 +55,14 @@ public partial class CombatAudio : Node
             new[] { "hull_penetration", "hull_penetration_v2", "hull_penetration_v3", "hull_penetration_v4" },
             new[] { "critical_impact", "critical_impact_v2", "critical_impact_v3", "critical_impact_v4" },
             new[] { "pd_fire_01", "pd_fire_02", "pd_fire_03" },
+            new[] { "missile_launch", "missile_launch_v2", "missile_launch_v3" },
         };
         AssetsReady = true;
         for (int i = 0; i < files.Length; i++)
         {
             _clips[i] = files[i].Select(LoadClip).Where(s => s is not null).Cast<AudioStream>().ToArray();
             AssetsReady &= _clips[i].Length == files[i].Length;
-            _players[i] = new AudioStreamPlayer[i == (int)CombatSound.HitConfirm ? 1 : i == (int)CombatSound.PointDefense ? 3 : 2];
+            _players[i] = new AudioStreamPlayer[i == (int)CombatSound.HitConfirm ? 1 : i is (int)CombatSound.PointDefense or (int)CombatSound.MissileLaunch ? 3 : 2];
             for (int voice = 0; voice < _players[i].Length; voice++)
             {
                 // Separate voices preserve the previous variant's tail and pitch.
@@ -115,6 +116,7 @@ public partial class CombatAudio : Node
         _smallKills = ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills;
         _amLaunches=ship.Ordnance.Antimatter.Launches; _amJettisons=ship.Ordnance.Antimatter.Jettisons;
         _amMode=ship.Ordnance.Antimatter.Mode;
+        _missiles = ship.Ordnance.Missiles;
     }
 
     public void Observe(SimWorld world, ShipBody? ship)
@@ -134,6 +136,9 @@ public partial class CombatAudio : Node
             if(ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills > _smallKills) Play(CombatSound.HitConfirm, -13, 1.25f);
             if(droneKills>_droneKills) Play(CombatSound.HitConfirm,-13,1.2f);
             if(am.Launches>_amLaunches) Play(CombatSound.RailFire,-6,.68f);
+            // 미사일(요격 미사일 포함): 탑재 수가 줄면 발사. 큰 함선일수록 낮고 무겁게.
+            if (ship.Ordnance.Missiles < _missiles) Play(CombatSound.MissileLaunch, -9, ship.Class.Kind switch
+                { HullKind.Battleship => .82f, HullKind.Interceptor => 1.18f, _ => 1f });
             if(am.Mode==AntimatterMode.Armed && _amMode!=am.Mode) Play(CombatSound.HitConfirm,-19,.72f);
             if(am.Jettisons>_amJettisons) Play(CombatSound.ArmorImpact,-18,1.5f);
             if (rails > _rails) Play(CombatSound.RailFire, -8 + Mathf.Min(3, (rails - _rails - 1) * 1.2f), ship.Class.Kind switch
@@ -149,6 +154,7 @@ public partial class CombatAudio : Node
         _probesLaunched = ship.Ordnance.Interceptor.Launched;
         _smallKills = ship.Ordnance.Interceptor.MissileKills + ship.Ordnance.Interceptor.ProbeKills;
         _amLaunches=am.Launches; _amJettisons=am.Jettisons; _amMode=am.Mode;
+        _missiles = ship.Ordnance.Missiles;
     }
 
     private static ulong PointDefenseShots(ShipBody ship)

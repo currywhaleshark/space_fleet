@@ -148,7 +148,7 @@ public partial class CombatAudioChecks : Node
                 CombatFeedbackChecks.Strike(_world, _blue, _red, HitKind.Critical, 9002);
                 _incoming.Observe(_world, _red);
                 Check(_incoming.PlayCount(CombatSound.Critical)==before+1, "Module destruction plays critical cue");
-                Check(_incoming.GetChildren().OfType<AudioStreamPlayer>().Sum(p=>p.MaxPolyphony)==16, "Fourteen one-shot voices plus two loops stay bounded");
+                Check(_incoming.GetChildren().OfType<AudioStreamPlayer>().Sum(p=>p.MaxPolyphony)==19, "Seventeen one-shot voices (incl. three missile-launch) plus two loops stay bounded");
                 _stage++;
             }
             else if (_stage == 8 && elapsed >= 5_800)
@@ -203,7 +203,7 @@ public partial class CombatAudioChecks : Node
                 Check(_driveShip.Velocity.Length()>1 && _incoming.EnginePlaying && _incoming.EngineLevel>.3f
                     && _incoming.EngineLevel<.5f && !_incoming.BoostPlaying,
                     "Coasting settles to a quieter machinery bed while boost fades out");
-                CheckIdleAndCruise(); CheckPropulsionCleanup(); CheckPointDefense();
+                CheckIdleAndCruise(); CheckPropulsionCleanup(); CheckPointDefense(); CheckMissileLaunch();
                 _incoming.Prime(_world,_red); _nextVariantAt=elapsed; _stage++;
             }
             else if (_stage == 12 && elapsed >= _nextVariantAt)
@@ -324,6 +324,25 @@ public partial class CombatAudioChecks : Node
         Check(_outgoing.PlayCount(CombatSound.PointDefense)==before+1,"Tracking stops sounding when nothing is fired");
         world.ResetWeapons(); _outgoing.Observe(world,carrier);
         Check(_outgoing.PlayCount(CombatSound.PointDefense)==before+1,"Counter reset is not mistaken for a new salvo");
+    }
+
+    private void CheckMissileLaunch()
+    {
+        var world=new SimWorld();
+        var ship=world.Add(new ShipBody("AUDIO-MSL",ShipClass.Escort,Faction.Blue));
+        var enemy=world.Add(new ShipBody("AUDIO-MSL-TARGET",ShipClass.Escort,Faction.Red));
+        ship.Control=enemy.Control=new ShipControl { FlightAssist=false };
+        enemy.Place(new Vec3d(0,0,-20000),Quaternion.Identity);
+        world.Sensors.Update(world.Ships,0,force:true);
+        _outgoing.Prime(world,ship);
+        int before=_outgoing.PlayCount(CombatSound.MissileLaunch);
+        Check(world.LaunchMissile(ship,enemy).Fired,"Missile launch fixture fires");
+        _outgoing.Observe(world,ship);
+        Check(_outgoing.PlayCount(CombatSound.MissileLaunch)==before+1,"Own missile launch plays the launch whoosh");
+        for(int i=0;i<10;i++) _outgoing.Observe(world,ship);
+        Check(_outgoing.PlayCount(CombatSound.MissileLaunch)==before+1,"A launch is heard once");
+        ship.Ordnance.Reset(); _outgoing.Observe(world,ship);
+        Check(_outgoing.PlayCount(CombatSound.MissileLaunch)==before+1,"Restocking is not mistaken for a launch");
     }
 
     private void Finish()
