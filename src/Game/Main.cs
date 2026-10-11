@@ -57,6 +57,7 @@ public partial class Main : Node3D
             AddChild(new CombatVisualChecks { Preview=_args.GetValueOrDefault("fx-preview"),Output=_args.GetValueOrDefault("shot"),
                 ShipId=_args.GetValueOrDefault("fx-ship","battleship"),PreviewView=_args.GetValueOrDefault("fx-view","hero"),
                 PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f }); return; }
+        if (_args.ContainsKey("environment-test")) { AddChild(new EnvironmentChecks()); return; }
         if (_args.ContainsKey("model-test")) { AddChild(new ShipModelChecks()); return; }
         if (_args.ContainsKey("am-game-test")) { AddChild(new AntimatterGameChecks()); return; }
         if (_args.ContainsKey("tracking-assist-test")) { AddChild(new WeaponInputChecks { TrackingOnly=true }); return; }

@@ -91,9 +91,11 @@ public sealed partial class SensorNet
         * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction);
 
     /// <summary>관측함 한 척이 표적을 보는 신호(접촉용·추적용)와 방해 비율.</summary>
-    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0, ObstacleSet? obstacles = null)
+    public static (float Track,float Detect,float Jam) Measure(ShipBody observer,ShipBody target,ObstacleSet obstacles,float screenJammer=0)
+        => obstacles.Count>0 && obstacles.SegmentBlocked(observer.Position,target.Position,out _)?(0,0,0):Measure(observer,target,screenJammer);
+
+    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0)
     {
-        if (obstacles is { Count: > 0 } && obstacles.SegmentBlocked(observer.Position,target.Position,out _)) return (0,0,0);
         double km = Math.Max((target.Position - observer.Position).Length() / 1000.0, 1e-3);
         float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km));
         float jam = target.Power.EcmActive

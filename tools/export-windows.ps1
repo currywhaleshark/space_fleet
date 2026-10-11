@@ -96,6 +96,9 @@ SpaceFleet.pck와 data_* 폴더도 실행에 필요합니다.
 F 전력 / B 사격 / N 편대 / 4 드론 방어구역: 누른 채 방향 선택 후 놓기.
 5 응급복구: 자동/계통 우선/중지 선택. 자재를 사용해 손상 모듈을 35%까지 응급복구.
 M 전장 지도 / F10 효과음 켜기·끄기.
+점령전 거점 구조물은 충돌·센서·사선을 가립니다. 수동 발사한 탄은 구조물에 맞을 수 있습니다.
+가림으로 소실된 함선은 60초간 점선 추정 항적으로 표시하며, 사격 잠금은 해제됩니다.
+지도 회색 윤곽은 구조물, 노란 지형 가림은 자동 사격 보류입니다.
 요격함 N: 정찰/방공/제공/강습/복귀/자동 임무/프로브 사출.
 요격함 경량 미사일 4발: 함선/미사일 겸용. R 적 미사일 지정 → 2 → 좌클릭으로 요격.
 지구 85G/화성 95G, 대함 위력 약 15% 감소. AM 어뢰는 3발, 전투 중 보충 없음.
@@ -112,7 +115,7 @@ THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test')) {
+foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

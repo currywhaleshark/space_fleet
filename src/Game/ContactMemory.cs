@@ -24,6 +24,9 @@ public sealed record ContactState(string Callsign, string ClassName, HullKind Ki
 public sealed record ContactSnapshot(Vec3d Position, SensorTrack Track, double LastSeenAt,
     ContactState? State, double LastIdentifiedAt, bool SignalLost = false)
 {
+    public Vec3d ObservationPosition { get; init; } = Position;
+    public SensorMemory? Prediction { get; init; }
+    public double UncertaintyMeters { get; init; }
     public bool Identified => State is not null;
     public string Name => State?.Callsign ?? "미식별 접촉";
     public Vec3d DisplayPosition(Vec3d interpolated) => SignalLost ? Position : interpolated + Track.Offset;
@@ -36,13 +39,17 @@ public sealed class ContactMemory
     private readonly Dictionary<(Faction, ShipBody), ContactSnapshot> _contacts = new();
     public ContactSnapshot? Get(Faction observer, ShipBody ship) => _contacts.GetValueOrDefault((observer, ship));
 
-    public void Observe(Faction observer, ShipBody ship, SensorTrack track, double time)
+    public void Observe(Faction observer, ShipBody ship, SensorTrack track, double time,SensorMemory? prediction=null)
     {
+        if(prediction is not null && !prediction.Fresh(time))prediction=null;
         var key = (observer, ship);
         ContactSnapshot? previous = Get(observer, ship);
         if (ship.Faction != observer && track.Level == TrackLevel.None)
         {
-            if (previous is { SignalLost: false }) _contacts[key] = previous with { SignalLost = true };
+            if(previous is not null)
+                _contacts[key]=previous with { SignalLost=true,
+                    Position=prediction?.Predict(time)??previous.ObservationPosition,
+                    Prediction=prediction,UncertaintyMeters=prediction?.ErrorMeters(time)??0 };
             return;
         }
         bool identified = ship.Faction == observer || track.Level >= TrackLevel.Identified;
@@ -59,6 +66,6 @@ public partial class ScaleTest
     private void UpdateContacts()
     {
         Faction side = Controlled?.Body.Faction ?? Faction.Blue;
-        foreach (ShipBody ship in World.Ships) _contacts.Observe(side, ship, World.Sensors.Track(side, ship), World.Time);
+        foreach (ShipBody ship in World.Ships) _contacts.Observe(side, ship, World.Sensors.Track(side, ship), World.Time,World.Sensors.Memory(side,ship,World.Time));
     }
 }

@@ -22,6 +22,7 @@ public sealed partial class SensorNet
     private Dictionary<(Faction,ShipBody),double>? _occludedLocks;
     private SensorOcclusionStats[]? _occlusionStats;
     private double _lastSampleTime;
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
     public SensorMemory? Memory(Faction side,ShipBody target,double? time=null) =>
         _memories?.GetValueOrDefault((side,target)) is { } memory && memory.Fresh(time??_lastSampleTime)?memory:null;
     public SensorOcclusionStats OcclusionStats(Faction side)=>_occlusionStats is null?default:_occlusionStats[(int)side];

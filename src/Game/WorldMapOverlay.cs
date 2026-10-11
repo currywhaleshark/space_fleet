@@ -155,7 +155,7 @@ public partial class WorldMapOverlay : Control
             Text(this, new(x, 318), $"X  {selected.Position.X / 1000:0.0} km", 14, selected.Lost ? color : Ink);
             Text(this, new(x, 345), $"Y  {selected.Position.Y / 1000:0.0} km", 14, selected.Lost ? color : Ink);
             Text(this, new(x, 372), $"Z  {selected.Position.Z / 1000:0.0} km", 14, selected.Lost ? color : Ink);
-            if (selected.Enemy) Text(this, new(x, 409), $"추정 오차  {selected.Track.ErrorMeters / 1000:0.00} km", 13, selected.Lost ? color : Amber);
+            if (selected.Enemy) Text(this, new(x, 409), $"추정 오차  {(selected.Memory.Prediction is null?selected.Track.ErrorMeters:selected.Memory.UncertaintyMeters) / 1000:0.00} km", 13, selected.Lost ? color : Amber);
             if (selected.Memory.State is { } state)
             {
                 bool cached = selected.Lost || selected.Track.Level < TrackLevel.Identified;
@@ -183,6 +183,7 @@ public partial class WorldMapOverlay : Control
         Vector2 center = canvas.Size * .5f;
         Vector2 At(Vec3d p) { Vector3 v = Map.Project(p); return center + new Vector2(v.X, v.Y) * Radius; }
         DrawSensorCoverage(canvas, At);
+        DrawObstacles(canvas,At);
         DrawCaptureZones(canvas, At);
         var labels = new List<Rect2>();
         foreach (Contact c in Contacts().OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
@@ -199,7 +200,7 @@ public partial class WorldMapOverlay : Control
             Vector2 foot = At(new Vec3d(c.Position.X, Map.Center.Y, c.Position.Z));
             if (foot.DistanceTo(p) > 3)
             { canvas.DrawLine(foot, p, new Color(color, .4f), 1, true); canvas.DrawCircle(foot, 2, new Color(color, .35f)); }
-            if (c.Enemy && c.Track.ErrorMeters > 0)
+            if (c.Enemy && c.Track.ErrorMeters > 0 && c.Memory.Prediction is null)
                 canvas.DrawArc(p, Mathf.Clamp((float)(c.Track.ErrorMeters / Map.HalfSpan) * Radius, 6, 40),
                     0, Mathf.Tau, 32, new Color(color, .2f), 1, true);
             if (self)
@@ -210,6 +211,8 @@ public partial class WorldMapOverlay : Control
                 Vector2 side = forward.Orthogonal();
                 canvas.DrawColoredPolygon(new[] { p + forward * 9, p - forward * 5 + side * 5, p - forward * 5 - side * 5 }, Colors.White);
             }
+            else if(c.Memory.Prediction is not null)
+                EnvironmentSymbols.Memory(canvas,p,Mathf.Clamp((float)(c.Memory.UncertaintyMeters/Map.HalfSpan)*Radius,14,Radius*1.5f),color);
             else if (wreck)
             { canvas.DrawLine(p - new Vector2(4,4), p + new Vector2(4,4), color, 2); canvas.DrawLine(p + new Vector2(-4,4), p + new Vector2(4,-4), color, 2); }
             else if (!c.Identified) canvas.DrawArc(p, 5, 0, Mathf.Tau, 16, color, 1.5f, true);

@@ -5,7 +5,7 @@ using SpaceFleet.Sim;
 namespace SpaceFleet.View;
 
 /// <summary>
-/// 점령 거점 표시: 구형 범위를 보여 주는 세 축 고리 + 중심 구조물(<see cref="ZoneStructures"/>). 충돌·피해 없음.
+/// 점령 범위의 세 축 고리와 중심 구조물. 물리 판정은 Sim의 ZoneStructureShapes가 담당한다.
 /// 구조물 표시등은 소유 진영색, 경합 중이면 주황으로 깜박인다.
 /// </summary>
 public partial class CaptureZoneView : Node3D

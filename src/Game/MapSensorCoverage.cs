@@ -40,7 +40,7 @@ public partial class WorldMapOverlay
         if (Game.Controlled?.Body is not { Definition.ReconProbes: { } definition } ship
             || !new Rect2(_surface.Position, _surface.Size).HasPoint(screen)) return null;
         Vec3d requested = Map.ScreenPlane(Normalized(screen));
-        if (!SimWorld.TryProbeDestination(ship, requested, out var destination)) return null;
+        if (!SimWorld.TryProbeDestination(ship, requested, out var destination,Game.World.Obstacles)) return null;
         string status = !Squadron.Active(ship) || ship.Power.Supply <= .01f ? "사출 계통 정지"
             : ship.Ordnance.Interceptor.Probes <= 0 ? "프로브 소진"
             : Game.World.Time < ship.Ordnance.Interceptor.NextLaunch ? "사출 준비 중" : "Shift+클릭 사출";
@@ -115,7 +115,7 @@ public partial class WorldMapOverlay
         if (preview.Clamped)
             canvas.DrawDashedLine(p, at(preview.Requested), new Color(color, .35f), 1, 5);
         double distance = (preview.Destination - ship.Position).Length() / 1000;
-        string limited = preview.Clamped ? " · 최대 투사거리 제한" : "";
+        string limited = preview.Clamped ? " · 투사거리/지형 제한" : "";
         Text(canvas, new(18, 25), $"프로브 전개 예정 {distance:0.0}km{limited} · {preview.Status}", 13, color);
         Text(canvas, new(18, 46), $"전방 접촉 반경 {SensorNet.NominalContactRange(preview.Definition.SensorStrength) / 1000:0.0}km · 이동 후 이 위치에서 관측", 12, color);
         if (Game.World.Time - Game.LastFireTime < 2)

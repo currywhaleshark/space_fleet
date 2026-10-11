@@ -176,7 +176,15 @@ public sealed partial class SimWorld
     private void StepProjectiles(double dt, double time)
     {
         if (_projectiles.Count == 0) return;
+        if(Obstacles.Count==0) StepProjectiles<EmptyEnvironment>(dt,time);
+        else StepProjectiles<FixedEnvironment>(dt,time);
+    }
+
+    private void StepProjectiles<TEnvironment>(double dt,double time) where TEnvironment:struct
+    {
         PrepareProjectileBounds();
+        bool environment=typeof(TEnvironment)==typeof(FixedEnvironment);
+        ObstacleHit obstacle=default;
         for (int index = _projectiles.Count - 1; index >= 0; index--)
         {
             RailProjectile p = _projectiles[index];
@@ -187,9 +195,8 @@ public sealed partial class SimWorld
             var bounds = SpatialBounds.Segment(start, end).Expanded(0);
             ShipBody? target = null;
             double earliest = double.PositiveInfinity;
-            ObstacleHit? obstacle=null;
-            if(Obstacles.Count>0 && Obstacles.SegmentBlocked(start,end,out var blocked))
-            { obstacle=blocked; earliest=blocked.Fraction; }
+            bool blocked=environment && Obstacles.SegmentBlocked(start,end,out obstacle);
+            if(blocked) earliest=obstacle.Fraction;
             Vector3 hitDirection = Vector3.Zero;
             Quaternion hitOrientation = Quaternion.Identity;
             Vec3d targetTravel = Vec3d.Zero;
@@ -246,8 +253,9 @@ public sealed partial class SimWorld
                     hitDirection, p.Packet.Energy, shieldBefore, BattleWeapon.Railgun);
                 _projectiles.RemoveAt(index);
             }
-            else if(obstacle is { } wall)
+            else if(blocked)
             {
+                var wall=obstacle;
                 double at=time+travelTime*wall.Fraction;
                 Log?.Environment.Weapon(at,p.Shooter.Callsign,wall,BattleWeapon.Railgun);
                 _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation,wall.Position,at,p.Shooter.Faction,BattleWeapon.Railgun,p.Velocity.Normalized()));

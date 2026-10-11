@@ -314,6 +314,7 @@ public partial class ScaleTest : Node3D
             _worldMap.HandleInput(new InputEventMouseMotion { Position = GetViewport().GetVisibleRect().Size * new Vector2(.62f, .43f), ShiftPressed = true });
         PreviewFeedback();
         PreviewLostContact();
+        PreviewEnvironment();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
         if (!BattleMode && _shot is not null && ++_frame >= _shot.Frames)
         {
@@ -340,6 +341,7 @@ public partial class ScaleTest : Node3D
         Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
         Camera.Follow(controlled.Body.Definition, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
+        Camera.AvoidObstacles(World.Obstacles,RenderOrigin,RenderOrigin+Vec3d.From(controlled.Position));
         p = PerfTrace.Begin();
         _audio.SyncListener(RenderOrigin + Vec3d.From(Camera.Position), Camera.GlobalBasis);
         PerfTrace.End("audioListener", p); p = PerfTrace.Begin();

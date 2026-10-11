@@ -290,11 +290,12 @@ public sealed partial class SimWorld
     private Vector3 Avoidance(ShipBody ship, Vector3 desired)
     {
         Vector3 push = Vector3.Zero;
+        bool environment=Obstacles.Count>0;
         foreach (ShipBody other in _ships)
         {
             if (other == ship) continue;
             Vec3d otherPosition=other.Position; Vector3 otherVelocity=other.Velocity;
-            if(Obstacles.Count>0 && other.Faction!=ship.Faction)
+            if(environment && other.Faction!=ship.Faction)
             {
                 var seen=Sensors.Track(ship.Faction,other);
                 if(seen.Level>=TrackLevel.Contact) { otherPosition=seen.EstimatedPosition; otherVelocity=seen.ObservedVelocity; }

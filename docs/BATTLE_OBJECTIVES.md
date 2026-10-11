@@ -36,7 +36,7 @@ CLI direct-play override: `--battle --objective=Domination --seed=1` (also `Anni
   - Domination: score race bars toward 500 from the centre, three zone discs (owner fill, capture-progress arc, blinking amber ring when contested)
 - Full map shows objective centres and approximate circular projected influence areas; Fit All includes objective coordinates
 - 3D scene renders three axis-aligned translucent circle outlines around each spherical capture area using floating-origin rendering
-- Each zone centre has a procedural structure (`src/View/ZoneStructures.cs`, visual only — no collision, no cover, not targetable):
+- Each zone centre has a procedural structure (`src/View/ZoneStructures.cs`, with fixed compound sphere/capsule geometry in `src/Sim/ZoneStructureShapes.cs`; not targetable or destructible):
   - A 자원기지: asteroid with refinery, silos, drill tower and a loading truss
   - B 정거장: hub with a slowly rotating habitat ring, spokes and solar wings
   - C 연료 저장고: truss spine with spherical tank clusters, control module and radiators
@@ -50,7 +50,7 @@ The checks cover default legacy rules, flagship loss and simultaneous destructio
 
 Measured 2026-10-11 (seeds 1–5 × mirror, Earth/Earth): Flagship 10/10 by 기함 상실 (median 671 s, Blue 4 : Red 6); Domination 10/10 by 거점 점수 달성 (median 597 s, Blue 6 : Red 4; after the structure standoff: median 665 s, Blue 3 : Red 7 — 10 battles, within noise, recheck with seeds 1–20). Annihilation is unchanged from main.
 
-Known cost: long domination battles let wrecks age near the holding fleets; aged wreck hulls grow to ~900 m and dominate collision time (see `docs/WORKORDER_sim_performance.md` 2.5차).
+The 2.5 performance pass optimized wreck collision broad phases without removing wrecks. Environment costs and the updated 20-battle comparison are recorded in `docs/ENVIRONMENT_stage1.md`.
 
 Before merging, run:
 ```powershell
@@ -62,3 +62,13 @@ Before merging, run:
 .\tools\run.ps1 --battle --objective=Annihilation --autoplay --seed=1
 ```
 Verify all three modes end reliably and the selected role, 3D rendering, capture labels and AI movement are readable. Tune fairness and capture pacing only after gameplay measurements; parameters are provisional. Preserve legacy Earth/Earth deterministic test summaries.
+
+## Fixed environment (2026-10-11)
+
+Capture structures now block ship movement, direct sensor/probe observations, jammer paths and weapon trajectories. Ship contacts use the existing infinite-mass restitution/friction and energy damage rules. AI uses local ten-second avoidance; stuck episodes are logged, and there is no cover-seeking path planner. Solar wings/radiator sheets are excluded from the coarse shapes. B has a real open ring; only its rotationally symmetric tube rotates visually.
+
+A live contact lost to occlusion leaves a separate sixty-second position/velocity prediction. It can retain an AI navigation target but cannot authorize firing. Its dashed HUD/map marker and growing uncertainty circle use only the frozen observation. At expiry the existing historical gray ghost remains at the last observed position. Range/signal-only loss retains the prior behavior. Friendly datalink remains unobstructed.
+
+The full map draws neutral gray primitive outlines without new structure labels. Auto guns report amber terrain obstruction separately from the red hull-block symbol. Manual rounds still fire and strike the obstacle. Probes aimed inside a structure stop in front of its surface; probes whose flight crosses it are lost. Third-person camera orbits pull forward when obstructed, keeping aim and FOV unchanged.
+
+Debug preview: `tools/gallery.ps1 zone-B -ShowObstacles`. Presentation checks: `tools/check-environment.ps1`. Screenshot fixtures: `tools/shot.ps1 environment_stage1/stage6-memory --control=BB-01 --no-ai --environment-preview=memory --frames=100` (also `map`, `camera`, `fire`). These fixtures use close inspection placements, not canonical battle layouts. Canonical capture locations, scores and ship/weapon balance data are unchanged.

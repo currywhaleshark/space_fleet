@@ -17,7 +17,12 @@ public partial class Hud
         if (!new Rect2(Vector2.Zero, screen).HasPoint(p)) return;
         bool selected = view == Game.InspectTarget;
         Color gray = ContactMemory.LostColor;
-        DrawDiamond(p, selected ? 10 : 6, gray);
+        if(contact.Prediction is not null)
+        {
+            float radius=cam.UnprojectPosition(render+cam.GlobalBasis.X*(float)contact.UncertaintyMeters).DistanceTo(p);
+            EnvironmentSymbols.Memory(this,p,Mathf.Clamp(radius,18,screen.Y*.65f),gray);
+        }
+        else DrawDiamond(p, selected ? 10 : 6, gray);
         if (selected) DrawArc(p, 15, 0, Mathf.Tau, 24, gray, 1.5f, true);
         BracketPositions.Add((p, view));
         string label = $"{contact.Name} · 신호 소실  {FormatDistance((contact.Position - controlled.SimPosition).Length())}";
@@ -35,7 +40,7 @@ public partial class Hud
         Label(new(x, y), contact.Name, 15, gray);
         Label(new(x, y), "신호 소실", 14, gray, HorizontalAlignment.Right, width); y += 25;
         Label(new(x, y), $"마지막 접촉 {Math.Max(0, Game.World.Time - contact.LastSeenAt):0}초 전", 13, gray); y += 24;
-        Label(new(x, y), $"최종 위치 · {FormatDistance((contact.Position - me.Body.Position).Length())}", 13, gray); y += 22;
+        Label(new(x, y), $"{(contact.Prediction is null?"최종":"추정")} 위치 · {FormatDistance((contact.Position - me.Body.Position).Length())}", 13, gray); y += 22;
         Label(new(x, y), $"X {contact.Position.X / 1000:0.0} · Y {contact.Position.Y / 1000:0.0} · Z {contact.Position.Z / 1000:0.0} km", 12, gray); y += 26;
         if (contact.State is not { } state)
         { Label(new(x, y), "함종·피해 상태 미확인", 13, gray); return; }

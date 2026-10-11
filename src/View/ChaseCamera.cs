@@ -165,6 +165,19 @@ public partial class ChaseCamera : Camera3D
 
     public void Zoom(float factor) => _zoom = Mathf.Clamp(_zoom * factor, 0.35f, 4f);
 
+    /// <summary>Clip the desired third-person orbit in double world coordinates; keep aim and FOV unchanged.</summary>
+    public bool AvoidObstacles(ObstacleSet obstacles,Vec3d renderOrigin,Vec3d shipPosition)
+    {
+        if(TelescopeHeld || obstacles.Count==0) return false;
+        Vec3d desired=renderOrigin+Vec3d.From(Position);
+        double padding=System.Math.Max(2,Near*2);
+        if(!obstacles.SegmentBlocked(shipPosition,desired,out var hit,padding))return false;
+        Vec3d travel=desired-shipPosition;
+        double fraction=System.Math.Max(0,hit.Fraction-padding/System.Math.Max(1,travel.Length()));
+        Position=(shipPosition+travel*fraction-renderOrigin).ToVector3();
+        return true;
+    }
+
     public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta)
     {
         _followOrientation = shipOrientation;

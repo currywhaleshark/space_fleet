@@ -65,7 +65,8 @@ public partial class Hud
             GunneryStatus.WaitLock or GunneryStatus.Range or GunneryStatus.Armor or GunneryStatus.FriendlyLine or GunneryStatus.Traversing or GunneryStatus.Obstructed => GunneryLabels.Status(order.Status),
             _ => null,
         };
-        if (reason is not null) CenteredLabel(new Vector2(mx, cy + 30f), reason, 12, lost is null ? Motion : ContactMemory.LostColor);
+        if (reason is not null) CenteredLabel(new Vector2(mx, cy + 30f), reason, 12,
+            lost is not null ? ContactMemory.LostColor : order.Status==GunneryStatus.Obstructed?EnvironmentSymbols.Terrain:Motion);
         for (int i = 0; i < battery.Length; i++)
         {
             RailgunState mount = battery[i];
@@ -131,7 +132,8 @@ public partial class Hud
 
         if (!_hasEngagedLine) return;
         Vector2 p = c + SpherePoint(_engagedLocal, SphereRadius);
-        if (_engagedLine == FireFailure.None)
+        if (Game.Gunnery?.Status==GunneryStatus.Obstructed) EnvironmentSymbols.Blocked(this,p);
+        else if (_engagedLine == FireFailure.None)
         {
             DrawCircle(p, 4f, Lead);
             DrawArc(p, 7f, 0, Mathf.Tau, 16, Lead, 1.5f);
