@@ -91,6 +91,17 @@ static class BattleObjectiveChecks
         match.Rules.Evaluate(1_500);
         Require(match.Rules.Score(Faction.Blue) == score, "score and result freeze after conclusion");
 
+        // 점령 AI는 거점 중심 구조물과 겹치지 않게 자기 쪽으로 물러난 지점에 머문다. 요격 편대 임무가 이 명령을 덮지 않는다.
+        var hold = new SimWorld();
+        BattleSetup.Spawn(hold, new BattleConfig { Objective = BattleObjective.Domination });
+        for (int i = 0; i < 180; i++) hold.Step();
+        var holds = hold.Brains.Values.Where(b => b.Enabled && b.Order.Kind == OrderKind.Hold).ToArray();
+        Require(holds.Length > 0 && holds.All(b => hold.Rules!.CaptureZones
+                .Min(z => (b.Order.Point - z.Position).Length()) >= SimWorld.HoldClearance - 1),
+            "capture AI holds clear of the zone structure");
+        Require(hold.Squadrons.Where(q => q.Role == SquadronRole.InterceptorWing && !q.PlayerLed).All(q => q.ObjectiveOrders),
+            "objective orders flag interceptor wings");
+
         var mirrored = Setup(BattleObjective.Domination);
         Require(mirrored.Rules!.CaptureZones.Count == 3, "domination setup activates objective zones");
         Console.WriteLine($"PASS: {_checks} battle objective checks");

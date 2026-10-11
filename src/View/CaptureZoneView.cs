@@ -4,13 +4,17 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.View;
 
-/// <summary>Lightweight, non-physical rings for spherical capture volumes. No physics or damage involved.</summary>
+/// <summary>
+/// 점령 거점 표시: 구형 범위를 보여 주는 세 축 고리 + 중심 구조물(<see cref="ZoneStructures"/>). 충돌·피해 없음.
+/// 구조물 표시등은 소유 진영색, 경합 중이면 주황으로 깜박인다.
+/// </summary>
 public partial class CaptureZoneView : Node3D
 {
     private const int Segments = 72;
     private CaptureZone _zone = null!;
     private MeshInstance3D _rings = null!;
     private StandardMaterial3D _material = null!;
+    private ZoneStructures.Built _structure = null!;
 
     public static CaptureZoneView Create(CaptureZone zone)
     {
@@ -43,6 +47,13 @@ public partial class CaptureZoneView : Node3D
         mesh.SurfaceEnd();
         _rings = new MeshInstance3D { Name = "CaptureVolume", Mesh = mesh, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
         AddChild(_rings);
+        _structure = ZoneStructures.Create(_zone.Name);
+        AddChild(_structure.Root);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (_structure.Spinner is { } spinner) spinner.RotateObjectLocal(Vector3.Up, _structure.SpinRate * (float)delta);
     }
 
     private static Vector3 Point(int plane, float angle) => plane switch
@@ -60,5 +71,7 @@ public partial class CaptureZoneView : Node3D
             : new Color(.85f, .72f, .38f, .48f);
         if (_zone.Contested) color = new Color(1f, .77f, .3f, .85f);
         _material.AlbedoColor = color;
+        bool blinkOff = _zone.Contested && (Time.GetTicksMsec() / 400) % 2 == 1;
+        _structure.BeaconMaterial.AlbedoColor = blinkOff ? new Color(.2f, .16f, .1f) : new Color(color, 1f).Lightened(.25f);
     }
 }

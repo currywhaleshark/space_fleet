@@ -11,6 +11,7 @@ namespace SpaceFleet.Game;
 /// 함선 외형 검토 장면(--gallery=함선ID). 게임과 같은 조명·하늘·임포트 경로로 한 척을 띄우고
 /// 시안과 같은 3/4 정면(hero)·측면(side)·후면(rear) 구도로 찍는다. --gallery-view, --gallery-faction=Red, --shot=파일.
 /// 엔진은 순항 출력으로 켠다. 시뮬레이션에는 관여하지 않는다.
+/// --gallery=zone-A|zone-B|zone-C 는 점령 거점 구조물을 전함(크기 비교용)과 함께 띄운다.
 /// </summary>
 public partial class ModelGallery : Node3D
 {
@@ -25,6 +26,7 @@ public partial class ModelGallery : Node3D
     {
         AddChild(new WorldEnvironment { Environment = BattleLook.Environment() });
         foreach (var light in BattleLook.Lights()) AddChild(light);
+        if (ShipId.StartsWith("zone-")) { BuildZone(ShipId[5..]); return; }
 
         var body = new ShipBody("GALLERY", ShipDefinitions.ById(ShipId), Faction);
         body.Place(Vec3d.Zero, Quaternion.Identity);
@@ -59,9 +61,32 @@ public partial class ModelGallery : Node3D
         camera.MakeCurrent();
     }
 
+    private ZoneStructures.Built? _zone;
+
+    private void BuildZone(string name)
+    {
+        _zone = ZoneStructures.Create(name);
+        AddChild(_zone.Root);
+        var body = new ShipBody("SCALE", ShipDefinitions.ById("battleship"), Faction);
+        body.Place(new Vec3d(2600, -500, 1800), Quaternion.FromEuler(new Vector3(0, .6f, 0)));
+        _view = ShipView.Create(body, seed: 7);
+        AddChild(_view);
+        Vector3 dir = View switch
+        {
+            "side" => new Vector3(-1f, .15f, 0f),
+            "top" => new Vector3(.001f, 1f, .02f),
+            _ => new Vector3(-.7f, .38f, .8f),
+        };
+        var camera = new Camera3D { Fov = 40, Near = 5, Far = 60_000 };
+        AddChild(camera);
+        camera.LookAtFromPosition(dir.Normalized() * 7200, new Vector3(400, 0, 400), View == "top" ? Vector3.Forward : Vector3.Up);
+        camera.MakeCurrent();
+    }
+
     public override void _Process(double delta)
     {
         _view.Sync(Vec3d.Zero, 1, (float)delta);
+        if (_zone?.Spinner is { } spinner) spinner.RotateObjectLocal(Vector3.Up, _zone.SpinRate * (float)delta);
         if (++_frame < 12 || Output is null) return;
         Error err = GetViewport().GetTexture().GetImage().SavePng(Output);
         GD.Print(err == Error.Ok ? $"gallery saved: {Output}" : $"gallery failed: {err}");
