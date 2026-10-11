@@ -57,7 +57,7 @@ public partial class WorldMapOverlay : Control
         _drag = MouseButton.None; _moved = false; Visible = true; Layout(); QueueRedraw();
     }
     public void Close() { Visible = false; _drag = MouseButton.None; }
-    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position));
+    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
     private float Radius => Mathf.Min(_surface.Size.X, _surface.Size.Y) * .46f;
     private Vector2 Normalized(Vector2 screen) => (screen - _surface.Position - _surface.Size * .5f) / Radius;
 
@@ -130,6 +130,8 @@ public partial class WorldMapOverlay : Control
         int outside = contacts.Count(c => !Map.Contains(c.Position));
         if (outside > 0) Text(this, new(x, 178), $"구 밖 {outside} · Home 전체 보기", 12, Amber);
         Text(this, new(x, 199), "함선을 클릭해 정보 확인", 13, new Color(Ink, .6f));
+        if (Game.World.Rules is { Objective: BattleObjective.Domination } rules)
+            Text(this, new(x, 219), $"점령 {rules.Score(Faction.Blue):0} : {rules.Score(Faction.Red):0} / {rules.ScoreLimit}", 13, Blue);
         Contact? selected = contacts.FirstOrDefault(c => c.Ship == _selected);
         if (selected is not null)
         {
@@ -167,6 +169,20 @@ public partial class WorldMapOverlay : Control
         Vector2 center = canvas.Size * .5f;
         Vector2 At(Vec3d p) { Vector3 v = Map.Project(p); return center + new Vector2(v.X, v.Y) * Radius; }
         DrawGlobe(canvas, center);
+        if (Game.World.Rules is { Objective: BattleObjective.Domination } rules)
+        {
+            foreach (CaptureZone zone in rules.CaptureZones)
+            {
+                if (!Map.Contains(zone.Position)) continue;
+                Vector2 p = At(zone.Position);
+                float radius = Mathf.Clamp((float)(zone.RadiusMeters / Map.HalfSpan) * Radius, 6, 160);
+                Color color = zone.Owner == Faction.Blue ? Blue : zone.Owner == Faction.Red ? Red : Amber;
+                canvas.DrawCircle(p, radius, new Color(color, .07f));
+                canvas.DrawArc(p, radius, 0, Mathf.Tau, 48, new Color(color, .75f), 1.5f, true);
+                if (zone.Contested) canvas.DrawArc(p, radius + 4, 0, Mathf.Tau, 32, Amber, 2, true);
+                Text(canvas, p + new Vector2(-5, -radius - 7), zone.Name, 14, color);
+            }
+        }
         var labels = new List<Rect2>();
         foreach (Contact c in Contacts().OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
         {
