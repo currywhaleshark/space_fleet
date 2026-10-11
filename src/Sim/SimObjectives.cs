@@ -54,6 +54,7 @@ public sealed partial class SimWorld
             }
             squad.Target = threat;
             squad.Activity = "거점 " + zone.Name;
+            squad.ObjectiveOrders = true;
         }
         // Ships outside a squadron also contribute to the closest objective.
         foreach (ShipBrain brain in _brains.Values.Where(b => b.Ship.Faction == faction && b.Ship.Squadron is null && b.Enabled))
@@ -86,6 +87,7 @@ public sealed partial class SimWorld
             }
             squad.Target = enemy;
             squad.Activity = "기함 공격";
+            squad.ObjectiveOrders = true;
         }
     }
 

@@ -293,7 +293,7 @@ static class MissileChecks
                 Vector3 velocity = missile.Velocity, nose = missile.NoseDirection;
                 world.Step();
                 double elapsed = world.Time - start;
-                Vector3 to = (missile.Target.Position - missile.Position).ToVector3();
+                Vector3 to = (missile.Target!.Position - missile.Position).ToVector3();
                 float closing = to.Normalized().Dot(missile.Velocity);
                 if (closing < 0 && pass < 0) pass = elapsed;
                 if (pass >= 0 && reapproach < 0)
@@ -323,7 +323,7 @@ static class MissileChecks
         while (world.Missiles.Contains(missile) && world.Time - start < 60)
         {
             world.Step();
-            widest = Math.Max(widest, (missile.Position - missile.Target.Position).Length());
+            widest = Math.Max(widest, (missile.Position - missile.Target!.Position).Length());
             hit |= world.Impacts.Any(i => i.Id == missile.Id && i.Hit.Target == missile.Target);
         }
         Require(hit && world.Time - start > 20 && widest > 5000 && missile.Age < missile.Definition.BurnSeconds,

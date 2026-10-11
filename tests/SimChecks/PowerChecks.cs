@@ -238,6 +238,8 @@ static class PowerChecks
     private static void CheckCoolingLoss()
     {
         ShipBody ship = Create(HullKind.Interceptor);
+        // Isolate sustained cooling loss; automatic repair has separate recovery checks.
+        ship.DamageControl.Priority = RepairPriority.Hold;
         foreach (string id in new[] { "cooling-port", "cooling-starboard" })
         {
             ModuleState m = ship.Damage.Module(id);

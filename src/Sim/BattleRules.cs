@@ -82,6 +82,7 @@ public sealed class BattleRules
     public const double DefeatFraction = 0.25, FlagshipDefeatFraction = 0.5;
     public const double TimeLimitSeconds = 25 * 60, DrawMargin = 0.1;
     public const int DefaultDominationScore = 500;
+    public const double ZoneSpacing = 60_000;
     private readonly SimWorld _world;
     private readonly double[] _initial = new double[2];
     private readonly ShipBody?[] _flagships = new ShipBody?[2];
@@ -106,12 +107,14 @@ public sealed class BattleRules
     {
         if (!double.IsFinite(startDistance) || startDistance <= 0)
             throw new ArgumentOutOfRangeException(nameof(startDistance));
+        // 두 함대 접근축(Z)에 수직으로 나란히 놓아 양측 거리를 같게 한다. 거점 간격 60 km, 높이는 서로 다르게
+        // (A 위, B 아래, C 약간 위) 둬서 함대가 평면 위에서만 움직이지 않게 한다. 나중에 거점 위치에 구조물을 놓는다.
         Vec3d center = new(redOffset.X * .5, redOffset.Y * .5, (redOffset.Z - startDistance) * .5);
         return new[]
         {
-            new CaptureZone("A", center + new Vec3d(-30_000, 8_000, 0)),
-            new CaptureZone("B", center),
-            new CaptureZone("C", center + new Vec3d(30_000, -8_000, 0)),
+            new CaptureZone("A", center + new Vec3d(-ZoneSpacing, 14_000, 0)),
+            new CaptureZone("B", center + new Vec3d(0, -9_000, 0)),
+            new CaptureZone("C", center + new Vec3d(ZoneSpacing, 5_000, 0)),
         };
     }
 
@@ -150,6 +153,13 @@ public sealed class BattleRules
     public BattleOutcome? Evaluate(double time)
     {
         if (Outcome is not null) return Outcome;
+        // 응급복구로 무력화를 풀고 있는 함선은 아직 잃은 전력으로 치지 않는다.
+        double Recoverable(Faction f) => Strength(_world.Ships, f)
+            + _world.Ships.Where(s => s.Faction == f && s.DamageControl.RecoveringDisable).Sum(s => Weight(s.Class.Kind));
+        double RecoverableFraction(Faction f) => Initial(f) <= 0 ? 0 : Recoverable(f) / Initial(f);
+        bool FlagshipDown(Faction f) => _flagships[(int)f] is { } flagship
+            && (flagship.Damage.Destroyed || flagship.Damage.Disabled && !flagship.DamageControl.RecoveringDisable);
+
         if (Objective == BattleObjective.Domination)
         {
             // Capped step ensures external Evaluate(timeLimit) checks cannot grant 25 minutes of free score.
@@ -160,8 +170,8 @@ public sealed class BattleRules
                 zone.Update(_world.Ships, dt);
                 if (zone.ScoringOwner is Faction owner) _scores[(int)owner] += dt;
             }
-            bool blueEmpty = Strength(_world.Ships, Faction.Blue) <= 0;
-            bool redEmpty = Strength(_world.Ships, Faction.Red) <= 0;
+            bool blueEmpty = Recoverable(Faction.Blue) <= 0;
+            bool redEmpty = Recoverable(Faction.Red) <= 0;
             if (blueEmpty || redEmpty)
                 Outcome = new(blueEmpty && redEmpty ? null : blueEmpty ? Faction.Red : Faction.Blue,
                     blueEmpty && redEmpty ? "양측 전력 상실" : "전력 전멸", time);
@@ -187,16 +197,15 @@ public sealed class BattleRules
         bool blue, red;
         if (Objective == BattleObjective.Flagship)
         {
-            bool Lost(Faction f) => Strength(_world.Ships, f) <= 0 ||
-                (_flagships[(int)f] is { } flagship && (flagship.Damage.Destroyed || flagship.Damage.Disabled));
+            // 기함전: 기함 격침, 또는 응급복구 없이 무력화된 기함은 즉시 패배.
+            bool Lost(Faction f) => Recoverable(f) <= 0 || FlagshipDown(f);
             blue = Lost(Faction.Blue);
             red = Lost(Faction.Red);
         }
         else
         {
-            bool Lost(Faction f) => Fraction(f) <= DefeatFraction ||
-                (_flagships[(int)f] is { } flagship && (flagship.Damage.Destroyed || flagship.Damage.Disabled)
-                    && Fraction(f) <= FlagshipDefeatFraction);
+            bool Lost(Faction f) => RecoverableFraction(f) <= DefeatFraction
+                || FlagshipDown(f) && RecoverableFraction(f) <= FlagshipDefeatFraction;
             blue = Lost(Faction.Blue);
             red = Lost(Faction.Red);
         }

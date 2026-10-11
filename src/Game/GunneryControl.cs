@@ -15,6 +15,7 @@ public partial class ScaleTest
     private void SetDoctrine(FireDoctrine doctrine)
     {
         if (Gunnery is not { } order) return;
+        ClearSmallSelection();
         order.Doctrine = doctrine;
         Notify($"사격 · {GunneryLabels.Doctrine(doctrine)}", false);
     }
@@ -26,6 +27,7 @@ public partial class ScaleTest
 
     private void SelectEnemy(ShipView view)
     {
+        ClearSmallSelection(); _explicitShipTarget = true;
         InspectTarget = view;
         if (Gunnery is not { } order) return;
         if (order.Target != view.Body) order.PriorityModuleId = null;
@@ -54,6 +56,7 @@ public partial class ScaleTest
     {
         if (previous is not null) previous.Gunnery = null;
         next.Gunnery = SchemeFor(next) == ControlScheme.Helm ? new GunneryOrder() : null;
+        ClearSmallSelection(); _explicitShipTarget = false; _selectionPointer = null;
         SelectedFriendly = null;
     }
 }

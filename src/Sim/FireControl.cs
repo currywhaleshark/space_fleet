@@ -4,14 +4,18 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public sealed record FiringSolution(bool Valid, string Reason, Vector3 Direction, Vec3d AimPoint,
-    double FlightTime, float ErrorMeters, double Range);
+    double FlightTime, float ErrorMeters, double Range)
+{
+    public bool ViaDatalink { get; init; }
+}
 
 /// <summary>
-/// 등속 선행 조준. 실제 위치·속도에 재현 가능한 관측 오차를 더한다.
+/// 등속 선행 조준. 센서망의 관측 표본에 재현 가능한 사격통제 오차를 더한다.
 /// 센서망 추적(track)을 넘기면 잠금 단계일 때만 해를 내고, ECM·신호 세기에 따라 오차가 커지거나 줄어든다.
 /// </summary>
 public static class FireControl
 {
+    public const double MaxObservationAge = SensorNet.UpdateInterval * 2;
     /// <param name="localAim">표적 로컬 좌표의 조준점(부위 조준). null이면 함선 중심.</param>
     public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null,
         Vector3? localAim = null, RailgunState? weapon = null)
@@ -20,12 +24,18 @@ public static class FireControl
         if (weapon is null)
             return new(false, "주포 없음", Vector3.Zero, target.Position, 0, 0, (target.Position - shooter.Position).Length());
         Vec3d muzzle = weapon.MuzzlePosition;
-        double range = (target.Position - muzzle).Length();
-        FiringSolution Invalid(string reason) => new(false, reason, Vector3.Zero, target.Position, 0, 0, range);
+        // No track is the local-only path used by isolated physics tools. Runtime callers supply the faction track.
+        Vec3d position = track?.EstimatedPosition ?? target.Position;
+        Vector3 velocity = track.HasValue ? Vector3.Zero : target.Velocity;
+        Quaternion orientation = track.HasValue ? Quaternion.Identity : target.Orientation;
+        float observationQuality = shooter.Damage.SensorFraction * shooter.Power.SensorEffect;
+        bool linked = false;
+        double range = (position - muzzle).Length();
+        FiringSolution Invalid(string reason) => new(false, reason, Vector3.Zero, position, 0, 0, range);
         if (target == shooter || target.Damage.Destroyed) return Invalid("유효 표적 없음");
-        if (shooter.Damage.SensorFraction <= 0.02f) return Invalid("조준 센서 비활성");
+        if (shooter.Damage.Destroyed || shooter.Damage.GenerationFraction <= .001f || shooter.Power.SensorEffect <= .001f)
+            return Invalid("사격통제 전원 상실");
         RailgunDefinition gun = weapon.Definition;
-        if (range > gun.MaxRange) return Invalid("사거리 밖");
         float trackScale = 1f;
         if (track is SensorTrack t)
         {
@@ -37,23 +47,38 @@ public static class FireControl
                     _ => "식별 · 잠금 전",
                 });
             trackScale = t.FireControlScale;
+            observationQuality = 1f;
+            if (t.Observation is { } sample)
+            {
+                double age = time - sample.Time;
+                if (age < -1e-6 || age > MaxObservationAge) return Invalid("추적 갱신 대기");
+                if (sample.Observer.Faction != shooter.Faction) return Invalid("아군 관측 정보 없음");
+                position = sample.Position + Vec3d.From(sample.Velocity) * Math.Max(0, age);
+                velocity = sample.Velocity;
+                orientation = sample.Orientation;
+                observationQuality = sample.Quality;
+                linked = sample.Observer != shooter;
+            }
         }
-        // 관측 품질 = 센서 모듈 상태 × 센서 채널 배율(핍·전압 강하·과열). 센서 핍을 올리면 오차가 줄어든다.
-        // 추적 배율(ECM·신호 세기)은 관측 품질을 깎는 것으로 반영한다.
-        float quality = Mathf.Max(0.05f, shooter.Damage.SensorFraction * shooter.Power.SensorEffect) / trackScale;
+        else if (shooter.Damage.SensorFraction <= .02f) return Invalid("조준 센서 비활성 · 아군 잠금 필요");
+        range = (position - muzzle).Length();
+        if (range > gun.MaxRange) return Invalid("사거리 밖");
+        // The observing ship supplies measurement quality. Receiver sensor destruction does not erase the link.
+        // Signal strength and ECM still degrade accuracy; firing hardware/power are checked separately.
+        float quality = Mathf.Max(0.05f, observationQuality) / trackScale;
         float error = sensorError ? (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000)) / quality : 0;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
-        Vec3d aimBase = localAim is Vector3 local ? target.Position + Vec3d.From(target.Orientation * local) : target.Position;
+        Vec3d aimBase = localAim is Vector3 local ? position + Vec3d.From(orientation * local) : position;
         Vec3d observedPosition = aimBase + SmoothNoise(seed, time) * error;
-        Vector3 observedVelocity = target.Velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * (sensorError ? gun.VelocityError / quality : 0);
+        Vector3 observedVelocity = velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * (sensorError ? gun.VelocityError / quality : 0);
         Vec3d relative = observedPosition - muzzle;
-        Vec3d velocity = Vec3d.From(observedVelocity - shooter.Velocity);
-        if (!Intercept(relative, velocity, gun.MuzzleSpeed, gun.MaxRange / gun.MuzzleSpeed, out double flight))
+        Vec3d relativeVelocity = Vec3d.From(observedVelocity - shooter.Velocity);
+        if (!Intercept(relative, relativeVelocity, gun.MuzzleSpeed, gun.MaxRange / gun.MuzzleSpeed, out double flight))
             return Invalid("선행 계산 불가");
-        Vec3d aim = relative + velocity * flight;
+        Vec3d aim = relative + relativeVelocity * flight;
         Vector3 direction = aim.ToVector3().Normalized();
-        return new(true, "선행 계산", direction, muzzle + aim, flight,
-            error + (sensorError ? gun.VelocityError / quality * (float)flight : 0), range);
+        return new(true, linked ? "아군 링크 사격" : "선행 계산", direction, muzzle + aim, flight,
+            error + (sensorError ? gun.VelocityError / quality * (float)flight : 0), range) { ViaDatalink = linked };
     }
 
     public static bool Intercept(Vec3d relative, Vec3d velocity, double speed, double maxTime, out double time)

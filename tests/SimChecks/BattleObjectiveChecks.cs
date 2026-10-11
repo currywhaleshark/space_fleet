@@ -42,6 +42,22 @@ static class BattleObjectiveChecks
         var zones = BattleRules.DefaultZones(150_000, Vec3d.Zero);
         Require(zones.Length == 3 && zones.All(z => z.RadiusMeters > 0), "three spherical zones");
         Require(zones.Select(z => z.Name).SequenceEqual(new[] { "A", "B", "C" }), "stable labels");
+        Vec3d blueStart = Vec3d.Zero, redStart = new(0, 0, -150_000);
+        Require(zones.All(z => Math.Abs((z.Position - blueStart).Length() - (z.Position - redStart).Length()) < 1),
+            "zones are equidistant from both fleets");
+        Require(zones.Max(z => z.Position.X) - zones.Min(z => z.Position.X) >= 100_000
+            && zones.Select(z => Math.Round(z.Position.Y)).Distinct().Count() == 3, "zones sit side by side at distinct heights");
+
+        // 응급복구로 무력화를 풀고 있는 기함은 아직 패배가 아니다. 복구 수단이 없으면 즉시 패배.
+        var repair = Setup(BattleObjective.Flagship);
+        ShipBody repairing = repair.Rules!.Flagship(Faction.Blue)!;
+        foreach (var m in repairing.Damage.Modules.Where(m => m.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator))
+            repairing.Damage.Hurt(m, m.Definition.HitPoints, repairing.SimTime, 0, 1);
+        repairing.Step(1d / 60);
+        Require(repairing.Damage.Disabled && repairing.DamageControl.RecoveringDisable && repair.Rules.Evaluate(1) is null,
+            "flagship under emergency repair is not yet lost");
+        repairing.DamageControl.Priority = RepairPriority.Hold;
+        Require(repair.Rules.Evaluate(2) is { Winner: Faction.Red, Reason: "기함 상실" }, "flagship without recovery is lost");
 
         var blue = new ShipBody("BLUE", ShipClass.Interceptor, Faction.Blue);
         var red = new ShipBody("RED", ShipClass.Escort, Faction.Red);

@@ -43,7 +43,9 @@ internal sealed class CombatBurstBatch
             flash.Material.SetShaderParameter("seed",(seed%997)*.17f);
             flash.Material.SetShaderParameter("electric",electric?1f:0f);
             flash.Material.SetShaderParameter("tint",electric?new Color(.3f,.65f,1):new Color(1,.39f,.07f));
-            CombatFx.Flare(flash.Node,camera,at,size*(1+age*1.4f),distantFlash?85:electric?48:28);
+            // 화면 크기 하한(포구 48px·착탄 28px)은 가까울 때만: 2 km 밖부터 거리에 반비례해 줄인다(먼 포격이 크게 번쩍이지 않게).
+            float near=Mathf.Clamp(2000f/Mathf.Max(1f,distance),.15f,1f);
+            CombatFx.Flare(flash.Node,camera,at,size*(1+age*1.4f),distantFlash?85:(electric?48:28)*near);
         }
         if(close && age<.18f && _l<4)
         {

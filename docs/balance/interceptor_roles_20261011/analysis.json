@@ -1,0 +1,1536 @@
+{
+  "baseline": {
+    "battles": {
+      "Earth-Earth": {
+        "Blue": 2,
+        "Red": 2
+      },
+      "Earth-Mars": {
+        "Draw": 1,
+        "Blue": 3
+      },
+      "Mars-Earth": {
+        "Blue": 1,
+        "Red": 2,
+        "Draw": 1
+      },
+      "Mars-Mars": {
+        "Draw": 3,
+        "Blue": 1
+      }
+    },
+    "sample_count": 16,
+    "designs": {
+      "Earth": {
+        "Interceptor": {
+          "count": 80,
+          "survival_median_seconds": 1016.133,
+          "destroyed": 3.0,
+          "disabled": 0.0,
+          "operational": 77.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.7851,
+          "rail_mean_range_meters": 6991.5,
+          "am_hit_fraction": 0.8316,
+          "missilesIntercepted": 0.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 95.0,
+          "torpedoHits": 79.0,
+          "rails": 9312.0,
+          "railHits": 7311.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 23557.235999999997,
+          "moduleDamageInflicted": 29965.303999999996
+        },
+        "Escort": {
+          "count": 96,
+          "survival_median_seconds": 889.067,
+          "destroyed": 4.0,
+          "disabled": 36.0,
+          "operational": 56.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.4465,
+          "rail_mean_range_meters": 21078.6,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 45.0,
+          "torpedoesIntercepted": 8.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 5740.0,
+          "railHits": 2563.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 100958.40500000001,
+          "moduleDamageInflicted": 51998.578
+        },
+        "Battleship": {
+          "count": 16,
+          "survival_median_seconds": 889.06,
+          "destroyed": 3.0,
+          "disabled": 4.0,
+          "operational": 9.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.7989,
+          "rail_mean_range_meters": 75139.9,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 116.0,
+          "torpedoesIntercepted": 4.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 532.0,
+          "railHits": 425.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 41652.687999999995,
+          "moduleDamageInflicted": 22685.952
+        }
+      },
+      "Mars": {
+        "Interceptor": {
+          "count": 80,
+          "survival_median_seconds": 307.575,
+          "destroyed": 50.0,
+          "disabled": 15.0,
+          "operational": 15.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.7308,
+          "rail_mean_range_meters": 7537.6,
+          "am_hit_fraction": 0.7391,
+          "missilesIntercepted": 0.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 23.0,
+          "torpedoHits": 17.0,
+          "rails": 2786.0,
+          "railHits": 2036.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 17499.421,
+          "moduleDamageInflicted": 10034.189
+        },
+        "Escort": {
+          "count": 96,
+          "survival_median_seconds": 1500.0,
+          "destroyed": 3.0,
+          "disabled": 8.0,
+          "operational": 85.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.3978,
+          "rail_mean_range_meters": 37629.3,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 11.0,
+          "torpedoesIntercepted": 4.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 12262.0,
+          "railHits": 4878.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 82462.16399999998,
+          "moduleDamageInflicted": 48891.85900000002
+        },
+        "Battleship": {
+          "count": 16,
+          "survival_median_seconds": 1155.357,
+          "destroyed": 0.0,
+          "disabled": 4.0,
+          "operational": 12.0,
+          "first_action_median_seconds": null,
+          "first_action_observed": 0,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.834,
+          "rail_mean_range_meters": 98570.5,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 17.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 4652.0,
+          "railHits": 3880.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 144446.048,
+          "moduleDamageInflicted": 34161.013000000006
+        }
+      }
+    },
+    "probe_flights": {
+      "completed": 0,
+      "destroyed": 0,
+      "median_lifetime_seconds": null
+    },
+    "am_outcomes": {
+      "Hit": 96,
+      "Expired": 6,
+      "PointDefense": 12,
+      "Drone": 4
+    },
+    "mission_samples": {
+      "legacy": 40320
+    },
+    "wing_defense": [
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      }
+    ],
+    "fleet_missile_defense": [
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 24,
+        "fraction_of_launched": 0.1714
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 140,
+        "intercepted": 17,
+        "fraction_of_launched": 0.1214
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 136,
+        "intercepted": 8,
+        "fraction_of_launched": 0.0588
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 140,
+        "intercepted": 14,
+        "fraction_of_launched": 0.1
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 10,
+        "fraction_of_launched": 0.0714
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 140,
+        "intercepted": 13,
+        "fraction_of_launched": 0.0929
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 12,
+        "fraction_of_launched": 0.0857
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 120,
+        "intercepted": 11,
+        "fraction_of_launched": 0.0917
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 127,
+        "intercepted": 5,
+        "fraction_of_launched": 0.0394
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 128,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 128,
+        "intercepted": 6,
+        "fraction_of_launched": 0.0469
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 137,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 130,
+        "intercepted": 13,
+        "fraction_of_launched": 0.1
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 138,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0072
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 126,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0079
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 73,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 132,
+        "intercepted": 17,
+        "fraction_of_launched": 0.1288
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 125,
+        "intercepted": 1,
+        "fraction_of_launched": 0.008
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 127,
+        "intercepted": 6,
+        "fraction_of_launched": 0.0472
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 120,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0083
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 131,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0305
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 129,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0078
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 125,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 125,
+        "intercepted": 2,
+        "fraction_of_launched": 0.016
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 126,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0317
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 121,
+        "intercepted": 5,
+        "fraction_of_launched": 0.0413
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 124,
+        "intercepted": 2,
+        "fraction_of_launched": 0.0161
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 124,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0323
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 122,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0246
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 123,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0244
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 130,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0077
+      }
+    ]
+  },
+  "after": {
+    "battles": {
+      "Earth-Earth": {
+        "Red": 3,
+        "Blue": 1
+      },
+      "Earth-Mars": {
+        "Draw": 3,
+        "Red": 1
+      },
+      "Mars-Earth": {
+        "Blue": 3,
+        "Draw": 1
+      },
+      "Mars-Mars": {
+        "Blue": 2,
+        "Red": 2
+      }
+    },
+    "sample_count": 16,
+    "designs": {
+      "Earth": {
+        "Interceptor": {
+          "count": 80,
+          "survival_median_seconds": 1172.717,
+          "destroyed": 8.0,
+          "disabled": 0.0,
+          "operational": 72.0,
+          "first_action_median_seconds": 52.0,
+          "first_action_observed": 80,
+          "first_assault_median_seconds": 580.5,
+          "rail_hit_fraction": 0.4966,
+          "rail_mean_range_meters": 8360.9,
+          "am_hit_fraction": 0.9697,
+          "missilesIntercepted": 41.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 33.0,
+          "torpedoHits": 32.0,
+          "rails": 3071.0,
+          "railHits": 1525.0,
+          "probesLaunched": 137.0,
+          "probeContacts": 6.0,
+          "probeIdentifications": 25.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 6841.046000000001,
+          "moduleDamageInflicted": 6512.610000000002
+        },
+        "Escort": {
+          "count": 96,
+          "survival_median_seconds": 939.717,
+          "destroyed": 8.0,
+          "disabled": 30.0,
+          "operational": 58.0,
+          "first_action_median_seconds": 376.875,
+          "first_action_observed": 96,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.658,
+          "rail_mean_range_meters": 28301.6,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 16.0,
+          "torpedoesIntercepted": 3.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 3386.0,
+          "railHits": 2228.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 1.0,
+          "shieldDamageInflicted": 136470.525,
+          "moduleDamageInflicted": 49433.816999999995
+        },
+        "Battleship": {
+          "count": 16,
+          "survival_median_seconds": 1056.217,
+          "destroyed": 0.0,
+          "disabled": 5.0,
+          "operational": 11.0,
+          "first_action_median_seconds": 136.0,
+          "first_action_observed": 15,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.9265,
+          "rail_mean_range_meters": 74457.6,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 53.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 694.0,
+          "railHits": 643.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 59872.547000000006,
+          "moduleDamageInflicted": 28881.826
+        }
+      },
+      "Mars": {
+        "Interceptor": {
+          "count": 80,
+          "survival_median_seconds": 988.183,
+          "destroyed": 31.0,
+          "disabled": 3.0,
+          "operational": 46.0,
+          "first_action_median_seconds": 64.0,
+          "first_action_observed": 80,
+          "first_assault_median_seconds": 437.5,
+          "rail_hit_fraction": 0.5995,
+          "rail_mean_range_meters": 8248.1,
+          "am_hit_fraction": 0.8909,
+          "missilesIntercepted": 25.0,
+          "torpedoesIntercepted": 0.0,
+          "torpedoes": 55.0,
+          "torpedoHits": 49.0,
+          "rails": 5892.0,
+          "railHits": 3532.0,
+          "probesLaunched": 19.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 5.0,
+          "probeKills": 1.0,
+          "shieldDamageInflicted": 14248.775999999998,
+          "moduleDamageInflicted": 15914.505
+        },
+        "Escort": {
+          "count": 96,
+          "survival_median_seconds": 1500.0,
+          "destroyed": 4.0,
+          "disabled": 9.0,
+          "operational": 83.0,
+          "first_action_median_seconds": 324.0,
+          "first_action_observed": 95,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.6295,
+          "rail_mean_range_meters": 46748.0,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 5.0,
+          "torpedoesIntercepted": 2.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 12042.0,
+          "railHits": 7581.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 125843.30700000006,
+          "moduleDamageInflicted": 72451.79000000001
+        },
+        "Battleship": {
+          "count": 16,
+          "survival_median_seconds": 850.751,
+          "destroyed": 1.0,
+          "disabled": 6.0,
+          "operational": 9.0,
+          "first_action_median_seconds": 96.283,
+          "first_action_observed": 16,
+          "first_assault_median_seconds": null,
+          "rail_hit_fraction": 0.8325,
+          "rail_mean_range_meters": 105462.0,
+          "am_hit_fraction": null,
+          "missilesIntercepted": 37.0,
+          "torpedoesIntercepted": 1.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "rails": 3272.0,
+          "railHits": 2724.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "probeKills": 0.0,
+          "shieldDamageInflicted": 144509.38299999997,
+          "moduleDamageInflicted": 30027.45200000001
+        }
+      }
+    },
+    "probe_flights": {
+      "completed": 151,
+      "destroyed": 2,
+      "median_lifetime_seconds": 120.017
+    },
+    "am_outcomes": {
+      "Hit": 81,
+      "PointDefense": 5,
+      "Drone": 1
+    },
+    "mission_samples": {
+      "Recon": 4975,
+      "AirDefense": 20705,
+      "Assault": 6810,
+      "Superiority": 2195,
+      "Return": 5905
+    },
+    "wing_defense": [
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 4,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 5,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 6,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 2,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 2,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 2,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 2,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 6,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 4,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 2,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 3,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 4,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 0,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "missile_kills": 1,
+        "torpedo_kills": 0
+      }
+    ],
+    "fleet_missile_defense": [
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 120,
+        "intercepted": 8,
+        "fraction_of_launched": 0.0667
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 134,
+        "intercepted": 17,
+        "fraction_of_launched": 0.1269
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 137,
+        "intercepted": 11,
+        "fraction_of_launched": 0.0803
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 120,
+        "intercepted": 12,
+        "fraction_of_launched": 0.1
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 12,
+        "fraction_of_launched": 0.0857
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 121,
+        "intercepted": 5,
+        "fraction_of_launched": 0.0413
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 120,
+        "intercepted": 9,
+        "fraction_of_launched": 0.075
+      },
+      {
+        "pair": "Earth-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 120,
+        "intercepted": 10,
+        "fraction_of_launched": 0.0833
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 132,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0303
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 120,
+        "intercepted": 3,
+        "fraction_of_launched": 0.025
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 112,
+        "intercepted": 2,
+        "fraction_of_launched": 0.0179
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 106,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0094
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 122,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0328
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 123,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0244
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 112,
+        "intercepted": 2,
+        "fraction_of_launched": 0.0179
+      },
+      {
+        "pair": "Earth-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 116,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0086
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 128,
+        "intercepted": 11,
+        "fraction_of_launched": 0.0859
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 118,
+        "intercepted": 2,
+        "fraction_of_launched": 0.0169
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 124,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0081
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 130,
+        "intercepted": 5,
+        "fraction_of_launched": 0.0385
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 140,
+        "intercepted": 15,
+        "fraction_of_launched": 0.1071
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 132,
+        "intercepted": 4,
+        "fraction_of_launched": 0.0303
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 124,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0242
+      },
+      {
+        "pair": "Mars-Earth",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 124,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0242
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 132,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0227
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 132,
+        "intercepted": 7,
+        "fraction_of_launched": 0.053
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 132,
+        "intercepted": 7,
+        "fraction_of_launched": 0.053
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "1",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 132,
+        "intercepted": 0,
+        "fraction_of_launched": 0.0
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Blue",
+        "enemy_missiles_launched": 132,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0076
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "0",
+        "faction": "Red",
+        "enemy_missiles_launched": 116,
+        "intercepted": 7,
+        "fraction_of_launched": 0.0603
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Blue",
+        "enemy_missiles_launched": 132,
+        "intercepted": 3,
+        "fraction_of_launched": 0.0227
+      },
+      {
+        "pair": "Mars-Mars",
+        "seed": "2",
+        "mirror": "1",
+        "faction": "Red",
+        "enemy_missiles_launched": 132,
+        "intercepted": 1,
+        "fraction_of_launched": 0.0076
+      }
+    ]
+  },
+  "notes": [
+    "Same seeds 1,2, normal/mirrored positions; each design pairing is four 24-ship battles, 25-minute limit.",
+    "First action includes probe deployment, establishing a recon/defense/superiority station (within 1.5 km), and firing. First assault is the attack order, not the first AM launch.",
+    "Unique additional probe contacts/identifications are counted per team across the battle; ordinary ships alone could not provide that level.",
+    "Battle lifetime is censored at the verdict. Completed probe lifetime excludes equipment still active at verdict.",
+    "FPS comparison uses two 12-second runs per condition in reversed order, excluding the first three seconds; 24 ships, AI disabled, no combat projectiles. This is equipment overhead, not a full-battle FPS benchmark.",
+    "This is regression and first-pass balance evidence, not a statistically stable faction win-rate estimate."
+  ],
+  "performance": {
+    "0": {
+      "fps_median": 143.2,
+      "windows": 9,
+      "median_us_per_tick": {
+        "Tick": 648.6,
+        "Sensors": 8.24,
+        "Probes": 0.25,
+        "PointDefense": 230.06
+      }
+    },
+    "20": {
+      "fps_median": 127.2,
+      "windows": 9,
+      "median_us_per_tick": {
+        "Tick": 722.29,
+        "Sensors": 17.94,
+        "Probes": 6.03,
+        "PointDefense": 299.69
+      }
+    }
+  },
+  "performance_reversed_order": {
+    "0": {
+      "fps_median": 144.0,
+      "windows": 9,
+      "median_us_per_tick": {
+        "Tick": 628.57,
+        "Sensors": 8.23,
+        "Probes": 0.23,
+        "PointDefense": 226.41
+      }
+    },
+    "20": {
+      "fps_median": 125.5,
+      "windows": 9,
+      "median_us_per_tick": {
+        "Tick": 716.29,
+        "Sensors": 17.59,
+        "Probes": 6.04,
+        "PointDefense": 296.14
+      }
+    }
+  }
+}

@@ -7,6 +7,83 @@ namespace SpaceFleet.Game;
 
 public partial class Hud
 {
+    /// <summary>
+    /// 기함전: 아군 기함(왼쪽)·적 기함(오른쪽) 아이콘. 전함 실루엣 + 실드 호(위)·선체 계통 막대(아래).
+    /// 정상 = 진영색, 응급복구로 무력화 회복 중 = 주황 깜박임, 무력화 = 빨간 가로줄, 격침 = X, 적 미식별 = 점선 윤곽과 "?".
+    /// </summary>
+    private void DrawFlagshipObjective(BattleRules rules, float x)
+    {
+        DrawRect(new(x - 12, 48, 424, 44), PanelBack);
+        DrawFlagshipIcon(rules.Flagship(Faction.Blue), new Vector2(x + 92, 70), Friendly, known: true);
+        // 가운데: 두 기함을 잇는 표적 화살(이 모드의 승리 조건).
+        DrawLine(new(x + 170, 70), new(x + 230, 70), Faint, 1.5f);
+        DrawColoredPolygon(new[] { new Vector2(x + 236, 70), new Vector2(x + 228, 65), new Vector2(x + 228, 75) }, Faint);
+        ShipBody? enemy = rules.Flagship(Faction.Red);
+        bool known = enemy is not null && Game.World.Sensors.Track(Faction.Blue, enemy).Level >= TrackLevel.Identified;
+        DrawFlagshipIcon(enemy, new Vector2(x + 308, 70), Hostile, known);
+    }
+
+    private void DrawFlagshipIcon(ShipBody? ship, Vector2 c, Color side, bool known)
+    {
+        // 전함 실루엣: 긴 선체 + 함교 + 함수 쐐기.
+        Vector2[] hull = { c + new Vector2(-58, -4), c + new Vector2(40, -4), c + new Vector2(58, 0), c + new Vector2(40, 4), c + new Vector2(-58, 4) };
+        if (ship is null || !known)
+        {
+            for (int i = 0; i < hull.Length; i++)
+            {
+                Vector2 a = hull[i], b = hull[(i + 1) % hull.Length];
+                DrawDashedLine(a, b, new Color(side, .5f), 1.2f, 4);
+            }
+            Label(c + new Vector2(-4, -8), "?", 13, new Color(side, .7f));
+            return;
+        }
+        bool recovering = ship.Damage.Disabled && ship.DamageControl.RecoveringDisable;
+        Color color = ship.Damage.Destroyed ? Dim : recovering ? ((Time.GetTicksMsec() / 250) % 2 == 0 ? Motion : new Color(Motion, .35f))
+            : ship.Damage.Disabled ? Hostile : side;
+        DrawColoredPolygon(hull, new Color(color, .35f));
+        DrawPolyline(hull.Append(hull[0]).ToArray(), color, 1.5f);
+        DrawRect(new(c + new Vector2(14, -10), new Vector2(10, 6)), color);
+        // 실드(위 호)와 선체 계통 평균(아래 막대).
+        float shield = ship.Damage.ShieldCapacity > 0 ? ship.Damage.Shield / ship.Damage.ShieldCapacity : 0;
+        HBar(new(c + new Vector2(-58, -16), new Vector2(116, 3)), shield, Friendly);
+        float systems = (ship.Damage.PropulsionFraction + ship.Damage.WeaponsFraction + ship.Damage.SensorFraction + ship.Damage.GenerationFraction) / 4f;
+        HBar(new(c + new Vector2(-58, 10), new Vector2(116, 3)), systems, Health(systems));
+        if (ship.Damage.Destroyed)
+        {
+            DrawLine(c + new Vector2(-14, -12), c + new Vector2(14, 12), Hostile, 2.5f);
+            DrawLine(c + new Vector2(-14, 12), c + new Vector2(14, -12), Hostile, 2.5f);
+        }
+        else if (ship.Damage.Disabled) DrawLine(c + new Vector2(-40, 0), c + new Vector2(40, 0), recovering ? Motion : Hostile, 2.5f);
+    }
+
+    /// <summary>
+    /// 점령전: 점수 경주 막대(가운데에서 양쪽으로, 끝 = 목표 점수)와 거점 3개 원.
+    /// 거점 원: 소유 색 채움, 바깥 호 = 점령 진행(파랑 시계·빨강 반시계), 경합 = 주황 깜박임 테두리. 글자는 거점 이름뿐.
+    /// </summary>
+    private void DrawDominationObjective(BattleRules rules, float x)
+    {
+        DrawRect(new(x - 12, 48, 424, 58), PanelBack);
+        float blue = (float)(rules.Score(Faction.Blue) / rules.ScoreLimit), red = (float)(rules.Score(Faction.Red) / rules.ScoreLimit);
+        DrawRect(new(x, 56, 185, 6), Faint); DrawRect(new(x + 185 * (1 - Mathf.Clamp(blue, 0, 1)), 56, 185 * Mathf.Clamp(blue, 0, 1), 6), Friendly);
+        DrawRect(new(x + 215, 56, 185, 6), Faint); DrawRect(new(x + 215, 56, 185 * Mathf.Clamp(red, 0, 1), 6), Hostile);
+        DrawLine(new(x + 200, 52), new(x + 200, 66), Dim, 1);
+        int count = rules.CaptureZones.Count;
+        for (int i = 0; i < count; i++)
+        {
+            CaptureZone zone = rules.CaptureZones[i];
+            var c = new Vector2(x + 200 + (i - (count - 1) * .5f) * 70, 86);
+            Color owner = zone.Owner == Faction.Blue ? Friendly : zone.Owner == Faction.Red ? Hostile : Dim;
+            DrawCircle(c, 12, new Color(owner, zone.Owner is null ? .12f : .4f));
+            DrawArc(c, 12, 0, Mathf.Tau, 24, owner, 1.5f);
+            float progress = (float)(zone.Progress / 100.0);
+            if (Mathf.Abs(progress) > .01f)
+                DrawArc(c, 16, -Mathf.Pi / 2, -Mathf.Pi / 2 + Mathf.Sign(progress) * Mathf.Tau * Mathf.Abs(progress), 32,
+                    progress > 0 ? Friendly : Hostile, 2.5f);
+            if (zone.Contested && (Time.GetTicksMsec() / 300) % 2 == 0) DrawArc(c, 20, 0, Mathf.Tau, 24, Motion, 2);
+            CenteredLabel(c + new Vector2(0, 5), zone.Name, 12, Text);
+        }
+    }
+
     private void DrawBattleHud(Vector2 screen)
     {
         if(!Game.BattleMode||Game.World.Rules is not {} rules)return;
@@ -23,30 +100,9 @@ public partial class Hud
         float unknownStart=enemyBar.Position.X+185*known, unknownEnd=Mathf.Min(enemyBar.End.X,unknownStart+185*unknown);
         for(float at=unknownStart;at<unknownEnd;at+=7)
             DrawLine(new(at,32),new(Mathf.Min(at+5,unknownEnd),24),Dim,1);
-        // The mode banner augments the legacy strength bars without revealing unknown enemy internals.
-        if (rules.Objective == BattleObjective.Flagship)
-        {
-            ShipBody? own = rules.Flagship(Faction.Blue), enemyFlagship = rules.Flagship(Faction.Red);
-            string ownState = own is null ? "기함 없음" : own.Damage.Destroyed ? "격침" : own.Damage.Disabled ? "무력화" : "작전 가능";
-            bool identified = enemyFlagship is not null && Game.World.Sensors.Track(Faction.Blue, enemyFlagship).Level >= TrackLevel.Identified;
-            string enemyState = enemyFlagship is null ? "미확인" : !identified ? "상태 불명"
-                : enemyFlagship.Damage.Destroyed ? "격침" : enemyFlagship.Damage.Disabled ? "무력화" : "작전 가능";
-            DrawRect(new Rect2(x-12,51,424,25),PanelBack);
-            Label(new Vector2(x,69),$"기함전   아군 {ownState}  /  적군 {enemyState}",13,Text);
-        }
-        else if (rules.Objective == BattleObjective.Domination)
-        {
-            DrawRect(new Rect2(x-12,49,424,49),PanelBack);
-            Label(new Vector2(x,65),$"점령전   {rules.Score(Faction.Blue):0} : {rules.Score(Faction.Red):0}   /   {rules.ScoreLimit}",14,Text);
-            int i = 0;
-            foreach (CaptureZone zone in rules.CaptureZones)
-            {
-                Color color = zone.Owner == Faction.Blue ? Friendly : zone.Owner == Faction.Red ? Hostile : Motion;
-                float zx=x+5+i*135;
-                Label(new Vector2(zx,87),zone.Name+(zone.Contested?"  경합":zone.Owner is null?"  중립":zone.Owner==Faction.Blue?"  아군":"  적군"),12,color);
-                i++;
-            }
-        }
+        // 모드 표시: 전력 막대 아래 도형으로. 미식별 적 정보는 드러내지 않는다.
+        if (rules.Objective == BattleObjective.Flagship) DrawFlagshipObjective(rules, x);
+        else if (rules.Objective == BattleObjective.Domination) DrawDominationObjective(rules, x);
         float y=screen.Y-272;DrawRect(new(16,y,250,32),PanelBack);
         FleetPosture posture=Game.World.Fleet(Faction.Blue).Posture;
         for(int i=0;i<4;i++)

@@ -115,7 +115,7 @@ static class BallisticsChecks
         FiringSolution damaged = FireControl.Solve(shooter, target, 10);
         Require(damaged.ErrorMeters > observed.ErrorMeters * 1.9f, "Sensor damage must degrade the solution uncertainty");
         Destroy(shooter, "sensor");
-        Require(!FireControl.Solve(shooter, target, 10).Valid, "A destroyed sensor must disable fire-control solutions");
+        Require(!FireControl.Solve(shooter, target, 10).Valid, "A destroyed sensor without a shared track must disable assisted solutions");
         shooter.Damage.Reset(); target.Place(new(0,0,-6000), Quaternion.Identity);
         Require(!FireControl.Solve(shooter, target, 10).Valid, "A target beyond gun range must be rejected");
     }

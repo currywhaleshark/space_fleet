@@ -1,0 +1,26 @@
+{
+  "build": "SpaceFleet-20261011-target-assist-Windows-x64",
+  "archiveSha256": "0c06eabecc32d8b7eb25f79ddd5167ac1cd2e1254c1e5a9f568f30f650cfc94c",
+  "archiveBytes": 81167047,
+  "archiveEntries": 203,
+  "zipCrcVerified": true,
+  "simChecks": 7488,
+  "exportChecks": 1946,
+  "exportGroups": [
+    "PASS: 46 scene flow checks",
+    "PASS: 1204 ship model checks",
+    "PASS: 216 combat visual checks",
+    "PASS: 116 audio checks; recorded peak 0.451",
+    "PASS: 104 fleet audio checks",
+    "PASS: 216 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks"
+  ],
+  "mapScreenshot": "shots/target-map-preview.png",
+  "notes": [
+    "R pointer selection and missile/probe lead preserve physical weapon limits",
+    "Acceleration extrapolation applies only to player assistance; AI lead remains unchanged",
+    "Map ranges use unit-signature contact threshold with no jamming; actual detection varies",
+    "All code built from the current working tree; no commit or push performed"
+  ]
+}

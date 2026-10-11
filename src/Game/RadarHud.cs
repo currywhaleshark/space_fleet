@@ -100,6 +100,15 @@ public partial class Hud
             }
             if (count > 1) Label(point + new Vector2(7, -4), count.ToString(), 11, color);
         }
+        foreach (var probe in Game.ProbeMarkers())
+        {
+            Vector3 local = controlled.Body.Orientation.Inverse() * (probe.Position - controlled.Body.Position).ToVector3();
+            if (local.Length() > Game.Radar.Range) continue;
+            Vector2 p = Project(local / Game.Radar.Range);
+            Color color = probe.Lost ? ContactMemory.LostColor : probe.Enemy ? Hostile : Friendly;
+            DrawRect(new Rect2(p - Vector2.One * 3, Vector2.One * 6), color, false, 1.5f);
+            if (probe.Observing) DrawArc(p, 6, 0, Mathf.Tau, 16, new Color(color, .5f), 1);
+        }
         Vector2 forward = (Project(Vector3.Forward) - center).Normalized(), side = forward.Orthogonal();
         DrawColoredPolygon(new[] { center + forward * 7, center - forward * 5 + side * 4, center - forward * 5 - side * 4 }, Colors.White);
         DrawCircle(center, 2, new Color(.02f, .07f, .11f));

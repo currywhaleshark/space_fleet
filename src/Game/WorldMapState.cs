@@ -38,7 +38,7 @@ public sealed class WorldMapState
 
     public bool Contains(Vec3d position) => (position - Center).LengthSquared() <= HalfSpan * HalfSpan;
 
-    private Vec3d ScreenPlane(Vector2 normalized) => Center
+    public Vec3d ScreenPlane(Vector2 normalized) => Center
         + Vec3d.From(View.Inverse() * new Vector3(normalized.X, -normalized.Y, 0)) * HalfSpan;
 
     public void Pan(Vector2 normalizedDelta) => Center -= ScreenPlane(normalizedDelta) - Center;

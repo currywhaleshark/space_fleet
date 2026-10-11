@@ -37,7 +37,7 @@ static class DesignChecks
         foreach(var family in Enum.GetValues<DesignFamily>())
         {
             var ic=new ShipBody("AM",ShipDefinitions.For(HullKind.Interceptor,family),Faction.Blue);
-            Check(ic.Ordnance.Missiles==4 && ic.Ordnance.Antimatter.Rounds==2,"Both interceptors keep independent missile/AM stores");
+            Check(ic.Ordnance.Missiles==4 && ic.Ordnance.Antimatter.Rounds==3,"Both interceptors keep independent missile/AM stores");
             ic.Ordnance.Antimatter.BeginArming(); ic.Step(2.6);
             Check(ic.Ordnance.Antimatter.Mode==AntimatterMode.Armed,"Existing arming works on both hulls");
             ic.Ordnance.Antimatter.Cancel();

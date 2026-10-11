@@ -16,6 +16,10 @@ public enum TrackLevel
     Locked,
 }
 
+/// <summary>사격통제용 관측 표본. 갱신 사이에는 이 위치·속도·자세를 사용하며 실제 표적 상태를 다시 읽지 않는다.</summary>
+public readonly record struct SensorObservation(ShipBody Observer, double Time, Vec3d Position,
+    Vector3 Velocity, Quaternion Orientation, float Quality);
+
 /// <param name="TrackSnr">식별·잠금에 쓰는 신호(ECM 방해 반영).</param>
 /// <param name="DetectSnr">접촉에 쓰는 신호(ECM 방해 전파는 오히려 멀리서 잡힌다).</param>
 /// <param name="JamRatio">관측 쪽에서 본 방해 세기(ECM 배율 ÷ 관측 센서 배율). 0이면 방해 없음.</param>
@@ -25,6 +29,12 @@ public enum TrackLevel
 public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, float DetectSnr, float JamRatio,
     double Range, float ErrorMeters, Vec3d EstimatedPosition, Vector3 Offset = default)
 {
+    public SensorObservation? Observation { get; init; }
+    public bool ObservedDestroyed { get; init; }
+    public bool ObservedDisabled { get; init; }
+    public float ObservedShieldFraction { get; init; } = 1;
+    public Vector3 ObservedVelocity { get; init; }
+    public Quaternion ObservedOrientation { get; init; } = Quaternion.Identity;
     public static readonly SensorTrack Unknown = new(TrackLevel.None, 0, 0, 0, 0, 0, Vec3d.Zero);
 
     public bool Jammed => JamRatio > 0.01f;
@@ -44,7 +54,7 @@ public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, floa
 /// - 표적 ECM: 식별·잠금 신호를 (1 + 방해) 로 나눈다. 방해 = Jammer × ECM 배율 ÷ 관측 센서 배율(ECCM).
 ///   대신 방해 전파 때문에 접촉 신호는 (1 + 2·ECM 배율) 배로 커진다.
 /// </summary>
-public sealed class SensorNet
+public sealed partial class SensorNet
 {
     public const float ContactSnr = 1f;
     public const float IdentifySnr = 3f;
@@ -93,11 +103,14 @@ public sealed class SensorNet
         return (baseSnr / (1f + jam), baseSnr * strobe, jam);
     }
 
-    public void Update(IReadOnlyList<ShipBody> ships, double time, bool force = false)
+    public void Update(IReadOnlyList<ShipBody> ships, double time, bool force = false, IReadOnlyList<ReconProbe>? probes = null, IReadOnlyList<Missile>? missiles = null)
     {
         if (!force && time < _nextUpdate)
             return;
         _nextUpdate = time + UpdateInterval;
+        probes ??= Array.Empty<ReconProbe>();
+        foreach (var probe in probes) probe.Observing = 0;
+        UpdateSmallContacts(ships, probes, missiles ?? Array.Empty<Missile>(), time);
 
         foreach (Faction side in Enum.GetValues<Faction>())
         foreach (ShipBody target in ships)
@@ -105,6 +118,7 @@ public sealed class SensorNet
             if (target.Faction == side)
                 continue;
             float bestTrack = 0f, bestDetect = 0f, bestJam = 0f;
+            ShipBody? bestObserver = null;
             double bestRange = double.PositiveInfinity;
             float screen = 0;
             foreach (ShipBody support in ships)
@@ -125,18 +139,31 @@ public sealed class SensorNet
                     bestTrack = track;
                     bestJam = jam;
                     bestRange = (target.Position - observer.Position).Length();
+                    bestObserver = observer;
                 }
             }
             if (!double.IsFinite(bestRange))
                 bestRange = 0;
 
+            var probeData = ProbeObservation(side, target, probes, bestTrack, bestDetect, screen, time);
+            if (probeData.Track > bestTrack)
+            { bestTrack = probeData.Track; bestRange = probeData.Range; bestObserver = null; }
+            bestDetect = Mathf.Max(bestDetect, probeData.Detect);
             TrackLevel previous = Track(side, target).Level;
             TrackLevel level = Classify(bestTrack, bestDetect, previous);
-            float error = (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
+            float error = probeData.ErrorScale * (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
             uint seed = Hash(side.ToString()) ^ Hash(target.Callsign);
             Vector3 offset = (FireControl.SmoothNoise(seed, time, OffsetDriftRate) * error).ToVector3();
             _tracks[(side, target)] = level == TrackLevel.None ? SensorTrack.Unknown
-                : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, target.Position + offset, offset);
+                : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, target.Position + offset, offset)
+                {
+                    ObservedDestroyed = target.Damage.Destroyed, ObservedDisabled = target.Damage.Disabled,
+                    ObservedShieldFraction = target.Damage.ShieldCapacity > 0 ? target.Damage.Shield / target.Damage.ShieldCapacity : 0,
+                    ObservedVelocity = target.Velocity, ObservedOrientation = target.Orientation,
+                    Observation = bestObserver is null ? null : new SensorObservation(bestObserver, time,
+                        target.Position, target.Velocity, target.Orientation,
+                        bestObserver.Damage.SensorFraction * bestObserver.Power.SensorEffect),
+                };
         }
     }
 

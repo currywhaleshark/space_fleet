@@ -8,9 +8,14 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if (args.Contains("--wing-trace")) { InterceptorRoleChecks.Trace(); return; }
+        if (args.Contains("--interceptor-roles")) { InterceptorRoleChecks.Run(); return; }
+        if (args.Contains("--damage-control")) { DamageControlChecks.Run(); return; }
+        if (args.Contains("--datalink")) { SensorChecks.Run(); DatalinkChecks.Run(); return; }
         if (args.Contains("--designs")) { DesignChecks.Run(); return; }
         if (args.Contains("--ai")) { AIChecks.Run(); return; }
         if (args.Contains("--missiles")) { MissileChecks.Run(); return; }
+        if (args.Contains("--counter-missiles")) { CounterMissileChecks.Run(); return; }
         if (args.Contains("--shield")) { ShieldEnvelopeChecks.Run(); return; }
         if (args.Contains("--objectives")) { BattleObjectiveChecks.Run(); return; }
         if (args.Contains("--battle")) { BattleChecks.Run(); BattleObjectiveChecks.Run(); return; }
@@ -33,11 +38,14 @@ static class SimChecks
         Console.WriteLine($"PASS: {_checks} simulation checks");
         CollisionChecks.Run();
         DamageChecks.Run();
+        DamageControlChecks.Run();
         ShieldEnvelopeChecks.Run();
         BallisticsChecks.Run();
         PowerChecks.Run();
         SensorChecks.Run();
+        DatalinkChecks.Run();
         MissileChecks.Run();
+        CounterMissileChecks.Run();
         InfiltrationChecks.Run();
         HelmChecks.Run();
         GunneryChecks.Run();
@@ -50,6 +58,8 @@ static class SimChecks
         RadialChecks.Run();
         SquadCommandChecks.Run();
         AIChecks.Run();
+        InterceptorRoleChecks.Run();
+        PlayerInterceptChecks.Run();
         BattleChecks.Run();
         BattleObjectiveChecks.Run();
         ProfilerChecks.Run();

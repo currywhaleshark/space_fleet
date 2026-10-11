@@ -60,7 +60,7 @@ public partial class ScaleTest
         if(!BattleMode)return;
         BriefRemaining=Math.Max(0,BriefRemaining-delta);
         if(Spectating||AutoPlay||Controlled?.Body is not { } body)return;
-        if(Squadron.Active(body)) {DeathRemaining=-1;return;}
+        if(Squadron.Active(body) || body.DamageControl.RecoveringDisable) {DeathRemaining=-1;return;}
         if(DeathRemaining<0) {DeathRemaining=3;if(MenuOpen)_radial.Cancel();Input.MouseMode=Input.MouseModeEnum.Visible;}
         else DeathRemaining-=delta;
         if(DeathRemaining>0)return;

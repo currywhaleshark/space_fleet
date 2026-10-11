@@ -88,6 +88,7 @@ public partial class Hud : Control
             DrawOrdnanceArcs(controlled, Game.Camera.AimScreenPosition());
         }
         else DrawGunnery(cam, controlled, size);
+        DrawSmallTarget(cam);
         DrawInstruments(controlled, size);
         DrawWeaponSelection(controlled.Body, size);
         DrawOwnSystems(controlled, size);
@@ -343,7 +344,7 @@ public partial class Hud : Control
     private void DrawOwnSystems(ShipView controlled, Vector2 screen)
     {
         ShipBody body = controlled.Body;
-        var panel = new Rect2(16, screen.Y - 150, 250, 118);
+        var panel = new Rect2(16, screen.Y - 218, 250, 186);
         bool collided = body.LastCollision is CollisionImpact impact && Game.World.Time - impact.Time < 2.0;
         DrawRect(panel, PanelBack);
         if (collided)
@@ -353,6 +354,15 @@ public partial class Hud : Control
         ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Text);
         DrawShieldBar(new Rect2(panel.Position + new Vector2(10, 28), new Vector2(panel.Size.X - 20, 8)), body);
         DrawSystemBars(new Rect2(panel.Position + new Vector2(10, 44), new Vector2(panel.Size.X - 20, 66)), body.Damage);
+        var dc = body.DamageControl;
+        string state = body.Damage.Destroyed ? "복구 불가" : dc.Priority == RepairPriority.Hold ? "작업 중지"
+            : dc.Kits == 0 ? "자재 소진" : dc.ActiveModule is { } module ? module.Definition.Name : $"대기 · {dc.RestoreFraction*100:0}% 응급복구";
+        Label(panel.Position + new Vector2(10, 124), $"5 응급복구 · {DamageControlState.Label(dc.Priority)} · 자재 {dc.Kits}/{dc.Capacity}", 12, Text);
+        Label(panel.Position + new Vector2(10, 143), state, 12, dc.ActiveModule is null ? Dim : Motion);
+        string progress = dc.ActiveModule is null ? ""
+            : dc.QuietRemaining > .01 ? $"피격 중단 · {dc.QuietRemaining:0.0}초 후 재개" : $"작업 {dc.Progress * 100:0}% · {dc.WorkRemaining:0.0}초";
+        Label(panel.Position + new Vector2(10, 162), progress, 11, dc.QuietRemaining > .01 ? Hostile : Good);
+        HBar(new Rect2(panel.Position + new Vector2(10, 173), new Vector2(230, 4)), dc.Progress, Good);
 
         if (collided && body.LastCollision is CollisionImpact hit)
             Label(panel.Position + new Vector2(0, -8), $"충돌 {hit.OtherCallsign} · Δv {hit.DeltaSpeed:0}", 13, Hostile);
@@ -421,13 +431,15 @@ public partial class Hud : Control
             Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제"
                 : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 좌클릭 선택/사격",
             "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 내 편대 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
+            "F 전력 · B 사격 교리(조함) · N 선택 편대/요격 임무 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
             "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
-            "망원 · 마우스 조준 · R 중앙 표적 선택 · 요격함 기수 연동 / 대형함 독립 조준",
+            "5 응급복구 라디얼 · 자동/계통 우선/중지 · 자재 소모 · 기능 35%까지",
+            "R 근처 적 지정 · 1 주포 추적 / 2 요격 미사일 · 좌클릭 발사 · 요격함 AM 3발",
             "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
+            "요격함 N · 정찰/방공/제공/강습/복귀/프로브 · 지도 Shift 범위 미리보기 + 클릭 전개",
             "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
             "Z 비행보조 · V 항공식/우주식 · F10 효과음 · 일시정지에서 음량 조절",
-            "개발용 · T 사격보조/교리 순환",
+            "T 요격함 사격보조 / 대형함 교리 순환",
             "G 집중공격 · H 호위 · J 위치 유지 · [ ] 배속 ×1/×4/×16",
             "F1 도움말 · F2 원점 · F3 1,000 km 도약 · F4 시험 레이 · F5 모듈 · F6 복구 · F7 이동 표적 · F8 미사일 훈련",
         };
@@ -436,10 +448,12 @@ public partial class Hud : Control
             "W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · 휠 줌",
             Game.Scheme==ControlScheme.Pilot?"마우스 비행 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제":"A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 주포 선택 시 좌클릭 표적/부위",
             "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 내 편대 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
+            "F 전력 · B 사격 교리(조함) · N 선택 편대/요격 임무 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
             "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
-            "망원 · 마우스 조준 · R 중앙 표적 선택 · 요격함 기수 연동 / 대형함 독립 조준",
+            "5 응급복구 라디얼 · 자동/계통 우선/중지 · 자재 소모 · 기능 35%까지",
+            "R 근처 적 지정 · 1 주포 추적 / 2 요격 미사일 · 좌클릭 발사 · 요격함 AM 3발",
             "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
+            "요격함 N · 정찰/방공/제공/강습/복귀/프로브 · 지도 Shift 범위 미리보기 + 클릭 전개",
             "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
             "Z 비행보조 · V 항공식/우주식 · [ ] 배속 ×1/×2/×4",
             "Esc 커서 해제 후 일시정지/음량 · F10 효과음 · 함선 상실 시 자동 인계 · F1 닫기",

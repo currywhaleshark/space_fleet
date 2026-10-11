@@ -1,5 +1,6 @@
 {
   "id": "battleship",
+  "damageControl": { "kits": 8, "repairSeconds": 18, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Battleship",
   "railgun": {
     "moduleId": "gun-1", "muzzle": [0, 94, -410], "muzzleSpeed": 12000,

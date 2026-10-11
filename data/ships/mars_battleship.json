@@ -1,5 +1,6 @@
 {
   "id": "mars_battleship",
+  "damageControl": { "kits": 5, "repairSeconds": 18, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Battleship",
   "railgun": {
     "moduleId": "gun-1",

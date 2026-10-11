@@ -22,7 +22,7 @@ public partial class FleetAudio : Node3D
         public Cue Cue;
         public float EndsAt;
     }
-    private readonly record struct Snapshot(ulong Rails, ulong Pd, bool Destroyed);
+    private readonly record struct Snapshot(ulong Rails, ulong Pd, bool Destroyed, int Missiles);
     private readonly record struct Cue(ShipBody? Source, Vec3d Position, CombatSound Sound,
         float Gain, float Range, float Pitch, float Importance = 1);
     private readonly Dictionary<ShipBody, Snapshot> _ships = new();
@@ -59,6 +59,7 @@ public partial class FleetAudio : Node3D
         _listener = new AudioListener3D { Name = "FleetListener" }; AddChild(_listener);
         Bank(CombatSound.RailFire, "railgun_fire");
         Bank(CombatSound.PointDefense, "pd_fire_01", "pd_fire_02", "pd_fire_03");
+        Bank(CombatSound.MissileLaunch, "missile_launch", "missile_launch_v2", "missile_launch_v3");
         foreach (var (sound, file) in new[] { (CombatSound.ShieldImpact, "shield_impact"),
             (CombatSound.ArmorImpact, "armor_block"), (CombatSound.Penetration, "hull_penetration"),
             (CombatSound.Critical, "critical_impact") })
@@ -100,7 +101,7 @@ public partial class FleetAudio : Node3D
 
     private static Snapshot Read(ShipBody ship) => new(
         ship.Railguns.Aggregate(0UL, (sum, gun) => sum + gun.ShotCount),
-        ship.Ordnance.PointDefense.Aggregate(0UL, (sum, gun) => sum + gun.ShotCount), ship.Damage.Destroyed);
+        ship.Ordnance.PointDefense.Aggregate(0UL, (sum, gun) => sum + gun.ShotCount), ship.Damage.Destroyed, ship.Ordnance.Missiles);
 
     public void Prime(SimWorld world, ShipBody? controlled)
     {
@@ -125,6 +126,9 @@ public partial class FleetAudio : Node3D
                 if (now.Rails > before.Rails)
                     Queue(new(ship, ship.Railguns.OrderByDescending(g => g.LastFiredAt).First().MuzzlePosition,
                         CombatSound.RailFire, .36f, ship.Class.Kind == HullKind.Battleship ? 48000 : 30000, pitch));
+                if (now.Missiles < before.Missiles && ship.Definition.Missiles is { } missiles)
+                    Queue(new(ship, ship.Position + Vec3d.From(ship.Orientation * missiles.LaunchPoint), CombatSound.MissileLaunch,
+                        .32f, ship.Class.Kind == HullKind.Battleship ? 30000 : 20000, pitch, .8f));
                 if (now.Pd > before.Pd)
                     Queue(new(ship, ship.Position, CombatSound.PointDefense, .16f, 10000, pitch * 1.1f, .6f));
                 if (now.Destroyed && !before.Destroyed)

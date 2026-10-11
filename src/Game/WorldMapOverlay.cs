@@ -19,7 +19,10 @@ public partial class WorldMapOverlay : Control
     private MouseButton _drag;
     private Vector2 _press;
     private bool _moved;
-    private Rect2 _closeRect, _fitRect;
+    private Rect2 _closeRect, _fitRect, _coverageRect;
+    public bool ShowSensorCoverage { get; private set; } = true;
+    private Vector2 _pointer;
+    private bool _shiftHeld;
     private readonly List<(Vector2 Point, ShipView Ship)> _picks = new();
     private static readonly Color Blue = new(.42f, .78f, 1), Red = new(1, .47f, .34f), Amber = new(1, .77f, .38f), Ink = new(.82f, .91f, 1);
     private sealed record Contact(ShipView Ship, ContactSnapshot Memory, bool Enemy)
@@ -35,7 +38,7 @@ public partial class WorldMapOverlay : Control
         MouseFilter = MouseFilterEnum.Ignore;
         _font = new SystemFont { FontNames = new[] { "Malgun Gothic", "Segoe UI" } };
         _surface = new WorldMapSurface { OwnerMap = this, ClipContents = true, MouseFilter = MouseFilterEnum.Ignore };
-        AddChild(_surface); Layout();
+        CreateCoverageLayers(); AddChild(_surface); Layout(); UpdateCoverageLayer();
     }
 
     private List<Contact> Contacts()
@@ -54,10 +57,12 @@ public partial class WorldMapOverlay : Control
     public void Open()
     {
         if (!Map.Initialized) FitAll();
-        _drag = MouseButton.None; _moved = false; Visible = true; Layout(); QueueRedraw();
+        _drag = MouseButton.None; _moved = false; _shiftHeld = Input.IsKeyPressed(Key.Shift);
+        _pointer = GetViewport().GetMousePosition(); Visible = true; Layout(); QueueRedraw();
     }
-    public void Close() { Visible = false; _drag = MouseButton.None; }
-    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
+    public void Close() { Visible = false; _drag = MouseButton.None; _shiftHeld = false; }
+    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.ProbeMarkers().Select(p => p.Position))
+        .Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
     private float Radius => Mathf.Min(_surface.Size.X, _surface.Size.Y) * .46f;
     private Vector2 Normalized(Vector2 screen) => (screen - _surface.Position - _surface.Size * .5f) / Radius;
 
@@ -69,23 +74,31 @@ public partial class WorldMapOverlay : Control
         _surface.Size = new Vector2(Mathf.Max(200, Size.X - sidebar - 60), Mathf.Max(160, Size.Y - 165));
         _closeRect = new Rect2(Size.X - 154, 25, 130, 38);
         _fitRect = new Rect2(Size.X - 330, 25, 162, 38);
+        _coverageRect = new Rect2(Size.X - 510, 25, 168, 38);
     }
     public override void _Process(double delta)
-    { if (Visible) { Layout(); QueueRedraw(); _surface.QueueRedraw(); } }
+    { if (Visible) { Layout(); UpdateCoverageLayer(); QueueRedraw(); _surface.QueueRedraw(); } }
 
     public bool HandleInput(InputEvent e)
     {
         if (!Visible || e.IsActionPressed(InputSetup.ToggleMute)) return false;
+        if (e is InputEventKey shift && (shift.PhysicalKeycode == Key.Shift || shift.Keycode == Key.Shift))
+            _shiftHeld = shift.Pressed;
+        if (e is InputEventMouse mouseEvent) { _pointer = mouseEvent.Position; _shiftHeld = mouseEvent.ShiftPressed; }
         if (e.IsActionPressed(InputSetup.WorldMap) || e.IsActionPressed(InputSetup.ReleaseMouse)) CloseRequested?.Invoke();
+        else if (e.IsActionPressed(InputSetup.SquadMenu)) Game.OpenMapWingMenu(_selected);
         else if (e is InputEventKey { Pressed: true, Echo: false } key && (key.PhysicalKeycode == Key.Home || key.Keycode == Key.Home)) FitAll();
         else if (e is InputEventMouseButton button)
         {
-            if (button.Pressed && button.ButtonIndex == MouseButton.Left && _closeRect.HasPoint(button.Position)) CloseRequested?.Invoke();
+            if (button.Pressed && button.ButtonIndex == MouseButton.Left && _coverageRect.HasPoint(button.Position)) ShowSensorCoverage = !ShowSensorCoverage;
+            else if (button.Pressed && button.ButtonIndex == MouseButton.Left && _closeRect.HasPoint(button.Position)) CloseRequested?.Invoke();
             else if (button.Pressed && button.ButtonIndex == MouseButton.Left && _fitRect.HasPoint(button.Position)) FitAll();
             else if (button.Pressed && new Rect2(_surface.Position, _surface.Size).HasPoint(button.Position))
             {
                 if (button.ButtonIndex is MouseButton.WheelUp or MouseButton.WheelDown)
                     Map.Zoom(button.ButtonIndex == MouseButton.WheelUp ? .8f : 1.25f, Normalized(button.Position));
+                else if (button.ButtonIndex == MouseButton.Left && button.ShiftPressed)
+                { _drag = MouseButton.None; Game.LaunchPlayerProbeAt(Map.ScreenPlane(Normalized(button.Position))); }
                 else if (button.ButtonIndex is MouseButton.Left or MouseButton.Right or MouseButton.Middle)
                 { _drag = button.ButtonIndex; _press = button.Position; _moved = false; }
             }
@@ -117,7 +130,7 @@ public partial class WorldMapOverlay : Control
         DrawRect(new Rect2(Vector2.Zero, Size), new Color(.008f, .017f, .03f, .985f));
         Text(this, new(28, 44), "전장 전체 지도", 24);
         Text(this, new(28, 70), "구형 전장 좌표 · 실시간", 13, Blue);
-        foreach (var (rect, title) in new[] { (_fitRect, "전체 보기 · Home"), (_closeRect, "닫기 · M / Esc") })
+        foreach (var (rect, title) in new[] { (_coverageRect, ShowSensorCoverage ? "아군 탐지범위 · 켬" : "아군 탐지범위 · 끔"), (_fitRect, "전체 보기 · Home"), (_closeRect, "닫기 · M / Esc") })
         {
             DrawRect(rect, new Color(.035f, .085f, .13f)); DrawRect(rect, new Color(Blue, .35f), false);
             Text(this, rect.Position + new Vector2(12, 25), title, 14);
@@ -158,6 +171,7 @@ public partial class WorldMapOverlay : Control
             Text(this, new(x, 312), $"Y  {Map.Center.Y / 1000:0.0} km", 13);
             Text(this, new(x, 338), $"Z  {Map.Center.Z / 1000:0.0} km", 13);
         }
+        Text(this, new(28, Size.Y - 64), "N 편대 임무 · Shift 범위 미리보기 / 클릭 사출 · 지도 중심 깊이 평면", 12, Blue);
         DrawLine(new(24, Size.Y - 56), new(Size.X - 24, Size.Y - 56), new Color(Blue, .2f));
         Text(this, new(28, Size.Y - 29), "좌/우드래그 회전 · 중드래그 이동 · 휠 확대 · Home 전체 보기", Size.X < 1000 ? 12 : 14);
         Text(this, new(x, Size.Y - 29), $"구 반경 {Map.HalfSpan / 1000:0.##} km", 13, Blue);
@@ -168,21 +182,8 @@ public partial class WorldMapOverlay : Control
         _picks.Clear();
         Vector2 center = canvas.Size * .5f;
         Vector2 At(Vec3d p) { Vector3 v = Map.Project(p); return center + new Vector2(v.X, v.Y) * Radius; }
-        DrawGlobe(canvas, center);
-        if (Game.World.Rules is { Objective: BattleObjective.Domination } rules)
-        {
-            foreach (CaptureZone zone in rules.CaptureZones)
-            {
-                if (!Map.Contains(zone.Position)) continue;
-                Vector2 p = At(zone.Position);
-                float radius = Mathf.Clamp((float)(zone.RadiusMeters / Map.HalfSpan) * Radius, 6, 160);
-                Color color = zone.Owner == Faction.Blue ? Blue : zone.Owner == Faction.Red ? Red : Amber;
-                canvas.DrawCircle(p, radius, new Color(color, .07f));
-                canvas.DrawArc(p, radius, 0, Mathf.Tau, 48, new Color(color, .75f), 1.5f, true);
-                if (zone.Contested) canvas.DrawArc(p, radius + 4, 0, Mathf.Tau, 32, Amber, 2, true);
-                Text(canvas, p + new Vector2(-5, -radius - 7), zone.Name, 14, color);
-            }
-        }
+        DrawSensorCoverage(canvas, At);
+        DrawCaptureZones(canvas, At);
         var labels = new List<Rect2>();
         foreach (Contact c in Contacts().OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
         {
@@ -222,6 +223,16 @@ public partial class WorldMapOverlay : Control
             { Text(canvas, at, label, 12, color); labels.Add(bounds); }
             _picks.Add((p + _surface.Position, c.Ship));
         }
+        foreach (var probe in Game.ProbeMarkers())
+        {
+            if (!Map.Contains(probe.Position)) continue;
+            Vector2 p = At(probe.Position);
+            Color color = probe.Lost ? ContactMemory.LostColor : probe.Enemy ? Red : Blue;
+            canvas.DrawRect(new Rect2(p - Vector2.One * 4, Vector2.One * 8), color, false, 1.5f);
+            if (probe.Observing) canvas.DrawArc(p, 9, 0, Mathf.Tau, 24, new Color(color, .4f), 1);
+            Text(canvas, p + new Vector2(12, 13), probe.Label, 11, color);
+        }
+        DrawProbePreview(canvas, At);
         // 원점과 화면 평면 축척. 조종함과 독립된 전장 공간을 읽는 기준.
         Vector2 zero = At(Vec3d.Zero);
         if (Map.Contains(Vec3d.Zero) && new Rect2(Vector2.Zero, canvas.Size).HasPoint(zero))
@@ -231,7 +242,28 @@ public partial class WorldMapOverlay : Control
         Text(canvas, new(16,canvas.Size.Y-36), $"{Map.HalfSpan * length / Radius / 1000:0.0} km", 12, Blue);
     }
 
-    private void DrawGlobe(Control canvas, Vector2 center)
+    /// <summary>점령 거점: 실제 반경 원, 소유 색, 점령 진행 호(바깥), 경합이면 깜박이는 테두리.</summary>
+    private void DrawCaptureZones(Control canvas, Func<Vec3d, Vector2> at)
+    {
+        if (Game.World.Rules is not { Objective: BattleObjective.Domination } rules) return;
+        foreach (CaptureZone zone in rules.CaptureZones)
+        {
+            if (!Map.Contains(zone.Position)) continue;
+            Vector2 p = at(zone.Position);
+            float radius = Mathf.Clamp((float)(zone.RadiusMeters / Map.HalfSpan) * Radius, 6, 160);
+            Color color = zone.Owner == Faction.Blue ? Blue : zone.Owner == Faction.Red ? Red : Amber;
+            canvas.DrawCircle(p, radius, new Color(color, .07f));
+            canvas.DrawArc(p, radius, 0, Mathf.Tau, 48, new Color(color, .75f), 1.5f, true);
+            float progress = (float)(zone.Progress / 100.0);
+            if (Mathf.Abs(progress) > .01f)
+                canvas.DrawArc(p, radius + 5, -Mathf.Pi / 2, -Mathf.Pi / 2 + Mathf.Tau * Mathf.Abs(progress), 48,
+                    progress > 0 ? Blue : Red, 3, true);
+            if (zone.Contested && (Time.GetTicksMsec() / 300) % 2 == 0) canvas.DrawArc(p, radius + 9, 0, Mathf.Tau, 32, Amber, 2, true);
+            Text(canvas, p + new Vector2(-5, -radius - 12), zone.Name, 14, color);
+        }
+    }
+
+    internal void DrawGlobe(Control canvas, Vector2 center)
     {
         Vector2 At(Vector3 unit)
         { Vector3 p = Map.ProjectUnit(unit); return center + new Vector2(p.X, p.Y) * Radius; }

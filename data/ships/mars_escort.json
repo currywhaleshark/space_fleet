@@ -1,5 +1,6 @@
 {
   "id": "mars_escort",
+  "damageControl": { "kits": 4, "repairSeconds": 14, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Escort",
   "railgun": {
     "moduleId": "gun-1",

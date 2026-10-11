@@ -16,6 +16,7 @@ public partial class RadialMenu : Control
     private Vector2 _center;
     private bool _virtual;
     private Font _font = null!;
+    public event Action? Closed;
     public bool IsOpen => _gesture.IsOpen;
     public int Highlighted => _gesture.Highlighted;
     public Vector2 Center => _center;
@@ -39,8 +40,9 @@ public partial class RadialMenu : Control
         int choice = _gesture.Release(i => _items[i].Enabled?.Invoke() ?? true);
         QueueRedraw();
         if (choice >= 0) _items[choice].Execute();
+        Closed?.Invoke();
     }
-    public void Cancel() { _gesture.Cancel(); QueueRedraw(); }
+    public void Cancel() { bool open = IsOpen; _gesture.Cancel(); QueueRedraw(); if (open) Closed?.Invoke(); }
 
     public override void _Draw()
     {

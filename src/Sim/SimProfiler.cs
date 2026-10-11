@@ -9,7 +9,7 @@ namespace SpaceFleet.Sim;
 public enum SimSection
 {
     Tick, AI, AICommand, AIThink, AIDrive, AIEngage, Gunnery, ShipStep,
-    Collision, Projectiles, Missiles, PointDefense, Drones, Sensors, Post,
+    Collision, Projectiles, Missiles, PointDefense, Drones, Sensors, Probes, Post,
 }
 
 /// <summary>

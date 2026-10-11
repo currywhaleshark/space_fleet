@@ -2,7 +2,7 @@ using Godot;
 
 namespace SpaceFleet.Sim;
 
-public enum PointDefenseTarget { None, Missile, Interceptor, Drone }
+public enum PointDefenseTarget { None, Missile, Interceptor, Drone, Probe }
 
 /// <summary>Mechanical PD drive shared by interception and rendering; angles use the local deck frame.</summary>
 public sealed class PointDefenseMountState

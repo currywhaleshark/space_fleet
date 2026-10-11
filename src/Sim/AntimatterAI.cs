@@ -11,7 +11,7 @@ public sealed partial class SimWorld
         if (state.Definition is not { } def || state.Rounds == 0) return;
         if (state.Warning) { state.Jettison(); return; }
         double range = (track.EstimatedPosition-ship.Position).Length();
-        bool inSector = (ship.Position-track.EstimatedPosition).ToVector3().AngleTo(target.Orientation*InfiltrationSector)
+        bool inSector = (ship.Position-track.EstimatedPosition).ToVector3().AngleTo(track.ObservedOrientation*InfiltrationSector)
             < Mathf.DegToRad(InfiltrationConeDegrees);
         if (target.Class.Kind == HullKind.Interceptor || track.Level < TrackLevel.Locked || Time < brain.BreakUntil
             || !inSector || range > def.RecommendedMaxMeters+1500)
@@ -20,10 +20,10 @@ public sealed partial class SimWorld
         if (!state.Ready || range > def.RecommendedMaxMeters) return;
         Vector3 localAim = brain.AimModule?.Definition.Center ?? Vector3.Zero;
         Vec3d launch = ship.Position+Vec3d.From(ship.Orientation*def.Flight.LaunchPoint);
-        Vector3 aim = (track.EstimatedPosition+Vec3d.From(target.Orientation*localAim)-launch).ToVector3();
+        Vector3 aim = (track.EstimatedPosition+Vec3d.From(track.ObservedOrientation*localAim)-launch).ToVector3();
         if (FriendlyInLine(ship,launch,aim.Normalized(),aim.Length())) return;
         if (!LaunchAntimatter(ship,target,localAim).Fired) return;
-        brain.BreakDirection = (target.Orientation*InfiltrationSector + (ship.Orientation*Vector3.Right)*brain._side*.4f).Normalized();
+        brain.BreakDirection = (track.ObservedOrientation*InfiltrationSector + (ship.Orientation*Vector3.Right)*brain._side*.4f).Normalized();
         brain.BreakUntil = Time+6; brain.InRun=false; brain.Activity="AM 발사 · 이탈";
     }
 
@@ -33,7 +33,7 @@ public sealed partial class SimWorld
         if (ship.Class.Kind != HullKind.Battleship) return 0;
         var threat = _ships.Where(s=>s.Faction!=ship.Faction && !s.Damage.Destroyed)
             .Select(s=>(Ship:s, Track:Sensors.Track(ship.Faction,s)))
-            .Where(s=>s.Track.Level>=TrackLevel.Identified && s.Ship.Ordnance.Antimatter.Rounds>0)
+            .Where(s=>s.Track.Level>=TrackLevel.Identified && s.Ship.Definition.Antimatter is not null)
             .Where(s=>(s.Track.EstimatedPosition-ship.Position).Length()<10_000)
             .OrderBy(s=>(s.Track.EstimatedPosition-ship.Position).Length()).FirstOrDefault();
         if (threat.Ship is null) return 0;

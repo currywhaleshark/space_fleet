@@ -14,7 +14,8 @@ public partial class ScaleTest
 
     private ShipControl PlayerControl()
     {
-        if (MapControlsBlocked) return new ShipControl
+        StepSmallTracking();
+        if (MapControlsBlocked || MenuOpen) return new ShipControl
         { Thrust = new Vector3(0, 0, Throttle), FlightAssist = _flightAssist, Style = AssistStyle };
         bool translate = Scheme == ControlScheme.Pilot || Input.IsPhysicalKeyPressed(Key.Alt);
         float horizontal = Input.GetAxis(InputSetup.StrafeLeft, InputSetup.StrafeRight);

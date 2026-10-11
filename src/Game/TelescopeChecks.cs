@@ -60,10 +60,9 @@ public partial class TelescopeChecks : Node
         g.World.Sensors.Update(g.World.Ships,g.World.Time,force:true); Step(g,1); Key(g,Godot.Key.R);
         Check(g.InspectTarget==sideTarget,"Center ray picks a visible hull section even when its center marker lies outside the 36-pixel aid");
         sideTarget.Body.Teleport(new Vec3d(1e9,10000,0));
-        var selected=g.InspectTarget;
         target.Body.Teleport(new Vec3d(1e9,0,0)); g.World.Sensors.Update(g.World.Ships,g.World.Time,force:true); Step(g,1);
         Key(g,Godot.Key.R);
-        Check(g.InspectTarget==selected && g.LastFireFailed,"Scope cannot silently switch to an undetected or off-reticle target");
+        Check(g.InspectTarget is { } remembered && g.ContactOf(remembered) is not null && g.Camera.AimForward.IsEqualApprox(aim),"R selects only a visible or remembered contact without reading hidden positions or snapping aim");
         Move(g,new Vector2(0,1700));
         Check(g.ScopeHullBlocked,"Looking down from bridge orbit is naturally occluded by own deck");
         rounds=ship.Railguns.Sum(x=>x.Rounds);

@@ -1,0 +1,284 @@
+{
+  "battles": 736,
+  "previousSummariesMatched": 192,
+  "telemetrySummariesMatched": 24,
+  "fleet": {
+    "Earth-Earth": {
+      "outcomes": {
+        "Red": 22,
+        "Blue": 18
+      },
+      "reasons": {
+        "전력 상실": 40
+      },
+      "medianOutcomeTime": 731.8085
+    },
+    "Mars-Mars": {
+      "outcomes": {
+        "Draw": 9,
+        "Red": 17,
+        "Blue": 14
+      },
+      "reasons": {
+        "시간 제한": 19,
+        "전력 상실": 21
+      },
+      "medianOutcomeTime": 1228.4335
+    },
+    "Earth-Mars": {
+      "outcomes": {
+        "Blue": 21,
+        "Draw": 8,
+        "Red": 11
+      },
+      "reasons": {
+        "시간 제한": 28,
+        "전력 상실": 12
+      },
+      "medianOutcomeTime": 1500.0
+    },
+    "Mars-Earth": {
+      "outcomes": {
+        "Red": 21,
+        "Draw": 10,
+        "Blue": 9
+      },
+      "reasons": {
+        "시간 제한": 29,
+        "전력 상실": 11
+      },
+      "medianOutcomeTime": 1500.0
+    }
+  },
+  "crossFleetOutcomes": {
+    "Earth": 42,
+    "Draw": 18,
+    "Mars": 20
+  },
+  "crossFleetMetrics": {
+    "Earth/Battleship": {
+      "count": 80,
+      "destroyed": 10,
+      "disabled": 27,
+      "survivalMean": 997.831775,
+      "zeroRailShots": 80,
+      "emptyRailMagazine": 0,
+      "railShots": 0,
+      "railHits": 0,
+      "railRoundsRemainingMean": 720.0,
+      "amLaunches": 0,
+      "amHits": 0,
+      "amFailures": 0,
+      "amJettisons": 0,
+      "shieldDamagePerShip": 454.5198124999999,
+      "moduleDamagePerShip": 145.51378749999998
+    },
+    "Earth/Escort": {
+      "count": 480,
+      "destroyed": 18,
+      "disabled": 87,
+      "survivalMean": 1258.1854291666666,
+      "zeroRailShots": 3,
+      "emptyRailMagazine": 19,
+      "railShots": 45242,
+      "railHits": 21975,
+      "railRoundsRemainingMean": 545.7458333333333,
+      "amLaunches": 0,
+      "amHits": 0,
+      "amFailures": 0,
+      "amJettisons": 0,
+      "shieldDamagePerShip": 210.1292645833335,
+      "moduleDamagePerShip": 228.82344583333355
+    },
+    "Earth/Interceptor": {
+      "count": 400,
+      "destroyed": 29,
+      "disabled": 0,
+      "survivalMean": 1305.92202,
+      "zeroRailShots": 0,
+      "emptyRailMagazine": 189,
+      "railShots": 49041,
+      "railHits": 37647,
+      "railRoundsRemainingMean": 77.3975,
+      "amLaunches": 317,
+      "amHits": 250,
+      "amFailures": 28,
+      "amJettisons": 15,
+      "shieldDamagePerShip": 188.02273249999996,
+      "moduleDamagePerShip": 234.06476750000004
+    },
+    "Mars/Battleship": {
+      "count": 80,
+      "destroyed": 1,
+      "disabled": 31,
+      "survivalMean": 1222.93365,
+      "zeroRailShots": 0,
+      "emptyRailMagazine": 30,
+      "railShots": 29738,
+      "railHits": 24953,
+      "railRoundsRemainingMean": 108.275,
+      "amLaunches": 0,
+      "amHits": 0,
+      "amFailures": 0,
+      "amJettisons": 0,
+      "shieldDamagePerShip": 8820.5331375,
+      "moduleDamagePerShip": 2254.572037500001
+    },
+    "Mars/Escort": {
+      "count": 480,
+      "destroyed": 1,
+      "disabled": 49,
+      "survivalMean": 1335.0598458333334,
+      "zeroRailShots": 181,
+      "emptyRailMagazine": 1,
+      "railShots": 25866,
+      "railHits": 18945,
+      "railRoundsRemainingMean": 586.1125,
+      "amLaunches": 0,
+      "amHits": 0,
+      "amFailures": 0,
+      "amJettisons": 0,
+      "shieldDamagePerShip": 762.2460833333338,
+      "moduleDamagePerShip": 406.6597562500004
+    },
+    "Mars/Interceptor": {
+      "count": 400,
+      "destroyed": 259,
+      "disabled": 138,
+      "survivalMean": 310.3595025,
+      "zeroRailShots": 5,
+      "emptyRailMagazine": 0,
+      "railShots": 7498,
+      "railHits": 5996,
+      "railRoundsRemainingMean": 181.255,
+      "amLaunches": 146,
+      "amHits": 43,
+      "amFailures": 244,
+      "amJettisons": 137,
+      "shieldDamagePerShip": 261.2456549999997,
+      "moduleDamagePerShip": 116.47430749999998
+    }
+  },
+  "pairedSeeds": [
+    {
+      "seed": 1,
+      "earthWins": 4,
+      "marsWins": 0,
+      "draws": 0
+    },
+    {
+      "seed": 2,
+      "earthWins": 4,
+      "marsWins": 0,
+      "draws": 0
+    },
+    {
+      "seed": 3,
+      "earthWins": 2,
+      "marsWins": 0,
+      "draws": 2
+    },
+    {
+      "seed": 4,
+      "earthWins": 1,
+      "marsWins": 1,
+      "draws": 2
+    },
+    {
+      "seed": 5,
+      "earthWins": 2,
+      "marsWins": 2,
+      "draws": 0
+    },
+    {
+      "seed": 6,
+      "earthWins": 1,
+      "marsWins": 2,
+      "draws": 1
+    },
+    {
+      "seed": 7,
+      "earthWins": 2,
+      "marsWins": 1,
+      "draws": 1
+    },
+    {
+      "seed": 8,
+      "earthWins": 3,
+      "marsWins": 0,
+      "draws": 1
+    },
+    {
+      "seed": 9,
+      "earthWins": 2,
+      "marsWins": 2,
+      "draws": 0
+    },
+    {
+      "seed": 10,
+      "earthWins": 2,
+      "marsWins": 0,
+      "draws": 2
+    },
+    {
+      "seed": 11,
+      "earthWins": 1,
+      "marsWins": 2,
+      "draws": 1
+    },
+    {
+      "seed": 12,
+      "earthWins": 3,
+      "marsWins": 1,
+      "draws": 0
+    },
+    {
+      "seed": 13,
+      "earthWins": 3,
+      "marsWins": 0,
+      "draws": 1
+    },
+    {
+      "seed": 14,
+      "earthWins": 2,
+      "marsWins": 0,
+      "draws": 2
+    },
+    {
+      "seed": 15,
+      "earthWins": 2,
+      "marsWins": 1,
+      "draws": 1
+    },
+    {
+      "seed": 16,
+      "earthWins": 3,
+      "marsWins": 1,
+      "draws": 0
+    },
+    {
+      "seed": 17,
+      "earthWins": 1,
+      "marsWins": 1,
+      "draws": 2
+    },
+    {
+      "seed": 18,
+      "earthWins": 2,
+      "marsWins": 0,
+      "draws": 2
+    },
+    {
+      "seed": 19,
+      "earthWins": 0,
+      "marsWins": 4,
+      "draws": 0
+    },
+    {
+      "seed": 20,
+      "earthWins": 2,
+      "marsWins": 2,
+      "draws": 0
+    }
+  ]
+}

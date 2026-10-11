@@ -152,6 +152,17 @@ public partial class ChaseCamera : Camera3D
 
     public void AddMouse(Vector2 relative) => _pendingMouse += relative;
 
+    /// <summary>Bounded target tracking while the pilot holds fire; never teleports the ship.</summary>
+    public void GuideAim(Vector3 direction, float maxRadians)
+    {
+        if (Mode != CameraMode.MouseAim || !direction.IsFinite() || direction.LengthSquared() < .01f) return;
+        direction = direction.Normalized();
+        float angle = AimForward.AngleTo(direction);
+        Vector3 axis = AimForward.Cross(direction);
+        if (axis.LengthSquared() > 1e-10f)
+            _aim = _aim.Rotated(axis.Normalized(), Mathf.Min(angle, maxRadians)).Orthonormalized();
+    }
+
     public void Zoom(float factor) => _zoom = Mathf.Clamp(_zoom * factor, 0.35f, 4f);
 
     public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta)

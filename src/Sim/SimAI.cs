@@ -78,6 +78,7 @@ public sealed partial class SimWorld
             _nextCommand = Time + CommandInterval;
             foreach (Faction faction in _commanders.OrderBy(f => ((int)f + Tick / 120) % 2)) Command(faction);
         }
+        StepWingMissions();
         SimProfiler.End(SimSection.AICommand, timing);
         foreach (ShipBrain brain in _brains.Values)
         {
@@ -136,7 +137,7 @@ public sealed partial class SimWorld
                 break;
             }
             case OrderKind.Hold:
-                desired = ((brain.Order.Point - ship.Position).ToVector3() * 0.05f).LimitLength(maxSpeed);
+                desired = brain.StationVelocity + ((brain.Order.Point - ship.Position).ToVector3() * 0.05f).LimitLength(maxSpeed);
                 brain.Activity = "위치 유지";
                 break;
             default:
@@ -167,7 +168,7 @@ public sealed partial class SimWorld
         Vector3 r = (track.EstimatedPosition - ship.Position).ToVector3();
         float d = Mathf.Max(r.Length(), 1f);
         Vector3 rh = r / d;
-        Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? target.Velocity : Vector3.Zero;
+        Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? track.ObservedVelocity : Vector3.Zero;
         // 잠기지 않으면(방해·먼 거리) 대치 거리를 줄여 다가간다.
         float standoff = brain.CommandStandoff ?? brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
         if (ship.Definition.Design == DesignFamily.Mars)
@@ -200,12 +201,12 @@ public sealed partial class SimWorld
         Vector3 r = (track.EstimatedPosition - ship.Position).ToVector3();
         float d = Mathf.Max(r.Length(), 1f);
         Vector3 rh = r / d;
-        Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? target.Velocity : Vector3.Zero;
+        Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? track.ObservedVelocity : Vector3.Zero;
         float breakRange = 1500f + target.Hull.BoundingRadius;
         bool capital = target.Class.Kind != HullKind.Interceptor && track.Level >= TrackLevel.Identified;
-        Vector3 sector = target.Orientation * InfiltrationSector;
+        Vector3 sector = track.ObservedOrientation * InfiltrationSector;
         brain.AimModule = ship.Definition.Design == DesignFamily.Mars ? MarsAimModule(brain, target) : capital
-            ? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position) ?? Subsystems.Pick(target, AimSubsystem.Radiators, ship.Position)
+            ? target.Damage.Modules.FirstOrDefault(m => m.Definition.Kind == ModuleKind.Thruster)
             : null;
 
         if (Time < brain.BreakUntil)
@@ -213,6 +214,21 @@ public sealed partial class SimWorld
             brain.WantBoost = true;
             brain.Activity = "이탈";
             return brain.BreakDirection * maxSpeed * ship.Class.BoostMultiplier;
+        }
+
+        if (capital && ship.Squadron?.Mission == InterceptorMission.Assault && !brain.InRun && d >= 20_000)
+        {
+            Vec3d outerEntry = track.EstimatedPosition + Vec3d.From(sector * 18_000);
+            Vector3 toEntry = (outerEntry - ship.Position).ToVector3();
+            float t = Mathf.Clamp(r.Dot(toEntry) / Mathf.Max(toEntry.LengthSquared(), 1), 0, 1);
+            if ((toEntry * t - r).Length() < 14_000)
+            {
+                Vector3 outward = -r - sector * (-r).Dot(sector);
+                if (outward.LengthSquared() < 1) outward = Vector3.Right;
+                toEntry = (track.EstimatedPosition + Vec3d.From(outward.Normalized() * 24_000 + sector * 12_000) - ship.Position).ToVector3();
+            }
+            brain.WantBoost = true; brain.Activity = "강습 외곽 우회";
+            return targetVelocity + toEntry.Normalized() * maxSpeed * ship.Class.BoostMultiplier;
         }
 
         if (capital && !brain.InRun && d < 40_000f)
@@ -293,7 +309,8 @@ public sealed partial class SimWorld
     private void AllocatePower(ShipBrain brain)
     {
         ShipBody ship = brain.Ship;
-        bool threatened = _missiles.Any(m => m.Target == ship && (m.Position - ship.Position).Length() < PointDefenseThreatMeters);
+        bool threatened = Sensors.SmallContacts(ship.Faction).Any(t => t.Kind == SmallContactKind.Missile && t.Fresh(Time)
+            && (t.Predict(Time) - ship.Position).Length() < PointDefenseThreatMeters && Threatens(t, ship, out _));
         // ECCM: 공격 중인 표적이 방해로 잠기지 않는데 레일건 거리 근처면 센서를 올린다.
         bool jammedOut = brain.Target is ShipBody target && ship.Railgun is RailgunState gun
             && Sensors.Track(ship.Faction, target) is { Jammed: true, Level: < TrackLevel.Locked and > TrackLevel.None } t
@@ -330,6 +347,8 @@ public sealed partial class SimWorld
         if (thrust.LengthSquared() > 1f) thrust = thrust.Normalized();
 
         Vector3? aim = null;
+        if (brain.SmallTarget is { } small && Sensors.SmallTrack(ship.Faction, small) is { } seen
+            && SmallTargetAim(ship, seen, out var smallDirection, out _)) aim = smallDirection;
         if (brain.Target is ShipBody target && ship.Railgun is not null)
         {
             SensorTrack track = Sensors.Track(ship.Faction, target);
@@ -363,8 +382,10 @@ public sealed partial class SimWorld
     {
         ShipBody ship = brain.Ship;
 
+        EngageSmallTarget(brain);
         // 디코이: 나를 노리는 미사일이 가까우면.
-        if (ship.Ordnance.DecoyReady && _missiles.Any(m => m.Target == ship && (m.Position - ship.Position).Length() < DecoyThreatMeters))
+        if (ship.Ordnance.DecoyReady && Sensors.SmallContacts(ship.Faction).Any(t => t.Kind == SmallContactKind.Missile && t.Fresh(Time)
+            && (t.Predict(Time) - ship.Position).Length() < DecoyThreatMeters && Threatens(t, ship, out _)))
             LaunchDecoys(ship);
 
         if (brain.Target is not ShipBody target || target.Damage.Destroyed) { ship.Ordnance.Antimatter.Cancel(); return; }
@@ -410,7 +431,7 @@ public sealed partial class SimWorld
     }
 
     /// <summary>사선(포구에서 사거리까지)에 아군 선체가 있는가.</summary>
-    private bool FriendlyInLine(ShipBody shooter, Vec3d muzzle, Vector3 direction, float range)
+    public bool FriendlyInLine(ShipBody shooter, Vec3d muzzle, Vector3 direction, float range)
     {
         foreach (ShipBody other in _ships)
             if (other != shooter && other.Faction == shooter.Faction && !other.Damage.Destroyed
@@ -421,11 +442,6 @@ public sealed partial class SimWorld
 
     // ── 함대 지휘(2초) ────────────────────────────────────────
 
-    private const double InterceptorEngageMeters = 60_000;
-    /// <summary>요격 편대: 적 함대가 기함에서 이 거리 안이면 집결 후 돌격.</summary>
-    private const double WingStrikeMeters = 50_000;
-    private const double WingGatherMeters = 2_500;
-    private const double WingGatherTimeout = 20;
     /// <summary>호위 전대: 적 요격함이 기함에서 이 거리 안이면 방공으로 돌아온다.</summary>
     private const double ScreenThreatMeters = 30_000;
     /// <summary>호위 전대 측면 기동점: 표적에서 우리 쪽으로 50 km, 옆으로 40 km.</summary>
@@ -435,6 +451,7 @@ public sealed partial class SimWorld
 
     private void Command(Faction faction)
     {
+        foreach (Squadron squad in _squadrons.Where(s => s.Faction == faction)) squad.ObjectiveOrders = false;
         if (Rules?.Objective == BattleObjective.Domination) { CommandCaptureZones(faction); return; }
         var known = _ships.Where(s => s.Faction != faction && !s.Damage.Destroyed)
             .Select(s => (Ship: s, Track: Sensors.Track(faction, s)))
@@ -476,12 +493,12 @@ public sealed partial class SimWorld
                     FleetPosture.Gunline when squadron.Role == SquadronRole.BattleGroup => (float)Doctrine.GunlineMeters,
                     _ => null,
                 };
-            if (Doctrine is not null && CommandPosture(squadron, flagship, known, assigned)) continue;
+            if (squadron.Role != SquadronRole.InterceptorWing && Doctrine is not null && CommandPosture(squadron, flagship, known, assigned)) continue;
             switch (squadron.Role)
             {
                 case SquadronRole.BattleGroup: CommandBattleGroup(squadron, known, assigned); break;
                 case SquadronRole.EscortSquadron: CommandEscortSquadron(squadron, flagship, known, assigned); break;
-                default: CommandWing(squadron, flagship, known, assigned); break;
+                default: break; // Interceptor missions run independently of fleet posture.
             }
         }
 
@@ -621,86 +638,6 @@ public sealed partial class SimWorld
     }
 
     /// <summary>요격 편대: 적 요격함 요격 → (적 함대 근접 시) 집결 → 한 표적에 동시 돌격 → 경계.</summary>
-    private void CommandWing(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known,
-        Dictionary<ShipBody, int> assigned)
-    {
-        ShipBody leader = squadron.Leader!;
-        var members = squadron.ActiveMembers.ToList();
-
-        // 1) 요격: 60 km 안의 식별된 적 요격함을 나눠 맡는다.
-        var enemyWing = known.Where(k => k.Ship.Class.Kind == HullKind.Interceptor && k.Track.Level >= TrackLevel.Identified
-                && !k.Ship.Damage.Disabled && (k.Track.EstimatedPosition - leader.Position).Length() < InterceptorEngageMeters)
-            .Select(k => k.Ship).ToList();
-        if (enemyWing.Count > 0)
-        {
-            squadron.Activity = "요격";
-            squadron.Target = enemyWing[0];
-            squadron.Striking = false;
-            var local = new Dictionary<ShipBody, int>();
-            foreach (ShipBody ship in members)
-            {
-                ShipBody prey = enemyWing.OrderBy(e => local.GetValueOrDefault(e))
-                    .ThenBy(e => (e.Position - ship.Position).Length()).First();
-                local[prey] = local.GetValueOrDefault(prey) + 1;
-                Assign(ship, ShipOrder.AttackOn(prey), assigned);
-            }
-            return;
-        }
-
-        // 2) 돌격 표적: 기함 50 km 안의 식별된 적 중 실드가 가장 약한 것(호위함 우선, 전함은 마지막).
-        ShipBody? strike = known
-            .Where(k => k.Track.Level >= TrackLevel.Identified && !k.Ship.Damage.Disabled
-                && (k.Track.EstimatedPosition - flagship.Position).Length() < WingStrikeMeters)
-            .OrderBy(k => k.Ship.Class.Kind == HullKind.Battleship ? 1 : 0)
-            .ThenBy(k => k.Ship.Damage.ShieldCapacity > 0 ? k.Ship.Damage.Shield / k.Ship.Damage.ShieldCapacity : 0)
-            .Select(k => k.Ship).FirstOrDefault();
-        if (Doctrine is not null && Fleet(squadron.Faction).Posture == FleetPosture.Gunline
-            && Time - Fleet(squadron.Faction).Since < 300) strike = null;
-        if (squadron.Striking && squadron.Target is ShipBody current && !current.Damage.Destroyed && !current.Damage.Disabled
-            && Sensors.Track(squadron.Faction, current).Level >= TrackLevel.Identified)
-            strike = current; // 돌격 중엔 표적을 바꾸지 않는다.
-
-        if (strike is null)
-        {
-            // 3) 경계: 기함 앞 8 km에서 쐐기 대형.
-            squadron.Activity = "전방 경계";
-            squadron.Striking = false;
-            squadron.GatherStarted = double.NegativeInfinity;
-            squadron.Target = null;
-            int slot = 0;
-            foreach (ShipBody ship in members)
-            {
-                SetFormation(ship, new Vector3(0, 300f, -8000f) + Wedge(slot++, 150f));
-                Assign(ship, flagship == ship ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship), assigned);
-            }
-            return;
-        }
-
-        squadron.Target = strike;
-        if (!squadron.Striking)
-        {
-            // 집결: 선두 곁으로 모인다. 다 모였거나 20초가 지나면 돌격.
-            if (double.IsNegativeInfinity(squadron.GatherStarted)) squadron.GatherStarted = Time;
-            bool gathered = members.All(s => (s.Position - leader.Position).Length() < WingGatherMeters);
-            if (!gathered && Time - squadron.GatherStarted < WingGatherTimeout)
-            {
-                squadron.Activity = "집결";
-                int slot = 0;
-                Assign(leader, ShipOrder.HoldAt(leader.Position + Vec3d.From(leader.Velocity * 2f)), assigned);
-                foreach (ShipBody ship in members.Where(s => s != leader))
-                {
-                    SetFormation(ship, Wedge(slot++, 150f));
-                    Assign(ship, ShipOrder.EscortOf(leader), assigned);
-                }
-                return;
-            }
-            squadron.Striking = true;
-        }
-        squadron.Activity = "돌격";
-        foreach (ShipBody ship in members)
-            Assign(ship, ShipOrder.AttackOn(strike), assigned, count: ship == leader);
-    }
-
     /// <summary>쐐기 대형 자리: 선두 뒤로 좌우 번갈아(로컬 +Z가 뒤).</summary>
     private static Vector3 Wedge(int slot, float spacing)
     {

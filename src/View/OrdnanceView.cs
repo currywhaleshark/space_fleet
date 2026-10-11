@@ -12,6 +12,7 @@ namespace SpaceFleet.View;
 /// </summary>
 public partial class OrdnanceView : Node3D
 {
+    private readonly Dictionary<uint, MeshInstance3D> _probes = new();
     private readonly Dictionary<uint, Node3D> _missiles = new();
     private readonly Dictionary<uint, MeshInstance3D> _decoys = new();
     private readonly List<MeshInstance3D> _tracers = new();
@@ -35,7 +36,9 @@ public partial class OrdnanceView : Node3D
     private readonly StandardMaterial3D _fragment = new() { AlbedoColor=new Color(.18f,.23f,.28f), Metallic=.8f, Roughness=.6f };
 
     private ShaderMaterial? _flashWhite, _flashWarm;
-    public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition,Camera3D? camera=null)
+    /// <summary>끄면 정찰 프로브 표지를 그리지 않는다(티저가 근접 촬영용 외형을 따로 그릴 때).</summary>
+    public bool DrawProbes { get; set; } = true;
+    public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition,Camera3D? camera=null, Faction? viewer=null)
     {
         float Scale(Vector3 at, float minimum) => Mathf.Max(minimum, at.DistanceTo(cameraPosition) * 0.0025f);
 
@@ -50,12 +53,36 @@ public partial class OrdnanceView : Node3D
                 : m.NoseDirection.LengthSquared()>.5f ? (m.PreviousNoseDirection.LengthSquared()>.5f
                     ? m.PreviousNoseDirection.Slerp(m.NoseDirection,(float)alpha).Normalized() : m.NoseDirection)
                 : m.Velocity.LengthSquared() > 1f ? m.Velocity.Normalized() : Vector3.Forward;
-            float s = Scale(pos, m.Assault is null ? 1f : .7f);
+            float baseScale = m.Assault is null ? m.Definition.BodyScale : .7f;
+            // 실제 크기로 그리되, 멀어지면 몸체가 화면에서 약 4픽셀 아래로 줄지 않게만 한다(예전: 거리×0.25%로 계속 커짐).
+            float s = camera is null ? Scale(pos, baseScale) : Mathf.Max(baseScale, CombatFx.PixelSize(camera, pos, 4) / 4f);
             node.Transform = new Transform3D(Basis.LookingAt(dir, Mathf.Abs(dir.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up).Scaled(Vector3.One * s), pos);
-            node.GetChild<Node3D>(1).Visible = m.Burning;
+            var flame = node.GetChild<Node3D>(1);
+            flame.Visible = m.Burning;
+            if (m.Burning)
+            {
+                // 화염 꼬리: 가까이서는 실제 길이, 멀리서는 화면에서 약 7픽셀까지만(몸체보다 크게 늘이지 않는다).
+                float real = (m.Assault is null ? 14f : 8f) * baseScale;
+                float shown = camera is null ? real * s / baseScale : Mathf.Max(real, Mathf.Min(real * s / baseScale, CombatFx.PixelSize(camera, pos, 7)));
+                flame.Scale = new Vector3(1, shown / (real * s / baseScale), 1);
+            }
         }
         Prune(_missiles, active);
 
+        active.Clear();
+        foreach (var probe in world.Probes)
+        {
+            if (!DrawProbes) break;
+            bool friendly = viewer is null || probe.Faction == viewer;
+            var seen = viewer is { } side ? world.Sensors.SmallTrack(side, probe) : null;
+            if (!friendly && (seen is null || !seen.Value.Fresh(world.Time))) continue;
+            active.Add(probe.Id);
+            if (!_probes.TryGetValue(probe.Id, out var mesh)) _probes[probe.Id] = mesh = Make(_sphere, probe.Faction == Faction.Blue ? _blue : _red);
+            Vec3d observed = friendly ? Vec3d.Lerp(probe.PreviousPosition, probe.Position, alpha) : seen!.Value.Predict(world.Time);
+            Vector3 pos = (observed - origin).ToVector3();
+            mesh.Position = pos; mesh.Scale = new Vector3(1, .5f, 1) * Scale(pos, 1.5f);
+        }
+        Prune(_probes, active);
         active.Clear();
         foreach (Decoy d in world.Decoys)
         {
@@ -95,7 +122,7 @@ public partial class OrdnanceView : Node3D
         foreach (OrdnanceEvent e in world.OrdnanceEvents)
         {
             float age = (float)(world.Time - e.Time);
-            if(e.Kind==OrdnanceEventKind.DroneDestroyed)
+            if(e.Kind is OrdnanceEventKind.DroneDestroyed or OrdnanceEventKind.ProbeDestroyed)
             {
                 Vector3 at=(e.Position-origin).ToVector3();
                 if(age<.65f)

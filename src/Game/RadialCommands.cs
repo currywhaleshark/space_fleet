@@ -10,6 +10,7 @@ public partial class ScaleTest
     private RadialMenu _radial = null!;
     private string? _radialAction;
     private bool _shotRadialReleased;
+    private Input.MouseModeEnum _radialPreviousMouse;
     public bool MenuOpen => _radial is { IsOpen: true };
 
     private bool HandleRadialInput(InputEvent e)
@@ -20,7 +21,8 @@ public partial class ScaleTest
             else if (_radialAction is not null && e.IsActionReleased(_radialAction)) _radial.Release();
             else if (e is InputEventMouseMotion motion)
             {
-                if (Scheme == ControlScheme.Pilot) _radial.FeedMotion(motion.Relative);
+                if (Scheme == ControlScheme.Pilot && motion.Position.DistanceSquaredTo(_radial.Center) < 1) { } // Ignore the cursor warp event.
+                else if (Scheme == ControlScheme.Pilot) _radial.FeedMotion(motion.Relative);
                 else _radial.SetPointer(motion.Position);
             }
             if (!MenuOpen) _radialAction = null;
@@ -51,6 +53,12 @@ public partial class ScaleTest
             GetViewport().SetInputAsHandled();
             return true;
         }
+        if (e.IsActionPressed(InputSetup.DamageControlMenu))
+        {
+            OpenDamageControlMenu();
+            GetViewport().SetInputAsHandled();
+            return true;
+        }
         return false;
     }
 
@@ -68,6 +76,9 @@ public partial class ScaleTest
     {
         if (MenuOpen) return;
         _radialAction = action;
+        _radialPreviousMouse = Input.MouseMode;
+        Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (Scheme == ControlScheme.Pilot) Input.WarpMouse(GetViewport().GetVisibleRect().Size * .5f);
         Camera.SetFreeLook(false);
         Camera.ResetTelescope();
         _fireReleaseGuard=true;
@@ -99,7 +110,51 @@ public partial class ScaleTest
         Notify(rail || missile.Fired ? "일제사격" : GunneryLabels.Status(status), !rail && !missile.Fired);
     }
 
-    private void OpenSquadMenu() => OpenMenu(InputSetup.SquadMenu, "편대", new[]
+    private void RestoreRadialInput()
+    {
+        _radialAction = null;
+        _fireReleaseGuard = true;
+        Input.MouseMode = _radialPreviousMouse == Input.MouseModeEnum.Captured && Scheme == ControlScheme.Pilot && !Paused && !Spectating
+            ? Input.MouseModeEnum.Captured : Input.MouseModeEnum.Visible;
+    }
+
+    public Squadron? CommandWing => SelectedFriendly?.Body is { } selected && selected.Faction == Controlled?.Body.Faction
+        && selected.Squadron?.Role == SquadronRole.InterceptorWing ? selected.Squadron
+        : PlayerSquadron?.Role == SquadronRole.InterceptorWing ? PlayerSquadron : null;
+
+    public void LaunchPlayerProbe(Vector3? direction = null)
+    {
+        if (Controlled?.Body is not { } ship) return;
+        var result = World.LaunchProbe(ship, direction ?? ship.Forward);
+        Notify(result.Reason, !result.Fired);
+    }
+
+    public void LaunchPlayerProbeAt(Vec3d destination)
+    {
+        if (Controlled?.Body is not { } ship) return;
+        var result = World.LaunchProbeAt(ship, destination);
+        Notify(result.Reason, !result.Fired);
+    }
+
+    private void OpenSquadMenu()
+    {
+        if (CommandWing is { } wing)
+        {
+            var items = Enum.GetValues<InterceptorMission>().Select((mission, i) => new RadialItem(
+                InterceptorMissions.Label(mission), i * 51.43f, () =>
+                {
+                    var target = mission == InterceptorMission.Assault ? (HasSelectedEnemy ? InspectTarget!.Body : null)
+                        : SelectedFriendly?.Body;
+                    World.OrderWing(wing, mission, target);
+                    Notify($"{wing.Name} · {InterceptorMissions.Label(mission)}", false);
+                })).ToList();
+            items.Add(new RadialItem("자동 임무", 257.15f, () => World.OrderWing(wing, null)));
+            items.Add(new RadialItem("프로브 사출", 308.58f, () => LaunchPlayerProbe(),
+                () => Controlled?.Body.Ordnance.Interceptor.Probes > 0));
+            OpenMenu(InputSetup.SquadMenu, "요격 임무", items.ToArray());
+            return;
+        }
+        OpenMenu(InputSetup.SquadMenu, "편대", new[]
     {
         new RadialItem("호위", 270, () => IssueSquadCommand(SquadCommand.Escort)),
         new RadialItem("요격", 0, () => IssueSquadCommand(SquadCommand.Intercept)),
@@ -108,10 +163,12 @@ public partial class ScaleTest
         new RadialItem("위치유지", 135, () => IssueSquadCommand(SquadCommand.Hold)),
     });
 
+    }
+
     private void OpenDroneMenu()
     {
         if (Controlled?.Body is not { } ship) return;
-        if (ship.Definition.DefenseDrones is null) { Notify("방어 드론 미탑재",true); return; }
+        if (ship.Definition.DefenseDrones is null) { Notify("방어 드론 미탑재 · N 요격 임무",true); return; }
         var drones=ship.Ordnance.Drones;
         RadialItem Item(DroneSector sector,float angle) => new(DefenseDroneState.Label(sector),angle,() =>
         {
@@ -129,7 +186,7 @@ public partial class ScaleTest
         if (_shot is null) return;
         string? action = _shot.Radial switch
         { "power" => InputSetup.PowerMenu, "gunnery" or "fire" => InputSetup.GunneryMenu, "squad" => InputSetup.SquadMenu,
-            "drone" => InputSetup.DroneMenu, _ => null };
+            "drone" => InputSetup.DroneMenu, "repair" => InputSetup.DamageControlMenu, _ => null };
         if (action is null) return;
         _UnhandledInput(new InputEventAction { Action = action, Pressed = true });
         if (!MenuOpen) return;
@@ -149,5 +206,18 @@ public partial class ScaleTest
         if (Controlled?.Body.Power is { } power)
             GD.Print($"radial released: pips={string.Join('/', Enum.GetValues<PowerChannel>().Select(power.Pips))}");
         GD.Print($"radial result: doctrine={Gunnery?.Doctrine}, squad={SquadOrder}, target={SquadTarget?.Callsign}, drones={Controlled?.Body.Ordnance.Drones.Sector}");
+    }
+
+    private void OpenDamageControlMenu()
+    {
+        if (Controlled?.Body is not { } ship || ship.Damage.Destroyed) return;
+        var dc = ship.DamageControl;
+        var priorities = Enum.GetValues<RepairPriority>();
+        OpenMenu(InputSetup.DamageControlMenu, "응급복구",
+            priorities.Select((priority, i) => new RadialItem(DamageControlState.Label(priority), i * 45, () =>
+            {
+                dc.Priority = priority;
+                Notify($"응급복구 · {DamageControlState.Label(priority)}" + (priority is RepairPriority.Automatic or RepairPriority.Hold ? "" : " 우선"), false);
+            })).ToArray());
     }
 }

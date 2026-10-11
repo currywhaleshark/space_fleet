@@ -38,9 +38,9 @@ public sealed partial class SimWorld
     {
         var def=shooter.Definition.Antimatter!.Flight;
         Vec3d start=shooter.Position+Vec3d.From(shooter.Orientation*def.LaunchPoint);
-        Vector3 relative=(track.EstimatedPosition-start).ToVector3()+target.Orientation*(localAim??Vector3.Zero);
+        Vector3 relative=(track.EstimatedPosition-start).ToVector3()+track.ObservedOrientation*(localAim??Vector3.Zero);
         Vector3 targetVelocity=track.Level>=TrackLevel.Identified
-            ? target.Velocity+target.Orientation*target.AngularVelocity.Cross(localAim??Vector3.Zero) : Vector3.Zero;
+            ? track.ObservedVelocity : Vector3.Zero;
         // A player may still waste a round beyond its lifetime. AI separately gates range and time.
         AssaultGuidance.Intercept(relative,targetVelocity-shooter.Velocity,def.EjectSpeed,def.Accel,30,out var direction,out flight);
         return direction;

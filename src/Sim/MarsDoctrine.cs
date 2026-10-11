@@ -16,7 +16,7 @@ public sealed partial class SimWorld
         ModuleKind kind = brain.Profile.AttackRuns ? ModuleKind.Thruster : ((int)(Time / 30) % 3) switch
         { 0 => ModuleKind.Sensor, 1 => ModuleKind.Cooling, _ => ModuleKind.Gun };
         var module = target.Definition.Modules.Where(m => m.Kind == kind)
-            .OrderBy(m => (track.EstimatedPosition + Vec3d.From(target.Orientation * m.Center) - brain.Ship.Position).LengthSquared())
+            .OrderBy(m => (track.EstimatedPosition + Vec3d.From(track.ObservedOrientation * m.Center) - brain.Ship.Position).LengthSquared())
             .ThenBy(m => m.Id, StringComparer.Ordinal).FirstOrDefault();
         return module is null ? null : target.Damage.Modules.First(m => m.Definition.Id == module.Id);
     }
@@ -24,7 +24,7 @@ public sealed partial class SimWorld
     private void CommandMars(Faction faction, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody, int> assigned)
     {
         foreach (ShipBrain brain in _brains.Values.Where(b => b.Enabled && b.Ship.Faction == faction
-            && b.Ship.Definition.Design == DesignFamily.Mars && Squadron.Active(b.Ship) && b.Ship.Squadron?.PlayerLed != true))
+            && b.Ship.Definition.Design == DesignFamily.Mars && b.Ship.Squadron?.Role != SquadronRole.InterceptorWing && Squadron.Active(b.Ship) && b.Ship.Squadron?.PlayerLed != true))
         {
             ShipBody ship = brain.Ship;
             bool assault = ship.Class.Kind == HullKind.Interceptor && ship.Ordnance.Antimatter.Rounds > 0;
@@ -36,19 +36,6 @@ public sealed partial class SimWorld
                 .Select(k => k.Ship).FirstOrDefault()
                 ?? known.OrderBy(k => (k.Track.EstimatedPosition - ship.Position).Length()).Select(k => k.Ship).FirstOrDefault();
             if (target is null) { Assign(ship, ShipOrder.HoldAt(ship.Position), assigned); continue; }
-            if (assault && ship.Squadron is not null && Time < 120)
-            {
-                // Wait for the fleet's opening salvo; racing alone into every loaded launcher wastes the payload.
-                var cover = _ships.Where(s => s.Faction == faction && s.Class.Kind == HullKind.Escort && Squadron.Active(s))
-                    .OrderBy(s => (s.Position-ship.Position).LengthSquared()).FirstOrDefault();
-                if (cover is not null)
-                {
-                    SetFormation(ship,new Vector3(brain._side*350, -300, 650));
-                    Assign(ship,ShipOrder.EscortOf(cover),assigned);
-                    ship.Squadron.Activity="강습 대기 · 엄호";
-                    continue;
-                }
-            }
             brain.CommandStandoff = brain.Profile.StandoffMeters;
             // Escorts stay near friendly precision batteries during the opening, sharing the existing sensor net and ECM screen.
             ShipBody? anchor = ship.Class.Kind != HullKind.Escort ? null : _ships

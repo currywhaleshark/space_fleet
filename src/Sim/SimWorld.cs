@@ -98,10 +98,13 @@ public sealed partial class SimWorld
             _ships[i].PrevPosition = _previous[i].Position;
             _ships[i].PrevOrientation = _previous[i].Orientation;
         }
-        Tick++;
         SimProfiler.End(SimSection.Post, sectionTiming);
+        long probeTiming = SimProfiler.Begin();
+        StepProbes(TickDelta);
+        SimProfiler.End(SimSection.Probes, probeTiming);
+        Tick++;
         sectionTiming = SimProfiler.Begin();
-        Sensors.Update(_ships, Time);
+        Sensors.Update(_ships, Time, probes: _probes, missiles: _missiles);
         SimProfiler.End(SimSection.Sensors, sectionTiming);
         sectionTiming = SimProfiler.Begin();
         _impacts.RemoveAll(i => Time - i.Time > 3);

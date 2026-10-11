@@ -1,6 +1,8 @@
 {
   "id": "mars_interceptor",
+  "damageControl": { "kits": 2, "repairSeconds": 10, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Interceptor",
+  "reconProbes": { "count": 2, "deploymentMeters": 36000, "acceleration": 280, "burnSeconds": 7, "sensorStrength": 115 },
   "railgun": {
     "moduleId": "gun",
     "muzzle": [
@@ -67,26 +69,31 @@
       -1.44,
       -1.7
     ],
-    "ejectSpeed": 15,
-    "accelG": 40,
-    "burnSeconds": 25,
-    "maxFlightSeconds": 60,
+    "ejectSpeed": 300,
+    "accelG": 95,
+    "burnSeconds": 14,
+    "maxFlightSeconds": 45,
     "seekerRangeMeters": 8000,
-    "seekerFovDegrees": 50,
+    "seekerFovDegrees": 90,
     "seekerStrength": 2,
     "fuzeMeters": 10,
-    "turnRateDegrees": 160,
+    "turnRateDegrees": 260,
     "maxSteeringAngleDegrees": 90,
-    "thrustGimbalDegrees": 10,
-    "energy": 250,
-    "penetrationMm": 300,
-    "moduleDamage": 110,
-    "hitPoints": 6,
-    "launchHeatMj": 2
+    "thrustGimbalDegrees": 35,
+    "energy": 210,
+    "penetrationMm": 255,
+    "moduleDamage": 95,
+    "hitPoints": 4,
+    "launchHeatMj": 2,
+    "canInterceptMissiles": true,
+    "interceptRangeMeters": 10000,
+    "interceptFuzeMeters": 32,
+    "interceptDamage": 12,
+    "bodyScale": 0.7
   },
   "antimatter": {
     "moduleId": "am-containment",
-    "rounds": 2,
+    "rounds": 3,
     "armingSeconds": 2.5,
     "recommendedMinMeters": 2000,
     "recommendedMaxMeters": 5000,
@@ -98,7 +105,7 @@
     "safeFailureHealth": 0.15,
     "armedFailureHealth": 0.65,
     "flight": {
-      "rounds": 2,
+      "rounds": 3,
       "reloadSeconds": 2.5,
       "launchPoint": [
         0.84,

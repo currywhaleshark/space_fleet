@@ -196,24 +196,29 @@ static class AIChecks
         Squadron squadron = world.AddSquadron("WING", Faction.Blue, SquadronRole.InterceptorWing, wing);
         ShipBody target = Add(world, "escort", Faction.Red, new Vec3d(0, 0, -30_000), "T", pointDefense: false);
         world.EnableCommander(Faction.Blue);
-        bool gathered = false, struck = false;
+        bool struck = false;
         for (int i = 0; i < 60 * 90 && !struck; i++)
         {
             world.Step();
-            gathered |= squadron.Activity == "집결";
-            struck = squadron.Activity == "돌격";
+            struck = squadron.Mission == InterceptorMission.Assault;
         }
-        Require(gathered && struck, "The wing must gather before striking");
+        Require(struck && squadron.AssaultAvailable, "An observed unescorted capital creates an assault opportunity");
         Require(wing.All(s => world.BrainOf(s)!.Order is { Kind: OrderKind.Attack } o && o.Target == target),
             "All five interceptors must strike the same target together");
         for (int i = 0; i < 60 * 60; i++) world.Step();
         Require(Damaged(target), "The wing strike must damage its target");
 
         // 적 요격함이 나타나면 요격으로 전환해 나눠 맡는다.
-        var raiders = Enumerable.Range(0, 2).Select(i => Add(world, "interceptor", Faction.Red, new Vec3d(-20_000 + i * 2000, 0, -10_000), $"R{i}")).ToList();
-        for (int i = 0; i < 60 * 4; i++) world.Step();
-        Require(squadron.Activity == "요격", "The wing must switch to intercepting enemy interceptors");
-        Require(raiders.All(r => wing.Any(s => world.BrainOf(s)!.Target == r)), "Interceptions must be spread over the raiders");
+        var raiders = Enumerable.Range(0, 2).Select(i => Add(world, "interceptor", Faction.Red, flagship.Position + new Vec3d(-5000 + i * 2000, 0, -5000), $"R{i}")).ToList();
+        bool intercepted = false, distributed = false;
+        for (int i = 0; i < 60 * 14; i++)
+        {
+            world.Step();
+            intercepted |= squadron.Mission == InterceptorMission.Superiority;
+            distributed |= raiders.All(r => wing.Any(s => world.BrainOf(s)!.Target == r));
+        }
+        Require(intercepted, "The wing responds to raiders threatening its anchor");
+        Require(distributed, "Interceptions must be spread over the raiders");
     }
 
     private static void CheckEscortScreen()

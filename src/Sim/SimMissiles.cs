@@ -51,8 +51,9 @@ public sealed partial class SimWorld
             Id = _shotSequence, Shooter = shooter, Target = target, Definition = def,
             Position = start, PrevPosition = start, Health = def.HitPoints, AimPoint = track.EstimatedPosition,
             // 수직 발사관: 함선 위쪽으로 사출한 뒤 스스로 표적을 향해 꺾는다.
-            Velocity = shooter.Velocity + shooter.Up * def.EjectSpeed,
-            NoseDirection = shooter.Up, PreviousNoseDirection = shooter.Up,
+            Velocity = shooter.Velocity + (def.CanInterceptMissiles ? shooter.Forward : shooter.Up) * def.EjectSpeed,
+            NoseDirection = def.CanInterceptMissiles ? shooter.Forward : shooter.Up,
+            PreviousNoseDirection = def.CanInterceptMissiles ? shooter.Forward : shooter.Up,
             NextSeekerCheck = Time + SeekerInterval,
         };
         _missiles.Add(missile);
@@ -137,8 +138,8 @@ public sealed partial class SimWorld
                 UpdateSeeker(m, time);
                 m.NextSeekerCheck = time + SeekerInterval;
             }
-            StepMissile(m, dt);
-            if (m.Assault is not null && Log is not null)
+            StepMissile(m, dt, time);
+            if (m.Assault is not null && m.Target is not null && Log is not null)
             {
                 m.ClosestTargetHull = Math.Min(m.ClosestTargetHull, HullDistance(m.Target, m.Position));
                 if (m.SeekerTarget == m.Target) m.SeekerSeconds += dt;
@@ -153,6 +154,7 @@ public sealed partial class SimWorld
             }
         }
 
+        StepCounterMissileFuzes(time);
         SimProfiler.End(SimSection.Missiles, timing);
         timing = SimProfiler.Begin();
         StepPointDefense(dt, time);
@@ -162,11 +164,13 @@ public sealed partial class SimWorld
         SimProfiler.End(SimSection.Drones, timing);
     }
 
-    private void StepMissile(Missile m, double dt)
+    private void StepMissile(Missile m, double dt, double time)
     {
         Vec3d aim;
         Vector3 aimVelocity;
-        switch (m.SeekerTarget)
+        if (m.InterceptTarget is not null)
+            CounterMissileAim(m, time, dt, out aim, out aimVelocity);
+        else switch (m.SeekerTarget)
         {
             case ShipBody ship:
                 aim = ship.Position + Vec3d.From(ship.Orientation * (ship == m.Target ? m.LocalAim ?? Vector3.Zero : Vector3.Zero));
@@ -179,6 +183,7 @@ public sealed partial class SimWorld
                 break;
             default:
                 if (m.Assault is not null) { aim = m.AimPoint; aimVelocity = Vector3.Zero; break; }
+                if (m.Target is null) { aim = m.AimPoint; aimVelocity = Vector3.Zero; break; }
                 SensorTrack track = Sensors.Track(m.Faction, m.Target);
                 if (track.Level >= TrackLevel.Contact)
                 {
@@ -195,8 +200,15 @@ public sealed partial class SimWorld
         }
         m.AimPoint = aim;
 
+        if (m.Definition.CanInterceptMissiles && m.InterceptTarget is null)
+        {
+            double closing = (aim - m.Position).Dot(Vec3d.From(aimVelocity - m.Velocity));
+            if (closing < 0) m.InterceptClosing = true;
+            else if (m.InterceptClosing && m.Age > .25) m.InterceptPassed = true;
+        }
+
         Vector3 accel = Vector3.Zero;
-        if (m.Assault is null && m.Burning)
+        if (m.Assault is null && m.Burning && !m.InterceptPassed)
         {
             Vector3 requested = Guidance(m.Position, m.Velocity, aim, aimVelocity, m.Definition.Accel);
             if (m.NoseDirection.LengthSquared() < .5f)
@@ -264,6 +276,7 @@ public sealed partial class SimWorld
 
     private void UpdateSeeker(Missile m, double time)
     {
+        if (m.InterceptPassed) { m.SeekerTarget = null; return; }
         MissileDefinition def = m.Definition;
         // Keep the stabilized seeker's search axis along the flight path. Motor
         // attitude may slew sideways for a correction without moving its sensor window.
@@ -285,7 +298,12 @@ public sealed partial class SimWorld
             total += snr * bias;
         }
 
-        foreach (ShipBody ship in _ships)
+        if (m.InterceptTarget is { } threat)
+        {
+            if (_missiles.Contains(threat) && threat.Health > 0)
+                Consider(threat, threat.Position, threat.Burning ? 2 : .65f, 0, IntendedTargetWeight);
+        }
+        else foreach (ShipBody ship in _ships)
         {
             if (ship.Faction == m.Faction || ship.Damage.Destroyed) continue;
             float jam = ship.Power.EcmActive ? ship.Definition.Sensors.Jammer * ship.Power.EcmEffect : 0f;
@@ -316,6 +334,7 @@ public sealed partial class SimWorld
     /// <summary>신관. 탐색기가 디코이를 쫓으면 디코이 근처에서 헛되이 터진다.</summary>
     private bool Fuze(Missile m, double dt, double time)
     {
+        if (m.InterceptTarget is not null) return false; // Resolve pairs after both trajectories have advanced.
         if (m.Assault is not null && AssaultCollision(m, time)) return true;
         if (m.SeekerTarget is Decoy decoy)
         {
@@ -328,7 +347,8 @@ public sealed partial class SimWorld
             return false;
         }
         if (m.Assault is not null) return false; // AM transfers energy only on physical hull contact
-        ShipBody victim = m.SeekerTarget as ShipBody ?? m.Target;
+        ShipBody? victim = m.SeekerTarget as ShipBody ?? m.Target;
+        if (victim is null) return false;
         Vec3d relStart = m.PrevPosition - victim.PrevPosition;
         Vec3d relEnd = m.Position - victim.Position;
         Vec3d travel = relEnd - relStart;
@@ -422,6 +442,7 @@ public sealed partial class SimWorld
 
     // Reused per defending ship/substep. Preserve source order and recheck live health per mount:
     // an earlier mount can kill/remove a candidate without invalidating these scratch lists.
+    private readonly List<ReconProbe> _pdProbeCandidates = new();
     private readonly List<Missile> _pdMissileCandidates = new();
     private readonly List<ShipBody> _pdRaiderCandidates = new(), _pdCarrierCandidates = new();
     private Vec3d[] _pdMountPositions = Array.Empty<Vec3d>();
@@ -443,7 +464,7 @@ public sealed partial class SimWorld
         {
             if (ship.Definition.PointDefense is not PointDefenseDefinition pd) continue;
             float quality = Mathf.Clamp(ship.Damage.SensorFraction * ship.Power.SensorEffect, 0f, 1.5f) * ship.Power.WeaponEffect;
-            if (ship.Damage.Destroyed || quality <= 0.001f || _missiles.Count == 0 && !anyInterceptors && !anyDrones)
+            if (ship.Damage.Destroyed || quality <= 0.001f || _missiles.Count == 0 && !anyInterceptors && !anyDrones && _probes.Count == 0)
             {
                 foreach (var state in ship.Ordnance.PointDefense) state.ClearTracking();
                 continue;
@@ -458,7 +479,10 @@ public sealed partial class SimWorld
                 bounds = bounds.Include(_pdMountPositions[i]);
             }
             bounds = bounds.Expanded(pd.RangeMeters * PointDefenseTrackingRangeMultiplier);
-            _pdMissileCandidates.Clear(); _pdRaiderCandidates.Clear(); _pdCarrierCandidates.Clear();
+            _pdMissileCandidates.Clear(); _pdRaiderCandidates.Clear(); _pdCarrierCandidates.Clear(); _pdProbeCandidates.Clear();
+            foreach (var probe in _probes)
+                if (probe.Faction != ship.Faction && probe.Active && bounds.Contains(probe.Position)
+                    && Sensors.SmallTrack(ship.Faction, probe) is { } seen && seen.Fresh(Time)) _pdProbeCandidates.Add(probe);
             foreach (var missile in _missiles)
                 if (missile.Faction != ship.Faction && missile.Health > 0 && bounds.Contains(missile.Position))
                     _pdMissileCandidates.Add(missile);
@@ -469,7 +493,7 @@ public sealed partial class SimWorld
                 if (other.Definition.DefenseDrones is { } drones && bounds.Expanded(drones.OrbitMeters).Contains(other.Position))
                     _pdCarrierCandidates.Add(other);
             }
-            if (_pdMissileCandidates.Count == 0 && _pdRaiderCandidates.Count == 0 && _pdCarrierCandidates.Count == 0)
+            if (_pdMissileCandidates.Count == 0 && _pdRaiderCandidates.Count == 0 && _pdCarrierCandidates.Count == 0 && _pdProbeCandidates.Count == 0)
             {
                 foreach (var state in ship.Ordnance.PointDefense) state.ClearTracking();
                 continue;
@@ -480,6 +504,7 @@ public sealed partial class SimWorld
                 Vec3d mount = _pdMountPositions[i];
                 var tracking = ship.Ordnance.PointDefense[i];
                 Missile? threat = null;
+                ReconProbe? probeTarget = null;
                 ShipBody? raider = null, droneCarrier = null;
                 int droneIndex=-1, bestPriority=int.MaxValue;
                 double nearest = pd.RangeMeters * PointDefenseTrackingRangeMultiplier;
@@ -524,17 +549,24 @@ public sealed partial class SimWorld
                             droneCarrier=carrier; droneIndex=j; threat=null; raider=null;
                         }
                     }
-                if (threat is null && raider is null && droneCarrier is null) { tracking.ClearTracking(); continue; }
+                foreach (var probe in _pdProbeCandidates)
+                {
+                    if (!probe.Active) continue;
+                    if (!Candidate(probe.Position, 3, out double distance, out int rank)) continue;
+                    if (!ClearDefenseLine(mount + Vec3d.From(ship.Orientation * (tracking.MountBasis * Vector3.Up) * .05f), probe.Position)) continue;
+                    bestPriority = rank; nearest = distance; probeTarget = probe; threat = null; raider = null; droneCarrier = null;
+                }
+                if (threat is null && raider is null && droneCarrier is null && probeTarget is null) { tracking.ClearTracking(); continue; }
 
-                Vec3d aim = threat?.Position ?? raider?.Position ?? droneCarrier!.Ordnance.Drones.WorldPosition(droneIndex);
+                Vec3d aim = threat?.Position ?? raider?.Position ?? probeTarget?.Position ?? droneCarrier!.Ordnance.Drones.WorldPosition(droneIndex);
                 tracking.Track(inverse * (aim-mount).ToVector3(), dt, ship.Power.WeaponEffect);
-                tracking.TargetKind=threat is not null ? PointDefenseTarget.Missile : raider is not null ? PointDefenseTarget.Interceptor : PointDefenseTarget.Drone;
+                tracking.TargetKind=threat is not null ? PointDefenseTarget.Missile : raider is not null ? PointDefenseTarget.Interceptor : probeTarget is not null ? PointDefenseTarget.Probe : PointDefenseTarget.Drone;
                 if (!tracking.Aligned || nearest > pd.RangeMeters) { tracking.FireAccumulator = 0; continue; }
                 tracking.FireAccumulator += pd.ShotsPerSecond * (float)dt;
-                Vector3 velocity = threat?.Velocity ?? raider?.Velocity ?? droneCarrier!.Ordnance.Drones.WorldVelocity(droneIndex);
-                uint salt = threat?.Id ?? (raider is not null ? ShipBrain.Hash(raider.Callsign) : ShipBrain.Hash(droneCarrier!.Callsign)^(uint)(droneIndex+1)*2654435761u);
+                Vector3 velocity = threat?.Velocity ?? raider?.Velocity ?? probeTarget?.Velocity ?? droneCarrier!.Ordnance.Drones.WorldVelocity(droneIndex);
+                uint salt = threat?.Id ?? probeTarget?.Id ?? (raider is not null ? ShipBrain.Hash(raider.Callsign) : ShipBrain.Hash(droneCarrier!.Callsign)^(uint)(droneIndex+1)*2654435761u);
                 while (tracking.FireAccumulator >= 1f && (threat is null || threat.Health > 0)
-                    && raider?.Damage.Destroyed!=true && (droneCarrier is null || droneCarrier.Ordnance.Drones.Alive(droneIndex)))
+                    && raider?.Damage.Destroyed!=true && (probeTarget is null || probeTarget.Active) && (droneCarrier is null || droneCarrier.Ordnance.Drones.Alive(droneIndex)))
                 {
                     tracking.FireAccumulator -= 1f;
                     Vector3 los = (aim - mount).ToVector3();
@@ -544,7 +576,7 @@ public sealed partial class SimWorld
                     float crossing = (rel - rh * rel.Dot(rh)).Length();
                     float p = pd.HitChance * (1f - 0.7f * d / pd.RangeMeters)
                         * Mathf.Min(1f, PointDefenseCrossingSpeed / Mathf.Max(crossing, 1f)) * quality
-                        * (raider is not null ? PointDefenseShipSizeFactor : droneCarrier is not null ? 1.5f : threat!.Assault is null ? 1f : .8f);
+                        * (raider is not null ? PointDefenseShipSizeFactor : droneCarrier is not null ? 1.5f : probeTarget is not null ? 1f : threat!.Assault is null ? 1f : .8f);
                     bool hit = Roll(++_pointDefenseSequence * 2246822519u ^ salt) < p;
                     _pointDefenseShots.Add(new PointDefenseShot(mount, aim, time, hit, ship.Faction));
                     tracking.LastFiredAt = time;
@@ -552,6 +584,8 @@ public sealed partial class SimWorld
                     if (!hit) continue;
                     if (threat is not null)
                         threat.Health -= pd.DamagePerHit;
+                    else if (probeTarget is not null)
+                        DamageProbe(ship, probeTarget, pd.DamagePerHit, time);
                     else if (droneCarrier is not null)
                         DamageDrone(ship,droneCarrier,droneIndex,pd.DamagePerHit,time);
                     else
@@ -565,12 +599,7 @@ public sealed partial class SimWorld
                             shieldBefore, BattleWeapon.PointDefense);
                     }
                 }
-                if (threat is not null && threat.Health <= 0 && _missiles.Remove(threat))
-                {
-                    Log?.Intercept(ship, threat);
-                    Log?.EndAntimatter(threat, AntimatterOutcome.PointDefense, time);
-                    _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted, threat.Position, time, threat.Faction, threat.Weapon));
-                }
+                if (threat is not null && threat.Health <= 0) DestroyMissile(ship, threat, time);
             }
         }
     }

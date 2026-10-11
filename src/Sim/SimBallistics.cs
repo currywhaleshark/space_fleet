@@ -214,9 +214,20 @@ public sealed partial class SimWorld
             }
             p.Age += travelTime;
             p.Position = end;
-            if (FirstDroneHit(p.Shooter,start,end,bounds,travelTime/dt,earliest,out var carrier,out int droneIndex,out double droneFraction))
+            double smallFraction = earliest;
+            object? small = FirstSmallHit(p, start, end, travelTime, time, ref smallFraction, out bool proximity);
+            if (FirstDroneHit(p.Shooter,start,end,bounds,travelTime/dt,smallFraction,out var carrier,out int droneIndex,out double droneFraction))
             {
                 DamageDrone(p.Shooter,carrier!,droneIndex,p.Packet.Energy,time+travelTime*droneFraction);
+                _projectiles.RemoveAt(index);
+                continue;
+            }
+            if (small is not null)
+            {
+                double hitTime = time + travelTime * smallFraction;
+                if (small is Missile missile)
+                { missile.Health -= proximity ? 6 : p.Packet.Energy; if (missile.Health <= 0) DestroyMissile(p.Shooter, missile, hitTime); }
+                else DamageProbe(p.Shooter, (ReconProbe)small, p.Packet.Energy, hitTime);
                 _projectiles.RemoveAt(index);
                 continue;
             }

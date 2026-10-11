@@ -92,6 +92,7 @@ public partial class ScaleTest : Node3D
         _hud = new Hud { Name = "Hud", Game = this };
         layer.AddChild(_hud);
         _radial = new RadialMenu { Name = "RadialMenu" };
+        _radial.Closed += RestoreRadialInput;
         layer.AddChild(_radial);
         AddChild(layer);
 
@@ -152,6 +153,7 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if (e is InputEventMouse mouse && Input.MouseMode != Input.MouseModeEnum.Captured) _selectionPointer = mouse.Position;
         if (e.IsActionReleased(InputSetup.Fire)) _fireReleaseGuard = false;
         if (e.IsActionReleased(InputSetup.Telescope)) Camera.SetTelescope(false);
         if (WorldMapOpen) { _worldMap.HandleInput(e); return; }
@@ -169,6 +171,7 @@ public partial class ScaleTest : Node3D
         switch (e)
         {
             case InputEventMouseMotion motion when Camera.TelescopeHeld || (Scheme == ControlScheme.Pilot && Input.MouseMode == Input.MouseModeEnum.Captured) || Camera.FreeLooking:
+                if (motion.Relative.LengthSquared() >= 9) _smallTrackingOverrideUntil = World.Time + .35;
                 Camera.AddMouse(motion.Relative);
                 return;
             case InputEventMouseButton button when button.ButtonIndex == MouseButton.Middle && Scheme == ControlScheme.Helm:
@@ -198,7 +201,7 @@ public partial class ScaleTest : Node3D
         else if (e.IsActionPressed(InputSetup.ReleaseMouse) && Scheme == ControlScheme.Pilot)
         { Input.MouseMode = Input.MouseModeEnum.Visible; Camera.ResetTelescope(); }
         else if (e.IsActionPressed(InputSetup.InspectTarget))
-        { if (Camera.TelescopeHeld) SelectScopeTarget(); else NextInspectTarget(); }
+            SelectPointerTarget();
         else if (e.IsActionPressed(InputSetup.TestFire))
             FireTest(RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward);
         else if (e.IsActionPressed(InputSetup.ToggleHelp))
@@ -253,7 +256,7 @@ public partial class ScaleTest : Node3D
         if (Paused) return;
         StepBattleFlow(delta);
         float dt = (float)SimWorld.TickDelta;
-        if (!AutoPlay && !MapControlsBlocked) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
+        if (!AutoPlay && !MapControlsBlocked && !MenuOpen) Throttle = Mathf.Clamp(Throttle + Input.GetAxis(InputSetup.ThrottleDown, InputSetup.ThrottleUp) * dt * 0.6f, -0.3f, 1f);
 
         // 시간 배속: 한 물리 틱에 시뮬레이션을 여러 번 진행한다.
         long physics = PerfTrace.Begin();
@@ -306,6 +309,9 @@ public partial class ScaleTest : Node3D
         if (!Input.IsActionPressed(InputSetup.Fire) && !Input.IsMouseButtonPressed(MouseButton.Left)) _fireReleaseGuard = false;
         else if (Paused || MenuOpen || WorldMapOpen || RadarPointerCaptured) _fireReleaseGuard = true;
         StepShotRadial();
+        if (_shot is not null && WorldMapOpen && _frame == 60) _worldMap.FitAll();
+        if (_shot is not null && WorldMapOpen && _frame == 70 && OS.GetCmdlineUserArgs().Contains("--probe-range-preview"))
+            _worldMap.HandleInput(new InputEventMouseMotion { Position = GetViewport().GetVisibleRect().Size * new Vector2(.62f, .43f), ShiftPressed = true });
         PreviewFeedback();
         PreviewLostContact();
         // 스크린샷 모드는 초기화가 실패해도 반드시 끝나야 한다.
@@ -341,7 +347,7 @@ public partial class ScaleTest : Node3D
         PerfTrace.End("ballistics", p); p = PerfTrace.Begin();
         foreach(var view in Views) view.SyncCombat(World,Camera);
         PerfTrace.End("shipCombat", p); p = PerfTrace.Begin();
-        _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position,Camera);
+        _ordnance.Sync(World, RenderOrigin, alpha, Camera.Position,Camera, Controlled?.Body.Faction);
         PerfTrace.End("ordnance", p); p = PerfTrace.Begin();
         _battleFx.Sync(RenderOrigin, World.Time + alpha * SimWorld.TickDelta, Camera);
         PerfTrace.End("fxSync", p);
@@ -388,22 +394,6 @@ public partial class ScaleTest : Node3D
                 .FirstOrDefault() ?? Views.Find(v => v != Controlled);
     }
 
-    private void NextInspectTarget()
-    {
-        int start = InspectTarget is null ? -1 : Views.IndexOf(InspectTarget);
-        for (int i = 1; i <= Views.Count; i++)
-        {
-            ShipView candidate = Views[(start + i) % Views.Count];
-            // 탐지되지 않은 적은 고를 수 없다(아군은 데이터 링크로 항상 안다).
-            if (candidate == Controlled || ContactOf(candidate) is null || (Scheme == ControlScheme.Helm && candidate.Body.Faction == Controlled!.Body.Faction)) continue;
-            SelectEnemy(candidate);
-            Vector3 direction = (ContactOf(candidate)!.DisplayPosition(candidate.SimPosition) - Controlled!.Body.Position).ToVector3().Normalized();
-            if (Scheme == ControlScheme.Pilot && direction.LengthSquared() > 0.1f)
-                Camera.ResetAim(Basis.LookingAt(direction, Controlled.Body.Up).GetRotationQuaternion());
-            break;
-        }
-    }
-
     /// <summary>적 전함·호위함은 ECM을 켜고 접근한다(무장·센서 핍 하나씩을 ECM으로). 요격함은 조용히 온다.</summary>
     private static void ApplyDefaultPips(ShipBody ship)
     {
@@ -435,6 +425,21 @@ public partial class ScaleTest : Node3D
 
     private void ApplyShotSetup(ShotRequest shot)
     {
+        if (OS.GetCmdlineUserArgs().Contains("--probe-stress"))
+            foreach (var carrier in World.Ships.Where(s => s.Definition.ReconProbes is not null))
+                for (int i=0; i<2; i++)
+                { carrier.Ordnance.Interceptor.NextLaunch=0; World.LaunchProbe(carrier, (carrier.Forward + carrier.Up * i * .5f).Normalized()); }
+        if (OS.GetCmdlineUserArgs().Contains("--probe-preview") && Controlled is { } scout)
+        {
+            World.LaunchProbe(scout.Body, scout.Body.Forward);
+            if (scout.Body.Squadron is { } wing) World.OrderWing(wing, InterceptorMission.Recon);
+        }
+        // Developer screenshot fixture for a working repair crew on the controlled ship.
+        if (OS.GetCmdlineUserArgs().Contains("--repair-preview") && Controlled is { } repairView)
+        {
+            var sensor = repairView.Body.Damage.Modules.First(m => m.Definition.Kind == ModuleKind.Sensor);
+            repairView.Body.Damage.Hurt(sensor, sensor.Health, repairView.Body.SimTime, 0, 1);
+        }
         if (shot.FixedOrigin)
             FloatingOrigin = false;
         if (shot.AircraftStyle)
@@ -493,6 +498,7 @@ public partial class ScaleTest : Node3D
         }
         Camera.Turn(shot.Yaw, shot.Pitch);
         SetupShotRadial();
+        if (OS.GetCmdlineUserArgs().Contains("--world-map")) ToggleWorldMap();
     }
 
     private void SaveShotAndQuit(string path)

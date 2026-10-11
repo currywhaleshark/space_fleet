@@ -73,6 +73,7 @@ public partial class ScaleTest
     private void ApplySquadOrder()
     {
         if (AutoPlay || Controlled?.Body is not ShipBody leader) return;
+        if (leader.Squadron?.Role == SquadronRole.InterceptorWing) return;
         if (SquadOrder == SquadCommand.Focus && (SquadTarget is null || SquadTarget.Damage.Destroyed))
             SquadOrder = SquadCommand.Escort;
         ShipBody? fireAt = Gunnery?.Engaged ?? (HasSelectedEnemy ? InspectTarget!.Body : null);

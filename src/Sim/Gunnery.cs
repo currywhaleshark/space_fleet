@@ -10,6 +10,8 @@ public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, Hull
 public sealed class GunneryOrder
 {
     public FireDoctrine Doctrine { get; set; } = FireDoctrine.Free;
+    // Player-selected ordnance is aimed by the input controller; suppress autonomous ship fire.
+    public bool PlayerSmallTarget { get; set; }
     public ShipBody? Target { get; set; }
     public string? PriorityModuleId { get; set; }
     public AimSubsystem AimPart { get; set; }
@@ -133,6 +135,7 @@ public sealed partial class SimWorld
         {
             if (ship.Gunnery is not GunneryOrder order || BrainOf(ship) is { Enabled: true }) continue;
             order.Engaged = null; order.EngagedModule = null; order.Solution = null;
+            if (order.PlayerSmallTarget) { order.Status = GunneryStatus.Manual; continue; }
             if (order.Doctrine is FireDoctrine.Hold or FireDoctrine.Manual)
             { order.Status = order.Doctrine == FireDoctrine.Hold ? GunneryStatus.Hold : GunneryStatus.Manual; continue; }
             ShipBody? target = order.Target is { Damage.Destroyed: false } chosen && chosen.Faction != ship.Faction

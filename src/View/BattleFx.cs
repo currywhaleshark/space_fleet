@@ -124,9 +124,18 @@ public partial class BattleFx : Node3D
             {
                 Vec3d at = Vec3d.Lerp(m.PrevPosition, m.Position, (j + 1.0) / n);
                 double born = now - SimWorld.TickDelta * (1 - (j + 1.0) / n);
-                if (j % 2 == 0) Add(_light, Kind.Puff, at, m.Velocity * 0.02f, born, 0.3f, 2.5f, 5f, new Color(1f, 0.75f, 0.45f, 0.7f));
-                Add(_smoke, Kind.Puff, at, RandomUnit() * 1.5f, born, 2.6f, 3f, 11f, new Color(0.62f, 0.64f, 0.7f, 0.22f));
+                // 짧은 배기 연무: 진공이라 금방 흩어진다(긴 연기 띠·불꽃 꼬리를 끌지 않게).
+                if (j % 3 == 0) Add(_light, Kind.Puff, at, m.Velocity * 0.02f, born, 0.12f, 1.5f, 2.5f, new Color(1f, 0.75f, 0.45f, 0.5f));
+                Add(_smoke, Kind.Puff, at, RandomUnit() * 1.5f, born, 0.9f, 2f, 6f, new Color(0.62f, 0.64f, 0.7f, 0.12f));
             }
+        }
+        // 정찰 프로브: 가속하는 동안 짧은 배기 불빛과 옅은 연무.
+        foreach (var probe in world.Probes)
+        {
+            // 사출 직후 가속 구간만(감속·정지 기동에는 긴 배기 연무를 남기지 않는다).
+            if (!probe.Active || probe.Age > Math.Min(probe.Definition.BurnSeconds, 3) || !Near(probe.Position)) continue;
+            Add(_light, Kind.Puff, probe.Position, probe.Velocity * 0.02f, now, 0.12f, 0.8f, 1.3f, new Color(0.7f, 0.85f, 1f, 0.6f));
+            if (world.Tick % 2 == 0) Add(_smoke, Kind.Puff, probe.Position, RandomUnit(), now, 0.7f, 0.8f, 2.2f, new Color(0.62f, 0.66f, 0.72f, 0.08f));
         }
         foreach (OrdnanceEvent e in world.OrdnanceEvents)
         {
@@ -160,6 +169,9 @@ public partial class BattleFx : Node3D
         }
     }
 
+    /// <summary>연출용 외부 호출(티저의 반물질 폭발 등). 시간은 시뮬레이션 기준.</summary>
+    public void Detonate(Vec3d at, Vector3 velocity, double now, float size) => Blast(at, velocity, now, size);
+
     /// <summary>불덩이 여러 겹 + 연기 + 충격파 + 불꽃 + 순간광.</summary>
     private void Blast(Vec3d at, Vector3 velocity, double now, float size)
     {
@@ -181,29 +193,31 @@ public partial class BattleFx : Node3D
     private void Death(ShipBody ship, double now)
     {
         float l = ship.Class.Length;
-        Blast(ship.Position + Vec3d.From(ship.Orientation * new Vector3(0, l * 0.02f, -l * 0.05f)), ship.Velocity, now, l * 0.22f);
+        // 불덩이 크기는 호위함 규모(≈420 m)에서 멈춘다. 전함이 터져도 갈라지는 선체가 불꽃에 묻히지 않게.
+        float f = Mathf.Min(l, 420f);
+        Blast(ship.Position + Vec3d.From(ship.Orientation * new Vector3(0, l * 0.02f, -l * 0.05f)), ship.Velocity, now, f * 0.22f);
         int count = ship.Class.Kind switch { HullKind.Battleship => 14, HullKind.Escort => 9, _ => 3 };
         for (int i = 0; i < count; i++)
         {
             var local = new Vector3((R() - 0.5f) * l * 0.12f, (R() - 0.5f) * l * 0.1f, (R() - 0.5f) * l * 0.8f);
             double delay = 0.12 + i * 1.25 / count + R() * 0.1;
-            float size = l * (0.1f + R() * 0.09f);
+            float size = f * (0.1f + R() * 0.09f);
             _pending.Add((now + delay, () => Blast(ship.Position + Vec3d.From(ship.Orientation * local), ship.Velocity, now + delay, size)));
         }
         double final = now + 1.5;
         _pending.Add((final, () =>
         {
-            Add(_light, Kind.Glow, ship.Position, ship.Velocity, final, 0.8f, l * 0.7f, l * 0.7f, new Color(1f, 0.95f, 0.85f), light: (l * 5, 20));
+            Add(_light, Kind.Glow, ship.Position, ship.Velocity, final, 0.8f, f * 0.7f, f * 0.7f, new Color(1f, 0.95f, 0.85f), light: (l * 5, 20));
             for (int i = 0; i < 12; i++)
             {
-                float s = l * (0.22f + R() * 0.16f);
+                float s = f * (0.22f + R() * 0.16f);
                 Add(_light, Kind.Fire, ship.Position + Vec3d.From(ship.Orientation * new Vector3(0, 0, (R() - 0.5f) * l * 0.7f) + RandomUnit() * l * 0.06f),
                     ship.Velocity + RandomUnit() * l * 0.06f, final + i * 0.035, 2.0f + R(), s, s, Colors.White);
             }
             for (int i = 0; i < 10; i++)
                 Add(_smoke, Kind.Puff, ship.Position + Vec3d.From(RandomUnit() * l * 0.2f), ship.Velocity + RandomUnit() * l * 0.05f, final + 0.4, 8f,
-                    l * 0.15f, l * 0.6f, new Color(0.18f, 0.15f, 0.14f, 0.5f));
-            Add(_rings, Kind.Ring, ship.Position, ship.Velocity, final, 2.0f, l * 1.3f, l * 1.3f, new Color(1f, 0.78f, 0.55f));
+                    f * 0.15f, f * 0.6f, new Color(0.18f, 0.15f, 0.14f, 0.5f));
+            Add(_rings, Kind.Ring, ship.Position, ship.Velocity, final, 2.0f, f * 1.3f, f * 1.3f, new Color(1f, 0.78f, 0.55f));
             for (int i = 0; i < 24; i++)
             {
                 float s = l * (0.008f + R() * 0.025f);
