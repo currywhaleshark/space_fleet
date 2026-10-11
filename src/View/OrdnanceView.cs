@@ -36,6 +36,8 @@ public partial class OrdnanceView : Node3D
     private readonly StandardMaterial3D _fragment = new() { AlbedoColor=new Color(.18f,.23f,.28f), Metallic=.8f, Roughness=.6f };
 
     private ShaderMaterial? _flashWhite, _flashWarm;
+    /// <summary>끄면 정찰 프로브 표지를 그리지 않는다(티저가 근접 촬영용 외형을 따로 그릴 때).</summary>
+    public bool DrawProbes { get; set; } = true;
     public void Sync(SimWorld world, Vec3d origin, double alpha, Vector3 cameraPosition,Camera3D? camera=null, Faction? viewer=null)
     {
         float Scale(Vector3 at, float minimum) => Mathf.Max(minimum, at.DistanceTo(cameraPosition) * 0.0025f);
@@ -70,6 +72,7 @@ public partial class OrdnanceView : Node3D
         active.Clear();
         foreach (var probe in world.Probes)
         {
+            if (!DrawProbes) break;
             bool friendly = viewer is null || probe.Faction == viewer;
             var seen = viewer is { } side ? world.Sensors.SmallTrack(side, probe) : null;
             if (!friendly && (seen is null || !seen.Value.Fresh(world.Time))) continue;
