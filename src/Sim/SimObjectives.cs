@@ -76,8 +76,14 @@ public sealed partial class SimWorld
             if (squad.Role == SquadronRole.InterceptorWing &&
                 (track.EstimatedPosition - squad.Leader!.Position).Length() > 40_000) continue;
             var assigned = new System.Collections.Generic.Dictionary<ShipBody, int>();
+            ShipBody? friendlyFlagship = rules.Flagship(faction);
             foreach (ShipBody ship in squad.ActiveMembers)
-                Assign(ship, ShipOrder.AttackOn(enemy), assigned);
+            {
+                ShipOrder order = squad.Role == SquadronRole.BattleGroup && ship != friendlyFlagship
+                    && friendlyFlagship is not null && Squadron.Active(friendlyFlagship)
+                    ? ShipOrder.EscortOf(friendlyFlagship, enemy) : ShipOrder.AttackOn(enemy);
+                Assign(ship, order, assigned);
+            }
             squad.Target = enemy;
             squad.Activity = "기함 공격";
         }
