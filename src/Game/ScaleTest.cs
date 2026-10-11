@@ -24,6 +24,7 @@ public partial class ScaleTest : Node3D
 
     private readonly List<ShipView> _playable = new();
     private readonly List<CaptureZoneView> _captureViews = new();
+    private AsteroidFieldView? _asteroidView;
     private Node3D _worldRoot = null!;
     private SpaceDust _dust = null!;
     private OrdnanceView _ordnance = null!;
@@ -62,6 +63,7 @@ public partial class ScaleTest : Node3D
         _worldRoot = new Node3D { Name = "World" };
         AddChild(_worldRoot);
         SpawnFleets();
+        if(World.Asteroids is { } field){_asteroidView=AsteroidFieldView.Create(field);_worldRoot.AddChild(_asteroidView);}
         if (World.Rules is { Objective: BattleObjective.Domination } rules)
             foreach (CaptureZone zone in rules.CaptureZones)
             {
@@ -123,7 +125,9 @@ public partial class ScaleTest : Node3D
     private void SpawnFleets()
     {
         var args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
-        BattleRoster roster = BattleSetup.Spawn(World, LaunchConfig ?? new BattleConfig { Seed = _shot?.Seed ?? int.Parse(args.GetValueOrDefault("seed","0")) });
+        BattleRoster roster = BattleSetup.Spawn(World, LaunchConfig ?? new BattleConfig { Seed = _shot?.Seed ?? int.Parse(args.GetValueOrDefault("seed","0")),
+            Battlefield=Enum.Parse<Battlefield>(args.GetValueOrDefault("battlefield","DeepSpace"),true),FieldSeed=int.Parse(args.GetValueOrDefault("field-seed","1")),
+            Objective=Enum.Parse<BattleObjective>(args.GetValueOrDefault("objective","Annihilation"),true) });
         foreach (ShipBody body in roster.Ships)
         {
             ShipView view = ShipView.Create(body, seed: Views.Count * 31 + 7);
@@ -335,6 +339,7 @@ public partial class ScaleTest : Node3D
         PerfTrace.End("shipViews", p);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
         foreach (CaptureZoneView capture in _captureViews) capture.Sync(RenderOrigin);
+        _asteroidView?.Sync(RenderOrigin);
 
         float feedbackDelta = Paused ? 0 : (float)delta;
         Feedback.Advance(feedbackDelta);

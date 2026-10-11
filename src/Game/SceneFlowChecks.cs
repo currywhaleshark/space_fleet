@@ -27,6 +27,8 @@ public partial class Main
             _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Flagship,"Objective selector cycles to flagship");
             _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Domination,"Objective selector cycles to domination");
             _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Annihilation,"Objective selector returns to annihilation");
+            _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.AsteroidCluster,"Battlefield selector cycles independently");
+            _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.DeepSpace,"Default battlefield remains DeepSpace");
         }
         if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)

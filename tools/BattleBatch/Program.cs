@@ -18,6 +18,24 @@ bool mirror = argsMap.ContainsKey("mirror"), profile = argsMap.ContainsKey("prof
 bool tickProfile = profile || argsMap.ContainsKey("tick-profile");
 bool telemetry = argsMap.ContainsKey("telemetry");
 string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batch/battle.csv"));
+var battlefield=Enum.Parse<Battlefield>(argsMap.GetValueOrDefault("battlefield","DeepSpace"),true);
+int[] fieldSeeds=argsMap.GetValueOrDefault("field-seeds",argsMap.GetValueOrDefault("field-seed","1")).Split(',').Select(int.Parse).Distinct().ToArray();
+if(fieldSeeds.Length>1)
+{
+    // Keep legacy CSV/summary schemas byte-compatible. Each terrain seed gets a
+    // separate file set, whose sidecar identifies its independent terrain seed.
+    foreach(int fieldSeed in fieldSeeds)
+    {
+        var child=new ProcessStartInfo(Environment.ProcessPath!) {UseShellExecute=false};
+        if(string.Equals(Path.GetFileNameWithoutExtension(Environment.ProcessPath),"dotnet",StringComparison.OrdinalIgnoreCase))child.ArgumentList.Add(typeof(Row).Assembly.Location);
+        foreach(var arg in argsMap.Where(x=>x.Key is not ("field-seeds" or "field-seed" or "output")))
+        {child.ArgumentList.Add("--"+arg.Key);if(arg.Value!="true")child.ArgumentList.Add(arg.Value);}
+        child.ArgumentList.Add("--field-seed");child.ArgumentList.Add(fieldSeed.ToString());
+        child.ArgumentList.Add("--output");child.ArgumentList.Add(Path.Combine(Path.GetDirectoryName(output)!,Path.GetFileNameWithoutExtension(output)+$"-field{fieldSeed}"+Path.GetExtension(output)));
+        using var process=Process.Start(child)!;process.WaitForExit();if(process.ExitCode!=0)throw new InvalidOperationException("Terrain batch failed: "+fieldSeed);
+    }
+    return;
+}
 var tasks = seeds.SelectMany(seed => mirror ? new[] { (Seed: seed, Mirror: false), (Seed: seed, Mirror: true) } : new[] { (Seed: seed, Mirror: false) }).ToArray();
 var rows = new ConcurrentBag<Row>();
 var watch = Stopwatch.StartNew();
@@ -28,7 +46,7 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     try
     {
         var world = new SimWorld();
-        var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true) };
+        var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0] };
         if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
         var run = Stopwatch.StartNew();
         var ticks = tickProfile ? new List<double>() : null;
@@ -52,6 +70,8 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     finally { SimProfiler.Enabled = false; SimProfiler.Reset(); }
 });
 Directory.CreateDirectory(Path.GetDirectoryName(output)!);
+File.WriteAllText(Path.ChangeExtension(output,".field.json"),JsonSerializer.Serialize(new {battlefield=battlefield.ToString(),fieldSeed=fieldSeeds[0],
+    obstacleCount=rows.First().World.Obstacles.Count,rocks=rows.First().World.Asteroids?.Rocks.Count??0,regenerations=rows.First().World.Asteroids?.Regenerations??0},new JsonSerializerOptions{WriteIndented=true}));
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
 if (telemetry)
     File.WriteAllLines(Path.ChangeExtension(output, ".telemetry.csv"), new[] { BalanceTelemetry.Header }

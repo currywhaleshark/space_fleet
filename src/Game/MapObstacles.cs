@@ -11,6 +11,7 @@ public partial class WorldMapOverlay
         var color=new Color(.66f,.68f,.7f,.7f);
         foreach(var obstacle in Game.World.Obstacles)
         {
+            if(obstacle.Name.StartsWith("Rock-",StringComparison.Ordinal) && obstacle.BoundingRadius/Map.HalfSpan*Radius<2)continue;
             if((obstacle.Position-Map.Center).Length()>Map.HalfSpan+obstacle.BoundingRadius)continue;
             foreach(var part in obstacle.Parts)
             {

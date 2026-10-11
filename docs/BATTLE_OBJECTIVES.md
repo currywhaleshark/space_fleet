@@ -10,6 +10,8 @@ Sortie (ship choice) screen: **전투 목표** selector cycles:
 
 CLI direct-play override: `--battle --objective=Domination --seed=1` (also `Annihilation`, `Flagship`). The selected mode persists for restarting a match and remains independent of Blue/Red ship design.
 
+The independent **전장** selector cycles **심우주** (`DeepSpace`, default) / **소행성 군집** (`AsteroidCluster`). Every objective supports either field. `--battlefield=AsteroidCluster --field-seed=3` chooses terrain separately from the combat `--seed`. Batch example: `./tools/battle-batch.ps1 -Battlefield AsteroidCluster -FieldSeeds 1,2,3 -Seeds (1..10) -Mirror -Objective Domination`. Each field seed produces a separate result set and `.field.json` metadata; see `ENVIRONMENT_stage2.md`.
+
 ## Capture rules
 - Zones: **A/B/C**, 12 km radius each, side by side across the approach axis at the midpoint (equal distance to both fleets), 60 km apart (`BattleRules.ZoneSpacing`), heights A +14 km / B −9 km / C +5 km
 - Only combat-capable ships (not destroyed/disabled) count. Ships recovering from disable still count as remaining strength for the wipe-out check

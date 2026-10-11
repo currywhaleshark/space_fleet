@@ -27,6 +27,7 @@ public partial class ModelGallery : Node3D
         AddChild(new WorldEnvironment { Environment = BattleLook.Environment() });
         foreach (var light in BattleLook.Lights()) AddChild(light);
         if (ShipId.StartsWith("zone-")) { BuildZone(ShipId[5..]); return; }
+        if (ShipId is "asteroids" or "asteroid-variants") { BuildAsteroids(); return; }
 
         var body = new ShipBody("GALLERY", ShipDefinitions.ById(ShipId), Faction);
         body.Place(Vec3d.Zero, Quaternion.Identity);
@@ -62,6 +63,36 @@ public partial class ModelGallery : Node3D
     }
 
     private ZoneStructures.Built? _zone;
+
+    private void BuildAsteroids()
+    {
+        bool variants=ShipId=="asteroid-variants";
+        var field=AsteroidField.Generate(new BattleConfig {Battlefield=Battlefield.AsteroidCluster});
+        if(!variants) {var view=AsteroidFieldView.Create(field);AddChild(view);view.Sync(field.Center);}
+        else
+        {
+            var material=AsteroidFieldView.RockMaterial();
+            for(int i=0;i<12;i++)
+            {
+                var position=new Vector3((i%4-1.5f)*4300,(1-i/4)*4100,0);
+                AddChild(new MeshInstance3D {Mesh=AsteroidFieldView.BuildMesh(i),MaterialOverride=material,
+                    Position=position,Scale=Vector3.One*1700});
+                if(Array.IndexOf(OS.GetCmdlineUserArgs(),"--show-obstacles")>=0)
+                {
+                    var parts=new List<ObstaclePart>();
+                    foreach(var p in AsteroidField.Template(i))parts.Add(ObstaclePart.Sphere(p.A*1700,p.Radius*1700));
+                    var wire=ObstacleWireframe.Create(new("Preview",Vec3d.Zero,Quaternion.Identity,parts.ToArray()));
+                    wire.Position=position;AddChild(wire);
+                }
+            }
+        }
+        var body=new ShipBody("SCALE",ShipDefinitions.ById("battleship"),Faction);
+        body.Place(variants?new(0,-6300,0):new(0,0,10000),Quaternion.Identity);
+        _view=ShipView.Create(body,seed:7);AddChild(_view);
+        var camera=new Camera3D {Fov=45,Near=5,Far=1_000_000};AddChild(camera);
+        camera.LookAtFromPosition(variants?new(0,0,22000):new(-80000,65000,95000),Vector3.Zero,Vector3.Up);
+        camera.MakeCurrent();
+    }
 
     private void BuildZone(string name)
     {

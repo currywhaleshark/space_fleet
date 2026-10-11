@@ -7,6 +7,8 @@ namespace SpaceFleet.Sim;
 public sealed record BattleConfig
 {
     public int Seed { get; init; }
+    public Battlefield Battlefield { get; init; } = Battlefield.DeepSpace;
+    public int FieldSeed { get; init; } = 1;
     public BattleObjective Objective { get; init; } = BattleObjective.Annihilation;
     public double StartDistance { get; init; } = 150_000;
     public Vector3 RedOffset { get; init; } = Vector3.Zero;
@@ -40,7 +42,7 @@ public static class BattleSetup
         }
         world.Doctrine = new FleetDoctrine();
         world.Rules = new BattleRules(world, config.Objective, config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null);
-        ZoneStructureShapes.Populate(world);
+        world.PopulateBattlefield(config);
         world.Sensors.Update(world.Ships, 0, force:true);
         world.Log = new BattleLog(world);
     }
@@ -105,7 +107,7 @@ public static class BattleSetup
         world.EnableCommander(Faction.Red);
         world.EnableCommander(Faction.Blue);
         world.Rules = new BattleRules(world, config.Objective, config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null);
-        ZoneStructureShapes.Populate(world);
+        world.PopulateBattlefield(config);
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
         return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1]);

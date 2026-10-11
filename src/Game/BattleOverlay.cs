@@ -47,7 +47,8 @@ public partial class BattleOverlay : Control
                 Button($"아군 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(390,230,380,42),()=>Host.ToggleDesign(false));
                 Button($"적군 설계 · {DesignName(Host.EnemyDesign)}  ↔",new(830,230,380,42),()=>Host.ToggleDesign(true));
                 Button("뒤로",new(650,785,300,46),()=>Host.ChangeScreen(BattleScreen.Title));
-                Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(570,706,460,52),Host.CycleObjective); break;
+                Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(310,706,460,52),Host.CycleObjective);
+                Button($"전장 · {AsteroidField.Name(Host.SelectedBattlefield)}  ↔",new(830,706,460,52),Host.CycleBattlefield); break;
             case BattleScreen.Pause:
                 Button("계속",new(620,400,360,56),Host.TogglePause);
                 Button("다시",new(620,476,360,56),()=>Host.StartBattle(Host.Role));
@@ -85,7 +86,7 @@ public partial class BattleOverlay : Control
         {
             if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
-            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · 150 km 함대 교전",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
+            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · "+AsteroidField.Name(Host.SelectedBattlefield),26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
             {DrawRect(new(0,0,1600,900),new(0,0,0,.72f));Center(420,lost.Controlled!.Body.Damage.Destroyed?"격침":"무력화",40,Red);Center(468,"지휘권 인계 중",20);}
             return;

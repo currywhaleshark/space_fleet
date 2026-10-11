@@ -14,6 +14,9 @@ public partial class Main : Node3D
     public int Seed { get; private set; }
     public string Role { get; private set; } = "IC-21";
     public BattleObjective SelectedObjective { get; private set; } = BattleObjective.Annihilation;
+    public Battlefield SelectedBattlefield { get; private set; } = Battlefield.DeepSpace;
+    public int FieldSeed { get; private set; } = 1;
+    public void CycleBattlefield() { SelectedBattlefield=SelectedBattlefield==Battlefield.DeepSpace?Battlefield.AsteroidCluster:Battlefield.DeepSpace;_overlay.Rebuild(); }
     public void CycleObjective()
     {
         SelectedObjective = SelectedObjective switch
@@ -41,6 +44,8 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.TryGetValue("battlefield",out var battlefield))SelectedBattlefield=Enum.Parse<Battlefield>(battlefield,true);
+        if(_args.TryGetValue("field-seed",out var fieldSeed))FieldSeed=int.Parse(fieldSeed);
         if (_args.TryGetValue("blue-design", out var blue)) PlayerDesign = Enum.Parse<DesignFamily>(blue, true);
         if (_args.TryGetValue("red-design", out var red)) EnemyDesign = Enum.Parse<DesignFamily>(red, true);
         if (_args.TryGetValue("objective", out var objective)
@@ -102,7 +107,8 @@ public partial class Main : Node3D
         Seed = useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
             : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue);
         Battle = new ScaleTest { BattleMode = true, DevMode = _args.ContainsKey("dev"), AutoPlay = _args.ContainsKey("autoplay"),
-            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=SelectedObjective }, LaunchControl=role };
+            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=SelectedObjective,
+                Battlefield=SelectedBattlefield,FieldSeed=FieldSeed }, LaunchControl=role };
         Battle.PauseRequested += TogglePause;
         AddChild(Battle); ChangeScreen(BattleScreen.Battle);
         if (_args.TryGetValue("advance", out string? advance)) Battle.AdvanceBattle(double.Parse(advance, System.Globalization.CultureInfo.InvariantCulture));
