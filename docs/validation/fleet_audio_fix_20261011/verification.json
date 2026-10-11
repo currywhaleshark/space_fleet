@@ -1,0 +1,61 @@
+{
+  "build": "SpaceFleet-20261011-fleet-audio-fix-Windows-x64",
+  "builtAt": "2026-10-11T15:38:00.3859316+09:00",
+  "sourceCommit": "824d91a4fb7ecfcb7727631d0a193c8c1caf9132",
+  "localChanges": true,
+  "issue": "FleetAudio.Emit indexed MissileLaunch (7) into a seven-element play counter; pending cues were not cleared after the exception.",
+  "fix": "Both audio layers use the enum-derived CombatAudio.SoundCount.",
+  "regressionBefore": "New real missile launch regression failed in FleetAudio.Emit with IndexOutOfRangeException (process exit 1).",
+  "debugChecks": {
+    "audio": 120,
+    "fleetAudio": 120,
+    "newFleetMissileChecks": 16
+  },
+  "exportChecks": 2080,
+  "exportGroups": [
+    "PASS: 49 scene flow checks",
+    "PASS: 1204 ship model checks",
+    "PASS: 216 combat visual checks",
+    "PASS: 120 audio checks; recorded peak 0.560",
+    "PASS: 120 fleet audio checks",
+    "PASS: 275 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks"
+  ],
+  "reproduction": {
+    "args": [
+      "--autoplay",
+      "--seed=1",
+      "--blue-design=Earth",
+      "--red-design=Earth",
+      "--objective=Domination",
+      "--advance=540",
+      "--perf-trace",
+      "--perf-seconds=40"
+    ],
+    "rendered": true,
+    "audioEnabled": true,
+    "wallSeconds": 40,
+    "observedSimSeconds": [
+      544,
+      633
+    ],
+    "reports": 40,
+    "previousErrors": 23,
+    "errors": 0,
+    "exceptions": 0,
+    "exitCode": 0
+  },
+  "archiveSha256": "8d7df79727fa0559894a70c146a27ac199dc5258ac96e3eda9e25ea14f40935e",
+  "archiveBytes": 81388614,
+  "archiveEntries": 203,
+  "zipCrcVerified": true,
+  "sourceSha256": {
+    "src/Game/CombatAudio.cs": "6985ab445dcfde58125a0edfbbe2c725d520ea67a5e6d41c912c31f4d41b1b75",
+    "src/Game/FleetAudio.cs": "cb13fc7f89f712e3b2609a12957514c731219f84abc206f98efc6197bee614a7",
+    "src/Game/FleetAudioChecks.cs": "ff5d515b406a8c143e6827e175c79ab547b5f81b46ea834823d5e6dd2b218885"
+  },
+  "evidenceSha256": "6d8619426c21376385ecdb3908e75bc18315f5c3da963062b1d354a66676ee9c"
+}

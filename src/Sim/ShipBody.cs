@@ -83,17 +83,18 @@ public sealed class ShipBody
         {
             if(!Damage.Destroyed) { _wreck=null; _wreckHull=null; return null; }
             if(_wreck is null || _wreckAt!=Damage.DestroyedAt || _wreckVersion!=Damage.ResetVersion)
-            { _wreck=new WreckLayout(Definition,Damage.Destruction,Damage.DestructionPoint); _wreckAt=Damage.DestroyedAt; _wreckVersion=Damage.ResetVersion; _wreckHullTime=double.NaN; }
+            { _wreck=new WreckLayout(Definition,Damage.Destruction,Damage.DestructionPoint); _wreckHull=null; _wreckAt=Damage.DestroyedAt; _wreckVersion=Damage.ResetVersion; _wreckHullTime=double.NaN; }
             return _wreck;
         }
     }
     public float WreckAge => (float)System.Math.Max(0,SimTime-Damage.DestroyedAt-.12);
+    /// <summary>Current collider. A wreck reuses its buffer; use Wreck.Hull(age) for a retained snapshot.</summary>
     public CollisionHull Hull
     {
         get
         {
             if(Wreck is not {} wreck) return Definition.Hull;
-            if(_wreckHull is null || _wreckHullTime!=SimTime) { _wreckHull=wreck.Hull(WreckAge); _wreckHullTime=SimTime; }
+            if(_wreckHull is null || _wreckHullTime!=SimTime) { _wreckHull=wreck.UpdateHull(_wreckHull,WreckAge); _wreckHullTime=SimTime; }
             return _wreckHull;
         }
     }

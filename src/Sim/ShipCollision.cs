@@ -110,26 +110,83 @@ public static class ShipCollision
         var basisB = new Basis(b.Orientation);
         FillAxes(basisA, basisB, axes);
 
+        var hullA = a.Hull; var hullB = b.Hull;
+        var boxesA = hullA.Boxes; var boxesB = hullB.Boxes;
+        var groupsA = hullA.Groups; var groupsB = hullB.Groups;
+        Span<SpatialBounds> boundsA = groupsA.Length <= 128 ? stackalloc SpatialBounds[groupsA.Length] : new SpatialBounds[groupsA.Length];
+        Span<SpatialBounds> boundsB = groupsB.Length <= 128 ? stackalloc SpatialBounds[groupsB.Length] : new SpatialBounds[groupsB.Length];
+        for (int i = 0; i < groupsA.Length; i++) boundsA[i] = GroupBounds(a, basisA, groupsA[i].Bounds, swept);
+        for (int j = 0; j < groupsB.Length; j++) boundsB[j] = GroupBounds(b, basisB, groupsB[j].Bounds, swept);
+        int pairCount = groupsA.Length * groupsB.Length;
+        Span<bool> candidates = pairCount <= 4096 ? stackalloc bool[pairCount] : new bool[pairCount];
+        bool anyCandidate = false;
+        for (int i = 0; i < groupsA.Length; i++)
+        for (int j = 0; j < groupsB.Length; j++)
+        {
+            bool overlaps = boundsA[i].Overlaps(boundsB[j]);
+            candidates[i * groupsB.Length + j] = overlaps;
+            anyCandidate |= overlaps;
+        }
+        if (!anyCandidate) return false;
+        // The axes and each box's projected half-width are identical for every
+        // pair in this call. Dispersed wrecks otherwise repeat these dot products
+        // hundreds of times, including the overlap correction/fallback passes.
+        Span<Vector3> centersA = boxesA.Count <= 128 ? stackalloc Vector3[boxesA.Count] : new Vector3[boxesA.Count];
+        Span<Vector3> centersB = boxesB.Count <= 128 ? stackalloc Vector3[boxesB.Count] : new Vector3[boxesB.Count];
+        Span<float> radiiA = boxesA.Count <= 128 ? stackalloc float[boxesA.Count * 15] : new float[boxesA.Count * 15];
+        Span<float> radiiB = boxesB.Count <= 128 ? stackalloc float[boxesB.Count * 15] : new float[boxesB.Count * 15];
+        PrepareBoxes(boxesA, basisA, axes, centersA, radiiA);
+        PrepareBoxes(boxesB, basisB, axes, centersB, radiiB);
         Vector3 relativeEnd = (b.Position - a.Position).ToVector3();
         Vector3 relativeStart = swept ? (b.PrevPosition - a.PrevPosition).ToVector3() : relativeEnd;
-        foreach (HullBox boxA in a.Hull.Boxes)
-        foreach (HullBox boxB in b.Hull.Boxes)
+        // Keep the original box-A/box-B order, including equal-time contact ties.
+        for (int ga = 0; ga < groupsA.Length; ga++)
+        for (int i = groupsA[ga].Start; i < groupsA[ga].Start + groupsA[ga].Count; i++)
+        for (int gb = 0; gb < groupsB.Length; gb++)
         {
-            Vector3 offset = basisB * boxB.Center - basisA * boxA.Center;
-            if (!BoxContact(relativeStart + offset, relativeEnd + offset, basisA, boxA.HalfSize,
-                basisB, boxB.HalfSize, axes, swept, out Contact candidate))
-                continue;
-            Vector3 pointA = basisA * boxA.Center + Support(basisA, boxA.HalfSize, candidate.Normal);
-            Vector3 pointB = relativeEnd + basisB * boxB.Center - Support(basisB, boxB.HalfSize, candidate.Normal);
-            Vector3 point = (pointA + pointB) * 0.5f;
-            candidate = candidate with { ArmA = point, ArmB = point - relativeEnd };
-            // 연속 충돌은 가장 먼저 닿은 부품, 겹침 분리는 가장 깊은 부품부터 밀어낸다.
-            if (!found || candidate.Time < best.Time ||
-                (candidate.Time == best.Time && candidate.Correction > best.Correction))
-                best = candidate;
-            found = true;
+            if (!candidates[ga * groupsB.Length + gb]) continue;
+            for (int j = groupsB[gb].Start; j < groupsB[gb].Start + groupsB[gb].Count; j++)
+            {
+                Vector3 offset = centersB[j] - centersA[i];
+                if (!BoxContact(relativeStart + offset, relativeEnd + offset,
+                    radiiA.Slice(i * 15, 15), radiiB.Slice(j * 15, 15), axes, swept, out Contact candidate))
+                    continue;
+                Vector3 pointA = centersA[i] + Support(basisA, boxesA[i].HalfSize, candidate.Normal);
+                Vector3 pointB = relativeEnd + centersB[j] - Support(basisB, boxesB[j].HalfSize, candidate.Normal);
+                Vector3 point = (pointA + pointB) * 0.5f;
+                candidate = candidate with { ArmA = point, ArmB = point - relativeEnd };
+                // 연속 충돌은 가장 먼저 닿은 부품, 겹침 분리는 가장 깊은 부품부터 밀어낸다.
+                if (!found || candidate.Time < best.Time ||
+                    (candidate.Time == best.Time && candidate.Correction > best.Correction))
+                    best = candidate;
+                found = true;
+            }
         }
         return found;
+    }
+
+    private static SpatialBounds GroupBounds(ShipBody ship, Basis basis, HullBox box, bool swept)
+    {
+        Vec3d offset = Vec3d.From(basis * box.Center);
+        Vec3d end = ship.Position + offset;
+        // This sphere encloses every transformed box in one breakup piece.
+        // Cover float transform/subtraction error as pieces drift arbitrarily far;
+        // SpatialBounds also adds its metre/absolute-double-coordinate margin.
+        // Like the narrow phase, use the current fragment pose at both endpoints;
+        // do not change the 240 Hz rotation/fragment motion approximation.
+        return SpatialBounds.Segment(swept ? ship.PrevPosition + offset : end, end)
+            .Expanded(box.HalfSize.Length() + box.Center.Length() * 2e-6);
+    }
+
+    private static void PrepareBoxes(IReadOnlyList<HullBox> boxes, Basis basis, ReadOnlySpan<Vector3> axes,
+        Span<Vector3> centers, Span<float> radii)
+    {
+        for (int i = 0; i < boxes.Count; i++)
+        {
+            centers[i] = basis * boxes[i].Center;
+            for (int axis = 0; axis < axes.Length; axis++)
+                radii[i * 15 + axis] = Radius(basis, boxes[i].HalfSize, axes[axis]);
+        }
     }
 
     private static void FillAxes(Basis basisA, Basis basisB, Span<Vector3> axes)
@@ -152,11 +209,17 @@ public static class ShipCollision
         FillAxes(basisA, basisB, axes);
         HullBox boxA = a.Hull.Bounds, boxB = b.Hull.Bounds;
         Vector3 relative = (b.Position - a.Position).ToVector3() + basisB * boxB.Center - basisA * boxA.Center;
-        return BoxContact(relative, relative, basisA, boxA.HalfSize, basisB, boxB.HalfSize, axes, swept: false, out contact);
+        Span<float> radiiA = stackalloc float[15], radiiB = stackalloc float[15];
+        for (int i = 0; i < axes.Length; i++)
+        {
+            radiiA[i] = Radius(basisA, boxA.HalfSize, axes[i]);
+            radiiB[i] = Radius(basisB, boxB.HalfSize, axes[i]);
+        }
+        return BoxContact(relative, relative, radiiA, radiiB, axes, swept: false, out contact);
     }
 
-    private static bool BoxContact(Vector3 start, Vector3 end, Basis a, Vector3 halfA,
-        Basis b, Vector3 halfB, ReadOnlySpan<Vector3> axes, bool swept, out Contact contact)
+    private static bool BoxContact(Vector3 start, Vector3 end, ReadOnlySpan<float> radiiA,
+        ReadOnlySpan<float> radiiB, ReadOnlySpan<Vector3> axes, bool swept, out Contact contact)
     {
         contact = default;
         float entry = 0f, exit = 1f;
@@ -165,15 +228,22 @@ public static class ShipCollision
         bool endOverlaps = true;
         float leastDepth = float.PositiveInfinity;
         Vector3 overlapNormal = Vector3.Zero;
-        foreach (Vector3 axis in axes)
+        for (int axisIndex = 0; axisIndex < axes.Length; axisIndex++)
         {
+            Vector3 axis = axes[axisIndex];
             if (axis == Vector3.Zero)
                 continue;
-            float radius = Radius(a, halfA, axis) + Radius(b, halfB, axis);
+            float radius = radiiA[axisIndex] + radiiB[axisIndex];
             float endProjection = end.Dot(axis);
             float depth = radius - Mathf.Abs(endProjection);
             if (depth <= 0f)
+            {
+                // A single separating interval excludes this pair of debris
+                // boxes. Do not test its remaining axes during overlap passes.
+                // Swept contact must still check entry/exit times below.
+                if (!swept) return false;
                 endOverlaps = false;
+            }
             if (depth < leastDepth)
             {
                 leastDepth = depth;

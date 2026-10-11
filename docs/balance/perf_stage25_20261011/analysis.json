@@ -1,0 +1,1083 @@
+{
+  "dom": {
+    "summariesMatched": 20,
+    "identicalCsvSha256": {
+      "ships.csv": "77f292f076bee0a2a564d04d4bdacd40d8e00c0e0302104687a52224614e582f",
+      "am.csv": "17cd8906f91d57f4a4be2ddf64a29c85f552c5d827c8b2df5c9a4d58e133d1b8",
+      "probes.csv": "ba4dd41903bdb965fefe8de1824488eb32d06d487c98bb7a6af8c800a425936d"
+    }
+  },
+  "ann": {
+    "summariesMatched": 20,
+    "identicalCsvSha256": {
+      "ships.csv": "d76b5afb39fe2fff6072d9361d9f65ae0a119dff74eb660c5e96089a3b45327b",
+      "am.csv": "acac55045bd3f10156fb0360d800e8ec756116da3b5e0e2eb734f6ca8dee7567",
+      "probes.csv": "a25886d97ec5815ef3aad3c3feb161a81baf0b4333c1f7985b6b1aff828da118"
+    }
+  },
+  "serialProfile": {
+    "before": {
+      "sections": {
+        "time:0-300": {
+          "Tick": 210.989,
+          "AI": 45.61,
+          "AICommand": 1.378,
+          "AIThink": 3.133,
+          "AIDrive": 22.635,
+          "AIEngage": 17.079,
+          "Gunnery": 0.218,
+          "ShipStep": 50.904,
+          "Collision": 13.297,
+          "Projectiles": 21.95,
+          "Missiles": 16.707,
+          "PointDefense": 36.951,
+          "Drones": 13.632,
+          "Sensors": 4.513,
+          "Probes": 0.062,
+          "Post": 6.226
+        },
+        "phase:Approach": {
+          "Tick": 158.911,
+          "AI": 36.421,
+          "AICommand": 1.493,
+          "AIThink": 2.564,
+          "AIDrive": 22.567,
+          "AIEngage": 8.376,
+          "Gunnery": 0.229,
+          "ShipStep": 50.391,
+          "Collision": 11.632,
+          "Projectiles": 0.258,
+          "Missiles": 4.776,
+          "PointDefense": 31.624,
+          "Drones": 12.045,
+          "Sensors": 4.156,
+          "Probes": 0.064,
+          "Post": 6.369
+        },
+        "phase:Gunnery": {
+          "Tick": 2641.873,
+          "AI": 39.86,
+          "AICommand": 0.32,
+          "AIThink": 2.868,
+          "AIDrive": 13.38,
+          "AIEngage": 22.338,
+          "Gunnery": 0.137,
+          "ShipStep": 41.364,
+          "Collision": 2417.614,
+          "Projectiles": 6.882,
+          "Missiles": 65.454,
+          "PointDefense": 39.985,
+          "Drones": 20.152,
+          "Sensors": 3.817,
+          "Probes": 0.079,
+          "Post": 5.803
+        },
+        "phase:Brawl": {
+          "Tick": 1989.376,
+          "AI": 73.546,
+          "AICommand": 0.634,
+          "AIThink": 5.263,
+          "AIDrive": 18.16,
+          "AIEngage": 48.442,
+          "Gunnery": 0.141,
+          "ShipStep": 48.112,
+          "Collision": 1682.258,
+          "Projectiles": 64.823,
+          "Missiles": 49.755,
+          "PointDefense": 39.844,
+          "Drones": 20.711,
+          "Sensors": 3.573,
+          "Probes": 0.07,
+          "Post": 5.783
+        },
+        "phase:Sniping": {
+          "Tick": 887.772,
+          "AI": 101.05,
+          "AICommand": 0.391,
+          "AIThink": 7.095,
+          "AIDrive": 20.33,
+          "AIEngage": 72.238,
+          "Gunnery": 0.119,
+          "ShipStep": 50.897,
+          "Collision": 419.824,
+          "Projectiles": 119.935,
+          "Missiles": 89.932,
+          "PointDefense": 62.87,
+          "Drones": 31.564,
+          "Sensors": 5.638,
+          "Probes": 0.05,
+          "Post": 5.183
+        },
+        "time:540+": {
+          "Tick": 2679.627,
+          "AI": 60.899,
+          "AICommand": 0.399,
+          "AIThink": 4.949,
+          "AIDrive": 19.086,
+          "AIEngage": 35.329,
+          "Gunnery": 0.156,
+          "ShipStep": 47.809,
+          "Collision": 2491.758,
+          "Projectiles": 15.465,
+          "Missiles": 21.092,
+          "PointDefense": 23.347,
+          "Drones": 9.396,
+          "Sensors": 2.79,
+          "Probes": 0.086,
+          "Post": 6.044
+        },
+        "All": {
+          "Tick": 1103.825,
+          "AI": 58.178,
+          "AICommand": 0.975,
+          "AIThink": 4.132,
+          "AIDrive": 20.087,
+          "AIEngage": 31.782,
+          "Gunnery": 0.178,
+          "ShipStep": 49.062,
+          "Collision": 855.65,
+          "Projectiles": 38.843,
+          "Missiles": 34.586,
+          "PointDefense": 38.479,
+          "Drones": 17.919,
+          "Sensors": 4.046,
+          "Probes": 0.066,
+          "Post": 5.984
+        },
+        "time:300-540": {
+          "Tick": 1756.104,
+          "AI": 73.088,
+          "AICommand": 0.64,
+          "AIThink": 5.141,
+          "AIDrive": 17.196,
+          "AIEngage": 49.118,
+          "Gunnery": 0.134,
+          "ShipStep": 47.129,
+          "Collision": 1427.075,
+          "Projectiles": 66.84,
+          "Missiles": 60.906,
+          "PointDefense": 44.841,
+          "Drones": 25.785,
+          "Sensors": 3.831,
+          "Probes": 0.064,
+          "Post": 5.665
+        }
+      },
+      "ticks": [
+        {
+          "scope": "All",
+          "ticks": "36638",
+          "meanMs": "1.103961",
+          "p50Ms": "0.522900",
+          "p95Ms": "2.784200",
+          "p99Ms": "3.232900",
+          "maxMs": "48.900300"
+        },
+        {
+          "scope": "Approach",
+          "ticks": "16200",
+          "meanMs": "0.159045",
+          "p50Ms": "0.103100",
+          "p95Ms": "0.545600",
+          "p99Ms": "0.699200",
+          "maxMs": "48.900300"
+        },
+        {
+          "scope": "Missile",
+          "ticks": "0",
+          "meanMs": "",
+          "p50Ms": "",
+          "p95Ms": "",
+          "p99Ms": "",
+          "maxMs": ""
+        },
+        {
+          "scope": "Gunnery",
+          "ticks": "1800",
+          "meanMs": "2.642028",
+          "p50Ms": "2.624000",
+          "p95Ms": "2.909100",
+          "p99Ms": "3.517700",
+          "maxMs": "5.094300"
+        },
+        {
+          "scope": "Sniping",
+          "ticks": "3600",
+          "meanMs": "0.887866",
+          "p50Ms": "1.028400",
+          "p95Ms": "1.754500",
+          "p99Ms": "3.208000",
+          "maxMs": "14.298700"
+        },
+        {
+          "scope": "Brawl",
+          "ticks": "15038",
+          "meanMs": "1.989521",
+          "p50Ms": "2.542500",
+          "p95Ms": "2.911300",
+          "p99Ms": "3.658700",
+          "maxMs": "7.830300"
+        }
+      ]
+    },
+    "after": {
+      "sections": {
+        "time:0-300": {
+          "Tick": 203.851,
+          "AI": 45.419,
+          "AICommand": 1.623,
+          "AIThink": 3.061,
+          "AIDrive": 22.618,
+          "AIEngage": 16.792,
+          "Gunnery": 0.221,
+          "ShipStep": 48.122,
+          "Collision": 11.932,
+          "Projectiles": 18.972,
+          "Missiles": 16.515,
+          "PointDefense": 37.979,
+          "Drones": 12.389,
+          "Sensors": 4.773,
+          "Probes": 0.066,
+          "Post": 6.626
+        },
+        "phase:Approach": {
+          "Tick": 156.386,
+          "AI": 36.452,
+          "AICommand": 1.765,
+          "AIThink": 2.506,
+          "AIDrive": 22.551,
+          "AIEngage": 8.275,
+          "Gunnery": 0.232,
+          "ShipStep": 47.369,
+          "Collision": 11.083,
+          "Projectiles": 0.234,
+          "Missiles": 4.752,
+          "PointDefense": 33.414,
+          "Drones": 10.634,
+          "Sensors": 4.437,
+          "Probes": 0.067,
+          "Post": 6.856
+        },
+        "phase:Gunnery": {
+          "Tick": 277.214,
+          "AI": 34.704,
+          "AICommand": 0.377,
+          "AIThink": 2.202,
+          "AIDrive": 11.323,
+          "AIEngage": 20.057,
+          "Gunnery": 0.099,
+          "ShipStep": 33.464,
+          "Collision": 85.086,
+          "Projectiles": 5.121,
+          "Missiles": 58.724,
+          "PointDefense": 33.58,
+          "Drones": 18.793,
+          "Sensors": 2.945,
+          "Probes": 0.029,
+          "Post": 4.073
+        },
+        "phase:Brawl": {
+          "Tick": 346.288,
+          "AI": 65.448,
+          "AICommand": 0.554,
+          "AIThink": 4.061,
+          "AIDrive": 15.737,
+          "AIEngage": 44.257,
+          "Gunnery": 0.107,
+          "ShipStep": 40.255,
+          "Collision": 74.311,
+          "Projectiles": 58.579,
+          "Missiles": 45.725,
+          "PointDefense": 34.391,
+          "Drones": 19.531,
+          "Sensors": 2.917,
+          "Probes": 0.035,
+          "Post": 4.378
+        },
+        "phase:Sniping": {
+          "Tick": 485.719,
+          "AI": 98.149,
+          "AICommand": 0.36,
+          "AIThink": 6.723,
+          "AIDrive": 19.805,
+          "AIEngage": 70.299,
+          "Gunnery": 0.115,
+          "ShipStep": 48.755,
+          "Collision": 45.89,
+          "Projectiles": 103.973,
+          "Missiles": 88.033,
+          "PointDefense": 58.349,
+          "Drones": 31.687,
+          "Sensors": 5.453,
+          "Probes": 0.045,
+          "Post": 4.612
+        },
+        "time:540+": {
+          "Tick": 235.397,
+          "AI": 50.385,
+          "AICommand": 0.32,
+          "AIThink": 3.114,
+          "AIDrive": 15.645,
+          "AIEngage": 30.483,
+          "Gunnery": 0.11,
+          "ShipStep": 36.726,
+          "Collision": 87.201,
+          "Projectiles": 10.606,
+          "Missiles": 17.465,
+          "PointDefense": 17.551,
+          "Drones": 8.608,
+          "Sensors": 2.157,
+          "Probes": 0.027,
+          "Post": 3.967
+        },
+        "All": {
+          "Tick": 272.627,
+          "AI": 54.33,
+          "AICommand": 1.062,
+          "AIThink": 3.543,
+          "AIDrive": 18.932,
+          "AIEngage": 29.717,
+          "Gunnery": 0.163,
+          "ShipStep": 43.902,
+          "Collision": 44.091,
+          "Projectiles": 34.615,
+          "Missiles": 32.404,
+          "PointDefense": 36.273,
+          "Drones": 16.755,
+          "Sensors": 3.84,
+          "Probes": 0.05,
+          "Post": 5.482
+        },
+        "time:300-540": {
+          "Tick": 369.554,
+          "AI": 66.629,
+          "AICommand": 0.579,
+          "AIThink": 4.272,
+          "AIDrive": 15.293,
+          "AIEngage": 45.648,
+          "Gunnery": 0.106,
+          "ShipStep": 40.74,
+          "Collision": 71.601,
+          "Projectiles": 61.235,
+          "Missiles": 56.661,
+          "PointDefense": 39.65,
+          "Drones": 24.611,
+          "Sensors": 3.169,
+          "Probes": 0.037,
+          "Post": 4.497
+        }
+      },
+      "ticks": [
+        {
+          "scope": "All",
+          "ticks": "36638",
+          "meanMs": "0.272718",
+          "p50Ms": "0.232800",
+          "p95Ms": "0.722500",
+          "p99Ms": "1.111900",
+          "maxMs": "54.362200"
+        },
+        {
+          "scope": "Approach",
+          "ticks": "16200",
+          "meanMs": "0.156504",
+          "p50Ms": "0.102100",
+          "p95Ms": "0.559400",
+          "p99Ms": "0.700700",
+          "maxMs": "54.362200"
+        },
+        {
+          "scope": "Missile",
+          "ticks": "0",
+          "meanMs": "",
+          "p50Ms": "",
+          "p95Ms": "",
+          "p99Ms": "",
+          "maxMs": ""
+        },
+        {
+          "scope": "Gunnery",
+          "ticks": "1800",
+          "meanMs": "0.277285",
+          "p50Ms": "0.263200",
+          "p95Ms": "0.366800",
+          "p99Ms": "0.475600",
+          "maxMs": "0.665400"
+        },
+        {
+          "scope": "Sniping",
+          "ticks": "3600",
+          "meanMs": "0.485793",
+          "p50Ms": "0.355300",
+          "p95Ms": "1.515500",
+          "p99Ms": "1.931900",
+          "maxMs": "14.573900"
+        },
+        {
+          "scope": "Brawl",
+          "ticks": "15038",
+          "meanMs": "0.346357",
+          "p50Ms": "0.277800",
+          "p95Ms": "0.819500",
+          "p99Ms": "0.997800",
+          "maxMs": "3.739100"
+        }
+      ]
+    }
+  },
+  "games": {
+    "before-debug-game": {
+      "framesReported": [
+        {
+          "time": 541,
+          "fps": 0.5
+        },
+        {
+          "time": 542,
+          "fps": 0.6
+        },
+        {
+          "time": 542,
+          "fps": 0.6
+        },
+        {
+          "time": 543,
+          "fps": 0.6
+        },
+        {
+          "time": 543,
+          "fps": 0.6
+        },
+        {
+          "time": 544,
+          "fps": 0.6
+        },
+        {
+          "time": 544,
+          "fps": 0.6
+        },
+        {
+          "time": 545,
+          "fps": 0.6
+        },
+        {
+          "time": 545,
+          "fps": 0.6
+        },
+        {
+          "time": 546,
+          "fps": 0.6
+        },
+        {
+          "time": 546,
+          "fps": 0.7
+        },
+        {
+          "time": 547,
+          "fps": 0.6
+        },
+        {
+          "time": 547,
+          "fps": 0.6
+        },
+        {
+          "time": 548,
+          "fps": 0.6
+        },
+        {
+          "time": 549,
+          "fps": 0.6
+        },
+        {
+          "time": 549,
+          "fps": 0.6
+        },
+        {
+          "time": 550,
+          "fps": 0.6
+        },
+        {
+          "time": 550,
+          "fps": 0.6
+        },
+        {
+          "time": 551,
+          "fps": 0.5
+        },
+        {
+          "time": 551,
+          "fps": 0.6
+        },
+        {
+          "time": 552,
+          "fps": 0.6
+        },
+        {
+          "time": 552,
+          "fps": 0.6
+        },
+        {
+          "time": 553,
+          "fps": 0.6
+        },
+        {
+          "time": 553,
+          "fps": 0.6
+        },
+        {
+          "time": 554,
+          "fps": 0.6
+        }
+      ],
+      "medianFps": 0.6,
+      "common540to554MedianFps": 0.6,
+      "at600": null,
+      "weightedSimUsPerTick": {
+        "Tick": 50247.5192,
+        "Collision": 49245.6408
+      },
+      "common540to554SimUsPerTick": {
+        "Tick": 50247.5192,
+        "Collision": 49245.6408
+      },
+      "errorCount": 22
+    },
+    "after-debug-game": {
+      "framesReported": [
+        {
+          "time": 544,
+          "fps": 18.5
+        },
+        {
+          "time": 548,
+          "fps": 31.4
+        },
+        {
+          "time": 552,
+          "fps": 36.1
+        },
+        {
+          "time": 556,
+          "fps": 35.1
+        },
+        {
+          "time": 560,
+          "fps": 41.9
+        },
+        {
+          "time": 564,
+          "fps": 50.3
+        },
+        {
+          "time": 568,
+          "fps": 50.3
+        },
+        {
+          "time": 572,
+          "fps": 48.5
+        },
+        {
+          "time": 577,
+          "fps": 52.6
+        },
+        {
+          "time": 581,
+          "fps": 47.4
+        },
+        {
+          "time": 585,
+          "fps": 52.5
+        },
+        {
+          "time": 589,
+          "fps": 56.5
+        },
+        {
+          "time": 593,
+          "fps": 57.1
+        },
+        {
+          "time": 597,
+          "fps": 55.4
+        },
+        {
+          "time": 601,
+          "fps": 55.4
+        },
+        {
+          "time": 605,
+          "fps": 58.9
+        },
+        {
+          "time": 609,
+          "fps": 61.9
+        },
+        {
+          "time": 613,
+          "fps": 60.1
+        },
+        {
+          "time": 617,
+          "fps": 61.1
+        },
+        {
+          "time": 619,
+          "fps": 61.6
+        },
+        {
+          "time": 620,
+          "fps": 72.8
+        },
+        {
+          "time": 621,
+          "fps": 71.1
+        },
+        {
+          "time": 622,
+          "fps": 75.8
+        },
+        {
+          "time": 623,
+          "fps": 73.6
+        },
+        {
+          "time": 624,
+          "fps": 75.0
+        },
+        {
+          "time": 625,
+          "fps": 74.9
+        },
+        {
+          "time": 626,
+          "fps": 74.2
+        },
+        {
+          "time": 627,
+          "fps": 72.6
+        },
+        {
+          "time": 629,
+          "fps": 73.3
+        },
+        {
+          "time": 630,
+          "fps": 73.4
+        },
+        {
+          "time": 631,
+          "fps": 73.8
+        },
+        {
+          "time": 632,
+          "fps": 73.9
+        },
+        {
+          "time": 633,
+          "fps": 67.9
+        },
+        {
+          "time": 634,
+          "fps": 68.2
+        },
+        {
+          "time": 635,
+          "fps": 74.3
+        },
+        {
+          "time": 636,
+          "fps": 72.9
+        },
+        {
+          "time": 637,
+          "fps": 74.0
+        },
+        {
+          "time": 638,
+          "fps": 73.5
+        },
+        {
+          "time": 639,
+          "fps": 71.6
+        },
+        {
+          "time": 640,
+          "fps": 69.6
+        }
+      ],
+      "medianFps": 64.9,
+      "common540to554MedianFps": 31.4,
+      "at600": {
+        "time": 601,
+        "fps": 55.4
+      },
+      "weightedSimUsPerTick": {
+        "Tick": 1532.8375357683888,
+        "Collision": 846.6633597037537
+      },
+      "common540to554SimUsPerTick": {
+        "Tick": 1670.1999428571428,
+        "Collision": 874.7744000000001
+      },
+      "errorCount": 23
+    },
+    "before-release-game": {
+      "framesReported": [
+        {
+          "time": 544,
+          "fps": 9.2
+        },
+        {
+          "time": 548,
+          "fps": 17.7
+        },
+        {
+          "time": 552,
+          "fps": 17.9
+        },
+        {
+          "time": 556,
+          "fps": 21.0
+        },
+        {
+          "time": 560,
+          "fps": 32.8
+        },
+        {
+          "time": 564,
+          "fps": 35.3
+        },
+        {
+          "time": 568,
+          "fps": 36.0
+        },
+        {
+          "time": 572,
+          "fps": 34.5
+        },
+        {
+          "time": 577,
+          "fps": 34.5
+        },
+        {
+          "time": 581,
+          "fps": 35.6
+        },
+        {
+          "time": 585,
+          "fps": 35.4
+        },
+        {
+          "time": 589,
+          "fps": 33.0
+        },
+        {
+          "time": 593,
+          "fps": 31.2
+        },
+        {
+          "time": 597,
+          "fps": 33.2
+        },
+        {
+          "time": 601,
+          "fps": 37.4
+        },
+        {
+          "time": 605,
+          "fps": 33.9
+        },
+        {
+          "time": 609,
+          "fps": 35.8
+        },
+        {
+          "time": 611,
+          "fps": 65.5
+        },
+        {
+          "time": 612,
+          "fps": 84.8
+        },
+        {
+          "time": 613,
+          "fps": 77.2
+        },
+        {
+          "time": 614,
+          "fps": 78.7
+        },
+        {
+          "time": 615,
+          "fps": 79.4
+        },
+        {
+          "time": 616,
+          "fps": 76.9
+        },
+        {
+          "time": 617,
+          "fps": 76.4
+        },
+        {
+          "time": 618,
+          "fps": 78.0
+        },
+        {
+          "time": 619,
+          "fps": 77.9
+        },
+        {
+          "time": 620,
+          "fps": 77.1
+        },
+        {
+          "time": 621,
+          "fps": 74.0
+        },
+        {
+          "time": 622,
+          "fps": 75.6
+        },
+        {
+          "time": 623,
+          "fps": 79.3
+        },
+        {
+          "time": 624,
+          "fps": 78.4
+        },
+        {
+          "time": 625,
+          "fps": 76.3
+        },
+        {
+          "time": 626,
+          "fps": 77.6
+        },
+        {
+          "time": 627,
+          "fps": 76.3
+        },
+        {
+          "time": 628,
+          "fps": 77.7
+        },
+        {
+          "time": 629,
+          "fps": 78.9
+        },
+        {
+          "time": 630,
+          "fps": 79.5
+        },
+        {
+          "time": 631,
+          "fps": 80.1
+        },
+        {
+          "time": 632,
+          "fps": 81.3
+        },
+        {
+          "time": 633,
+          "fps": 79.8
+        }
+      ],
+      "medianFps": 75.94999999999999,
+      "common540to554MedianFps": 17.7,
+      "at600": {
+        "time": 601,
+        "fps": 37.4
+      },
+      "weightedSimUsPerTick": {
+        "Tick": 2683.085348044492,
+        "Collision": 2477.913449946179
+      },
+      "common540to554SimUsPerTick": {
+        "Tick": 2740.8095428571432,
+        "Collision": 2533.084914285714
+      },
+      "errorCount": 22
+    },
+    "after-release-game": {
+      "framesReported": [
+        {
+          "time": 544,
+          "fps": 33.3
+        },
+        {
+          "time": 548,
+          "fps": 50.5
+        },
+        {
+          "time": 552,
+          "fps": 78.1
+        },
+        {
+          "time": 556,
+          "fps": 93.3
+        },
+        {
+          "time": 560,
+          "fps": 96.2
+        },
+        {
+          "time": 564,
+          "fps": 88.2
+        },
+        {
+          "time": 568,
+          "fps": 94.5
+        },
+        {
+          "time": 572,
+          "fps": 90.7
+        },
+        {
+          "time": 576,
+          "fps": 93.8
+        },
+        {
+          "time": 580,
+          "fps": 92.3
+        },
+        {
+          "time": 584,
+          "fps": 95.7
+        },
+        {
+          "time": 588,
+          "fps": 96.5
+        },
+        {
+          "time": 592,
+          "fps": 98.7
+        },
+        {
+          "time": 596,
+          "fps": 98.5
+        },
+        {
+          "time": 600,
+          "fps": 96.8
+        },
+        {
+          "time": 604,
+          "fps": 98.7
+        },
+        {
+          "time": 608,
+          "fps": 99.4
+        },
+        {
+          "time": 611,
+          "fps": 100.5
+        },
+        {
+          "time": 612,
+          "fps": 92.0
+        },
+        {
+          "time": 613,
+          "fps": 82.8
+        },
+        {
+          "time": 614,
+          "fps": 89.0
+        },
+        {
+          "time": 615,
+          "fps": 86.4
+        },
+        {
+          "time": 616,
+          "fps": 91.5
+        },
+        {
+          "time": 617,
+          "fps": 86.7
+        },
+        {
+          "time": 618,
+          "fps": 87.1
+        },
+        {
+          "time": 619,
+          "fps": 88.0
+        },
+        {
+          "time": 620,
+          "fps": 88.2
+        },
+        {
+          "time": 621,
+          "fps": 89.6
+        },
+        {
+          "time": 622,
+          "fps": 86.9
+        },
+        {
+          "time": 623,
+          "fps": 82.3
+        },
+        {
+          "time": 624,
+          "fps": 89.3
+        },
+        {
+          "time": 625,
+          "fps": 89.4
+        },
+        {
+          "time": 626,
+          "fps": 90.7
+        },
+        {
+          "time": 627,
+          "fps": 90.6
+        },
+        {
+          "time": 628,
+          "fps": 93.0
+        },
+        {
+          "time": 629,
+          "fps": 89.3
+        },
+        {
+          "time": 630,
+          "fps": 92.0
+        },
+        {
+          "time": 631,
+          "fps": 91.8
+        },
+        {
+          "time": 632,
+          "fps": 92.7
+        },
+        {
+          "time": 633,
+          "fps": 95.2
+        }
+      ],
+      "medianFps": 91.1,
+      "common540to554MedianFps": 50.5,
+      "at600": {
+        "time": 600,
+        "fps": 96.8
+      },
+      "weightedSimUsPerTick": {
+        "Tick": 297.9370298453794,
+        "Collision": 102.48596727795758
+      },
+      "common540to554SimUsPerTick": {
+        "Tick": 309.96605714285715,
+        "Collision": 104.27588571428574
+      },
+      "errorCount": 23
+    }
+  }
+}

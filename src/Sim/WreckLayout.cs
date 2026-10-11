@@ -16,6 +16,7 @@ public sealed class WreckLayout
         }
     }
     public IReadOnlyList<Piece> Pieces { get; }
+    private readonly int _boxCount;
     public WreckLayout(ShipDefinition def,DestructionKind kind,Vector3 cause)
     {
         var b=def.Hull.Bounds;
@@ -43,16 +44,31 @@ public sealed class WreckLayout
             pieces.Add(new(lo,hi,center,outward*speed,spin,boxes.ToArray()));
         }
         Pieces=pieces;
+        foreach (var piece in pieces) _boxCount += piece.Boxes.Length;
     }
-    public CollisionHull Hull(float age)
+    /// <summary>Independent snapshot for tools and callers retaining multiple ages.</summary>
+    public CollisionHull Hull(float age) => UpdateHull(null, age);
+
+    /// <summary>Reuse the ship-owned collider; all transforms still update at every physics substep.</summary>
+    internal CollisionHull UpdateHull(CollisionHull? hull, float age)
     {
-        var boxes=new List<HullBox>();
-        foreach(var piece in Pieces)
+        if (hull is null)
         {
+            hull = new CollisionHull(new HullBox[_boxCount]);
+            Span<int> counts = stackalloc int[Pieces.Count];
+            for (int i = 0; i < Pieces.Count; i++) counts[i] = Pieces[i].Boxes.Length;
+            hull.SetGroups(counts);
+        }
+        var boxes = hull.MutableBoxes;
+        int index = 0;
+        for (int i = 0; i < Pieces.Count; i++)
+        {
+            var piece = Pieces[i];
             Transform3D pose=piece.Pose(age);
             foreach(var box in piece.Boxes)
-                boxes.Add(new(pose*box.Center,pose.Basis.X.Abs()*box.HalfSize.X+pose.Basis.Y.Abs()*box.HalfSize.Y+pose.Basis.Z.Abs()*box.HalfSize.Z));
+                boxes[index++] = new(pose*box.Center,pose.Basis.X.Abs()*box.HalfSize.X+pose.Basis.Y.Abs()*box.HalfSize.Y+pose.Basis.Z.Abs()*box.HalfSize.Z);
         }
-        return new CollisionHull(boxes.ToArray());
+        hull.RefreshBounds();
+        return hull;
     }
 }

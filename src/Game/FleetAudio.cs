@@ -35,7 +35,7 @@ public partial class FleetAudio : Node3D
     private readonly Dictionary<AudioStreamPlayer3D, float> _resume = new();
     private readonly Dictionary<CombatSound, AudioStream[]> _clips = new();
     private readonly Dictionary<CombatSound, int> _variants = new();
-    private readonly int[] _plays = new int[7];
+    private readonly int[] _plays = new int[CombatAudio.SoundCount];
     private AudioListener3D _listener = null!;
     private SimWorld? _world;
     private ShipBody? _controlled;

@@ -150,7 +150,54 @@ public partial class FleetAudioChecks : Node3D
         Check(pd.Ordnance.PointDefense.Any(p => p.ShotCount > 0), "Actual nearby mechanical PD mounts fire");
         Check(_audio.PlayCount(CombatSound.PointDefense) == pdBefore + 1, "Neighbor PD uses spatial burst bank");
         _audio.StopAll();
+        CheckMissileLaunch();
         void worldFire(ShipBody ship) { Check(busy.FireRailgun(ship, Vector3.Forward).Fired, "Crowded fixture fires real gun"); }
+    }
+
+    private void CheckMissileLaunch()
+    {
+        var world = new SimWorld();
+        var me = world.Add(new ShipBody("MSL-ME", ShipClass.Escort, Faction.Blue));
+        var ally = world.Add(new ShipBody("MSL-ALLY", ShipClass.Escort, Faction.Blue));
+        var enemy = world.Add(new ShipBody("MSL-ENEMY", ShipClass.Escort, Faction.Red));
+        ally.Place(new Vec3d(1000, 0, 0), Quaternion.Identity);
+        enemy.Place(new Vec3d(1000, 0, -10000), Quaternion.Identity);
+        world.Sensors.Update(world.Ships, 0, force: true);
+        _audio.Prime(world, me);
+        Check(world.LaunchMissile(ally, enemy).Fired, "Nearby ally launches a real missile");
+        // First missile cue in this test run. Advance must finish, including its
+        // play counter and pending-queue cleanup, before querying the counter.
+        _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 1, "Neighbor missile launch completes spatial playback");
+        for (int i = 0; i < 10; i++) { _audio.Observe(world, me); _audio.Advance(.02f); }
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 1, "Pending missile sound is cleared and not replayed");
+        Check(world.LaunchMissile(me, enemy).Fired, "Own missile fires for spatial exclusion fixture");
+        _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 1, "Own missile has no duplicate spatial launch sound");
+        Check(world.LaunchMissile(enemy, me).Fired, "Nearby enemy launches a real missile");
+        _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 2, "Enemy missile also produces a spatial launch sound");
+        ally.Ordnance.Reset(); _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 2, "Restocking neighboring missiles stays silent");
+        Check(world.LaunchMissile(ally, enemy).Fired, "Neighbor can launch again after reset");
+        _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 3, "A subsequent missile launch still sounds exactly once");
+        int rails = _audio.PlayCount(CombatSound.RailFire);
+        Check(world.FireRailgun(ally, Vector3.Forward).Fired, "Neighbor fires a railgun after missile playback");
+        _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.RailFire) == rails + 1 && _audio.PlayCount(CombatSound.MissileLaunch) == 3,
+            "Later combat sounds continue without repeating the missile cue");
+
+        _audio.SetPaused(true);
+        enemy.Ordnance.Reset(); _audio.Observe(world, me);
+        Check(world.LaunchMissile(enemy, me).Fired, "Pause fixture launches a real missile");
+        _audio.Observe(world, me); _audio.SetPaused(false); _audio.Observe(world, me); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 3, "Paused missile launches never replay on resume");
+        ally.Ordnance.Reset(); _audio.Observe(world, me);
+        Check(world.LaunchMissile(ally, enemy).Fired, "Handoff fixture launches a real missile");
+        _audio.Observe(world, me); _audio.Prime(world, ally); _audio.Observe(world, ally); _audio.Advance(.2f);
+        Check(_audio.PlayCount(CombatSound.MissileLaunch) == 3, "Handoff discards queued launch sound and earlier launches");
+        _audio.StopAll();
     }
 
     private void Phase(int phase)

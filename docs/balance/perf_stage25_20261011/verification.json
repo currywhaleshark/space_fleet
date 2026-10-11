@@ -1,0 +1,61 @@
+{
+  "baselineCommit": "824d91a",
+  "comparison": {
+    "dom": {
+      "summariesMatched": 20,
+      "identicalCsvSha256": {
+        "ships.csv": "77f292f076bee0a2a564d04d4bdacd40d8e00c0e0302104687a52224614e582f",
+        "am.csv": "17cd8906f91d57f4a4be2ddf64a29c85f552c5d827c8b2df5c9a4d58e133d1b8",
+        "probes.csv": "ba4dd41903bdb965fefe8de1824488eb32d06d487c98bb7a6af8c800a425936d"
+      }
+    },
+    "ann": {
+      "summariesMatched": 20,
+      "identicalCsvSha256": {
+        "ships.csv": "d76b5afb39fe2fff6072d9361d9f65ae0a119dff74eb660c5e96089a3b45327b",
+        "am.csv": "acac55045bd3f10156fb0360d800e8ec756116da3b5e0e2eb734f6ca8dee7567",
+        "probes.csv": "a25886d97ec5815ef3aad3c3feb161a81baf0b4333c1f7985b6b1aff828da118"
+      }
+    }
+  },
+  "simChecks": 15232,
+  "wreckChecks": 7423,
+  "releaseChecks": 2064,
+  "releaseGroups": [
+    "PASS: 49 scene flow checks",
+    "PASS: 1204 ship model checks",
+    "PASS: 216 combat visual checks",
+    "PASS: 120 audio checks; recorded peak 0.617",
+    "PASS: 104 fleet audio checks",
+    "PASS: 275 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks"
+  ],
+  "releaseName": "SpaceFleet-20261011-wreck-collision-Windows-x64",
+  "archiveSha256": "314b9adddacc6e02b517653e6388410b1b99951798e8ba11c5eead6dced38329",
+  "sourceSha256": {
+    "src/Sim/CollisionHull.cs": "9e999c48ae996a483c53817db429b84b07a84279b4e8e4936a7eb9b7a4ba8c2e",
+    "src/Sim/ShipBody.cs": "ddd723a844d323b1a8543aff99391c67531f96748e5ffedd28a2966e362c168c",
+    "src/Sim/ShipCollision.cs": "a55ad409203747bb981746cfed4fb2dcea22234b1f2ffdd2b09526d1261625bd",
+    "src/Sim/WreckLayout.cs": "a32a27c394ee2ca9f2e720e0a1efd5ac6b6c4d5575e229f7b0a27aa87778ea7b",
+    "tests/SimChecks/Program.cs": "dee3e1d3e78bf198f01dffadf21d064a63885f28a1642404eff81c67340ab177",
+    "tests/SimChecks/ReferenceShipCollision.cs": "84fd59e95daa354540be10a949426e74979527b46739a64764b638b4c06958a5",
+    "tests/SimChecks/WreckCollisionChecks.cs": "d035a55627d09eaab8a26dd8a86f434e8258967ec0045b14a17ae66e69890be8"
+  },
+  "notes": [
+    "Exact summaries and ships/AM/probe CSV parity: 20 Domination and 20 Annihilation battles, seeds 1-10 and mirrors.",
+    "Performance comparison uses seed 1 Domination, serial runs, profiler enabled. Correctness batches used parallel workers and are not latency baselines.",
+    "Game tests: same 1600x900 Vulkan Forward+ scene, Earth/Earth, seed 1, x4 autoplay, advance to 540s then 40 wall seconds. Fixed FPS was not used.",
+    "Baseline Debug pre-roll was slow; the 40-second sample only reached 554s. Compare 540-554s windows separately; it has no 600s FPS value.",
+    "All long game samples reproduced the pre-existing FleetAudio.Emit array-bound error: seven counters for an eight-value CombatSound enum. Not changed in this collision-only task.",
+    "Initial Debug pre-roll briefly overlapped setup/test compilation and a duplicate process that was stopped before frame sampling. Serial final profiles and all FPS samples ran without concurrent batch/validation jobs.",
+    "Release baseline game fixture uses the same exported engine/PCK/runtime and rebuilt baseline ExportRelease C# assembly; benchmark-info.json identifies it.",
+    "Whole seed-1 mean 0.272718ms and brawl p99 0.9978ms do not meet the original whole-project 0.2/0.6ms targets. Twenty-run pooled latency is not claimed.",
+    "Human manual-play smoothness and other-PC performance are unverified. No tick rate, catch-up budget, wreck collision lifetime, balance or AI changes.",
+    "Final source includes a collider lifetime XML comment added after the tested export; executable behavior is unchanged."
+  ],
+  "debugSceneChecks": 49,
+  "debugVisualChecks": 216
+}

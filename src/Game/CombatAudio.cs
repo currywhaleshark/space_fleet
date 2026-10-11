@@ -10,7 +10,7 @@ public enum CombatSound { RailFire, ArmorImpact, ShieldImpact, HitConfirm, Penet
 /// <summary>조종함의 구조 전달음과 명중 피드백. 시뮬레이션 판정에는 관여하지 않는다.</summary>
 public partial class CombatAudio : Node
 {
-    private const int SoundCount = 8;
+    internal static readonly int SoundCount = Enum.GetValues<CombatSound>().Length;
     private const float EngineGain = .8f;
     private const float BoostGain = .9f;
     private const float IdleEngineLevel = .38f;
