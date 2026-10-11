@@ -11,6 +11,18 @@ public sealed class EnvironmentLog
     public double CollisionEnergy { get; private set; }
     public double CollisionDamage { get; private set; }
     public int StuckDetections { get; private set; }
+    public int BlockedRails { get; private set; }
+    public int BlockedMissiles { get; private set; }
+    public int BlockedTorpedoes { get; private set; }
+    public int BlockedProbes { get; private set; }
+    internal void Weapon(double time,string source,ObstacleHit hit,BattleWeapon? weapon)
+    {
+        if(weapon is null) BlockedProbes++;
+        else if(weapon==BattleWeapon.Railgun) BlockedRails++;
+        else if(weapon==BattleWeapon.Antimatter) BlockedTorpedoes++;
+        else BlockedMissiles++;
+        Record(time,weapon is null?"프로브 충돌":weapon+" 장애물 명중",source,hit.Obstacle,hit.Position);
+    }
     private readonly Dictionary<(ShipBody,Obstacle),double> _contacts=new();
     private readonly List<EnvironmentEvent> _events=new();
     public IReadOnlyList<EnvironmentEvent> Events=>_events;

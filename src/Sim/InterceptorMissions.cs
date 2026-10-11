@@ -234,7 +234,7 @@ public sealed partial class SimWorld
             && !_missiles.Exists(m => m.Faction == ship.Faction && m.InterceptTarget == missile && !m.InterceptPassed)
             && (track.Predict(Time) - ship.Position).Length() > 2500)
             fired = LaunchCounterMissile(ship, missile).Fired;
-        if (SmallTargetAim(ship, track, out var direction, out var aim)
+        if (SmallTargetAim(ship, track, out var direction, out var aim) && !TerrainBlocked(ship.Railgun!.MuzzlePosition,aim)
             && ship.Forward.AngleTo(direction) <= Mathf.DegToRad(9)
             && !FriendlyInLine(ship, ship.Railgun!.MuzzlePosition, direction, (float)(aim - ship.Position).Length()))
             fired |= FireRailguns(ship, direction).Fired;

@@ -62,7 +62,7 @@ public partial class Hud
         }
         string? reason = lost is not null ? "신호 소실" : order.Status switch
         {
-            GunneryStatus.WaitLock or GunneryStatus.Range or GunneryStatus.Armor or GunneryStatus.FriendlyLine or GunneryStatus.Traversing => GunneryLabels.Status(order.Status),
+            GunneryStatus.WaitLock or GunneryStatus.Range or GunneryStatus.Armor or GunneryStatus.FriendlyLine or GunneryStatus.Traversing or GunneryStatus.Obstructed => GunneryLabels.Status(order.Status),
             _ => null,
         };
         if (reason is not null) CenteredLabel(new Vector2(mx, cy + 30f), reason, 12, lost is null ? Motion : ContactMemory.LostColor);

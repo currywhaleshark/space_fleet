@@ -32,7 +32,8 @@ public sealed partial class SimWorld
             if (missile.Faction == shooter.Faction || missile.Health <= 0) continue;
             bool fused = projectile.ProximityTarget == missile && projectile.Age >= .04 && projectile.Age <= 3;
             double radius = fused ? projectile.ProximityMeters : 3;
-            if (MovingSphereHit(start - missile.Position, end - start - Vec3d.From(missile.Velocity) * dt, radius, out double t) && t < nearest)
+            if (MovingSphereHit(start - missile.Position, end - start - Vec3d.From(missile.Velocity) * dt, radius, out double t) && t < nearest
+                && (!fused || !TerrainBlocked(Vec3d.Lerp(start,end,t),missile.Position+Vec3d.From(missile.Velocity)*dt*t)))
             { nearest = t; hit = missile; proximity = fused; }
         }
         foreach (var probe in _probes)

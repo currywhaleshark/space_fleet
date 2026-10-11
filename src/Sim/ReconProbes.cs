@@ -64,7 +64,7 @@ public sealed partial class SimWorld
     public IReadOnlyList<ProbeFlight> ProbeFlights => _probeFlights;
 
     /// <summary>Map plane destination, clipped to the same deployment distance used by actual flight.</summary>
-    public static bool TryProbeDestination(ShipBody ship, Vec3d requested, out Vec3d destination)
+    public static bool TryProbeDestination(ShipBody ship, Vec3d requested, out Vec3d destination,ObstacleSet? obstacles=null)
     {
         destination = ship.Position;
         if (ship.Definition.ReconProbes is not { } def) return false;
@@ -72,12 +72,18 @@ public sealed partial class SimWorld
         double distance = delta.Length(), clearance = ship.Hull.BoundingRadius + 4;
         if (!double.IsFinite(distance) || distance <= clearance + 1) return false;
         destination += delta * (Math.Min(distance, clearance + def.DeploymentMeters) / distance);
+        if(obstacles is {Count:>0} && obstacles.SegmentBlocked(destination,destination,out _,def.Radius)
+            && obstacles.SegmentBlocked(ship.Position,destination,out var hit,def.Radius))
+        {
+            destination=hit.Position-delta*(2/distance);
+            if((destination-ship.Position).Length()<=clearance+1) return false;
+        }
         return true;
     }
 
     public FireAttempt LaunchProbeAt(ShipBody ship, Vec3d requested)
     {
-        if (!TryProbeDestination(ship, requested, out var destination)) return new(false, "프로브 투사 위치 없음");
+        if (!TryProbeDestination(ship, requested, out var destination,Obstacles)) return new(false, "프로브 투사 위치 없음");
         return LaunchProbe(ship, (destination - ship.Position).ToVector3(), destination);
     }
 
@@ -94,8 +100,10 @@ public sealed partial class SimWorld
         if (!direction.IsFinite() || direction.LengthSquared() < .01f) return new(false, "투사 방향 없음");
         direction = direction.Normalized();
         Vec3d start = ship.Position + Vec3d.From(direction * (ship.Hull.BoundingRadius + 4));
+        Vec3d goal=destination??start+Vec3d.From(direction)*def.DeploymentMeters;
+        if(Obstacles.Count>0 && !TryProbeDestination(ship,goal,out goal,Obstacles)) return new(false,"프로브 투사 위치 없음");
         _probes.Add(new ReconProbe { Id = ++_shotSequence, Owner = ship, Definition = def,
-            LaunchedAt = Time, Position = start, PreviousPosition = start, Destination = destination ?? start + Vec3d.From(direction) * def.DeploymentMeters,
+            LaunchedAt = Time, Position = start, PreviousPosition = start, Destination = goal,
             Direction = direction, Velocity = ship.Velocity + direction * 50, Health = def.HitPoints });
         equipment.Probes--; equipment.Launched++; equipment.NextLaunch = Time + def.CooldownSeconds;
         equipment.FirstAction ??= Time;
@@ -113,6 +121,12 @@ public sealed partial class SimWorld
             Vector3 desired = distance > 1 ? r / distance * speed : Vector3.Zero;
             probe.Velocity += (desired - probe.Velocity).LimitLength(accel * (float)dt);
             probe.Position += Vec3d.From(probe.Velocity) * dt;
+            if(Obstacles.Count>0 && Obstacles.SegmentBlocked(probe.PreviousPosition,probe.Position,out var hit,probe.Definition.Radius))
+            {
+                probe.Position=hit.Position; probe.Health=0;
+                Log?.Environment.Weapon(Time+dt*hit.Fraction,probe.Owner.Callsign,hit,null);
+                _ordnanceEvents.Add(new(OrdnanceEventKind.ProbeDestroyed,hit.Position,Time+dt*hit.Fraction,probe.Faction));
+            }
             probe.Age += dt;
         }
         for (int i = _probes.Count - 1; i >= 0; i--)

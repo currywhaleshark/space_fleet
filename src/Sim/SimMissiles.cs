@@ -46,6 +46,7 @@ public sealed partial class SimWorld
 
         _shotSequence++;
         Vec3d start = shooter.Position + Vec3d.From(shooter.Orientation * def.LaunchPoint);
+        if(BrainOf(shooter) is { Enabled:true } && TerrainBlocked(start,track.EstimatedPosition)) return new(false,"지형 가림");
         var missile = new Missile
         {
             Id = _shotSequence, Shooter = shooter, Target = target, Definition = def,
@@ -139,13 +140,17 @@ public sealed partial class SimWorld
                 m.NextSeekerCheck = time + SeekerInterval;
             }
             StepMissile(m, dt, time);
+            ObstacleHit? obstacle=null;
+            if(Obstacles.Count>0 && Obstacles.SegmentBlocked(m.PrevPosition,m.Position,out var wall)) obstacle=wall;
             if (m.Assault is not null && m.Target is not null && Log is not null)
             {
                 m.ClosestTargetHull = Math.Min(m.ClosestTargetHull, HullDistance(m.Target, m.Position));
                 if (m.SeekerTarget == m.Target) m.SeekerSeconds += dt;
             }
-            if (Fuze(m, dt, time))
+            if (Fuze(m, dt, time,obstacle?.Fraction??double.PositiveInfinity))
                 _missiles.RemoveAt(i);
+            else if(obstacle is { } contact)
+            { StopMissileAtObstacle(m,contact,time+dt*contact.Fraction); _missiles.RemoveAt(i); }
             else if (m.Assault is { } am && m.TravelMeters >= am.MaxTravelMeters - .001)
             {
                 Log?.EndAntimatter(m, AntimatterOutcome.Expired, time);
@@ -166,6 +171,7 @@ public sealed partial class SimWorld
 
     private void StepMissile(Missile m, double dt, double time)
     {
+        if(Obstacles.Count>0 && BlockedSeeker(m)) m.SeekerTarget=null;
         Vec3d aim;
         Vector3 aimVelocity;
         if (m.InterceptTarget is not null)
@@ -291,6 +297,7 @@ public sealed partial class SimWorld
             Vector3 los = (position - m.Position).ToVector3();
             float d = los.Length();
             if (d > def.SeekerRangeMeters || d < 1f || forward.AngleTo(los) > halfFov) return;
+            if(TerrainBlocked(m.Position,position)) return;
             float km = d / 1000f;
             float snr = def.SeekerStrength * signature / (km * km) / (1f + jam);
             if (snr < 1f) return;
@@ -332,13 +339,14 @@ public sealed partial class SimWorld
     }
 
     /// <summary>신관. 탐색기가 디코이를 쫓으면 디코이 근처에서 헛되이 터진다.</summary>
-    private bool Fuze(Missile m, double dt, double time)
+    private bool Fuze(Missile m, double dt, double time,double obstacleFraction=double.PositiveInfinity)
     {
         if (m.InterceptTarget is not null) return false; // Resolve pairs after both trajectories have advanced.
-        if (m.Assault is not null && AssaultCollision(m, time)) return true;
+        if (m.Assault is not null && AssaultCollision(m, time,obstacleFraction)) return true;
         if (m.SeekerTarget is Decoy decoy)
         {
-            if ((decoy.Position - m.Position).Length() < m.Definition.FuzeMeters * 2f)
+            if (double.IsPositiveInfinity(obstacleFraction) && !TerrainBlocked(m.Position,decoy.Position)
+                && (decoy.Position - m.Position).Length() < m.Definition.FuzeMeters * 2f)
             {
                 Log?.EndAntimatter(m, AntimatterOutcome.Decoy, time);
                 _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, m.Position, time, m.Faction, m.Weapon));
@@ -364,6 +372,7 @@ public sealed partial class SimWorld
             Vector3 dir = (travel * (1 / length)).ToVector3();
             if (DamageRay.FirstDefenseHitAtPose(victim, m.PrevPosition, dir, (float)length, victim.PrevPosition, orientation, out float hit))
             {
+                if(hit/length>=obstacleFraction) return false;
                 Vec3d offset = (victim.Position - victim.PrevPosition) * (hit / length);
                 Detonate(m, victim, m.PrevPosition + offset + Vec3d.From(dir) * Math.Max(0, hit - 1), dir,
                     victim.PrevPosition + offset, orientation, time);
@@ -371,7 +380,8 @@ public sealed partial class SimWorld
             }
         }
         // 2) 근접: 끝 위치가 선체 상자에서 신관 거리 안.
-        if (HullDistance(victim, m.Position) <= m.Definition.FuzeMeters)
+        if (double.IsPositiveInfinity(obstacleFraction) && HullDistance(victim, m.Position) <= m.Definition.FuzeMeters
+            && !TerrainBlocked(m.Position,victim.Position))
         {
             Vector3 toCenter = (victim.Position - m.Position).ToVector3().Normalized();
             Detonate(m, victim, m.Position, toCenter, victim.Position, victim.Orientation, time);
@@ -394,9 +404,9 @@ public sealed partial class SimWorld
         _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, hit.ShieldPoint??hit.Point, time, m.Faction, m.Weapon, direction));
     }
 
-    private bool AssaultCollision(Missile missile, double time)
+    private bool AssaultCollision(Missile missile, double time,double obstacleFraction=double.PositiveInfinity)
     {
-        ShipBody? hitShip = null; double earliest = double.PositiveInfinity;
+        ShipBody? hitShip = null; double earliest = obstacleFraction;
         Vector3 hitDirection = Vector3.Zero; Quaternion hitRotation = Quaternion.Identity;
         Vec3d hitPoint = default, hitPose = default;
         foreach (ShipBody ship in _ships)
@@ -513,6 +523,7 @@ public sealed partial class SimWorld
                     distance=(point-mount).Length(); rank=(distance<=pd.RangeMeters ? 0 : 10)+priority;
                     if(distance>pd.RangeMeters*PointDefenseTrackingRangeMultiplier) return false;
                     if(rank>bestPriority || rank==bestPriority && distance>=nearest) return false;
+                    if(TerrainBlocked(mount,point)) return false;
                     return tracking.Contains(inverse * (point-mount).ToVector3());
                 }
                 foreach (Missile m in _pdMissileCandidates)

@@ -10,7 +10,7 @@ public sealed record AntimatterDefinition(string ModuleId, int Rounds, float Arm
     float WarningHealth, float SafeFailureHealth, float ArmedFailureHealth, MissileDefinition Flight);
 
 public enum AntimatterMode { Safe, Arming, Armed, Failed }
-public enum AntimatterOutcome { Hit, PointDefense, Drone, Decoy, Expired }
+public enum AntimatterOutcome { Hit, PointDefense, Drone, Decoy, Expired, Obstacle }
 public sealed record AntimatterFlight(Faction Faction, string Shooter, string Target, HullKind TargetKind,
     double LaunchTime, double Range, double FlightSeconds, double TravelMeters, double SeekerSeconds,
     float ClosestHull, AntimatterOutcome Outcome, string? HitShip);
@@ -105,6 +105,7 @@ public sealed partial class SimWorld
         // One initial lead solution. There is no fleet-network homing after separation.
         Vector3 direction = AntimatterLaunchDirection(shooter,target,track,localAim,out double t);
         aim = start + Vec3d.From(direction) * (def.EjectSpeed*t+.5*def.Accel*t*t);
+        if(BrainOf(shooter) is { Enabled:true } && TerrainBlocked(start,aim)) return new(false,"지형 가림");
         if (shooter.Forward.AngleTo(direction) > Mathf.DegToRad(am.LaunchConeDegrees)) return new(false, "AM 전방 발사각 밖");
         _shotSequence++;
         _missiles.Add(new Missile { Id = _shotSequence, Shooter = shooter, Target = target, Definition = def,

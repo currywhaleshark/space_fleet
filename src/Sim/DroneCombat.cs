@@ -8,6 +8,7 @@ public sealed partial class SimWorld
     /// <summary>Close-range defensive fire cannot pass through the carrier, friendly hulls or intervening wrecks.</summary>
     private bool ClearDefenseLine(Vec3d origin,Vec3d target,ShipBody? intended=null)
     {
+        if(TerrainBlocked(origin,target)) return false;
         Vec3d travel=target-origin;
         double length=travel.Length();
         if(length<.001) return false;

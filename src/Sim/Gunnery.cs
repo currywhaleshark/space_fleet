@@ -5,7 +5,7 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public enum FireDoctrine { Free, Focus, Disable, Hold, Manual }
-public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual, Traversing }
+public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual, Traversing, Obstructed }
 
 public sealed class GunneryOrder
 {
@@ -30,6 +30,7 @@ public static class GunneryLabels
         GunneryStatus.Firing => "발사", GunneryStatus.Reload => "재장전", GunneryStatus.WaitLock => "잠금 대기",
         GunneryStatus.Traversing => "포탑 선회 중",
         GunneryStatus.Range => "사거리 밖", GunneryStatus.Arc => "포각 밖",
+        GunneryStatus.Obstructed => "지형 가림",
         GunneryStatus.HullBlocked => "선체 가림", GunneryStatus.FriendlyLine => "아군 사선",
         GunneryStatus.Armor => "장갑 관통 불가", GunneryStatus.Hold => "사격 정지", GunneryStatus.Manual => "수동 사격",
         _ => "표적 없음",
@@ -52,7 +53,7 @@ public sealed partial class SimWorld
             bool shot = TryAutoFireGun(ship, gun, target, localAim, maxFlightSeconds, out var state, out var solution);
             fired |= shot;
             int rank = state switch { GunneryStatus.Firing => 10, GunneryStatus.Traversing => 9,
-                GunneryStatus.Reload => 8, GunneryStatus.FriendlyLine => 7, GunneryStatus.HullBlocked => 6,
+                GunneryStatus.Reload => 8, GunneryStatus.FriendlyLine => 7, GunneryStatus.HullBlocked or GunneryStatus.Obstructed => 6,
                 GunneryStatus.Arc => 5, _ => 4 };
             if (gun.Output <= .01f || gun.Rounds == 0) rank = 0;
             if (rank > priority) { priority = rank; status = state; solved = solution; }
@@ -73,6 +74,10 @@ public sealed partial class SimWorld
         solved = solution;
         if (solution.Valid) gun.Aim(solution.Direction); // track while reloading, too
         if (!solution.Valid || solution.FlightTime > maxFlightSeconds) { status = GunneryStatus.Range; return false; }
+        if(Obstacles.Count>0)
+            for(int barrel=0;barrel<gun.SalvoRounds;barrel++)
+                if(Obstacles.SegmentBlocked(gun.BarrelPosition(barrel),solution.AimPoint,out _))
+                { status=GunneryStatus.Obstructed; return false; }
         FireFailure line = RailLineLocal(ship, gun, ship.Orientation.Inverse() * solution.Direction);
         if (line != FireFailure.None) { status = line == FireFailure.Arc ? GunneryStatus.Arc : GunneryStatus.HullBlocked; return false; }
         if (!gun.Aligned(solution.Direction)) { status = GunneryStatus.Traversing; return false; }

@@ -187,6 +187,9 @@ public sealed partial class SimWorld
             var bounds = SpatialBounds.Segment(start, end).Expanded(0);
             ShipBody? target = null;
             double earliest = double.PositiveInfinity;
+            ObstacleHit? obstacle=null;
+            if(Obstacles.Count>0 && Obstacles.SegmentBlocked(start,end,out var blocked))
+            { obstacle=blocked; earliest=blocked.Fraction; }
             Vector3 hitDirection = Vector3.Zero;
             Quaternion hitOrientation = Quaternion.Identity;
             Vec3d targetTravel = Vec3d.Zero;
@@ -241,6 +244,13 @@ public sealed partial class SimWorld
                 Log?.Hit(p.Shooter, hit, BattleWeapon.Railgun, time + travelTime * earliest, shieldBefore);
                 RecordImpact(p.Id, p.Shooter, hit, time + travelTime * earliest,
                     hitDirection, p.Packet.Energy, shieldBefore, BattleWeapon.Railgun);
+                _projectiles.RemoveAt(index);
+            }
+            else if(obstacle is { } wall)
+            {
+                double at=time+travelTime*wall.Fraction;
+                Log?.Environment.Weapon(at,p.Shooter.Callsign,wall,BattleWeapon.Railgun);
+                _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation,wall.Position,at,p.Shooter.Faction,BattleWeapon.Railgun,p.Velocity.Normalized()));
                 _projectiles.RemoveAt(index);
             }
             else if (p.Age >= p.Lifetime - 1e-9) _projectiles.RemoveAt(index);

@@ -18,6 +18,8 @@ public sealed partial class SimWorld
         reason = "미사일 신호 소실";
         if (Sensors.SmallTrack(ship.Faction, target) is not { } track || !track.Fresh(Time)) return false;
         Vec3d start = ship.Position + Vec3d.From(ship.Orientation * def.LaunchPoint);
+        reason="지형 가림";
+        if(TerrainBlocked(start,track.Predict(Time))) return false;
         Vector3 r = (track.Predict(Time) - start).ToVector3(), v = track.Velocity - ship.Velocity;
         reason = "요격 미사일 사거리 밖";
         if (r.Length() > def.InterceptRangeMeters) return false;
@@ -68,6 +70,7 @@ public sealed partial class SimWorld
             float km = Mathf.Max(.001f, r.Length() / 1000);
             Vector3 forward = m.Velocity.LengthSquared() > 1 ? m.Velocity.Normalized() : m.NoseDirection;
             if (r.Length() <= m.Definition.SeekerRangeMeters && forward.AngleTo(r) <= Mathf.DegToRad(m.Definition.SeekerFovDegrees * .5f)
+                && !TerrainBlocked(m.Position,target.Position)
                 && m.Definition.SeekerStrength * (target.Burning ? 2 : .65f) / (km * km) >= 1)
             { aim = target.Position; velocity = target.Velocity; observed = true; }
         }
@@ -105,6 +108,7 @@ public sealed partial class SimWorld
                 { _missiles.Remove(m); _ordnanceEvents.Add(new(OrdnanceEventKind.Expired, m.Position, time, m.Faction)); }
                 continue;
             }
+            if(TerrainBlocked(Vec3d.Lerp(m.PrevPosition,m.Position,fraction),Vec3d.Lerp(target.PrevPosition,target.Position,fraction))) continue;
             target.Health -= m.Definition.InterceptDamage;
             if (target.Health <= 0) DestroyMissile(m.Shooter, target, time);
             _missiles.Remove(m); m.Health = 0;

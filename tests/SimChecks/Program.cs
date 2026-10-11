@@ -8,7 +8,7 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
-        if (args.Contains("--obstacles")) { ObstacleChecks.Run(); ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); return; }
+        if (args.Contains("--obstacles")) { ObstacleChecks.Run(); ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run(); return; }
         if (args.Contains("--wing-trace")) { InterceptorRoleChecks.Trace(); return; }
         if (args.Contains("--interceptor-roles")) { InterceptorRoleChecks.Run(); return; }
         if (args.Contains("--damage-control")) { DamageControlChecks.Run(); return; }
@@ -40,7 +40,7 @@ static class SimChecks
         Console.WriteLine($"PASS: {_checks} simulation checks");
         CollisionChecks.Run();
         ObstacleChecks.Run();
-        ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run();
+        ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run();
         WreckCollisionChecks.Run();
         DamageChecks.Run();
         DamageControlChecks.Run();
