@@ -46,7 +46,8 @@ public partial class BattleOverlay : Control
                 Button("조종사  ·  IC-21",new(1020,560,320,58),()=>Host.StartBattle("IC-21",true));
                 Button($"아군 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(390,230,380,42),()=>Host.ToggleDesign(false));
                 Button($"적군 설계 · {DesignName(Host.EnemyDesign)}  ↔",new(830,230,380,42),()=>Host.ToggleDesign(true));
-                Button("뒤로",new(650,716,300,46),()=>Host.ChangeScreen(BattleScreen.Title)); break;
+                Button("뒤로",new(650,785,300,46),()=>Host.ChangeScreen(BattleScreen.Title));
+                Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(570,706,460,52),Host.CycleObjective); break;
             case BattleScreen.Pause:
                 Button("계속",new(620,400,360,56),Host.TogglePause);
                 Button("다시",new(620,476,360,56),()=>Host.StartBattle(Host.Role));
@@ -84,7 +85,7 @@ public partial class BattleOverlay : Control
         {
             if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
-            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,"150 km · 함대 교전",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
+            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · 150 km 함대 교전",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
             {DrawRect(new(0,0,1600,900),new(0,0,0,.72f));Center(420,lost.Controlled!.Body.Damage.Destroyed?"격침":"무력화",40,Red);Center(468,"지휘권 인계 중",20);}
             return;
@@ -113,7 +114,13 @@ public partial class BattleOverlay : Control
                 Text(new(x+22,325),ShipDefinitions.For((HullKind)i, Host.PlayerDesign).Flight.DisplayName,21,accent);
                 Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
             }
-            Center(680,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
+            Center(668,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
+            Center(691,Host.SelectedObjective switch
+            {
+                BattleObjective.Flagship => "적 기함 격침 또는 무력화 시 승리",
+                BattleObjective.Domination => "3차원 거점 3곳을 점령하고 500점을 먼저 획득",
+                _ => "적 함대의 전투능력을 제거하면 승리",
+            },15,Ink);
         }
         else if(Host.Screen==BattleScreen.Pause)
         {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);
@@ -134,7 +141,7 @@ public partial class BattleOverlay : Control
     {
         if(Host.Battle is not { } battle || Host.Outcome is not { } outcome)return;
         string title=outcome.Winner is null?"무승부":outcome.Winner==Faction.Blue?"승리":"패배";
-        Center(126,title,44,outcome.Winner==Faction.Red?Red:Blue);Center(166,$"{outcome.Reason}  ·  {TimeSpan.FromSeconds(outcome.Time):mm\\:ss}",20);
+        Center(126,title,44,outcome.Winner==Faction.Red?Red:Blue);Center(166,$"{BattleRules.Name(battle.World.Rules!.Objective)} · {outcome.Reason}  ·  {TimeSpan.FromSeconds(outcome.Time):mm\\:ss}",20);
         Text(new(260,224),"전투의 흐름",20);float width=1080;double duration=Math.Max(outcome.Time,30);
         foreach(var interval in (battle.World.Log!.OutcomeIntervals??battle.World.Log.Intervals).Where(i=>i.Start<duration))
         {float x=260+(float)(interval.Start/duration)*width;float w=(float)(Math.Min(interval.Duration,duration-interval.Start)/duration)*width;DrawRect(new(x,245,Math.Max(w,1),32),Phases[(int)interval.Phase]);}
