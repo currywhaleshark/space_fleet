@@ -23,6 +23,7 @@ public partial class ScaleTest : Node3D
     private const float DustBoxPerCameraDistance = 4f;
 
     private readonly List<ShipView> _playable = new();
+    private readonly List<CaptureZoneView> _captureViews = new();
     private Node3D _worldRoot = null!;
     private SpaceDust _dust = null!;
     private OrdnanceView _ordnance = null!;
@@ -61,6 +62,13 @@ public partial class ScaleTest : Node3D
         _worldRoot = new Node3D { Name = "World" };
         AddChild(_worldRoot);
         SpawnFleets();
+        if (World.Rules is { Objective: BattleObjective.Domination } rules)
+            foreach (CaptureZone zone in rules.CaptureZones)
+            {
+                CaptureZoneView view = CaptureZoneView.Create(zone);
+                _worldRoot.AddChild(view);
+                _captureViews.Add(view);
+            }
         BuildPlanet();
         _ballistics = new BallisticsView { Name = "Ballistics" };
         _worldRoot.AddChild(_ballistics);
@@ -319,6 +327,7 @@ public partial class ScaleTest : Node3D
             view.Sync(RenderOrigin, alpha, (float)delta);
         PerfTrace.End("shipViews", p);
         PlaceBackdrop(_planet, PlanetPosition - RenderOrigin);
+        foreach (CaptureZoneView capture in _captureViews) capture.Sync(RenderOrigin);
 
         float feedbackDelta = Paused ? 0 : (float)delta;
         Feedback.Advance(feedbackDelta);
