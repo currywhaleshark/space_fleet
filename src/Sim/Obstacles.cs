@@ -47,20 +47,52 @@ public readonly record struct ObstacleBoxContact(Vec3d Position, Vec3d Normal, d
 public sealed class ObstacleSet : IReadOnlyList<Obstacle>
 {
     private readonly List<Obstacle> _items = new();
+    private ObstacleBvh? _index;
+    public double MaximumRadius { get; private set; }
     public int Count => _items.Count;
     public Obstacle this[int index] => _items[index];
-    public void Add(Obstacle obstacle) => _items.Add(obstacle);
-    public void Clear() => _items.Clear();
+    public void Add(Obstacle obstacle) { _items.Add(obstacle);MaximumRadius=Math.Max(MaximumRadius,obstacle.BoundingRadius);_index=null; }
+    public void Clear() { _items.Clear();_index=null;MaximumRadius=0; }
+    public void BuildIndex() { if(Count>4)_index??=new(_items); }
+    /// <summary>Conservative padded segment candidates in original insertion order.</summary>
+    public int QueryCandidates(Vec3d start,Vec3d end,double padding,Span<int> result)
+    {
+        if(Count<=4){for(int i=0;i<Count;i++)result[i]=i;return Count;}
+        BuildIndex();return _index!.Query(start,end,padding,result);
+    }
     public IEnumerator<Obstacle> GetEnumerator() => _items.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    /// <summary>Visibility-only query; no ordered contact point or normal is needed.</summary>
+    public bool BlocksSegment(Vec3d a,Vec3d b,double padding=0)
+    {
+        if(Count>4){BuildIndex();return _index!.Blocks(a,b,padding);}
+        foreach(var obstacle in _items)if(Blocks(obstacle,a,b,padding))return true;
+        return false;
+    }
+    internal static bool Blocks(Obstacle obstacle,Vec3d a,Vec3d b,double padding)
+    {
+        if(!ObstacleMath.SegmentSphere(a-obstacle.Position,b-obstacle.Position,Vec3d.Zero,obstacle.BoundingRadius+padding,out _))return false;
+        Vec3d start=obstacle.ToLocal(a),end=obstacle.ToLocal(b);
+        for(int i=0;i<obstacle.Parts.Count;i++)
+        {
+            var p=obstacle.Parts[i];
+            if(p.Shape==ObstacleShape.Sphere?ObstacleMath.SegmentSphere(start,end,p.A,p.Radius+padding,out _)
+                :ObstacleMath.SegmentCapsule(start,end,p.A,p.B,p.Radius+padding,out _))return true;
+        }
+        return false;
+    }
 
     public bool SegmentBlocked(Vec3d a, Vec3d b, out ObstacleHit hit, double padding = 0)
     {
         hit = default;
         if (Count == 0) return false;
         double nearest = double.PositiveInfinity;
-        foreach (var obstacle in _items)
+        Span<int> candidates=Count<=1024?stackalloc int[Count]:new int[Count];
+        int count=QueryCandidates(a,b,padding,candidates);
+        for(int index=0;index<count;index++)
         {
+            var obstacle=_items[candidates[index]];
             if (!ObstacleMath.SegmentSphere(a - obstacle.Position, b - obstacle.Position, Vec3d.Zero,
                 obstacle.BoundingRadius + padding, out _)) continue;
             Vec3d start = obstacle.ToLocal(a), end = obstacle.ToLocal(b);
@@ -82,8 +114,11 @@ public sealed class ObstacleSet : IReadOnlyList<Obstacle>
         hit = default;
         if (Count == 0) return false;
         double nearest = double.PositiveInfinity;
-        foreach (var obstacle in _items)
+        Span<int> candidates=Count<=1024?stackalloc int[Count]:new int[Count];
+        int count=QueryCandidates(point,point,radius,candidates);
+        for(int index=0;index<count;index++)
         {
+            var obstacle=_items[candidates[index]];
             if ((point - obstacle.Position).Length() > obstacle.BoundingRadius + radius) continue;
             Vec3d local = obstacle.ToLocal(point);
             for (int i = 0; i < obstacle.Parts.Count; i++)

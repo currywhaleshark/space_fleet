@@ -9,12 +9,15 @@ public static partial class ShipCollision
     public static void ResolveObstacles(IReadOnlyList<ShipBody> ships, ObstacleSet obstacles, double time, BattleLog? log = null)
     {
         if (obstacles.Count == 0) return;
+        Span<int> candidates=obstacles.Count<=1024?stackalloc int[obstacles.Count]:new int[obstacles.Count];
         foreach (var ship in ships)
         {
             // Preserve primitive and hull-box ordering for simultaneous contacts.
             double earliest = double.PositiveInfinity; Obstacle? first = null; ObstacleBoxContact contact = default;
-            foreach (var obstacle in obstacles)
+            int count=obstacles.QueryCandidates(ship.PrevPosition,ship.Position,ship.Hull.BoundingRadius+Skin,candidates);
+            for(int candidate=0;candidate<count;candidate++)
             {
+                var obstacle=obstacles[candidates[candidate]];
                 if (!ObstacleMath.SegmentSphere(ship.PrevPosition-obstacle.Position,ship.Position-obstacle.Position,
                     Vec3d.Zero,obstacle.BoundingRadius+ship.Hull.BoundingRadius+Skin,out _)) continue;
                 for(int p=0;p<obstacle.Parts.Count;p++) foreach(var box in ship.Hull.Boxes)
@@ -31,8 +34,12 @@ public static partial class ShipCollision
             for(int pass=0;pass<OverlapPasses;pass++)
             {
                 bool corrected=false;
-                foreach(var obstacle in obstacles)
+                count=obstacles.QueryCandidates(ship.Position,ship.Position,ship.Hull.BoundingRadius+Skin,candidates);
+                int nextIndex=0;
+                for(int candidate=0;candidate<count;candidate++)
                 {
+                    int index=candidates[candidate];if(index<nextIndex)continue;
+                    var obstacle=obstacles[index];
                     if((ship.Position-obstacle.Position).Length()>obstacle.BoundingRadius+ship.Hull.BoundingRadius+Skin) continue;
                     ObstacleBoxContact deepest=default; bool found=false;
                     for(int p=0;p<obstacle.Parts.Count;p++) foreach(var box in ship.Hull.Boxes)
@@ -40,6 +47,11 @@ public static partial class ShipCollision
                             && (!found || hit.Penetration>deepest.Penetration)) { found=true; deepest=hit; }
                     if(!found) continue;
                     ApplyObstacle(ship,obstacle,deepest,deepest.Penetration+Skin,time,log); corrected=true;
+                    // A correction can move into a different leaf during this same
+                    // pass. Refresh candidates, but never revisit an earlier index.
+                    nextIndex=index+1;
+                    count=obstacles.QueryCandidates(ship.Position,ship.Position,ship.Hull.BoundingRadius+Skin,candidates);
+                    candidate=-1;
                 }
                 if(!corrected) break;
             }

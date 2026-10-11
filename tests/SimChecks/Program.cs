@@ -9,6 +9,8 @@ static class SimChecks
     public static void Main(string[] args)
     {
         if(args.Contains("--asteroids")){AsteroidChecks.Run();return;}
+        if(args.Contains("--obstacle-bvh")){ObstacleBvhChecks.Run();return;}
+        if(args.Contains("--obstacle-bvh-profile")){ObstacleBvhChecks.Profile();return;}
         if (args.Contains("--obstacles")) { ObstacleChecks.Run(); ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run(); return; }
         if (args.Contains("--wing-trace")) { InterceptorRoleChecks.Trace(); return; }
         if (args.Contains("--interceptor-roles")) { InterceptorRoleChecks.Run(); return; }
@@ -42,6 +44,7 @@ static class SimChecks
         CollisionChecks.Run();
         ObstacleChecks.Run();
         AsteroidChecks.Run();
+        ObstacleBvhChecks.Run();
         ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run();
         WreckCollisionChecks.Run();
         DamageChecks.Run();

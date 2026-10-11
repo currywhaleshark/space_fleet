@@ -10,7 +10,7 @@ public sealed partial class SimWorld
     private readonly struct FixedEnvironment { }
 
     [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
-    private bool TerrainBlocked(Vec3d start,Vec3d end)=>Obstacles.Count>0 && Obstacles.SegmentBlocked(start,end,out _);
+    private bool TerrainBlocked(Vec3d start,Vec3d end)=>Obstacles.Count>0 && Obstacles.BlocksSegment(start,end);
     private void StopMissileAtObstacle(Missile missile,ObstacleHit hit,double time)
     {
         missile.TravelMeters-=(missile.Position-missile.PrevPosition).Length()*(1-hit.Fraction);

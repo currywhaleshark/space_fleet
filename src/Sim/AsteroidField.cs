@@ -126,5 +126,6 @@ public sealed partial class SimWorld
         if(Battlefield!=Battlefield.AsteroidCluster)return;
         Asteroids=AsteroidField.Generate(config);
         foreach(var rock in Asteroids.Rocks)Obstacles.Add(rock.Body);
+        Obstacles.BuildIndex();
     }
 }

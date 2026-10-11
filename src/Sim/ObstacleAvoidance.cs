@@ -10,9 +10,15 @@ public sealed partial class SimWorld
     private readonly Dictionary<ShipBody,ObstacleProgress> _obstacleProgress=new();
     private Vector3 ObstacleAvoidance(ShipBody ship,Vector3 desired)
     {
+        long timing=SimProfiler.Begin();
         Vector3 push=Vector3.Zero;
-        foreach(var obstacle in Obstacles)
+        Span<int> candidates=Obstacles.Count<=1024?stackalloc int[Obstacles.Count]:new int[Obstacles.Count];
+        double broad=Obstacles.MaximumRadius+ship.Hull.BoundingRadius;
+        double padding=ship.Hull.BoundingRadius+(Doctrine is null?Math.Max(150,broad*.3):Math.Max(300,broad*.5))+desired.Length()*10;
+        int count=Obstacles.QueryCandidates(ship.Position,ship.Position,padding,candidates);
+        for(int candidate=0;candidate<count;candidate++)
         {
+            var obstacle=Obstacles[candidates[candidate]];
             double hull=ship.Hull.BoundingRadius;
             double bound=obstacle.BoundingRadius+hull;
             bound+=Doctrine is null?Math.Max(150,bound*.3):Math.Max(300,bound*.5);
@@ -39,6 +45,7 @@ public sealed partial class SimWorld
             push+=bestPush;
         }
         RecordObstacleProgress(ship,desired);
+        SimProfiler.End(SimSection.TerrainAvoidance,timing);
         return push;
     }
     private void RecordObstacleProgress(ShipBody ship,Vector3 desired)

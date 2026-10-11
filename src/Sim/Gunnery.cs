@@ -76,7 +76,7 @@ public sealed partial class SimWorld
         if (!solution.Valid || solution.FlightTime > maxFlightSeconds) { status = GunneryStatus.Range; return false; }
         if(Obstacles.Count>0)
             for(int barrel=0;barrel<gun.SalvoRounds;barrel++)
-                if(Obstacles.SegmentBlocked(gun.BarrelPosition(barrel),solution.AimPoint,out _))
+                if(Obstacles.BlocksSegment(gun.BarrelPosition(barrel),solution.AimPoint))
                 { status=GunneryStatus.Obstructed; return false; }
         FireFailure line = RailLineLocal(ship, gun, ship.Orientation.Inverse() * solution.Direction);
         if (line != FireFailure.None) { status = line == FireFailure.Arc ? GunneryStatus.Arc : GunneryStatus.HullBlocked; return false; }

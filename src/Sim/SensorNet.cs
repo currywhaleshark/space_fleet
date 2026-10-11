@@ -92,7 +92,7 @@ public sealed partial class SensorNet
 
     /// <summary>관측함 한 척이 표적을 보는 신호(접촉용·추적용)와 방해 비율.</summary>
     public static (float Track,float Detect,float Jam) Measure(ShipBody observer,ShipBody target,ObstacleSet obstacles,float screenJammer=0)
-        => obstacles.Count>0 && obstacles.SegmentBlocked(observer.Position,target.Position,out _)?(0,0,0):Measure(observer,target,screenJammer);
+        => obstacles.Count>0 && obstacles.BlocksSegment(observer.Position,target.Position)?(0,0,0):Measure(observer,target,screenJammer);
 
     public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0)
     {

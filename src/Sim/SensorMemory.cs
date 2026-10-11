@@ -26,7 +26,7 @@ public sealed partial class SensorNet
     public SensorMemory? Memory(Faction side,ShipBody target,double? time=null) =>
         _memories?.GetValueOrDefault((side,target)) is { } memory && memory.Fresh(time??_lastSampleTime)?memory:null;
     public SensorOcclusionStats OcclusionStats(Faction side)=>_occlusionStats is null?default:_occlusionStats[(int)side];
-    private bool Occluded(Vec3d a,Vec3d b)=>Obstacles is { Count: > 0 } && Obstacles.SegmentBlocked(a,b,out _);
+    private bool Occluded(Vec3d a,Vec3d b)=>Obstacles is { Count: > 0 } && Obstacles.BlocksSegment(a,b);
 
     private float VisibleScreen(Vec3d observer,ShipBody target,IReadOnlyList<ShipBody> ships)
     {
