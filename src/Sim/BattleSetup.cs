@@ -45,6 +45,7 @@ public static class BattleSetup
         world.PopulateBattlefield(config);
         world.Sensors.Update(world.Ships, 0, force:true);
         world.Log = new BattleLog(world);
+        world.Log.Environment.NavigationBuildMs=world.NavigationBuildMilliseconds;
     }
     public static BattleRoster Spawn(SimWorld world, BattleConfig config)
     {
@@ -110,6 +111,7 @@ public static class BattleSetup
         world.PopulateBattlefield(config);
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
+        world.Log.Environment.NavigationBuildMs=world.NavigationBuildMilliseconds;
         return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1]);
     }
 }

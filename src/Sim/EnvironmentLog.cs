@@ -15,6 +15,13 @@ public sealed class EnvironmentLog
     public int BlockedMissiles { get; private set; }
     public int BlockedTorpedoes { get; private set; }
     public int BlockedProbes { get; private set; }
+    public double NavigationBuildMs { get; internal set; }
+    public int PathPlans { get; internal set; }
+    public int PathFailures { get; internal set; }
+    public long PathExpanded { get; internal set; }
+    public double PathMilliseconds { get; internal set; }
+    public int StuckReplans { get; internal set; }
+    public int FormationCompressions { get; internal set; }
     internal void Weapon(double time,string source,ObstacleHit hit,BattleWeapon? weapon)
     {
         if(weapon is null) BlockedProbes++;

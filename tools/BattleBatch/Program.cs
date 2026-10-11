@@ -132,6 +132,8 @@ File.WriteAllLines(Path.ChangeExtension(output, ".probes.csv"), new[] { "seed,mi
     .Concat(ordered.SelectMany(r => r.World.ProbeFlights.Select(p => FormattableString.Invariant(
         $"{r.Seed},{(r.Mirror ? 1 : 0)},{p.Id},{p.Owner},{p.Faction},{p.LaunchedAt:F3},{p.Lifetime:F3},{(p.Destroyed ? 1 : 0)},{p.Contacts},{p.Identifications}")))));
 string flightOutput = Path.ChangeExtension(output, ".am.csv");
+File.WriteAllLines(Path.ChangeExtension(output,".navigation.csv"),new[]{"seed,mirror,fieldSeed,regenerations,buildMs,plans,failures,expanded,planMs,stuckReplans,formationCompressions"}
+    .Concat(ordered.Select(row=>{var n=row.World.Log!.Environment;return $"{row.Seed},{(row.Mirror?1:0)},{row.World.FieldSeed},{row.World.Asteroids?.Regenerations??0},{n.NavigationBuildMs:F3},{n.PathPlans},{n.PathFailures},{n.PathExpanded},{n.PathMilliseconds:F3},{n.StuckReplans},{n.FormationCompressions}";})));
 File.WriteAllLines(Path.ChangeExtension(output,".environment.csv"),new[]{"seed,mirror,shipCollisions,collisionEnergyJ,collisionModuleDamage,stuckDetections,blueLockLosses,blueLostSeconds,blueReacquisitions,redLockLosses,redLostSeconds,redReacquisitions,blockedRails,blockedMissiles,blockedTorpedoes,blockedProbes"}
     .Concat(ordered.Select(row=> { var e=row.World.Log!.Environment; var b=row.World.Log.SensorOcclusion(Faction.Blue); var r=row.World.Log.SensorOcclusion(Faction.Red);
         return $"{row.Seed},{(row.Mirror?1:0)},{e.ShipCollisions},{e.CollisionEnergy:F3},{e.CollisionDamage:F3},{e.StuckDetections},{b.LockLosses},{b.LockLostSeconds:F3},{b.Reacquisitions},{r.LockLosses},{r.LockLostSeconds:F3},{r.Reacquisitions},{e.BlockedRails},{e.BlockedMissiles},{e.BlockedTorpedoes},{e.BlockedProbes}"; })));

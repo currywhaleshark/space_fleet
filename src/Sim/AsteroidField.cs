@@ -123,9 +123,15 @@ public sealed partial class SimWorld
     {
         Battlefield=config.Battlefield;FieldSeed=config.FieldSeed;
         ZoneStructureShapes.Populate(this);
-        if(Battlefield!=Battlefield.AsteroidCluster)return;
-        Asteroids=AsteroidField.Generate(config);
-        foreach(var rock in Asteroids.Rocks)Obstacles.Add(rock.Body);
-        Obstacles.BuildIndex();
+        if(Battlefield!=Battlefield.AsteroidCluster){PrepareNavigation(config);return;}
+        for(int regeneration=0;regeneration<8;regeneration++)
+        {
+            if(regeneration>0){Obstacles.Clear();ZoneStructureShapes.Populate(this);}
+            Asteroids=AsteroidField.Generate(config,regeneration);
+            foreach(var rock in Asteroids.Rocks)Obstacles.Add(rock.Body);
+            Obstacles.BuildIndex();PrepareNavigation(config);
+            if(NavigationConnected(config))return;
+        }
+        throw new InvalidOperationException($"No battleship passage after eight deterministic field attempts: {config.FieldSeed}");
     }
 }

@@ -114,6 +114,7 @@ public sealed partial class SimWorld
         float maxSpeed = ship.Class.MaxSpeed;
         Vector3 desired;
         brain.WantBoost = false;
+        if(Obstacles.Count>0)brain.NavigationGoal=null;
         if (brain.Order.Kind != OrderKind.Attack || !brain.Profile.AttackRuns)
         {
             brain.AimModule = null;
@@ -125,6 +126,7 @@ public sealed partial class SimWorld
             case OrderKind.Attack when brain.Order.Target is { } remembered && Sensors.Memory(ship.Faction,remembered,Time) is { } memory:
                 desired = memory.Velocity + ((memory.Predict(Time)-ship.Position).ToVector3()*.01f).LimitLength(maxSpeed);
                 brain.AimModule=null; brain.InRun=false; brain.Activity="추정 항적 추적";
+                if(Obstacles.Count>0)brain.NavigationGoal=memory.Predict(Time);
                 break;
             case OrderKind.Attack when brain.Order.Target is ShipBody target && !target.Damage.Destroyed
                 && Sensors.Track(ship.Faction, target) is { Level: >= TrackLevel.Contact } track:
@@ -133,6 +135,7 @@ public sealed partial class SimWorld
             case OrderKind.Escort when brain.Order.Target is ShipBody leader && !leader.Damage.Destroyed:
             {
                 Vec3d slot = leader.Position + Vec3d.From(leader.Orientation * brain.FormationOffset);
+                if(Obstacles.Count>0){slot=TerrainFormationSlot(brain,leader);brain.NavigationGoal=slot;}
                 Vector3 error = (slot - ship.Position).ToVector3();
                 Vector3 slotVelocity = leader.Velocity + leader.Orientation * leader.AngularVelocity.Cross(brain.FormationOffset);
                 desired = slotVelocity + (error * 0.065f).LimitLength(maxSpeed);
@@ -143,6 +146,7 @@ public sealed partial class SimWorld
             case OrderKind.Hold:
                 desired = brain.StationVelocity + ((brain.Order.Point - ship.Position).ToVector3() * 0.05f).LimitLength(maxSpeed);
                 brain.Activity = "위치 유지";
+                if(Obstacles.Count>0)brain.NavigationGoal=brain.Order.Point;
                 break;
             default:
                 // 표적을 잃었거나 지휘함이 격침: 그 자리에서 멈춘다.
@@ -151,6 +155,7 @@ public sealed partial class SimWorld
                 break;
         }
 
+        if(Obstacles.Count>0)desired=NavigateTerrain(brain,desired);
         desired += Avoidance(ship, desired);
         if (ship.Definition.Design == DesignFamily.Mars && brain.Target is { } precisionTarget)
             brain.AimModule = MarsAimModule(brain, precisionTarget);
@@ -186,6 +191,8 @@ public sealed partial class SimWorld
         }
         brain.WantBoost = d > standoff * 2.5f;
         brain.Activity = d > standoff * 1.2f ? "접근" : "포격";
+        if(Obstacles.Count>0)
+            brain.NavigationGoal=d>standoff*1.2f?track.EstimatedPosition-Vec3d.From(rh)*standoff:ship.Position+Vec3d.From(desired)*25;
         return desired;
     }
 
@@ -207,6 +214,7 @@ public sealed partial class SimWorld
         Vector3 rh = r / d;
         Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? track.ObservedVelocity : Vector3.Zero;
         float breakRange = 1500f + target.Hull.BoundingRadius;
+        if(Obstacles.Count>0)brain.NavigationGoal=track.EstimatedPosition;
         bool capital = target.Class.Kind != HullKind.Interceptor && track.Level >= TrackLevel.Identified;
         Vector3 sector = track.ObservedOrientation * InfiltrationSector;
         brain.AimModule = ship.Definition.Design == DesignFamily.Mars ? MarsAimModule(brain, target) : capital
@@ -217,6 +225,7 @@ public sealed partial class SimWorld
         {
             brain.WantBoost = true;
             brain.Activity = "이탈";
+            if(Obstacles.Count>0)brain.NavigationGoal=ship.Position+Vec3d.From(brain.BreakDirection)*maxSpeed*10;
             return brain.BreakDirection * maxSpeed * ship.Class.BoostMultiplier;
         }
 
@@ -232,6 +241,7 @@ public sealed partial class SimWorld
                 toEntry = (track.EstimatedPosition + Vec3d.From(outward.Normalized() * 24_000 + sector * 12_000) - ship.Position).ToVector3();
             }
             brain.WantBoost = true; brain.Activity = "강습 외곽 우회";
+            if(Obstacles.Count>0)brain.NavigationGoal=ship.Position+Vec3d.From(toEntry);
             return targetVelocity + toEntry.Normalized() * maxSpeed * ship.Class.BoostMultiplier;
         }
 
@@ -256,6 +266,7 @@ public sealed partial class SimWorld
                 float remaining = toEntry.Length();
                 brain.WantBoost = remaining > 6000f;
                 brain.Activity = "침투 우회";
+                if(Obstacles.Count>0)brain.NavigationGoal=ship.Position+Vec3d.From(toEntry);
                 float speed = Mathf.Min(maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f), Mathf.Max(80f, remaining * 0.25f));
                 return targetVelocity + toEntry.Normalized() * speed;
             }
@@ -272,6 +283,7 @@ public sealed partial class SimWorld
             brain.InRun = false;
             brain.WantBoost = true;
             brain.Activity = "이탈";
+            if(Obstacles.Count>0)brain.NavigationGoal=ship.Position+Vec3d.From(brain.BreakDirection)*maxSpeed*10;
             return brain.BreakDirection * maxSpeed * ship.Class.BoostMultiplier;
         }
         if (d > brain.Profile.StandoffMeters)

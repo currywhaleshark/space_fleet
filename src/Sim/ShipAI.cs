@@ -87,6 +87,10 @@ public sealed class ShipBrain
     internal double NextThink;
     internal Vector3 DesiredVelocity;
     internal Vector3 StationVelocity;
+    public Vec3d? NavigationGoal { get; internal set; }
+    public Vec3d? NavigationWaypoint { get; internal set; }
+    public bool NavigationActive { get; internal set; }
+    public float FormationCompression { get; internal set; }=1;
     internal bool WantBoost;
     internal float? CommandStandoff;
     internal GunneryOrder PrecisionOrder = new() { Doctrine = FireDoctrine.Disable };
