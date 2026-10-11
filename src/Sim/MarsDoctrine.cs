@@ -27,6 +27,7 @@ public sealed partial class SimWorld
             && b.Ship.Definition.Design == DesignFamily.Mars && b.Ship.Squadron?.Role != SquadronRole.InterceptorWing && Squadron.Active(b.Ship) && b.Ship.Squadron?.PlayerLed != true))
         {
             ShipBody ship = brain.Ship;
+            if(brain.Target is { } remembered && Sensors.Memory(faction,remembered,Time) is not null) continue;
             bool assault = ship.Class.Kind == HullKind.Interceptor && ship.Ordnance.Antimatter.Rounds > 0;
             var contacts = known.Where(k => k.Track.Level >= TrackLevel.Identified).ToArray();
             // AM carriers choose a capital instead of being drawn into prolonged dogfights.

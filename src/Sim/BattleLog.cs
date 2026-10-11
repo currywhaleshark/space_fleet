@@ -82,6 +82,7 @@ public sealed class BattleLog
         RecordStrength(0);
         ObserveSensors(0);
     }
+    public SensorOcclusionStats SensorOcclusion(Faction side)=>_world.Sensors.OcclusionStats(side);
     private Bucket At(double time)
     {
         if (OutcomeIntervals is not null) return _postOutcome;

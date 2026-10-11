@@ -73,6 +73,9 @@ public sealed partial class SimWorld
         int cover = strike.Ship is null ? int.MaxValue : known.Count(k => k.Ship != strike.Ship && k.Ship.Class.Kind == HullKind.Escort
             && (k.Track.EstimatedPosition - strike.Track.EstimatedPosition).Length() < 18_000);
         bool heavyLoss = members.Length * 2 < wing.Members.Count;
+        // Keep the committed navigation target through a brief occlusion. Live
+        // missile/raider threats and damage still take priority over that memory.
+        ShipBody? remembered = wing.Target is { } old && Sensors.Memory(wing.Faction,old,Time) is not null ? old : null;
         bool armed = members.Any(s => s.Ordnance.Antimatter.Rounds > 0 && !s.Ordnance.Antimatter.Warning);
         bool stocks = members.Any(s => s.Ordnance.Interceptor.Probes > 0);
         bool deployed = _probes.Any(p => p.Active && p.Owner.Squadron == wing);
@@ -92,7 +95,8 @@ public sealed partial class SimWorld
             : wing.AssaultAvailable ? InterceptorMission.Assault
             : threats.Any(t => t.Kind == SmallContactKind.Probe && (t.Position - anchor.Position).Length() < 20_000)
                 ? InterceptorMission.Superiority : InterceptorMission.AirDefense;
-        InterceptorMission desired = wing.OrderedMission ?? recommendation;
+        InterceptorMission desired = wing.OrderedMission ?? (remembered is not null && !heavyLoss && !incoming && raiders.Length==0
+            && wing.Mission is InterceptorMission.Assault or InterceptorMission.Superiority ? wing.Mission : recommendation);
         // Explicit commands persist. Automatic choices dwell for 12 s; immediate defensive threats can interrupt.
         bool urgent = wing.OrderedMission is null && (incoming || heavyLoss || raiders.Length > 0);
         if (double.IsNegativeInfinity(wing.MissionSince) || desired != wing.Mission && (urgent || Time - wing.MissionSince >= 12))
@@ -119,7 +123,9 @@ public sealed partial class SimWorld
             var mission = impaired || exhausted ? InterceptorMission.Return : wing.Mission;
             if (mission == InterceptorMission.Assault && ship.Ordnance.Antimatter.Rounds == 0) mission = InterceptorMission.AirDefense;
             ShipOrder order = ShipOrder.HoldAt(station);
-            if (mission == InterceptorMission.Recon)
+            if (remembered is not null && mission is InterceptorMission.Assault or InterceptorMission.Superiority)
+            { order=ShipOrder.AttackOn(remembered); wing.Target=remembered; }
+            else if (mission == InterceptorMission.Recon)
             {
                 float forward = ship.Definition.Design == DesignFamily.Mars ? 12_000 : 8500;
                 station = anchor.Position + Vec3d.From(direction * forward + lateral * side * (3000 + i * 1000));

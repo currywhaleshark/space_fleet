@@ -138,6 +138,9 @@ public sealed partial class SimWorld
             if (order.PlayerSmallTarget) { order.Status = GunneryStatus.Manual; continue; }
             if (order.Doctrine is FireDoctrine.Hold or FireDoctrine.Manual)
             { order.Status = order.Doctrine == FireDoctrine.Hold ? GunneryStatus.Hold : GunneryStatus.Manual; continue; }
+            if (order.Target is { } remembered && Sensors.Memory(ship.Faction,remembered,Time) is not null
+                && order.Doctrine is FireDoctrine.Focus or FireDoctrine.Disable)
+            { order.Engaged=remembered; order.Status=GunneryStatus.WaitLock; continue; }
             ShipBody? target = order.Target is { Damage.Destroyed: false } chosen && chosen.Faction != ship.Faction
                 && (order.Doctrine is FireDoctrine.Focus or FireDoctrine.Disable || Sensors.Track(ship.Faction, chosen).Level >= TrackLevel.Locked)
                 ? chosen : order.Doctrine == FireDoctrine.Focus ? null : PickGunneryTarget(ship);

@@ -48,23 +48,29 @@ public sealed partial class SensorNet
     private void Observe(Faction side, object target, SmallContactKind kind, Vec3d position, Vector3 velocity,
         float signature, IReadOnlyList<ShipBody> ships, IReadOnlyList<ReconProbe> probes, double time)
     {
-        float signal = 0;
+        float signal = 0; bool blocked=false;
         foreach (var observer in ships)
         {
             if (observer.Faction != side) continue;
             double km = Math.Max(.01, (position - observer.Position).Length() / 1000);
+            if(Occluded(observer.Position,position)) { blocked|=Strength(observer)*signature/(km*km)>=ContactSnr; continue; }
             signal = Mathf.Max(signal, (float)(Strength(observer) * signature / (km * km)));
         }
         foreach (var probe in probes)
         {
             if (probe.Faction != side || !probe.Active) continue;
             double km = Math.Max(.01, (position - probe.Position).Length() / 1000);
+            if(Occluded(probe.Position,position)) { blocked|=ProbeStrength(probe,position)*signature/(km*km)>=ContactSnr; continue; }
             signal = Mathf.Max(signal, (float)(ProbeStrength(probe, position) * signature / (km * km)));
         }
         var key = (side, target);
         var previous = _smallContacts.GetValueOrDefault(key);
         var level = Classify(signal, signal, previous.Level);
-        if (level == TrackLevel.None) return; // Preserve last observed location; AI rejects stale samples.
+        if (level == TrackLevel.None)
+        {
+            if(blocked && previous.Target==target) _smallContacts[key]=previous with { Level=TrackLevel.None };
+            return; // Preserve last observed location; AI rejects stale samples.
+        }
         double elapsed = time - previous.SeenAt;
         Vector3 acceleration = previous.Target == target && elapsed >= .1 && elapsed <= .5
             ? ((velocity - previous.Velocity) / (float)elapsed).LimitLength(2000) : Vector3.Zero;
@@ -84,10 +90,11 @@ public sealed partial class SensorNet
     /// <summary>Nominal new-contact range in meters: signature 1, no jamming or engine/heat boost.</summary>
     public static double NominalContactRange(float strength) => Math.Sqrt(Math.Max(0, strength) / ContactSnr) * 1000;
 
-    private (float Track, float Detect, float Range, float ErrorScale) ProbeObservation(Faction side,
-        ShipBody target, IReadOnlyList<ReconProbe> probes, float shipTrack, float shipDetect, float screen, double time)
+    private (float Track, float Detect, float Range, float ErrorScale, float BlockedTrack, float BlockedDetect) ProbeObservation(Faction side,
+        ShipBody target, IReadOnlyList<ReconProbe> probes, float shipTrack, float shipDetect, float screen, double time,IReadOnlyList<ShipBody> ships)
     {
         float best = 0, detect = 0, range = 0, diversity = 0;
+        float blockedTrack=0,blockedDetect=0;
         Vector3 firstDirection = Vector3.Zero;
         TrackLevel withoutProbes = Classify(shipTrack, shipDetect, TrackLevel.None);
         foreach (var probe in probes)
@@ -96,9 +103,12 @@ public sealed partial class SensorNet
             Vector3 delta = (target.Position - probe.Position).ToVector3();
             float km = Mathf.Max(.001f, delta.Length() / 1000);
             float signal = ProbeStrength(probe, target.Position) * Signature(target) / (km * km);
-            float jammer = Mathf.Max(screen, target.Power.EcmActive ? target.Definition.Sensors.Jammer * target.Power.EcmEffect : 0);
+            float jammer = Mathf.Max(Obstacles is {Count:>0}?VisibleScreen(probe.Position,target,ships):screen,
+                target.Power.EcmActive ? target.Definition.Sensors.Jammer * target.Power.EcmEffect : 0);
             // Below even the lock hysteresis threshold. Multiple probes do not stack lock strength.
             float track = Mathf.Min(5.5f, signal / (1 + jammer));
+            if(Occluded(probe.Position,target.Position))
+            { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,signal); continue; }
             detect = Mathf.Max(detect, signal);
             if (track > best) { best = track; range = delta.Length(); }
             if (track < ContactSnr) continue;
@@ -112,6 +122,6 @@ public sealed partial class SensorNet
                 && _probeDiscoveries.Add((side, target, TrackLevel.Identified)))
                 probe.Owner.Ordnance.Interceptor.NewIdentifications++;
         }
-        return (best, detect, range, 1 / Mathf.Sqrt(1 + Mathf.Min(1.8f, diversity)));
+        return (best, detect, range, 1 / Mathf.Sqrt(1 + Mathf.Min(1.8f, diversity)),blockedTrack,blockedDetect);
     }
 }

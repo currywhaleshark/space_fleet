@@ -49,7 +49,8 @@ public sealed partial class SimWorld
                 .Select(s => (Ship: s, Track: Sensors.Track(faction, s)))
                 .Where(x => x.Track.Level >= TrackLevel.Contact)
                 .OrderBy(x => (x.Track.EstimatedPosition - zone.Position).LengthSquared()).ToList();
-            ShipBody? threat = known.FirstOrDefault().Ship;
+            ShipBody? threat = squad.Target is { } remembered && Sensors.Memory(faction,remembered,Time) is not null
+                ? remembered : known.FirstOrDefault().Ship;
             // Use stand-off anchor offsets so friendly ships do not all aim at the identical point.
             int slot = 0;
             // 같은 거점에 모인 편대끼리 겹치지 않게 요격 편대는 전투단보다 바깥(+3 km)에 머문다.

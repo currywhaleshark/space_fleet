@@ -10,6 +10,7 @@ namespace SpaceFleet.Sim;
 /// </summary>
 public sealed partial class SimWorld
 {
+    public SimWorld() { Sensors.Obstacles = Obstacles; }
     public const double TickRate = 60.0;
     public const double TickDelta = 1.0 / TickRate;
     // 작은 날개·방열판의 회전 접촉을 위해 240Hz로 나눈다. 외부 시뮬레이션 틱은 여전히 60Hz.

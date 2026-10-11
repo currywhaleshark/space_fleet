@@ -91,8 +91,9 @@ public sealed partial class SensorNet
         * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction);
 
     /// <summary>관측함 한 척이 표적을 보는 신호(접촉용·추적용)와 방해 비율.</summary>
-    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0)
+    public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0, ObstacleSet? obstacles = null)
     {
+        if (obstacles is { Count: > 0 } && obstacles.SegmentBlocked(observer.Position,target.Position,out _)) return (0,0,0);
         double km = Math.Max((target.Position - observer.Position).Length() / 1000.0, 1e-3);
         float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km));
         float jam = target.Power.EcmActive
@@ -108,6 +109,7 @@ public sealed partial class SensorNet
         if (!force && time < _nextUpdate)
             return;
         _nextUpdate = time + UpdateInterval;
+        bool environment = Obstacles is { Count: > 0 } || _memories is { Count: > 0 } || _occludedLocks is { Count: > 0 };
         probes ??= Array.Empty<ReconProbe>();
         foreach (var probe in probes) probe.Observing = 0;
         UpdateSmallContacts(ships, probes, missiles ?? Array.Empty<Missile>(), time);
@@ -118,6 +120,7 @@ public sealed partial class SensorNet
             if (target.Faction == side)
                 continue;
             float bestTrack = 0f, bestDetect = 0f, bestJam = 0f;
+            float blockedTrack = 0, blockedDetect = 0;
             ShipBody? bestObserver = null;
             double bestRange = double.PositiveInfinity;
             float screen = 0;
@@ -132,7 +135,9 @@ public sealed partial class SensorNet
             {
                 if (observer.Faction != side || observer.Damage.Destroyed)
                     continue;
-                var (track, detect, jam) = Measure(observer, target, screen);
+                var (track, detect, jam) = Measure(observer, target, environment ? VisibleScreen(observer.Position,target,ships) : screen);
+                if (environment && Occluded(observer.Position,target.Position))
+                { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,detect); continue; }
                 bestDetect = Mathf.Max(bestDetect, detect);
                 if (track > bestTrack)
                 {
@@ -145,11 +150,12 @@ public sealed partial class SensorNet
             if (!double.IsFinite(bestRange))
                 bestRange = 0;
 
-            var probeData = ProbeObservation(side, target, probes, bestTrack, bestDetect, screen, time);
+            var probeData = ProbeObservation(side, target, probes, bestTrack, bestDetect, screen, time, ships);
             if (probeData.Track > bestTrack)
             { bestTrack = probeData.Track; bestRange = probeData.Range; bestObserver = null; }
             bestDetect = Mathf.Max(bestDetect, probeData.Detect);
-            TrackLevel previous = Track(side, target).Level;
+            SensorTrack before = Track(side,target);
+            TrackLevel previous = before.Level;
             TrackLevel level = Classify(bestTrack, bestDetect, previous);
             float error = probeData.ErrorScale * (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
             uint seed = Hash(side.ToString()) ^ Hash(target.Callsign);
@@ -164,7 +170,10 @@ public sealed partial class SensorNet
                         target.Position, target.Velocity, target.Orientation,
                         bestObserver.Damage.SensorFraction * bestObserver.Power.SensorEffect),
                 };
+            if(environment) ObserveOcclusion(side,target,before,_tracks[(side,target)],
+                Mathf.Max(blockedTrack,probeData.BlockedTrack),Mathf.Max(blockedDetect,probeData.BlockedDetect),time);
         }
+        _lastSampleTime=time;
     }
 
     public static TrackLevel Classify(float trackSnr, float detectSnr, TrackLevel previous)

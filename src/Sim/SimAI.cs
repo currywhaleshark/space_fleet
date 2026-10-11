@@ -122,6 +122,10 @@ public sealed partial class SimWorld
 
         switch (brain.Order.Kind)
         {
+            case OrderKind.Attack when brain.Order.Target is { } remembered && Sensors.Memory(ship.Faction,remembered,Time) is { } memory:
+                desired = memory.Velocity + ((memory.Predict(Time)-ship.Position).ToVector3()*.01f).LimitLength(maxSpeed);
+                brain.AimModule=null; brain.InRun=false; brain.Activity="추정 항적 추적";
+                break;
             case OrderKind.Attack when brain.Order.Target is ShipBody target && !target.Damage.Destroyed
                 && Sensors.Track(ship.Faction, target) is { Level: >= TrackLevel.Contact } track:
                 desired = brain.Profile.AttackRuns ? AttackRun(brain, target, track) : Standoff(brain, target, track);
@@ -289,12 +293,21 @@ public sealed partial class SimWorld
         foreach (ShipBody other in _ships)
         {
             if (other == ship) continue;
-            Vector3 rp = (other.Position - ship.Position).ToVector3();
+            Vec3d otherPosition=other.Position; Vector3 otherVelocity=other.Velocity;
+            if(Obstacles.Count>0 && other.Faction!=ship.Faction)
+            {
+                var seen=Sensors.Track(ship.Faction,other);
+                if(seen.Level>=TrackLevel.Contact) { otherPosition=seen.EstimatedPosition; otherVelocity=seen.ObservedVelocity; }
+                else if(Sensors.Memory(ship.Faction,other,Time) is { } memory)
+                { otherPosition=memory.Predict(Time); otherVelocity=memory.Velocity; }
+                else continue;
+            }
+            Vector3 rp = (otherPosition - ship.Position).ToVector3();
             float dist = rp.Length();
             float safe = ship.Hull.BoundingRadius + other.Hull.BoundingRadius;
             safe += Doctrine is null ? Mathf.Max(150f, safe * 0.3f) : Mathf.Max(300f, safe * 0.5f);
             if (dist > safe + 40_000f) continue;
-            Vector3 rv = other.Velocity - desired;
+            Vector3 rv = otherVelocity - desired;
             float tca = rv.LengthSquared() > 1e-3f ? Mathf.Clamp(-rp.Dot(rv) / rv.LengthSquared(), 0f, 10f) : 0f;
             Vector3 miss = rp + rv * tca;
             float missDist = miss.Length();
@@ -350,7 +363,7 @@ public sealed partial class SimWorld
         Vector3? aim = null;
         if (brain.SmallTarget is { } small && Sensors.SmallTrack(ship.Faction, small) is { } seen
             && SmallTargetAim(ship, seen, out var smallDirection, out _)) aim = smallDirection;
-        if (brain.Target is ShipBody target && ship.Railgun is not null)
+        if (brain.Target is ShipBody target && ship.Railgun is not null && Sensors.Memory(ship.Faction,target,Time) is null)
         {
             SensorTrack track = Sensors.Track(ship.Faction, target);
             FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: brain.AimModule?.Definition.Center);
@@ -389,7 +402,8 @@ public sealed partial class SimWorld
             && (t.Predict(Time) - ship.Position).Length() < DecoyThreatMeters && Threatens(t, ship, out _)))
             LaunchDecoys(ship);
 
-        if (brain.Target is not ShipBody target || target.Damage.Destroyed) { ship.Ordnance.Antimatter.Cancel(); return; }
+        if (brain.Target is not ShipBody target || Sensors.Memory(ship.Faction,target,Time) is not null || target.Damage.Destroyed)
+        { ship.Ordnance.Antimatter.Cancel(); return; }
         SensorTrack track = Sensors.Track(ship.Faction, target);
         EngageAntimatter(brain, target, track);
 
@@ -485,6 +499,7 @@ public sealed partial class SimWorld
         foreach (Squadron squadron in squadrons.OrderBy(q => q.Role))
         {
             if (squadron.PlayerLed) continue;
+            if (squadron.Target is { } remembered && Sensors.Memory(faction,remembered,Time) is not null) continue;
             foreach (ShipBody member in squadron.ActiveMembers)
                 if (BrainOf(member) is { } brain) brain.CommandStandoff = Doctrine is null ? null : Fleet(faction).Posture switch
                 {
@@ -506,6 +521,7 @@ public sealed partial class SimWorld
         // 편대에 속하지 않은 AI 함선: 함종 기본 행동.
         foreach (ShipBrain brain in _brains.Values.Where(b => b.Ship.Faction == faction && b.Ship.Squadron is null && b.Enabled))
         {
+            if(brain.Target is { } remembered && Sensors.Memory(faction,remembered,Time) is not null) continue;
             ShipBody? target = PickTarget(brain.Ship, known, assigned);
             Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
