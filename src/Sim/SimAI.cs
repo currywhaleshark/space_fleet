@@ -435,6 +435,7 @@ public sealed partial class SimWorld
 
     private void Command(Faction faction)
     {
+        if (Rules?.Objective == BattleObjective.Domination) { CommandCaptureZones(faction); return; }
         var known = _ships.Where(s => s.Faction != faction && !s.Damage.Destroyed)
             .Select(s => (Ship: s, Track: Sensors.Track(faction, s)))
             .Where(k => k.Track.Level >= TrackLevel.Contact)
