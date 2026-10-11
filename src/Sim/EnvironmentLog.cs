@@ -28,6 +28,14 @@ public sealed class EnvironmentLog
     public int SightSuccesses { get; internal set; }
     public int SightFailures { get; internal set; }
     public double SightReopenSeconds { get; internal set; }
+    public int CoverBudgetFallbacks { get; internal set; }
+    public double CoverPathLength { get; internal set; }
+    public double CoverPathExposure { get; internal set; }
+    public double ExposureSum { get; internal set; }
+    public int ExposureSamples { get; internal set; }
+    public int AssaultEntrants { get; internal set; }
+    public int AssaultArrivals { get; internal set; }
+    public int AssaultLostBeforeArrival { get; internal set; }
     internal void Weapon(double time,string source,ObstacleHit hit,BattleWeapon? weapon)
     {
         if(weapon is null) BlockedProbes++;

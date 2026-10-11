@@ -45,7 +45,7 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     SimProfiler.Enabled = profile; SimProfiler.Reset();
     try
     {
-        var world = new SimWorld();
+        var world = new SimWorld {CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false"};
         var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0] };
         if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
         var run = Stopwatch.StartNew();
@@ -132,6 +132,8 @@ File.WriteAllLines(Path.ChangeExtension(output, ".probes.csv"), new[] { "seed,mi
     .Concat(ordered.SelectMany(r => r.World.ProbeFlights.Select(p => FormattableString.Invariant(
         $"{r.Seed},{(r.Mirror ? 1 : 0)},{p.Id},{p.Owner},{p.Faction},{p.LaunchedAt:F3},{p.Lifetime:F3},{(p.Destroyed ? 1 : 0)},{p.Contacts},{p.Identifications}")))));
 string flightOutput = Path.ChangeExtension(output, ".am.csv");
+File.WriteAllLines(Path.ChangeExtension(output,".cover.csv"),new[]{"seed,mirror,enabled,pathMeters,pathExposureMeters,exposureSum,samples,entrants,arrivals,lostBeforeArrival,budgetFallbacks"}
+    .Concat(ordered.Select(r=>{var e=r.World.Log!.Environment;return $"{r.Seed},{(r.Mirror?1:0)},{r.World.CoverCostEnabled},{e.CoverPathLength:F3},{e.CoverPathExposure:F3},{e.ExposureSum:F3},{e.ExposureSamples},{e.AssaultEntrants},{e.AssaultArrivals},{e.AssaultLostBeforeArrival},{e.CoverBudgetFallbacks}";})));
 File.WriteAllLines(Path.ChangeExtension(output,".sight.csv"),new[]{"seed,mirror,blockedShipSeconds,attempts,starts,successes,failures,reopenSeconds"}
     .Concat(ordered.Select(row=>{var e=row.World.Log!.Environment;return $"{row.Seed},{(row.Mirror?1:0)},{e.BlockedFireSeconds:F3},{e.SightAttempts},{e.SightStarts},{e.SightSuccesses},{e.SightFailures},{e.SightReopenSeconds:F3}";})));
 File.WriteAllLines(Path.ChangeExtension(output,".navigation.csv"),new[]{"seed,mirror,fieldSeed,regenerations,buildMs,plans,failures,expanded,planMs,stuckReplans,formationCompressions"}

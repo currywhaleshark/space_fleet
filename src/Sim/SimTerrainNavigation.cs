@@ -14,6 +14,7 @@ public sealed partial class SimWorld
     private sealed class RouteState
     {
         public TerrainPath? Path;
+        public TerrainExposure? Exposure;
         public Vec3d Goal,ProgressPosition;
         public int Waypoint;
         public double RetryAt,ProgressAt;
@@ -87,12 +88,30 @@ public sealed partial class SimWorld
         if(Time>=state.RetryAt && (state.Path is null || changed || stuck))
         {
             long start=Stopwatch.GetTimestamp();
-            bool found=Navigation.FindPath(ship.Position,goal,radius,out var path);
+            state.Exposure=CoverCostEnabled && CoverMission(ship)?TerrainExposure.Observe(this,ship.Faction):null;
+            bool found=Navigation.FindPath(ship.Position,goal,radius,out var path,maxExpanded:state.Exposure is null?30000:1024,exposure:state.Exposure);
+            int expanded=path.Expanded;
+            if(!found && state.Exposure is not null)
+            {
+                if(Log is not null)Log.Environment.CoverBudgetFallbacks++;
+                state.Exposure=null;found=Navigation.FindPath(ship.Position,goal,radius,out path);expanded+=path.Expanded;
+            }
             if(Log is not null)
             {
-                var metrics=Log.Environment;metrics.PathPlans++;metrics.PathExpanded+=path.Expanded;
+                var metrics=Log.Environment;metrics.PathPlans++;metrics.PathExpanded+=expanded;
                 metrics.PathMilliseconds+=Stopwatch.GetElapsedTime(start).TotalMilliseconds;
                 if(!found)metrics.PathFailures++;if(stuck)metrics.StuckReplans++;
+                if(found && CoverMission(ship) && ship.Squadron?.Mission==InterceptorMission.Assault)
+                {
+                    var sampled=state.Exposure??TerrainExposure.Observe(this,ship.Faction);
+                    Vec3d previous=ship.Position;
+                    foreach(var point in path.Points)
+                    {
+                        double length=(point-previous).Length();
+                        metrics.CoverPathLength+=length;
+                        metrics.CoverPathExposure+=length*sampled.At(Vec3d.Lerp(previous,point,.5));previous=point;
+                    }
+                }
             }
             state.Path=found?path:null;state.Waypoint=0;state.Goal=goal;state.RetryAt=Time+5;
             state.ProgressPosition=ship.Position;state.ProgressAt=Time;
@@ -105,7 +124,10 @@ public sealed partial class SimWorld
             return (escape.ToVector3()*.4f).LimitLength(ship.Class.MaxSpeed*.35f);
         }
         for(int i=route.Points.Count-1;i>state.Waypoint;i--)
-            if(!Obstacles.BlocksSegment(ship.Position,route.Points[i],radius)){state.Waypoint=i;break;}
+            if(!Obstacles.BlocksSegment(ship.Position,route.Points[i],radius) && (state.Exposure is null
+                || state.Exposure.Cost(ship.Position,route.Points[i])<=state.Exposure.Cost(ship.Position,route.Points[state.Waypoint])
+                    +Enumerable.Range(state.Waypoint,i-state.Waypoint).Sum(j=>state.Exposure.Cost(route.Points[j],route.Points[j+1]))))
+            {state.Waypoint=i;break;}
         Vec3d next=route.Points[state.Waypoint];
         if((next-ship.Position).Length()<350 && state.Waypoint<route.Points.Count-1)next=route.Points[++state.Waypoint];
         Vec3d offset=next-ship.Position;double distance=offset.Length();

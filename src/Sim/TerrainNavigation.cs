@@ -84,7 +84,7 @@ public sealed class TerrainNavigation
     }
     private double Heuristic(int a,int b)
     {var p=Coordinates(a);var q=Coordinates(b);return (Math.Abs(p.X-q.X)+Math.Abs(p.Y-q.Y)+Math.Abs(p.Z-q.Z))*CellSize;}
-    public bool FindPath(Vec3d start,Vec3d destination,double radius,out TerrainPath path,int maxExpanded=30000)
+    public bool FindPath(Vec3d start,Vec3d destination,double radius,out TerrainPath path,int maxExpanded=30000,TerrainExposure? exposure=null)
     {
         path=new(Array.Empty<Vec3d>(),0,0);
         Vec3d goal=NearestFree(destination,radius);
@@ -108,7 +108,7 @@ public sealed class TerrainNavigation
                 while(at<raw.Count-1)
                 {
                     int next=raw.Count-1;
-                    while(next>at+1 && _obstacles.BlocksSegment(raw[at],raw[next],radius))next--;
+                    while(next>at+1 && (_obstacles.BlocksSegment(raw[at],raw[next],radius) || exposure is not null && !exposure.CanShortcut(raw,at,next)))next--;
                     length+=(raw[next]-raw[at]).Length();smooth.Add(raw[next]);at=next;
                 }
                 path=new(smooth,expanded,length);return true;
@@ -131,7 +131,7 @@ public sealed class TerrainNavigation
                     }
                     if((layer.Clear[current]&mask)==0)continue;
                 }
-                double cost=_cost[current]+CellSize;
+                double cost=_cost[current]+(exposure is null?CellSize:CellSize*(1+1.5*exposure.At(Point(next))));
                 if(_stamp[next]==generation && cost>=_cost[next])continue;
                 _stamp[next]=generation;_cost[next]=cost;_parent[next]=current;
                 double h=Heuristic(next,to);open.Enqueue(next,(cost+h,h,next));

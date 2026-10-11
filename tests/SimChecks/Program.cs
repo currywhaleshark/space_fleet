@@ -13,6 +13,7 @@ static class SimChecks
         if(args.Contains("--obstacle-bvh-profile")){ObstacleBvhChecks.Profile();return;}
         if(args.Contains("--navigation")){NavigationChecks.Run();return;}
         if(args.Contains("--navigation-trace")){NavigationChecks.Trace();return;}
+        if(args.Contains("--cover")){CoverChecks.Run();return;}
         if(args.Contains("--firing-position")){FiringPositionChecks.Run();return;}
         if (args.Contains("--obstacles")) { ObstacleChecks.Run(); ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run(); return; }
         if (args.Contains("--wing-trace")) { InterceptorRoleChecks.Trace(); return; }
@@ -50,6 +51,7 @@ static class SimChecks
         ObstacleBvhChecks.Run();
         NavigationChecks.Run();
         FiringPositionChecks.Run();
+        CoverChecks.Run();
         ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run();
         WreckCollisionChecks.Run();
         DamageChecks.Run();

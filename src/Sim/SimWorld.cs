@@ -111,6 +111,7 @@ public sealed partial class SimWorld
         sectionTiming = SimProfiler.Begin();
         _impacts.RemoveAll(i => Time - i.Time > 3);
         PruneOrdnanceEvents();
+        if(Obstacles.Count>0)RecordAssaultExposure();
         Log?.Step();
         Rules?.Evaluate(Time);
         if(Rules?.Outcome is {} outcome)Log?.CaptureOutcome(outcome.Time);
