@@ -54,6 +54,28 @@ static class ObstacleChecks
         ring.Add(new("ring",Vec3d.Zero,Quaternion.Identity,parts));
         Check(!ring.SegmentBlocked(new(0,0,-200),new(0,0,200),out _), "Compound ring hole remains open");
         Check(ring.SegmentBlocked(new(100,0,-200),new(100,0,200),out _), "Ring rim blocks segment");
+        foreach(var mode in Enum.GetValues<BattleObjective>())
+        {
+            var world=new SimWorld(); BattleSetup.Spawn(world,new BattleConfig { Objective=mode, Seed=1 });
+            Check(world.Obstacles.Count==(mode==BattleObjective.Domination?3:0), "Only domination populates fixed structures");
+            for(int i=0;i<world.Obstacles.Count;i++)
+            {
+                var obstacle=world.Obstacles[i]; var zone=world.Rules!.CaptureZones[i];
+                Check(obstacle.Name==zone.Name && obstacle.Position==zone.Position,"Structure shares zone position and identity");
+                Check(obstacle.BoundingRadius>1000 && obstacle.BoundingRadius<2200,"Structure conservative radius matches kilometre-scale visual");
+            }
+        }
+        foreach(double offset in new[]{0.0,1e12})
+        {
+            var station=ZoneStructureShapes.For("B",new(offset,offset,offset)); var set=new ObstacleSet(); set.Add(station);
+            Check(!set.SegmentBlocked(station.ToWorld(new(700,-3000,700)),station.ToWorld(new(700,3000,700)),out _),"Station opening between hub/spokes/rim is traversable");
+            Check(set.SegmentBlocked(station.ToWorld(new(0,-3000,0)),station.ToWorld(new(0,3000,0)),out _),"Station central hub blocks passage");
+            Check(set.SegmentBlocked(station.ToWorld(new(1490,-3000,0)),station.ToWorld(new(1490,3000,0)),out _),"Station habitat blocks passage");
+            var mine=ZoneStructureShapes.For("A",new(offset,offset,offset)); set.Clear(); set.Add(mine);
+            Check(set.ClosestApproach(mine.ToWorld(new(1810,650,360)),0,out _),"Loading dock at far end is solid");
+            var depot=ZoneStructureShapes.For("C",new(offset,offset,offset)); set.Clear(); set.Add(depot);
+            Check(set.ClosestApproach(depot.ToWorld(new(Math.Sqrt(.5)*250,Math.Sqrt(.5)*250,-1100)),0,out _),"Rotated fuel tank has a solid centre");
+        }
         Console.WriteLine($"PASS: {checks} obstacle geometry checks");
     }
 }

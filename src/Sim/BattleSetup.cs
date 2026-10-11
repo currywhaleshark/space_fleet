@@ -40,7 +40,8 @@ public static class BattleSetup
         }
         world.Doctrine = new FleetDoctrine();
         world.Sensors.Update(world.Ships, 0, force:true);
-        world.Rules = new BattleRules(world, config.Objective, config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null); world.Log = new BattleLog(world);
+        world.Rules = new BattleRules(world, config.Objective, config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null);
+        ZoneStructureShapes.Populate(world); world.Log = new BattleLog(world);
     }
     public static BattleRoster Spawn(SimWorld world, BattleConfig config)
     {
@@ -104,6 +105,7 @@ public static class BattleSetup
         world.EnableCommander(Faction.Blue);
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Rules = new BattleRules(world, config.Objective, config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null);
+        ZoneStructureShapes.Populate(world);
         world.Log = new BattleLog(world);
         return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1]);
     }

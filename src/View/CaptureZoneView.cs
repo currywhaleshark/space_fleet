@@ -49,6 +49,8 @@ public partial class CaptureZoneView : Node3D
         AddChild(_rings);
         _structure = ZoneStructures.Create(_zone.Name);
         AddChild(_structure.Root);
+        if (Array.IndexOf(OS.GetCmdlineUserArgs(), "--show-obstacles") >= 0)
+            AddChild(ObstacleWireframe.Create(ZoneStructureShapes.For(_zone.Name, Vec3d.Zero)));
     }
 
     public override void _Process(double delta)

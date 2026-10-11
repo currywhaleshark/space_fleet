@@ -213,10 +213,12 @@ public static class ZoneStructures
         {
             float a = i * Mathf.Tau / 4;
             Vector3 dir = new(Mathf.Cos(a), 0, Mathf.Sin(a));
-            Truss(spinner, dir * 230, dir * 1400, 60, 5, 9, dark);
+            // Keep non-axisymmetric hardware aligned with fixed simulation collision.
+            // Only the symmetric habitat tube rotates around it.
+            Truss(frame, dir * 230, dir * 1400, 60, 5, 9, dark);
             // 고리 위 모듈과 표시등.
-            Add(spinner, new BoxMesh { Size = new Vector3(260, 200, 300) }, dark, dir * 1490, new Vector3(0, -Mathf.RadToDeg(a), 0));
-            Beacon(built, spinner, dir * 1490 + new Vector3(0, 130, 0), 24);
+            Add(frame, new BoxMesh { Size = new Vector3(260, 200, 300) }, dark, dir * 1490, new Vector3(0, -Mathf.RadToDeg(a), 0));
+            Beacon(built, frame, dir * 1490 + new Vector3(0, 130, 0), 24);
         }
         return built;
     }

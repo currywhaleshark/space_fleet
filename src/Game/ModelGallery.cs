@@ -67,6 +67,8 @@ public partial class ModelGallery : Node3D
     {
         _zone = ZoneStructures.Create(name);
         AddChild(_zone.Root);
+        if (Array.IndexOf(OS.GetCmdlineUserArgs(), "--show-obstacles") >= 0)
+            AddChild(ObstacleWireframe.Create(ZoneStructureShapes.For(name, Vec3d.Zero)));
         var body = new ShipBody("SCALE", ShipDefinitions.ById("battleship"), Faction);
         body.Place(new Vec3d(2600, -500, 1800), Quaternion.FromEuler(new Vector3(0, .6f, 0)));
         _view = ShipView.Create(body, seed: 7);
