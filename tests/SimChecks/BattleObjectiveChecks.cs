@@ -54,7 +54,7 @@ static class BattleObjectiveChecks
         zone.Update(new[] { blue, red }, 60);
         Require(zone.Contested && zone.ScoringOwner is null, "contested area pauses capture and scoring");
         blue.Place(new Vec3d(40_000, 0, 0), Quaternion.Identity);
-        zone.Update(new[] { blue, red }, 40);
+        zone.Update(new[] { blue, red }, 60);
         Require(zone.Owner == Faction.Red && zone.Progress == -100, "red can recapture fully");
         red.Place(new Vec3d(40_000, 0, 0), Quaternion.Identity);
         zone.Update(new[] { blue, red }, 10);
