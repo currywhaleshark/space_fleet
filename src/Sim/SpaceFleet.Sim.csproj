@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- Keep the Godot/game assembly debuggable without running 240 Hz numeric
+         kernels in MinOpts. Portable symbols are retained in both assemblies.
+         Opt out when single-stepping kernel locals: -p:SimOptimize=false. -->
+    <SimOptimize Condition="'$(SimOptimize)' == ''">true</SimOptimize>
+    <Optimize>$(SimOptimize)</Optimize>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="GodotSharp" Version="4.7.2" />
+    <EmbeddedResource Include="../../data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+  </ItemGroup>
+  <Target Name="HideSimulationBuildArtifacts" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(BaseOutputPath);$(BaseIntermediateOutputPath)" />
+    <WriteLinesToFile File="$(BaseOutputPath).gdignore" Lines="# Managed build output" Overwrite="true" />
+    <WriteLinesToFile File="$(BaseIntermediateOutputPath).gdignore" Lines="# Managed intermediate output" Overwrite="true" />
+  </Target>
+</Project>

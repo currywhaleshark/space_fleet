@@ -79,8 +79,19 @@ public static class DamageRay
         distance = float.PositiveInfinity;
         if(ship.Damage.Destroyed)
         {
-            foreach(var box in ship.Hull.Boxes)
-                if(Box(localOrigin,localDirection,box.Center,box.HalfSize,range,out Span span)) distance=Mathf.Min(distance,Mathf.Max(0,span.Enter));
+            var hull=ship.Hull;
+            foreach(var group in hull.Groups)
+            {
+                // Breakup pieces spread far apart. Reject the empty gaps before
+                // testing their individual boxes; keep the original ray math.
+                float allowance=1+(group.Bounds.Center.Length()+localOrigin.Length())*2e-6f;
+                if(!Box(localOrigin,localDirection,group.Bounds.Center,group.Bounds.HalfSize+Vector3.One*allowance,range,out _))continue;
+                for(int i=group.Start;i<group.Start+group.Count;i++)
+                {
+                    var box=hull.Boxes[i];
+                    if(Box(localOrigin,localDirection,box.Center,box.HalfSize,range,out Span span))distance=Mathf.Min(distance,Mathf.Max(0,span.Enter));
+                }
+            }
             return float.IsFinite(distance);
         }
         foreach (HullSection s in ship.Definition.HullSections)

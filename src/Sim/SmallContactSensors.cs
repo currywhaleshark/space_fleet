@@ -53,15 +53,24 @@ public sealed partial class SensorNet
         {
             if (observer.Faction != side) continue;
             double km = Math.Max(.01, (position - observer.Position).Length() / 1000);
-            if(Occluded(observer.Position,position)) { blocked|=Strength(observer)*signature/(km*km)>=ContactSnr; continue; }
-            signal = Mathf.Max(signal, (float)(Strength(observer) * signature / (km * km)));
+            double measured=Strength(observer)*signature/(km*km);
+            float candidate=(float)measured;
+            // Below the lowest hysteresis threshold this observer cannot change
+            // the contact or its occlusion memory. Nor can a weaker observation
+            // improve an already visible signal. Preserve double blocked tests.
+            if(candidate<ContactSnr*DropFactor || candidate<=signal)continue;
+            if(Occluded(observer.Position,position)) { blocked|=measured>=ContactSnr; continue; }
+            signal = Mathf.Max(signal, candidate);
         }
         foreach (var probe in probes)
         {
             if (probe.Faction != side || !probe.Active) continue;
             double km = Math.Max(.01, (position - probe.Position).Length() / 1000);
-            if(Occluded(probe.Position,position)) { blocked|=ProbeStrength(probe,position)*signature/(km*km)>=ContactSnr; continue; }
-            signal = Mathf.Max(signal, (float)(ProbeStrength(probe, position) * signature / (km * km)));
+            double measured=ProbeStrength(probe,position)*signature/(km*km);
+            float candidate=(float)measured;
+            if(candidate<ContactSnr*DropFactor || candidate<=signal)continue;
+            if(Occluded(probe.Position,position)) { blocked|=measured>=ContactSnr; continue; }
+            signal = Mathf.Max(signal, candidate);
         }
         var key = (side, target);
         var previous = _smallContacts.GetValueOrDefault(key);

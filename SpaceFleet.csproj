@@ -10,7 +10,8 @@
     <Compile Remove="tests/**/*.cs" />
     <Compile Remove="tools/**/*.cs" />
     <Compile Remove="shots/**/*.cs" />
-    <EmbeddedResource Include="data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+    <Compile Remove="src/Sim/**/*.cs" />
+    <ProjectReference Include="src/Sim/SpaceFleet.Sim.csproj" />
     <EmbeddedResource Include="assets/ships/manifest.json" LogicalName="SpaceFleet.assets.ships.manifest.json" />
   </ItemGroup>
 </Project>

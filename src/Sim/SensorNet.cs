@@ -137,7 +137,7 @@ public sealed partial class SensorNet
             {
                 if (observer.Faction != side || observer.Damage.Destroyed)
                     continue;
-                var (track, detect, jam) = Measure(observer, target, environment ? VisibleScreen(observer.Position,target,ships) : screen);
+                var (track, detect, jam) = Measure(observer, target, environment && screen>0 ? VisibleScreen(observer.Position,target,ships) : screen);
                 if (environment && Occluded(observer.Position,target.Position))
                 { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,detect); continue; }
                 bestDetect = Mathf.Max(bestDetect, detect);

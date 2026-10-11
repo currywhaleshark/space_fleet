@@ -648,3 +648,12 @@
 - [ ] 최종 성능 합격/사용자 판단: 빈 공역 −0.124%는 통과. 소행성 평균 최대 1.537배, 난전 p99 최대 2.531ms로 일부 기준 미달. 10분 부근 Debug ×4 평균 섬멸 15.2/점령 4.1 FPS; 배포 Release ×4는 같은 조건 87.3/98.7 FPS. Release 수치로 Debug 기준을 대신하지 않는다. 추가 최적화와 수동 비행·카메라·엄폐 체감 확인은 후속.
 - 실행본: `builds/SpaceFleet-20261011-environment-stage2-Windows-x64/SpaceFleet.exe` 및 ZIP. 5개 화면·240전·구간 성능·실제 FPS·배포 검사 원자료: `docs/validation/environment_stage2_20261011/stage6-evidence.zip`.
 - 결과와 한계: `docs/ENVIRONMENT_stage2.md`.
+
+### 전장 환경 2단계 추가 최적화 (2026-10-12)
+
+- [x] 실제 지형 AABB/짧은 질의 셀 후보, 잔해 그룹 충돌·광선 제외, 소형 접촉 시선 검사 생략. 전투 수치·센서 규칙·60/240Hz 유지.
+- [x] Debug 게임과 최적화 Sim 어셈블리 분리, PDB·비최적화 디버깅 선택 유지. 실제 빌드 설정을 FPS 로그에 명시.
+- [x] 전체 SimChecks 546,793개·배포 검사 2,286개. 240판 요약 및 상세 전투 기록 전후 일치(경로 생성/탐색 실제 소요시간 제외).
+- [x] 빈 공역 교차 중앙값 216.332→216.338µs (+0.003%), 소행성 평균 배율 기준 및 Debug ×4 10분 장면 30 FPS 기준 통과.
+- [ ] 점령전 일부 배치 난전 p99 1ms 기준은 미달. 탄체 처리의 추가 최적화/잔여 기준 사용자 판단 필요. 수동 체감 미확인.
+- 실행본: `builds/SpaceFleet-20261012-environment-stage2-optimized-Windows-x64/SpaceFleet.exe`. 결과: `docs/ENVIRONMENT_stage2.md` 추가 최적화 절, 원자료: `docs/validation/environment_stage2_optimization_20261012/`.

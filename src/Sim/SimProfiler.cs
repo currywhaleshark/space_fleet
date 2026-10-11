@@ -55,6 +55,13 @@ public static class SimProfiler
         return new ReadOnlyDictionary<SimSection, (double, long)>(result);
     }
 
+    // Diagnostic runners can retain the slowest individual ticks without
+    // allocating a dictionary on every 60 Hz step. Not used by normal gameplay.
+    internal static void CopyElapsedTicks(Span<long> destination)
+    {
+        if(_elapsed is null)destination.Clear();else _elapsed.AsSpan().CopyTo(destination);
+    }
+
     /// <summary>Reset only at a measurement boundary, with no open Begin/End pair.</summary>
     public static void Reset()
     {

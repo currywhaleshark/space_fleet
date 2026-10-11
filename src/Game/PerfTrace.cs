@@ -23,6 +23,9 @@ internal static class PerfTrace
         On = true; _quitAfter = quitAfterSeconds;
         _frames = 0; Sections.Clear(); SimProfiler.Enabled = profileSim; SimProfiler.Reset();
         _started = -1; // 첫 프레임부터 잰다(시작 전 빨리 감기 시간을 빼기 위해).
+        static bool MinOpts(System.Reflection.Assembly assembly)=>Array.Exists(assembly.GetCustomAttributes(false),
+            a=>a is DebuggableAttribute {IsJITOptimizerDisabled:true});
+        GD.Print($"perf build: gameMinOpts={MinOpts(typeof(PerfTrace).Assembly)} simMinOpts={MinOpts(typeof(SimWorld).Assembly)} simAssembly={typeof(SimWorld).Assembly.GetName().Name}");
     }
 
     public static void Disable()

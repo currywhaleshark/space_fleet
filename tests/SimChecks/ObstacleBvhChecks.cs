@@ -54,6 +54,26 @@ static class ObstacleBvhChecks
             }
         }
         var world=new SimWorld();BattleSetup.Spawn(world,new(){Battlefield=Battlefield.AsteroidCluster});
+        foreach(var definition in ShipDefinitions.All)
+        foreach(double originValue in new[]{0.0,1e12,-1e12})
+        foreach(double age in new[]{0.0,30,900,10000})
+        {
+            Vec3d origin=new(originValue,-originValue,originValue);
+            var a=new ShipBody("DEBRIS",definition,Faction.Blue);var b=new ShipBody("DEBRIS",definition,Faction.Blue);
+            a.Damage.Catastrophe(0,"test");b.Damage.Catastrophe(0,"test");a.Step(age);b.Step(age);
+            var pose=Quaternion.FromEuler(V(2).ToVector3());a.Place(origin,pose);b.Place(origin,pose);
+            Vector3 velocity=V(400).ToVector3();a.Velocity=b.Velocity=velocity;
+            a.PrevPosition=b.PrevPosition=origin;a.Position=b.Position=origin+Vec3d.From(velocity)*.1;
+            var rotation=new DoubleRotation(pose);var shapes=new ObstacleSet();
+            foreach(var group in a.Hull.Groups)
+            {
+                Vec3d center=origin+rotation.Apply(Vec3d.From(a.Hull.Boxes[group.Start].Center));
+                shapes.Add(new("Fragment",center,pose,ObstaclePart.Sphere(Vec3d.Zero,35),ObstaclePart.Capsule(new(-80,0,0),new(80,0,0),30)));
+            }
+            ShipCollision.ResolveObstacles(new[]{a},shapes,age+.1);ShipCollision.ResolveObstaclesLinear(new[]{b},shapes,age+.1);
+            Check(a.Position==b.Position && a.Velocity==b.Velocity && a.LastCollision==b.LastCollision,"Terrain group culling preserves distant wreck contacts and correction order");
+            Check(a.Damage.Modules.Select(x=>x.Health).SequenceEqual(b.Damage.Modules.Select(x=>x.Health)),"Wreck terrain damage remains identical");
+        }
         foreach(bool doctrine in new[]{true,false})
         {
             world.Doctrine=doctrine?new():null;

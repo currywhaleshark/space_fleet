@@ -14,7 +14,7 @@ var blueDesign = Enum.Parse<DesignFamily>(argsMap.GetValueOrDefault("blue-design
 var redDesign = Enum.Parse<DesignFamily>(argsMap.GetValueOrDefault("red-design", "Earth"), true);
 HullKind? duel = argsMap.TryGetValue("duel", out string? duelKind) ? Enum.Parse<HullKind>(duelKind, true) : null;
 double startDistance = double.Parse(argsMap.GetValueOrDefault("distance", "150000"));
-bool mirror = argsMap.ContainsKey("mirror"), profile = argsMap.ContainsKey("profile");
+bool mirror = argsMap.ContainsKey("mirror"), profile = argsMap.ContainsKey("profile") || argsMap.ContainsKey("slow-ticks");
 bool tickProfile = profile || argsMap.ContainsKey("tick-profile");
 bool telemetry = argsMap.ContainsKey("telemetry");
 string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batch/battle.csv"));
@@ -51,17 +51,20 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
         var run = Stopwatch.StartNew();
         var ticks = tickProfile ? new List<double>() : null;
         var sections = profile ? new SectionProfile() : null;
+        var slowTicks = argsMap.ContainsKey("slow-ticks") ? new SlowTickProfile() : null;
         var snapshots = telemetry ? new BalanceTelemetry(task.Seed, task.Mirror) : null;
         while (world.Time < minutes * 60 && world.Rules!.Outcome is null)
         {
             long start = tickProfile ? Stopwatch.GetTimestamp() : 0;
             world.Step();
+            slowTicks?.Capture(world.Tick);
             if (tickProfile) ticks!.Add(Stopwatch.GetElapsedTime(start).TotalMilliseconds);
             sections?.Capture(world.Tick);
             snapshots?.Capture(world);
         }
         sections?.Capture(world.Tick, final: true);
         world.Log!.Finish();
+        slowTicks?.Save(Path.ChangeExtension(output,$".{task.Seed}-{task.Mirror}.slow-ticks.csv"),world);
         var row = new Row(task.Seed, task.Mirror, world, run.Elapsed.TotalSeconds, ticks, sections, snapshots);
         rows.Add(row);
         Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")}: {world.Log.Summary()} wall={row.Wall:F1}s");

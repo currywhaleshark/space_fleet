@@ -30,7 +30,8 @@ static class SimChecks
         if (args.Contains("--battle")) { BattleChecks.Run(); BattleObjectiveChecks.Run(); return; }
         if (args.Contains("--profiler")) { ProfilerChecks.Run(); return; }
         if (args.Contains("--spatial")) { SpatialBoundsChecks.Run(); return; }
-        if (args.Contains("--wreck-collision")) { CollisionChecks.Run(); WreckCollisionChecks.Run(); return; }
+        if (args.Contains("--wreck-ray")) { WreckRayChecks.Run(); return; }
+        if (args.Contains("--wreck-collision")) { CollisionChecks.Run(); WreckCollisionChecks.Run(); WreckRayChecks.Run(); return; }
         if (args.Contains("--tracking")) { TrackingChecks.Run(); return; }
         if (args.Contains("--track-probe")) { TrackingChecks.Probe(); return; }
         if (args.Contains("--turrets")) { TurretChecks.Run(); TrackingChecks.Run(); GunneryChecks.Run(); PointDefenseChecks.Run(); return; }
@@ -55,6 +56,7 @@ static class SimChecks
         CoverChecks.Run();
         ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run();
         WreckCollisionChecks.Run();
+        WreckRayChecks.Run();
         DamageChecks.Run();
         DamageControlChecks.Run();
         ShieldEnvelopeChecks.Run();

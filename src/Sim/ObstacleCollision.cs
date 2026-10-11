@@ -21,9 +21,15 @@ public static partial class ShipCollision
                 var obstacle=obstacles[candidates[candidate]];
                 if (!ObstacleMath.SegmentSphere(ship.PrevPosition-obstacle.Position,ship.Position-obstacle.Position,
                     Vec3d.Zero,obstacle.BoundingRadius+ship.Hull.BoundingRadius+Skin,out _)) continue;
-                for(int p=0;p<obstacle.Parts.Count;p++) foreach(var box in ship.Hull.Boxes)
-                    if (SweepObstacleBox(obstacle,p,ship.PrevPosition,ship.Position,ship.Orientation,box,out double t,out var hit) && t<earliest)
-                    { earliest=t; first=obstacle; contact=hit; }
+                var hull=ship.Hull;var rotation=new DoubleRotation(ship.Orientation);
+                for(int p=0;p<obstacle.Parts.Count;p++)
+                foreach(var group in hull.Groups)
+                {
+                    if(!TerrainGroupCandidate(obstacle,p,ship.PrevPosition,ship.Position,rotation,group.Bounds))continue;
+                    for(int boxIndex=group.Start;boxIndex<group.Start+group.Count;boxIndex++)
+                        if (SweepObstacleBox(obstacle,p,ship.PrevPosition,ship.Position,ship.Orientation,hull.Boxes[boxIndex],out double t,out var hit) && t<earliest)
+                        { earliest=t; first=obstacle; contact=hit; }
+                }
             }
             if(first is not null)
             {
@@ -43,9 +49,15 @@ public static partial class ShipCollision
                     var obstacle=obstacles[index];
                     if((ship.Position-obstacle.Position).Length()>obstacle.BoundingRadius+ship.Hull.BoundingRadius+Skin) continue;
                     ObstacleBoxContact deepest=default; bool found=false;
-                    for(int p=0;p<obstacle.Parts.Count;p++) foreach(var box in ship.Hull.Boxes)
-                        if(ObstacleSet.BoxContact(obstacle,p,ship.Position,ship.Orientation,box,out var hit)
-                            && (!found || hit.Penetration>deepest.Penetration)) { found=true; deepest=hit; }
+                    var hull=ship.Hull;var rotation=new DoubleRotation(ship.Orientation);
+                    for(int p=0;p<obstacle.Parts.Count;p++)
+                    foreach(var group in hull.Groups)
+                    {
+                        if(!TerrainGroupCandidate(obstacle,p,ship.Position,ship.Position,rotation,group.Bounds))continue;
+                        for(int boxIndex=group.Start;boxIndex<group.Start+group.Count;boxIndex++)
+                            if(ObstacleSet.BoxContact(obstacle,p,ship.Position,ship.Orientation,hull.Boxes[boxIndex],out var hit)
+                                && (!found || hit.Penetration>deepest.Penetration)) { found=true; deepest=hit; }
+                    }
                     if(!found) continue;
                     ApplyObstacle(ship,obstacle,deepest,deepest.Penetration+Skin,time,log); corrected=true;
                     // A correction can move into a different leaf during this same
@@ -58,6 +70,24 @@ public static partial class ShipCollision
             }
         }
         SimProfiler.End(SimSection.TerrainCollision,terrainTiming);
+    }
+
+    // Reject distant breakup groups before visiting every constituent box. The
+    // ordered narrow phase below is unchanged, including its current-pose sweep.
+    private static bool TerrainGroupCandidate(Obstacle obstacle,int partIndex,Vec3d start,Vec3d end,
+        DoubleRotation rotation,HullBox group)
+    {
+        var part=obstacle.Parts[partIndex];
+        Vec3d relative=obstacle.Position-start;
+        Vec3d a=rotation.Inverse(relative+obstacle.Rotation.Apply(part.A));
+        Vec3d b=rotation.Inverse(relative+obstacle.Rotation.Apply(part.B));
+        Vec3d center=Vec3d.From(group.Center),travel=rotation.Inverse(end-start);
+        // Float group bounds can round inward when fragments drift far away.
+        // A generous broad-phase allowance also covers narrow-phase tangencies.
+        double padding=part.Radius+Skin+1+group.Center.Length()*2e-6;
+        Vec3d half=Vec3d.From(group.HalfSize);
+        return SpatialBounds.Segment(a,b).Overlaps(SpatialBounds.Segment(center,center+travel),
+            padding+Math.Max(half.X,Math.Max(half.Y,half.Z)));
     }
 
     /// <summary>Continuous translation of the current OBB pose, matching the existing 240 Hz rotation approximation.</summary>
