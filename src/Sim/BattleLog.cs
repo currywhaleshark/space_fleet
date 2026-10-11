@@ -34,6 +34,7 @@ public sealed class BattleShipLog
 public sealed class BattleLog
 {
     public const double IntervalSeconds = 30;
+    public EnvironmentLog Environment { get; } = new();
     // Preserve the first battle events for the result; endless spectator collisions cannot grow the list.
     public const int EventCapacity = 4096;
     private sealed class Bucket { public bool Missile, Rail, Brawl; public int Modules, UnshieldedModules; }

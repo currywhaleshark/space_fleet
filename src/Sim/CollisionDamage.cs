@@ -31,12 +31,15 @@ public static class CollisionDamage
     /// <param name="worldArm">함선 중심에서 접촉점까지(월드 방향, m).</param>
     /// <param name="inward">접촉점에서 이 함선 안쪽을 향하는 방향.</param>
     public static void Apply(ShipBody ship, ShipBody other, Vector3 worldArm, Vector3 inward, double energy, double time)
+        => Apply(ship, other.Callsign, worldArm, inward, energy, time);
+
+    public static void Apply(ShipBody ship, string otherName, Vector3 worldArm, Vector3 inward, double energy, double time)
     {
         if (ship.Damage.Destroyed || energy <= 0 || inward.LengthSquared() < 1e-8f)
             return;
         if (energy >= ship.Class.MassKg * StructureJoulesPerKg)
         {
-            ship.Damage.Breakup(time, other.Callsign);
+            ship.Damage.Breakup(time, otherName);
             return;
         }
 
@@ -47,7 +50,7 @@ public static class CollisionDamage
         uint sequence = (uint)(time * 240.0);
         Vec3d contact = ship.Position + Vec3d.From(worldArm);
         inward = inward.Normalized();
-        ship.Damage.Report(time, $"충돌 충격 ({other.Callsign})");
+        ship.Damage.Report(time, $"충돌 충격 ({otherName})");
 
         // 접촉점 조금 바깥에서 법선 방향으로 파쇄한다. 모서리 접촉처럼 법선 방향에 선체가 없으면 중심 쪽으로 다시 겨눈다.
         ShotResult result = DamageRay.ApplyAtPose(ship, contact - Vec3d.From(inward * 2f), inward, packet,

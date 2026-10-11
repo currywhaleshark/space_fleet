@@ -85,6 +85,7 @@ public sealed partial class SimWorld
             SimProfiler.End(SimSection.ShipStep, sectionTiming);
             sectionTiming = SimProfiler.Begin();
             ShipCollision.Resolve(_ships, Time + (substep + 1) * dt);
+            if (Obstacles.Count != 0) ShipCollision.ResolveObstacles(_ships, Obstacles, Time + (substep + 1) * dt, Log);
             SimProfiler.End(SimSection.Collision, sectionTiming);
             sectionTiming = SimProfiler.Begin();
             StepProjectiles(dt, Time + substep * dt);

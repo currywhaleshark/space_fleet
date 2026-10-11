@@ -112,6 +112,12 @@ File.WriteAllLines(Path.ChangeExtension(output, ".probes.csv"), new[] { "seed,mi
     .Concat(ordered.SelectMany(r => r.World.ProbeFlights.Select(p => FormattableString.Invariant(
         $"{r.Seed},{(r.Mirror ? 1 : 0)},{p.Id},{p.Owner},{p.Faction},{p.LaunchedAt:F3},{p.Lifetime:F3},{(p.Destroyed ? 1 : 0)},{p.Contacts},{p.Identifications}")))));
 string flightOutput = Path.ChangeExtension(output, ".am.csv");
+File.WriteAllLines(Path.ChangeExtension(output,".environment.csv"),new[]{"seed,mirror,shipCollisions,collisionEnergyJ,collisionModuleDamage,stuckDetections"}
+    .Concat(ordered.Select(row=> { var e=row.World.Log!.Environment;
+        return $"{row.Seed},{(row.Mirror?1:0)},{e.ShipCollisions},{e.CollisionEnergy:F3},{e.CollisionDamage:F3},{e.StuckDetections}"; })));
+File.WriteAllLines(Path.ChangeExtension(output,".environment-events.csv"),new[]{"seed,mirror,time,kind,source,obstacle,x,y,z"}
+    .Concat(ordered.SelectMany(row=>row.World.Log!.Environment.Events.Select(e=>
+        $"{row.Seed},{(row.Mirror?1:0)},{e.Time:F3},{e.Kind},{e.Source},{e.Obstacle},{e.Position.X:F3},{e.Position.Y:F3},{e.Position.Z:F3}"))));
 File.WriteAllLines(flightOutput, new[] { "seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip" }
     .Concat(ordered.SelectMany(row => row.World.Log!.AntimatterFlights.Select(f =>
         $"{row.Seed},{(row.Mirror ? 1 : 0)},{f.Faction},{f.Shooter},{f.Target},{f.TargetKind},{f.LaunchTime:F3},{f.Range:F1},{f.FlightSeconds:F3},{f.TravelMeters:F1},{f.SeekerSeconds:F3},{f.ClosestHull:F1},{f.Outcome},{f.HitShip}"))));

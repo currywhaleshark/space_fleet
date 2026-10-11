@@ -303,6 +303,7 @@ public sealed partial class SimWorld
             float urgency = (safe - missDist) / Mathf.Max(tca, 1f);
             push += away * Mathf.Min(urgency * 2f, ship.Class.MaxSpeed);
         }
+        if (Obstacles.Count != 0) push += ObstacleAvoidance(ship, desired);
         return push;
     }
 
