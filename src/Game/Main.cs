@@ -13,6 +13,17 @@ public partial class Main : Node3D
     public ScaleTest? Battle { get; private set; }
     public int Seed { get; private set; }
     public string Role { get; private set; } = "IC-21";
+    public BattleObjective SelectedObjective { get; private set; } = BattleObjective.Annihilation;
+    public void CycleObjective()
+    {
+        SelectedObjective = SelectedObjective switch
+        {
+            BattleObjective.Annihilation => BattleObjective.Flagship,
+            BattleObjective.Flagship => BattleObjective.Domination,
+            _ => BattleObjective.Annihilation,
+        };
+        _overlay.Rebuild();
+    }
     public DesignFamily PlayerDesign { get; private set; } = DesignFamily.Earth;
     public DesignFamily EnemyDesign { get; private set; } = DesignFamily.Mars;
     public void ToggleDesign(bool enemy)
@@ -32,6 +43,9 @@ public partial class Main : Node3D
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
         if (_args.TryGetValue("blue-design", out var blue)) PlayerDesign = Enum.Parse<DesignFamily>(blue, true);
         if (_args.TryGetValue("red-design", out var red)) EnemyDesign = Enum.Parse<DesignFamily>(red, true);
+        if (_args.TryGetValue("objective", out var objective)
+            && Enum.TryParse<BattleObjective>(objective, true, out var parsed) && Enum.IsDefined(parsed))
+            SelectedObjective = parsed;
         InputSetup.Register();
         SoundSettings.Initialize();
         FeedbackSettings.Load();
@@ -87,7 +101,7 @@ public partial class Main : Node3D
         Seed = useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
             : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue);
         Battle = new ScaleTest { BattleMode = true, DevMode = _args.ContainsKey("dev"), AutoPlay = _args.ContainsKey("autoplay"),
-            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign }, LaunchControl=role };
+            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=SelectedObjective }, LaunchControl=role };
         Battle.PauseRequested += TogglePause;
         AddChild(Battle); ChangeScreen(BattleScreen.Battle);
         if (_args.TryGetValue("advance", out string? advance)) Battle.AdvanceBattle(double.Parse(advance, System.Globalization.CultureInfo.InvariantCulture));

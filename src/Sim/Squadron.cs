@@ -48,6 +48,8 @@ public sealed class Squadron
     public ShipBody? MissionTarget { get; internal set; }
     public ShipBody? ProtectedShip { get; internal set; }
     public bool AssaultAvailable { get; internal set; }
+    /// <summary>전투 목표(점령·기함) 명령을 받은 편대. 요격기 임무 갱신이 이 명령을 덮어쓰지 않는다. 사령부 주기마다 다시 정한다.</summary>
+    public bool ObjectiveOrders { get; internal set; }
     public int MissionChanges { get; internal set; }
     public double MissionSince { get; internal set; } = double.NegativeInfinity;
     internal Vector3? ReconDirection;

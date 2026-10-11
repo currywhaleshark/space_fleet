@@ -451,6 +451,8 @@ public sealed partial class SimWorld
 
     private void Command(Faction faction)
     {
+        foreach (Squadron squad in _squadrons.Where(s => s.Faction == faction)) squad.ObjectiveOrders = false;
+        if (Rules?.Objective == BattleObjective.Domination) { CommandCaptureZones(faction); return; }
         var known = _ships.Where(s => s.Faction != faction && !s.Damage.Destroyed)
             .Select(s => (Ship: s, Track: Sensors.Track(faction, s)))
             .Where(k => k.Track.Level >= TrackLevel.Contact)
@@ -507,6 +509,7 @@ public sealed partial class SimWorld
             Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
         CommandMars(faction, known, assigned);
+        if (Rules?.Objective == BattleObjective.Flagship) CommandFlagshipObjective(faction);
     }
 
     private bool CommandPosture(Squadron squadron, ShipBody flagship, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody,int> assigned)

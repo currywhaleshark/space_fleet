@@ -17,7 +17,8 @@ static class SimChecks
         if (args.Contains("--missiles")) { MissileChecks.Run(); return; }
         if (args.Contains("--counter-missiles")) { CounterMissileChecks.Run(); return; }
         if (args.Contains("--shield")) { ShieldEnvelopeChecks.Run(); return; }
-        if (args.Contains("--battle")) { BattleChecks.Run(); return; }
+        if (args.Contains("--objectives")) { BattleObjectiveChecks.Run(); return; }
+        if (args.Contains("--battle")) { BattleChecks.Run(); BattleObjectiveChecks.Run(); return; }
         if (args.Contains("--profiler")) { ProfilerChecks.Run(); return; }
         if (args.Contains("--spatial")) { SpatialBoundsChecks.Run(); return; }
         if (args.Contains("--tracking")) { TrackingChecks.Run(); return; }
@@ -60,6 +61,7 @@ static class SimChecks
         InterceptorRoleChecks.Run();
         PlayerInterceptChecks.Run();
         BattleChecks.Run();
+        BattleObjectiveChecks.Run();
         ProfilerChecks.Run();
         SpatialBoundsChecks.Run();
         DesignChecks.Run();

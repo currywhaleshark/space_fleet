@@ -30,7 +30,7 @@ public sealed partial class SimWorld
         if (Time < _nextWingUpdate) return;
         _nextWingUpdate = Time + .5;
         foreach (var wing in _squadrons)
-            if (wing.Role == SquadronRole.InterceptorWing && (_commanders.Contains(wing.Faction)
+            if (wing.Role == SquadronRole.InterceptorWing && !wing.ObjectiveOrders && (_commanders.Contains(wing.Faction)
                 || wing.PlayerLed && wing.OrderedMission is not null)) UpdateWing(wing);
     }
 

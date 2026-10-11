@@ -24,6 +24,9 @@ public partial class Main
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"Player design selector is independent of the opponent");
             _overlay.ActivateButton(4);
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Earth,"Opponent design selector supports Mars vs Earth");
+            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Flagship,"Objective selector cycles to flagship");
+            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Domination,"Objective selector cycles to domination");
+            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Annihilation,"Objective selector returns to annihilation");
         }
         if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)

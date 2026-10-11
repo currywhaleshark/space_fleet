@@ -61,7 +61,8 @@ public partial class WorldMapOverlay : Control
         _pointer = GetViewport().GetMousePosition(); Visible = true; Layout(); QueueRedraw();
     }
     public void Close() { Visible = false; _drag = MouseButton.None; _shiftHeld = false; }
-    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.ProbeMarkers().Select(p => p.Position)));
+    public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.ProbeMarkers().Select(p => p.Position))
+        .Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
     private float Radius => Mathf.Min(_surface.Size.X, _surface.Size.Y) * .46f;
     private Vector2 Normalized(Vector2 screen) => (screen - _surface.Position - _surface.Size * .5f) / Radius;
 
@@ -142,6 +143,8 @@ public partial class WorldMapOverlay : Control
         int outside = contacts.Count(c => !Map.Contains(c.Position));
         if (outside > 0) Text(this, new(x, 178), $"구 밖 {outside} · Home 전체 보기", 12, Amber);
         Text(this, new(x, 199), "함선을 클릭해 정보 확인", 13, new Color(Ink, .6f));
+        if (Game.World.Rules is { Objective: BattleObjective.Domination } rules)
+            Text(this, new(x, 219), $"점령 {rules.Score(Faction.Blue):0} : {rules.Score(Faction.Red):0} / {rules.ScoreLimit}", 13, Blue);
         Contact? selected = contacts.FirstOrDefault(c => c.Ship == _selected);
         if (selected is not null)
         {
@@ -180,6 +183,7 @@ public partial class WorldMapOverlay : Control
         Vector2 center = canvas.Size * .5f;
         Vector2 At(Vec3d p) { Vector3 v = Map.Project(p); return center + new Vector2(v.X, v.Y) * Radius; }
         DrawSensorCoverage(canvas, At);
+        DrawCaptureZones(canvas, At);
         var labels = new List<Rect2>();
         foreach (Contact c in Contacts().OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
         {
@@ -236,6 +240,27 @@ public partial class WorldMapOverlay : Control
         float length = Mathf.Min(120, Radius * .5f);
         canvas.DrawLine(new(16,canvas.Size.Y-25), new(16+length,canvas.Size.Y-25), Blue, 2);
         Text(canvas, new(16,canvas.Size.Y-36), $"{Map.HalfSpan * length / Radius / 1000:0.0} km", 12, Blue);
+    }
+
+    /// <summary>점령 거점: 실제 반경 원, 소유 색, 점령 진행 호(바깥), 경합이면 깜박이는 테두리.</summary>
+    private void DrawCaptureZones(Control canvas, Func<Vec3d, Vector2> at)
+    {
+        if (Game.World.Rules is not { Objective: BattleObjective.Domination } rules) return;
+        foreach (CaptureZone zone in rules.CaptureZones)
+        {
+            if (!Map.Contains(zone.Position)) continue;
+            Vector2 p = at(zone.Position);
+            float radius = Mathf.Clamp((float)(zone.RadiusMeters / Map.HalfSpan) * Radius, 6, 160);
+            Color color = zone.Owner == Faction.Blue ? Blue : zone.Owner == Faction.Red ? Red : Amber;
+            canvas.DrawCircle(p, radius, new Color(color, .07f));
+            canvas.DrawArc(p, radius, 0, Mathf.Tau, 48, new Color(color, .75f), 1.5f, true);
+            float progress = (float)(zone.Progress / 100.0);
+            if (Mathf.Abs(progress) > .01f)
+                canvas.DrawArc(p, radius + 5, -Mathf.Pi / 2, -Mathf.Pi / 2 + Mathf.Tau * Mathf.Abs(progress), 48,
+                    progress > 0 ? Blue : Red, 3, true);
+            if (zone.Contested && (Time.GetTicksMsec() / 300) % 2 == 0) canvas.DrawArc(p, radius + 9, 0, Mathf.Tau, 32, Amber, 2, true);
+            Text(canvas, p + new Vector2(-5, -radius - 12), zone.Name, 14, color);
+        }
     }
 
     internal void DrawGlobe(Control canvas, Vector2 center)
