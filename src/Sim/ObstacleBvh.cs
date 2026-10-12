@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace SpaceFleet.Sim;
 
 /// <summary>Static, double precision BVH. Leaves identify original insertion indices.</summary>
-internal sealed class ObstacleBvh
+internal sealed partial class ObstacleBvh
 {
     private readonly record struct Node(Vec3d Min,Vec3d Max,int Left,int Right,int Item);
     private readonly Node[] _nodes;

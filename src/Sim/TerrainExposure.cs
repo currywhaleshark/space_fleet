@@ -11,6 +11,8 @@ public sealed class TerrainExposure
     private readonly Vec3d[] _observers;
     private readonly Obstacle[] _geometry;
     private readonly Dictionary<Vec3d,double> _samples=new();
+    private ObstacleBvh? _visibilityIndex;
+    private ObstacleBvh.VisibilityQuery?[]? _visibilityQueries;
     public int Observers=>_observers.Length;
     public TerrainExposure(ObstacleSet obstacles,IEnumerable<Vec3d> observers)
     { _obstacles=obstacles;_observers=observers.ToArray();_geometry=obstacles.ToArray(); }
@@ -41,7 +43,18 @@ public sealed class TerrainExposure
     public double At(Vec3d point)
     {
         if(_samples.TryGetValue(point,out double value))return value;
-        int visible=0;foreach(var observer in _observers)if(!_obstacles.BlocksSegment(observer,point))visible++;
+        // Amortize directional candidates only for sustained many-observer work.
+        // Quantization selects a conservative candidate set, never a visibility value.
+        var index=_samples.Count>=32 && Observers>=8 ? _obstacles.VisibilityIndex() : null;
+        if(index is not null && !ReferenceEquals(index,_visibilityIndex))
+        { _visibilityIndex=index;_visibilityQueries=new ObstacleBvh.VisibilityQuery?[Observers]; }
+        int visible=0;
+        for(int i=0;i<_observers.Length;i++)
+        {
+            bool blocked=index is null ? _obstacles.BlocksSegment(_observers[i],point)
+                : (_visibilityQueries![i]??=new(index,_observers[i])).Blocks(point);
+            if(!blocked)visible++;
+        }
         value=Observers==0?0:(double)visible/Observers;
         _samples[point]=value;return value;
     }

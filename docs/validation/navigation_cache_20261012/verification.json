@@ -1,0 +1,335 @@
+{
+  "baselineCommit": "cab9a5b9ca00f8bff12e72b0f31f60a054d66f61",
+  "scope": "Exact directional candidate cache only; excludes subsequent incremental navigation",
+  "simChecks": 5395339,
+  "comparisons": [
+    {
+      "case": "final-Annihilation-field0",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Annihilation-field1",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Annihilation-field2",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Annihilation-field3",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Flagship-field0",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Flagship-field1",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Flagship-field2",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Flagship-field3",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Domination-field0",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Domination-field1",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Domination-field2",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    },
+    {
+      "case": "final-Domination-field3",
+      "battles": 20,
+      "allGameplayRecordsMatch": true
+    }
+  ],
+  "sourceHashes": [
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AIThreats.cs",
+      "Hash": "889F766BE20235A080ABAD7D977B44497B55E898DA7BC6C582DE7BE613717BB1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Antimatter.cs",
+      "Hash": "94D72F22EC58D778FFC8935683316DB8D1B7A728EB4471FFCC9D881D07E988C3"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AntimatterAI.cs",
+      "Hash": "9AEE4C3FE0FCC4428614A7E156E5D9A969A8AABB6091441A780C1A4834250449"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AssaultGuidance.cs",
+      "Hash": "DE4A233EBFFA0336B2703FAD4A72E2CBC4775E18843AF4FA782043F9182497D9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AssemblyInfo.cs",
+      "Hash": "401EE25CB57F1175E48FB997CCC2AC51774F7525AEB77EF68C85F14C69821DD9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AsteroidField.cs",
+      "Hash": "5207B2D890B018ABC8E988EC305A1A6A64BFE949B2DD2C84207C14180AB9813A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleLog.cs",
+      "Hash": "4B1894C88452AA62AC3490488852E7C26FB7B9C9F19B7BFA5866BD0B7BF6AB35"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleRules.cs",
+      "Hash": "372ACFB5F416D0056ADF06D320B5CB1527C72B7268161E263D7058E0DC089CC4"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleSetup.cs",
+      "Hash": "322E3BF420AA4930D380890D74E4AE2720931BEDE55869A96D9854E14AFBB3B1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CollisionDamage.cs",
+      "Hash": "F79B726169CC22FCE640BB3106D557CA2CDF4AA8829DB1ECDD3D324FF48A18E1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CollisionHull.cs",
+      "Hash": "9E999C48AE996A483C53817DB429B84B07A84279B4E8E4936A7EB9B7A4BA8C2E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CounterMissiles.cs",
+      "Hash": "5640DBEB03C729366AA0106472D118C1C705222E755CD56094ED069AB0B3F71E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DamageControl.cs",
+      "Hash": "1EDEED63788B3A210BB79EC83446724F885962D7625FC05C26657B85CA1A33D4"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DamageRay.cs",
+      "Hash": "FA301FFB57EA92573164B898048B151C081B2013278866FB0E87F2078A4495A2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DefenseBroadphase.cs",
+      "Hash": "E92DAA899B5F8B94DF8BC002603DD8626A0F1172A3890A9BBFA7319E910D906A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DefenseDrones.cs",
+      "Hash": "6AA54F938BD16F1B5F8F0B64D3D0BFFD1BD4C39127D5DAE9221B58594955197E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DroneCombat.cs",
+      "Hash": "FE21B5075B5D20250B25F498F8FE74FB2DAEB406C87C2921E1431AA71F408CF0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\EnvironmentLog.cs",
+      "Hash": "21B9BB3F7AED39993B4CE4B2B4B65E66DB0733DDAFF99F0E5CD456585495B672"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\FireControl.cs",
+      "Hash": "38EAFFEB0594796FFD6C51972154B29E9DC6EDF1DE169DA30AA9980CB3373B00"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\FleetDoctrine.cs",
+      "Hash": "63B80479D717F96A64C3753E9219E8A32C6447940F9F686E73BCFC59B0188FDD"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Gunnery.cs",
+      "Hash": "4FBE29FF6CD6DB4AE3990B6A65AC0F3EFE4A51DC9EE6C5303D5FCD4C1CC59B30"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\InterceptorMissions.cs",
+      "Hash": "BE4BC5A0E65C384E0ABC3DEA6C25B48457642EA4F857C7282CCA2C0D7EEBF644"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\MarsDoctrine.cs",
+      "Hash": "BDAEF5565787FED330ECBD5EADF27CE0CEF4B50EF568AEA02F201A3951220BAD"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Missiles.cs",
+      "Hash": "0B157810C28637A54D2C4E9CC988B8BAF8FDE92BE02A28BFEC5CC60862AC2FCA"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleAvoidance.cs",
+      "Hash": "3AA985DA7BA751700A2776DF53C87060DAD17E931EB1C7C2D7C7307516954825"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleBvh.cs",
+      "Hash": "8D899C85DFB1A841AD8F6703B2C6987DE39E54358B53FC605B47FA33272767A6"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleCollision.cs",
+      "Hash": "DF4AB62D4FE3B7CAAA3858A528F54B864922CD9A088E8E4EDFC0BD7C29EAE7F0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Obstacles.cs",
+      "Hash": "7B4F61EEF4B009C1029BA7B4AE02CED1824F11FA9F922F7FC417F71CAAB4CE26"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleWeapons.cs",
+      "Hash": "7C727D292D9CA0068E095CC6FBED3B112D494F7D3E8E4CEAF81ACFE2BC2A3BDE"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\PointDefense.cs",
+      "Hash": "4B4CB536279B7112F69CFED2DADD6C51FFFF7FFBF8EF893BDFFA07D5E2C633F9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\PowerPresets.cs",
+      "Hash": "440E4616095A552B0CC273803A38B689795B3A0B00232919520C72E61F6DB9F3"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ProjectileBroadphase.cs",
+      "Hash": "8EA2D7CAE5E1B1F5E90522C6E0790AE98CDED5CB6F514E6CB234E5AB1B6C8FA1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Railgun.cs",
+      "Hash": "2436A550C1602A6147E89FDF709D992791CEA0D50A0955B3D6E4BC8040111D6C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ReconProbes.cs",
+      "Hash": "D2E403B1C97024938F829995AE3186FE46A235F55868D3F68975F533415CB934"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SensorMemory.cs",
+      "Hash": "D14511194C4C5E44400F98D035050A97E73435843EDE8F05BCCC592E724AE35F"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SensorNet.cs",
+      "Hash": "D156A32338C620E65E57B258FD3A504D65D446999B35BFDDF64CCAD10C5BA133"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShieldEnvelope.cs",
+      "Hash": "493722174A36E7CC072C039F9568D91E7F40F03872D089A5129EBF36608BBC4E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipAI.cs",
+      "Hash": "8EFCC120B0C3EB54989165F76567809B12A25F61D96A9F064B602AAD291E95F2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipBody.cs",
+      "Hash": "DDD723A844D323B1A8543AFF99391C67531F96748E5FFEDD28A2966E362C168C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipClass.cs",
+      "Hash": "76836E05B2E7E5DACD08787B2086729F82EEFB3985AA8301F4FA2BEF2649A7CC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipCollision.cs",
+      "Hash": "DFFFFF73C8E6285F0EC9FB37565AC56D96977A79279430A3E0B9F2EA5BB8C9AC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipDamage.cs",
+      "Hash": "E9BCBF428AC9AD5397AF0AD89A3F6DC4D2E9D38A9BFDA43FA08C3E767947ADDC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipDefinition.cs",
+      "Hash": "1472CFFE5939D7694D2917CDE1091E0E24864AEDFA30778C5D049B772E913271"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipPower.cs",
+      "Hash": "C8C590B86CCB9E003BA3EA0186FD310DF1638D865F77E7391C957E3E8EC39B0C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimAI.cs",
+      "Hash": "429B1FC45DA25E434C9E972784A6E5AE2A9A2354F3298C6309F2D538EDB44CD2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimBallistics.cs",
+      "Hash": "A0543E7DABF727EC77ED8D39602F5366F6D39E938E0DAF2E2399803AEA990F89"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimMissiles.cs",
+      "Hash": "C312AB70FF76F8D9976F8F2D97784544D56EDFB4A3EDF689318F7222570C379E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimObjectives.cs",
+      "Hash": "AE2D3C5DFE04DFA4856E5D8EFDF0F7B990082570EE671D85A05E17BD67D8EF78"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimProfiler.cs",
+      "Hash": "61B4DFBA48170E2DA1A4DE152CD02DA64ADC82E7738DBA93911DE9CBA6055323"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimTerrainNavigation.cs",
+      "Hash": "8E2260C1B74221EEC6CE9FAD2841927702ED672B45FFF94FA7F8B82789BE5057"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimWorld.cs",
+      "Hash": "1ED12DAB639F7AAD325D4B6B82BD21E5383BB5688C4FE6A2E1F2B8DA06E2A973"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SmallContactSensors.cs",
+      "Hash": "D65C5F99289585DF9DC3A7A287A01AAF0AFF686E49DC52194ABE4DE493B9F49D"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SmallTargetCombat.cs",
+      "Hash": "CC6BD07AB49C0563DB2DA34AD6196BBFCB3AD8AA713CD1D84F049E910857154C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SpatialBounds.cs",
+      "Hash": "8375CD4B9522E95BCF2997C61E14BE99A18C1B821949DB05762DC07250B1F751"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SquadCommands.cs",
+      "Hash": "7FD6120EC2389283DE1E260FCDF41DB6180B4DEE3BEBFF32EABB2C35B6B8287A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Squadron.cs",
+      "Hash": "38406151970FB64140F29F31C099624B025629FB54789D235133BC130784CC04"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Subsystems.cs",
+      "Hash": "ED05E4BA81912BF7BBB98FC016C138FACD13923B568E0C81582D727D02347B13"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SweepIndex.cs",
+      "Hash": "C0E4D22A6128C614365F49371202CA5FCF0D37E50EA7E689D59A54C058DB3726"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainExposure.cs",
+      "Hash": "902AF07B235C8DBD0F55DBE8E2F67267D65782DA78F8C4A59B5B080F1D24CD1D"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainFiringPosition.cs",
+      "Hash": "F9558111794F71333ACB1D4201C6B1DE09F15753448F952B6003252BB1E5F0C2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainNavigation.cs",
+      "Hash": "BB6F0C0B5ACC2DE72CA14F687D37BE59419B128FD813B6F3D7DE4F9354EF7580"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainVisibility.cs",
+      "Hash": "7D075423786C1796114086B0687E38BA4F48CF5D62C983724A40C909F2864514"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Turret.cs",
+      "Hash": "4EDE701686C52FE92FDB2A31F93738E00A456F63519A5714FAE3E794352946CB"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Vec3d.cs",
+      "Hash": "C2405F25964B1DD1AB1A6B7F19314D6F85D6E4E88006B888F7849807641369E0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\WreckLayout.cs",
+      "Hash": "A32A27C394EE2CA9F2E720E0A1EFD5AC6B6C4D5575E229F7B0A27AA87778EA7B"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ZoneStructureShapes.cs",
+      "Hash": "C3A0DFE5689A55F18A04EDD08BD93B7A7E95624F5D337C348BBBE7580BFD4481"
+    }
+  ],
+  "evidenceSha256": "fffcd9135201c5a2c74d5d5447aa9c18012742fb8856f6f66222dd3976ea880a",
+  "nativeChecks": "Deferred to final incremental build; no intermediate export"
+}

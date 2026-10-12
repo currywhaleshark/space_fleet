@@ -54,6 +54,7 @@ public sealed class ObstacleSet : IReadOnlyList<Obstacle>
     public void Add(Obstacle obstacle) { _items.Add(obstacle);MaximumRadius=Math.Max(MaximumRadius,obstacle.BoundingRadius);_index=null; }
     public void Clear() { _items.Clear();_index=null;MaximumRadius=0; }
     public void BuildIndex() { if(Count>4)_index??=new(_items); }
+    internal ObstacleBvh? VisibilityIndex() { BuildIndex();return _index; }
     /// <summary>Conservative padded segment candidates in original insertion order.</summary>
     public int QueryCandidates(Vec3d start,Vec3d end,double padding,Span<int> result)
     {
