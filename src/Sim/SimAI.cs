@@ -73,6 +73,8 @@ public sealed partial class SimWorld
     private void StepAI()
     {
         long timing = SimProfiler.Begin();
+        Array.Clear(_planningExposure);
+        PrepareAIThreats();
         if (_commanders.Count > 0 && Time >= _nextCommand)
         {
             _nextCommand = Time + CommandInterval;
@@ -336,8 +338,7 @@ public sealed partial class SimWorld
     private void AllocatePower(ShipBrain brain)
     {
         ShipBody ship = brain.Ship;
-        bool threatened = Sensors.SmallContacts(ship.Faction).Any(t => t.Kind == SmallContactKind.Missile && t.Fresh(Time)
-            && (t.Predict(Time) - ship.Position).Length() < PointDefenseThreatMeters && Threatens(t, ship, out _));
+        bool threatened = IncomingMissileThreat(ship, PointDefenseThreatMeters);
         // ECCM: 공격 중인 표적이 방해로 잠기지 않는데 레일건 거리 근처면 센서를 올린다.
         bool jammedOut = brain.Target is ShipBody target && ship.Railgun is RailgunState gun
             && Sensors.Track(ship.Faction, target) is { Jammed: true, Level: < TrackLevel.Locked and > TrackLevel.None } t
@@ -411,8 +412,7 @@ public sealed partial class SimWorld
 
         EngageSmallTarget(brain);
         // 디코이: 나를 노리는 미사일이 가까우면.
-        if (ship.Ordnance.DecoyReady && Sensors.SmallContacts(ship.Faction).Any(t => t.Kind == SmallContactKind.Missile && t.Fresh(Time)
-            && (t.Predict(Time) - ship.Position).Length() < DecoyThreatMeters && Threatens(t, ship, out _)))
+        if (ship.Ordnance.DecoyReady && IncomingMissileThreat(ship, DecoyThreatMeters))
             LaunchDecoys(ship);
 
         if (brain.Target is not ShipBody target || Sensors.Memory(ship.Faction,target,Time) is not null || target.Damage.Destroyed)
@@ -733,6 +733,10 @@ public sealed partial class SimWorld
 
     private void ResetAI()
     {
+        foreach (var threats in _aiThreats) threats.Clear();
+        Array.Clear(_aiThreatIndexed);
+        Array.Clear(_planningExposure);
+        Array.Clear(_previousPlanningExposure);
         _salvos.Clear();
         _salvoWaiting.Clear();
     }

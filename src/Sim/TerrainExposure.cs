@@ -9,11 +9,13 @@ public sealed class TerrainExposure
 {
     private readonly ObstacleSet _obstacles;
     private readonly Vec3d[] _observers;
+    private readonly Obstacle[] _geometry;
     private readonly Dictionary<Vec3d,double> _samples=new();
     public int Observers=>_observers.Length;
     public TerrainExposure(ObstacleSet obstacles,IEnumerable<Vec3d> observers)
-    { _obstacles=obstacles;_observers=observers.ToArray(); }
-    public static TerrainExposure Observe(SimWorld world,Faction side)
+    { _obstacles=obstacles;_observers=observers.ToArray();_geometry=obstacles.ToArray(); }
+    public static TerrainExposure Observe(SimWorld world,Faction side) => Observe(world,side,null);
+    internal static TerrainExposure Observe(SimWorld world,Faction side,TerrainExposure? previous)
     {
         var positions=new List<Vec3d>();
         foreach(var enemy in world.Ships)
@@ -23,7 +25,18 @@ public sealed class TerrainExposure
             if(track.Level>=TrackLevel.Contact && !track.ObservedDestroyed)positions.Add(track.EstimatedPosition);
             else if(world.Sensors.Memory(side,enemy,world.Time) is { } memory)positions.Add(memory.Predict(world.Time));
         }
-        return new(world.Obstacles,positions);
+        return previous is not null && previous.Matches(world.Obstacles,positions) ? previous : new(world.Obstacles,positions);
+    }
+    private bool Matches(ObstacleSet obstacles,List<Vec3d> positions)
+    {
+        // Cache reuse never quantizes a position or extends observation freshness.
+        // Static primitives are immutable; replacement/reordering also invalidates.
+        // The sample budget only bounds cache retention, never path work/results.
+        if(_samples.Count>16384 || !ReferenceEquals(_obstacles,obstacles)
+            || _geometry.Length!=obstacles.Count || _observers.Length!=positions.Count)return false;
+        for(int i=0;i<_geometry.Length;i++)if(!ReferenceEquals(_geometry[i],obstacles[i]))return false;
+        for(int i=0;i<_observers.Length;i++)if(_observers[i]!=positions[i])return false;
+        return true;
     }
     public double At(Vec3d point)
     {
@@ -47,6 +60,18 @@ public sealed class TerrainExposure
 
 public sealed partial class SimWorld
 {
+    private readonly TerrainExposure?[] _planningExposure = new TerrainExposure?[2];
+    private readonly TerrainExposure?[] _previousPlanningExposure = new TerrainExposure?[2];
+    // All AI decisions finish before launches and SensorNet's next update.
+    // Planners on one side in this tick see identical immutable observations;
+    // share their exact visibility samples. Across ticks, reuse only if every
+    // observed/predicted position and immutable obstacle remains exactly equal.
+    private TerrainExposure PlanningExposure(Faction side)
+    {
+        int index=(int)side;
+        return _planningExposure[index] ??= _previousPlanningExposure[index] =
+            TerrainExposure.Observe(this,side,_previousPlanningExposure[index]);
+    }
     public bool CoverCostEnabled { get; set; }=true;
     private double _nextExposureSample;
     private readonly HashSet<ShipBody> _assaultStarted=new(),_assaultArrived=new(),_assaultLost=new();

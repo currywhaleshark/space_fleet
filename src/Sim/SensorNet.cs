@@ -138,6 +138,15 @@ public sealed partial class SensorNet
                 if (observer.Faction != side || observer.Damage.Destroyed)
                     continue;
                 var (track, detect, jam) = Measure(observer, target, environment && screen>0 ? VisibleScreen(observer.Position,target,ships) : screen);
+                // A weaker observer cannot replace the visible solution. Once
+                // a lock is guaranteed, blocked signal is irrelevant; a known
+                // contact also needs no blocked signal below lock hysteresis.
+                // Otherwise require dominance in both blocked maxima as well.
+                // Keep strict winner order, signal values and observation time.
+                if (environment && track <= bestTrack && detect <= bestDetect
+                    && (bestTrack >= LockSnr
+                        || bestDetect >= ContactSnr && track < LockSnr * DropFactor
+                        || track <= blockedTrack && detect <= blockedDetect)) continue;
                 if (environment && Occluded(observer.Position,target.Position))
                 { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,detect); continue; }
                 bestDetect = Mathf.Max(bestDetect, detect);

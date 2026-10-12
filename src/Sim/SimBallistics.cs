@@ -177,6 +177,9 @@ public sealed partial class SimWorld
         _projectiles.Clear(); _impacts.Clear();
         Array.Clear(_projectileSmallTargets, 0, _projectileSmallCount);
         _projectileSmallCount = 0;
+        Array.Clear(_pdMissileSnapshot, 0, _pdMissileSnapshotCount);
+        _pdMissileSnapshotCount = 0;
+        _pdTargetsPrepared = false;
         _indexedProjectileSmall = _indexedProjectileShips = false;
         ResetOrdnance();
         ResetAI();

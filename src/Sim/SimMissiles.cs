@@ -174,6 +174,7 @@ public sealed partial class SimWorld
         SimProfiler.End(SimSection.PointDefense, timing);
         timing = SimProfiler.Begin();
         StepDefenseDrones(dt, time);
+        _pdTargetsPrepared = false;
         SimProfiler.End(SimSection.Drones, timing);
     }
 
@@ -472,6 +473,7 @@ public sealed partial class SimWorld
     /// </summary>
     private void StepPointDefense(double dt, double time)
     {
+        bool indexedTargets = _pdTargetsPrepared = PreparePointDefenseTargets();
         bool anyInterceptors = false, anyDrones = false;
         foreach (ShipBody s in _ships)
         {
@@ -497,15 +499,24 @@ public sealed partial class SimWorld
                 bounds = bounds.Include(_pdMountPositions[i]);
             }
             bounds = bounds.Expanded(pd.RangeMeters * PointDefenseTrackingRangeMultiplier);
+            bool useIndex = indexedTargets && IndexableSweep(bounds.Min, bounds.Max);
             _pdMissileCandidates.Clear(); _pdRaiderCandidates.Clear(); _pdCarrierCandidates.Clear(); _pdProbeCandidates.Clear();
             foreach (var probe in _probes)
                 if (probe.Faction != ship.Faction && probe.Active && bounds.Contains(probe.Position)
                     && Sensors.SmallTrack(ship.Faction, probe) is { } seen && seen.Fresh(Time)) _pdProbeCandidates.Add(probe);
-            foreach (var missile in _missiles)
+            ReadOnlySpan<int> missileCandidates = useIndex ? _pdMissileIndices[1-(int)ship.Faction].Query(bounds) : default;
+            int missileCount = useIndex ? missileCandidates.Length : _missiles.Count;
+            for (int candidate = 0; candidate < missileCount; candidate++)
+            {
+                var missile = useIndex ? _pdMissileSnapshot[missileCandidates[candidate]] : _missiles[candidate];
                 if (missile.Faction != ship.Faction && missile.Health > 0 && bounds.Contains(missile.Position))
                     _pdMissileCandidates.Add(missile);
-            foreach (var other in _ships)
+            }
+            ReadOnlySpan<int> shipCandidates = useIndex ? _pdShipIndices[1-(int)ship.Faction].Query(bounds) : default;
+            int shipCount = useIndex ? shipCandidates.Length : _ships.Count;
+            for (int candidate = 0; candidate < shipCount; candidate++)
             {
+                var other = _ships[useIndex ? shipCandidates[candidate] : candidate];
                 if (other.Faction == ship.Faction || other.Damage.Destroyed) continue;
                 if (other.Class.Kind == HullKind.Interceptor && bounds.Contains(other.Position)) _pdRaiderCandidates.Add(other);
                 if (other.Definition.DefenseDrones is { } drones && bounds.Expanded(drones.OrbitMeters).Contains(other.Position))

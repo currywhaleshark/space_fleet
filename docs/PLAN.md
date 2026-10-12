@@ -665,3 +665,12 @@
 - [x] 장면/환경/배포 검사, Debug/Release ×4 FPS, 실행본 갱신.
 - [ ] 240척 혼잡 구간의 60Hz 여유: PD·AI 교전 및 사선 비용 추가 최적화. 실제 네트워크·렌더·대규모 소행성/장기 잔해전 검증.
 - 보고와 증빙: `BALANCE_perf.md`, `validation/projectile_scaling_20261012/`. 실행본 `builds/SpaceFleet-20261012-projectile-scaling-Windows-x64/SpaceFleet.exe`.
+
+
+### 2026-10-12 — 방공·AI 관측·대규모 지형 검색 최적화
+
+- [x] 진영별 PD/드론 후보 검색, AI 관측 위협 공유, 영향 없는 센서 가림 검사 생략, 정확히 동일한 지형 노출도 표본 공유.
+- [x] 동결 방공/센서 회귀검사·기존 240전 상세 기록·규모별 반복 및 소행성/후반전 비교. 60/240Hz·double·관측 원칙·밸런스 유지.
+- [x] Debug/배포 실행 검사·FPS·새 EXE/ZIP.
+- [ ] 240척 소행성 경로 탐색 집중 구간의 최악 틱, 실제 대규모 렌더/음향/네트워크, 다른 하드웨어와 수동 체감 검증.
+- 결과와 증빙: `BALANCE_perf.md`, `validation/defense_ai_scaling_20261012/`. 실행본 `builds/SpaceFleet-20261012-defense-scaling-Windows-x64/SpaceFleet.exe`.

@@ -31,6 +31,8 @@ static class SimChecks
         if (args.Contains("--profiler")) { ProfilerChecks.Run(); return; }
         if (args.Contains("--spatial")) { SpatialBoundsChecks.Run(); return; }
         if (args.Contains("--projectile-broadphase")) { ProjectileBroadphaseChecks.Run(); return; }
+        if (args.Contains("--defense-broadphase")) { DefenseBroadphaseChecks.Run(); return; }
+        if (args.Contains("--sensor-traversal")) { SensorTraversalChecks.Run(); return; }
         if (args.Contains("--wreck-ray")) { WreckRayChecks.Run(); return; }
         if (args.Contains("--wreck-collision")) { CollisionChecks.Run(); WreckCollisionChecks.Run(); WreckRayChecks.Run(); return; }
         if (args.Contains("--tracking")) { TrackingChecks.Run(); return; }
@@ -86,6 +88,8 @@ static class SimChecks
         ProfilerChecks.Run();
         SpatialBoundsChecks.Run();
         ProjectileBroadphaseChecks.Run();
+        DefenseBroadphaseChecks.Run();
+        SensorTraversalChecks.Run();
         DesignChecks.Run();
     }
 

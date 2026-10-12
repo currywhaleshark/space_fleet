@@ -88,7 +88,7 @@ public sealed partial class SimWorld
         if(Time>=state.RetryAt && (state.Path is null || changed || stuck))
         {
             long start=Stopwatch.GetTimestamp();
-            state.Exposure=CoverCostEnabled && CoverMission(ship)?TerrainExposure.Observe(this,ship.Faction):null;
+            state.Exposure=CoverCostEnabled && CoverMission(ship)?PlanningExposure(ship.Faction):null;
             bool found=Navigation.FindPath(ship.Position,goal,radius,out var path,maxExpanded:state.Exposure is null?30000:1024,exposure:state.Exposure);
             int expanded=path.Expanded;
             if(!found && state.Exposure is not null)
@@ -103,7 +103,7 @@ public sealed partial class SimWorld
                 if(!found)metrics.PathFailures++;if(stuck)metrics.StuckReplans++;
                 if(found && CoverMission(ship) && ship.Squadron?.Mission==InterceptorMission.Assault)
                 {
-                    var sampled=state.Exposure??TerrainExposure.Observe(this,ship.Faction);
+                    var sampled=state.Exposure??PlanningExposure(ship.Faction);
                     Vec3d previous=ship.Position;
                     foreach(var point in path.Points)
                     {

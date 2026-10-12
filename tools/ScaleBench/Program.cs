@@ -15,6 +15,8 @@ int ticks = int.Parse(options.GetValueOrDefault("seconds", "60")) * 60;
 double distance = double.Parse(options.GetValueOrDefault("distance", "40000"));
 int seed = int.Parse(options.GetValueOrDefault("seed", "1"));
 int repeats = int.Parse(options.GetValueOrDefault("repeats", "3"));
+var battlefield = Enum.Parse<Battlefield>(options.GetValueOrDefault("battlefield", "DeepSpace"));
+int fieldSeed = int.Parse(options.GetValueOrDefault("field-seed", "2"));
 if (groups.Any(n => n < 1 || n > 100) || warmup < 0 || ticks < 1 || repeats < 1)
     throw new ArgumentException("Positive fleet groups, measurement duration and repetitions required.");
 string output = Path.GetFullPath(options.GetValueOrDefault("output", "shots/scale/scale.json"));
@@ -47,7 +49,7 @@ for (int repeat = 0; repeat < repeats; repeat++)
     string digest = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(world.Log.Summary())));
     double meanMs = samples.Average(), p99Ms = Percentile(.99);
     results.Add(new { groups = count, ships = world.Ships.Count, repeat, seed, warmupTicks = warmup, measuredTicks = ticks,
-        distanceMeters = distance, meanMs, p95Ms = Percentile(.95), p99Ms, maxMs = samples[^1],
+        distanceMeters = distance, battlefield = battlefield.ToString(), fieldSeed, meanMs, p95Ms = Percentile(.95), p99Ms, maxMs = samples[^1],
         allocatedBytesPerTick = allocation / (double)ticks, peakRails = rails, peakMissiles = missiles, peakProbes = probes,
         activeAtEnd = world.Ships.Count(s => !s.Damage.Destroyed && !s.Damage.Disabled), sectionsUs = sections, summarySha256 = digest });
     File.WriteAllText(output, JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true }));
@@ -77,6 +79,8 @@ SimWorld Create(int count)
     world.Doctrine = new FleetDoctrine();
     world.EnableCommander(Faction.Red); world.EnableCommander(Faction.Blue);
     world.Rules = new BattleRules(world, BattleObjective.Annihilation);
+    if (battlefield != Battlefield.DeepSpace)
+        world.PopulateBattlefield(new BattleConfig { Battlefield = battlefield, FieldSeed = fieldSeed, StartDistance = distance, Seed = seed });
     world.Sensors.Update(world.Ships, 0, force: true);
     world.Log = new BattleLog(world);
     return world;

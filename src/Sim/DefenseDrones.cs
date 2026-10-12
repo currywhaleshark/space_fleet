@@ -165,8 +165,15 @@ public sealed partial class SimWorld
                 if(!drones.Alive(i) || drones.Rounds[i]==0) { drones.Accum[i]=0; continue; }
                 Vec3d origin=ship.Position+Vec3d.From(ship.Orientation*drones.LocalPosition(i,time));
                 Missile? target=null; double nearest=def.RangeMeters;
-                foreach(var m in _missiles)
+                // Positions are unchanged since the PD snapshot, but earlier PD
+                // and drones may have killed/removed targets. Recheck live state.
+                var bounds=_pdTargetsPrepared ? SpatialBounds.Segment(origin,origin).Expanded(def.RangeMeters) : default;
+                bool indexed=_pdTargetsPrepared && IndexableSweep(bounds.Min,bounds.Max);
+                ReadOnlySpan<int> candidates=indexed ? _pdMissileIndices[1-(int)ship.Faction].Query(bounds) : default;
+                int count=indexed ? candidates.Length : _missiles.Count;
+                for(int candidate=0;candidate<count;candidate++)
                 {
+                    var m=indexed ? _pdMissileSnapshot[candidates[candidate]] : _missiles[candidate];
                     double distance=(m.Position-origin).Length();
                     if(m.Faction==ship.Faction || m.Health<=0 || distance>=nearest
                         || !drones.Covers(ship.Orientation.Inverse()*(m.Position-ship.Position).ToVector3())) continue;
@@ -175,14 +182,19 @@ public sealed partial class SimWorld
                 }
                 ShipBody? raider=null;
                 if (target is null)
-                    foreach (var other in _ships)
+                {
+                    candidates=indexed ? _pdShipIndices[1-(int)ship.Faction].Query(bounds) : default;
+                    count=indexed ? candidates.Length : _ships.Count;
+                    for(int candidate=0;candidate<count;candidate++)
                     {
+                        var other=_ships[indexed ? candidates[candidate] : candidate];
                         if(other.Faction==ship.Faction || other.Class.Kind!=HullKind.Interceptor || other.Damage.Destroyed) continue;
                         double distance=(other.Position-origin).Length();
                         if(distance>=nearest || !drones.Covers(ship.Orientation.Inverse()*(other.Position-ship.Position).ToVector3())
                             || !ClearDefenseLine(origin,other.Position,other)) continue;
                         raider=other; nearest=distance;
                     }
+                }
                 if(target is null && raider is null) { drones.Accum[i]=0; continue; }
                 Vec3d aim=target?.Position??raider!.Position;
                 drones.Aim(i,ship.Orientation.Inverse()*(aim-origin).ToVector3().Normalized());
