@@ -20,6 +20,12 @@ public sealed class EnvironmentLog
     public int PathFailures { get; internal set; }
     public long PathExpanded { get; internal set; }
     public double PathMilliseconds { get; internal set; }
+    public int PathQueuePeak { get; internal set; }
+    public int PathCancelled { get; internal set; }
+    public int PathWorkPeak { get; internal set; }
+    public double PathSliceMaxMs { get; internal set; }
+    public double PathLatencySeconds { get; internal set; }
+    public double PathLatencyMaxSeconds { get; internal set; }
     public int StuckReplans { get; internal set; }
     public int FormationCompressions { get; internal set; }
     public double BlockedFireSeconds { get; internal set; }

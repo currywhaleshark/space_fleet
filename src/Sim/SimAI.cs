@@ -63,7 +63,8 @@ public sealed partial class SimWorld
     }
 
     /// <summary>플레이어가 조종을 넘겨받을 때 AI를 뗀다.</summary>
-    public void DetachBrain(ShipBody ship) => _brains.Remove(ship);
+    public void DetachBrain(ShipBody ship)
+    { if(_brains.Remove(ship,out var brain))CancelRoute(brain); }
 
     public ShipBrain? BrainOf(ShipBody ship) => _brains.TryGetValue(ship, out ShipBrain? brain) ? brain : null;
 
@@ -82,6 +83,7 @@ public sealed partial class SimWorld
         }
         StepWingMissions();
         SimProfiler.End(SimSection.AICommand, timing);
+        StepNavigationJobs();
         foreach (ShipBrain brain in _brains.Values)
         {
             if (brain.Ship.Damage.Destroyed || brain.Ship.Damage.Disabled)
@@ -733,6 +735,7 @@ public sealed partial class SimWorld
 
     private void ResetAI()
     {
+        ResetNavigationJobs();
         foreach (var threats in _aiThreats) threats.Clear();
         Array.Clear(_aiThreatIndexed);
         Array.Clear(_planningExposure);

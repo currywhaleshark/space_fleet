@@ -3,5 +3,6 @@ namespace SpaceFleet.Sim;
 public sealed partial class SimWorld
 {
     internal void ThinkTerrainCheck(ShipBrain brain)=>Think(brain);
+    internal void NavigationJobsCheck()=>StepNavigationJobs();
     internal bool SightWithinOrderCheck(ShipBrain brain,Vec3d point)=>SightWithinOrder(brain,point);
 }

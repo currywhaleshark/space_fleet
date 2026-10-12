@@ -1,0 +1,1314 @@
+{
+  "baselineCommit": "cab9a5b9ca00f8bff12e72b0f31f60a054d66f61",
+  "exactCacheCommit": "96decb5",
+  "change": "결과 변경: deterministic incremental navigation approved by user",
+  "simChecks": 5395661,
+  "sourceHashes": [
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AIThreats.cs",
+      "Hash": "889F766BE20235A080ABAD7D977B44497B55E898DA7BC6C582DE7BE613717BB1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Antimatter.cs",
+      "Hash": "94D72F22EC58D778FFC8935683316DB8D1B7A728EB4471FFCC9D881D07E988C3"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AntimatterAI.cs",
+      "Hash": "9AEE4C3FE0FCC4428614A7E156E5D9A969A8AABB6091441A780C1A4834250449"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AssaultGuidance.cs",
+      "Hash": "DE4A233EBFFA0336B2703FAD4A72E2CBC4775E18843AF4FA782043F9182497D9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AssemblyInfo.cs",
+      "Hash": "401EE25CB57F1175E48FB997CCC2AC51774F7525AEB77EF68C85F14C69821DD9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\AsteroidField.cs",
+      "Hash": "5207B2D890B018ABC8E988EC305A1A6A64BFE949B2DD2C84207C14180AB9813A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleLog.cs",
+      "Hash": "4B1894C88452AA62AC3490488852E7C26FB7B9C9F19B7BFA5866BD0B7BF6AB35"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleRules.cs",
+      "Hash": "372ACFB5F416D0056ADF06D320B5CB1527C72B7268161E263D7058E0DC089CC4"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\BattleSetup.cs",
+      "Hash": "322E3BF420AA4930D380890D74E4AE2720931BEDE55869A96D9854E14AFBB3B1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CollisionDamage.cs",
+      "Hash": "F79B726169CC22FCE640BB3106D557CA2CDF4AA8829DB1ECDD3D324FF48A18E1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CollisionHull.cs",
+      "Hash": "9E999C48AE996A483C53817DB429B84B07A84279B4E8E4936A7EB9B7A4BA8C2E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\CounterMissiles.cs",
+      "Hash": "5640DBEB03C729366AA0106472D118C1C705222E755CD56094ED069AB0B3F71E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DamageControl.cs",
+      "Hash": "1EDEED63788B3A210BB79EC83446724F885962D7625FC05C26657B85CA1A33D4"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DamageRay.cs",
+      "Hash": "FA301FFB57EA92573164B898048B151C081B2013278866FB0E87F2078A4495A2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DefenseBroadphase.cs",
+      "Hash": "E92DAA899B5F8B94DF8BC002603DD8626A0F1172A3890A9BBFA7319E910D906A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DefenseDrones.cs",
+      "Hash": "6AA54F938BD16F1B5F8F0B64D3D0BFFD1BD4C39127D5DAE9221B58594955197E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\DroneCombat.cs",
+      "Hash": "FE21B5075B5D20250B25F498F8FE74FB2DAEB406C87C2921E1431AA71F408CF0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\EnvironmentLog.cs",
+      "Hash": "424F7BC3476E32D732A0C1F23A952680F1EF69ACA37B4C868824F8A8AC4F0667"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\FireControl.cs",
+      "Hash": "38EAFFEB0594796FFD6C51972154B29E9DC6EDF1DE169DA30AA9980CB3373B00"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\FleetDoctrine.cs",
+      "Hash": "63B80479D717F96A64C3753E9219E8A32C6447940F9F686E73BCFC59B0188FDD"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Gunnery.cs",
+      "Hash": "4FBE29FF6CD6DB4AE3990B6A65AC0F3EFE4A51DC9EE6C5303D5FCD4C1CC59B30"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\InterceptorMissions.cs",
+      "Hash": "BE4BC5A0E65C384E0ABC3DEA6C25B48457642EA4F857C7282CCA2C0D7EEBF644"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\MarsDoctrine.cs",
+      "Hash": "BDAEF5565787FED330ECBD5EADF27CE0CEF4B50EF568AEA02F201A3951220BAD"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Missiles.cs",
+      "Hash": "0B157810C28637A54D2C4E9CC988B8BAF8FDE92BE02A28BFEC5CC60862AC2FCA"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleAvoidance.cs",
+      "Hash": "3AA985DA7BA751700A2776DF53C87060DAD17E931EB1C7C2D7C7307516954825"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleBvh.cs",
+      "Hash": "8D899C85DFB1A841AD8F6703B2C6987DE39E54358B53FC605B47FA33272767A6"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleCollision.cs",
+      "Hash": "DF4AB62D4FE3B7CAAA3858A528F54B864922CD9A088E8E4EDFC0BD7C29EAE7F0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Obstacles.cs",
+      "Hash": "7B4F61EEF4B009C1029BA7B4AE02CED1824F11FA9F922F7FC417F71CAAB4CE26"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ObstacleWeapons.cs",
+      "Hash": "7C727D292D9CA0068E095CC6FBED3B112D494F7D3E8E4CEAF81ACFE2BC2A3BDE"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\PointDefense.cs",
+      "Hash": "4B4CB536279B7112F69CFED2DADD6C51FFFF7FFBF8EF893BDFFA07D5E2C633F9"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\PowerPresets.cs",
+      "Hash": "440E4616095A552B0CC273803A38B689795B3A0B00232919520C72E61F6DB9F3"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ProjectileBroadphase.cs",
+      "Hash": "8EA2D7CAE5E1B1F5E90522C6E0790AE98CDED5CB6F514E6CB234E5AB1B6C8FA1"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Railgun.cs",
+      "Hash": "2436A550C1602A6147E89FDF709D992791CEA0D50A0955B3D6E4BC8040111D6C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ReconProbes.cs",
+      "Hash": "D2E403B1C97024938F829995AE3186FE46A235F55868D3F68975F533415CB934"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SensorMemory.cs",
+      "Hash": "D14511194C4C5E44400F98D035050A97E73435843EDE8F05BCCC592E724AE35F"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SensorNet.cs",
+      "Hash": "D156A32338C620E65E57B258FD3A504D65D446999B35BFDDF64CCAD10C5BA133"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShieldEnvelope.cs",
+      "Hash": "493722174A36E7CC072C039F9568D91E7F40F03872D089A5129EBF36608BBC4E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipAI.cs",
+      "Hash": "8EFCC120B0C3EB54989165F76567809B12A25F61D96A9F064B602AAD291E95F2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipBody.cs",
+      "Hash": "DDD723A844D323B1A8543AFF99391C67531F96748E5FFEDD28A2966E362C168C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipClass.cs",
+      "Hash": "76836E05B2E7E5DACD08787B2086729F82EEFB3985AA8301F4FA2BEF2649A7CC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipCollision.cs",
+      "Hash": "DFFFFF73C8E6285F0EC9FB37565AC56D96977A79279430A3E0B9F2EA5BB8C9AC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipDamage.cs",
+      "Hash": "E9BCBF428AC9AD5397AF0AD89A3F6DC4D2E9D38A9BFDA43FA08C3E767947ADDC"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipDefinition.cs",
+      "Hash": "1472CFFE5939D7694D2917CDE1091E0E24864AEDFA30778C5D049B772E913271"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ShipPower.cs",
+      "Hash": "C8C590B86CCB9E003BA3EA0186FD310DF1638D865F77E7391C957E3E8EC39B0C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimAI.cs",
+      "Hash": "AA1C65D76F8D2F17BC09D4E4DC4EF643447798EFD1D12053F62AEDF751855CAE"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimBallistics.cs",
+      "Hash": "A0543E7DABF727EC77ED8D39602F5366F6D39E938E0DAF2E2399803AEA990F89"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimMissiles.cs",
+      "Hash": "C312AB70FF76F8D9976F8F2D97784544D56EDFB4A3EDF689318F7222570C379E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimNavigationJobs.cs",
+      "Hash": "CFE0BF4F10B7E6AD3101D975A8A106ECA225BA81FF0C15B2F7E02BAAEE96EC8F"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimObjectives.cs",
+      "Hash": "AE2D3C5DFE04DFA4856E5D8EFDF0F7B990082570EE671D85A05E17BD67D8EF78"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimProfiler.cs",
+      "Hash": "C5132593B7E218C2BAF64E1928EB3D6B0BF2A920388B301F3454F601CA7063AF"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimTerrainNavigation.cs",
+      "Hash": "3E4B94A093A48A759767C7521A1FC711B01061E39F52F10C9768D20969B9959D"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SimWorld.cs",
+      "Hash": "1ED12DAB639F7AAD325D4B6B82BD21E5383BB5688C4FE6A2E1F2B8DA06E2A973"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SmallContactSensors.cs",
+      "Hash": "D65C5F99289585DF9DC3A7A287A01AAF0AFF686E49DC52194ABE4DE493B9F49D"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SmallTargetCombat.cs",
+      "Hash": "CC6BD07AB49C0563DB2DA34AD6196BBFCB3AD8AA713CD1D84F049E910857154C"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SpatialBounds.cs",
+      "Hash": "8375CD4B9522E95BCF2997C61E14BE99A18C1B821949DB05762DC07250B1F751"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SquadCommands.cs",
+      "Hash": "7FD6120EC2389283DE1E260FCDF41DB6180B4DEE3BEBFF32EABB2C35B6B8287A"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Squadron.cs",
+      "Hash": "38406151970FB64140F29F31C099624B025629FB54789D235133BC130784CC04"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Subsystems.cs",
+      "Hash": "ED05E4BA81912BF7BBB98FC016C138FACD13923B568E0C81582D727D02347B13"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\SweepIndex.cs",
+      "Hash": "C0E4D22A6128C614365F49371202CA5FCF0D37E50EA7E689D59A54C058DB3726"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainExposure.cs",
+      "Hash": "9A12849308EC81C1F4E48E8BF81064E8C53111A6EB26074F972C97D0473A0D5E"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainFiringPosition.cs",
+      "Hash": "F9558111794F71333ACB1D4201C6B1DE09F15753448F952B6003252BB1E5F0C2"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainNavigation.cs",
+      "Hash": "2380EA9995BC5F64842FD6FF859960BDB73C5B87E8383064B7065DACF4023749"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainNavigationSearch.cs",
+      "Hash": "8EE0BFDDDDA9EBD814A06DF0D6AE6333D9FE107CB5B2FFB790D65C3329275905"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\TerrainVisibility.cs",
+      "Hash": "7D075423786C1796114086B0687E38BA4F48CF5D62C983724A40C909F2864514"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Turret.cs",
+      "Hash": "4EDE701686C52FE92FDB2A31F93738E00A456F63519A5714FAE3E794352946CB"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\Vec3d.cs",
+      "Hash": "C2405F25964B1DD1AB1A6B7F19314D6F85D6E4E88006B888F7849807641369E0"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\WreckLayout.cs",
+      "Hash": "A32A27C394EE2CA9F2E720E0A1EFD5AC6B6C4D5575E229F7B0A27AA87778EA7B"
+    },
+    {
+      "Path": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\src\\Sim\\ZoneStructureShapes.cs",
+      "Hash": "C3A0DFE5689A55F18A04EDD08BD93B7A7E95624F5D337C348BBBE7580BFD4481"
+    }
+  ],
+  "report": {
+    "repeats": {
+      "before": {
+        "meanMs": 9.413056250000011,
+        "p99Ms": 17.5575,
+        "maxMs": 302.2919,
+        "allocatedBytesPerTick": 271107.5022222222,
+        "summarySha256": "D072878E0F5F3BA00AE7FF498B0A3ADF22B39ECE0C039C7F9D1D1F1EA7846D8A",
+        "sectionsUs": {
+          "Tick": 9412.663611111111,
+          "AI": 2919.5265277777776,
+          "AICommand": 238.93702777777779,
+          "AIThink": 987.9643333333333,
+          "AIDrive": 348.73569444444445,
+          "AIEngage": 1297.4321111111112,
+          "Gunnery": 0.7230277777777778,
+          "ShipStep": 624.9628055555556,
+          "Collision": 1027.9624166666665,
+          "Projectiles": 1424.5592777777779,
+          "Missiles": 901.9278333333334,
+          "PointDefense": 1911.851611111111,
+          "Drones": 173.11622222222223,
+          "Sensors": 352.1959444444445,
+          "Probes": 0.21833333333333332,
+          "TerrainAvoidance": 16.86927777777778,
+          "TerrainCollision": 215.11608333333334,
+          "Post": 73.35516666666666
+        }
+      },
+      "sliced": {
+        "meanMs": 9.228881999999986,
+        "p99Ms": 16.8655,
+        "maxMs": 30.3853,
+        "allocatedBytesPerTick": 275195.2911111111,
+        "summarySha256": "011B365FF1C659685E53564247864EF4C583F1B6F260431AD1CD5FBC3FA69DAB",
+        "sectionsUs": {
+          "Tick": 9228.410444444446,
+          "AI": 2290.1412222222225,
+          "AICommand": 246.47875,
+          "AIThink": 309.3308888888889,
+          "AIDrive": 347.18505555555555,
+          "AIEngage": 1311.3886944444446,
+          "Gunnery": 0.7143333333333333,
+          "ShipStep": 637.6395277777779,
+          "Collision": 1173.7753611111111,
+          "Projectiles": 1542.5678055555554,
+          "Missiles": 906.0214166666667,
+          "PointDefense": 1981.3071111111112,
+          "Drones": 193.16541666666666,
+          "Sensors": 354.36580555555554,
+          "Probes": 0.26266666666666666,
+          "TerrainAvoidance": 15.361222222222223,
+          "TerrainCollision": 215.42938888888887,
+          "NavigationPlan": 51.95469444444444,
+          "Post": 62.80425
+        },
+        "navigation": {
+          "completed": 169,
+          "pending": 0,
+          "queuePeak": 5,
+          "cancelled": 5,
+          "workPeak": 12000,
+          "sliceMaxMs": 9.0596,
+          "meanLatencySeconds": 0.028994082840236645,
+          "maxLatencySeconds": 0.31666666666667
+        }
+      }
+    },
+    "extras": {
+      "field1": {
+        "before": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 900,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 1,
+          "meanMs": 9.764484194444453,
+          "p95Ms": 14.908,
+          "p99Ms": 17.7888,
+          "maxMs": 221.314,
+          "allocatedBytesPerTick": 277695.5711111111,
+          "peakRails": 1219,
+          "peakMissiles": 529,
+          "peakProbes": 0,
+          "activeAtEnd": 198,
+          "sectionsUs": {
+            "Tick": 9763.9945,
+            "AI": 2471.4820555555557,
+            "AICommand": 256.69572222222223,
+            "AIThink": 523.9234722222222,
+            "AIDrive": 337.2057500000001,
+            "AIEngage": 1329.1498888888889,
+            "Gunnery": 0.6744722222222224,
+            "ShipStep": 657.5801388888889,
+            "Collision": 1350.3054722222223,
+            "Projectiles": 1529.3818611111112,
+            "Missiles": 985.9621666666666,
+            "PointDefense": 2130.288777777778,
+            "Drones": 211.6122777777778,
+            "Sensors": 357.67586111111115,
+            "Probes": 0.2870277777777778,
+            "TerrainAvoidance": 19.7215,
+            "TerrainCollision": 209.5771388888889,
+            "Post": 65.86044444444444
+          },
+          "summarySha256": "F6C0D74FB8B287ABEAB4C16EAE7D2F2510C48381FA5AF937872E4E7A577E2545"
+        },
+        "sliced": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 900,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 1,
+          "meanMs": 9.567037472222207,
+          "p95Ms": 14.6095,
+          "p99Ms": 17.3638,
+          "maxMs": 46.7769,
+          "allocatedBytesPerTick": 280589.06888888887,
+          "peakRails": 1195,
+          "peakMissiles": 518,
+          "peakProbes": 0,
+          "navigation": {
+            "completed": 133,
+            "pending": 0,
+            "queuePeak": 4,
+            "cancelled": 4,
+            "workPeak": 12000,
+            "sliceMaxMs": 10.8886,
+            "meanLatencySeconds": 0.05025062656641612,
+            "maxLatencySeconds": 0.43333333333333335
+          },
+          "activeAtEnd": 206,
+          "sectionsUs": {
+            "Tick": 9566.590277777777,
+            "AI": 2303.1030833333334,
+            "AICommand": 266.5283888888889,
+            "AIThink": 311.3406111111111,
+            "AIDrive": 333.5485277777778,
+            "AIEngage": 1304.1098333333334,
+            "Gunnery": 0.6669444444444445,
+            "ShipStep": 644.8854444444444,
+            "Collision": 1414.3988055555553,
+            "Projectiles": 1475.6347222222223,
+            "Missiles": 975.8348333333333,
+            "PointDefense": 2161.6109166666665,
+            "Drones": 185.26225000000002,
+            "Sensors": 340.56974999999994,
+            "Probes": 0.23761111111111113,
+            "TerrainAvoidance": 19.20341666666667,
+            "TerrainCollision": 209.58544444444445,
+            "NavigationPlan": 63.40436111111111,
+            "Post": 61.46102777777778
+          },
+          "summarySha256": "F5DA166415252E341EDEC5E221AA33A6532887081246BB2EB4775254705B2F19"
+        }
+      },
+      "field3": {
+        "before": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 900,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 3,
+          "meanMs": 8.483512777777777,
+          "p95Ms": 13.2354,
+          "p99Ms": 16.2715,
+          "maxMs": 156.9605,
+          "allocatedBytesPerTick": 273467.3511111111,
+          "peakRails": 1180,
+          "peakMissiles": 444,
+          "peakProbes": 0,
+          "activeAtEnd": 206,
+          "sectionsUs": {
+            "Tick": 8482.988944444443,
+            "AI": 2331.987361111111,
+            "AICommand": 249.791,
+            "AIThink": 453.7169166666667,
+            "AIDrive": 359.55199999999996,
+            "AIEngage": 1244.7834166666667,
+            "Gunnery": 0.6938055555555555,
+            "ShipStep": 645.216361111111,
+            "Collision": 871.9920833333333,
+            "Projectiles": 1366.138888888889,
+            "Missiles": 905.0826944444445,
+            "PointDefense": 1809.1087222222222,
+            "Drones": 174.32233333333332,
+            "Sensors": 317.10580555555555,
+            "Probes": 0.2564444444444445,
+            "TerrainAvoidance": 19.808222222222224,
+            "TerrainCollision": 207.53358333333335,
+            "Post": 58.319138888888894
+          },
+          "summarySha256": "4779BD72A172834B03DAF20125AB00965A5D484354BB376118C7674C8CF78F3A"
+        },
+        "sliced": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 900,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 3,
+          "meanMs": 8.955935972222237,
+          "p95Ms": 13.9265,
+          "p99Ms": 15.9232,
+          "maxMs": 40.5848,
+          "allocatedBytesPerTick": 280542.0466666667,
+          "peakRails": 1136,
+          "peakMissiles": 496,
+          "peakProbes": 0,
+          "navigation": {
+            "completed": 224,
+            "pending": 0,
+            "queuePeak": 7,
+            "cancelled": 16,
+            "workPeak": 12000,
+            "sliceMaxMs": 28.7298,
+            "meanLatencySeconds": 0.031324404761905254,
+            "maxLatencySeconds": 0.3833333333333333
+          },
+          "activeAtEnd": 201,
+          "sectionsUs": {
+            "Tick": 8955.47075,
+            "AI": 2243.8743333333337,
+            "AICommand": 262.171,
+            "AIThink": 300.1701666666666,
+            "AIDrive": 338.1051944444444,
+            "AIEngage": 1240.9865555555555,
+            "Gunnery": 0.7313333333333334,
+            "ShipStep": 631.1258333333334,
+            "Collision": 1157.052611111111,
+            "Projectiles": 1475.424111111111,
+            "Missiles": 943.2436666666667,
+            "PointDefense": 1927.684611111111,
+            "Drones": 188.04383333333334,
+            "Sensors": 326.4702222222222,
+            "Probes": 0.2139722222222222,
+            "TerrainAvoidance": 15.577666666666666,
+            "TerrainCollision": 206.04305555555555,
+            "NavigationPlan": 78.44980555555557,
+            "Post": 58.88974999999999
+          },
+          "summarySha256": "CEC7594DB1F1A64B92CE6E3B899579C3AA4ADE96F7900A889A958950819D6EE9"
+        }
+      },
+      "late-field2": {
+        "before": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 10800,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 2,
+          "meanMs": 10.592447749999994,
+          "p95Ms": 15.4999,
+          "p99Ms": 19.7259,
+          "maxMs": 24.7756,
+          "allocatedBytesPerTick": 176197.16666666666,
+          "peakRails": 1741,
+          "peakMissiles": 504,
+          "peakProbes": 0,
+          "activeAtEnd": 189,
+          "sectionsUs": {
+            "Tick": 10591.972805555553,
+            "AI": 2136.931111111111,
+            "AICommand": 109.67863888888888,
+            "AIThink": 307.4634722222222,
+            "AIDrive": 417.3006666666667,
+            "AIEngage": 1273.784138888889,
+            "Gunnery": 0.83875,
+            "ShipStep": 816.4309166666666,
+            "Collision": 2739.726777777778,
+            "Projectiles": 2603.8103055555553,
+            "Missiles": 764.8384166666666,
+            "PointDefense": 1017.73525,
+            "Drones": 95.32988888888889,
+            "Sensors": 311.28833333333336,
+            "Probes": 0.2925833333333333,
+            "TerrainAvoidance": 15.539305555555556,
+            "TerrainCollision": 280.762,
+            "Post": 101.21577777777777
+          },
+          "summarySha256": "56279488DF74B852C6CE8B6336A6E3E1DC797E84117B9651B2F4F6BCAF57E1EE"
+        },
+        "sliced": {
+          "groups": 10,
+          "ships": 240,
+          "repeat": 0,
+          "seed": 1,
+          "warmupTicks": 10800,
+          "measuredTicks": 3600,
+          "distanceMeters": 40000,
+          "battlefield": "AsteroidCluster",
+          "fieldSeed": 2,
+          "meanMs": 8.408132722222216,
+          "p95Ms": 11.83,
+          "p99Ms": 13.9643,
+          "maxMs": 23.1603,
+          "allocatedBytesPerTick": 183464.0288888889,
+          "peakRails": 1768,
+          "peakMissiles": 527,
+          "peakProbes": 0,
+          "navigation": {
+            "completed": 334,
+            "pending": 0,
+            "queuePeak": 5,
+            "cancelled": 5,
+            "workPeak": 12000,
+            "sliceMaxMs": 8.7502,
+            "meanLatencySeconds": 0.027994011976047596,
+            "maxLatencySeconds": 0.3166666666666771
+          },
+          "activeAtEnd": 193,
+          "sectionsUs": {
+            "Tick": 8407.84511111111,
+            "AI": 1880.097277777778,
+            "AICommand": 89.04183333333333,
+            "AIThink": 266.1054722222222,
+            "AIDrive": 390.7418888888889,
+            "AIEngage": 1112.1038888888888,
+            "Gunnery": 0.6560000000000001,
+            "ShipStep": 622.3473333333334,
+            "Collision": 1699.0006944444444,
+            "Projectiles": 2049.225888888889,
+            "Missiles": 641.8462777777778,
+            "PointDefense": 1103.5955555555556,
+            "Drones": 87.95961111111112,
+            "Sensors": 255.43172222222225,
+            "Probes": 0.22858333333333333,
+            "TerrainAvoidance": 12.889777777777777,
+            "TerrainCollision": 242.2801666666667,
+            "NavigationPlan": 0.3687222222222222,
+            "Post": 64.65905555555555
+          },
+          "summarySha256": "0D25B16053170A67AE06CB1EB07E1B45BBAC0DE064537ABC3B439D12F9134340"
+        }
+      }
+    },
+    "battleComparisons": [
+      {
+        "case": "Annihilation-field0",
+        "before": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 827.692,
+          "rails": 18633.0,
+          "railHits": 12831.0,
+          "missiles": 5506.0,
+          "missileHits": 2182.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.15158450961215642,
+            "Missile": 0.46418614156217614,
+            "Gunnery": 0.038995547900214575,
+            "Sniping": 0.22132044900521114,
+            "Brawl": 0.12391335192024173
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 827.692,
+          "rails": 18633.0,
+          "railHits": 12831.0,
+          "missiles": 5506.0,
+          "missileHits": 2182.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.15158450961215642,
+            "Missile": 0.46418614156217614,
+            "Gunnery": 0.038995547900214575,
+            "Sniping": 0.22132044900521114,
+            "Brawl": 0.12391335192024173
+          }
+        },
+        "navigation": {
+          "completed": 0,
+          "maxLatencySeconds": 0.0,
+          "weightedMeanLatencySeconds": 0.0,
+          "queuePeak": 0,
+          "workPeak": 0
+        },
+        "collisionsBefore": 0,
+        "collisionsAfter": 0
+      },
+      {
+        "case": "Annihilation-field1",
+        "before": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 843.725,
+          "rails": 22499.0,
+          "railHits": 15588.0,
+          "missiles": 5504.0,
+          "missileHits": 2045.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.14069391449314034,
+            "Missile": 0.42585618275502535,
+            "Gunnery": 0.0383444978445845,
+            "Sniping": 0.21339213156425121,
+            "Brawl": 0.18171327334299853
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 9,
+          "redWins": 11,
+          "medianOutcomeSeconds": 817.3085,
+          "rails": 21530.0,
+          "railHits": 13768.0,
+          "missiles": 5496.0,
+          "missileHits": 2134.0,
+          "brawl60Battles": 15,
+          "phaseFractions": {
+            "Approach": 0.14883688987536217,
+            "Missile": 0.4348043973886985,
+            "Gunnery": 0.03847366710293899,
+            "Sniping": 0.22513112557870094,
+            "Brawl": 0.15275392005429925
+          }
+        },
+        "navigation": {
+          "completed": 4446,
+          "maxLatencySeconds": 0.133333,
+          "weightedMeanLatencySeconds": 0.026776850427350427,
+          "queuePeak": 5,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 12,
+        "collisionsAfter": 15
+      },
+      {
+        "case": "Annihilation-field2",
+        "before": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 860.667,
+          "rails": 20655.0,
+          "railHits": 13954.0,
+          "missiles": 5467.0,
+          "missileHits": 1979.0,
+          "brawl60Battles": 16,
+          "phaseFractions": {
+            "Approach": 0.14982093928179901,
+            "Missile": 0.41818152283051596,
+            "Gunnery": 0.037866830807487664,
+            "Sniping": 0.23735192971564972,
+            "Brawl": 0.15677877736454757
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 860.9085,
+          "rails": 17575.0,
+          "railHits": 11434.0,
+          "missiles": 5455.0,
+          "missileHits": 1967.0,
+          "brawl60Battles": 13,
+          "phaseFractions": {
+            "Approach": 0.17542659170014274,
+            "Missile": 0.4546822413490043,
+            "Gunnery": 0.03099494242970941,
+            "Sniping": 0.2292406031004711,
+            "Brawl": 0.10965562142067241
+          }
+        },
+        "navigation": {
+          "completed": 5735,
+          "maxLatencySeconds": 0.133333,
+          "weightedMeanLatencySeconds": 0.02819234019180471,
+          "queuePeak": 6,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 21,
+        "collisionsAfter": 21
+      },
+      {
+        "case": "Annihilation-field3",
+        "before": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 866.825,
+          "rails": 21534.0,
+          "railHits": 14395.0,
+          "missiles": 5492.0,
+          "missileHits": 2085.0,
+          "brawl60Battles": 16,
+          "phaseFractions": {
+            "Approach": 0.1473518411938414,
+            "Missile": 0.435332369643198,
+            "Gunnery": 0.029794610850104805,
+            "Sniping": 0.213939099705072,
+            "Brawl": 0.17358207860778388
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 808.5835,
+          "rails": 18490.0,
+          "railHits": 12132.0,
+          "missiles": 5430.0,
+          "missileHits": 1885.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.15830933516515985,
+            "Missile": 0.43143642990065545,
+            "Gunnery": 0.03653292349965227,
+            "Sniping": 0.21447534169736257,
+            "Brawl": 0.15924596973716998
+          }
+        },
+        "navigation": {
+          "completed": 6092,
+          "maxLatencySeconds": 0.1,
+          "weightedMeanLatencySeconds": 0.030447060242941564,
+          "queuePeak": 5,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 30,
+        "collisionsAfter": 34
+      },
+      {
+        "case": "Flagship-field0",
+        "before": {
+          "battles": 20,
+          "blueWins": 9,
+          "redWins": 11,
+          "medianOutcomeSeconds": 646.567,
+          "rails": 12617.0,
+          "railHits": 7729.0,
+          "missiles": 5550.0,
+          "missileHits": 2550.0,
+          "brawl60Battles": 13,
+          "phaseFractions": {
+            "Approach": 0.19582219866553696,
+            "Missile": 0.5736438525613965,
+            "Gunnery": 0.01669864199992981,
+            "Sniping": 0.10194142735338159,
+            "Brawl": 0.11189387941975505
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 9,
+          "redWins": 11,
+          "medianOutcomeSeconds": 646.567,
+          "rails": 12617.0,
+          "railHits": 7729.0,
+          "missiles": 5550.0,
+          "missileHits": 2550.0,
+          "brawl60Battles": 13,
+          "phaseFractions": {
+            "Approach": 0.19582219866553696,
+            "Missile": 0.5736438525613965,
+            "Gunnery": 0.01669864199992981,
+            "Sniping": 0.10194142735338159,
+            "Brawl": 0.11189387941975505
+          }
+        },
+        "navigation": {
+          "completed": 0,
+          "maxLatencySeconds": 0.0,
+          "weightedMeanLatencySeconds": 0.0,
+          "queuePeak": 0,
+          "workPeak": 0
+        },
+        "collisionsBefore": 0,
+        "collisionsAfter": 0
+      },
+      {
+        "case": "Flagship-field1",
+        "before": {
+          "battles": 20,
+          "blueWins": 8,
+          "redWins": 12,
+          "medianOutcomeSeconds": 623.967,
+          "rails": 9646.0,
+          "railHits": 5354.0,
+          "missiles": 5398.0,
+          "missileHits": 2116.0,
+          "brawl60Battles": 15,
+          "phaseFractions": {
+            "Approach": 0.20065043790187626,
+            "Missile": 0.5925089401573052,
+            "Gunnery": 0.01668939524666194,
+            "Sniping": 0.07382496152822926,
+            "Brawl": 0.11632626516592728
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 8,
+          "redWins": 12,
+          "medianOutcomeSeconds": 625.9085,
+          "rails": 9784.0,
+          "railHits": 5473.0,
+          "missiles": 5340.0,
+          "missileHits": 2004.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.20511900685224083,
+            "Missile": 0.5864970731173504,
+            "Gunnery": 0.022151231528620384,
+            "Sniping": 0.08380367670087926,
+            "Brawl": 0.10242901180090919
+          }
+        },
+        "navigation": {
+          "completed": 3894,
+          "maxLatencySeconds": 0.066667,
+          "weightedMeanLatencySeconds": 0.018280327170005137,
+          "queuePeak": 4,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 1,
+        "collisionsAfter": 4
+      },
+      {
+        "case": "Flagship-field2",
+        "before": {
+          "battles": 20,
+          "blueWins": 9,
+          "redWins": 11,
+          "medianOutcomeSeconds": 617.1334999999999,
+          "rails": 7480.0,
+          "railHits": 3721.0,
+          "missiles": 5234.0,
+          "missileHits": 1720.0,
+          "brawl60Battles": 10,
+          "phaseFractions": {
+            "Approach": 0.22469714110875505,
+            "Missile": 0.5915802858732218,
+            "Gunnery": 0.013168783898584056,
+            "Sniping": 0.0761540347842847,
+            "Brawl": 0.09439975433515439
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 8,
+          "redWins": 12,
+          "medianOutcomeSeconds": 635.992,
+          "rails": 8888.0,
+          "railHits": 4824.0,
+          "missiles": 5350.0,
+          "missileHits": 1781.0,
+          "brawl60Battles": 14,
+          "phaseFractions": {
+            "Approach": 0.21386098033560036,
+            "Missile": 0.5875301657571439,
+            "Gunnery": 0.015470374300584505,
+            "Sniping": 0.07668710070470718,
+            "Brawl": 0.10645137890196411
+          }
+        },
+        "navigation": {
+          "completed": 4672,
+          "maxLatencySeconds": 0.066667,
+          "weightedMeanLatencySeconds": 0.017269592893835613,
+          "queuePeak": 6,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 2,
+        "collisionsAfter": 2
+      },
+      {
+        "case": "Flagship-field3",
+        "before": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 629.625,
+          "rails": 8526.0,
+          "railHits": 4564.0,
+          "missiles": 5200.0,
+          "missileHits": 1825.0,
+          "brawl60Battles": 10,
+          "phaseFractions": {
+            "Approach": 0.20384948417784302,
+            "Missile": 0.5996967383371429,
+            "Gunnery": 0.028945836638973953,
+            "Sniping": 0.07300640142688317,
+            "Brawl": 0.09450153941915695
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 619.7335,
+          "rails": 8664.0,
+          "railHits": 4721.0,
+          "missiles": 5253.0,
+          "missileHits": 1864.0,
+          "brawl60Battles": 8,
+          "phaseFractions": {
+            "Approach": 0.2101197860141156,
+            "Missile": 0.6078728231309303,
+            "Gunnery": 0.020585164496556674,
+            "Sniping": 0.07777335983455227,
+            "Brawl": 0.08364886652384518
+          }
+        },
+        "navigation": {
+          "completed": 4033,
+          "maxLatencySeconds": 0.066667,
+          "weightedMeanLatencySeconds": 0.018567655839325566,
+          "queuePeak": 4,
+          "workPeak": 12000
+        },
+        "collisionsBefore": 4,
+        "collisionsAfter": 5
+      },
+      {
+        "case": "Domination-field0",
+        "before": {
+          "battles": 20,
+          "blueWins": 8,
+          "redWins": 12,
+          "medianOutcomeSeconds": 663.408,
+          "rails": 12459.0,
+          "railHits": 6968.0,
+          "missiles": 4842.0,
+          "missileHits": 2080.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.4553356499618713,
+            "Missile": 0.057956580267523115,
+            "Gunnery": 0.057765917979104575,
+            "Sniping": 0.1760988400436279,
+            "Brawl": 0.2528430117478731
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 7,
+          "redWins": 13,
+          "medianOutcomeSeconds": 656.175,
+          "rails": 12999.0,
+          "railHits": 7114.0,
+          "missiles": 4854.0,
+          "missileHits": 2052.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.43960631588009574,
+            "Missile": 0.07322167840950089,
+            "Gunnery": 0.04922131333656692,
+            "Sniping": 0.19082013161263867,
+            "Brawl": 0.24713056076119774
+          }
+        },
+        "navigation": {
+          "completed": 49,
+          "maxLatencySeconds": 0.016667,
+          "weightedMeanLatencySeconds": 0.016666999999999998,
+          "queuePeak": 1,
+          "workPeak": 1226
+        },
+        "collisionsBefore": 22,
+        "collisionsAfter": 20
+      },
+      {
+        "case": "Domination-field1",
+        "before": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 651.1415,
+          "rails": 12229.0,
+          "railHits": 7405.0,
+          "missiles": 4841.0,
+          "missileHits": 1751.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.43885316627647103,
+            "Missile": 0.07787602023199248,
+            "Gunnery": 0.020715177409379112,
+            "Sniping": 0.14597359823634093,
+            "Brawl": 0.3165820378458164
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 658.4165,
+          "rails": 12457.0,
+          "railHits": 7484.0,
+          "missiles": 4810.0,
+          "missileHits": 1791.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.43781428717893345,
+            "Missile": 0.06655676536803261,
+            "Gunnery": 0.018017842442214233,
+            "Sniping": 0.15618559937586945,
+            "Brawl": 0.32142550563495037
+          }
+        },
+        "navigation": {
+          "completed": 588,
+          "maxLatencySeconds": 0.016667,
+          "weightedMeanLatencySeconds": 0.016666999999999998,
+          "queuePeak": 2,
+          "workPeak": 1527
+        },
+        "collisionsBefore": 25,
+        "collisionsAfter": 19
+      },
+      {
+        "case": "Domination-field2",
+        "before": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 677.7415,
+          "rails": 13174.0,
+          "railHits": 7955.0,
+          "missiles": 4767.0,
+          "missileHits": 1661.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.42164772200988127,
+            "Missile": 0.08473372038222533,
+            "Gunnery": 0.03833933655252685,
+            "Sniping": 0.17397487968803063,
+            "Brawl": 0.28130434136733584
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 11,
+          "redWins": 9,
+          "medianOutcomeSeconds": 666.4335000000001,
+          "rails": 13472.0,
+          "railHits": 8179.0,
+          "missiles": 4675.0,
+          "missileHits": 1651.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.4235510097227436,
+            "Missile": 0.09806852271316359,
+            "Gunnery": 0.03401725939004103,
+            "Sniping": 0.15074021089793468,
+            "Brawl": 0.2936229972761171
+          }
+        },
+        "navigation": {
+          "completed": 639,
+          "maxLatencySeconds": 0.016667,
+          "weightedMeanLatencySeconds": 0.016666999999999998,
+          "queuePeak": 3,
+          "workPeak": 1512
+        },
+        "collisionsBefore": 32,
+        "collisionsAfter": 27
+      },
+      {
+        "case": "Domination-field3",
+        "before": {
+          "battles": 20,
+          "blueWins": 10,
+          "redWins": 10,
+          "medianOutcomeSeconds": 661.4079999999999,
+          "rails": 12787.0,
+          "railHits": 7764.0,
+          "missiles": 4843.0,
+          "missileHits": 1894.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.40546104720679427,
+            "Missile": 0.07292532461299689,
+            "Gunnery": 0.047975329784498394,
+            "Sniping": 0.1574929874512439,
+            "Brawl": 0.3161453109444665
+          }
+        },
+        "after": {
+          "battles": 20,
+          "blueWins": 9,
+          "redWins": 11,
+          "medianOutcomeSeconds": 658.7165,
+          "rails": 13111.0,
+          "railHits": 7358.0,
+          "missiles": 4881.0,
+          "missileHits": 1864.0,
+          "brawl60Battles": 20,
+          "phaseFractions": {
+            "Approach": 0.41739246128735247,
+            "Missile": 0.0897914294093815,
+            "Gunnery": 0.04311097444136675,
+            "Sniping": 0.1510680550383317,
+            "Brawl": 0.29863707982356763
+          }
+        },
+        "navigation": {
+          "completed": 498,
+          "maxLatencySeconds": 0.016667,
+          "weightedMeanLatencySeconds": 0.016666999999999994,
+          "queuePeak": 2,
+          "workPeak": 1226
+        },
+        "collisionsBefore": 19,
+        "collisionsAfter": 20
+      }
+    ],
+    "independentSeeds": {
+      "battle": {
+        "battles": 20,
+        "blueWins": 12,
+        "redWins": 8,
+        "medianOutcomeSeconds": 863.2415,
+        "rails": 20844.0,
+        "railHits": 14003.0,
+        "missiles": 5465.0,
+        "missileHits": 1933.0,
+        "brawl60Battles": 14,
+        "phaseFractions": {
+          "Approach": 0.17793409160633086,
+          "Missile": 0.4155456718894697,
+          "Gunnery": 0.023145722917794126,
+          "Sniping": 0.22684381718772145,
+          "Brawl": 0.156530696398684
+        }
+      },
+      "sliced-battle": {
+        "battles": 20,
+        "blueWins": 10,
+        "redWins": 10,
+        "medianOutcomeSeconds": 784.25,
+        "rails": 16269.0,
+        "railHits": 10167.0,
+        "missiles": 5292.0,
+        "missileHits": 1755.0,
+        "brawl60Battles": 10,
+        "phaseFractions": {
+          "Approach": 0.18907698614920174,
+          "Missile": 0.4417856503293848,
+          "Gunnery": 0.02803326906533852,
+          "Sniping": 0.24025594478952006,
+          "Brawl": 0.10084814966655485
+        }
+      }
+    }
+  },
+  "fps": [
+    {
+      "file": "fps-Debug-Annihilation.log",
+      "samples": 6,
+      "mean": 77.03333333333333,
+      "min": 69.6
+    },
+    {
+      "file": "fps-Debug-Domination.log",
+      "samples": 6,
+      "mean": 60.3,
+      "min": 58.3
+    },
+    {
+      "file": "fps-Release-after-Annihilation.log",
+      "samples": 6,
+      "mean": 92.76666666666667,
+      "min": 86.8
+    },
+    {
+      "file": "fps-Release-after-Domination.log",
+      "samples": 6,
+      "mean": 97.41666666666666,
+      "min": 90.8
+    },
+    {
+      "file": "fps-Release-before-Annihilation.log",
+      "samples": 6,
+      "mean": 96.81666666666666,
+      "min": 93.0
+    },
+    {
+      "file": "fps-Release-before-Domination.log",
+      "samples": 6,
+      "mean": 97.38333333333334,
+      "min": 90.5
+    }
+  ],
+  "runnerHashes": {
+    "before-runner\\ScaleBench.dll": "5b9f339aaa7273a282d6a7cf32d95f5da539f8982ece5bca1e09940335f48e01",
+    "after-runner\\ScaleBench.dll": "3ecdd8db66d79487fa816ebdab3258423c915ff7f894856f50e0cb7bdd6f0d88",
+    "sliced-runner\\ScaleBench.dll": "382e88528c59fcfc0cb2a481df96a7cc28a22c9cd34e5db0d75549dd9ddca025",
+    "battle-runner\\BattleBatch.dll": "7fc64cba996a189d8977a5692c73d1c44679bd7255235d5f5003624198a9ae0e",
+    "sliced-battle-runner\\BattleBatch.dll": "3a612db9b06a2d17d1c2ecf7ba628f9c2d13931df1ab524506378bda9f2e3485",
+    "sliced-check-runner\\SimChecks.dll": "0296d406b7ae159b3036e17a571275178e17d4c4cc52ec3da89f88866ba1e8be"
+  },
+  "binaries": {
+    "builds\\SpaceFleet-20261012-navigation-sliced-Windows-x64\\SpaceFleet.exe": "abfe34b86c3159dac2f5cb7ea83ecd3ca832fb58ea5557bbfe7ebe52d5f1618f",
+    "builds\\SpaceFleet-20261012-navigation-sliced-Windows-x64\\data_SpaceFleet_windows_x86_64\\SpaceFleet.dll": "15fb1d0985be59806bfea3478783944301d5e7fd7415affb64d25a25bf480755",
+    "builds\\SpaceFleet-20261012-navigation-sliced-Windows-x64\\data_SpaceFleet_windows_x86_64\\SpaceFleet.Sim.dll": "c7522878984d3bd46646e77ede55391a62d6fc3325a6a0ee15fc31befca1b35c"
+  },
+  "packageSha256": "53c8ec8e46cf5f0fe1172141559dc8af7930637b0f9c5c80d7011cdf36e43d31",
+  "evidenceSha256": "6c025a8d83a6f3f7f97f7e4465f82719bd89753db505d3db917a1adc93ea204a",
+  "excludedMeasurements": [
+    "excluded-overlap-trace-field3.json",
+    "excluded-overlap-late-before.json"
+  ],
+  "limits": [
+    "Synthetic 240-ship simulation excludes rendering/audio/network costs",
+    "Manual flight not evaluated",
+    "Fixed work credits do not guarantee a wall-clock deadline on every CPU"
+  ]
+}

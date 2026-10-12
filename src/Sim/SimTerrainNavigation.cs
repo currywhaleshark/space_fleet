@@ -18,11 +18,13 @@ public sealed partial class SimWorld
         public Vec3d Goal,ProgressPosition;
         public int Waypoint;
         public double RetryAt,ProgressAt;
+        public PathRequest? Pending;
     }
     private readonly Dictionary<ShipBrain,RouteState> _routes=new();
     public double NavigationRadius(HullKind kind)=>_navigationRadii[(int)kind];
     internal void PrepareNavigation(BattleConfig config)
     {
+        ResetNavigationJobs();Navigation=null;
         if(Obstacles.Count==0)return;
         long start=Stopwatch.GetTimestamp();
         Vec3d center=(Vec3d.From(config.RedOffset)+new Vec3d(0,0,-config.StartDistance))*.5;
@@ -72,64 +74,47 @@ public sealed partial class SimWorld
     private Vector3 NavigateTerrain(ShipBrain brain,Vector3 desired)
     {
         var ship=brain.Ship;brain.NavigationActive=false;brain.NavigationWaypoint=null;
-        if(Navigation is null || brain.NavigationGoal is not { } goal)return desired;
+        if(Navigation is null || brain.NavigationGoal is not { } goal)
+        { CancelRoute(brain);return desired; }
         double radius=NavigationRadius(ship.Class.Kind);
         Vec3d requested=goal;goal=Navigation.NearestFree(goal,radius);
         if((requested-goal).LengthSquared()>1)
             desired=((goal-ship.Position).ToVector3()*.05f).LimitLength(ship.Class.MaxSpeed);
         if(!Obstacles.BlocksSegment(ship.Position,goal,radius))
-        {_routes.Remove(brain);return desired;}
+        {CancelRoute(brain);return desired;}
         if(!_routes.TryGetValue(brain,out var state))
         {_routes[brain]=state=new(){Goal=goal,ProgressPosition=ship.Position,ProgressAt=Time};}
         if((ship.Position-state.ProgressPosition).Length()>500)
         {state.ProgressPosition=ship.Position;state.ProgressAt=Time;}
         bool stuck=Time-state.ProgressAt>=12;
         bool changed=(state.Goal-goal).Length()>5000;
-        if(Time>=state.RetryAt && (state.Path is null || changed || stuck))
+        if(state.Pending is { } pending && (pending.Goal-goal).Length()>5000)
+        { CancelRequest(state);state.RetryAt=0; }
+        if(state.Pending is null && Time>=state.RetryAt && (state.Path is null || changed || stuck))
         {
-            long start=Stopwatch.GetTimestamp();
-            state.Exposure=CoverCostEnabled && CoverMission(ship)?PlanningExposure(ship.Faction):null;
-            bool found=Navigation.FindPath(ship.Position,goal,radius,out var path,maxExpanded:state.Exposure is null?30000:1024,exposure:state.Exposure);
-            int expanded=path.Expanded;
-            if(!found && state.Exposure is not null)
-            {
-                if(Log is not null)Log.Environment.CoverBudgetFallbacks++;
-                state.Exposure=null;found=Navigation.FindPath(ship.Position,goal,radius,out path);expanded+=path.Expanded;
-            }
-            if(Log is not null)
-            {
-                var metrics=Log.Environment;metrics.PathPlans++;metrics.PathExpanded+=expanded;
-                metrics.PathMilliseconds+=Stopwatch.GetElapsedTime(start).TotalMilliseconds;
-                if(!found)metrics.PathFailures++;if(stuck)metrics.StuckReplans++;
-                if(found && CoverMission(ship) && ship.Squadron?.Mission==InterceptorMission.Assault)
-                {
-                    var sampled=state.Exposure??PlanningExposure(ship.Faction);
-                    Vec3d previous=ship.Position;
-                    foreach(var point in path.Points)
-                    {
-                        double length=(point-previous).Length();
-                        metrics.CoverPathLength+=length;
-                        metrics.CoverPathExposure+=length*sampled.At(Vec3d.Lerp(previous,point,.5));previous=point;
-                    }
-                }
-            }
-            state.Path=found?path:null;state.Waypoint=0;state.Goal=goal;state.RetryAt=Time+5;
-            state.ProgressPosition=ship.Position;state.ProgressAt=Time;
+            QueuePath(brain,state,goal,radius,stuck);
         }
         if(state.Path is not { Points.Count:>0 } route)
         {
             // Local avoidance can push out of an inflated safety margin. Do not
             // accelerate into a blocked destination while a route is unavailable.
             Vec3d escape=Navigation.NearestFree(ship.Position,radius)-ship.Position;
+            brain.WantBoost=false;
             return (escape.ToVector3()*.4f).LimitLength(ship.Class.MaxSpeed*.35f);
         }
-        for(int i=route.Points.Count-1;i>state.Waypoint;i--)
-            if(!Obstacles.BlocksSegment(ship.Position,route.Points[i],radius) && (state.Exposure is null
-                || state.Exposure.Cost(ship.Position,route.Points[i])<=state.Exposure.Cost(ship.Position,route.Points[state.Waypoint])
-                    +Enumerable.Range(state.Waypoint,i-state.Waypoint).Sum(j=>state.Exposure.Cost(route.Points[j],route.Points[j+1]))))
+        // A cover route was already smoothed against its observation snapshot.
+        // Follow its corners; do not repeat potentially thousands of exposure rays
+        // synchronously inside a ship's Think while another search is pending.
+        for(int i=state.Exposure is null?route.Points.Count-1:state.Waypoint;i>state.Waypoint;i--)
+            if(!Obstacles.BlocksSegment(ship.Position,route.Points[i],radius))
             {state.Waypoint=i;break;}
         Vec3d next=route.Points[state.Waypoint];
         if((next-ship.Position).Length()<350 && state.Waypoint<route.Points.Count-1)next=route.Points[++state.Waypoint];
+        if(Obstacles.BlocksSegment(ship.Position,next,radius))
+        {
+            state.Path=null;state.RetryAt=0;brain.WantBoost=false;
+            return ((Navigation.NearestFree(ship.Position,radius)-ship.Position).ToVector3()*.4f).LimitLength(ship.Class.MaxSpeed*.35f);
+        }
         Vec3d offset=next-ship.Position;double distance=offset.Length();
         brain.NavigationActive=true;brain.NavigationWaypoint=next;
         float speed=Mathf.Min(Mathf.Max(desired.Length(),ship.Class.MaxSpeed*.4f),ship.Class.MaxSpeed);

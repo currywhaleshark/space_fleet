@@ -13,6 +13,7 @@ static class SimChecks
         if(args.Contains("--obstacle-bvh-profile")){ObstacleBvhChecks.Profile();return;}
         if(args.Contains("--navigation")){NavigationChecks.Run();return;}
         if(args.Contains("--navigation-visibility")){NavigationVisibilityChecks.Run();return;}
+        if(args.Contains("--navigation-jobs")){NavigationJobChecks.Run();return;}
         if(args.Contains("--terrain-stuck-trace")){NavigationChecks.Trace(true);return;}
         if(args.Contains("--navigation-trace")){NavigationChecks.Trace();return;}
         if(args.Contains("--cover")){CoverChecks.Run();return;}
@@ -57,6 +58,7 @@ static class SimChecks
         ObstacleBvhChecks.Run();
         NavigationChecks.Run();
         NavigationVisibilityChecks.Run();
+        NavigationJobChecks.Run();
         FiringPositionChecks.Run();
         CoverChecks.Run();
         ObstacleCollisionChecks.Run(); ObstacleSensorChecks.Run(); ObstacleWeaponChecks.Run();

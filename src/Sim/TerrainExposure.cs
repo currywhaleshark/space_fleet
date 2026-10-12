@@ -58,6 +58,7 @@ public sealed class TerrainExposure
         value=Observers==0?0:(double)visible/Observers;
         _samples[point]=value;return value;
     }
+    internal int SampleWork(Vec3d point)=>_samples.ContainsKey(point)?1:Math.Max(1,Observers);
     // 0..1 visible fraction; up to +150% edge cost, independent of fleet size.
     public double Cost(Vec3d a,Vec3d b)
     {

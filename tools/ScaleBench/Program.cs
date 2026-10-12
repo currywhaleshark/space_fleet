@@ -51,6 +51,11 @@ for (int repeat = 0; repeat < repeats; repeat++)
     results.Add(new { groups = count, ships = world.Ships.Count, repeat, seed, warmupTicks = warmup, measuredTicks = ticks,
         distanceMeters = distance, battlefield = battlefield.ToString(), fieldSeed, meanMs, p95Ms = Percentile(.95), p99Ms, maxMs = samples[^1],
         allocatedBytesPerTick = allocation / (double)ticks, peakRails = rails, peakMissiles = missiles, peakProbes = probes,
+        navigation = new { completed=world.Log.Environment.PathPlans,pending=world.PendingNavigation,
+            queuePeak=world.Log.Environment.PathQueuePeak,cancelled=world.Log.Environment.PathCancelled,
+            workPeak=world.Log.Environment.PathWorkPeak,sliceMaxMs=world.Log.Environment.PathSliceMaxMs,
+            meanLatencySeconds=world.Log.Environment.PathLatencySeconds/Math.Max(1,world.Log.Environment.PathPlans),
+            maxLatencySeconds=world.Log.Environment.PathLatencyMaxSeconds },
         activeAtEnd = world.Ships.Count(s => !s.Damage.Destroyed && !s.Damage.Disabled), sectionsUs = sections, summarySha256 = digest });
     File.WriteAllText(output, JsonSerializer.Serialize(results, new JsonSerializerOptions { WriteIndented = true }));
     Console.WriteLine($"ships={world.Ships.Count} repeat={repeat} mean={meanMs:F3} p99={p99Ms:F3}ms rails={rails} missiles={missiles} hash={digest[..12]}");

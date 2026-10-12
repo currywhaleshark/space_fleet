@@ -9,4 +9,4 @@
 - 카메라 Far는 1,000 km. 더 멀리 키우면 라이트 컬링이 깨진다. 먼 천체는 `ScaleTest.PlaceBackdrop`처럼 당겨 그린다.
 - 함선 로컬 축: 전방 -Z, 위 +Y, 우 +X. `MeshKit.AddTaper`는 시계 방향 앞면 기준으로 감기 순서를 맞춘다.
 - 계획·진행 상황: `docs/PLAN.md`.
-- 실행본: `builds/SpaceFleet-20261012-defense-scaling-Windows-x64/SpaceFleet.exe`와 같은 이름의 ZIP. 독립 .NET 런타임 및 `SpaceFleet.Sim.dll` 포함. 배포 EXE 2,286개 검사 통과. 240전 대조·규모별 부하·FPS·해시는 `docs/validation/defense_ai_scaling_20261012/verification.json`과 `evidence.zip`; 성능 해석은 `docs/BALANCE_perf.md`.
+- 실행본: `builds/SpaceFleet-20261012-navigation-sliced-Windows-x64/SpaceFleet.exe`와 같은 이름의 ZIP. 독립 .NET 런타임 및 `SpaceFleet.Sim.dll` 포함. 배포 EXE 2,286개 검사 통과. 분할 경로 탐색은 사용자 허용을 받은 결과 변경이다. 240전/추가 시드 대조·규모별 부하·FPS·해시는 `docs/validation/navigation_sliced_20261012/verification.json`과 `evidence.zip`; 성능 해석과 남은 지연은 `docs/BALANCE_perf.md`.

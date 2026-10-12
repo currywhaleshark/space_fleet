@@ -7,7 +7,7 @@ namespace SpaceFleet.Sim;
 public sealed record TerrainPath(IReadOnlyList<Vec3d> Points,int Expanded,double Length);
 
 /// <summary>Fixed 3-D occupancy, six-neighbour deterministic A*, exact swept-sphere edges.</summary>
-public sealed class TerrainNavigation
+public sealed partial class TerrainNavigation
 {
     public const double CellSize=2000;
     private readonly ObstacleSet _obstacles;
