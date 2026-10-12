@@ -24,6 +24,42 @@ public sealed partial class SimWorld
     private object? FirstSmallHit(RailProjectile projectile, Vec3d start, Vec3d end, double dt, double time, ref double nearest,
         out bool proximity)
     {
+        if (!_indexedProjectileSmall || !IndexableSweep(start, end) || !float.IsFinite(projectile.ProximityMeters)
+            || projectile.ProximityMeters > 1e6)
+            return FirstSmallHitUnindexed(projectile, start, end, dt, time, ref nearest, out proximity);
+        double extra = projectile.ProximityTarget is not null && projectile.Age >= .04 && projectile.Age <= 3
+            ? Math.Max(0, projectile.ProximityMeters - 3) : 0;
+        var candidates = _projectileSmallIndex.Query(SpatialBounds.Segment(start, end).Expanded(extra));
+        proximity = false;
+        object? hit = null;
+        foreach (int id in candidates)
+        {
+            // Destroyed targets may have been removed from the live lists by a preceding
+            // round. References preserve list order; live health still decides eligibility.
+            if (_projectileSmallTargets[id] is Missile missile)
+            {
+                if (missile.Faction == projectile.Shooter.Faction || missile.Health <= 0) continue;
+                bool fused = projectile.ProximityTarget == missile && projectile.Age >= .04 && projectile.Age <= 3;
+                double radius = fused ? projectile.ProximityMeters : 3;
+                if (MovingSphereHit(start - missile.Position, end - start - Vec3d.From(missile.Velocity) * dt, radius, out double t) && t < nearest
+                    && (!fused || !TerrainBlocked(Vec3d.Lerp(start,end,t),missile.Position+Vec3d.From(missile.Velocity)*dt*t)))
+                { nearest = t; hit = missile; proximity = fused; }
+            }
+            else if (_projectileSmallTargets[id] is ReconProbe probe)
+            {
+                if (probe.Faction == projectile.Shooter.Faction || !probe.Active) continue;
+                Vec3d position = probe.Position + Vec3d.From(probe.Velocity) * Math.Clamp(time - Time, 0, TickDelta);
+                if (MovingSphereHit(start - position, end - start - Vec3d.From(probe.Velocity) * dt,
+                    probe.Definition.Radius, out double t) && t < nearest)
+                { nearest = t; hit = probe; proximity = false; }
+            }
+        }
+        return hit;
+    }
+
+    private object? FirstSmallHitUnindexed(RailProjectile projectile, Vec3d start, Vec3d end, double dt, double time, ref double nearest,
+        out bool proximity)
+    {
         var shooter = projectile.Shooter;
         proximity = false;
         object? hit = null;

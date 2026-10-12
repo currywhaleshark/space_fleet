@@ -1,0 +1,1942 @@
+{
+  "baselineCommit": "d15d525",
+  "scope": "Projectile broadphase; unchanged 60Hz simulation / 240Hz collisions, weapons, roster and AI",
+  "profiles": [
+    {
+      "mode": "Annihilation",
+      "field": 0,
+      "before": {
+        "meanMs": 0.233353,
+        "brawlP99Ms": 0.3357,
+        "sectionsUs": {
+          "Tick": 233.25,
+          "AI": 49.271,
+          "AICommand": 2.571,
+          "AIThink": 3.75,
+          "AIDrive": 19.678,
+          "AIEngage": 22.186,
+          "Gunnery": 0.147,
+          "ShipStep": 51.039,
+          "Collision": 12.024,
+          "Projectiles": 17.041,
+          "Missiles": 26.685,
+          "PointDefense": 47.263,
+          "Drones": 20.876,
+          "Sensors": 3.695,
+          "Probes": 0.158,
+          "TerrainAvoidance": 0.0,
+          "TerrainCollision": 0.0,
+          "Post": 4.233
+        }
+      },
+      "after": {
+        "meanMs": 0.241399,
+        "brawlP99Ms": 0.3078,
+        "sectionsUs": {
+          "Tick": 241.288,
+          "AI": 49.88,
+          "AICommand": 2.601,
+          "AIThink": 3.8,
+          "AIDrive": 20.097,
+          "AIEngage": 22.237,
+          "Gunnery": 0.161,
+          "ShipStep": 52.593,
+          "Collision": 12.209,
+          "Projectiles": 17.96,
+          "Missiles": 28.0,
+          "PointDefense": 48.861,
+          "Drones": 22.204,
+          "Sensors": 3.921,
+          "Probes": 0.181,
+          "TerrainAvoidance": 0.0,
+          "TerrainCollision": 0.0,
+          "Post": 4.512
+        }
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 1,
+      "before": {
+        "meanMs": 0.305186,
+        "brawlP99Ms": 0.6641,
+        "sectionsUs": {
+          "Tick": 305.088,
+          "AI": 84.855,
+          "AICommand": 2.244,
+          "AIThink": 31.451,
+          "AIDrive": 19.776,
+          "AIEngage": 30.3,
+          "Gunnery": 0.146,
+          "ShipStep": 48.469,
+          "Collision": 31.356,
+          "Projectiles": 25.295,
+          "Missiles": 32.243,
+          "PointDefense": 40.581,
+          "Drones": 14.725,
+          "Sensors": 21.786,
+          "Probes": 0.418,
+          "TerrainAvoidance": 0.829,
+          "TerrainCollision": 14.106,
+          "Post": 4.498
+        }
+      },
+      "after": {
+        "meanMs": 0.311602,
+        "brawlP99Ms": 0.669,
+        "sectionsUs": {
+          "Tick": 311.503,
+          "AI": 88.045,
+          "AICommand": 2.244,
+          "AIThink": 32.637,
+          "AIDrive": 20.514,
+          "AIEngage": 31.541,
+          "Gunnery": 0.145,
+          "ShipStep": 49.269,
+          "Collision": 31.717,
+          "Projectiles": 24.227,
+          "Missiles": 33.051,
+          "PointDefense": 41.5,
+          "Drones": 15.127,
+          "Sensors": 22.634,
+          "Probes": 0.419,
+          "TerrainAvoidance": 0.813,
+          "TerrainCollision": 14.31,
+          "Post": 4.637
+        }
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 2,
+      "before": {
+        "meanMs": 0.304254,
+        "brawlP99Ms": 0.8271,
+        "sectionsUs": {
+          "Tick": 304.15,
+          "AI": 79.914,
+          "AICommand": 2.355,
+          "AIThink": 28.665,
+          "AIDrive": 19.965,
+          "AIEngage": 27.784,
+          "Gunnery": 0.147,
+          "ShipStep": 51.322,
+          "Collision": 27.33,
+          "Projectiles": 23.476,
+          "Missiles": 30.076,
+          "PointDefense": 45.078,
+          "Drones": 13.104,
+          "Sensors": 27.527,
+          "Probes": 0.516,
+          "TerrainAvoidance": 0.85,
+          "TerrainCollision": 15.175,
+          "Post": 4.899
+        }
+      },
+      "after": {
+        "meanMs": 0.301024,
+        "brawlP99Ms": 0.6517,
+        "sectionsUs": {
+          "Tick": 300.927,
+          "AI": 77.962,
+          "AICommand": 2.438,
+          "AIThink": 26.92,
+          "AIDrive": 20.182,
+          "AIEngage": 27.282,
+          "Gunnery": 0.151,
+          "ShipStep": 51.463,
+          "Collision": 27.428,
+          "Projectiles": 21.672,
+          "Missiles": 31.037,
+          "PointDefense": 44.758,
+          "Drones": 13.497,
+          "Sensors": 26.898,
+          "Probes": 0.516,
+          "TerrainAvoidance": 0.85,
+          "TerrainCollision": 15.018,
+          "Post": 4.743
+        }
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 3,
+      "before": {
+        "meanMs": 0.319622,
+        "brawlP99Ms": 0.766,
+        "sectionsUs": {
+          "Tick": 319.517,
+          "AI": 87.487,
+          "AICommand": 2.461,
+          "AIThink": 40.292,
+          "AIDrive": 18.897,
+          "AIEngage": 24.709,
+          "Gunnery": 0.156,
+          "ShipStep": 51.289,
+          "Collision": 31.679,
+          "Projectiles": 18.577,
+          "Missiles": 39.965,
+          "PointDefense": 43.984,
+          "Drones": 17.454,
+          "Sensors": 22.941,
+          "Probes": 0.527,
+          "TerrainAvoidance": 0.743,
+          "TerrainCollision": 16.474,
+          "Post": 4.699
+        }
+      },
+      "after": {
+        "meanMs": 0.33973,
+        "brawlP99Ms": 0.9231,
+        "sectionsUs": {
+          "Tick": 339.63,
+          "AI": 92.577,
+          "AICommand": 2.586,
+          "AIThink": 42.421,
+          "AIDrive": 20.005,
+          "AIEngage": 26.434,
+          "Gunnery": 0.166,
+          "ShipStep": 53.602,
+          "Collision": 34.374,
+          "Projectiles": 21.421,
+          "Missiles": 41.584,
+          "PointDefense": 47.446,
+          "Drones": 18.137,
+          "Sensors": 24.008,
+          "Probes": 0.536,
+          "TerrainAvoidance": 0.79,
+          "TerrainCollision": 18.054,
+          "Post": 5.007
+        }
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 0,
+      "before": {
+        "meanMs": 0.248637,
+        "brawlP99Ms": 0.6071,
+        "sectionsUs": {
+          "Tick": 248.534,
+          "AI": 63.319,
+          "AICommand": 2.926,
+          "AIThink": 4.513,
+          "AIDrive": 21.757,
+          "AIEngage": 32.949,
+          "Gunnery": 0.158,
+          "ShipStep": 54.789,
+          "Collision": 11.931,
+          "Projectiles": 23.816,
+          "Missiles": 21.09,
+          "PointDefense": 47.862,
+          "Drones": 16.348,
+          "Sensors": 3.775,
+          "Probes": 0.151,
+          "TerrainAvoidance": 0.0,
+          "TerrainCollision": 0.0,
+          "Post": 4.463
+        }
+      },
+      "after": {
+        "meanMs": 0.262498,
+        "brawlP99Ms": 0.5752,
+        "sectionsUs": {
+          "Tick": 262.391,
+          "AI": 69.397,
+          "AICommand": 3.158,
+          "AIThink": 4.987,
+          "AIDrive": 23.391,
+          "AIEngage": 36.569,
+          "Gunnery": 0.178,
+          "ShipStep": 58.697,
+          "Collision": 12.663,
+          "Projectiles": 21.651,
+          "Missiles": 23.17,
+          "PointDefense": 49.508,
+          "Drones": 17.505,
+          "Sensors": 3.849,
+          "Probes": 0.156,
+          "TerrainAvoidance": 0.0,
+          "TerrainCollision": 0.0,
+          "Post": 4.773
+        }
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 1,
+      "before": {
+        "meanMs": 0.308421,
+        "brawlP99Ms": 0.7879,
+        "sectionsUs": {
+          "Tick": 308.317,
+          "AI": 72.232,
+          "AICommand": 2.779,
+          "AIThink": 11.806,
+          "AIDrive": 21.505,
+          "AIEngage": 34.947,
+          "Gunnery": 0.164,
+          "ShipStep": 54.306,
+          "Collision": 26.745,
+          "Projectiles": 23.268,
+          "Missiles": 31.019,
+          "PointDefense": 53.571,
+          "Drones": 14.665,
+          "Sensors": 26.517,
+          "Probes": 0.464,
+          "TerrainAvoidance": 0.717,
+          "TerrainCollision": 13.894,
+          "Post": 4.46
+        }
+      },
+      "after": {
+        "meanMs": 0.307478,
+        "brawlP99Ms": 0.8952,
+        "sectionsUs": {
+          "Tick": 307.368,
+          "AI": 73.014,
+          "AICommand": 2.788,
+          "AIThink": 11.76,
+          "AIDrive": 21.784,
+          "AIEngage": 35.492,
+          "Gunnery": 0.157,
+          "ShipStep": 54.813,
+          "Collision": 26.932,
+          "Projectiles": 22.081,
+          "Missiles": 30.401,
+          "PointDefense": 53.451,
+          "Drones": 14.808,
+          "Sensors": 25.939,
+          "Probes": 0.442,
+          "TerrainAvoidance": 0.739,
+          "TerrainCollision": 14.067,
+          "Post": 4.525
+        }
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 2,
+      "before": {
+        "meanMs": 0.294886,
+        "brawlP99Ms": 0.8055,
+        "sectionsUs": {
+          "Tick": 294.776,
+          "AI": 62.317,
+          "AICommand": 2.74,
+          "AIThink": 13.184,
+          "AIDrive": 20.224,
+          "AIEngage": 25.018,
+          "Gunnery": 0.152,
+          "ShipStep": 51.559,
+          "Collision": 36.876,
+          "Projectiles": 16.671,
+          "Missiles": 28.126,
+          "PointDefense": 53.793,
+          "Drones": 13.159,
+          "Sensors": 26.315,
+          "Probes": 0.472,
+          "TerrainAvoidance": 0.753,
+          "TerrainCollision": 13.419,
+          "Post": 4.558
+        }
+      },
+      "after": {
+        "meanMs": 0.295421,
+        "brawlP99Ms": 0.8399,
+        "sectionsUs": {
+          "Tick": 295.316,
+          "AI": 62.189,
+          "AICommand": 2.818,
+          "AIThink": 12.842,
+          "AIDrive": 20.152,
+          "AIEngage": 25.197,
+          "Gunnery": 0.156,
+          "ShipStep": 51.979,
+          "Collision": 37.87,
+          "Projectiles": 16.121,
+          "Missiles": 28.387,
+          "PointDefense": 53.167,
+          "Drones": 13.295,
+          "Sensors": 26.387,
+          "Probes": 0.446,
+          "TerrainAvoidance": 0.734,
+          "TerrainCollision": 14.043,
+          "Post": 4.501
+        }
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 3,
+      "before": {
+        "meanMs": 0.294116,
+        "brawlP99Ms": null,
+        "sectionsUs": {
+          "Tick": 293.999,
+          "AI": 64.727,
+          "AICommand": 2.915,
+          "AIThink": 15.312,
+          "AIDrive": 21.428,
+          "AIEngage": 23.865,
+          "Gunnery": 0.182,
+          "ShipStep": 54.039,
+          "Collision": 24.798,
+          "Projectiles": 15.076,
+          "Missiles": 34.306,
+          "PointDefense": 56.753,
+          "Drones": 16.457,
+          "Sensors": 22.104,
+          "Probes": 0.398,
+          "TerrainAvoidance": 0.571,
+          "TerrainCollision": 12.677,
+          "Post": 4.307
+        }
+      },
+      "after": {
+        "meanMs": 0.297309,
+        "brawlP99Ms": null,
+        "sectionsUs": {
+          "Tick": 297.197,
+          "AI": 64.698,
+          "AICommand": 3.089,
+          "AIThink": 15.978,
+          "AIDrive": 20.993,
+          "AIEngage": 23.456,
+          "Gunnery": 0.194,
+          "ShipStep": 54.235,
+          "Collision": 25.784,
+          "Projectiles": 16.514,
+          "Missiles": 34.118,
+          "PointDefense": 57.313,
+          "Drones": 16.63,
+          "Sensors": 22.084,
+          "Probes": 0.397,
+          "TerrainAvoidance": 0.568,
+          "TerrainCollision": 13.285,
+          "Post": 4.39
+        }
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 0,
+      "before": {
+        "meanMs": 0.30905,
+        "brawlP99Ms": 1.68,
+        "sectionsUs": {
+          "Tick": 308.954,
+          "AI": 61.456,
+          "AICommand": 0.709,
+          "AIThink": 5.262,
+          "AIDrive": 18.397,
+          "AIEngage": 36.043,
+          "Gunnery": 0.153,
+          "ShipStep": 44.777,
+          "Collision": 78.738,
+          "Projectiles": 32.427,
+          "Missiles": 26.822,
+          "PointDefense": 35.104,
+          "Drones": 14.444,
+          "Sensors": 8.83,
+          "Probes": 0.062,
+          "TerrainAvoidance": 0.225,
+          "TerrainCollision": 14.293,
+          "Post": 5.369
+        }
+      },
+      "after": {
+        "meanMs": 0.303503,
+        "brawlP99Ms": 1.629,
+        "sectionsUs": {
+          "Tick": 303.394,
+          "AI": 61.237,
+          "AICommand": 0.71,
+          "AIThink": 5.229,
+          "AIDrive": 18.22,
+          "AIEngage": 36.041,
+          "Gunnery": 0.149,
+          "ShipStep": 44.779,
+          "Collision": 78.449,
+          "Projectiles": 25.359,
+          "Missiles": 28.089,
+          "PointDefense": 35.074,
+          "Drones": 14.95,
+          "Sensors": 8.977,
+          "Probes": 0.073,
+          "TerrainAvoidance": 0.235,
+          "TerrainCollision": 13.708,
+          "Post": 5.516
+        }
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 1,
+      "before": {
+        "meanMs": 0.403094,
+        "brawlP99Ms": 1.9763,
+        "sectionsUs": {
+          "Tick": 402.971,
+          "AI": 68.069,
+          "AICommand": 0.848,
+          "AIThink": 8.757,
+          "AIDrive": 20.319,
+          "AIEngage": 36.931,
+          "Gunnery": 0.191,
+          "ShipStep": 51.331,
+          "Collision": 95.422,
+          "Projectiles": 39.315,
+          "Missiles": 47.294,
+          "PointDefense": 46.339,
+          "Drones": 15.989,
+          "Sensors": 31.933,
+          "Probes": 0.075,
+          "TerrainAvoidance": 0.931,
+          "TerrainCollision": 21.978,
+          "Post": 6.163
+        }
+      },
+      "after": {
+        "meanMs": 0.373843,
+        "brawlP99Ms": 1.7261,
+        "sectionsUs": {
+          "Tick": 373.735,
+          "AI": 65.169,
+          "AICommand": 0.78,
+          "AIThink": 8.233,
+          "AIDrive": 19.618,
+          "AIEngage": 35.385,
+          "Gunnery": 0.163,
+          "ShipStep": 48.337,
+          "Collision": 87.565,
+          "Projectiles": 27.869,
+          "Missiles": 45.906,
+          "PointDefense": 45.813,
+          "Drones": 15.771,
+          "Sensors": 30.493,
+          "Probes": 0.071,
+          "TerrainAvoidance": 0.871,
+          "TerrainCollision": 20.236,
+          "Post": 5.763
+        }
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 2,
+      "before": {
+        "meanMs": 0.356773,
+        "brawlP99Ms": 1.2383,
+        "sectionsUs": {
+          "Tick": 356.656,
+          "AI": 60.556,
+          "AICommand": 0.831,
+          "AIThink": 8.474,
+          "AIDrive": 20.187,
+          "AIEngage": 29.859,
+          "Gunnery": 0.172,
+          "ShipStep": 48.164,
+          "Collision": 76.501,
+          "Projectiles": 34.545,
+          "Missiles": 43.59,
+          "PointDefense": 41.048,
+          "Drones": 13.956,
+          "Sensors": 31.537,
+          "Probes": 0.071,
+          "TerrainAvoidance": 1.003,
+          "TerrainCollision": 19.048,
+          "Post": 5.664
+        }
+      },
+      "after": {
+        "meanMs": 0.328188,
+        "brawlP99Ms": 1.0063,
+        "sectionsUs": {
+          "Tick": 328.086,
+          "AI": 58.176,
+          "AICommand": 0.892,
+          "AIThink": 8.072,
+          "AIDrive": 19.3,
+          "AIEngage": 28.805,
+          "Gunnery": 0.144,
+          "ShipStep": 46.336,
+          "Collision": 69.001,
+          "Projectiles": 25.942,
+          "Missiles": 40.447,
+          "PointDefense": 39.192,
+          "Drones": 12.776,
+          "Sensors": 30.07,
+          "Probes": 0.065,
+          "TerrainAvoidance": 0.931,
+          "TerrainCollision": 17.739,
+          "Post": 5.136
+        }
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 3,
+      "before": {
+        "meanMs": 0.34655,
+        "brawlP99Ms": 1.6675,
+        "sectionsUs": {
+          "Tick": 346.449,
+          "AI": 70.206,
+          "AICommand": 0.723,
+          "AIThink": 8.076,
+          "AIDrive": 19.23,
+          "AIEngage": 41.056,
+          "Gunnery": 0.152,
+          "ShipStep": 46.36,
+          "Collision": 70.757,
+          "Projectiles": 32.349,
+          "Missiles": 35.388,
+          "PointDefense": 40.772,
+          "Drones": 15.401,
+          "Sensors": 28.738,
+          "Probes": 0.069,
+          "TerrainAvoidance": 0.888,
+          "TerrainCollision": 17.182,
+          "Post": 5.504
+        }
+      },
+      "after": {
+        "meanMs": 0.334952,
+        "brawlP99Ms": 1.4,
+        "sectionsUs": {
+          "Tick": 334.838,
+          "AI": 69.769,
+          "AICommand": 0.7,
+          "AIThink": 8.073,
+          "AIDrive": 19.304,
+          "AIEngage": 40.606,
+          "Gunnery": 0.16,
+          "ShipStep": 46.699,
+          "Collision": 71.498,
+          "Projectiles": 22.753,
+          "Missiles": 35.679,
+          "PointDefense": 39.426,
+          "Drones": 14.416,
+          "Sensors": 28.287,
+          "Probes": 0.063,
+          "TerrainAvoidance": 0.837,
+          "TerrainCollision": 17.41,
+          "Post": 5.341
+        }
+      }
+    }
+  ],
+  "scale": [
+    {
+      "ships": 24,
+      "groupsPerSide": 1,
+      "repeats": 3,
+      "resultsIdentical": true,
+      "before": {
+        "meanMs": 0.6580585277777787,
+        "p95Ms": 1.0185,
+        "p99Ms": 1.3392,
+        "allocatedBytesPerTick": 14141.386666666667,
+        "peakRails": 179,
+        "peakMissiles": 55,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 657.8540833333333,
+          "AI": 131.96694444444444,
+          "AICommand": 5.372027777777778,
+          "AIThink": 10.879083333333334,
+          "AIDrive": 19.12847222222222,
+          "AIEngage": 94.03441666666667,
+          "Gunnery": 0.3466111111111111,
+          "ShipStep": 54.446638888888884,
+          "Collision": 16.339222222222222,
+          "Projectiles": 265.11730555555556,
+          "Missiles": 61.85691666666666,
+          "PointDefense": 96.70944444444444,
+          "Drones": 14.50375,
+          "Sensors": 6.431055555555556,
+          "Probes": 0.15188888888888888,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 10.688722222222223
+        },
+        "meanMsRange": [
+          0.6431729444444434,
+          0.6682682222222229
+        ]
+      },
+      "after": {
+        "meanMs": 0.604006722222223,
+        "p95Ms": 1.1498,
+        "p99Ms": 1.508,
+        "allocatedBytesPerTick": 14400.444444444445,
+        "peakRails": 179,
+        "peakMissiles": 55,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 603.7524722222222,
+          "AI": 140.10655555555556,
+          "AICommand": 5.4279166666666665,
+          "AIThink": 11.45747222222222,
+          "AIDrive": 20.101499999999998,
+          "AIEngage": 100.3696111111111,
+          "Gunnery": 0.3958333333333333,
+          "ShipStep": 62.97105555555555,
+          "Collision": 17.504527777777778,
+          "Projectiles": 169.45052777777775,
+          "Missiles": 70.49116666666667,
+          "PointDefense": 105.22583333333333,
+          "Drones": 15.822944444444444,
+          "Sensors": 6.752861111111112,
+          "Probes": 0.1446388888888889,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 12.463416666666665
+        },
+        "meanMsRange": [
+          0.5708710833333324,
+          0.6494523333333319
+        ]
+      }
+    },
+    {
+      "ships": 48,
+      "groupsPerSide": 2,
+      "repeats": 3,
+      "resultsIdentical": true,
+      "before": {
+        "meanMs": 2.1011768611111106,
+        "p95Ms": 3.2347,
+        "p99Ms": 4.1559,
+        "allocatedBytesPerTick": 31655.46,
+        "peakRails": 406,
+        "peakMissiles": 108,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 2100.9084722222224,
+          "AI": 279.94433333333336,
+          "AICommand": 9.491111111111111,
+          "AIThink": 25.437722222222224,
+          "AIDrive": 40.146388888888886,
+          "AIEngage": 200.70197222222222,
+          "Gunnery": 0.2772222222222222,
+          "ShipStep": 112.47761111111112,
+          "Collision": 37.60830555555556,
+          "Projectiles": 1196.9690277777777,
+          "Missiles": 130.66858333333334,
+          "PointDefense": 275.6251388888889,
+          "Drones": 43.97519444444445,
+          "Sensors": 10.023944444444444,
+          "Probes": 0.13494444444444445,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 10.838833333333332
+        },
+        "meanMsRange": [
+          1.9754009444444451,
+          2.434157999999997
+        ]
+      },
+      "after": {
+        "meanMs": 1.0867520555555565,
+        "p95Ms": 1.6921,
+        "p99Ms": 2.0938,
+        "allocatedBytesPerTick": 32443.61111111111,
+        "peakRails": 406,
+        "peakMissiles": 108,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 1086.5140000000001,
+          "AI": 280.40105555555556,
+          "AICommand": 10.049444444444445,
+          "AIThink": 25.78925,
+          "AIDrive": 40.126749999999994,
+          "AIEngage": 199.99313888888886,
+          "Gunnery": 0.2988333333333334,
+          "ShipStep": 108.22433333333333,
+          "Collision": 38.32897222222222,
+          "Projectiles": 176.47933333333333,
+          "Missiles": 136.67683333333335,
+          "PointDefense": 276.2204444444444,
+          "Drones": 46.78622222222222,
+          "Sensors": 10.847055555555556,
+          "Probes": 0.13086111111111112,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 11.839083333333333
+        },
+        "meanMsRange": [
+          1.0828794722222235,
+          1.1095321111111105
+        ]
+      }
+    },
+    {
+      "ships": 96,
+      "groupsPerSide": 4,
+      "repeats": 3,
+      "resultsIdentical": true,
+      "before": {
+        "meanMs": 5.884660055555545,
+        "p95Ms": 8.4776,
+        "p99Ms": 10.4562,
+        "allocatedBytesPerTick": 79809.28,
+        "peakRails": 627,
+        "peakMissiles": 235,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 5884.382638888889,
+          "AI": 785.4709444444444,
+          "AICommand": 26.85161111111111,
+          "AIThink": 83.46280555555555,
+          "AIDrive": 105.73263888888889,
+          "AIEngage": 561.3515277777777,
+          "Gunnery": 0.3508888888888889,
+          "ShipStep": 233.34377777777777,
+          "Collision": 126.66097222222223,
+          "Projectiles": 3512.9578611111115,
+          "Missiles": 240.68205555555556,
+          "PointDefense": 739.6570833333334,
+          "Drones": 210.52622222222223,
+          "Sensors": 31.796055555555558,
+          "Probes": 0.1641111111111111,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 19.59125
+        },
+        "meanMsRange": [
+          5.842234694444448,
+          6.114952722222222
+        ]
+      },
+      "after": {
+        "meanMs": 2.7405129722222235,
+        "p95Ms": 3.8917,
+        "p99Ms": 5.0326,
+        "allocatedBytesPerTick": 80592.79555555555,
+        "peakRails": 627,
+        "peakMissiles": 235,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 2740.2539722222223,
+          "AI": 779.5863611111112,
+          "AICommand": 24.950027777777777,
+          "AIThink": 81.55147222222223,
+          "AIDrive": 103.92986111111111,
+          "AIEngage": 561.0608611111111,
+          "Gunnery": 0.36441666666666667,
+          "ShipStep": 228.32247222222222,
+          "Collision": 132.94127777777777,
+          "Projectiles": 330.5882777777778,
+          "Missiles": 237.59522222222225,
+          "PointDefense": 758.741888888889,
+          "Drones": 216.0889166666667,
+          "Sensors": 31.63277777777778,
+          "Probes": 0.1471666666666667,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 17.975333333333335
+        },
+        "meanMsRange": [
+          2.697135444444444,
+          2.7859426388888915
+        ]
+      }
+    },
+    {
+      "ships": 240,
+      "groupsPerSide": 10,
+      "repeats": 3,
+      "resultsIdentical": true,
+      "before": {
+        "meanMs": 46.18727347222231,
+        "p95Ms": 60.1402,
+        "p99Ms": 70.0722,
+        "allocatedBytesPerTick": 296159.2088888889,
+        "peakRails": 1401,
+        "peakMissiles": 614,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 46186.76686111111,
+          "AI": 3405.9283888888885,
+          "AICommand": 161.03199999999998,
+          "AIThink": 422.1266944444444,
+          "AIDrive": 304.79477777777777,
+          "AIEngage": 2486.2823333333336,
+          "Gunnery": 0.7245555555555556,
+          "ShipStep": 702.1167499999999,
+          "Collision": 1334.7354166666667,
+          "Projectiles": 35238.92591666667,
+          "Missiles": 775.8308055555556,
+          "PointDefense": 3715.9016666666666,
+          "Drones": 799.0842777777777,
+          "Sensors": 187.12149999999997,
+          "Probes": 0.24580555555555555,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 67.48197222222223
+        },
+        "meanMsRange": [
+          44.769090888889004,
+          49.71691508333322
+        ]
+      },
+      "after": {
+        "meanMs": 12.22418844444443,
+        "p95Ms": 16.986,
+        "p99Ms": 21.1669,
+        "allocatedBytesPerTick": 296959.3933333333,
+        "peakRails": 1401,
+        "peakMissiles": 614,
+        "peakProbes": 0,
+        "sectionsUs": {
+          "Tick": 12223.819,
+          "AI": 3419.7479166666667,
+          "AICommand": 164.24705555555556,
+          "AIThink": 422.26869444444446,
+          "AIDrive": 292.15708333333333,
+          "AIEngage": 2518.951027777778,
+          "Gunnery": 0.7438333333333333,
+          "ShipStep": 616.7670277777777,
+          "Collision": 1456.7472777777778,
+          "Projectiles": 1170.4206388888888,
+          "Missiles": 738.2899166666666,
+          "PointDefense": 3769.0003055555553,
+          "Drones": 759.688,
+          "Sensors": 188.72824999999997,
+          "Probes": 0.227,
+          "TerrainAvoidance": 0,
+          "TerrainCollision": 0,
+          "Post": 58.16505555555556
+        },
+        "meanMsRange": [
+          12.028922500000009,
+          12.287397194444479
+        ]
+      }
+    }
+  ],
+  "matrix": [
+    {
+      "mode": "Annihilation",
+      "field": 0,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 1,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 2,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Annihilation",
+      "field": 3,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 0,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 1,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 2,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Flagship",
+      "field": 3,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 0,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 1,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 2,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    },
+    {
+      "mode": "Domination",
+      "field": 3,
+      "battles": 20,
+      "matches": {
+        "summaries.json": true,
+        "ships.csv": true,
+        "am.csv": true,
+        "probes.csv": true,
+        "environment.csv": true,
+        "environment-events.csv": true,
+        "sight.csv": true,
+        "cover.csv": true,
+        "navigation.csv": true
+      }
+    }
+  ],
+  "fps": {
+    "fps-Debug-Annihilation.log": {
+      "mean": 75.66666666666666,
+      "minimum": 71.6,
+      "samples": [
+        {
+          "time": 593,
+          "fps": 76.7
+        },
+        {
+          "time": 597,
+          "fps": 80.8
+        },
+        {
+          "time": 601,
+          "fps": 75.8
+        },
+        {
+          "time": 605,
+          "fps": 72.8
+        },
+        {
+          "time": 609,
+          "fps": 76.3
+        },
+        {
+          "time": 613,
+          "fps": 71.6
+        }
+      ],
+      "build": "perf build: gameMinOpts=True simMinOpts=False simAssembly=SpaceFleet.Sim"
+    },
+    "fps-Debug-Domination.log": {
+      "mean": 41.11666666666667,
+      "minimum": 38.6,
+      "samples": [
+        {
+          "time": 592,
+          "fps": 42.5
+        },
+        {
+          "time": 596,
+          "fps": 40.5
+        },
+        {
+          "time": 600,
+          "fps": 38.6
+        },
+        {
+          "time": 604,
+          "fps": 41.9
+        },
+        {
+          "time": 608,
+          "fps": 41.9
+        },
+        {
+          "time": 612,
+          "fps": 41.3
+        }
+      ],
+      "build": "perf build: gameMinOpts=True simMinOpts=False simAssembly=SpaceFleet.Sim"
+    },
+    "fps-Release-Annihilation.log": {
+      "mean": 100.5,
+      "minimum": 96.5,
+      "samples": [
+        {
+          "time": 593,
+          "fps": 96.5
+        },
+        {
+          "time": 597,
+          "fps": 98.4
+        },
+        {
+          "time": 601,
+          "fps": 103.7
+        },
+        {
+          "time": 605,
+          "fps": 99.2
+        },
+        {
+          "time": 609,
+          "fps": 98.3
+        },
+        {
+          "time": 613,
+          "fps": 106.9
+        }
+      ],
+      "build": "perf build: gameMinOpts=False simMinOpts=False simAssembly=SpaceFleet.Sim"
+    },
+    "fps-Release-Domination.log": {
+      "mean": 99.05,
+      "minimum": 96.0,
+      "samples": [
+        {
+          "time": 592,
+          "fps": 99.1
+        },
+        {
+          "time": 596,
+          "fps": 99.0
+        },
+        {
+          "time": 600,
+          "fps": 98.9
+        },
+        {
+          "time": 604,
+          "fps": 101.1
+        },
+        {
+          "time": 608,
+          "fps": 96.0
+        },
+        {
+          "time": 612,
+          "fps": 100.2
+        }
+      ],
+      "build": "perf build: gameMinOpts=False simMinOpts=False simAssembly=SpaceFleet.Sim"
+    }
+  },
+  "checks": {
+    "final-sim.log": {
+      "total": 776224,
+      "groups": [
+        [
+          "44",
+          "simulation checks"
+        ],
+        [
+          "73",
+          "collision/world checks"
+        ],
+        [
+          "199",
+          "obstacle geometry checks"
+        ],
+        [
+          "403961",
+          "asteroid layout/shape checks"
+        ],
+        [
+          "20000",
+          "sphere fast-path reference checks"
+        ],
+        [
+          "92693",
+          "obstacle BVH/reference checks"
+        ],
+        [
+          "95",
+          "terrain navigation checks"
+        ],
+        [
+          "12",
+          "terrain firing-position checks"
+        ],
+        [
+          "18",
+          "observed terrain cover checks"
+        ],
+        [
+          "71",
+          "obstacle collision/avoidance checks"
+        ],
+        [
+          "30",
+          "obstacle sensor/memory checks"
+        ],
+        [
+          "82",
+          "obstacle weapon/probe checks"
+        ],
+        [
+          "7423",
+          "wreck collider reuse/reference collision checks"
+        ],
+        [
+          "14400",
+          "wreck ray group/reference checks"
+        ],
+        [
+          "128",
+          "damage/data checks"
+        ],
+        [
+          "69",
+          "damage-control checks"
+        ],
+        [
+          "218",
+          "shield boundary/breakup checks"
+        ],
+        [
+          "78",
+          "ballistics/fire-control checks"
+        ],
+        [
+          "28",
+          "power/heat checks"
+        ],
+        [
+          "26",
+          "sensor/EW checks"
+        ],
+        [
+          "79",
+          "datalink fire-control checks"
+        ],
+        [
+          "92",
+          "missile/PD/decoy checks"
+        ],
+        [
+          "129",
+          "counter-missile checks"
+        ],
+        [
+          "12",
+          "infiltration checks"
+        ],
+        [
+          "6",
+          "helm checks"
+        ],
+        [
+          "20",
+          "gunnery checks"
+        ],
+        [
+          "71",
+          "turret checks"
+        ],
+        [
+          "4",
+          "tracking checks"
+        ],
+        [
+          "182",
+          "point-defense tracking checks"
+        ],
+        [
+          "76",
+          "defense drone checks"
+        ],
+        [
+          "49",
+          "drone combat checks"
+        ],
+        [
+          "147",
+          "antimatter checks"
+        ],
+        [
+          "33",
+          "radial/preset checks"
+        ],
+        [
+          "9",
+          "player squad command checks"
+        ],
+        [
+          "30",
+          "AI/fleet checks"
+        ],
+        [
+          "142",
+          "interceptor role/probe/outer defense checks"
+        ],
+        [
+          "168",
+          "player missile lead/proximity checks"
+        ],
+        [
+          "66",
+          "battle/setup/log/rules checks"
+        ],
+        [
+          "21",
+          "battle objective checks"
+        ],
+        [
+          "26",
+          "simulation profiler checks"
+        ],
+        [
+          "5608",
+          "conservative spatial bounds checks"
+        ],
+        [
+          "229431",
+          "projectile broadphase/reference checks"
+        ],
+        [
+          "175",
+          "design/catalog/Mars/ECM checks"
+        ]
+      ]
+    },
+    "native-flow-test.log": {
+      "total": 51,
+      "groups": [
+        [
+          "51",
+          "scene flow checks"
+        ]
+      ]
+    },
+    "native-environment-test.log": {
+      "total": 204,
+      "groups": [
+        [
+          "204",
+          "environment presentation checks"
+        ]
+      ]
+    }
+  },
+  "stage1DeepSpaceMatches": {
+    "Annihilation": 20,
+    "Flagship": 20
+  },
+  "summaryMatches": 240,
+  "pairedBlock": [
+    {
+      "repeat": 1,
+      "baselineUs": 258.57736980560014,
+      "currentUs": 258.4849295523453,
+      "deltaPercent": -0.035749552764163806
+    },
+    {
+      "repeat": 2,
+      "baselineUs": 232.58519038701624,
+      "currentUs": 230.8660446762975,
+      "deltaPercent": -0.7391466790547252
+    },
+    {
+      "repeat": 3,
+      "baselineUs": 222.28461744248264,
+      "currentUs": 221.13494738719456,
+      "deltaPercent": -0.5172063044738384
+    },
+    {
+      "repeat": 4,
+      "baselineUs": 214.37098938826466,
+      "currentUs": 215.81229935794542,
+      "deltaPercent": 0.6723437596634296
+    },
+    {
+      "repeat": 5,
+      "baselineUs": 215.15388130907795,
+      "currentUs": 211.97001293026574,
+      "deltaPercent": -1.4798098734916332
+    }
+  ],
+  "releasePairedFps": {
+    "Annihilation": {
+      "before": {
+        "mean": 101.81666666666666,
+        "minimum": 97.6,
+        "samples": [
+          {
+            "time": 593,
+            "fps": 97.6
+          },
+          {
+            "time": 597,
+            "fps": 102.9
+          },
+          {
+            "time": 601,
+            "fps": 103.6
+          },
+          {
+            "time": 605,
+            "fps": 98.8
+          },
+          {
+            "time": 609,
+            "fps": 102.0
+          },
+          {
+            "time": 613,
+            "fps": 106.0
+          }
+        ]
+      },
+      "after": {
+        "mean": 100.5,
+        "minimum": 96.5,
+        "samples": [
+          {
+            "time": 593,
+            "fps": 96.5
+          },
+          {
+            "time": 597,
+            "fps": 98.4
+          },
+          {
+            "time": 601,
+            "fps": 103.7
+          },
+          {
+            "time": 605,
+            "fps": 99.2
+          },
+          {
+            "time": 609,
+            "fps": 98.3
+          },
+          {
+            "time": 613,
+            "fps": 106.9
+          }
+        ],
+        "build": "perf build: gameMinOpts=False simMinOpts=False simAssembly=SpaceFleet.Sim"
+      },
+      "meanChangePercent": -1.293174005565556
+    },
+    "Domination": {
+      "before": {
+        "mean": 97.2,
+        "minimum": 93.4,
+        "samples": [
+          {
+            "time": 592,
+            "fps": 95.9
+          },
+          {
+            "time": 596,
+            "fps": 98.1
+          },
+          {
+            "time": 600,
+            "fps": 94.8
+          },
+          {
+            "time": 604,
+            "fps": 100.4
+          },
+          {
+            "time": 608,
+            "fps": 100.6
+          },
+          {
+            "time": 612,
+            "fps": 93.4
+          }
+        ]
+      },
+      "after": {
+        "mean": 99.05,
+        "minimum": 96.0,
+        "samples": [
+          {
+            "time": 592,
+            "fps": 99.1
+          },
+          {
+            "time": 596,
+            "fps": 99.0
+          },
+          {
+            "time": 600,
+            "fps": 98.9
+          },
+          {
+            "time": 604,
+            "fps": 101.1
+          },
+          {
+            "time": 608,
+            "fps": 96.0
+          },
+          {
+            "time": 612,
+            "fps": 100.2
+          }
+        ],
+        "build": "perf build: gameMinOpts=False simMinOpts=False simAssembly=SpaceFleet.Sim"
+      },
+      "meanChangePercent": 1.9032921810699488
+    }
+  },
+  "sources": {
+    "src/Game/AimPartHud.cs": "0c9e3a18fdde3f46d4ba61421368eb96400f42deb058e7631ad7dc065ae0b657",
+    "src/Game/AntimatterControls.cs": "7bec7c8a37e2b488411ad65d4c9ca51ce3ac7762b3cd923f91a7840cf0904b49",
+    "src/Game/AntimatterGameChecks.cs": "5b76fc14fd8f68d5e85454fb183bcbc02e4216d0e0b4f57eb64fe11af5973ebd",
+    "src/Game/AntimatterPreview.cs": "8fee69ce2c8af3baf9eced917b536bf48c2bc78de00ad0fcfb218bce1f553c1c",
+    "src/Game/AsteroidPreview.cs": "007d8a3e15325ab9accc9e61d192ea051b148dbd6a75f04b45362cf6384f0a6e",
+    "src/Game/BattleFlow.cs": "cbef58ddb9eb46d97740e2ad42a18a3de5ab076e8f63fba9aa91afd164223203",
+    "src/Game/BattleHud.cs": "fadc8dd049cd293b96fcf8ea4480690fdd9db0427db0a1174b55e6ed857be53c",
+    "src/Game/BattleOverlay.cs": "7b9dc2ba2e55a9c6c83ac32cc35b2aebc93e47f30d904586a3e63f320bc6b3af",
+    "src/Game/BattlePerformance.cs": "0c4a65120e7aa0678b1e0af529779004e51d34af82b6eebe3d4d35f366117f05",
+    "src/Game/BattleSession.cs": "7310c88c43f9e95c3baa08ef2debbd378b6f6e56e38935ad6766af06bbf98f3d",
+    "src/Game/CinematicTeaser.cs": "7c5dd939c75e86329abe0cf9433c9fae8687b2926d150097be84882a1a84053b",
+    "src/Game/CombatAudio.cs": "6985ab445dcfde58125a0edfbbe2c725d520ea67a5e6d41c912c31f4d41b1b75",
+    "src/Game/CombatAudioChecks.cs": "c4a4fcc46a51e708ebb1df1d9e1eec1e6978b4238f08ebc7af1b85eab9703226",
+    "src/Game/CombatFeedback.cs": "5797a80016094839db86a9c3c16d3ada263a18199b7b1501cc1af436261ca724",
+    "src/Game/CombatFeedbackChecks.cs": "37d02b0b5cd35b587d70a70a8e15adaf3e968f6f928629675e1631d2bd4e3fe9",
+    "src/Game/CombatHud.cs": "35bd3db4ae11cc04dc05adfa7aad5cde3aa49e8f4df4cdc0228a7a0078bec3dc",
+    "src/Game/CombatTest.cs": "742db71bdaae4671d6fdccbc99767bddda6941d93ff88a845d849004558a47bd",
+    "src/Game/CombatVisualChecks.cs": "8ce1f3cd85b9c1d34d0de35c13ded57e74912f7a9fbb417ae1f27bc146b07c3a",
+    "src/Game/ContactMemory.cs": "c34b2c3ac3ec6ff26580ebec270885ec917729833a700190c5befd3522655a75",
+    "src/Game/ContactMemoryChecks.cs": "58b13c4116f2f2b26763e6ae0a7c66561316f78501bd7cefe428aa4a6692ef19",
+    "src/Game/CounterMissileInputChecks.cs": "874357df935d69500a449544ce2db9c4c6e2823a2f765a1fe89b951d6c4fc0b2",
+    "src/Game/DamageHud.cs": "cfa7afd8856641aa55cbd69b5ae2d6e6ce67f8421873473ff54a69c0c3916032",
+    "src/Game/DroneHud.cs": "293f2908cf8cdffa934454c548a8f0c4eca2d8bed0c7ce39f4e735992fd92bf0",
+    "src/Game/EnvironmentChecks.cs": "70776e07e82c244efcbe5e3ff2b85e8f61fb0f1451b4e83f4d0ee4782af86f8d",
+    "src/Game/EnvironmentSymbols.cs": "3938216fec7951ec92c8ab786964acbc7be49e19f57193370ebc0b173493fd73",
+    "src/Game/FeedbackHud.cs": "340054c2c2acaf671fd5c730ad37edb8f5dcd3c1959e75364748feabc90c9c40",
+    "src/Game/FeedbackSettings.cs": "020a71d71127b3a559d55fd66e7327803f23f6d0262756db53645f9aac62ca2f",
+    "src/Game/FleetAudio.cs": "cb13fc7f89f712e3b2609a12957514c731219f84abc206f98efc6197bee614a7",
+    "src/Game/FleetAudioChecks.cs": "ff5d515b406a8c143e6827e175c79ab547b5f81b46ea834823d5e6dd2b218885",
+    "src/Game/FleetCommand.cs": "0877757a7836cca3d56d84d4ebe51ffd285d420212f8b5ff7da3a89728e0f045",
+    "src/Game/FleetHud.cs": "8db7b80f272c074f021234bc9a9b56d14f41b5ad2b7fd31feddb6212a847eac9",
+    "src/Game/GunneryControl.cs": "02e56c9a68f7f67b9afd765d442a0ee2028f8f0c9368f771f27c06d7cecb82b1",
+    "src/Game/GunneryHud.cs": "e370429913e8343413ef8ba72af6d59869ac902233786e9993fff211e17e19e0",
+    "src/Game/HelmControls.cs": "ef020acc5f244f48626bf742c8ef75c7f14a754b1e895499204e44b4cdcfdc70",
+    "src/Game/Hud.cs": "8e1704fccfa591259515c9e74b92f9fcd8a4ddc04a272106cca02758f8582302",
+    "src/Game/InputSetup.cs": "aaa9131d7870eeeeec8faed68003f80e6f20f781c52e826f416918b550fbdf6e",
+    "src/Game/InstrumentHud.cs": "275443b39d8c821d11c83c179ffb2362e5b211a983af8254c8ddac2ca685b913",
+    "src/Game/InterceptorHud.cs": "6c82fd84aff96212d32744bd9df0d2e1e4877e5db8b6b4201cad900b3be1295b",
+    "src/Game/LostContactHud.cs": "688ac6cd1836b34192faf305297a040103e9b8914c65184a8dc6dafd30cdfa9c",
+    "src/Game/Main.cs": "4b8bfe833ee8d78de687118bfc77570e8f89723313c6030fb8fb4212638dfa6f",
+    "src/Game/MapObstacles.cs": "5bb2589fbcf34c7250e18da0afb178a0c51950bf3fdcb84846982d3326e37849",
+    "src/Game/MapSensorCoverage.cs": "ee4c3e0b014db812e83322836068a1208c42923b5e8db6b145ae3c85c6b6455a",
+    "src/Game/MissileHud.cs": "fbbda50d3f10122b28a1ab53b7fa0abdf85df826f7f2b2244ec76690e640246c",
+    "src/Game/MissileTrackingChecks.cs": "baf5d87c6b61d2c31d9f95bba567bcd6e2f9acac90a52590f0fd8f8aac72d534",
+    "src/Game/ModelGallery.cs": "aaf44800ad47e88be3a66144fd64651199438e087726688806d9269f988678d0",
+    "src/Game/MotionHud.cs": "39c31e25a666096b054c79673f0d9aabae38db2aba22c3b57768b7bb89ca0cf0",
+    "src/Game/NavigationChecks.cs": "fbde334d219f8b2fae5e349f780df7c32953a7f9a87acd58ae382b864cf62767",
+    "src/Game/OffscreenHud.cs": "d7312346a6ef1b0fc3c4a15d871208634d052b3225b88a1aa588f5bfc986e32a",
+    "src/Game/PerfTrace.cs": "3200fb92986614b0a173f1ccedb4ea8deda407f7b29e16f02e4f384de6625e7a",
+    "src/Game/PointerTargetChecks.cs": "246f28a68e416a115ef884688d489a96744fd99923dccc6263302c08817ea51d",
+    "src/Game/PointerTargeting.cs": "fbfc163fa861bd7c1a335d0dde021280af49328fe816d3fd08f0a8671389b283",
+    "src/Game/PowerHud.cs": "6509ad71a37432af920d8e26a31c3380016c20b0c4b33d501c89d2e9567d596b",
+    "src/Game/RadarHud.cs": "1e827ab4bd8719e088d396f25678fc81bdda5346f883cdbed27b6849ae952149",
+    "src/Game/RadialCommands.cs": "7c6469381b48adf1757c36137517090438410e606a7f6b5ae737f4ddb30fde86",
+    "src/Game/RadialMenu.cs": "b07c53ffb553f9fb4a4cdd8e4fd9362bc0c19ce416218c59fe5441348f2979c1",
+    "src/Game/ScaleTest.cs": "d44a824cdd96b4959a619965799d5dcee66686452398fde826a1817da6555ab5",
+    "src/Game/SceneFlowChecks.cs": "402c177369e702edbc09a85d232c978249e316c51aab45495d43a4c70142c113",
+    "src/Game/SensorCoverageChecks.cs": "5e30ad53ffe35623353fe00495c6d914924d37c4ba933ad1210ed0190f5dc298",
+    "src/Game/ShipModelChecks.cs": "2ea99787ec2b0b5704baa6feaae7fc172705029ac682bbebb1c865e02f3fb8b9",
+    "src/Game/SmallTargetTracking.cs": "95b6c7ea72e047269e99cc5aea2521c46f7cab74df8b113a8cc8b0c6e1f5abf2",
+    "src/Game/SquadronHud.cs": "085d7d728024e5d799f90422db41119dabc8f16e12bc3572a8607db226fe93fc",
+    "src/Game/TacticalRadar.cs": "78f2bad2e480a2954d87188618efb193a6e02a1f364c4a01427ffa6453883b66",
+    "src/Game/TelescopeChecks.cs": "de94ac1719b778005b0a1c82bda90c4b88a4412b3bdfbaf0bf109cd82d01defd",
+    "src/Game/TelescopeControls.cs": "98557b20c15945bea72ad7292ad0f696c46cc61b7f9cb35cbcae6e28a4ba0e4a",
+    "src/Game/TelescopeHud.cs": "638d734359bba645ed2b7a7a4fd9e7a2e59b1df56db2bc8e58857d4d6f58094a",
+    "src/Game/TerrainHud.cs": "7130e629223bb17b0a8e402f231c2158b7ed514b7e5fd5e1e7a2a093e8103c21",
+    "src/Game/WeaponControls.cs": "cc74e325398cdcefc057e45f1561ad602ebf80353f1d3f9b31916c9120e7a5c3",
+    "src/Game/WeaponInputChecks.cs": "3bb9286d99b329c25789837eb81be9da25bbe36ceca7178dead5a841b450cf19",
+    "src/Game/WorldMapControls.cs": "9e2529f9d0e91e5f27c0b596e0020905a81ccf67da671ea06aebde7dee17f191",
+    "src/Game/WorldMapOverlay.cs": "aae13b4e9311a491d57bad5687aedfac8e4a8fd1354b0033d79e6e2b596ca10c",
+    "src/Game/WorldMapState.cs": "cb6ab06caa8c4e18991b943f73af7ee0ac6296f5ec55d078c161787fd1b3c93d",
+    "src/Game/WreckChecks.cs": "e3d953d7c60c15fb7b6a6975762193e317525987b062bf586c410c60d15faa90",
+    "src/Game/Cine/CineDirector.cs": "e60e614611b0f5df1474d00cc59d23a7995fc172dc73b8bd6bb29b2afdce9cdf",
+    "src/Game/Cine/CineFx.cs": "fd3ae457e56c5f53a6f27df347cd30591d73f4871ab7b3b9d36fb0fd80bdba5a",
+    "src/Game/Cine/CineOverlay.cs": "16668973c10b00f4e464ff2f08475a470c79041abe65c4c4fc320be04fc89c88",
+    "src/Game/Cine/CineProbe.cs": "0dc922f9691bc2e620204d46fb27d6ab81ef25ba330a84bda932f2a8e5613df8",
+    "src/Game/Cine/CineScript.cs": "718388c923c60ec0beb0d85f076293d0ab28b5d821e54e3a9fd3be92a161709f",
+    "src/Game/Cine/CineStage.cs": "34f68a2c736561257870dd04b4677daf276b580c5d7c48830bf2749c9db00734",
+    "src/Shared/RadialMath.cs": "c23d6e3fd94b08178921bd8e9c73a130d0d01f9af0175a1e75ee9878873461d8",
+    "src/Sim/Antimatter.cs": "94d72f22ec58d778ffc8935683316db8d1b7a728eb4471ffcc9d881d07e988c3",
+    "src/Sim/AntimatterAI.cs": "9aee4c3fe0fcc4428614a7e156e5d9a969a8aabb6091441a780c1a4834250449",
+    "src/Sim/AssaultGuidance.cs": "de4a233ebffa0336b2703fad4a72e2cbc4775e18843af4fa782043f9182497d9",
+    "src/Sim/AssemblyInfo.cs": "401ee25cb57f1175e48fb997ccc2ac51774f7525aeb77ef68c85f14c69821dd9",
+    "src/Sim/AsteroidField.cs": "5207b2d890b018abc8e988ec305a1a6a64bfe949b2dd2c84207c14180ab9813a",
+    "src/Sim/BattleLog.cs": "4b1894c88452aa62ac3490488852e7c26fb7b9c9f19b7bfa5866bd0b7bf6ab35",
+    "src/Sim/BattleRules.cs": "372acfb5f416d0056adf06d320b5cb1527c72b7268161e263d7058e0dc089cc4",
+    "src/Sim/BattleSetup.cs": "322e3bf420aa4930d380890d74e4ae2720931bede55869a96d9854e14afbb3b1",
+    "src/Sim/CollisionDamage.cs": "f79b726169cc22fce640bb3106d557ca2cdf4aa8829db1ecdd3d324ff48a18e1",
+    "src/Sim/CollisionHull.cs": "9e999c48ae996a483c53817db429b84b07a84279b4e8e4936a7eb9b7a4ba8c2e",
+    "src/Sim/CounterMissiles.cs": "5640dbeb03c729366aa0106472d118c1c705222e755cd56094ed069ab0b3f71e",
+    "src/Sim/DamageControl.cs": "1edeed63788b3a210bb79ec83446724f885962d7625fc05c26657b85ca1a33d4",
+    "src/Sim/DamageRay.cs": "fa301ffb57ea92573164b898048b151c081b2013278866fb0e87f2078a4495a2",
+    "src/Sim/DefenseDrones.cs": "4ef8d839b26028fb56e7811d77ccf3da20caa46034b1482241a44ab54699d01f",
+    "src/Sim/DroneCombat.cs": "fe21b5075b5d20250b25f498f8fe74fb2daeb406c87c2921e1431aa71f408cf0",
+    "src/Sim/EnvironmentLog.cs": "21b9bb3f7aed39993b4ce4b2b4b65e66db0733ddaff99f0e5cd456585495b672",
+    "src/Sim/FireControl.cs": "38eaffeb0594796ffd6c51972154b29e9dc6edf1de169da30aa9980cb3373b00",
+    "src/Sim/FleetDoctrine.cs": "63b80479d717f96a64c3753e9219e8a32c6447940f9f686e73bcfc59b0188fdd",
+    "src/Sim/Gunnery.cs": "4fbe29ff6cd6db4ae3990b6a65ac0f3efe4a51dc9ee6c5303d5fcd4c1cc59b30",
+    "src/Sim/InterceptorMissions.cs": "be4bc5a0e65c384e0abc3dea6c25b48457642ea4f857c7282cca2c0d7eebf644",
+    "src/Sim/MarsDoctrine.cs": "bdaef5565787fed330ecbd5eadf27ce0cef4b50ef568aea02f201a3951220bad",
+    "src/Sim/Missiles.cs": "0b157810c28637a54d2c4e9cc988b8baf8fde92be02a28bfec5cc60862ac2fca",
+    "src/Sim/ObstacleAvoidance.cs": "3aa985da7ba751700a2776df53c87060dad17e931eb1c7c2d7c7307516954825",
+    "src/Sim/ObstacleBvh.cs": "20cea7a7af39ce033484a6e7f8dc43a056f074337fbbbb81ab41d23e0be5b944",
+    "src/Sim/ObstacleCollision.cs": "df4ab62d4fe3b7caaa3858a528f54b864922cd9a088e8e4edfc0bd7c29eae7f0",
+    "src/Sim/Obstacles.cs": "97dc52032a03af2ad5d97d0c983e69bf06c6e39f3df73fe705e9362082ffc06d",
+    "src/Sim/ObstacleWeapons.cs": "7c727d292d9ca0068e095cc6fbed3b112d494f7d3e8e4ceaf81acfe2bc2a3bde",
+    "src/Sim/PointDefense.cs": "4b4cb536279b7112f69cfed2dadd6c51ffff7ffbf8ef893bdffa07d5e2c633f9",
+    "src/Sim/PowerPresets.cs": "440e4616095a552b0cc273803a38b689795b3a0b00232919520c72e61f6db9f3",
+    "src/Sim/ProjectileBroadphase.cs": "8ea2d7cae5e1b1f5e90522c6e0790ae98cded5cb6f514e6cb234e5ab1b6c8fa1",
+    "src/Sim/Railgun.cs": "2436a550c1602a6147e89fdf709d992791cea0d50a0955b3d6e4bc8040111d6c",
+    "src/Sim/ReconProbes.cs": "d2e403b1c97024938f829995ae3186fe46a235f55868d3f68975f533415cb934",
+    "src/Sim/SensorMemory.cs": "d14511194c4c5e44400f98d035050a97e73435843ede8f05bccc592e724ae35f",
+    "src/Sim/SensorNet.cs": "ac44cfbed2d9deb5ac3797400c6dc4957454cafd3170c1c5f43ed899813ab19c",
+    "src/Sim/ShieldEnvelope.cs": "493722174a36e7cc072c039f9568d91e7f40f03872d089a5129ebf36608bbc4e",
+    "src/Sim/ShipAI.cs": "8efcc120b0c3eb54989165f76567809b12a25f61d96a9f064b602aad291e95f2",
+    "src/Sim/ShipBody.cs": "ddd723a844d323b1a8543aff99391c67531f96748e5ffedd28a2966e362c168c",
+    "src/Sim/ShipClass.cs": "76836e05b2e7e5dacd08787b2086729f82eefb3985aa8301f4fa2bef2649a7cc",
+    "src/Sim/ShipCollision.cs": "dfffff73c8e6285f0ec9fb37565ac56d96977a79279430a3e0b9f2ea5bb8c9ac",
+    "src/Sim/ShipDamage.cs": "e9bcbf428ac9ad5397af0ad89a3f6dc4d2e9d38a9bfda43fa08c3e767947addc",
+    "src/Sim/ShipDefinition.cs": "1472cffe5939d7694d2917cde1091e0e24864aedfa30778c5d049b772e913271",
+    "src/Sim/ShipPower.cs": "c8c590b86ccb9e003ba3ea0186fd310df1638d865f77e7391c957e3e8ec39b0c",
+    "src/Sim/SimAI.cs": "e92c95b3d2c6880cbd92794270e3c19bca5e0f7670e59576d8c6aa860c37427f",
+    "src/Sim/SimBallistics.cs": "fe1ef54e3b515bf09e800dac0ac0ea556425e9fa44f72243dff3043b148024bc",
+    "src/Sim/SimMissiles.cs": "1ddd11accff1b811ae41948a002a468a7031cd9f5d2eb78711532da81d04e3e4",
+    "src/Sim/SimObjectives.cs": "ae2d3c5dfe04dfa4856e5d8efdf0f7b990082570ee671d85a05e17bd67d8ef78",
+    "src/Sim/SimProfiler.cs": "61b4dfba48170e2da1a4de152cd02da64adc82e7738dba93911de9cba6055323",
+    "src/Sim/SimTerrainNavigation.cs": "657ec98e8dea61faeaa844249ffbb6efd5bb2eb5a52364f79197f3fa3d0035f4",
+    "src/Sim/SimWorld.cs": "1ed12dab639f7aad325d4b6b82bd21e5383bb5688c4fe6a2e1f2b8da06e2a973",
+    "src/Sim/SmallContactSensors.cs": "d65c5f99289585df9dc3a7a287a01aaf0aff686e49dc52194abe4de493b9f49d",
+    "src/Sim/SmallTargetCombat.cs": "cc6bd07ab49c0563db2da34ad6196bbfcb3ad8aa713cd1d84f049e910857154c",
+    "src/Sim/SpatialBounds.cs": "8375cd4b9522e95bcf2997c61e14be99a18c1b821949db05762dc07250b1f751",
+    "src/Sim/SquadCommands.cs": "7fd6120ec2389283de1e260fcdf41db6180b4dee3bebff32eabb2c35b6b8287a",
+    "src/Sim/Squadron.cs": "38406151970fb64140f29f31c099624b025629fb54789d235133bc130784cc04",
+    "src/Sim/Subsystems.cs": "ed05e4ba81912bf7bbb98fc016c138facd13923b568e0c81582d727d02347b13",
+    "src/Sim/SweepIndex.cs": "c0e4d22a6128c614365f49371202ca5fcf0d37e50ea7e689d59a54c058db3726",
+    "src/Sim/TerrainExposure.cs": "7a15cebdb8a035a6d83b6a9ed72b9d68c6c47187b7616ae6c354e5c2d9c6c6ea",
+    "src/Sim/TerrainFiringPosition.cs": "f9558111794f71333acb1d4201c6b1de09f15753448f952b6003252bb1e5f0c2",
+    "src/Sim/TerrainNavigation.cs": "bb6f0c0b5acc2de72ca14f687d37be59419b128fd813b6f3d7de4f9354ef7580",
+    "src/Sim/Turret.cs": "4ede701686c52fe92fdb2a31f93738e00a456f63519a5714fae3e794352946cb",
+    "src/Sim/Vec3d.cs": "c2405f25964b1dd1ab1a6b7f19314d6f85d6e4e88006b888f7849807641369e0",
+    "src/Sim/WreckLayout.cs": "a32a27c394ee2ca9f2e720e0a1efd5ac6b6c4d5575e229f7b0a27aa87778ea7b",
+    "src/Sim/ZoneStructureShapes.cs": "c3a0dfe5689a55f18a04edd08bd93b7a7e95624f5d337c348bbbe7580bfd4481",
+    "src/View/AsteroidFieldView.cs": "21993ac2de180d1f79306e4998bdea8e439a645b56a659371ed94bbf2297f99b",
+    "src/View/BallisticsView.cs": "26250af6b59c5f7d25e04bde077b23c7c15a60b87e54730c04dba68f35f4fe05",
+    "src/View/BattleFx.cs": "fa91c7566f74ec9046211e517f0520be365f9eaaf604d19c055156fe84592e0f",
+    "src/View/BattleLook.cs": "3005514b76013fe88685c4fa74a7fdda518fdba8ebca23e07cf223a32c81dcae",
+    "src/View/CaptureZoneView.cs": "a4080edd5f80a25e5bfcceb1fb638501c20e9e4e85268fee8966c56b74fac22d",
+    "src/View/CarbonCombatFx.cs": "9dba8893a9ca4c25192f1e93d989375507fb12bcffeb7c9155db3b30d6170abb",
+    "src/View/ChaseCamera.cs": "dec5c5979aa9dbe795db9d17fd7bc064d57cf7d5b20c72a9332ccdc9f1919df8",
+    "src/View/CombatBurstBatch.cs": "bf6b1ae9fc0c52d179f5ba008604f8cebbce8076937ca26c12602a4d303938d6",
+    "src/View/CombatFx.cs": "3680598af05457ee08d8c580df5cab909025e99edbd2b1ecc2e44fc796421e24",
+    "src/View/DroneSwarm.cs": "47d0b9a10301f22f90430ff4af12d90f92155cf814f6ead57b7319133757a66a",
+    "src/View/HullBuilder.cs": "1ba89009aa61d459bc290f728b61b5c04f516ea5685d0337bba8083ed3b86a4f",
+    "src/View/ImportedShipModels.cs": "f5ae8b31ccf9b6c41367ba418919e2c82f2fac1b71788f3c9db27e1586512505",
+    "src/View/MeshKit.cs": "3e16c95692d9e0edac5cb3e3c814707ca647717672c8dc53d619038c75c192fc",
+    "src/View/ObstacleWireframe.cs": "935f5af4eaef9e10ab47f5174f5d8b581a41868f24bddd9879a49ad45f8005a0",
+    "src/View/OrdnanceView.cs": "b67f434d0216c9155bf8ea97b1eb9d7d10f754f817112b054d772bc61927cefa",
+    "src/View/Palette.cs": "e85885d23fa92dabb1d7abeef0fa51d7f944f5854b1e0f039c9a5daacb5a0862",
+    "src/View/ShieldView.cs": "c5b43a976e19f2a10f7c7f654648853cf6dec43c14503832a7dab1dfad95d074",
+    "src/View/ShipModels.cs": "cf84b5515006a38bb7ad924f00dab2abe8a4b3d49079b6b0d508ff4cb2134d88",
+    "src/View/ShipView.cs": "cc25f35b5303070f3a1ab8042a3e400eafb6cb98c7a98395b2f82e5ea74a01d0",
+    "src/View/SpaceDust.cs": "318b3a9d5db50855f871671c4fd726350c961b0f664e0382264971479ee6fd48",
+    "src/View/VisualHullSurface.cs": "441ce819492505b549101114080881e7c198ae92db4dc804bb6bb90cda269593",
+    "src/View/WreckGeometry.cs": "1308d7dc6fae23ab951bc11203b63f5e8de53c88c8d4d36118e94560b31e0a56",
+    "src/View/WreckInterior.cs": "5b9a69b40f4030cd3dd0cd4b9799f73f6288e52a46f29e5c1c8a6809575b8f45",
+    "src/View/WreckView.cs": "e2c725a188dab758b1ddcf76292b63b7b6805f50f5a7be6db951809dcd0f2586",
+    "src/View/ZoneStructures.cs": "555073c77bdb590b9374ab0439c16511d2cb187b765718762e6186663b53c982",
+    "tests/SimChecks/AIChecks.cs": "949ae7ca4f566ee6a9e4baa8f26aef7d772c85c3b642ce19648334b3082eb97a",
+    "tests/SimChecks/AntimatterChecks.cs": "2bedcc5b3b56878b4fe45b40e82b84f5365be0cfd37bd976cba890f2f66c6963",
+    "tests/SimChecks/AntimatterTrials.cs": "4fab158933e442866be99b16086b950d2625581b196d8f59a14298cc0ab36993",
+    "tests/SimChecks/AsteroidChecks.cs": "a43c8702fb7c671b67d46189ef44fdee18bb88150fdda3990719059371ab9edb",
+    "tests/SimChecks/BallisticsChecks.cs": "79e7d1990b1931b8c1fdab8d15a3ec6574ae4710a3575f680af10c3362df9255",
+    "tests/SimChecks/BattleChecks.cs": "2e64075b116b378e2715a90ee9e3c8add654c4b1352b61beee68cffa99b65b9a",
+    "tests/SimChecks/BattleObjectiveChecks.cs": "7de04051c2e48d8b422cdf3fb9d5a020e52521a4c37fb685b67a9d94e36cbd64",
+    "tests/SimChecks/CollisionChecks.cs": "57c7e5a346b01a6802334af03349094b14de350b55ce9b7471bb3b75953e6f55",
+    "tests/SimChecks/CounterMissileChecks.cs": "dd1c65f8f48d8db5c6657efc449405293aff471b6a5ad13f4ae6756d431c9cdf",
+    "tests/SimChecks/CoverChecks.cs": "8fa4b693fde76c9f141e24a685d4cf1312e3123103cad89d0079467fcc726695",
+    "tests/SimChecks/DamageChecks.cs": "f5b7623deb690f56ca3c0498e0caf8ffbe3cd0085f7ed04453254833ab9483cc",
+    "tests/SimChecks/DamageControlChecks.cs": "ce455e55b48be108105a1a10c69dacaebceb4eccee327efce69a73e4205af608",
+    "tests/SimChecks/DatalinkChecks.cs": "fcded71c9b78712300449bd1f1974c19f4196faf22c9746f20699c517f85ec29",
+    "tests/SimChecks/DefenseDroneChecks.cs": "81f3bceb20d42432c1fda9825870f5a6192451aec720326d8725af45cf57dddd",
+    "tests/SimChecks/DesignChecks.cs": "b80f9fe39cdd223c906741c70a3d837aefd0a6db80bec0a111d5c8f1d0b85070",
+    "tests/SimChecks/DroneCombatChecks.cs": "752c4644f11d90ececd5b8758495f5b52acb316f64f163e2cd322f9a9b927507",
+    "tests/SimChecks/FiringPositionChecks.cs": "5d3aa8a73e7184a4292d1033e207487d0bef9852c634670244f22a9882e7d76c",
+    "tests/SimChecks/GunneryChecks.cs": "3040aaf33f3c15095a70c311886034381a7df53645777fe82a2f316bc8d7996b",
+    "tests/SimChecks/HelmChecks.cs": "903fc6c4e01391ba7ee76bf74c6ffbce32bf7ac668f13963915dbe511a60d23c",
+    "tests/SimChecks/InfiltrationChecks.cs": "603fb42f81966041aef09f0de8f5dcd579d835152c9feb16a123f1c898c72eb1",
+    "tests/SimChecks/InterceptorRoleChecks.cs": "0cee71f2c7864b2d33f3bdcb003f92abfc4aae6006e571c11e29fe1fe152cc41",
+    "tests/SimChecks/MissileChecks.cs": "0feaf62402c8fbc77bcf808a70d681d01d1d90c9e034858439a762704ca26ad4",
+    "tests/SimChecks/NavigationChecks.cs": "6f318f618f57018f341847d40c2799501a9fdccc5af704db9e15bdb8e56a0eea",
+    "tests/SimChecks/NavigationHooks.cs": "db0266d8a1fa2476601561c22ae324e9efe5f16b1ce6e6ae89288ddfd4a6e049",
+    "tests/SimChecks/ObstacleAvoidanceReference.cs": "bb7188b87b4466ade2ea91d4a59f644c749f20ce1262bd376fd6e2b05a59792b",
+    "tests/SimChecks/ObstacleBvhChecks.cs": "882f5c4bbee9d7febec37e2996ebed6b94e89df44cc1734d6359a3c80daadeec",
+    "tests/SimChecks/ObstacleChecks.cs": "d3f41d6e1ee81c897f19034808236640c6d4cc0ad95f171a0ad408e04e022075",
+    "tests/SimChecks/ObstacleCollisionChecks.cs": "b81f43a1bc990034c09632856c62c0af920568f08d559707b7bbf8c7da68ceb5",
+    "tests/SimChecks/ObstacleLinearReference.cs": "9f85afd9357c22024c68df567d7efc2fecc3fff2918001acdcb35b5fd4435092",
+    "tests/SimChecks/ObstacleSensorChecks.cs": "b51cc288cfc36d51bd41e5d77ed9e34aea879715175a881c8e482e1beee05b0a",
+    "tests/SimChecks/ObstacleWeaponChecks.cs": "79220f2b80762ca99a5fc98e624458eb7512f6cba6ca960fbb3ac23815fbc52a",
+    "tests/SimChecks/OriginalObstacleMath.cs": "0109cb113cdeedb64d4fb37df15339703374ed06e8a9c0a829bd3c7fb60ade8e",
+    "tests/SimChecks/PlayerInterceptChecks.cs": "3993074d49b541c0f9aff5f137f750724dcfccb28d1cdb970148a3aabeec2c3c",
+    "tests/SimChecks/PointDefenseChecks.cs": "a1d72928c340ce64ce745e31b75c3970dc25c8e487ca5ccc3c2a2e0f440714c9",
+    "tests/SimChecks/PowerChecks.cs": "8212ca651330a20824310f791dd89ffcff0b10433036fee23e664cd4982e6e4a",
+    "tests/SimChecks/ProfilerChecks.cs": "53ac096d72203510fbf2856d041e9929bf7183000985efce582a3a527e3bc1bb",
+    "tests/SimChecks/Program.cs": "147f69a1fc1f78d992c821112de135928704d6f6a58cf88a389774dd289e707f",
+    "tests/SimChecks/ProjectileBroadphaseChecks.cs": "94d31508d6270c18bfa71288a40a3ab9db47970b5dd27f8b7af3ed4e0f134d28",
+    "tests/SimChecks/ProjectileReference.cs": "dc5368b577261be7d1649189e0c468d65c9bad791fca698568b963d44469a715",
+    "tests/SimChecks/RadialChecks.cs": "a8ab6988ab703b37b12f482de63ff682fe946d8549e4fdfb37d436a095986d72",
+    "tests/SimChecks/ReferenceShipCollision.cs": "84fd59e95daa354540be10a949426e74979527b46739a64764b638b4c06958a5",
+    "tests/SimChecks/SensorChecks.cs": "797c7dee6bff90253e03467ce04a0555b6770d29cd54718145dcdfff71bafe20",
+    "tests/SimChecks/ShieldEnvelopeChecks.cs": "15eb6625f1da8a128948787ef4451219b8bae049e041234cfbce6b13c226f486",
+    "tests/SimChecks/SpatialBoundsChecks.cs": "1d5af27afe4d553ded00c4229d8cc31e241b9240e5a250de59b0b86574544960",
+    "tests/SimChecks/SphereDistanceChecks.cs": "15bbf459997632714d2b6f04e9095f63413acb50c70098393e551610b53535da",
+    "tests/SimChecks/SquadCommandChecks.cs": "f8f23a96d521dfb6a5eaab736b35f076492a1c1fd86863f4d2fb5153647a1633",
+    "tests/SimChecks/TrackingChecks.cs": "25c852188b04c8f3c2c9e493663fa33490f91a1ef6955d308cb5d351ba14a9b7",
+    "tests/SimChecks/TurretChecks.cs": "60be3ec9d4eff1a072d83825716d496045eb3ff8233e40ce628750e593a93789",
+    "tests/SimChecks/WreckCollisionChecks.cs": "d035a55627d09eaab8a26dd8a86f434e8258967ec0045b14a17ae66e69890be8",
+    "tests/SimChecks/WreckRayChecks.cs": "b36fbffad53438eeb987524bfd4f65091ec1e2b726d84ecb1c81adeb2bc2b4c7",
+    "tools/ScaleBench/Program.cs": "baf50c53d6b7b43eeae3e410260617b58eb843f13ab14a839c2c2486831574c9",
+    "data/ships/battleship.json": "fcc00173e80684933d5bb1fa10740ce346f1a5de9fcf26c6da0f8c8ca0435fd2",
+    "data/ships/escort.json": "9c4a7234d7b5261677618994cdeafd6d3f865ff45cbed10ced529edfe58f119e",
+    "data/ships/interceptor.json": "86d3de7ee4435f7760edabb22ce619d361299bd366a8eb7df21687c3a097db5b",
+    "data/ships/mars_battleship.json": "b415a35dce71392acb03d5d5c1fad3c606d3a6d1dec6f38812efe78b2cd9b9f4",
+    "data/ships/mars_escort.json": "5d0f91bb8c6ae04cea84033d5b0f1d3f8097499416b8b4d7283f2b3e683e1ec5",
+    "data/ships/mars_interceptor.json": "d2f423eb209832a7a4d5849bb3a9abf5d93e5f4d694772efbbb0826061271185",
+    "src/Sim/Antimatter.cs.uid": "a2dea79bb6a8cdc11addcbdfe950e2b0ccd1b83e005783b1ac56697cd9be012e",
+    "src/Sim/AntimatterAI.cs.uid": "5ad3de8a521b29f1dd9d0b1eaaf8f4b99fc7ee76aae38e67439f9d7fade0e123",
+    "src/Sim/AssaultGuidance.cs.uid": "a625bd783e88186dbb10581afbe1c803c3837ccb958a3be26ff0f02eb1c18d85",
+    "src/Sim/AssemblyInfo.cs.uid": "9f2cdd86fdda3e23348f3fa59dfc5bf33504f7ae4f44a23f425144eccfb16eb2",
+    "src/Sim/AsteroidField.cs.uid": "bf93349705355350fad0a3faebc6dd5fc92075e450985b293dda4d25c4673946",
+    "src/Sim/BattleLog.cs.uid": "a51060d63b996add4e855b1f72b6986c9c49cc1498692a78da86f414eefe8b9f",
+    "src/Sim/BattleRules.cs.uid": "46d622bf484128f2b50811f964fef221da5924bbd658d984a09d14cca15595de",
+    "src/Sim/BattleSetup.cs.uid": "e295cd86994c3216ee90c4a9d998f1b77e9175a19e4a2a7b76251613d0418f4d",
+    "src/Sim/CollisionDamage.cs.uid": "80fd0e3c9026ce0347e0cb230fb365f3d4dbff11151fda0ddba844451f45d6e5",
+    "src/Sim/CollisionHull.cs.uid": "f3e7d3bbd07c8a57921f2c4a1aa001643c7e48076582c488052d12e36a4f96f8",
+    "src/Sim/CounterMissiles.cs.uid": "4452b8841dcd62c3d7228d32fb7464d98f6817cebf1b429f8152141a9036d940",
+    "src/Sim/DamageControl.cs.uid": "33a394dd9360cc043e30110a400b2c31117dbce747421d16a2181398213ee16d",
+    "src/Sim/DamageRay.cs.uid": "a6be095e4a12823a6556d23a785eee1bc47f0e0c71f278d3efd3faca6fae3cbc",
+    "src/Sim/DefenseDrones.cs.uid": "5b50ac5624c26d1bf00deab05ad7211fcd10b988e63c1e834baa523661a411a1",
+    "src/Sim/DroneCombat.cs.uid": "65315aedec62b72e54a24a6dff582a67396734b0eade381a82d7a2edf06d5983",
+    "src/Sim/EnvironmentLog.cs.uid": "415f27d1a367c4573a45bad2e5a49ebda349343bbb4faf7400b0e58b74babe88",
+    "src/Sim/FireControl.cs.uid": "e77d4abb9f7c35480280b816bd2569576244ec06c98ea6547021ebaf22558709",
+    "src/Sim/FleetDoctrine.cs.uid": "03f12e5c09c4d629d51de78904927dd65bf212db7f58d18b1be0c1c7104798bb",
+    "src/Sim/Gunnery.cs.uid": "13e4905a1a1599554ca5f1c1390cf146f752651352748f76e6b33127847ee288",
+    "src/Sim/InterceptorMissions.cs.uid": "766b3357aa876d569e9b1cf730582484d4bea8a06b9b2676bc13f8645a9e4867",
+    "src/Sim/MarsDoctrine.cs.uid": "2a160f777f0d6f1b6aa1c2c5252f7887de3d865333a3183ff774afdf35667e7f",
+    "src/Sim/Missiles.cs.uid": "308eb6232d09a1c46e9fe72ccb137b12d7a19954a8bd70900a4b4399837bac68",
+    "src/Sim/ObstacleAvoidance.cs.uid": "aae2388f953d369c22c3c26b4770c9d7709252813e52b9bd5945cde4c9c8e46a",
+    "src/Sim/ObstacleBvh.cs.uid": "4e02df85ca5876ffd236857c1db580061462430ca24446a15df2df7e6eb10da2",
+    "src/Sim/ObstacleCollision.cs.uid": "b47ea5b5985cdce2a92ec5c3f246c77652d79183e9f9691bdb6e4ef244360c6a",
+    "src/Sim/Obstacles.cs.uid": "1a9ca7e43cccbc4bae69412f990ef7e075c590f82cd19fc4baa77d372019a890",
+    "src/Sim/ObstacleWeapons.cs.uid": "0ba7756e162bff5213cad9ca86e3e300a099e96aada599ee9bfb75d7c8ce4164",
+    "src/Sim/PointDefense.cs.uid": "defea916df87cda6b7c37d84000f4f704e328886fc98c8470208724a90f7d527",
+    "src/Sim/PowerPresets.cs.uid": "9c74acb47a7dc090792e1f39d0ab36ee6082fc48f00d156bc89fb80ece046007",
+    "src/Sim/ProjectileBroadphase.cs.uid": "a95690f15d0adc29880889469ceb97b757cc83db10f512127051ec079e75d4f2",
+    "src/Sim/Railgun.cs.uid": "559b75da72a008f5b06db916a46ed654efce98bbc13aecbe0b58cfc605ee7765",
+    "src/Sim/ReconProbes.cs.uid": "73bbd926d5bd42cab3a3ac61dcb1e96ca87ab4d5c9d95568a1dd6a43999e99d8",
+    "src/Sim/SensorMemory.cs.uid": "cc469f4c6576ca6ea600fe8403b02b763917914bef0a6f8a68509637290e9766",
+    "src/Sim/SensorNet.cs.uid": "8f7ef5d8d10f1247153cd84e154e4b8f39d94e4f62c4ca38e1c6efbbd3f67a46",
+    "src/Sim/ShieldEnvelope.cs.uid": "83f97c3c30c2c7a3a4c472d5931b5fed180072d60e6d61adc7ea6c3997e3191a",
+    "src/Sim/ShipAI.cs.uid": "6bb66b0d7a03f7f7a103b3e149a98083f8f0bc537d4663a7bf7d0799c54b5985",
+    "src/Sim/ShipBody.cs.uid": "f0fb2f182d24bafd4a395cd307b8c65bebf6ab2c29f3e1c03acf763371e63e64",
+    "src/Sim/ShipClass.cs.uid": "1ee7d41a26522e9b76ef561ac7ea1d10ed8a2d2a2a3edfc8dffd8712c06c04c3",
+    "src/Sim/ShipCollision.cs.uid": "a3678631dcf423bf67177e090471b4ffcb4b8f27046e47f484a3805feb1149dd",
+    "src/Sim/ShipDamage.cs.uid": "db9759724339d6907a28a59f70b9e226d1c08f799319ec47f88566514cb91424",
+    "src/Sim/ShipDefinition.cs.uid": "e1819e8819e4a7e9ee4da26ca9bc70d711a99c871eabb3eb6a4200b41337e639",
+    "src/Sim/ShipPower.cs.uid": "d6957a6bc6be204c059d956a37188b7ee7b7e12fa4caec6361490439cb2473bc",
+    "src/Sim/SimAI.cs.uid": "2b0451f286e2edd7d6d7a02b3141f2754b50859799b8403407c912c8bc0c0f24",
+    "src/Sim/SimBallistics.cs.uid": "8b657b44c56cd1629fdec3fa28bf0e825f427b9b18d84b94a00980c9bbff7c3f",
+    "src/Sim/SimMissiles.cs.uid": "549665362c944fa65c4213741122d32339bacefa00e75275d31b43657ee09440",
+    "src/Sim/SimObjectives.cs.uid": "206e9f5eb6a78d84acf6fce68054bb1d95e1f382aa6f45b9f0ffc974324c9337",
+    "src/Sim/SimProfiler.cs.uid": "9e1e510296f5e63b495f1ce13ddd033d75dfc81aff5c1a0207b4c09beea307fa",
+    "src/Sim/SimTerrainNavigation.cs.uid": "57b34325e5d905f7893b1365dafd66680b8c6f7944d876b85d384cee6ceab7b9",
+    "src/Sim/SimWorld.cs.uid": "69ae4a8abb795b5ae575a468be7d6702351de6e2c90c975e85422c1264e7402e",
+    "src/Sim/SmallContactSensors.cs.uid": "f2185b2a931ec9a3a27df49715e2cfcb86759eee390ea730120166daa9ab3fca",
+    "src/Sim/SmallTargetCombat.cs.uid": "25d1f62ddaa155434d6a0756b4353b26b90fe5ee71bea3cb799f0cc529d784c4",
+    "src/Sim/SpatialBounds.cs.uid": "7af565cae06d620272521d6c5a7189f2381ee806d691ca94179aedacb0d081d9",
+    "src/Sim/SquadCommands.cs.uid": "d16bcba64bb4e64f16412fdad63581e13b6ba106cc2ec57f96c584d68bfe147f",
+    "src/Sim/Squadron.cs.uid": "0f0059f4de3d7b9fee788cc8cf4f450e8094a72b971aae1e4e0f792c496432ee",
+    "src/Sim/Subsystems.cs.uid": "82ae48c224cdf0fbeef7fb589a3dc462c39ab1bfd5764645a9efa1766fa9b67b",
+    "src/Sim/SweepIndex.cs.uid": "baf48c259024afb1c89562ea6f94ff8fbfff89460cb146c0bd21ca790aef3cfb",
+    "src/Sim/TerrainExposure.cs.uid": "9ba5787434a9b44a969396a47c8bb15c06a5fa847011d231bf26c79ce048b259",
+    "src/Sim/TerrainFiringPosition.cs.uid": "ff71b26f6758aec7e12d56d093a62242a55ada1bcf58aa82b7ca16cc44c091b6",
+    "src/Sim/TerrainNavigation.cs.uid": "27b4c8a7edc9889a51c57af22bc14f820c298319816be4175122a82e225c9d6b",
+    "src/Sim/Turret.cs.uid": "b3526bf62b1574b3939be7d5c2921547db90213464ddc7ef3408881bccb9e0f3",
+    "src/Sim/Vec3d.cs.uid": "41c6bdf70f229a2393acce2354c222954fa8f7f6281dd6659cd0031f3c39ceee",
+    "src/Sim/WreckLayout.cs.uid": "a60ad7a4c588aacce52a6d8065296e2ad4e984da646add12d91c47dfa4ea5fca",
+    "src/Sim/ZoneStructureShapes.cs.uid": "277517b7fef33a86c852a902e1725418f91a3c3355d0a859e03647e32d001a3a",
+    "SpaceFleet.csproj": "bec1c17b4644e14d2663ccfaef090e842d519b25419641cda0af0add262ebc63",
+    "src/Sim/SpaceFleet.Sim.csproj": "7ef7cab204d429c342e15edfd956467f3d581ab4336c0fd6ae31ba00abed59f5",
+    "tools/ScaleBench/ScaleBench.csproj": "dc579a7594b5f0ce4f3008504745880f9b001024a83d8a5e03efe543de3d941d"
+  },
+  "shipDataUnchangedFromBaseline": true,
+  "runnerHashes": {
+    "baseline": "501c488f091c50c9fc30f6605c506b884d2afd6ee4c14af3664c6cb060b31d53",
+    "current": "20101b3e1a048e0b1bd027509e11b6de27c3ec8b6fef84d75a2c526dabf65c08",
+    "scaleBefore": "4b240260b79a40fdd8a4545048606a95afd0ca946a2dae78e0cfa228c0bcd130",
+    "scaleAfter": "f29fb490c78e5a184e164becc3eefeab4e6b4937568ef178b72badaf187582f4"
+  },
+  "build": {
+    "name": "SpaceFleet-20261012-projectile-scaling-Windows-x64",
+    "builtAt": "2026-10-12T11:53:39.4720990+09:00",
+    "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+    "sourceCommit": "d15d52558d730eef57e94fccb4f9d8a1106de21b",
+    "localChanges": true,
+    "platform": "Windows x64",
+    "selfContained": true,
+    "checks": [
+      "PASS: 51 scene flow checks",
+      "PASS: 1204 ship model checks",
+      "PASS: 216 combat visual checks",
+      "PASS: 120 audio checks; recorded peak 0.451",
+      "PASS: 120 fleet audio checks",
+      "PASS: 275 weapon selection/telescope/damage-control checks",
+      "PASS: 22 telescope interaction checks",
+      "PASS: 22 contact memory checks",
+      "PASS: 31 sensor coverage GPU checks",
+      "PASS: 21 AM game/input/model checks",
+      "PASS: 204 environment presentation checks"
+    ],
+    "zipSha256": "3c271cfa1d2cec77914d13982f94d3a4acfb72ae6b1f691644d2aa5e53b0a981",
+    "zipBytes": 81450870,
+    "zipCrcVerified": true,
+    "assemblyHashes": {
+      "SpaceFleet.dll": "b85141140099b468eb1e9e4cb0e351726b865d19a7f44cfea9f62f541f1a846b",
+      "SpaceFleet.Sim.dll": "61bf5e322caa63132852d9b79558334431f7bff2203dd52357a336aaf148d819"
+    }
+  },
+  "nativeExportChecks": 2286,
+  "limitations": [
+    "Scale scenarios are synthetic Earth/Earth DeepSpace fights in one shared world, 40 km start, 15 s warmup + 60 s measured, three isolated repetitions. Not multiplayer/render/network FPS.",
+    "24/48/96/240 ships assume 1/2/4/10 canonical 12-ship groups per side; final player squad size is not specified.",
+    "Per-tick latency includes the profiler. Separate six-job 240-battle validation is not used for performance conclusions.",
+    "Large-scene terrain, prolonged debris, other designs and hardware, network costs and manual play feel are unverified.",
+    "Preliminary scale measurements identified a remaining carrier scan; the second preliminary repetition was deliberately stopped. Only final root-level scale data feeds this report.",
+    "Navigation comparison excludes nondeterministic buildMs and planMs only."
+  ],
+  "evidenceSha256": "dbb9a5b065a6560f891c2f48260f184bed4301a498ebc51f3cd1c79c3f94fa79"
+}

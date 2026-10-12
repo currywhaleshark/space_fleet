@@ -657,3 +657,11 @@
 - [x] 빈 공역 교차 중앙값 216.332→216.338µs (+0.003%), 소행성 평균 배율 기준 및 Debug ×4 10분 장면 30 FPS 기준 통과.
 - [ ] 점령전 일부 배치 난전 p99 1ms 기준은 미달. 탄체 처리의 추가 최적화/잔여 기준 사용자 판단 필요. 수동 체감 미확인.
 - 실행본: `builds/SpaceFleet-20261012-environment-stage2-optimized-Windows-x64/SpaceFleet.exe`. 결과: `docs/ENVIRONMENT_stage2.md` 추가 최적화 절, 원자료: `docs/validation/environment_stage2_optimization_20261012/`.
+
+### 2026-10-12 — 탄체 후보 검사·함대 규모 부하 시험
+
+- [x] 탄체의 소형 표적·함체·드론 모함 후보 검색과 하위 틱 반경 갱신. 240Hz/double/명중 순서 유지.
+- [x] 동결 원본 회귀검사, 기존 240전/단계1 심우주40전 일치, 24·48·96·240척 전후 세 반복.
+- [x] 장면/환경/배포 검사, Debug/Release ×4 FPS, 실행본 갱신.
+- [ ] 240척 혼잡 구간의 60Hz 여유: PD·AI 교전 및 사선 비용 추가 최적화. 실제 네트워크·렌더·대규모 소행성/장기 잔해전 검증.
+- 보고와 증빙: `BALANCE_perf.md`, `validation/projectile_scaling_20261012/`. 실행본 `builds/SpaceFleet-20261012-projectile-scaling-Windows-x64/SpaceFleet.exe`.

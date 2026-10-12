@@ -51,8 +51,11 @@ public sealed partial class SimWorld
         out ShipBody? carrier,out int index,out double fraction)
     {
         carrier=null; index=-1; fraction=maximum;
-        for(int shipIndex=0;shipIndex<_ships.Count;shipIndex++)
+        ReadOnlySpan<int> candidates = _indexedProjectileShips ? _projectileDroneIndex.Query(bounds) : default;
+        int count = _indexedProjectileShips ? candidates.Length : _ships.Count;
+        for(int candidate=0;candidate<count;candidate++)
         {
+            int shipIndex = _indexedProjectileShips ? candidates[candidate] : candidate;
             var ship=_ships[shipIndex];
             if(ship==shooter || ship.Damage.Destroyed || ship.Definition.DefenseDrones is not { } def) continue;
             if(!bounds.Overlaps(_projectileDroneBounds[shipIndex])) continue;
