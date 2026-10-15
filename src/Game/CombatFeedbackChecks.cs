@@ -78,6 +78,11 @@ public partial class CombatFeedbackChecks : Node
         Check(!CombatFeedback.Describe(events.Impacts[0]).Label.Contains("격침"), "Later destruction cannot relabel an earlier shield hit");
         var shieldBreak = events.Impacts[0] with { ShieldBroken = true };
         Check(CombatFeedback.Describe(shieldBreak).Label == "실드 붕괴", "Shield collapse has a separate result label");
+        var frameHit=events.Impacts[0] with { Hit=events.Impacts[0].Hit with {
+            ShieldStopped=false,ArmorStopped=true,HullHit=true,ShieldAbsorbed=0,StructuralDamage=10,Modules=Array.Empty<ModuleHit>() },
+            TargetDestroyed=false,ShieldBroken=false };
+        Check(CombatFeedback.Describe(frameHit).Kind==HitKind.Penetration && CombatFeedback.Describe(frameHit).Label=="선체 구조 손상",
+            "Penetration into an empty or destroyed compartment has feedback even when exit armor stops it");
 
         var decay = new CombatFeedback(); decay.Prime(events, ally);
         Strike(events, red, ally, HitKind.Critical, 200); decay.Observe(events, ally);
@@ -86,6 +91,8 @@ public partial class CombatFeedbackChecks : Node
             decay.Advance(.1f); Strike(events, red, ally, HitKind.Armor, id); decay.Observe(events, ally);
         }
         Check(decay.Incoming.All(h => h.Kind != HitKind.Critical), "Small follow-up hits cannot keep an old critical alert alive");
+        Check(ally.Damage.Destroyed && !events.Impacts[^1].TargetDestroyed,
+            "A hit on an existing wreck is not a new kill event");
 
         var camera = new ChaseCamera(); AddChild(camera); camera.MakeCurrent();
         camera.ResetAim(Quaternion.Identity);

@@ -101,7 +101,7 @@ public partial class WreckView
         {
             names[surface]=mesh.Mesh.SurfaceGetMaterial(surface)?.ResourceName??"";
             if(((ArrayMesh)mesh.Mesh).SurfaceGetPrimitiveType(surface)!=Mesh.PrimitiveType.Triangles) continue;
-            var arrays=mesh.Mesh.SurfaceGetArrays(surface);
+            using var arrays=mesh.Mesh.SurfaceGetArrays(surface);
             var positions=arrays[(int)Mesh.ArrayType.Vertex].AsVector3Array();
             var normals=arrays[(int)Mesh.ArrayType.Normal].AsVector3Array();
             var uv=arrays[(int)Mesh.ArrayType.TexUV].VariantType==Variant.Type.Nil?Array.Empty<Vector2>():arrays[(int)Mesh.ArrayType.TexUV].AsVector2Array();
@@ -139,7 +139,9 @@ public partial class WreckView
             var s=surfaces[i]; if(s.Positions.Count==0) continue;
             var positions=new Vector3[s.Positions.Count]; var normals=new Vector3[positions.Length];
             for(int j=0;j<positions.Length;j++) { positions[j]=inverse*s.Positions[j]; normals[j]=(pose.Basis.Transposed()*s.Normals[j]).Normalized(); }
-            var output=new Godot.Collections.Array(); output.Resize((int)Mesh.ArrayType.Max);
+            // Keep the native array owned through the interop call, then release it promptly
+            // when many ships build fragments together (rather than waiting for finalization).
+            using var output=new Godot.Collections.Array(); output.Resize((int)Mesh.ArrayType.Max);
             output[(int)Mesh.ArrayType.Vertex]=positions; output[(int)Mesh.ArrayType.Normal]=normals; output[(int)Mesh.ArrayType.TexUV]=s.UV.ToArray();
             mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,output); mesh.SurfaceSetMaterial(mesh.GetSurfaceCount()-1,materials[i]);
         }

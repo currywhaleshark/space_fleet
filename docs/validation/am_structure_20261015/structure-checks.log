@@ -1,0 +1,11 @@
+structure finish battleship: 217 penetrating 100-damage rays
+structure finish escort: 63 penetrating 100-damage rays
+structure finish interceptor: 13 penetrating 100-damage rays
+structure finish mars_battleship: 61 penetrating 100-damage rays
+structure finish mars_escort: 25 penetrating 100-damage rays
+structure finish mars_interceptor: 10 penetrating 100-damage rays
+PASS: 52 cumulative hull structure checks
+Collision: 380 m/s ram → BB modules hit 2, 60 m/s ram → IC modules hit 2
+PASS: 128 damage/data checks
+PASS: 184505 critical damage / emergency repair risk checks
+PASS: 69 damage-control checks

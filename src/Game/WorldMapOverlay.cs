@@ -61,6 +61,7 @@ public partial class WorldMapOverlay : Control
         _pointer = GetViewport().GetMousePosition(); Visible = true; Layout(); QueueRedraw();
     }
     public void Close() { Visible = false; _drag = MouseButton.None; _shiftHeld = false; }
+    public void CancelInteraction() { _drag = MouseButton.None; _moved = false; _shiftHeld = false; }
     public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.ProbeMarkers().Select(p => p.Position))
         .Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
     private float Radius => Mathf.Min(_surface.Size.X, _surface.Size.Y) * .46f;

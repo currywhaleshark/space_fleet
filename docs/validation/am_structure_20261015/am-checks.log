@@ -1,0 +1,14 @@
+AM range 2.0 km: hit=True, expired=False, flight=1.88s, path=1220m
+AM range 5.0 km: hit=True, expired=False, flight=4.52s, path=4217m
+AM range 7.8 km: hit=True, expired=False, flight=6.25s, path=7014m
+AM range 10.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+AM range 15.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+AM structure interceptor -> battleship, shield=False: 165.70 -> 331.41
+AM structure interceptor -> battleship, shield=True: 0.00 -> 0.00
+AM structure interceptor -> mars_battleship, shield=False: 196.96 -> 393.93
+AM structure interceptor -> mars_battleship, shield=True: 47.10 -> 94.20
+AM structure mars_interceptor -> battleship, shield=False: 165.71 -> 331.41
+AM structure mars_interceptor -> battleship, shield=True: 0.00 -> 0.00
+AM structure mars_interceptor -> mars_battleship, shield=False: 196.96 -> 393.93
+AM structure mars_interceptor -> mars_battleship, shield=True: 47.10 -> 94.20
+PASS: 271 antimatter checks

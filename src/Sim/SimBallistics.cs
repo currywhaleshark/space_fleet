@@ -46,7 +46,7 @@ public sealed partial class SimWorld
             IncomingDirection = direction, Energy = energy, Weapon = weapon,
             TargetVelocity=target.Velocity, TargetOrientation=target.Orientation,
             ShieldBroken = shieldBefore > 0 && target.Damage.Shield <= 0,
-            TargetDestroyed = target.Damage.Destroyed });
+            TargetDestroyed = hit.CausedDestruction });
         if (_impacts.Count > 64) _impacts.RemoveAt(0);
     }
 

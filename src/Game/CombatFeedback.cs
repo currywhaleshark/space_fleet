@@ -125,10 +125,11 @@ public sealed class CombatFeedback
         ModuleHit? destroyed = hit.Modules.Where(m => m.Destroyed).Select(m => (ModuleHit?)m).FirstOrDefault();
         HitKind kind = impact.TargetDestroyed || destroyed is not null ? HitKind.Critical
             : !hit.HullHit && hit.ShieldAbsorbed>0 ? HitKind.Shield
-            : hit.Modules.Count > 0 || (!hit.ShieldStopped && !hit.ArmorStopped) ? HitKind.Penetration
+            : hit.StructuralDamage > 0 || hit.Modules.Count > 0 || (!hit.ShieldStopped && !hit.ArmorStopped) ? HitKind.Penetration
             : hit.ShieldStopped ? HitKind.Shield : HitKind.Armor;
         string label = impact.TargetDestroyed ? "격침" : destroyed is { } module
             ? target.Damage.Module(module.Id).Definition.Name + " 파괴"
+            : hit.StructuralDamage > 0 && hit.Modules.Count == 0 ? "선체 구조 손상"
             : kind switch { HitKind.Shield => "실드 흡수", HitKind.Armor => "장갑 방어", _ => "관통" };
         if (impact.ShieldBroken) label = kind == HitKind.Shield ? "실드 붕괴" : "실드 붕괴 · " + label;
         float energy = Mathf.Clamp(Mathf.Sqrt(Mathf.Max(impact.Energy, 1) / 300f), .45f, 1.5f);

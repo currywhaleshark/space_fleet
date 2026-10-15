@@ -62,6 +62,7 @@ public partial class ScaleTest
     public override void _Notification(int what)
     {
         if(what!=NotificationApplicationFocusOut) return;
+        CloseRoster();
         Camera?.ResetTelescope(); _selectionPointer=null; _fireReleaseGuard=true; JettisonProgress=0;
         if (MenuOpen) { _radial.Cancel(); _radialAction=null; }
     }

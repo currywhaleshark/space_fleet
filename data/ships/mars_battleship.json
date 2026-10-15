@@ -1,5 +1,6 @@
 {
   "id": "mars_battleship",
+  "structureHitPoints": 5400,
   "damageControl": { "kits": 5, "repairSeconds": 18, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Battleship",
   "railgun": {
@@ -624,8 +625,8 @@
       "hitPoints": 147.6,
       "resistanceMm": 80.0,
       "grid": "Port",
-      "criticalChance": 0.12,
-      "criticalEnergy": 250
+      "criticalChance": 0.35,
+      "criticalEnergy": 220
     },
     {
       "id": "magazine-starboard",
@@ -644,8 +645,8 @@
       "hitPoints": 147.6,
       "resistanceMm": 80.0,
       "grid": "Starboard",
-      "criticalChance": 0.12,
-      "criticalEnergy": 250
+      "criticalChance": 0.35,
+      "criticalEnergy": 220
     },
     {
       "id": "generator-port",
@@ -691,8 +692,8 @@
         "Starboard"
       ],
       "capacity": 1,
-      "criticalChance": 0.04,
-      "criticalEnergy": 400
+      "criticalChance": 0.18,
+      "criticalEnergy": 320
     },
     {
       "id": "bus-port",

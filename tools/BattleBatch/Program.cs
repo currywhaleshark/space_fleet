@@ -47,6 +47,8 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     {
         var world = new SimWorld {CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false"};
         var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0] };
+        if (argsMap.TryGetValue("match-hull", out var matchHull))
+            config = config with { Match = Matchmaking.Create(task.Seed, matchHull) };
         if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
         var run = Stopwatch.StartNew();
         var ticks = tickProfile ? new List<double>() : null;
@@ -76,6 +78,14 @@ Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 File.WriteAllText(Path.ChangeExtension(output,".field.json"),JsonSerializer.Serialize(new {battlefield=battlefield.ToString(),fieldSeed=fieldSeeds[0],
     obstacleCount=rows.First().World.Obstacles.Count,rocks=rows.First().World.Asteroids?.Rocks.Count??0,regenerations=rows.First().World.Asteroids?.Regenerations??0},new JsonSerializerOptions{WriteIndented=true}));
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
+if (argsMap.ContainsKey("match-hull"))
+    File.WriteAllText(Path.ChangeExtension(output,".losses.json"),JsonSerializer.Serialize(ordered.Select(r => new {
+        r.Seed, r.Mirror, Ships=r.World.Ships.Count, Outcome=r.World.Rules!.Outcome,
+        Destroyed=r.World.Ships.Count(s=>s.Damage.Destroyed), Disabled=r.World.Ships.Count(s=>s.Damage.Disabled),
+        Repairs=r.World.Ships.Sum(s=>s.DamageControl.Completed),
+        Causes=r.World.Ships.Where(s=>s.Damage.Destroyed).GroupBy(s=>s.Damage.Destruction).ToDictionary(g=>g.Key.ToString(),g=>g.Count()),
+        Hulls=r.World.Ships.GroupBy(s=>s.Definition.Id).Select(g=>new{Hull=g.Key,Ships=g.Count(),Destroyed=g.Count(s=>s.Damage.Destroyed),Disabled=g.Count(s=>s.Damage.Disabled),Repairs=g.Sum(s=>s.DamageControl.Completed)}).ToArray()
+    }),new JsonSerializerOptions{WriteIndented=true}));
 if (telemetry)
     File.WriteAllLines(Path.ChangeExtension(output, ".telemetry.csv"), new[] { BalanceTelemetry.Header }
         .Concat(ordered.SelectMany(r => r.Telemetry!.Rows)), new System.Text.UTF8Encoding(false));

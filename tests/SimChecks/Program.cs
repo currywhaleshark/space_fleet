@@ -8,6 +8,11 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--matchmaking")){MatchmakingChecks.Run();return;}
+        if(args.Contains("--critical")){DamageChecks.Run();CriticalDamageChecks.Run();DamageControlChecks.Run();return;}
+        if(args.Contains("--structure")){StructuralDamageChecks.Run();DamageChecks.Run();CriticalDamageChecks.Run();DamageControlChecks.Run();return;}
+        if(args.Contains("--brawl-balance")){BattleChecks.CheckBrawlStatistics();return;}
+        if(args.Contains("--matchmaking-battles")){MatchmakingChecks.RunBattles();return;}
         if(args.Contains("--asteroids")){AsteroidChecks.Run();return;}
         if(args.Contains("--obstacle-bvh")){ObstacleBvhChecks.Run();return;}
         if(args.Contains("--obstacle-bvh-profile")){ObstacleBvhChecks.Profile();return;}
@@ -65,6 +70,8 @@ static class SimChecks
         WreckCollisionChecks.Run();
         WreckRayChecks.Run();
         DamageChecks.Run();
+        CriticalDamageChecks.Run();
+        StructuralDamageChecks.Run();
         DamageControlChecks.Run();
         ShieldEnvelopeChecks.Run();
         BallisticsChecks.Run();
@@ -88,6 +95,7 @@ static class SimChecks
         InterceptorRoleChecks.Run();
         PlayerInterceptChecks.Run();
         BattleChecks.Run();
+        MatchmakingChecks.Run();
         BattleObjectiveChecks.Run();
         ProfilerChecks.Run();
         SpatialBoundsChecks.Run();

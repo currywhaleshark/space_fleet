@@ -1,5 +1,6 @@
 {
   "id": "escort",
+  "structureHitPoints": 2700,
   "damageControl": { "kits": 5, "repairSeconds": 14, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Escort",
   "railgun": {
@@ -250,8 +251,8 @@
       "hitPoints": 120,
       "resistanceMm": 50,
       "grid": "Shared",
-      "criticalChance": 0.1,
-      "criticalEnergy": 250
+      "criticalChance": 0.32,
+      "criticalEnergy": 150
     },
     {
       "id": "reactor",
@@ -274,8 +275,8 @@
         "Port",
         "Starboard"
       ],
-      "criticalChance": 0.04,
-      "criticalEnergy": 400
+      "criticalChance": 0.2,
+      "criticalEnergy": 220
     },
     {
       "id": "generator-port",

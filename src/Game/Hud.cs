@@ -63,6 +63,8 @@ public partial class Hud : Control
 
         Camera3D cam = Game.Camera;
         Vector2 size = GetViewportRect().Size;
+        if(Game.Spectating)
+        {DrawBrackets(cam,controlled,size);DrawBattleHud(size);DrawRadar(Game.SpectatedView??controlled,size);return;}
 
         UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
@@ -353,6 +355,9 @@ public partial class Hud : Control
 
         Label(panel.Position + new Vector2(10, 18), body.Callsign, 14, Text);
         ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Text);
+        Label(panel.Position + new Vector2(140, 18), $"구조 {body.Damage.StructureFraction * 100:0}%", 12,
+            body.Damage.StructureFraction <= .25f ? Hostile : body.Damage.StructureFraction <= .5f ? Motion : Dim,
+            HorizontalAlignment.Right, 100);
         DrawShieldBar(new Rect2(panel.Position + new Vector2(10, 28), new Vector2(panel.Size.X - 20, 8)), body);
         DrawSystemBars(new Rect2(panel.Position + new Vector2(10, 44), new Vector2(panel.Size.X - 20, 66)), body.Damage);
         var dc = body.DamageControl;
@@ -428,7 +433,7 @@ public partial class Hud : Control
         string[] lines =
         {
             $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
-            "플레이 조작 · W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · Tab 함선 전환 · 휠 줌",
+            "플레이 조작 · W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · Tab 양팀 현황 · 휠 줌",
             Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제"
                 : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 좌클릭 선택/사격",
             "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",

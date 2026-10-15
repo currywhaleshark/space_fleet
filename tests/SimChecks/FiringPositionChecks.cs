@@ -24,6 +24,9 @@ static class FiringPositionChecks
         double firstFire=-1;int originalRounds=ship.Railguns.Sum(g=>g.Rounds);double maxDistance=0;
         for(int i=0;i<110*60;i++)
         {
+            // Station retention requires a live target throughout this navigation test.
+            // Lethality and irrecoverable structural wear are covered by damage checks.
+            enemy.Damage.Reset();
             w.Step();maxDistance=Math.Max(maxDistance,(ship.Position-station).Length());
             if(ship.Railguns.Sum(g=>g.Rounds)<originalRounds && firstFire<0)firstFire=w.Time;
         }

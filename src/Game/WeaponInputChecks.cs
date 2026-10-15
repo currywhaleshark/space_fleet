@@ -120,6 +120,11 @@ public partial class WeaponInputChecks : Node
         Input.ActionPress(InputSetup.Fire); Tick(game,180); Input.ActionRelease(InputSetup.Fire);
         Check(game.Controlled.Body.Railguns.Sum(g=>g.Rounds)<battery && game.Controlled.Body.Ordnance.Missiles==payload,
             "Capital main selection fires turrets under player control without launching missiles");
+        GD.Print($"Capital input target after main battery: destroyed={game.InspectTarget?.Body.Damage.Destroyed}, cause={game.InspectTarget?.Body.Damage.Destruction}");
+        // The preceding battery can destroy the target. Give the independent missile input case a fresh target.
+        KeyEvent(game,Key.F7);
+        Check(game.InspectTarget is { } missileTarget && !missileTarget.Body.Damage.Destroyed,
+            "Capital missile input fixture begins with a live target after the main battery trial");
         KeyEvent(game,Key.Key2); KeyEvent(game,Key.Key3);
         Check(game.SelectedWeapon==PlayerWeapon.Missile && !game.AntimatterSelected,"Ship without torpedoes retains previous valid weapon");
         battery=game.Controlled.Body.Railguns.Sum(g=>g.Rounds);
@@ -129,7 +134,7 @@ public partial class WeaponInputChecks : Node
             "Capital missile selection fires one missile without manual main battery fire");
         Mouse(game,MouseButton.Right); Follow(game);
         Check(game.Camera.TelescopeHeld && game.Camera.Fov<21,"Capital ship has the same telescope control");
-        KeyEvent(game,Key.Tab);
+        KeyEvent(game,Key.F9);
         Check(!game.Camera.TelescopeHeld && game.SelectedWeapon==PlayerWeapon.MainGun,"Ship handover resets scope and weapon selection");
         game.Free();
         CheckDroneInput();

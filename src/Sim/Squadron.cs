@@ -34,6 +34,9 @@ public sealed class Squadron
     public SquadronRole Role { get; }
     public IReadOnlyList<ShipBody> Members { get; }
     public bool PlayerLed { get; set; }
+    // Optional support assignment for multi-participant matches. Legacy fixtures leave these empty.
+    public Squadron? SupportGroup { get; internal set; }
+    public Vector3 SupportOffset { get; internal set; }
 
     /// <summary>살아서 움직일 수 있는 첫 구성원. 전투단은 전함이 살아 있으면 전함.</summary>
     public ShipBody? Leader => Members.FirstOrDefault(Active);

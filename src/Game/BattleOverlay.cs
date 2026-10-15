@@ -41,18 +41,26 @@ public partial class BattleOverlay : Control
                 Button("출항",new(620,590,360,56),()=>Host.ChangeScreen(BattleScreen.Select));
                 Button("종료",new(620,662,360,48),Host.Quit); break;
             case BattleScreen.Select:
-                Button("함장  ·  BB-01",new(260,560,320,58),()=>Host.StartBattle("BB-01",true));
-                Button("전투지휘관  ·  DD-31",new(640,560,320,58),()=>Host.StartBattle("DD-31",true));
-                Button("조종사  ·  IC-21",new(1020,560,320,58),()=>Host.StartBattle("IC-21",true));
-                Button($"아군 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(390,230,380,42),()=>Host.ToggleDesign(false));
-                Button($"적군 설계 · {DesignName(Host.EnemyDesign)}  ↔",new(830,230,380,42),()=>Host.ToggleDesign(true));
-                Button("뒤로",new(650,785,300,46),()=>Host.ChangeScreen(BattleScreen.Title));
+                for(int i=0;i<3;i++)
+                {var kind=(HullKind)i;Button(Host.SelectedKind==kind?"선택됨":"이 편대 선택",new(260+i*380,552,320,52),()=>Host.ChooseHull(kind));}
+                Button($"내 함선 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(610,230,380,42),()=>Host.ToggleDesign(false));
+                Button("출격 · 10 대 10 AI 매칭",new(620,785,500,56),()=>Host.BeginMatch());
+                Button("메인으로",new(310,785,260,56),Host.ReturnToPort);
                 Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(310,706,460,52),Host.CycleObjective);
                 Button($"전장 · {AsteroidField.Name(Host.SelectedBattlefield)}  ↔",new(830,706,460,52),Host.CycleBattlefield); break;
+            case BattleScreen.Matching:
+                Button("취소 · 편대로 돌아가기",new(620,800,360,48),Host.SelectRole); break;
+            case BattleScreen.Eliminated:
+                Button("계속 관전",new(420,520,360,56),Host.ContinueSpectating);
+                Button("메인으로 나가기",new(820,520,360,56),Host.ReturnToPort); break;
+            case BattleScreen.Battle when Host.Battle?.Spectating==true:
+                Button("← 이전",new(430,800,160,44),()=>Host.Battle.CycleSpectator(-1));
+                Button("다음 →",new(610,800,160,44),()=>Host.Battle.CycleSpectator(1));
+                Button("메인으로 나가기",new(950,800,230,44),Host.ReturnToPort); break;
             case BattleScreen.Pause:
                 Button("계속",new(620,400,360,56),Host.TogglePause);
-                Button("다시",new(620,476,360,56),()=>Host.StartBattle(Host.Role));
-                Button("종료",new(620,552,360,56),Host.Quit);
+                Button("다시 매칭",new(620,476,360,56),()=>Host.BeginMatch());
+                Button("메인으로 나가기",new(620,552,360,56),Host.ReturnToPort);
                 _volume = new HSlider { MinValue = 0, MaxValue = 100, Step = 5, Value = SoundSettings.Volume };
                 _volume.ValueChanged += value => SoundSettings.SetVolume((float)value);
                 AddChild(_volume);
@@ -62,9 +70,9 @@ public partial class BattleOverlay : Control
                 Button(SoundSettings.Muted ? "효과음 켜기 · F10" : "효과음 끄기 · F10",new(620,760,360,46),
                     () => { SoundSettings.ToggleMute(); Rebuild(); }); break;
             case BattleScreen.Result:
-                Button("다시",new(260,730,320,56),()=>Host.StartBattle(Host.Role));
+                Button("다시 매칭",new(260,730,320,56),()=>Host.BeginMatch());
                 Button("함선 바꾸기",new(640,730,320,56),Host.SelectRole);
-                Button("종료",new(1020,730,320,56),Host.Quit); break;
+                Button("메인으로",new(1020,730,320,56),Host.ReturnToPort); break;
         }
         LayoutButtons(); QueueRedraw();
     }
@@ -76,7 +84,12 @@ public partial class BattleOverlay : Control
         if (_volume is not null) { _volume.Position=offset+new Vector2(730,650)*k;_volume.Size=new Vector2(250,34)*k; }
         if (_shake is not null) { _shake.Position=offset+new Vector2(750,704)*k;_shake.Size=new Vector2(230,34)*k; }
     }
-    public override void _Process(double delta) {Size=GetViewportRect().Size;LayoutButtons(); QueueRedraw(); }
+    public override void _Process(double delta)
+    {
+        Size=GetViewportRect().Size;LayoutButtons();
+        foreach(var (button,_) in _buttons)button.Visible=Host.Screen!=BattleScreen.Battle || Host.Battle?.RosterOpen!=true;
+        QueueRedraw();
+    }
     private void Text(Vector2 at,string text,int size=20,Color? color=null) => DrawString(_font,at,text,HorizontalAlignment.Left,-1,size,color??Ink);
     private void Center(float y,string text,int size=24,Color? color=null) => Text(new(800-_font.GetStringSize(text,fontSize:size).X*.5f,y),text,size,color);
     public override void _Draw()
@@ -84,11 +97,27 @@ public partial class BattleOverlay : Control
         float k=Mathf.Min(Size.X/1600,Size.Y/900); DrawSetTransform((Size-new Vector2(1600,900)*k)*.5f,0,Vector2.One*k);
         if(Host.Screen==BattleScreen.Battle)
         {
+            if(Host.Battle?.RosterOpen==true){DrawRoster(Host.Battle.LaunchConfig?.Match,Host.Battle);return;}
+            if(Host.Battle?.Spectating==true)
+            {
+                DrawRect(new(380,729,840,132),new(.015f,.035f,.055f,.92f));
+                Center(765,$"관전 중 · {Host.Battle.SpectatedView?.Body.Callsign ?? "전장"}",24,Blue);
+                Center(789,"← → 관전 함선 변경 · 중클릭 회전 · 휠 줌 · Tab 양팀 편성",16);
+            }
             if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
-            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · "+AsteroidField.Name(Host.SelectedBattlefield),26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  아군 편대를 지휘하세요",19);Center(244,"F1 조작 안내   ·   N 편대   ·   F 전력",17,Blue);}
+            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · "+AsteroidField.Name(Host.SelectedBattlefield),26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  내 편대를 지휘하세요",19);Center(244,"Tab 양팀 편성   ·   N 편대   ·   F 전력   ·   F1 도움말",17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
             {DrawRect(new(0,0,1600,900),new(0,0,0,.72f));Center(420,lost.Controlled!.Body.Damage.Destroyed?"격침":"무력화",40,Red);Center(468,"지휘권 인계 중",20);}
+            return;
+        }
+        if(Host.Screen==BattleScreen.Matching){DrawRoster(Host.PendingMatch,null);return;}
+        if(Host.Screen==BattleScreen.Eliminated)
+        {
+            DrawRect(new(0,0,1600,900),new(0,.015f,.025f,.8f));
+            Center(360,Host.Battle?.SquadronEliminated==true?"내 편대 전멸":"내 편대 전투불능",42,Red);
+            Center(415,"남은 아군의 전투를 관전하거나 메인화면으로 돌아갈 수 있습니다.",22);
+            Center(456,Host.Battle?.SquadronEliminated==true?"전투는 계속 진행됩니다.":"편대원이 응급복구되면 지휘권을 되찾습니다.",18,Blue);
             return;
         }
         DrawRect(new(0,0,1600,900),new(.012f,.025f,.043f,Host.Screen==BattleScreen.Pause?.94f:1));
@@ -96,24 +125,27 @@ public partial class BattleOverlay : Control
         for(int y=0;y<=900;y+=80)DrawLine(new(0,y),new(1600,y),new(.2f,.4f,.6f,.065f));
         if(Host.Screen==BattleScreen.Title)
         {
-            Center(198,"SPACE FLEET",58);Center(244,"한 판의 함대전",22,Blue);
+            Center(198,"SPACE FLEET",58);Center(244,"내 함선, 내 편대와 함께 출격",22,Blue);
             Ship(new(675,425),HullKind.Battleship,Blue,1.5f);Ship(new(860,440),HullKind.Escort,Blue);Ship(new(965,370),HullKind.Interceptor,Red);
             DrawArc(new(800,435),185,-2.8f,.2f,64,new(.4f,.72f,1,.22f),2);
-            Center(820,"지구권 · 화성권  /  6종의 함체 · 24척 함대전",18,new Color(Ink,.5f));
+            Center(550,$"내 함선 · {ShipDefinitions.ById(Host.PlayerHullId).Flight.DisplayName}",22,Blue);
+            Center(820,"지구권 · 화성권  /  10 대 10 편대 · AI 무작위 매칭",18,new Color(Ink,.5f));
         }
         else if(Host.Screen==BattleScreen.Select)
         {
             bool mars = Host.PlayerDesign == DesignFamily.Mars;
             Color accent = mars ? Orange : Blue;
-            Center(145,"함대 설계와 지휘권을 선택하세요",34);Center(187,"아군 Blue · 적군 Red  /  설계 계통은 팀과 별개입니다",18,Blue);
+            Center(145,"내 함선과 편대",34);Center(187,"선택한 편대로 출격하면 나머지 참가자는 AI로 편성됩니다",18,Blue);
             string[] descriptions=mars ? new[]{"장거리 정밀포격 · 가벼운 방어","센서망 지원 · ECM · 분산 기동","고속 침투 · 반물질 강습 후 이탈"}
                 : new[]{"전열 유지 · 지속포격 · 높은 방어","상호방공 · 측면 지원 · 집중사격","요격전 · 근접 기동 · 반물질 강습"};
             for(int i=0;i<3;i++)
             {
                 float x=260+i*380;DrawRect(new(x,295,320,350),new(.025f,.06f,.095f));
+                if(Host.SelectedKind==(HullKind)i)DrawRect(new(x,295,320,350),accent,false,2);
                 Ship(new(x+160,395),(HullKind)i,accent,i==0?1.1f:1.35f);
                 Text(new(x+22,325),ShipDefinitions.For((HullKind)i, Host.PlayerDesign).Flight.DisplayName,21,accent);
                 Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
+                Text(new(x+30,630),i==0?"전함 1 + 호위함 2":i==1?"호위함 4":"요격함 5",17,accent);
             }
             Center(668,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
             Center(691,Host.SelectedObjective switch
@@ -161,7 +193,7 @@ public partial class BattleOverlay : Control
                 Color c=ship.Damage.Disabled?Red:ship.Damage.Modules.Any(m=>m.Destroyed)?Orange:f==Faction.Blue?Blue:Red;
                 if(ship.Damage.Destroyed){DrawLine(new(x-9,y-9),new(x+9,y+9),c,2);DrawLine(new(x+9,y-9),new(x-9,y+9),c,2);}
                 else Ship(new(x,y),ship.Class.Kind,c,.22f);
-                x+=48;
+                x+=Mathf.Min(48,1000f/battle.World.Ships.Count(s=>s.Faction==f));
             }
         }
         PlayerRecord record=battle.ResultRecord;

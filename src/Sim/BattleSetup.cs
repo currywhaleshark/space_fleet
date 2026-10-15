@@ -19,6 +19,8 @@ public sealed record BattleConfig
     public DesignFamily RedDesign { get; init; } = DesignFamily.Earth;
     // Explicit IDs allow mixed-design fleets, without turning a team into a design faction.
     public IReadOnlyDictionary<string, string>? HullOverrides { get; init; }
+    // Null preserves the canonical 24-ship fixture used by balance and regression runs.
+    public MatchLineup? Match { get; init; }
 }
 
 public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship);
@@ -53,6 +55,7 @@ public static class BattleSetup
         if (config.StartDistance <= 0 || !double.IsFinite(config.StartDistance) || !config.RedOffset.IsFinite()
             || config.PositionJitter < 0 || !double.IsFinite(config.PositionJitter) || !float.IsFinite(config.HeadingJitterDegrees))
             throw new ArgumentException("Invalid battle config");
+        if (config.Match is not null) return Matchmaking.Spawn(world, config);
         var random = new Random(config.Seed);
         var offsets = new Vec3d[2, 3];
         var headings = new float[2, 3];

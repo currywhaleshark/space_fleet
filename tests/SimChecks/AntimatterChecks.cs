@@ -6,11 +6,13 @@ static class AntimatterChecks
 {
     private static int _checks;
     private static void Check(bool ok, string why) { if (!ok) throw new Exception(why); _checks++; }
-    internal static ShipDefinition Variant(string name, bool pd = false, bool critical = false, bool drones = false)
+    internal static ShipDefinition Variant(string name, bool pd = false, bool critical = false, bool drones = false,
+        float? structureMultiplier = null)
     {
         using var stream = typeof(ShipDefinitions).Assembly.GetManifestResourceStream($"SpaceFleet.data.ships.{name}.json")!;
         using var reader = new StreamReader(stream);
         var json = JsonNode.Parse(reader.ReadToEnd())!.AsObject();
+        if(structureMultiplier is { } multiplier) json["antimatter"]!["structuralDamageMultiplier"]=multiplier;
         if (!pd) json.Remove("pointDefense");
         if (!pd && !drones) json.Remove("defenseDrones");
         if (!critical) foreach (var m in json["modules"]!.AsArray()) m!["criticalChance"] = 0;
@@ -49,7 +51,7 @@ static class AntimatterChecks
     }
     public static void Run()
     {
-        CheckState(); CheckFlight(); CheckMovingLaunch(); CheckDamage(); CheckContainment(); CheckCountermeasures(); CheckAI();
+        CheckState(); CheckFlight(); CheckMovingLaunch(); CheckDamage(); CheckStructuralBonus(); CheckContainment(); CheckCountermeasures(); CheckAI();
         Console.WriteLine($"PASS: {_checks} antimatter checks");
     }
     private static void CheckState()
@@ -84,6 +86,7 @@ static class AntimatterChecks
             Check(w.LaunchAntimatter(ic,bb).Fired, "Long launch allowed but must waste payload");
             var flight = w.Missiles.Single(); var result = Fly(w,bb);
             Check(range <= 7800 ? result.Hit : !result.Hit && result.Expired, $"AM range {range}: {result}");
+            if(range>7800) Check(bb.Damage.StructureFraction==1,"Expired AM never applies its structural bonus remotely");
             Check(result.Time <= 7.02 && flight.TravelMeters <= 8000.01, "Hard life/distance limits");
             Console.WriteLine($"AM range {range/1000:0.0} km: hit={result.Hit}, expired={result.Expired}, flight={result.Time:0.00}s, path={flight.TravelMeters:0}m");
         }
@@ -142,6 +145,51 @@ static class AntimatterChecks
         Check(w.Log!.Side(Faction.Blue).Torpedoes==1 && w.Log.Side(Faction.Blue).TorpedoHits==1
             && w.Log.Side(Faction.Blue).Missiles==0, "AM has independent combat statistics");
     }
+    private static void CheckStructuralBonus()
+    {
+        foreach(string carrier in new[]{"interceptor","mars_interceptor"})
+        {
+            Check(ShipDefinitions.ById(carrier).Antimatter!.StructuralDamageMultiplier==2,"Both AM carriers configure the 2x frame bonus");
+            foreach(float invalid in new[]{0f,-1f,float.MaxValue})
+            {
+                bool rejected=false;
+                try{Variant(carrier,structureMultiplier:invalid);}catch(InvalidDataException){rejected=true;}
+                Check(rejected,"Invalid AM structural bonus fails ship data loading");
+            }
+            foreach(string victim in new[]{"battleship","mars_battleship"})
+            foreach(bool shielded in new[]{false,true})
+            {
+                (ShotResult Hit,float[] Modules,bool Destroyed) Trial(float multiplier)
+                {
+                    var world=new SimWorld();
+                    var shooter=world.Add(new ShipBody("BONUS-IC",Variant(carrier,structureMultiplier:multiplier),Faction.Blue));
+                    var target=world.Add(new ShipBody("BONUS-BB",Variant(victim),Faction.Red));
+                    var point=target.Damage.Modules.First(m=>m.Definition.Kind==ModuleKind.Thruster).Definition.Center;
+                    shooter.Place(Vec3d.From(point)+new Vec3d(0,0,3000),Quaternion.Identity);
+                    shooter.Control=target.Control=new ShipControl { FlightAssist=false };
+                    Arm(world,shooter);
+                    if(!shielded)target.Damage.AbsorbShield(target.Damage.Shield,world.Time);
+                    world.Sensors.Update(world.Ships,world.Time,force:true);
+                    Check(world.LaunchAntimatter(shooter,target,point).Fired,"Bonus trial launches a real torpedo");
+                    Check(Fly(world,target).Hit,"Bonus trial must physically strike the target");
+                    Check(shooter.Ordnance.Antimatter.Rounds==2&&shooter.Ordnance.Missiles==4,"Bonus leaves separate ammunition unchanged");
+                    return(world.Impacts.Single(i=>i.Weapon==BattleWeapon.Antimatter).Hit,
+                        target.Damage.Modules.Select(m=>m.Health).ToArray(),target.Damage.Destroyed);
+                }
+                var baseline=Trial(1);var bonus=Trial(2);
+                Check(Math.Abs(bonus.Hit.StructuralDamage-baseline.Hit.StructuralDamage*2)<.01f,
+                    "Actual AM impact passes the configured multiplier into hull damage");
+                Check(bonus.Hit.ShieldAbsorbed==baseline.Hit.ShieldAbsorbed&&bonus.Hit.ArmorStopped==baseline.Hit.ArmorStopped
+                    &&bonus.Modules.SequenceEqual(baseline.Modules),"AM bonus preserves shield, armor and local module results");
+                Check(!bonus.Destroyed,"Fresh battleship frame survives one doubled localized engine hit");
+                if(!shielded)Check(baseline.Hit.StructuralDamage>0,"Unshielded comparison exercises nonzero structural damage");
+                Console.WriteLine($"AM structure {carrier} -> {victim}, shield={shielded}: {baseline.Hit.StructuralDamage:F2} -> {bonus.Hit.StructuralDamage:F2}");
+            }
+        }
+        foreach(var definition in ShipDefinitions.All)
+            Check(definition.Missiles!.Packet.StructuralDamageMultiplier==1&&definition.Railgun!.Packet.StructuralDamageMultiplier==1,
+                "Ordinary missiles and railguns retain their original frame damage");
+    }
     private static void CheckContainment()
     {
         foreach (bool armed in new[] { false,true })
@@ -186,7 +234,7 @@ static class AntimatterChecks
         w.LaunchAntimatter(ic,bb); var missile=w.Missiles.Single();
         missile.Health=.01f;
         var result=Fly(w,bb);
-        Check(result.Intercepted && !result.Hit && bb.Damage.Modules.All(m=>m.HealthFraction==1), "PD interception is harmless to target, not AM detonation");
+        Check(result.Intercepted && !result.Hit && bb.Damage.StructureFraction==1 && bb.Damage.Modules.All(m=>m.HealthFraction==1), "PD interception is harmless to target, not AM detonation");
         (w,ic,bb)=Fixture(); Arm(w,ic); w.LaunchAntimatter(ic,bb); missile=w.Missiles.Single();
         w.LaunchDecoys(bb);
         Step(w,.6); Check(missile.OnDecoy, "AM seeker can actually acquire a deployed decoy");
@@ -210,7 +258,7 @@ static class AntimatterChecks
             var droneResult=Fly(w,bb);
             Check(drones.Rounds.Sum()<bb.Definition.DefenseDrones!.Count*bb.Definition.DefenseDrones.RoundsPerDrone,
                 "Defense drones consume their own ammunition");
-            Check(droneResult.Intercepted && !droneResult.Hit, "Defense drones participate in physical interception");
+            Check(droneResult.Intercepted && !droneResult.Hit && bb.Damage.StructureFraction==1, "Defense drones participate in physical interception without remote structure damage");
         }
     }
     private static void CheckAI()

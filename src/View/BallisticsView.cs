@@ -39,7 +39,7 @@ public partial class BallisticsView : Node3D
     public static int FragmentCount(ProjectileImpact impact)
     {
         if(!impact.Hit.HullHit || impact.Hit.ShieldStopped) return 0;
-        int tier=impact.Hit.Modules.Any(m=>m.Destroyed)?3:impact.Hit.Modules.Count>0?2:1;
+        int tier=impact.Hit.Modules.Any(m=>m.Destroyed)?3:impact.Hit.Modules.Count>0 || impact.Hit.StructuralDamage>0?2:1;
         return Math.Clamp((int)(Mathf.Sqrt(Mathf.Max(impact.Energy,1)/100)*tier*3),2,48);
     }
     public void Sync(SimWorld world,Vec3d origin,double alpha,Camera3D camera,IReadOnlyList<ShipView>? ships=null)
@@ -133,7 +133,7 @@ public partial class BallisticsView : Node3D
                 float seed=impact.Id*.173f+j*2.39996f;
                 Vector3 direction=CarbonCombatFx.Direction(impact.Id,j,normal,1.5f);
                 float scale=Mathf.Clamp(effectScale*.18f,.08f,2.2f)
-                    *(hit.Modules.Count>0?2:1)*(.5f+(j%5)*.22f);
+                    *(hit.Modules.Count>0 || hit.StructuralDamage>0?2:1)*(.5f+(j%5)*.22f);
                 float fade=Mathf.Clamp((2.8f-age)/.5f,0,1);
                 var shard=Next(_shards,s++,_chip,age<.45f?_hotMetal:_metal);
                 Vector3 position=debrisOrigin+direction*(35+j*6)*age;

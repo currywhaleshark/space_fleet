@@ -25,6 +25,7 @@ public partial class AsteroidFieldView : Node3D
                 multi.SetInstanceTransform(i,new(basis,(rock.Body.Position-_field.Center).ToVector3()));
             }
             AddChild(new MultiMeshInstance3D {Name=$"RockVariant{variant}",Multimesh=multi,MaterialOverride=material,
+                Layers=BattleLook.AsteroidLayer,
                 CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
         }
         if(Array.IndexOf(OS.GetCmdlineUserArgs(),"--show-obstacles")>=0)
@@ -64,22 +65,5 @@ public partial class AsteroidFieldView : Node3D
         var mesh=new ArrayMesh();mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles,arrays);return mesh;
     }
     public void Sync(Vec3d origin)=>Position=(_field.Center-origin).ToVector3();
-    public static ShaderMaterial RockMaterial()=>new(){Shader=new Shader {Code="""
-        shader_type spatial;
-        render_mode diffuse_burley, specular_disabled;
-        varying vec3 rock_pos;
-        float hash(vec3 p) { return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.5453); }
-        float noise(vec3 p) {
-            vec3 i=floor(p),f=fract(p);f=f*f*(3.0-2.0*f);
-            return mix(mix(mix(hash(i),hash(i+vec3(1,0,0)),f.x),mix(hash(i+vec3(0,1,0)),hash(i+vec3(1,1,0)),f.x),f.y),
-                mix(mix(hash(i+vec3(0,0,1)),hash(i+vec3(1,0,1)),f.x),mix(hash(i+vec3(0,1,1)),hash(i+vec3(1,1,1)),f.x),f.y),f.z);
-        }
-        void vertex() { rock_pos=VERTEX; }
-        void fragment() {
-            float grain=noise(rock_pos*14.0)*0.50+noise(rock_pos*43.0)*0.30+noise(rock_pos*131.0)*0.20;
-            float seam=smoothstep(0.08,0.19,abs(noise(rock_pos*8.0)-0.5));
-            ALBEDO=mix(vec3(0.105,0.113,0.12),vec3(0.32,0.305,0.28),grain)*(0.70+0.30*seam);
-            ROUGHNESS=1.0;RIM=0.16;RIM_TINT=0.15;
-        }
-        """}};
+    public static ShaderMaterial RockMaterial()=>new(){Shader=GD.Load<Shader>("res://shaders/asteroid.gdshader")};
 }

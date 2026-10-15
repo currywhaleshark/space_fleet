@@ -1,5 +1,6 @@
 {
   "id": "interceptor",
+  "structureHitPoints": 720,
   "damageControl": { "kits": 2, "repairSeconds": 10, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Interceptor",
   "reconProbes": { "count": 2, "deploymentMeters": 30000, "acceleration": 220, "burnSeconds": 8, "sensorStrength": 85 },
@@ -68,6 +69,7 @@
     "moduleId": "am-containment", "rounds": 3, "armingSeconds": 2.5,
     "recommendedMinMeters": 2000, "recommendedMaxMeters": 5000, "maxTravelMeters": 8000,
     "terminalAccelG": 6, "launchConeDegrees": 15, "damageDepthMeters": 180,
+    "structuralDamageMultiplier": 2,
     "warningHealth": 0.85, "safeFailureHealth": 0.15, "armedFailureHealth": 0.65,
     "flight": { "rounds": 3, "reloadSeconds": 2.5, "launchPoint": [1.2,-1.8,-7],
       "ejectSpeed": 450, "accelG": 22, "burnSeconds": 7, "maxFlightSeconds": 7,
@@ -256,8 +258,8 @@
       "hitPoints": 55,
       "resistanceMm": 12,
       "grid": "Shared",
-      "criticalChance": 0.08,
-      "criticalEnergy": 250
+      "criticalChance": 0.28,
+      "criticalEnergy": 85
     },
     {
       "id": "reactor",
@@ -280,8 +282,8 @@
         "Port",
         "Starboard"
       ],
-      "criticalChance": 0.02,
-      "criticalEnergy": 400
+      "criticalChance": 0.16,
+      "criticalEnergy": 120
     },
     {
       "id": "generator-port",

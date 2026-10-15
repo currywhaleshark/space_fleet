@@ -1,0 +1,23 @@
+{
+  "name": "SpaceFleet-20261015-matchmaking-Windows-x64",
+  "builtAt": "2026-10-15T00:38:54.5268813+09:00",
+  "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+  "sourceCommit": "9ed5e52eae3692aca8f9a72f44099fd60408ed71",
+  "localChanges": true,
+  "platform": "Windows x64",
+  "selfContained": true,
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 30 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 1204 ship model checks",
+    "PASS: 216 combat visual checks",
+    "PASS: 120 audio checks; recorded peak 0.492",
+    "PASS: 120 fleet audio checks",
+    "PASS: 275 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ]
+}

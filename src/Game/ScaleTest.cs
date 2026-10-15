@@ -101,6 +101,7 @@ public partial class ScaleTest : Node3D
         CreateWorldMap();
 
         SelectControl(LaunchControl ?? _shot?.Control ?? "IC-21");
+        if(BattleMode)OwnedSquadron=Controlled?.Body.Squadron;
         // 피해·충돌 검증은 표적이 움직이면 안 되므로 AI를 끈다(--no-ai로도 끌 수 있다).
         SetupAI(disabled: _shot is { NoAi: true } || _shot?.DamageTarget is not null || _shot?.Ram is not null);
         if (_shot is not null)
@@ -157,11 +158,14 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if(HandleRosterInput(e))return;
+        if(RosterOpen){GetViewport().SetInputAsHandled();return;}
         if (e is InputEventMouse mouse && Input.MouseMode != Input.MouseModeEnum.Captured) _selectionPointer = mouse.Position;
         if (e.IsActionReleased(InputSetup.Fire)) _fireReleaseGuard = false;
         if (e.IsActionReleased(InputSetup.Telescope)) Camera.SetTelescope(false);
         if (WorldMapOpen) { _worldMap.HandleInput(e); return; }
-        if (Paused || Spectating) return;
+        if (Paused) return;
+        if (Spectating) {HandleSpectatorInput(e);return;}
         if (e.IsActionPressed(InputSetup.WorldMap))
         { ToggleWorldMap(); GetViewport().SetInputAsHandled(); return; }
         if (_mapReleaseGuard && e is InputEventMouseButton or InputEventMouseMotion)
@@ -302,7 +306,7 @@ public partial class ScaleTest : Node3D
             _testShots++;
         }
         t = PerfTrace.Begin();
-        if (!Spectating) _audio.Observe(World, Controlled?.Body);
+        _audio.Observe(World, Spectating ? null : Controlled?.Body);
         PerfTrace.End("audioObserve", t);
     }
 
@@ -311,7 +315,7 @@ public partial class ScaleTest : Node3D
         PerfTrace.Frame(this, World.Time);
         UpdateMapInputGuard();
         if (!Input.IsActionPressed(InputSetup.Fire) && !Input.IsMouseButtonPressed(MouseButton.Left)) _fireReleaseGuard = false;
-        else if (Paused || MenuOpen || WorldMapOpen || RadarPointerCaptured) _fireReleaseGuard = true;
+        else if (Paused || MenuOpen || WorldMapOpen || RosterOpen || RadarPointerCaptured) _fireReleaseGuard = true;
         StepShotRadial();
         if (_shot is not null && WorldMapOpen && _frame == 60) _worldMap.FitAll();
         if (_shot is not null && WorldMapOpen && _frame == 70 && OS.GetCmdlineUserArgs().Contains("--probe-range-preview"))
@@ -380,6 +384,7 @@ public partial class ScaleTest : Node3D
         int index = _playable.FindIndex(v => v.Body.Callsign == callsign);
         if (index < 0)
             index = 0;
+        if(BattleMode&&OwnedSquadron is { } owned&&!owned.Members.Contains(_playable[index].Body))return;
         ShipBody? previous = _playable.Count > 0 ? _playable[_controlledIndex].Body : null;
         previous?.Ordnance.Antimatter.Cancel();
         SelectedWeapon=PlayerWeapon.MainGun; JettisonProgress=0;
@@ -443,6 +448,9 @@ public partial class ScaleTest : Node3D
             if (scout.Body.Squadron is { } wing) World.OrderWing(wing, InterceptorMission.Recon);
         }
         // Developer screenshot fixture for a working repair crew on the controlled ship.
+        if (OS.GetCmdlineUserArgs().Contains("--structure-preview") && Controlled is { } structureView)
+            structureView.Body.Damage.HurtStructure(structureView.Body.Definition.StructureHitPoints * .8f,
+                World.Time, Vector3.Zero);
         if (OS.GetCmdlineUserArgs().Contains("--repair-preview") && Controlled is { } repairView)
         {
             var sensor = repairView.Body.Damage.Modules.First(m => m.Definition.Kind == ModuleKind.Sensor);

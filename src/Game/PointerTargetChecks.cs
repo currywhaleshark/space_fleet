@@ -171,7 +171,7 @@ public partial class WeaponInputChecks
         Check(g.Camera.TelescopeHeld && g.SelectedSmallContact is not null, $"Scope ordnance selection: held {g.Camera.TelescopeHeld}, alive {probe.Active}, fresh {g.World.Sensors.SmallTrack(ship.Faction, probe)?.Fresh(g.World.Time)}, selected {g.InspectTarget?.Body.Callsign}, status {g.LastFireMessage}, screen {g.Camera.UnprojectPosition((probe.Position - g.RenderOrigin).ToVector3())}, crosshair {g.Camera.AimScreenPosition()}");
         Mouse(g, MouseButton.Right, false);
         Check(g.Gunnery!.PlayerSmallTarget, "Scope exit does not resume unrelated automatic fire");
-        KeyEvent(g, Key.Tab);
+        KeyEvent(g, Key.F9);
         Check(g.SelectedSmallContact is null, "Control handover clears old ordnance selection");
         g.Free();
     }

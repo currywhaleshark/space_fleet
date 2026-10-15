@@ -1,5 +1,6 @@
 # 함선 외형 검토 컷. 예: .\tools\gallery.ps1 battleship hero  ->  shots/gallery/battleship_hero.png
 # 함선 ID: battleship, escort, interceptor, mars_battleship, mars_escort, mars_interceptor. 시점: hero, side, rear, front, top.
+# 소행성: asteroid(시점 sunlit/hero/night), asteroid-variants(12종), asteroids(군집).
 param([Parameter(Mandatory)][string]$Ship, [string]$View = 'hero', [string]$Faction = 'Blue', [string]$Tag = '', [switch]$ShowObstacles)
 . "$PSScriptRoot\godot.ps1"
 $dir = Join-Path $ProjectDir 'shots\gallery'

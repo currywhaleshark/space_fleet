@@ -174,7 +174,8 @@ static class AIChecks
         foreach (ShipBody s in new[] { bb, d1, d2 }) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
         world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { bb, d1, d2 });
         world.EnableCommander(Faction.Blue);
-        for (int i = 0; i < 60 * 120; i++) world.Step();
+        // Measure sustained formation/orders with a persistent enemy, not post-kill retasking.
+        for (int i = 0; i < 60 * 120; i++) { enemy.Damage.Reset(); world.Step(); }
         Require(world.BrainOf(bb)!.Order is { Kind: OrderKind.Attack } o && o.Target == enemy, "The battle group flagship must attack the enemy battleship");
         foreach (ShipBody d in new[] { d1, d2 })
         {

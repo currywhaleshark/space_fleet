@@ -14,6 +14,7 @@ public partial class Hud
     private void DrawSquadrons(ShipView controlled, Vector2 screen)
     {
         var squadrons = Game.World.Squadrons.Where(q => q.Faction == controlled.Body.Faction).ToList();
+        if(Game.LaunchConfig?.Match is not null)squadrons.RemoveAll(q=>q!=Game.OwnedSquadron);
         if (squadrons.Count == 0) return;
         DrawInterceptorStatus(controlled, screen);
         const float row = 20f;

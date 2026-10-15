@@ -41,6 +41,7 @@ public sealed class ShipDefinition
     public required SensorDefinition Sensors { get; init; }
     public required HullSection[] HullSections { get; init; }
     public required ModuleDefinition[] Modules { get; init; }
+    public float StructureHitPoints { get; init; } = 1000f;
     public RailgunDefinition? Railgun { get; init; }
     public MissileDefinition? Missiles { get; init; }
     public AntimatterDefinition? Antimatter { get; init; }
@@ -78,6 +79,7 @@ public sealed class ShipDefinition
         bool Size(Vector3 value) => value.IsFinite() && value.X > 0 && value.Y > 0 && value.Z > 0;
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
+        Require(Positive(StructureHitPoints), "invalid structure hit points");
         Require(DamageControl is not null && DamageControl.Kits >= 0 && DamageControl.Kits <= 32
             && Positive(DamageControl.RepairSeconds) && Positive(DamageControl.RestoreFraction)
             && DamageControl.RestoreFraction <= .5f && Positive(DamageControl.QuietSeconds), "invalid damage control");
@@ -152,10 +154,12 @@ public sealed class ShipDefinition
                 && Positive(am.RecommendedMaxMeters) && Positive(am.MaxTravelMeters)
                 && am.RecommendedMaxMeters >= am.RecommendedMinMeters && am.MaxTravelMeters > am.RecommendedMaxMeters
                 && Positive(am.TerminalAccelG) && Positive(am.LaunchConeDegrees) && am.LaunchConeDegrees <= 30
-                && Positive(am.DamageDepthMeters) && am.SafeFailureHealth > 0 && am.SafeFailureHealth < am.ArmedFailureHealth
+                && Positive(am.DamageDepthMeters) && Positive(am.StructuralDamageMultiplier)
+                && am.SafeFailureHealth > 0 && am.SafeFailureHealth < am.ArmedFailureHealth
                 && am.ArmedFailureHealth < am.WarningHealth && am.WarningHealth <= 1 && am.Flight is not null,
                 "invalid AM configuration");
             ValidateMissile(am.Flight!);
+            Require(float.IsFinite(am.Flight!.ModuleDamage * am.StructuralDamageMultiplier), "invalid AM structural damage");
             Require(am.Flight!.Rounds == am.Rounds && am.Flight.MaxFlightSeconds <= 8 && am.Flight.SeekerRangeMeters <= am.MaxTravelMeters
                 && am.TerminalAccelG <= am.Flight.AccelG, "invalid AM lifetime/guidance");
         }

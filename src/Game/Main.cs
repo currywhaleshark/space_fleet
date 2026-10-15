@@ -6,7 +6,7 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-public enum BattleScreen { Title, Select, Battle, Pause, Result }
+public enum BattleScreen { Title, Select, Matching, Battle, Pause, Eliminated, Result }
 public partial class Main : Node3D
 {
     public BattleScreen Screen { get; private set; } = BattleScreen.Title;
@@ -33,6 +33,7 @@ public partial class Main : Node3D
     {
         if (enemy) EnemyDesign = EnemyDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
         else PlayerDesign = PlayerDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
+        if (!enemy) SaveFleetChoice();
         _overlay.Rebuild();
     }
     public BattleOutcome? Outcome => _fixtureOutcome ?? Battle?.World.Rules?.Outcome;
@@ -44,6 +45,7 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        LoadFleetChoice();
         if(_args.TryGetValue("battlefield",out var battlefield))SelectedBattlefield=Enum.Parse<Battlefield>(battlefield,true);
         if(_args.TryGetValue("field-seed",out var fieldSeed))FieldSeed=int.Parse(fieldSeed);
         if (_args.TryGetValue("blue-design", out var blue)) PlayerDesign = Enum.Parse<DesignFamily>(blue, true);
@@ -76,13 +78,14 @@ public partial class Main : Node3D
         if (_args.ContainsKey("feedback-test")) { AddChild(new CombatFeedbackChecks()); return; }
         if (_args.ContainsKey("audio-test")) { AddChild(new CombatAudioChecks()); return; }
         if (_args.ContainsKey("fleet-audio-test")) { AddChild(new FleetAudioChecks()); return; }
-        if (_args.ContainsKey("shot") && !_args.ContainsKey("menu") && !_args.ContainsKey("battle") && !_args.ContainsKey("result-test"))
+        if (_args.ContainsKey("shot") && !_args.ContainsKey("menu") && !_args.ContainsKey("battle") && !_args.ContainsKey("match") && !_args.ContainsKey("result-test"))
         { AddChild(new ScaleTest()); return; }
         Input.MouseMode = Input.MouseModeEnum.Visible;
         var layer = new CanvasLayer { Layer = 10 }; AddChild(layer);
         _overlay = new BattleOverlay { Host = this }; layer.AddChild(_overlay);
         string menu = _args.GetValueOrDefault("menu", "title");
-        if (menu == "select") ChangeScreen(BattleScreen.Select);
+        if(_args.ContainsKey("match"))BeginMatch(useRequestedSeed:true);
+        else if (menu == "select") ChangeScreen(BattleScreen.Select);
         else if (menu == "result" || _args.ContainsKey("result-test"))
         {
             StartBattle(_args.GetValueOrDefault("control", "BB-01"), useRequestedSeed:true);
@@ -97,19 +100,22 @@ public partial class Main : Node3D
     public void ChangeScreen(BattleScreen screen)
     {
         Screen = screen;
-        if (screen != BattleScreen.Battle) Input.MouseMode = Input.MouseModeEnum.Visible;
+        if (Battle is not null) Battle.RosterEnabled = screen == BattleScreen.Battle;
+        if (screen != BattleScreen.Battle) { Battle?.CloseRoster(); Input.MouseMode = Input.MouseModeEnum.Visible; }
         _overlay.Rebuild();
     }
-    public void StartBattle(string role, bool useRequestedSeed = false)
+    public void StartBattle(string role, bool useRequestedSeed = false, MatchLineup? match = null, int? matchSeed = null)
     {
         if (Battle is not null) { RemoveChild(Battle); Battle.QueueFree(); }
         _fixtureOutcome = null; _resultDelay = 0; Role = role;
-        Seed = useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
-            : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue);
+        Seed = matchSeed ?? (useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
+            : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue));
         Battle = new ScaleTest { BattleMode = true, DevMode = _args.ContainsKey("dev"), AutoPlay = _args.ContainsKey("autoplay"),
             LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=SelectedObjective,
-                Battlefield=SelectedBattlefield,FieldSeed=FieldSeed }, LaunchControl=role };
+                Battlefield=SelectedBattlefield,FieldSeed=FieldSeed,Match=match }, LaunchControl=role };
         Battle.PauseRequested += TogglePause;
+        Battle.SquadronLost += () => ChangeScreen(BattleScreen.Eliminated);
+        Battle.ControlRecovered += () => ChangeScreen(BattleScreen.Battle);
         AddChild(Battle); ChangeScreen(BattleScreen.Battle);
         if (_args.TryGetValue("advance", out string? advance)) Battle.AdvanceBattle(double.Parse(advance, System.Globalization.CultureInfo.InvariantCulture));
         if (_args.ContainsKey("respawn-test")) Battle.Controlled!.Body.Damage.Breakup(Battle.World.Time, "검증");
@@ -117,12 +123,13 @@ public partial class Main : Node3D
     }
     public void TogglePause()
     {
-        if (Battle is null || Screen == BattleScreen.Result) return;
+        if (Battle is null || Screen is BattleScreen.Result or BattleScreen.Eliminated) return;
         Battle.Paused = !Battle.Paused;
         ChangeScreen(Battle.Paused ? BattleScreen.Pause : BattleScreen.Battle);
     }
     public void SelectRole()
     {
+        PendingMatch=null;
         if (Battle is not null) { RemoveChild(Battle); Battle.QueueFree(); Battle=null; }
         ChangeScreen(BattleScreen.Select);
     }
@@ -131,7 +138,10 @@ public partial class Main : Node3D
         if (_overlay is null) return;
         TrackPerformance(delta);
         if(_args.ContainsKey("flow-test"))CheckSceneFlow();
-        if (Screen == BattleScreen.Battle && Outcome is not null)
+        if(_args.ContainsKey("match-flow-test"))CheckMatchFlow();
+        StepMatching(delta);
+        PreviewMatch();
+        if (Screen is BattleScreen.Battle or BattleScreen.Eliminated && Outcome is not null)
         {
             if (_resultDelay == 0) Battle!.BeginSpectating();
             Battle!.SetBattleSpeed(1); _resultDelay += delta;

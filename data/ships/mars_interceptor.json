@@ -1,5 +1,6 @@
 {
   "id": "mars_interceptor",
+  "structureHitPoints": 540,
   "damageControl": { "kits": 2, "repairSeconds": 10, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Interceptor",
   "reconProbes": { "count": 2, "deploymentMeters": 36000, "acceleration": 280, "burnSeconds": 7, "sensorStrength": 115 },
@@ -101,6 +102,7 @@
     "terminalAccelG": 6,
     "launchConeDegrees": 15,
     "damageDepthMeters": 180,
+    "structuralDamageMultiplier": 2,
     "warningHealth": 0.85,
     "safeFailureHealth": 0.15,
     "armedFailureHealth": 0.65,
@@ -353,8 +355,8 @@
       "hitPoints": 45.1,
       "resistanceMm": 9.6,
       "grid": "Shared",
-      "criticalChance": 0.08,
-      "criticalEnergy": 250
+      "criticalChance": 0.28,
+      "criticalEnergy": 85
     },
     {
       "id": "reactor",
@@ -377,8 +379,8 @@
         "Port",
         "Starboard"
       ],
-      "criticalChance": 0.02,
-      "criticalEnergy": 400
+      "criticalChance": 0.16,
+      "criticalEnergy": 120
     },
     {
       "id": "generator-port",

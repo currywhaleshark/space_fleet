@@ -27,7 +27,7 @@ public partial class ModelGallery : Node3D
         AddChild(new WorldEnvironment { Environment = BattleLook.Environment() });
         foreach (var light in BattleLook.Lights()) AddChild(light);
         if (ShipId.StartsWith("zone-")) { BuildZone(ShipId[5..]); return; }
-        if (ShipId is "asteroids" or "asteroid-variants") { BuildAsteroids(); return; }
+        if (ShipId is "asteroids" or "asteroid-variants" or "asteroid") { BuildAsteroids(); return; }
 
         var body = new ShipBody("GALLERY", ShipDefinitions.ById(ShipId), Faction);
         body.Place(Vec3d.Zero, Quaternion.Identity);
@@ -67,16 +67,18 @@ public partial class ModelGallery : Node3D
     private void BuildAsteroids()
     {
         bool variants=ShipId=="asteroid-variants";
+        bool single=ShipId=="asteroid";
         var field=AsteroidField.Generate(new BattleConfig {Battlefield=Battlefield.AsteroidCluster});
-        if(!variants) {var view=AsteroidFieldView.Create(field);AddChild(view);view.Sync(field.Center);}
+        if(!variants && !single) {var view=AsteroidFieldView.Create(field);AddChild(view);view.Sync(field.Center);}
         else
         {
             var material=AsteroidFieldView.RockMaterial();
-            for(int i=0;i<12;i++)
+            for(int i=0;i<(single?1:12);i++)
             {
-                var position=new Vector3((i%4-1.5f)*4300,(1-i/4)*4100,0);
+                var position=single?Vector3.Zero:new Vector3((i%4-1.5f)*4300,(1-i/4)*4100,0);
                 AddChild(new MeshInstance3D {Mesh=AsteroidFieldView.BuildMesh(i),MaterialOverride=material,
-                    Position=position,Scale=Vector3.One*1700});
+                    Position=position,Scale=Vector3.One*1700,Layers=BattleLook.AsteroidLayer,
+                    CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
                 if(Array.IndexOf(OS.GetCmdlineUserArgs(),"--show-obstacles")>=0)
                 {
                     var parts=new List<ObstaclePart>();
@@ -87,10 +89,17 @@ public partial class ModelGallery : Node3D
             }
         }
         var body=new ShipBody("SCALE",ShipDefinitions.ById("battleship"),Faction);
-        body.Place(variants?new(0,-6300,0):new(0,0,10000),Quaternion.Identity);
+        body.Place(single?new(0,-2400,0):variants?new(0,-6300,0):new(0,0,10000),Quaternion.Identity);
         _view=ShipView.Create(body,seed:7);AddChild(_view);
         var camera=new Camera3D {Fov=45,Near=5,Far=1_000_000};AddChild(camera);
-        camera.LookAtFromPosition(variants?new(0,0,22000):new(-80000,65000,95000),Vector3.Zero,Vector3.Up);
+        // Inspect the same surface from the sun, terminator and night side.
+        Vector3 rockEye=View switch
+        {
+            "sunlit"=>new Vector3(.75f,.35f,.35f).Normalized()*6500,
+            "night"=>new Vector3(-.75f,-.35f,-.35f).Normalized()*6500,
+            _=>new Vector3(0,0,6500),
+        };
+        camera.LookAtFromPosition(single?rockEye:variants?new(0,0,22000):new(-80000,65000,95000),Vector3.Zero,Vector3.Up);
         camera.MakeCurrent();
     }
 

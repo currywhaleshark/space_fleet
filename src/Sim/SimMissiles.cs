@@ -402,7 +402,8 @@ public sealed partial class SimWorld
     private void Detonate(Missile m, ShipBody victim, Vec3d origin, Vector3 direction, Vec3d pose, Quaternion orientation, double time)
     {
         float shieldBefore = victim.Damage.Shield;
-        DamagePacket packet = m.Assault is { } am ? m.Definition.Packet with { Range = am.DamageDepthMeters } : m.Definition.Packet;
+        DamagePacket packet = m.Assault is { } am ? m.Definition.Packet with {
+            Range = am.DamageDepthMeters, StructuralDamageMultiplier = am.StructuralDamageMultiplier } : m.Definition.Packet;
         // Preserve AM's authored penetration depth measured from the hull, even when the field intercepts it first.
         if(m.Assault is not null && DamageRay.FirstHitAtPose(victim,origin,direction,1e6f,pose,orientation,out float hullDistance))
             packet=packet with { Range=packet.Range+Mathf.Max(0,hullDistance-1) };

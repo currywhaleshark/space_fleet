@@ -12,6 +12,9 @@ public sealed class ModuleState
     public float Health { get; internal set; }
     public float HealthFraction => Health / Definition.HitPoints;
     public bool Destroyed => Health <= 0f;
+    /// <summary>Emergency bypasses restore function, not the compartment's original safety margins.</summary>
+    public int EmergencyRepairs { get; internal set; }
+    public float CriticalChance => Math.Min(1f, Definition.CriticalChance * (1f + .5f * Math.Min(EmergencyRepairs, 2)));
     /// <summary>마지막으로 피해를 받은 시뮬레이션 시각. HUD 강조용.</summary>
     public double LastHitTime { get; internal set; } = double.NegativeInfinity;
 }
@@ -53,6 +56,9 @@ public sealed class ShipDamage
     public IReadOnlyList<DamageReport> Reports => _reports;
     public float Shield { get; private set; }
     public float ShieldCapacity { get; private set; }
+    /// <summary>Permanent battle damage to the hull frame. Emergency module repairs do not restore it.</summary>
+    public float StructureHealth { get; private set; }
+    public float StructureFraction => StructureHealth / _definition.StructureHitPoints;
     /// <summary>살아 있는 전력망 비율(좌·우현 각 0 또는 1의 평균). 발전량은 GenerationFraction.</summary>
     public float PowerFraction => (_portPower + _starboardPower) * 0.5f;
     /// <summary>
@@ -114,10 +120,12 @@ public sealed class ShipDamage
         foreach (ModuleState module in Modules)
         {
             module.Health = module.Definition.HitPoints;
+            module.EmergencyRepairs = 0;
             module.LastHitTime = double.NegativeInfinity;
         }
         LastShieldHitTime = double.NegativeInfinity;
         _catastrophic = false;
+        StructureHealth = _definition.StructureHitPoints;
         Destruction=DestructionKind.None; DestructionPoint=Vector3.Zero; DestroyedAt=double.NegativeInfinity;
         _sinceHit = 0;
         _reports.Clear();
@@ -173,7 +181,7 @@ public sealed class ShipDamage
             Report(time, module.Definition.Kind == ModuleKind.PowerBus
                 ? module.Definition.Name + " 단절" : module.Definition.Name + " 파괴");
             if (module.Definition.CriticalChance > 0 && energy >= module.Definition.CriticalEnergy
-                && Roll(_seed ^ Hash(module.Definition.Id) ^ shotSequence) < module.Definition.CriticalChance)
+                && Roll(_seed ^ Hash(module.Definition.Id) ^ shotSequence) < module.CriticalChance)
             {
                 _catastrophic = true;
                 Destruction=module.Definition.Kind==ModuleKind.Magazine?DestructionKind.Magazine:DestructionKind.Reactor;
@@ -202,14 +210,41 @@ public sealed class ShipDamage
         Shield = 0; Report(time, reason); Recompute();
     }
 
+    /// <summary>Called once for a penetrating ray, including paths through already destroyed compartments.</summary>
+    internal float HurtStructure(float amount, double time, Vector3 localPoint)
+    {
+        if (Destroyed || !float.IsFinite(amount) || amount <= 0 || !localPoint.IsFinite()) return 0;
+        float before = StructureFraction;
+        float dealt = Math.Min(amount, StructureHealth);
+        StructureHealth -= dealt;
+        _sinceHit = 0;
+        if (StructureHealth <= 0)
+        {
+            _catastrophic = true;
+            Destruction = DestructionKind.Structural; DestructionPoint = localPoint; DestroyedAt = time;
+            foreach (ModuleState module in Modules) module.Health = 0;
+            Shield = 0;
+            Report(time, "누적 관통 · 선체 구조 붕괴 · 격침");
+            Recompute();
+        }
+        else if (before > .25f && StructureFraction <= .25f)
+            Report(time, "선체 구조 위험 · 응급복구 불가");
+        else if (before > .5f && StructureFraction <= .5f)
+            Report(time, "선체 구조 손상 50% · 응급복구 불가");
+        return dealt;
+    }
+
     internal bool EmergencyRestore(ModuleState module, float fraction, double time)
     {
         if (Destroyed || module.Definition.Kind == ModuleKind.AntimatterContainment
             || module.HealthFraction >= fraction) return false;
         bool disabled = Disabled;
         module.Health = module.Definition.HitPoints * fraction;
+        module.EmergencyRepairs++;
         Recompute();
         Report(time, $"{module.Definition.Name} 응급복구 · {fraction * 100:0}%");
+        if (module.Definition.CriticalChance > 0)
+            Report(time, "핵심 구획 임시 복구 · 재파괴 시 유폭 위험 증가");
         if (disabled && !Disabled) Report(time, "전원·추진 응급복구 · 무력화 해제");
         return true;
     }
@@ -248,6 +283,7 @@ public sealed class ShipDamage
     private void RecomputeSystems()
     {
         _allDestroyed = Modules.All(m => m.Destroyed);
+        if (Destroyed) StructureHealth = 0;
         if(_allDestroyed && Destruction==DestructionKind.None)
         { Destruction=DestructionKind.Structural; DestroyedAt=Modules.Max(m=>m.LastHitTime); }
         _portPower = PowerFor(PowerGrid.Port);

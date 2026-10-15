@@ -1,5 +1,6 @@
 {
   "id": "battleship",
+  "structureHitPoints": 7200,
   "damageControl": { "kits": 8, "repairSeconds": 18, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Battleship",
   "railgun": {
@@ -362,8 +363,8 @@
       "hitPoints": 180,
       "resistanceMm": 100,
       "grid": "Port",
-      "criticalChance": 0.12,
-      "criticalEnergy": 250
+      "criticalChance": 0.35,
+      "criticalEnergy": 220
     },
     {
       "id": "magazine-starboard",
@@ -382,8 +383,8 @@
       "hitPoints": 180,
       "resistanceMm": 100,
       "grid": "Starboard",
-      "criticalChance": 0.12,
-      "criticalEnergy": 250
+      "criticalChance": 0.35,
+      "criticalEnergy": 220
     },
     {
       "id": "generator-port",
@@ -451,8 +452,8 @@
         "Starboard"
       ],
       "capacity": 1,
-      "criticalChance": 0.04,
-      "criticalEnergy": 400
+      "criticalChance": 0.18,
+      "criticalEnergy": 320
     },
     {
       "id": "reactor-backup",
@@ -476,8 +477,8 @@
         "Starboard"
       ],
       "capacity": 0.5,
-      "criticalChance": 0.03,
-      "criticalEnergy": 400
+      "criticalChance": 0.12,
+      "criticalEnergy": 320
     },
     {
       "id": "bus-port",

@@ -1,0 +1,67 @@
+{
+  "date": "2026-10-15",
+  "matching": {
+    "ships": "76..84",
+    "hulls": 6,
+    "lineupSeeds": "0..99 per hull",
+    "classCountsPerTeam": "2..4",
+    "canonicalFixturePreserved": true,
+    "participantsPerTeam": 10
+  },
+  "checks": {
+    "sim": 5410186,
+    "matchmaking": 14525,
+    "export": 2316,
+    "matchFlow": 30
+  },
+  "rendered": [
+    "select 1600x900",
+    "roster 1600x900",
+    "eliminated 1600x900",
+    "release select 1280x720",
+    "release roster 1280x720"
+  ],
+  "sourceHashes": {
+    "src/Game/Main.cs": "930420a49c513cedfdbbaee9dda9adb0bf49755ec150f7718f1dbf04184b3d9a",
+    "tests/SimChecks/MatchmakingChecks.cs": "20a779f56d9f956473198f1b943f813a898cc08d73460fa9358a9c4401739bcb",
+    "src/Sim/Matchmaking.cs": "10c4faca33c9f9f1af15d2903cdd7f3f02045eb863eb55aa489a409ba7d4852c",
+    "src/Game/RosterControls.cs": "a051cd025825c2a35cd6d5ae992cb4581ef8bec824ee2645e6e9672a7699c67f",
+    "src/Game/BattleOverlay.cs": "f8479882bd03416882f44dfd6290fdf636cc420bf311f9faef0083ecb0aa6fa8",
+    "src/Game/MatchFlow.cs": "561c6527d386ced31070fc79d1f48f77f5f4dc606d9cfb3a41b8698f48444e29",
+    "src/Game/BattleFlow.cs": "5683f021237c319d84b7c10ca076b96321b8cbf0cf342190cac3be84150039ab",
+    "src/Game/MatchFlowChecks.cs": "246d63e2ba923cfa5aad8bb09d2ad738df9ac3a7c5aaf8eeebc924a53b0a1468",
+    "src/Sim/SimAI.cs": "877139045d156cc85460a3e2c6e5e14a1f7d9cf41f6a1b889db0a4ad97c1659a",
+    "src/Sim/BattleSetup.cs": "e09c1e4f89432bf73add06190bc5583c72879d55d70dc21852bdae8a0fd10b84",
+    "src/Sim/Squadron.cs": "ae09fbefec6b637ad91799ed8957c08d4cd31591609060fbe633691854cb3100",
+    "src/Game/ScaleTest.cs": "aaf47b22a7757aa6b88a4a616aac0ed6cccecdd39af4d3a9e6e93833798b6dcd",
+    "src/Game/TeamRoster.cs": "4f0155b5005bc241d0b7ff5d2e0087a684d97621da6aa9a0bcfd868360907fb8"
+  },
+  "archiveSha256": "8dbdefde0d070971efbd8af3ed9afa8f7bfa227ba7b37e677f3fbd62be4690fe",
+  "limitations": [
+    "No multiplayer",
+    "No broad win-rate/performance comparison",
+    "Headless UI checks cannot validate mouse capture; exported checks use the actual renderer"
+  ],
+  "fullMatchSmoke": {
+    "checks": 8,
+    "matches": [
+      {
+        "winner": "Blue",
+        "outcomeSeconds": 1350.4666666666667,
+        "seed": 1,
+        "ships": 80,
+        "objective": "Annihilation",
+        "battlefield": "DeepSpace"
+      },
+      {
+        "winner": "Red",
+        "outcomeSeconds": 678.2333333333333,
+        "seed": 2,
+        "ships": 78,
+        "objective": "Domination",
+        "battlefield": "AsteroidCluster"
+      }
+    ],
+    "purpose": "End-to-end functional smoke, not balance statistics"
+  }
+}

@@ -7,7 +7,11 @@ namespace SpaceFleet.Sim;
 public sealed record AntimatterDefinition(string ModuleId, int Rounds, float ArmingSeconds,
     float RecommendedMinMeters, float RecommendedMaxMeters, float MaxTravelMeters,
     float TerminalAccelG, float LaunchConeDegrees, float DamageDepthMeters,
-    float WarningHealth, float SafeFailureHealth, float ArmedFailureHealth, MissileDefinition Flight);
+    float WarningHealth, float SafeFailureHealth, float ArmedFailureHealth, MissileDefinition Flight)
+{
+    /// <summary>Hull-frame damage only, after shields, armor and the local penetration path.</summary>
+    public float StructuralDamageMultiplier { get; init; } = 1f;
+}
 
 public enum AntimatterMode { Safe, Arming, Armed, Failed }
 public enum AntimatterOutcome { Hit, PointDefense, Drone, Decoy, Expired, Obstacle }

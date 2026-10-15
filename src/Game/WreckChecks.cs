@@ -36,7 +36,13 @@ internal static class WreckChecks
             foreach(bool shatter in new[]{false,true})
             {
                 if(shatter) body.Damage.Catastrophe(body.SimTime,"wreck fixture");
-                else body.Damage.Breakup(body.SimTime,"wreck fixture");
+                else
+                {
+                    body.Damage.HurtStructure(definition.StructureHitPoints*.5f,body.SimTime,Vector3.Zero);
+                    Check(!body.Damage.Destroyed,"Half structural damage leaves the model intact");
+                    body.Damage.HurtStructure(definition.StructureHitPoints,body.SimTime,Vector3.Zero);
+                    Check(body.Damage.Destruction==DestructionKind.Structural,"Accumulated frame damage feeds the actual wreck renderer");
+                }
                 Sync(); var wreck=view.Wreck;
                 Check(wreck.PieceCount==body.Wreck!.Pieces.Count && wreck.PieceCount>=2 && wreck.PieceCount<=(shatter?8:2),"Six hulls retain their simulation breakup layout, excluding empty cells");
                 Check(wreck.ConstructionSteps>20 && !wreck.ConstructionPending,"Wreck construction is divided into bounded work units before replacing the intact hull");

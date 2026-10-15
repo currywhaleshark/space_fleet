@@ -6,6 +6,10 @@ namespace SpaceFleet.View;
 /// <summary>전투 장면의 하늘·톤매핑·조명. 게임과 함선 검토 장면(ModelGallery)이 같은 값을 쓴다.</summary>
 public static class BattleLook
 {
+    // Rocks receive the sun and local lights, but not the readability lights for ships.
+    public const uint AsteroidLayer = 1u << 1;
+    private const uint ShipFillLayers = 0xfffffu & ~AsteroidLayer;
+
     public static Environment Environment() => new()
     {
         BackgroundMode = Godot.Environment.BGMode.Sky,
@@ -42,6 +46,7 @@ public static class BattleLook
         yield return new DirectionalLight3D
         {
             Name = "Rim",
+            LightCullMask = ShipFillLayers,
             LightEnergy = 0.35f,
             LightColor = new Color(0.62f, 0.74f, 1f),
             SkyMode = DirectionalLight3D.SkyModeEnum.LightOnly,
@@ -51,6 +56,7 @@ public static class BattleLook
         yield return new DirectionalLight3D
         {
             Name = "PlanetFill",
+            LightCullMask = ShipFillLayers,
             LightEnergy = 0.18f,
             LightColor = new Color(0.55f, 0.62f, 0.85f),
             SkyMode = DirectionalLight3D.SkyModeEnum.LightOnly,

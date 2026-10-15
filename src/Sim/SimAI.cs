@@ -529,11 +529,12 @@ public sealed partial class SimWorld
                     FleetPosture.Gunline when squadron.Role == SquadronRole.BattleGroup => (float)Doctrine.GunlineMeters,
                     _ => null,
                 };
-            if (squadron.Role != SquadronRole.InterceptorWing && Doctrine is not null && CommandPosture(squadron, flagship, known, assigned)) continue;
+            ShipBody support = squadron.SupportGroup?.Leader ?? flagship;
+            if (squadron.Role != SquadronRole.InterceptorWing && Doctrine is not null && CommandPosture(squadron, support, known, assigned)) continue;
             switch (squadron.Role)
             {
                 case SquadronRole.BattleGroup: CommandBattleGroup(squadron, known, assigned); break;
-                case SquadronRole.EscortSquadron: CommandEscortSquadron(squadron, flagship, known, assigned); break;
+                case SquadronRole.EscortSquadron: CommandEscortSquadron(squadron, support, known, assigned); break;
                 default: break; // Interceptor missions run independently of fleet posture.
             }
         }
@@ -566,7 +567,7 @@ public sealed partial class SimWorld
                 Vector3 away = (ship.Position - estimate).ToVector3().Normalized();
                 if (squadron.Role == SquadronRole.BattleGroup && ship == squadron.Leader)
                     Assign(ship, ShipOrder.HoldAt(ship.Position + Vec3d.From(away) * 100_000, target), assigned);
-                else { SetFormation(ship, Wedge(slot++, 1800)); Assign(ship, ShipOrder.EscortOf(flagship, target), assigned); }
+                else { SetFormation(ship, Wedge(slot++, 1800) + squadron.SupportOffset); Assign(ship, ShipOrder.EscortOf(flagship, target), assigned); }
             }
             else if (posture == FleetPosture.Close && (squadron.Role != SquadronRole.BattleGroup || ship == squadron.Leader))
                 Assign(ship, target is null ? ShipOrder.HoldAt(ship.Position) : ShipOrder.AttackOn(target), assigned);
@@ -580,7 +581,7 @@ public sealed partial class SimWorld
                     _ => Wedge(slot++,1800) * new Vector3(-1,0,1) };
                 // Close: cover the BB's aft/bottom PD blind sector.
                 if (posture == FleetPosture.Close) offset += new Vector3(0,-1200,2000);
-                SetFormation(ship, offset);
+                SetFormation(ship, offset + squadron.SupportOffset);
                 ShipBody? fireAt = squadron.Role == SquadronRole.InterceptorWing ? known.Where(k => k.Track.Level >= TrackLevel.Identified
                     && k.Ship.Class.Kind == HullKind.Interceptor && !k.Ship.Damage.Disabled)
                     .OrderBy(k => (k.Track.EstimatedPosition - ship.Position).Length()).Select(k => k.Ship).FirstOrDefault() : target;
@@ -628,7 +629,7 @@ public sealed partial class SimWorld
             foreach (ShipBody ship in squadron.ActiveMembers)
             {
                 float angle = Mathf.Tau * slot / Mathf.Max(1, squadron.ActiveMembers.Count());
-                SetFormation(ship, new Vector3(Mathf.Cos(angle) * 3000f, 400f, Mathf.Sin(angle) * 3000f));
+                SetFormation(ship, new Vector3(Mathf.Cos(angle) * 3000f, 400f, Mathf.Sin(angle) * 3000f) + squadron.SupportOffset);
                 Assign(ship, ShipOrder.EscortOf(flagship, raiders[slot % raiders.Count].Ship), assigned);
                 slot++;
             }
@@ -642,7 +643,7 @@ public sealed partial class SimWorld
             squadron.Activity = "기함 호위";
             foreach (ShipBody ship in squadron.ActiveMembers)
             {
-                SetFormation(ship, Wedge(slot++, 1500f) + new Vector3(-6000f, 0, -2000f));
+                SetFormation(ship, Wedge(slot++, 1500f) + new Vector3(-6000f, 0, -2000f) + squadron.SupportOffset);
                 Assign(ship, flagship.Squadron == squadron && ship == leader ? ShipOrder.HoldAt(ship.Position) : ShipOrder.EscortOf(flagship), assigned);
             }
             return;

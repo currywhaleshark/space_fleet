@@ -91,10 +91,16 @@ SpaceFleet.exe를 실행하세요. Godot와 .NET을 별도로 설치할 필요�
 다른 곳으로 옮길 때는 이 폴더 전체를 복사하세요.
 SpaceFleet.pck와 data_* 폴더도 실행에 필요합니다.
 
-시작 → 함선 선택 → 전투. F1: 조작 도움말 / Esc: 일시정지·메뉴.
+시작 → 내 함선·편대 선택 → 출격 → 10 대 10 편대 AI 무작위 매칭.
+Tab 유지: 양팀 편성·생존 현황. 내 함선 격침 시 내 편대원에게 지휘권 인계.
+내 편대 전멸 시 계속 관전 또는 메인으로 나가기. 관전 중 ← → 함선 변경, 중클릭 회전, 휠 줌.
+F1: 조작 도움말 / Esc: 일시정지·메뉴.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
 F 전력 / B 사격 / N 편대 / 4 드론 방어구역: 누른 채 방향 선택 후 놓기.
 5 응급복구: 자동/계통 우선/중지 선택. 자재를 사용해 손상 모듈을 35%까지 응급복구.
+응급복구한 탄약고·반응로는 다시 관통·파괴될 때 유폭 확률이 1.5배, 두 번 이상 복구 시 최대 2배입니다.
+관통 피해는 선체 구조에 누적됩니다. 좌하단 구조 %가 0이면 붕괴·격침되며, 응급복구로 구조 내구도는 회복되지 않습니다.
+지구·화성 반물질 어뢰는 관통 후 구조 피해 2배. 실드·장갑 차단과 내부 모듈 피해는 기존 판정을 따릅니다.
 M 전장 지도 / F10 효과음 켜기·끄기.
 출격 화면에서 심우주 / 소행성 군집 전장을 선택할 수 있습니다. 모든 전투 목표와 조합됩니다.
 바위와 점령전 거점 구조물은 충돌·센서·사선을 가립니다. 수동 발사한 탄은 구조물에 맞을 수 있습니다.
@@ -118,7 +124,7 @@ THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','model-test','combat-visual-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
+foreach ($sfTest in @('flow-test','match-flow-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

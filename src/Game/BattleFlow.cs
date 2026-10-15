@@ -20,6 +20,13 @@ public partial class ScaleTest
     public double BriefRemaining { get; private set; } = 3;
     public double DeathRemaining { get; private set; } = -1;
     public event Action? PauseRequested;
+    public event Action? SquadronLost;
+    public event Action? ControlRecovered;
+    public Squadron? OwnedSquadron { get; private set; }
+    public bool SquadronEliminated => OwnedSquadron is { } squad && squad.Members.All(s => s.Damage.Destroyed);
+    private ShipView? _spectatedView;
+    private bool _awaitingSquadRecovery;
+    public ShipView? SpectatedView => Spectating ? CameraView : null;
     private readonly List<ControlSegment> _controlSegments = new();
     private readonly PlayerRecord _record = new();
     private PlayerRecord? _recordStart;
@@ -59,13 +66,19 @@ public partial class ScaleTest
     {
         if(!BattleMode)return;
         BriefRemaining=Math.Max(0,BriefRemaining-delta);
+        if (Spectating && _awaitingSquadRecovery && World.Rules?.Outcome is null && OwnedSquadron is { } owned
+            && owned.Members.FirstOrDefault(Squadron.Active) is { } recovered)
+        {
+            _awaitingSquadRecovery=false;Spectating=false; AutoPlay=false; SelectControl(recovered.Callsign);
+            ControlRecovered?.Invoke(); return;
+        }
         if(Spectating||AutoPlay||Controlled?.Body is not { } body)return;
         if(Squadron.Active(body) || body.DamageControl.RecoveringDisable) {DeathRemaining=-1;return;}
         if(DeathRemaining<0) {DeathRemaining=3;if(MenuOpen)_radial.Cancel();Input.MouseMode=Input.MouseModeEnum.Visible;}
         else DeathRemaining-=delta;
         if(DeathRemaining>0)return;
-        ShipBody? next=BattleRules.Replacement(World.Ships,body.Faction,body.Class.Kind);
-        if(next is null)BeginSpectating();else{SelectControl(next.Callsign);DeathRemaining=-1;}
+        ShipBody? next=BattleRules.Replacement(OwnedSquadron?.Members ?? new[]{body},body.Faction,body.Class.Kind);
+        if(next is null){BeginSpectating(!SquadronEliminated);SquadronLost?.Invoke();}else{SelectControl(next.Callsign);DeathRemaining=-1;}
     }
     private void EnableAutoPlay()
     {
@@ -74,9 +87,32 @@ public partial class ScaleTest
         foreach(var squad in World.Squadrons)squad.PlayerLed=false;
         Input.MouseMode=Input.MouseModeEnum.Visible;
     }
-    public void BeginSpectating()
-    {CloseRecord();if(MenuOpen)_radial.Cancel();Spectating=true;AutoPlay=true;EnableAutoPlay();DeathRemaining=-1;BriefRemaining=0;
-        CloseWorldMap();_audio.StopAll();Feedback.ClearPresentation();Camera.ClearImpacts();Camera.ResetTelescope();}
+    public void BeginSpectating(bool waitForRecovery=false)
+    {
+        if(Spectating)return;
+        _awaitingSquadRecovery=waitForRecovery;
+        CloseRecord();if(MenuOpen)_radial.Cancel();
+        Controlled?.Body.Ordnance.Antimatter.Cancel();
+        if(Controlled is { } old)
+        {
+            old.Body.Gunnery=null;
+            if(Squadron.Active(old.Body))World.AttachBrain(old.Body,ShipOrder.HoldAt(old.Body.Position));
+        }
+        Spectating=true;AutoPlay=true;
+        if(OwnedSquadron is { } owned)owned.PlayerLed=false;
+        DeathRemaining=-1;BriefRemaining=0;
+        CloseWorldMap();CloseRoster();_audio.Prime(World,null);Feedback.ClearPresentation();Camera.ClearImpacts();Camera.ResetTelescope();
+        Input.MouseMode=Input.MouseModeEnum.Visible;Camera.Mode=CameraMode.ShipFollow;CycleSpectator(1);
+    }
+    public void CycleSpectator(int step)
+    {
+        if(!Spectating)return;
+        var candidates=Views.Where(v=>v.Body.Faction==Faction.Blue&&!v.Body.Damage.Destroyed).ToArray();
+        if(candidates.Length==0){_spectatedView=null;return;}
+        int index=Array.IndexOf(candidates,_spectatedView);
+        _spectatedView=candidates[(index+step+candidates.Length)%candidates.Length];
+        Camera.ResetAim(_spectatedView.Body.Orientation);Camera.ClearImpacts();
+    }
     public void AdvanceBattle(double seconds)
     {
         bool autoplay=AutoPlay;AutoPlay=true;EnableAutoPlay();
@@ -89,6 +125,7 @@ public partial class ScaleTest
     }
     public void SetBattleSpeed(int speed)
     {_timeScaleIndex=Math.Max(0,Array.IndexOf(AvailableTimeScales,speed));}
-    private ShipView CameraView => Spectating ? Views.FirstOrDefault(v=>Squadron.Active(v.Body)&&v.Body.Faction==Faction.Blue)
-        ?? Views.FirstOrDefault(v=>Squadron.Active(v.Body)) ?? Controlled! : Controlled!;
+    private ShipView CameraView => Spectating ? _spectatedView is {Body.Damage.Destroyed:false} ? _spectatedView
+        : _spectatedView=Views.FirstOrDefault(v=>Squadron.Active(v.Body)&&v.Body.Faction==Faction.Blue)
+            ?? Views.FirstOrDefault(v=>!v.Body.Damage.Destroyed&&v.Body.Faction==Faction.Blue) ?? Controlled! : Controlled!;
 }

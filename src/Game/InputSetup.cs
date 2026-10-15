@@ -27,6 +27,9 @@ public static class InputSetup
     public const string FlightAssist = "flight_assist";
     public const string AssistStyle = "assist_style";
     public const string SwitchShip = "switch_ship";
+    public const string TeamRoster = "team_roster";
+    public const string SpectatePrevious = "spectate_previous";
+    public const string SpectateNext = "spectate_next";
     public const string ToggleOrigin = "toggle_origin";
     public const string JumpFar = "jump_far";
     public const string ReleaseMouse = "release_mouse";
@@ -75,7 +78,10 @@ public static class InputSetup
         Bind(Boost, Key.Shift);
         Bind(FlightAssist, Key.Z);
         Bind(AssistStyle, Key.V);
-        Bind(SwitchShip, Key.Tab);
+        Bind(TeamRoster, Key.Tab);
+        Bind(SwitchShip, Key.F9);
+        Bind(SpectatePrevious, Key.Left);
+        Bind(SpectateNext, Key.Right);
         Bind(ToggleOrigin, Key.F2);
         Bind(JumpFar, Key.F3);
         Bind(ReleaseMouse, Key.Escape);

@@ -22,7 +22,7 @@ public partial class Main
         {
             _overlay.ActivateButton(3);
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"Player design selector is independent of the opponent");
-            _overlay.ActivateButton(4);
+            ToggleDesign(true); // Canonical fixture; random matching has its own flow checks.
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Earth,"Opponent design selector supports Mars vs Earth");
             _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Flagship,"Objective selector cycles to flagship");
             _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Domination,"Objective selector cycles to domination");
@@ -30,7 +30,7 @@ public partial class Main
             _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.AsteroidCluster,"Battlefield selector cycles independently");
             _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.DeepSpace,"Default battlefield remains DeepSpace");
         }
-        if(frame==20){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
+        if(frame==20){StartBattle("BB-01",true);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)
         {
             Verify(Battle!.Controlled!.Body.Definition.Id=="mars_battleship" && Battle.Controlled.Body.Faction==Faction.Blue,
@@ -55,7 +55,7 @@ public partial class Main
         if(frame==34) Battle!.CheckContactSelection(Verify);
         if(frame==40)
         {
-            int old=Seed;TogglePause();_overlay.ActivateButton(1);
+            int old=Seed;TogglePause();StartBattle(Role);
             Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01"&&Seed!=old,"Restart keeps role and changes seed");
         }
         if(frame==32)
@@ -91,10 +91,10 @@ public partial class Main
             Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
             Verify(!Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"M closes the helm map with a visible cursor");
         }
-        if(frame==50){SelectRole();_overlay.ActivateButton(1);Verify(Battle!.Controlled!.Body.Callsign=="DD-31"&&Battle.Scheme==ControlScheme.Helm,"DD role starts helm");}
+        if(frame==50){SelectRole();StartBattle("DD-31");Verify(Battle!.Controlled!.Body.Callsign=="DD-31"&&Battle.Scheme==ControlScheme.Helm,"DD role starts helm");}
         if(frame==60)
         {
-            SelectRole();_overlay.ActivateButton(2);Verify(Battle!.Controlled!.Body.Callsign=="IC-21"&&Battle.Scheme==ControlScheme.Pilot,"IC role starts pilot");
+            SelectRole();StartBattle("IC-21");Verify(Battle!.Controlled!.Body.Callsign=="IC-21"&&Battle.Scheme==ControlScheme.Pilot,"IC role starts pilot");
             Battle._UnhandledInput(new InputEventKey {PhysicalKeycode=Key.M,Pressed=true});
             Verify(Battle.WorldMapOpen && Input.MouseMode==Input.MouseModeEnum.Visible,"Pilot map releases the captured mouse");
             Battle._UnhandledInput(new InputEventAction {Action=InputSetup.PowerMenu,Pressed=true});
@@ -131,7 +131,7 @@ public partial class Main
             _overlay.ActivateButton(1);Verify(Screen==BattleScreen.Select&&Battle is null,"Result can change role");
             _overlay.ActivateButton(3);
             Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Earth,"UI supports Earth vs Earth");
-            _overlay.ActivateButton(3); _overlay.ActivateButton(4);
+            _overlay.ActivateButton(3); ToggleDesign(true);
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"UI supports Mars vs Mars");
             _overlay.ActivateButton(3);
             Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Mars,"UI supports Earth vs Mars");

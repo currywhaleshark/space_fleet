@@ -1,0 +1,249 @@
+[
+  {
+    "Seed": 3,
+    "Mirror": false,
+    "Ships": 84,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC2DC\uAC04 \uC81C\uD55C",
+      "Time": 1500
+    },
+    "Destroyed": 10,
+    "Disabled": 5,
+    "Repairs": 77,
+    "Causes": {
+      "Structural": 2,
+      "Magazine": 2,
+      "Reactor": 1,
+      "Antimatter": 5
+    },
+    "Hulls": [
+      {
+        "Hull": "interceptor",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 4
+      },
+      {
+        "Hull": "escort",
+        "Ships": 20,
+        "Destroyed": 4,
+        "Disabled": 4,
+        "Repairs": 52
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 20,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 11
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 10
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 2,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      }
+    ]
+  },
+  {
+    "Seed": 3,
+    "Mirror": true,
+    "Ships": 84,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 1499.3666666666666
+    },
+    "Destroyed": 22,
+    "Disabled": 25,
+    "Repairs": 153,
+    "Causes": {
+      "Antimatter": 18,
+      "Reactor": 1,
+      "Magazine": 3
+    },
+    "Hulls": [
+      {
+        "Hull": "interceptor",
+        "Ships": 20,
+        "Destroyed": 10,
+        "Disabled": 1,
+        "Repairs": 9
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 10
+      },
+      {
+        "Hull": "escort",
+        "Ships": 20,
+        "Destroyed": 4,
+        "Disabled": 13,
+        "Repairs": 85
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 20,
+        "Destroyed": 8,
+        "Disabled": 7,
+        "Repairs": 23
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 2,
+        "Repairs": 10
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 2,
+        "Repairs": 16
+      }
+    ]
+  },
+  {
+    "Seed": 4,
+    "Mirror": false,
+    "Ships": 76,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 1017.5666666666666
+    },
+    "Destroyed": 3,
+    "Disabled": 19,
+    "Repairs": 130,
+    "Causes": {
+      "Magazine": 2,
+      "Reactor": 1
+    },
+    "Hulls": [
+      {
+        "Hull": "interceptor",
+        "Ships": 10,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 6,
+        "Destroyed": 1,
+        "Disabled": 4,
+        "Repairs": 25
+      },
+      {
+        "Hull": "escort",
+        "Ships": 28,
+        "Destroyed": 2,
+        "Disabled": 14,
+        "Repairs": 83
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 8
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 10
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 10,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 4
+      }
+    ]
+  },
+  {
+    "Seed": 4,
+    "Mirror": true,
+    "Ships": 76,
+    "Outcome": {
+      "Winner": null,
+      "Reason": "\uC2DC\uAC04 \uC81C\uD55C",
+      "Time": 1500
+    },
+    "Destroyed": 5,
+    "Disabled": 18,
+    "Repairs": 168,
+    "Causes": {
+      "Magazine": 4,
+      "Antimatter": 1
+    },
+    "Hulls": [
+      {
+        "Hull": "interceptor",
+        "Ships": 10,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 3
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 6,
+        "Destroyed": 1,
+        "Disabled": 3,
+        "Repairs": 40
+      },
+      {
+        "Hull": "escort",
+        "Ships": 28,
+        "Destroyed": 3,
+        "Disabled": 13,
+        "Repairs": 94
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 17
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 7
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 10,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 7
+      }
+    ]
+  }
+]

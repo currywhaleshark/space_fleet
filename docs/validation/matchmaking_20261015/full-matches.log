@@ -1,0 +1,3 @@
+Match smoke: seed=1; field=DeepSpace; objective=Annihilation; ships=80; outcome=BattleOutcome { Winner = Blue, Reason = 전력 상실, Time = 1350.4666666666667 }; destroyed=6; Blue rails/missiles=2526/476; Red rails/missiles=3639/476
+Match smoke: seed=2; field=AsteroidCluster; objective=Domination; ships=78; outcome=BattleOutcome { Winner = Red, Reason = 거점 점수 달성, Time = 678.2333333333333 }; destroyed=26; Blue rails/missiles=2709/464; Red rails/missiles=3094/467
+PASS: 8 full random match smoke checks

@@ -7,10 +7,13 @@ namespace SpaceFleet.Sim;
 
 public readonly record struct DamagePacket(float Energy, float PenetrationMm, float ModuleDamage, float Range = 200_000f)
 {
+    public float StructuralDamageMultiplier { get; init; } = 1f;
     public void Validate()
     {
         if (!float.IsFinite(Energy) || Energy <= 0 || !float.IsFinite(PenetrationMm) || PenetrationMm <= 0
-            || !float.IsFinite(ModuleDamage) || ModuleDamage <= 0 || !float.IsFinite(Range) || Range <= 0)
+            || !float.IsFinite(ModuleDamage) || ModuleDamage <= 0 || !float.IsFinite(Range) || Range <= 0
+            || !float.IsFinite(StructuralDamageMultiplier) || StructuralDamageMultiplier <= 0
+            || !float.IsFinite(ModuleDamage * StructuralDamageMultiplier))
             throw new ArgumentException("Damage packet values must be finite and positive");
     }
 }
@@ -24,6 +27,8 @@ public sealed record ShotResult(ShipBody? Target, Vec3d Point, float Distance, b
     public Vector3? ShieldLocalPoint { get; init; }
     public float ShieldAbsorbed { get; init; }
     public bool HullHit { get; init; } = true;
+    public float StructuralDamage { get; init; }
+    public bool CausedDestruction { get; init; }
 }
 
 /// <summary>명중 뒤의 관통 경로. 외부 실드, 선체 장갑 경계, 내부 모듈, 출구 장갑 순서로 진행한다.</summary>
@@ -158,13 +163,17 @@ public static class DamageRay
         float first = Mathf.Max(0f, spans[0].Span.Enter);
         Vec3d point = origin + Vec3d.From(direction) * first;
         bool armorStopped = false;
+        float structureDamage = 0;
+        float hullChord = Chord(ship.Definition.Hull.Bounds.HalfSize, d);
+        Vector3 structurePoint = o + d * first;
         string summary = "선체 관통";
         foreach (Region r in regions)
         {
             if (r.Entry.Enter >= 0 && !Armor(r.EntrySection, r.Entry.EnterNormal, entering: true)) break;
+            float entryFactor = penetration / packet.PenetrationMm;
             foreach (var item in modules)
             {
-                if (item.Span.Enter < r.Entry.Enter - 0.001f || item.Span.Enter > r.Exit.Exit + 0.001f
+                if (item.Span.Enter > packet.Range || item.Span.Enter < r.Entry.Enter - 0.001f || item.Span.Enter > r.Exit.Exit + 0.001f
                     || !touched.Add(item.State.Definition.Id)) continue;
                 float path = Mathf.Max(0f, Mathf.Min(item.Span.Exit, packet.Range) - Mathf.Max(0f, item.Span.Enter));
                 // 모듈을 지난 길이 ÷ 그 방향으로 모듈 중심을 지나는 길이. 한가운데를 지나면 1, 모서리를 스치면 작다.
@@ -177,15 +186,34 @@ public static class DamageRay
                 penetration = Mathf.Max(0, penetration - item.State.Definition.ResistanceMm * fraction);
                 energy *= before > 0 ? penetration / before : 0;
                 if (penetration <= 0 || ship.Damage.Destroyed)
-                { summary = ship.Damage.Destroyed ? "치명 파괴" : "내부 모듈에서 정지"; goto Done; }
+                {
+                    AddStructurePath(r, entryFactor, Math.Min(item.Span.Exit, packet.Range));
+                    summary = ship.Damage.Destroyed ? "치명 파괴" : "내부 모듈에서 정지"; goto Done;
+                }
             }
+            AddStructurePath(r, entryFactor, Math.Min(r.Exit.Exit, packet.Range));
             if (r.Exit.Exit <= packet.Range && !Armor(r.ExitSection, r.Exit.ExitNormal, entering: false)) break;
         }
         Done:
+        float structureDealt = ship.Damage.HurtStructure(
+            Math.Min(packet.ModuleDamage, structureDamage) * packet.StructuralDamageMultiplier, time, structurePoint);
+        if (ship.Damage.Destroyed) summary = "치명 파괴";
+        else if (hits.Count == 0 && structureDealt > 0) summary = "선체 구조 관통 손상";
         if (hits.Count > 0 && summary == "선체 관통") summary = $"{hits.Count}개 모듈 타격";
         return new ShotResult(ship, point, first, false, armorStopped, hits, summary) {
             ShieldPoint=shieldPoint, ShieldLocalPoint=shieldLocal, ShieldAbsorbed=absorbed,
+            StructuralDamage=structureDealt, CausedDestruction=ship.Damage.Destroyed,
             LocalPoint=o+d*first, LocalNormal=spans[0].Span.EnterNormal };
+
+        void AddStructurePath(Region region, float factor, float end)
+        {
+            float start = Math.Max(0, region.Entry.Enter);
+            float length = Math.Max(0, end - start);
+            if (length <= 0) return;
+            // Count merged solid spans, not module count or empty gaps; grazing hits contribute less.
+            structureDamage += packet.ModuleDamage * factor * Math.Clamp(length / hullChord, 0, 1);
+            structurePoint = o + d * ((start + end) * .5f);
+        }
 
         bool Armor(HullSection section, Vector3 normal, bool entering)
         {
