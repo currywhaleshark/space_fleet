@@ -1,0 +1,107 @@
+{
+  "date": "2026-10-17",
+  "request": "가독성 보고서의 하단 HUD와 표식 겹침 개선. 표식 우선순위로 정보를 과도하게 생략하지 않도록 제한.",
+  "scope": [
+    "창 너비별 하단 계기판·사격 패널·무장 행 배치",
+    "포각 방위구와 사격 불가 사유 유지",
+    "레이저 자동 냉각 상태 표시",
+    "전투·지도 이름표 충돌 회피 및 선택/호버 상세 복원",
+    "밀집한 다른 아군 미사일 기호 축소, 기호·좌표 보존"
+  ],
+  "preserved": [
+    "기존 센서 공개와 신호 소실 기억",
+    "기존 접촉 묶음과 미사일 표시 범위",
+    "함선·미사일 위치 기호와 표적 선택 좌표",
+    "자함 발사탄·선택·호버 미사일 기호 크기",
+    "무기·비행·피해·센서 시뮬레이션 동작"
+  ],
+  "labelPolicy": {
+    "order": [
+      "선택 표적/지도 조종함",
+      "가장 가까운 호버 표적",
+      "내 편대",
+      "일반 접촉"
+    ],
+    "overflow": "일반 글자는 주변 12개 배치 후보가 모두 막힐 때 생략. 기호 유지. 호버·선택은 더 넓은 범위로 이동 후 화면 내부 폴백. 극단적인 밀집에서도 모든 글자가 동시에 겹치지 않는다고 보장하지 않음.",
+    "globalCountCapAdded": false,
+    "distanceCullingAdded": false
+  },
+  "verification": {
+    "packagedChecks": 11975,
+    "packagedGroups": 17,
+    "hudChecks": 243,
+    "realMissileFixture": {
+      "spawned": 15,
+      "symbolsBeforeAndAfterSelection": 15,
+      "targetSelectionAtOriginalPosition": true
+    },
+    "layoutOnlyBenchmark": {
+      "contacts": 240,
+      "frames": 200,
+      "meanMs": 0.81,
+      "fullGameFpsMeasured": false
+    },
+    "resolutionsChecked": [
+      "960x720",
+      "1024x768",
+      "1180x812",
+      "1280x720",
+      "1364x1024",
+      "1600x900",
+      "1920x1080"
+    ],
+    "mountCounts": [
+      1,
+      2,
+      3,
+      4,
+      8
+    ]
+  },
+  "captures": {
+    "before-battle-1180.png": {
+      "source": "shots\\readability-review-20261017\\01-battle-1180.png",
+      "fromFinalExe": false,
+      "visuallyInspected": true
+    },
+    "after-battle-960.png": {
+      "source": "shots\\readability-pass-20261017\\08-final-battle-960.png",
+      "fromFinalExe": true,
+      "visuallyInspected": true
+    },
+    "after-battle-1180.png": {
+      "source": "shots\\readability-pass-20261017\\09-final-battle-1180.png",
+      "fromFinalExe": true,
+      "visuallyInspected": true
+    },
+    "after-map-1180.png": {
+      "source": "shots\\readability-pass-20261017\\10-final-map-1180.png",
+      "fromFinalExe": true,
+      "visuallyInspected": true
+    },
+    "after-battle-1280.png": {
+      "source": "shots\\readability-pass-20261017\\04-battle-1280-720.png",
+      "fromFinalExe": false,
+      "visuallyInspected": true
+    },
+    "after-battle-1920.png": {
+      "source": "shots\\readability-pass-20261017\\06-battle-1920.png",
+      "fromFinalExe": false,
+      "visuallyInspected": true
+    },
+    "after-pilot-1280.png": {
+      "source": "shots\\readability-pass-20261017\\07-pilot-1280.png",
+      "fromFinalExe": false,
+      "visuallyInspected": true
+    }
+  },
+  "captureArguments": "--resolution WIDTHxHEIGHT --windowed --fixed-fps 60 --log-file LOG -- --battle --control=BB-01 --seed=1 --advance=240 --frames=120 --shot=PNG; map adds --full-map; pilot uses --control=IC-21",
+  "otherWorkingChanges": "사용자가 손본 아마존·해동청 모델/외피/모듈 배치/초상화 변경을 보존했으며 현재 작업본으로 배포하여 함께 포함. 해당 모델 수정은 이번 HUD 작업에서 새로 제작한 것이 아님.",
+  "limitations": [
+    "이번 범위는 하단 패널과 표식 가독성. 전체 UI 재설계가 아님.",
+    "극소 창의 다른 고정 HUD 영역, 도움말, 전체 글자 배율, 모듈 명칭은 후속.",
+    "240접촉 배치 비용은 글자 배치만 측정. 240척 전체 전투 FPS/틱 또는 장기 밸런스는 재측정하지 않음.",
+    "선택 글자가 어디에도 들어갈 수 없는 극단적 밀집에서는 화면 내부 폴백으로 일부 겹칠 수 있음."
+  ],
+  "commitPerformed": false
+}

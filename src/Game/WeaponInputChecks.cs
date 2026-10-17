@@ -32,6 +32,7 @@ public partial class WeaponInputChecks : Node
     }
     private void Run()
     {
+        CheckTargetSelectionFire();
         CheckLaserInput();
         CheckCounterMissileInput();
         CheckMissileTracking();
@@ -141,6 +142,62 @@ public partial class WeaponInputChecks : Node
         CheckDroneInput();
         CheckDamageControlInput();
         CheckDatalinkInput();
+    }
+
+    private void CheckTargetSelectionFire()
+    {
+        InputSetup.Register();
+        var game=new ScaleTest {LaunchControl="BB-01"}; AddChild(game);
+        game.SetProcess(false); game.SetPhysicsProcess(false);
+        foreach(var body in game.World.Ships) game.World.DetachBrain(body);
+        KeyEvent(game,Key.F7);
+        var ship=game.Controlled!.Body;
+        var old=game.InspectTarget!;
+        game.Gunnery!.Doctrine=FireDoctrine.Hold;
+        old.Body.Velocity=Vector3.Zero;
+        foreach(var gun in ship.Railguns)
+            gun.Aim(FireControl.Solve(ship,old.Body,game.World.Time,weapon:gun).Direction);
+        Tick(game,60);
+        game.World.Sensors.Update(game.World.Ships,game.World.Time,true);
+        game.Gunnery.Engaged=old.Body;
+        game.Gunnery.EngagedModule=old.Body.Damage.Modules.First();
+        game.Gunnery.Solution=FireControl.Solve(ship,old.Body,game.World.Time);
+        var next=game.Views.First(v=>v.Body.Faction!=ship.Faction&&v!=old);
+        next.Body.Place(ship.Position+new Vec3d(0,0,-500_000),Quaternion.Identity);
+        var hud=game.GetNode<Hud>("HudLayer/Hud");
+        hud.BracketPositions.Clear(); hud.BracketPositions.Add((new Vector2(800,450),next));
+        int rounds=ship.Railguns.Sum(g=>g.Rounds);
+        Input.ActionPress(InputSetup.Fire); Mouse(game,MouseButton.Left);
+        Check(game.Gunnery.Target==next.Body,"Click changes the intended target");
+        Check(ship.Railguns.Sum(g=>g.Rounds)==rounds,"Changing target cannot discharge at the previous engaged target");
+        Check(game.FireTarget?.Body!=old.Body&&game.Gunnery.Solution is null&&game.Gunnery.EngagedModule is null,
+            "New target invalidates the previous solution and module immediately");
+        Tick(game,60);
+        Check(ship.Railguns.Sum(g=>g.Rounds)==rounds,"Holding a selection click never becomes a fire command");
+        Input.ActionRelease(InputSetup.Fire); Mouse(game,MouseButton.Left,false);
+        // Module and friendly selection are not firing gestures either.
+        var module=old.Body.Damage.Modules.First(m=>!m.Destroyed);
+        hud.ModuleRegions.Add((new Rect2(780,430,40,40),old,module));
+        Input.ActionPress(InputSetup.Fire);Mouse(game,MouseButton.Left);Tick(game,30);
+        Check(game.Gunnery.PriorityModuleId==module.Definition.Id&&ship.Railguns.Sum(g=>g.Rounds)==rounds,
+            "Selecting a subsystem cannot discharge the main battery");
+        Input.ActionRelease(InputSetup.Fire);Mouse(game,MouseButton.Left,false);hud.ModuleRegions.Clear();
+        var ally=game.Views.First(v=>v.Body.Faction==ship.Faction&&v!=game.Controlled);
+        hud.BracketPositions.Clear();hud.BracketPositions.Add((new Vector2(800,450),ally));
+        Input.ActionPress(InputSetup.Fire);Mouse(game,MouseButton.Left);Tick(game,30);
+        Check(game.SelectedFriendly==ally&&ship.Railguns.Sum(g=>g.Rounds)==rounds,"Selecting an ally cannot fire at the current enemy");
+        Input.ActionRelease(InputSetup.Fire);Mouse(game,MouseButton.Left,false);
+        // A click on an already selected marker is still a selection gesture.
+        game.SelectMapContact(old); hud.BracketPositions.Clear();hud.BracketPositions.Add((new Vector2(800,450),old));
+        Input.ActionPress(InputSetup.Fire);Mouse(game,MouseButton.Left);Tick(game,30);
+        Check(ship.Railguns.Sum(g=>g.Rounds)==rounds,"Reselecting the same marker does not shoot");
+        Input.ActionRelease(InputSetup.Fire);Mouse(game,MouseButton.Left,false);
+        hud.BracketPositions.Clear();
+        game.Gunnery.PriorityModuleId=null;
+        Input.ActionPress(InputSetup.Fire);Mouse(game,MouseButton.Left);Tick(game,120);
+        Check(ship.Railguns.Sum(g=>g.Rounds)<rounds,"Fresh fire click outside markers still fires a valid selected target");
+        Input.ActionRelease(InputSetup.Fire);Mouse(game,MouseButton.Left,false);
+        game.Free();
     }
     private void CheckDatalinkInput()
     {

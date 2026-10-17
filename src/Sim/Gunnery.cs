@@ -39,6 +39,8 @@ public static class GunneryLabels
 
 public sealed partial class SimWorld
 {
+    public static double GunneryFlightLimit(ShipBody ship) => AiProfile.For(ship.Definition).RailFlightSeconds * 1.5;
+
     public bool TryAutoFire(ShipBody ship, ShipBody target, Vector3? localAim, double maxFlightSeconds, out GunneryStatus status) =>
         TryAutoFire(ship, target, localAim, maxFlightSeconds, out status, out _);
 
@@ -85,11 +87,7 @@ public sealed partial class SimWorld
         if (line != FireFailure.None) { status = line == FireFailure.Arc ? GunneryStatus.Arc : GunneryStatus.HullBlocked; return false; }
         if (!gun.Aligned(solution.Direction)) { status = GunneryStatus.Traversing; return false; }
         if (!gun.Ready) { status = GunneryStatus.Reload; return false; }
-        // Armor preview has no state effects. Only evaluate it when it can affect this attempt;
-        // preserve every Aim call and the existing range/arc/traverse/reload status precedence.
-        bool worthIt = gun.IsLaser || target.Damage.Shield > 1f
-            || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
-        if (!worthIt) { status = GunneryStatus.Armor; return false; }
+        // Armor is resolved at impact, never used to veto an otherwise valid shot.
         Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
         for (int barrel = 0; barrel < gun.SalvoRounds; barrel++)
             if (FriendlyInLine(ship, gun.BarrelPosition(barrel), bore, (float)solution.Range))
@@ -126,14 +124,12 @@ public sealed partial class SimWorld
         if (priority is not null) return priority;
         ModuleState? selected = Subsystems.Pick(target, order.AimPart, ship.Position);
         if (selected is not null || order.Doctrine != FireDoctrine.Disable) return selected;
-        if (ship.Railgun is not RailgunState gun) return null;
-        // 무력화 자동 선택: 겉으로 드러난 기동·무장·센서·방열판 중 지금 뚫리는 가장 가까운 것. 내부 냉각기는 노리지 않는다.
+        // 무력화 자동 선택: 가까운 기동·무장·센서·방열판. 관통 여부는 착탄 때 판정한다.
         return target.Damage.Modules.Where(m => !m.Destroyed && (DisableParts.Any(part => Subsystems.Matches(m.Definition, part))
                 || m.Definition.Kind == ModuleKind.ManeuverThruster))
             .OrderBy(m => target.Damage.PropulsionFraction <= 0.01f && m.Definition.Kind == ModuleKind.ManeuverThruster ? 0 : 1)
             .ThenBy(m => (Subsystems.WorldPosition(target, m.Definition) - ship.Position).LengthSquared())
-            .FirstOrDefault(m => DamageRay.PreviewArmor(target, gun.MuzzlePosition,
-                (Subsystems.WorldPosition(target, m.Definition) - gun.MuzzlePosition).ToVector3(), gun.Definition.PenetrationMm, out _))
+            .FirstOrDefault()
             ?? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position);
     }
 
@@ -157,7 +153,7 @@ public sealed partial class SimWorld
             if (target is null) { order.Status = defending?defenseStatus:GunneryStatus.NoTarget; continue; }
             order.Engaged = target;
             order.EngagedModule = PickGunneryModule(ship, target, order);
-            TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, AiProfile.For(ship.Definition).RailFlightSeconds * 1.5,
+            TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, GunneryFlightLimit(ship),
                 out var status, out var solution);
             order.Status = status; order.Solution = solution;
             if (solution is null && Sensors.Track(ship.Faction, target).Level >= TrackLevel.Locked)

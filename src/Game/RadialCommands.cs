@@ -106,7 +106,7 @@ public partial class ScaleTest
         FireAttempt missile = World.LaunchMissile(me.Body, target.Body);
         ModuleState? module = target.Body.Damage.Modules.FirstOrDefault(m => !m.Destroyed && m.Definition.Id == Gunnery?.PriorityModuleId)
             ?? Subsystems.Pick(target.Body, AimPart, me.Body.Position);
-        bool rail = World.TryAutoFire(me.Body, target.Body, module?.Definition.Center, double.PositiveInfinity, out GunneryStatus status);
+        bool rail = World.TryAutoFire(me.Body, target.Body, module?.Definition.Center, SimWorld.GunneryFlightLimit(me.Body), out GunneryStatus status);
         Notify(rail || missile.Fired ? "일제사격" : GunneryLabels.Status(status), !rail && !missile.Fired);
     }
 

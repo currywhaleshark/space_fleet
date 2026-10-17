@@ -27,29 +27,45 @@ public partial class ScaleTest
 
     private void SelectEnemy(ShipView view)
     {
+        bool changed=InspectTarget!=view || SelectedSmallContact is not null || Gunnery is { } g && g.Target!=view.Body;
         ClearSmallSelection(); _explicitShipTarget = true;
         InspectTarget = view;
+        if(changed) GuardTargetChange();
         if (Gunnery is not { } order) return;
-        if (order.Target != view.Body) order.PriorityModuleId = null;
+        if (changed)
+        {
+            order.PriorityModuleId=null;
+            order.Engaged=null; order.EngagedModule=null; order.Solution=null;
+            order.Status=GunneryStatus.NoTarget;
+        }
         order.Target = view.Body;
     }
 
-    private void SelectAt(Vector2 pointer)
+    private void GuardTargetChange()
     {
-        if (Gunnery is not { } order || Controlled is not { } me) return;
+        if(Controlled?.Body is { } ship) SimWorld.StopLasers(ship);
+        _fireReleaseGuard |= Input.IsActionPressed(InputSetup.Fire) || Input.IsMouseButtonPressed(MouseButton.Left);
+        FiringSolution=null; CorrectingAim=false;
+    }
+
+    private bool SelectAt(Vector2 pointer)
+    {
+        if (Gunnery is not { } order || Controlled is not { } me) return false;
         foreach (var (rect, view, module) in _hud.ModuleRegions.AsEnumerable().Reverse())
             if (rect.HasPoint(pointer) && view.Body.Faction != me.Body.Faction && !module.Destroyed)
             {
                 SelectEnemy(view);
                 order.PriorityModuleId = module.Definition.Id;
                 if (order.Doctrine == FireDoctrine.Free) order.Doctrine = FireDoctrine.Focus;
-                return;
+                order.EngagedModule=null; order.Solution=null;
+                return true;
             }
         ShipView? picked = _hud.BracketPositions.Where(p => p.Position.DistanceTo(pointer) <= 36)
             .OrderBy(p => p.Position.DistanceSquaredTo(pointer)).Select(p => p.View).FirstOrDefault();
-        if (picked is null) return;
+        if (picked is null) return false;
         if (picked.Body.Faction == me.Body.Faction) SelectedFriendly = picked;
         else SelectEnemy(picked);
+        return true;
     }
 
     private void SetupGunnery(ShipBody? previous, ShipBody next)

@@ -14,6 +14,7 @@ public partial class Hud
 {
     private static readonly Color Lead = new(0.3f, 1f, 0.66f, 0.95f);
     private const float CrosshairRadius = 26f;
+    internal FiringSolution? DrawnLeadSolution { get; private set; }
 
     private void DrawCrosshair(Camera3D cam, ShipView controlled, Vector2 screen)
     {
@@ -57,19 +58,19 @@ public partial class Hud
     {
         if (Game.SelectedWeapon == PlayerWeapon.Missile) return;
         bool amSelected=Game.Scheme==ControlScheme.Pilot && Game.AntimatterSelected;
-        FiringSolution? current = amSelected ? Game.AntimatterSolution
-            : Game.Scheme == ControlScheme.Helm ? Game.Gunnery?.Solution : Game.FiringSolution;
-        if ((Game.Scheme == ControlScheme.Pilot && !Game.FireAssist) || current is not { Valid: true } solution)
+        FiringSolution? current = Game.DisplayLeadSolution;
+        if ((Game.Scheme == ControlScheme.Pilot && !Game.FireAssist && !Game.Camera.TelescopeHeld) || current is not { Valid: true } solution)
             return;
         Vector3 point = (solution.AimPoint - Game.RenderOrigin).ToVector3();
         if (cam.IsPositionBehind(point))
             return;
         Vector2 p = cam.UnprojectPosition(point);
-        if (Game.Scheme == ControlScheme.Pilot && solution.ViaDatalink)
+        DrawnLeadSolution=solution;
+        if ((Game.Scheme == ControlScheme.Pilot || Game.Camera.TelescopeHeld) && solution.ViaDatalink)
             CenteredLabel(p + new Vector2(0, -19), "아군 링크", 11, Friendly);
         // 조함 방식: 표적이 포각 밖이거나 선체에 가리면 선행점이 빨갛다(OffscreenHud의 사선 상태).
         Color color = Game.Scheme == ControlScheme.Helm ? (_hasEngagedLine && _engagedLine != FireFailure.None ? Hostile : Lead)
-            : Game.CorrectingAim ? Lead : new Color(Lead, 0.45f);
+            : Game.CorrectingAim || Game.Camera.TelescopeHeld ? Lead : new Color(Lead, 0.45f);
         if(amSelected && Game.Controlled is { } carrier && carrier.Body.Definition.Antimatter is { } am)
         {
             bool aligned=carrier.Body.Forward.AngleTo(solution.Direction)<=Mathf.DegToRad(am.LaunchConeDegrees);
@@ -105,7 +106,7 @@ public partial class Hud
             if (hit.Kind == HitKind.Critical) DrawDiamond(c, 30 * pulse, color);
         }
         string label = "명중 · " + hit.Label;
-        Vector2 at = c + new Vector2(0, 83);
+        Vector2 at = CombatHudLayout.For(GetViewportRect().Size,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length).HitFeedback(c);
         Vector2 textSize = _font.GetStringSize(label, fontSize: 15);
         DrawRect(new Rect2(at - new Vector2(textSize.X * .5f + 9, 17), textSize + new Vector2(18, 6)), new Color(PanelBack, .65f * hit.Fade));
         CenteredLabel(at, label, 15, color);

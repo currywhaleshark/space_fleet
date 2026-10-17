@@ -51,7 +51,7 @@ public partial class Hud
         DrawRect(panel, PanelBack);
         float y = panel.Position.Y;
 
-        Color identity = damage.Destroyed ? Dim : body.Faction == Faction.Blue ? Friendly : Hostile;
+        Color identity = damage.Destroyed ? Dim : Game.ShipMarkerColor(body);
         Label(new Vector2(x, y + 20f), body.Callsign, 15, identity);
         ClassPips(new Vector2(x + _font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 15).X + 8f, y + 15f), body.Class.Kind, identity);
         // 거리가 주황이면 내 주포 사거리 밖이다.

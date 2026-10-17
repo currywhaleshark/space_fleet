@@ -14,6 +14,7 @@ public partial class WorldMapOverlay : Control
     public WorldMapState Map { get; } = new();
     public event Action? CloseRequested;
     private Font _font = null!;
+    private readonly MarkerLabels _labels = new();
     private WorldMapSurface _surface = null!;
     private ShipView? _selected;
     private MouseButton _drag;
@@ -149,7 +150,7 @@ public partial class WorldMapOverlay : Control
         Contact? selected = contacts.FirstOrDefault(c => c.Ship == _selected);
         if (selected is not null)
         {
-            Color color = selected.Lost ? ContactMemory.LostColor : selected.Enemy ? Amber : Blue;
+            Color color = selected.Lost ? ContactMemory.LostColor : selected.Enemy ? Amber : Game.ShipMarkerColor(selected.Ship.Body);
             Text(this, new(x, 244), selected.Memory.Name, 21, color);
             Text(this, new(x, 272), selected.Memory.State?.ClassName ?? "미식별", 14, color);
             if (selected.Lost) Text(this, new(x, 295), $"신호 소실 · {Game.World.Time - selected.Memory.LastSeenAt:0}초 전", 13, color);
@@ -186,15 +187,20 @@ public partial class WorldMapOverlay : Control
         DrawSensorCoverage(canvas, At);
         DrawObstacles(canvas,At);
         DrawCaptureZones(canvas, At);
-        var labels = new List<Rect2>();
-        foreach (Contact c in Contacts().OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
+        _labels.Begin(canvas.Size);
+        var contacts=Contacts();
+        Vector2 pointer=_pointer-_surface.Position;
+        var hover=contacts.Where(c=>Map.Contains(c.Position)&&new Rect2(Vector2.Zero,canvas.Size).Grow(-12).HasPoint(At(c.Position)))
+            .MinBy(c=>At(c.Position).DistanceSquaredTo(pointer));
+        foreach (Contact c in contacts.OrderBy(c => c.Ship == _selected || c.Ship == Game.Controlled ? double.MaxValue : Map.Project(c.Position).Z))
         {
             if (!Map.Contains(c.Position)) continue;
             Vector2 p = At(c.Position);
             if (!new Rect2(Vector2.Zero, canvas.Size).Grow(-12).HasPoint(p)) continue;
             bool self = c.Ship == Game.Controlled, selected = c.Ship == _selected;
+            _labels.ProtectSymbol(p,selected?13:7);
             bool wreck = c.Memory.State?.Destroyed == true;
-            Color color = c.Lost ? ContactMemory.LostColor : c.Enemy ? c.Identified ? Red : Amber : Blue;
+            Color color = c.Lost ? ContactMemory.LostColor : c.Enemy ? c.Identified ? Red : Amber : Game.ShipMarkerColor(c.Ship.Body);
             if (wreck) color = new Color(color, .35f);
             else if (!self && !selected && Map.Project(c.Position).Z < 0) color = new Color(color, .6f);
             // 구의 적도면에 내려 공간상의 높이를 읽는다. 좌표 자체는 세계 좌표다.
@@ -221,21 +227,23 @@ public partial class WorldMapOverlay : Control
             else canvas.DrawCircle(p, 4, color);
             if (selected) canvas.DrawArc(p, 12, 0, Mathf.Tau, 32, c.Lost ? color : Ink, 2, true);
             string label = self ? c.Memory.Name + " · 조종함" : c.Memory.Name + (c.Lost ? " · 신호 소실" : "");
-            Vector2 textSize = _font.GetStringSize(label, fontSize: 12), at = p + new Vector2(12, -8);
-            var bounds = new Rect2(at - new Vector2(0, 14), textSize + new Vector2(8, 5));
-            if (self || selected || !labels.Any(r => r.Intersects(bounds)))
-            { Text(canvas, at, label, 12, color); labels.Add(bounds); }
+            int priority=selected?110:self?100:hover?.Ship==c.Ship&&p.DistanceSquaredTo(pointer)<=24*24?90
+                :Game.OwnsShip(c.Ship.Body)?60:10;
+            _labels.Add(c.Ship,p,new Vector2(12,-8),label,color,priority,13);
             _picks.Add((p + _surface.Position, c.Ship));
         }
         foreach (var probe in Game.ProbeMarkers())
         {
             if (!Map.Contains(probe.Position)) continue;
             Vector2 p = At(probe.Position);
+            _labels.ProtectSymbol(p,9);
             Color color = probe.Lost ? ContactMemory.LostColor : probe.Enemy ? Red : Blue;
             canvas.DrawRect(new Rect2(p - Vector2.One * 4, Vector2.One * 8), color, false, 1.5f);
             if (probe.Observing) canvas.DrawArc(p, 9, 0, Mathf.Tau, 24, new Color(color, .4f), 1);
-            Text(canvas, p + new Vector2(12, 13), probe.Label, 11, color);
+            int priority=p.DistanceSquaredTo(_pointer-_surface.Position)<=24*24?90:10;
+            _labels.Add(probe.Key??probe.Label,p,new Vector2(12,13),probe.Label,color,priority,12);
         }
+        _labels.Draw(canvas,_font);
         DrawProbePreview(canvas, At);
         // 원점과 화면 평면 축척. 조종함과 독립된 전장 공간을 읽는 기준.
         Vector2 zero = At(Vec3d.Zero);

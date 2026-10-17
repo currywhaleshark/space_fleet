@@ -1,0 +1,40 @@
+{
+  "date": "2026-10-18",
+  "executable": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261018-selected-target-Windows-x64\\SpaceFleet.exe",
+  "fixes": [
+    "Selection marker and readout independent of weapon/lock/firing solution",
+    "Persistent scope and oversized-hull selection",
+    "Offscreen/rear arrows",
+    "Lost contact observation only",
+    "Selected missile uses the same selection presentation",
+    "Unidentified selected contacts are not merged with neighbours"
+  ],
+  "fixture": "Contact/Identified/Locked presentation observations are injected into ContactMemory with firing solutions cleared; small-target tests launch and detect a real missile. This tests presentation, not balance or targeting probability.",
+  "initialPackagedSuites": 18,
+  "initialPackagedChecks": 12153,
+  "finalUiRechecks": [
+    "PASS: 278 HUD readability/marker preservation checks",
+    "PASS: 134 selected-target HUD checks",
+    "PASS: 303 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks"
+  ],
+  "finalUiRecheckCount": 759,
+  "renders": {
+    "1600x900": 146,
+    "960x720": 146
+  },
+  "archive": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261018-selected-target-Windows-x64.zip",
+  "archiveFiles": 204,
+  "zipCrcValid": true,
+  "sha256": "9600e580cd5a3d288e650973dc257933ac830f557fe6b5b70b36b661a46db3c9",
+  "compiledDllMatches": {
+    "SpaceFleet.dll": "dc72bddd22505cca2b2b5e984ea96b8c27892da5290380de09201fa8fba376eb",
+    "SpaceFleet.Sim.dll": "e3be40a9c58e237bb28c6c3ebcabbedb372822aa62c6e007b576f0880f7b9993"
+  },
+  "notes": [
+    "combat-visual-test first launch produced an empty log and exceeded the exporter 45-second startup limit; rerun with a 120-second process limit.",
+    "After 18 packaged suites, aiming-mode wording was made accurate for unscoped manual fire and small-target interception; final export reran HUD, selection, weapon input, telescope and contact suites plus actual 1600x900 and 960x720 capture suites.",
+    "No additional full simulation balance run: this change affects HUD presentation only. Existing firing safeguards and armor behavior are unchanged."
+  ]
+}

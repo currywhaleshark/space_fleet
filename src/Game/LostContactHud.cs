@@ -9,7 +9,7 @@ namespace SpaceFleet.Game;
 public partial class Hud
 {
     private void DrawLostContact(Camera3D cam, ShipView controlled, ShipView view, ContactSnapshot contact,
-        List<Rect2> labels, Vector2 screen)
+        Vector2 screen)
     {
         Vector3 render = (contact.Position - Game.RenderOrigin).ToVector3();
         if (cam.IsPositionBehind(render)) return;
@@ -25,11 +25,10 @@ public partial class Hud
         else DrawDiamond(p, selected ? 10 : 6, gray);
         if (selected) DrawArc(p, 15, 0, Mathf.Tau, 24, gray, 1.5f, true);
         BracketPositions.Add((p, view));
+        _markerLabels.ProtectSymbol(p,selected?15:8);
         string label = $"{contact.Name} · 신호 소실  {FormatDistance((contact.Position - controlled.SimPosition).Length())}";
         Vector2 at = p + new Vector2(18, -12);
-        var rect = new Rect2(at - new Vector2(0, 14), _font.GetStringSize(label, fontSize: 13));
-        if (!selected && labels.Exists(r => r.Intersects(rect))) return;
-        labels.Add(rect); Label(at, label, 13, gray);
+        if (!selected || Game.Spectating) _markerLabels.Add(view,p,at-p,label,gray,MarkerPriority(view,p));
     }
 
     private void DrawLostTargetPanel(Vector2 screen, ContactSnapshot contact, ShipView me)

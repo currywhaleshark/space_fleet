@@ -23,6 +23,8 @@ public partial class Hud : Control
     private static readonly Color PanelBack = new(0.01f, 0.02f, 0.03f, 0.72f);
 
     private Font _font = null!;
+    private readonly MarkerLabels _markerLabels = new();
+    private ShipView? _hoveredShip;
 
     public ScaleTest Game { get; set; } = null!;
     public List<(Rect2 Rect, ShipView View, ModuleState Module)> ModuleRegions { get; } = new();
@@ -58,13 +60,15 @@ public partial class Hud : Control
     {
         ModuleRegions.Clear();
         BracketPositions.Clear();
+        DrawnLeadSolution=null;
         if (Game?.Controlled is not ShipView controlled)
             return;
 
         Camera3D cam = Game.Camera;
         Vector2 size = GetViewportRect().Size;
+        BeginMarkerLabels(size,controlled);
         if(Game.Spectating)
-        {DrawBrackets(cam,controlled,size);DrawBattleHud(size);DrawRadar(Game.SpectatedView??controlled,size);return;}
+        {DrawBrackets(cam,controlled,size);_markerLabels.Draw(this,_font);DrawBattleHud(size);DrawRadar(Game.SpectatedView??controlled,size);return;}
 
         UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
@@ -80,6 +84,8 @@ public partial class Hud : Control
         DrawSquadOrders(cam, controlled);
         DrawAimPart(cam, controlled);
         DrawMissileMarkers(cam, controlled, size);
+        DrawSelectedTarget(cam, size);
+        _markerLabels.Draw(this,_font);
         DrawOffscreenShips(cam, controlled, size);
         DrawOffscreenExplosions(size);
         if (Game.Camera.TelescopeHeld) DrawTelescope(controlled,size);
@@ -104,6 +110,46 @@ public partial class Hud : Control
         DrawTerrainWarning(controlled,size);
         DrawRadar(controlled, size);
         DrawHelp(controlled, size);
+    }
+
+    private Vector2 MarkerPointer => Input.MouseMode==Input.MouseModeEnum.Captured
+        ? Game.Camera.AimScreenPosition() : GetViewport().GetMousePosition();
+    private int MarkerPriority(ShipView view,Vector2 point) => view==Game.InspectTarget||view==Game.SelectedFriendly?100
+        :view==_hoveredShip?90
+        :Game.OwnsShip(view.Body)?60:10;
+
+    private void BeginMarkerLabels(Vector2 screen,ShipView controlled)
+    {
+        _markerLabels.Begin(screen);
+        float radarScale=Mathf.Clamp(Mathf.Min(screen.X/1600,screen.Y/900),.6f,1);
+        _markerLabels.Reserve(new Rect2(16,16,248*radarScale,248*radarScale));
+        if(Game.Spectating)return;
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length);
+        if(Game.Feedback.Outgoing is not null)
+        {
+            Vector2 at=layout.HitFeedback(screen*.5f);
+            _markerLabels.Reserve(new Rect2(at-new Vector2(140,20),new Vector2(280,36)));
+        }
+        _markerLabels.Reserve(layout.Instruments);
+        if(Game.Scheme==ControlScheme.Helm)_markerLabels.Reserve(layout.Gunnery);
+        _markerLabels.Reserve(new Rect2(layout.Weapons,new Vector2(390,31)));
+        _markerLabels.Reserve(layout.Selection);
+        _markerLabels.Reserve(new Rect2(16,screen.Y-310,250,278));
+        _markerLabels.Reserve(new Rect2(screen.X-266,screen.Y-254,250,222));
+        if(Game.SelectedSmallContact is { } small)
+        {
+            Vector3 render=(small.Predict(Game.World.Time)-Game.RenderOrigin).ToVector3();
+            if(!Game.Camera.IsPositionBehind(render))
+            {
+                Vector2 point=Game.Camera.UnprojectPosition(render);
+                _markerLabels.Reserve(new Rect2(point-new Vector2(160,42),new Vector2(320,104)));
+            }
+        }
+        if(Game.InspectTarget is { } target)
+        {
+            bool detailed=Game.TrackOf(target).Level>=TrackLevel.Identified;
+            _markerLabels.Reserve(new Rect2(screen.X-332,8,320,detailed?390:64));
+        }
     }
 
     // ── 공용 도형 ─────────────────────────────────────────────
@@ -158,7 +204,15 @@ public partial class Hud : Control
     private void DrawBrackets(Camera3D cam, ShipView controlled, Vector2 screen)
     {
         float pxPerRad = screen.Y * 0.5f / Mathf.Tan(Mathf.DegToRad(cam.Fov) * 0.5f);
-        var labels = new List<Rect2>();
+        _hoveredShip=null;
+        float hoverDistance=24*24;
+        var lostContacts=new List<(ShipView View,ContactSnapshot Contact)>();
+        void Hover(ShipView view,Vector3 position)
+        {
+            if(cam.IsPositionBehind(position))return;
+            float distance=cam.UnprojectPosition(position).DistanceSquaredTo(MarkerPointer);
+            if(distance<hoverDistance){_hoveredShip=view;hoverDistance=distance;}
+        }
         // 적은 진영 센서망이 아는 위치(추정)에 그린다. 아군은 데이터 링크로 실제 위치.
         var markers = new List<(ShipView View, SensorTrack Track, Vector3 Render, double Dist, double TrueDist)>();
         foreach (ShipView view in Game.Views)
@@ -167,7 +221,8 @@ public partial class Hud : Control
                 continue;
             if (Game.ContactOf(view) is { SignalLost: true } lost)
             {
-                DrawLostContact(cam, controlled, view, lost, labels, screen);
+                lostContacts.Add((view,lost));
+                Hover(view,(lost.Position-Game.RenderOrigin).ToVector3());
                 continue;
             }
             SensorTrack track = Game.TrackOf(view);
@@ -177,11 +232,13 @@ public partial class Hud : Control
             bool enemy = view.Body.Faction != controlled.Body.Faction;
             Vec3d sim = enemy ? view.SimPosition + track.Offset : view.SimPosition;
             Vector3 render = (sim - Game.RenderOrigin).ToVector3();
+            Hover(view,render);
             if (!cam.IsPositionBehind(render))
                 markers.Add((view, track, render, (sim - controlled.SimPosition).Length(),
                     (view.SimPosition - controlled.SimPosition).Length()));
         }
-        // 가까운 것부터 라벨 자리를 잡고, 겹치는 먼 라벨은 생략한다.
+        foreach(var (view,lost) in lostContacts)DrawLostContact(cam,controlled,view,lost,screen);
+        // 가까운 순서는 안정적으로 유지하고, 글자는 선택/호버/내 편대 순으로 별도 배치한다.
         // 순서는 실제 거리로 고정해서, 겹친 접촉의 라벨이 오차 변화에 따라 번갈아 깜박이지 않게 한다.
         var contacts = new List<Contact>();
         foreach (var (view, track, render, dist, _) in markers.OrderBy(m => m.TrueDist))
@@ -201,9 +258,11 @@ public partial class Hud : Control
             }
 
             float radius = (float)(view.Body.Class.Length * 0.5 / Math.Max(dist, 1.0)) * pxPerRad;
-            if (radius > screen.Y * 0.35f)
+            if (radius > screen.Y * 0.35f && !selected)
                 continue; // 가까워서 화면을 덮는 함선은 표시하지 않는다.
+            if (selected) radius = Mathf.Min(radius, 65);
             BracketPositions.Add((p, view));
+            _markerLabels.ProtectSymbol(p,10);
 
             bool destroyed = view.Body.Damage.Destroyed;
             // 무력화는 식별 이상에서만 보인다(적이면 겉보기 정보).
@@ -211,7 +270,7 @@ public partial class Hud : Control
             float h = Mathf.Max(9f, radius);
             DrawTargetFeedback(view.Body, p, h);
             float arm = Mathf.Min(8f, h * 0.6f);
-            Color c = destroyed ? Dim : view.Body.Faction == Faction.Blue ? Friendly : Hostile;
+            Color c = destroyed ? Dim : Game.ShipMarkerColor(view.Body);
             if (disabled) c = new Color(c, 0.45f);
             float width = selected ? 2.5f : 1.5f;
             foreach (var (sx, sy) in new[] { (-1, -1), (1, -1), (-1, 1), (1, 1) })
@@ -235,13 +294,10 @@ public partial class Hud : Control
 
             string label = $"{view.Body.Callsign}  {FormatDistance(dist)}{(disabled ? "  무력화" : "")}";
             Vector2 at = p + new Vector2(h + 6, -h + 12);
-            var rect = new Rect2(at - new Vector2(0, 12), _font.GetStringSize(label, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
-            if (labels.Any(r => r.Intersects(rect)))
-                continue;
-            labels.Add(rect);
-            Label(at, label, 13, c);
+            if (Game.Spectating || view != Game.InspectTarget || Game.SelectedTargetDisplay() is null)
+                _markerLabels.Add(view,p,at-p,label,c,MarkerPriority(view,p));
         }
-        DrawContactGroups(contacts, labels);
+        DrawContactGroups(contacts);
     }
 
     private readonly Dictionary<ShipView, float> _errorShown = new();
@@ -258,7 +314,7 @@ public partial class Hud : Control
     /// 모든 구성원 오차 원을 감싸는 원 하나, "? ×수"와 가장 가까운 구성원 거리로 그린다.
     /// 지난 프레임에 같이 묶였던 접촉은 조금 더 멀어져도 묶음을 유지한다.
     /// </summary>
-    private void DrawContactGroups(List<Contact> contacts, List<Rect2> labels)
+    private void DrawContactGroups(List<Contact> contacts)
     {
         const float MergePixels = 36f;
         const float OverlapFactor = 0.6f;
@@ -266,9 +322,11 @@ public partial class Hud : Control
         var groups = new List<List<Contact>>();
         foreach (Contact c in contacts) // 실제 거리 순으로 들어와 묶음의 첫 구성원이 안정적이다.
         {
+            if (c.View == Game.InspectTarget) { groups.Add(new List<Contact> { c }); continue; }
             List<Contact>? home = null;
             foreach (List<Contact> g in groups)
             {
+                if (g[0].View == Game.InspectTarget) continue;
                 Vector2 center = GroupCenter(g);
                 float reach = Mathf.Max(MergePixels, (GroupRadius(g, center) + c.Err) * OverlapFactor);
                 if (_contactAnchor.TryGetValue(c.View, out ShipView? anchor) && anchor == g[0].View)
@@ -291,6 +349,7 @@ public partial class Hud : Control
         foreach (List<Contact> g in groups)
         {
             Vector2 center = GroupCenter(g);
+            _markerLabels.ProtectSymbol(center,9);
             float radius = GroupRadius(g, center);
             bool selected = g.Any(m => m.View == Game.InspectTarget);
             foreach (Contact m in g)
@@ -310,11 +369,8 @@ public partial class Hud : Control
             double nearest = g.Min(m => m.Dist);
             string text = g.Count > 1 ? $"? ×{g.Count}  {FormatDistance(nearest)}" : $"?  {FormatDistance(nearest)}";
             Vector2 at = center + new Vector2(12f, -6f);
-            var rect = new Rect2(at - new Vector2(0, 12), _font.GetStringSize(text, HorizontalAlignment.Left, -1, 13) + new Vector2(0, 2));
-            if (labels.Any(r => r.Intersects(rect)))
-                continue;
-            labels.Add(rect);
-            Label(at, text, 13, cc);
+            int priority=g.Max(c=>MarkerPriority(c.View,c.P));
+            if (!selected || Game.Spectating) _markerLabels.Add(g[0].View,center,at-center,text,cc,priority);
         }
         _contactAnchor = anchors;
 
@@ -353,8 +409,8 @@ public partial class Hud : Control
         if (collided)
             DrawRect(panel, Hostile, false, 2f);
 
-        Label(panel.Position + new Vector2(10, 18), body.Callsign, 14, Text);
-        ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Text);
+        Label(panel.Position + new Vector2(10, 18), body.Callsign, 14, Game.ShipMarkerColor(body));
+        ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Game.ShipMarkerColor(body));
         Label(panel.Position + new Vector2(140, 18), $"구조 {body.Damage.StructureFraction * 100:0}%", 12,
             body.Damage.StructureFraction <= .25f ? Hostile : body.Damage.StructureFraction <= .5f ? Motion : Dim,
             HorizontalAlignment.Right, 100);

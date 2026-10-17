@@ -14,6 +14,7 @@ public partial class ScaleTest
 
     private void OnTelescopeChanged(bool held)
     {
+        FiringSolution=null; CorrectingAim=false;
         if (held)
         {
             if (Gunnery is { } order)

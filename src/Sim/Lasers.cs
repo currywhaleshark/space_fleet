@@ -50,6 +50,7 @@ public sealed class LaserState
     internal Vector3 RequestedDirection;
     internal double RequestedUntil, PulseCredit;
     internal bool AutoCooling;
+    public bool Cooling => AutoCooling;
     internal void Focus(ShipBody ship, Vector3 local, float seconds)
     {
         float radius = Math.Max(.2f, ship.Class.Length * Definition.SpotLengthFraction);

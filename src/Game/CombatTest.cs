@@ -19,8 +19,28 @@ public partial class ScaleTest
     /// <summary>사격보조가 노리는 부위(Y로 바꾼다).</summary>
     public AimSubsystem AimPart { get; private set; } = AimSubsystem.Center;
     /// <summary>지금 고른 부위의 모듈(표적·내 위치 기준). 중심이거나 남은 모듈이 없으면 null.</summary>
-    public ModuleState? AimModule => FireTarget is null ? null : Scheme == ControlScheme.Helm ? Gunnery?.EngagedModule : FireTarget is ShipView t && Controlled?.Body is ShipBody me
-        ? Subsystems.Pick(t.Body, AimPart, me.Position) : null;
+    public ModuleState? AimModule
+    {
+        get
+        {
+            if (FireTarget is not { } target || Controlled?.Body is not { } me) return null;
+            if (Scheme == ControlScheme.Helm && !Camera.TelescopeHeld) return Gunnery?.EngagedModule;
+            if (Scheme == ControlScheme.Helm && Gunnery?.PriorityModuleId is { } id
+                && target.Body.Damage.Modules.FirstOrDefault(m => m.Definition.Id == id && !m.Destroyed) is { } priority) return priority;
+            return Subsystems.Pick(target.Body, AimPart, me.Position);
+        }
+    }
+
+    internal FiringSolution? DisplayLeadSolution => AntimatterSelected ? AntimatterSolution
+        : Camera.TelescopeHeld || Scheme == ControlScheme.Pilot ? FiringSolution : Gunnery?.Solution;
+
+    private FiringSolution? SolveScopedTarget(ShipBody player)
+    {
+        if (SelectedWeapon != PlayerWeapon.MainGun || FireTarget is not { } target
+            || TrackOf(target) is not { Level: TrackLevel.Locked } track) return null;
+        // Presentation only: the manual battery continues aiming/firing along the camera ray below.
+        return FireControl.Solve(player, target.Body, World.Time, track: track, localAim: AimModule?.Definition.Center);
+    }
 
     private void CycleAimPart()
     {
@@ -164,7 +184,7 @@ public partial class ScaleTest
         if (Scheme == ControlScheme.Helm)
         {
             if (SelectedSmallContact is not null) { StepSmallTargetBattery(player); return; }
-            FiringSolution = Gunnery?.Solution;
+            FiringSolution = Camera.TelescopeHeld ? SolveScopedTarget(player) : Gunnery?.Solution;
             CorrectingAim = false;
             if (!MenuOpen && !RadarPointerCaptured && SelectedWeapon == PlayerWeapon.MainGun && Gunnery?.Doctrine == FireDoctrine.Manual)
             {
@@ -194,8 +214,8 @@ public partial class ScaleTest
         ShipView? fireTarget = FireTarget;
         // 사격통제는 센서망 잠금이 있어야 해를 낸다. ECM·신호 세기가 오차에 반영된다.
         SensorTrack? track = fireTarget is null ? null : TrackOf(fireTarget);
-        FiringSolution = FireAssist && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimModule?.Definition.Center) : null;
-        CorrectingAim = FiringSolution is { Valid: true } && track is SensorTrack known
+        FiringSolution = (FireAssist || Camera.TelescopeHeld) && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimModule?.Definition.Center) : null;
+        CorrectingAim = FireAssist && FiringSolution is { Valid: true } && track is SensorTrack known
             && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = SelectedWeapon == PlayerWeapon.MainGun && !_fireReleaseGuard
             && Input.MouseMode == Input.MouseModeEnum.Captured && Input.IsActionPressed(InputSetup.Fire);

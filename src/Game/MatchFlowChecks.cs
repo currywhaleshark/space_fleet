@@ -37,6 +37,9 @@ public partial class Main
             var game=Battle!;var world=game.World;var owned=game.OwnedSquadron!;
             MatchVerify(world.Squadrons.Count==20 && world.Ships.Count==game.LaunchConfig!.Match!.Participants.Sum(p=>p.ShipCount),"10 vs 10 existing squad templates within tier bracket");
             MatchVerify(owned.Members.Count==5 && owned.Members.Contains(game.Controlled!.Body) && owned.PlayerLed,"Player owns exactly their wing");
+            MatchVerify(owned.Members.All(s=>game.ShipMarkerColor(s)==ShipAffiliation.Owned)
+                && world.Ships.Where(s=>s.Faction==Faction.Blue&&!owned.Members.Contains(s)).All(s=>game.ShipMarkerColor(s)==ShipAffiliation.Allied),
+                "Owned squad is green and other allied participants are blue");
             MatchVerify(world.Brains.Count==world.Ships.Count-1 && world.BrainOf(game.Controlled!.Body) is null,"Other ships retain AI");
             MatchVerify(InputMap.ActionHasEvent(InputSetup.TeamRoster,new InputEventKey{PhysicalKeycode=Key.Tab}) &&
                 !InputMap.ActionHasEvent(InputSetup.SwitchShip,new InputEventKey{PhysicalKeycode=Key.Tab}),"Tab is roster, not ship switching");
@@ -68,6 +71,7 @@ public partial class Main
             controlled.Damage.Breakup(world.Time,"match check");MatchTicks(game,190);
             MatchVerify(game.Controlled.Body!=controlled && owned.Members.Contains(game.Controlled.Body) && !game.Spectating,
                 "Loss hands control to surviving member of own squad");
+            MatchVerify(owned.Members.All(game.OwnsShip),"Control handover retains green ownership for the original squad");
             // Recoverable incapacitation must not transfer ownership to another participant.
             foreach(var ship in owned.Members.Where(s=>!s.Damage.Destroyed))
             {
@@ -90,6 +94,8 @@ public partial class Main
             MatchVerify(Screen==BattleScreen.Battle && game.SpectatedView!.Body!=watched && game.SpectatedView.Body.Faction==Faction.Blue,
                 "Spectator can cycle allies");
             CheckSpectatorAudio(game);
+            MatchVerify(!game.OwnsShip(game.SpectatedView!.Body) && game.ShipMarkerColor(game.SpectatedView.Body)==ShipAffiliation.Allied,
+                "Spectating an allied participant never recolors their squad as player-owned");
             tick=world.Tick;MatchTicks(game,4);
             MatchVerify(world.Tick>tick && owned.Members.Contains(game.Controlled.Body),"Spectating does not take over another participant");
             game._UnhandledInput(new InputEventAction{Action=InputSetup.ReleaseMouse,Pressed=true});

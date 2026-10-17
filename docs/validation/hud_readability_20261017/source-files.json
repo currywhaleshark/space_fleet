@@ -1,0 +1,17 @@
+{
+  "src/Game/CombatHudLayout.cs": "34c15c30697846a1ab82bccb0399c7f26bfe3fa34d54d2119c7b775baee04fb8",
+  "src/Game/MarkerLabels.cs": "65236323b579292af45bee692cc51b6cf83ab9707926cab19a0eed5c1a0c636e",
+  "src/Game/HudReadabilityChecks.cs": "6f7dc62c5f46e8cf61c24bbaef1f04c5f7a8297ef2e6366816c9d0110479d5fe",
+  "src/Game/CombatHud.cs": "63c31320e9ee26cb4392c433c6357b653b839bff20fec884d901e130fc3d5520",
+  "src/Game/GunneryHud.cs": "4df77251ed05ca84e66d898bd37fe1f59108140723a345348194e9b41a49930a",
+  "src/Game/Hud.cs": "c099c989939f7147769420fb05cf4237b1786c0e9d84e2127bf7dd580e518f5f",
+  "src/Game/InstrumentHud.cs": "b772b68f913bd287249c22b0ceec734899bcc3e3ec89a0d2434d2646c855abcc",
+  "src/Game/InterceptorHud.cs": "bfb309de530b176fcfbda9aef43695618c968a04d8a540450431a7857550311e",
+  "src/Game/LostContactHud.cs": "5d492405314b6389c06a5b1291803697c07332897e8069b8db6f13c183de179a",
+  "src/Game/Main.cs": "427ecc070072d250488037ab970ff8b2b598deb6b0fa1406d2dd7fae45da3a2d",
+  "src/Game/MissileHud.cs": "27afbcf13676c23c624f37d4452c9fc3f98dc8b82d81da83144865d1ec0ed065",
+  "src/Game/WeaponControls.cs": "008d007e0e7b7b521c583e7229a026fedae8a40689ab10578b67df2477797956",
+  "src/Game/WorldMapOverlay.cs": "c215b758084c797981a72a2e1ca6768467d5540763c5561dd6fafae06dd95cbe",
+  "src/Sim/Lasers.cs": "09e3cf3754b236bccb79b3d7387490da6de431fd6c0d1885bf7688d72bbae4e5",
+  "tools/export-windows.ps1": "6068e16c462e64567d772a327206289b3f10b34e4848fe1417fdc6beccc1d479"
+}

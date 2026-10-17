@@ -132,7 +132,12 @@ static class AIChecks
     private static void CheckAttackRun()
     {
         var world = new SimWorld();
-        ShipBody target = Add(world, "escort", Faction.Blue, Vec3d.Zero, "T", pointDefense: false);
+        // Repeated-pass behavior needs a surviving target. Armor no longer vetoes shots,
+        // so the stock escort can be structurally destroyed before the second pass.
+        var data=JsonNode.Parse(Variant("escort",pointDefense:false).ToJson())!.AsObject();
+        data["StructureHitPoints"]=1e8;
+        ShipBody target=world.Add(new ShipBody("T",ShipDefinition.Parse(data.ToJsonString(),true),Faction.Blue));
+        target.Place(Vec3d.Zero,Quaternion.Identity);target.Control=ShipControl.Idle;
         ShipBody ic = Add(world, "interceptor", Faction.Red, new Vec3d(0, 0, -25_000), "IC");
         world.AttachBrain(ic, ShipOrder.AttackOn(target));
         int passes = 0;
@@ -147,7 +152,7 @@ static class AIChecks
         }
         Require(Damaged(target), "An interceptor attack run must damage a stationary escort");
         Require(ic.LastCollision is null, "Attack runs must break off before ramming");
-        Require(passes >= 2, $"The interceptor must make repeated passes: {passes}");
+        Require(!target.Damage.Destroyed && passes >= 2, $"The interceptor must make repeated passes against a surviving target: {passes}, destroyed={target.Damage.Destroyed}");
         Console.WriteLine($"Attack run (IC vs DD, 25 km, 180 s): {passes} passes, DD shield {target.Damage.Shield:0}/{target.Damage.ShieldCapacity:0}");
     }
 

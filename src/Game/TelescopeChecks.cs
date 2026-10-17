@@ -50,10 +50,18 @@ public partial class TelescopeChecks : Node
         Check(g.InspectTarget==target && g.Gunnery.Target==target.Body && g.Camera.AimForward.IsEqualApprox(aim),
             "R selects the known center target without snapping aim or firing");
         Check(ship.Railguns.Sum(x=>x.Rounds)==rounds,"Target selection consumes no rounds");
+        target.Body.Velocity=g.Camera.Basis.X*700;
+        g.World.Sensors.Update(g.World.Ships,g.World.Time,force:true); Step(g,1);
+        var expected=FireControl.Solve(ship,target.Body,g.World.Time,track:g.TrackOf(target),localAim:g.AimModule?.Definition.Center);
+        Check(g.Gunnery.Solution is null && g.DisplayLeadSolution is {Valid:true} lead && lead.AimPoint==expected.AimPoint,
+            "Manual scope displays the same sensor-based intercept solution without an automatic firing order");
+        Check(g.DisplayLeadSolution!.FlightTime>0 && ship.Railguns.Sum(x=>x.Rounds)==rounds && !g.CorrectingAim,
+            "Predictive display alone does not fire, consume ammunition or engage assisted steering");
         Input.ActionPress(InputSetup.Fire); Step(g,180); Input.ActionRelease(InputSetup.Fire);
         Check(ship.Railguns.Sum(x=>x.Rounds)<rounds && g.World.Log!.Ship(ship).Rails>0,
             $"Scoped held fire launches center-ray rounds despite an off-center OS pointer: {rounds}->{ship.Railguns.Sum(x=>x.Rounds)}, {g.LastFireMessage}");
         Check(ship.Railguns.Any(gun=>gun.Direction.Dot(aim)>.998f),"Physical turret follows the scope firing direction");
+        target.Body.Velocity=Vector3.Zero;
         var sideTarget=g.Views.Single(v=>v.Body.Callsign=="DD-X1");
         sideTarget.Body.Place(g.RenderOrigin+Vec3d.From(g.Camera.Position+g.Camera.AimForward*2000+g.Camera.Basis.X*90),
             g.Camera.Quaternion*new Quaternion(Vector3.Up,Mathf.Pi/2));

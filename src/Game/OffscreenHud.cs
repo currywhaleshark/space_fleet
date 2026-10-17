@@ -30,7 +30,7 @@ public partial class Hud
         _hasEngagedLine = false;
         _engagedLine = FireFailure.None;
         if (Game.FireTarget is not ShipView target || controlled.Body.Railgun is null) return;
-        Vector3 direction = Game.Scheme == ControlScheme.Helm && Game.Gunnery?.Solution is { Valid: true } solution
+        Vector3 direction = Game.Scheme == ControlScheme.Helm && Game.DisplayLeadSolution is { Valid: true } solution
             ? solution.Direction
             : EstimatedDirection(controlled, target);
         if (direction.LengthSquared() < 1e-8f) return;
@@ -63,6 +63,7 @@ public partial class Hud
         foreach (ShipView view in Game.Views)
         {
             if (view == controlled || view.Body.Faction == controlled.Body.Faction) continue;
+            if (DrawnSelection?.Key == view) continue; // Dedicated selection marker is independent of gun eligibility.
             SensorTrack track = Game.TrackOf(view);
             bool isFocus = view == focus;
             ContactSnapshot? memory = Game.ContactOf(view);
@@ -118,7 +119,7 @@ public partial class Hud
     /// <summary>화면 안 사격 표적이 포각 밖이거나 선체에 가리면 ⊘를 겹친다.</summary>
     private void DrawOnscreenBlocked(Vector2 p)
     {
-        if (Game.Scheme != ControlScheme.Helm || !_hasEngagedLine || _engagedLine == FireFailure.None) return;
+        if (Game.SelectedWeapon != PlayerWeapon.MainGun || Game.Scheme != ControlScheme.Helm || !_hasEngagedLine || _engagedLine == FireFailure.None) return;
         DrawArc(p, 20f, 0, Mathf.Tau, 32, Hostile, 2f);
         DrawNoFire(p, 20f);
     }

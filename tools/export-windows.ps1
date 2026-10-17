@@ -1,4 +1,4 @@
-﻿# Export a portable Windows x64 release, test the exported executable, and zip the whole folder.
+# Export a portable Windows x64 release, test the exported executable, and zip the whole folder.
 param([string]$Name = ('SpaceFleet-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-Windows-x64'))
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\godot.ps1"
@@ -103,6 +103,8 @@ Tab 유지: 양팀 편성·생존 현황. 내 함선 격침 시 내 편대원에
 관전 음향은 관전 중인 함선의 엔진·사격·피격과 그 주변 함대를 기준으로 들립니다.
 F1: 조작 도움말 / Esc: 일시정지·메뉴.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
+호위함·전함 주포: 표식·부위 클릭은 선택만, 표식 밖의 새 클릭은 발사. 표적 변경 중 누르던 클릭은 놓은 뒤 다시 눌러야 합니다.
+자동 사격은 새 표적의 사거리·포각·정렬 등을 확인합니다. 장갑 관통 여부는 착탄 때 판정하며 발사를 보류하지 않습니다.
 격납고 계통 교체 → 주포 → 채널링 레이저(140 × 함급 티어 RP): 1 선택 후 좌클릭 유지로 조사. 자동 사격도 지원.
 실드가 없는 같은 선체 부위를 8초 조사하면 해당 조사기의 입구 장갑 판정이 최대 75% 완화됩니다.
 탄약 대신 전력·열을 사용하며 과열 시 차단됩니다. 조준선 오른쪽 호는 집중, 왼쪽 호는 열 여유입니다.
@@ -125,10 +127,18 @@ AI는 장애물을 우회하고 명령 범위 안에서 사선을 확보합니�
 M 지도에서 Shift로 위치·탐지범위를 미리 보고 좌클릭으로 프로브를 전개합니다.
 청색은 아군 함선, 녹색은 프로브, 황색은 전개 예정 탐지범위. 반투명 구체가 겹치면 통합 영역으로 표시.
 R: 마우스(비행/망원은 중앙 조준선)에 가장 가까운 적 함선·미사일·프로브 지정.
+선택 표적은 금색 테두리와 이름·거리, 무장 선택줄 위에 표시됩니다. 미사일 전환·잠금 전·망원에서도 유지됩니다.
+망원 수동 주포도 잠금된 선택 표적의 예측 사격 위치를 표시합니다. 포탑은 계속 중앙 조준선을 따라갑니다.
+내 편대 함선 표식은 초록색, 다른 우군은 파란색입니다. 레이더·전체 지도·편대 상태·Tab 명단에도 적용됩니다.
+화면 밖 표적은 방향 화살표, 신호 소실 표적은 마지막 관측 위치를 회색으로 표시합니다.
 요격함: 1 주포 → R 미사일 지정 → 좌클릭 유지. 기수가 선행점으로 추적하고 사계 진입 시 발사.
 마우스를 움직이면 수동 조종 우선. 클릭 해제·T 보조 해제로 자동 추적 중단. 지나간 미사일은 추적 중단.
 지정 미사일 요격탄은 지구 40m/화성 32m 근접신관, 단일 표적 피해 6. 일반 탄약·연사력·선회 한계 유지.
 탐지된 미사일의 조준 보조는 지구 14km/화성 12km부터 가능. 모든 고속 횡단 표적의 요격을 보장하지 않음.
+
+좁은 창에서도 하단 사격 정보·포각 방위구를 유지합니다. 이름·거리 글자는 겹침을 피해 옆으로 이동합니다.
+함선·미사일 위치 기호는 유지하며, 선택하거나 마우스를 대면 상세 글자가 우선 표시됩니다.
+밀집한 다른 아군의 미사일은 작은 기호로 표시합니다. 표적 선택은 글자가 아닌 원래 표식 위치를 기준으로 합니다.
 
 지구 T3~T5 방공순양함은 기본 레이저를 무료 장착합니다. 자율 주포는 12km 내 탐지된 접근 미사일을 포탑별로 나눠 요격합니다.
 수동·집중·정지 명령이 우선하며, 기존 PD·요격 미사일·방어 드론은 함께 작동합니다.
@@ -138,7 +148,7 @@ THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
+foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','hud-readability-test','selection-hud-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

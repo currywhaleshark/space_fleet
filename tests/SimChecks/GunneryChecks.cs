@@ -1,5 +1,6 @@
 using Godot;
 using SpaceFleet.Sim;
+using System.Text.Json.Nodes;
 
 static class GunneryChecks
 {
@@ -16,6 +17,7 @@ static class GunneryChecks
     { for (int i = 0; i < seconds * SimWorld.TickRate; i++) world.Step(); }
     public static void Run()
     {
+        CheckArmorDoesNotVetoFire();
         foreach (var doctrine in new[] { FireDoctrine.Focus, FireDoctrine.Disable })
         {
             var world = new SimWorld();
@@ -79,7 +81,7 @@ static class GunneryChecks
             Require(module!.HealthFraction < 1, "Disable must damage selected module");
         }
         {
-            // 무력화 + 중심 조준: 부위를 스스로 고른다. 뚫리는 겉 부위만, 내부 냉각기는 아니다.
+            // 무력화 + 중심 조준: 가까운 겉 부위를 고른다. 관통 예측으로 제외하지 않는다.
             var world = new SimWorld();
             var dd = Add(world, "DD", ShipClass.Escort, Faction.Blue, Vec3d.Zero);
             var enemy = Add(world, "ENEMY", ShipClass.Escort, Faction.Red, new Vec3d(0, 0, -10_000));
@@ -89,10 +91,7 @@ static class GunneryChecks
             Require(module is not null, "Disable with Center must pick a module");
             Require(module!.Definition.Kind is ModuleKind.Thruster or ModuleKind.Gun or ModuleKind.Sensor
                 || Subsystems.Matches(module.Definition, AimSubsystem.Radiators), $"Disable picked internal module {module.Definition.Id}");
-            var gun = dd.Railgun!;
-            Require(DamageRay.PreviewArmor(enemy, gun.MuzzlePosition,
-                (Subsystems.WorldPosition(enemy, module.Definition) - gun.MuzzlePosition).ToVector3(), gun.Definition.PenetrationMm, out _),
-                "Disable auto pick must be penetrable from current muzzle");
+            Require(!module.Destroyed,"Disable auto pick remains a functional module");
         }
         {
             // 발사 실패는 문구가 아니라 코드로 돌려준다.
@@ -121,5 +120,36 @@ static class GunneryChecks
             Require(bb.Railgun.Rounds < rounds, "Battleship must fire after rolling clear");
         }
         Console.WriteLine($"PASS: {_checks} gunnery checks");
+    }
+
+    private static void CheckArmorDoesNotVetoFire()
+    {
+        var world=new SimWorld();
+        var shooter=Add(world,"GUN",ShipClass.Interceptor,Faction.Blue,Vec3d.Zero);
+        var data=JsonNode.Parse(ShipDefinitions.For(HullKind.Escort).ToJson())!.AsObject();
+        data["HullSections"]=JsonNode.Parse(ShipDefinition.SerializeData(new[]{
+            new HullSection("plate","thick test plate",Vector3.Zero,new(80,80,160),new ArmorPlate(100_000))}));
+        var target=world.Add(new ShipBody("PLATE",ShipDefinition.Parse(data.ToJsonString(),true),Faction.Red));
+        target.Place(new(0,0,-3000),Quaternion.Identity);
+        foreach(var m in target.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.ShieldEmitter))
+            target.Damage.Hurt(m,m.Health,0,0,1);
+        var gun=shooter.Railgun!;
+        world.Sensors.Update(world.Ships,world.Time,true);
+        var solution=FireControl.Solve(shooter,target,world.Time,track:world.Sensors.Track(shooter.Faction,target));
+        Require(solution.Valid&&target.Damage.Shield<=1&&!DamageRay.PreviewArmor(target,gun.MuzzlePosition,solution.Direction,gun.Definition.PenetrationMm,out _),
+            "Fixture is locked, in range and physically cannot penetrate its unshielded armor");
+        int rounds=gun.Rounds;
+        Require(world.TryAutoFire(shooter,target,null,30,out var status)&&status==GunneryStatus.Firing&&gun.Rounds==rounds-1,
+            $"Thick armor must not veto a valid shot: {status}");
+        Step(world,1);
+        Require(world.Impacts.Any(i=>i.Hit.Target==target&&i.Hit.ArmorStopped),"Real impact still obeys the target armor");
+        gun.Reset();rounds=gun.Rounds;
+        target.Place(new(0,0,3000),Quaternion.Identity);world.Sensors.Update(world.Ships,world.Time,true);
+        Require(!world.TryAutoFire(shooter,target,null,30,out status)&&status==GunneryStatus.Arc&&gun.Rounds==rounds,"Armor change does not bypass firing arc");
+        target.Place(new(0,0,-gun.Definition.MaxRange-5000),Quaternion.Identity);
+        var observer=Add(world,"LINK",ShipClass.Battleship,Faction.Blue,target.Position+new Vec3d(5000,0,0));
+        world.Sensors.Update(world.Ships,world.Time,true);
+        Require(world.Sensors.Track(shooter.Faction,target).Level==TrackLevel.Locked,"Range fixture has an allied firing lock");
+        Require(!world.TryAutoFire(shooter,target,null,30,out status)&&status==GunneryStatus.Range&&gun.Rounds==rounds,"Armor change does not bypass weapon range");
     }
 }

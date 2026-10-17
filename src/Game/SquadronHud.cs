@@ -25,10 +25,10 @@ public partial class Hud
         {
             Squadron q = squadrons[i];
             float y = panel.Position.Y + 4 + i * row;
-            bool mine = q == controlled.Body.Squadron;
+            bool mine = q.Members.Any(Game.OwnsShip);
             if (mine)
                 DrawColoredPolygon(new[] { new Vector2(panel.Position.X + 6, y + 5), new Vector2(panel.Position.X + 13, y + 10),
-                    new Vector2(panel.Position.X + 6, y + 15) }, Text);
+                    new Vector2(panel.Position.X + 6, y + 15) }, ShipAffiliation.Owned);
 
             float x = panel.Position.X + 20;
             foreach (ShipBody ship in q.Members)
@@ -43,7 +43,7 @@ public partial class Hud
                 else
                 {
                     Color c = ship.Damage.Disabled ? Hostile
-                        : ship.Damage.Modules.Any(m => m.Destroyed) ? Motion : Friendly;
+                        : ship.Damage.Modules.Any(m => m.Destroyed) ? Motion : Game.ShipMarkerColor(ship);
                     DrawCircle(center, r, c);
                     if (ship == controlled.Body)
                         DrawArc(center, r + 2.5f, 0, Mathf.Tau, 12, Text, 1f);
@@ -58,7 +58,7 @@ public partial class Hud
                     _ => SquadCommands.Label(Game.SquadOrder),
                 }
                 : q.Activity;
-            Label(new Vector2(panel.Position.X + 120, y + 14), $"{q.Name} · {activity}", 12, mine ? Text : Dim,
+            Label(new Vector2(panel.Position.X + 120, y + 14), $"{q.Name} · {activity}", 12, mine ? ShipAffiliation.Owned : Dim,
                 HorizontalAlignment.Left, panel.Size.X - 126);
         }
     }

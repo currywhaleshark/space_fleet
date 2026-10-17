@@ -59,9 +59,14 @@ public partial class ScaleTest
         }
         if (small is { } chosen)
         {
+            if(SelectedSmallContact?.Target!=chosen.Target) GuardTargetChange();
             SelectedSmallContact = chosen; InspectTarget = null; _explicitShipTarget = false;
             _smallTrackingOverrideUntil = 0;
-            if (Gunnery is { } order) { order.PlayerSmallTarget = true; order.Target = null; order.PriorityModuleId = null; }
+            if (Gunnery is { } order)
+            {
+                order.PlayerSmallTarget=true; order.Target=null; order.PriorityModuleId=null;
+                order.Engaged=null; order.EngagedModule=null; order.Solution=null; order.Status=GunneryStatus.Manual;
+            }
             UpdateSmallAim(me.Body);
             Notify(chosen.Kind == SmallContactKind.Missile ? "적 미사일 지정 · 1 주포 / 2 미사일 · 좌클릭 요격" : "적 프로브 지정 · 1 주포 / 좌클릭 요격", false);
         }

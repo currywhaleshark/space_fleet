@@ -46,7 +46,10 @@ public partial class WeaponInputChecks
         Check(g.CorrectingSmallAim && ship.Forward.AngleTo(g.SmallAimDirection) > Mathf.DegToRad(6),
             "Explicit missile selection assists beyond the old six-degree cursor cone within the gun arc");
         // Missiles are now valid weapon-2 targets; probes must still never fall back to the old ship.
-        g.SelectTargetAt(Screen(probe.Position));
+        Input.ActionPress(InputSetup.Fire);
+        g.SelectTargetAt(Screen(probe.Position));Tick(g);
+        Check(ship.Railgun.Rounds==rounds,"Held fire cannot discharge on the first tick of a new small-target selection");
+        Input.ActionRelease(InputSetup.Fire);Mouse(g,MouseButton.Left,false);
         KeyEvent(g, Key.Key2); int missiles = ship.Ordnance.Missiles;
         Mouse(g, MouseButton.Left); Mouse(g, MouseButton.Left, false);
         Check(ship.Ordnance.Missiles == missiles, "Unsupported probe target cannot launch at the previous ship");

@@ -5,8 +5,8 @@ using SpaceFleet.View;
 namespace SpaceFleet.Game;
 
 /// <summary>
-/// 부위 조준 표시. 표적의 고른 부위 위치에 마름모 + 부위 이름. 초록 = 지금 내 포구 위치에서 그 면 장갑을 뚫을 수 있다,
-/// 빨강 = 못 뚫는다(돌아 들어가야 한다). 실드가 남아 있으면 둘레에 파란 호(먼저 벗겨야 한다).
+/// 부위 조준 표시. 표적의 고른 부위 위치에 마름모 + 부위 이름.
+/// 관통 여부는 착탄 결과로 알린다. 실드가 남아 있으면 둘레에 파란 호.
 /// </summary>
 public partial class Hud
 {
@@ -37,13 +37,11 @@ public partial class Hud
         if (cam.IsPositionBehind(render)) return;
         Vector2 p = cam.UnprojectPosition(render);
 
-        Vector3 dir = (Subsystems.WorldPosition(target.Body, module.Definition) - gun.MuzzlePosition).ToVector3();
-        bool penetrates = DamageRay.PreviewArmor(target.Body, gun.MuzzlePosition, dir, gun.Definition.PenetrationMm, out float effective);
-        Color color = penetrates ? Good : Hostile;
+        Color color = Motion;
         DrawDiamond(p, 7f, color);
         DrawDiamond(p, 3f, color);
         if (target.Body.Damage.Shield > 1f)
             DrawArc(p, 11f, 0, Mathf.Tau, 20, new Color(Friendly, 0.7f), 1.5f);
-        Label(p + new Vector2(12, -8), $"{module.Definition.Name} · {(penetrates ? "관통" : $"장갑 {effective:0}mm")}", 12, color);
+        Label(p + new Vector2(12, -8), module.Definition.Name, 12, color);
     }
 }

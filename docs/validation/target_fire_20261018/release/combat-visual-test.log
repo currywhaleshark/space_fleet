@@ -1,0 +1,16 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+wreck battleship 2: 18 detached / 16 sections / 77.1 ms total / 11.2 ms longest step
+wreck battleship 8: 24 detached / 64 sections / 183.0 ms total / 8.7 ms longest step
+wreck escort 2: 12 detached / 16 sections / 74.8 ms total / 9.0 ms longest step
+wreck escort 6: 16 detached / 46 sections / 165.1 ms total / 28.0 ms longest step
+wreck interceptor 2: 6 detached / 14 sections / 41.6 ms total / 6.7 ms longest step
+wreck interceptor 8: 8 detached / 64 sections / 92.4 ms total / 7.1 ms longest step
+wreck mars_battleship 2: 18 detached / 12 sections / 78.6 ms total / 10.9 ms longest step
+wreck mars_battleship 8: 24 detached / 64 sections / 159.6 ms total / 16.7 ms longest step
+wreck mars_escort 2: 12 detached / 8 sections / 46.2 ms total / 7.6 ms longest step
+wreck mars_escort 6: 16 detached / 46 sections / 109.7 ms total / 19.2 ms longest step
+wreck mars_interceptor 2: 6 detached / 12 sections / 19.8 ms total / 4.5 ms longest step
+wreck mars_interceptor 8: 8 detached / 64 sections / 52.0 ms total / 6.0 ms longest step
+PASS: 228 combat visual checks

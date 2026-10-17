@@ -1,0 +1,7 @@
+PASS: 71 turret checks
+Tracking: BB->DD 3 km 200 m/s pass 17 (total 77), BB->IC 1.5 km 400 m/s pass 0 (total 5), DD->IC 1.5 km 400 m/s pass 6 (total 30), BB->DD 12 km pass 67
+PASS: 4 tracking checks
+PASS: 26 gunnery checks
+PD interceptor flyby / 5 s: slow-near 33, fast-near 13, fast-far 29 shots
+PD missile flyby / 5 s: slow-near 33, fast-near 13, fast-far 29 shots
+PASS: 272 point-defense tracking checks

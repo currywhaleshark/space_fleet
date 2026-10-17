@@ -43,11 +43,12 @@ public partial class BattleOverlay
             for(int i=0;i<rows.Length;i++)
             {
                 var row=rows[i];float y=266+i*46;
-                if(row.Mine)DrawRect(new(x+8,y,639,44),new Color(Blue,.14f));
+                if(row.Mine)DrawRect(new(x+8,y,639,44),new Color(ShipAffiliation.Owned,.14f));
                 else if(i%2==0)DrawRect(new(x+8,y,639,44),new Color(Ink,.025f));
                 Color ink=row.Surviving==0?new Color(Ink,.35f):Ink;
-                Ship(new(x+31,y+23),row.Kind,row.Surviving==0?new Color(color,.3f):color,.22f);
-                Text(new(x+58,y+19),row.Captain,17,row.Mine?Blue:ink);
+                Color shipColor=row.Mine?ShipAffiliation.Owned:color;
+                Ship(new(x+31,y+23),row.Kind,row.Surviving==0?new Color(shipColor,.3f):shipColor,.22f);
+                Text(new(x+58,y+19),row.Captain,17,row.Mine?ShipAffiliation.Owned:ink);
                 Text(new(x+190,y+19),row.Hull,16,ink);
                 Text(new(x+190,y+37),row.Composition,13,new Color(ink,.6f));
                 Text(new(x+533,y+26),row.Surviving==0?"전멸":$"{row.Surviving} / {row.Total}",18,row.Surviving==0?Red:ink);

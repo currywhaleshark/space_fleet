@@ -16,15 +16,15 @@ public partial class Hud
     private void DrawInstruments(ShipView controlled, Vector2 screen)
     {
         ShipBody body = controlled.Body;
-        var panel = new Rect2(screen.X * 0.5f - 200f, screen.Y - 150f, 400f, 118f);
+        var panel = CombatHudLayout.For(screen, Game.Scheme==ControlScheme.Helm, body.Railguns.Length).Instruments;
         DrawRect(panel, PanelBack);
         float cx = panel.Position.X + panel.Size.X * 0.5f;
         float top = panel.Position.Y;
 
-        DrawSpeedTape(new Rect2(panel.Position.X + 28f, top + 12f, 14f, 74f), body);
-        DrawDriftDial(new Vector2(cx, top + 50f), 38f, body);
-        DrawGGauge(new Vector2(panel.End.X - 70f, top + 52f), 30f, body);
-        DrawChips(new Vector2(cx, top + 104f), body);
+        DrawSpeedTape(new Rect2(panel.Position.X + 20f, top + 10f, 14f, 58f), body);
+        DrawDriftDial(new Vector2(cx, top + 39f), 29f, body);
+        DrawGGauge(new Vector2(panel.End.X - 40f, top + 39f), 24f, body);
+        DrawChips(new Vector2(cx, top + 87f), body, panel.Size.X-12);
     }
 
     private void DrawSpeedTape(Rect2 tape, ShipBody body)
@@ -92,7 +92,7 @@ public partial class Hud
     }
 
     /// <summary>상태 칩. 켜진 것만 밝게.</summary>
-    private void DrawChips(Vector2 center, ShipBody body)
+    private void DrawChips(Vector2 center, ShipBody body, float maxWidth)
     {
         bool assist = body.Control.FlightAssist;
         (string Text, bool On, Color Color)[] chips =
@@ -109,19 +109,17 @@ public partial class Hud
         chips = System.Array.FindAll(chips, c => c.Text.Length > 0);
         const int size = 12;
         float gap = 6f;
-        float total = -gap;
-        foreach (var chip in chips)
-            total += _font.GetStringSize(chip.Text, HorizontalAlignment.Left, -1, size).X + 14f + gap;
-        float x = center.X - total * 0.5f;
+        float x=center.X-maxWidth*.5f, y=center.Y;
         foreach (var chip in chips)
         {
-            float w = _font.GetStringSize(chip.Text, HorizontalAlignment.Left, -1, size).X + 14f;
-            var rect = new Rect2(x, center.Y - 9f, w, 17f);
-            Color color = chip.On ? chip.Color : Faint;
-            DrawRect(rect, chip.On ? new Color(chip.Color, 0.15f) : new Color(0, 0, 0, 0));
-            DrawRect(rect, color, false, 1f);
-            Label(new Vector2(x + 7f, center.Y + 4f), chip.Text, size, chip.On ? Text : Dim);
-            x += w + gap;
+            float w=_font.GetStringSize(chip.Text,HorizontalAlignment.Left,-1,size).X+14;
+            if(x+w>center.X+maxWidth*.5f && x>center.X-maxWidth*.5f) {x=center.X-maxWidth*.5f;y+=18;}
+            var rect=new Rect2(x,y-9,w,17);
+            Color color=chip.On?chip.Color:Faint;
+            DrawRect(rect,chip.On?new Color(chip.Color,.15f):new Color(0,0,0,0));
+            DrawRect(rect,color,false,1);
+            Label(new Vector2(x+7,y+4),chip.Text,size,chip.On?Text:Dim);
+            x+=w+gap;
         }
     }
 }

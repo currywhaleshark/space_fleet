@@ -10,12 +10,15 @@ namespace SpaceFleet.Game;
 public partial class Hud
 {
     public Rect2 RadarBounds { get; private set; }
+    internal int DrawnOwnedRadarGroups { get; private set; }
+    internal int DrawnAlliedRadarGroups { get; private set; }
     public bool RadarContains(Vector2 point) => RadarBounds.Size.X > 0
         && point.DistanceTo(RadarBounds.GetCenter()) <= RadarBounds.Size.X * .5f;
 
     private void DrawRadar(ShipView controlled, Vector2 screen)
     {
         RadarBounds = default;
+        DrawnOwnedRadarGroups=DrawnAlliedRadarGroups=0;
         if (Game.ShowHelp) return;
         float scale = Mathf.Clamp(Mathf.Min(screen.X / 1600f, screen.Y / 900f), .6f, 1);
         Vector2 origin = new(16, 16);
@@ -69,6 +72,7 @@ public partial class Hud
             Vector3 unit = contact.Local / Game.Radar.Range;
             Vector2 point = Project(unit.LimitLength(1));
             int index = groups.FindIndex(g => g.Point.DistanceTo(point) < 10 && g.Contact.Enemy == contact.Enemy
+                && Game.OwnsShip(g.View.Body) == Game.OwnsShip(view.Body)
                 && g.Contact.Local.DistanceTo(contact.Local) < Game.Radar.Range * .08f
                 && g.Contact.Identified == contact.Identified && g.Contact.SignalLost == contact.SignalLost && !Focus(g.View) && !Focus(view));
             if (index >= 0) { var old = groups[index]; groups[index] = (old.View, old.Contact, old.Point, old.Count + 1); }
@@ -77,10 +81,11 @@ public partial class Hud
         foreach (var group in groups.OrderBy(g => TacticalRadar.Project(g.Contact.Local).Z))
         {
             var (view, contact, point, count) = group;
+            if (!contact.Enemy) { if(Game.OwnsShip(view.Body))DrawnOwnedRadarGroups++; else DrawnAlliedRadarGroups++; }
             bool focus = Focus(view), beyond = contact.Distance > Game.Radar.Range;
             Vector3 unit = (contact.Local / Game.Radar.Range).LimitLength(1);
             Vector2 foot = Project(new Vector3(unit.X, 0, unit.Z));
-            Color color = contact.SignalLost ? ContactMemory.LostColor : !contact.Enemy ? Friendly : contact.Identified ? Hostile : Motion;
+            Color color = contact.SignalLost ? ContactMemory.LostColor : !contact.Enemy ? Game.ShipMarkerColor(view.Body) : contact.Identified ? Hostile : Motion;
             if (TacticalRadar.Project(unit).Z < 0 && !focus) color = new Color(color, .6f);
             if (point.DistanceTo(foot) > 3)
             {

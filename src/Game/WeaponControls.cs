@@ -45,8 +45,14 @@ public partial class ScaleTest
         if(SelectedWeapon!=PlayerWeapon.MainGun) FireSelectedWeapon();
         else if(SelectedSmallContact is null && Scheme==ControlScheme.Helm && Gunnery?.Doctrine!=FireDoctrine.Manual && e is InputEventMouseButton mouse)
         {
-            SelectAt(mouse.Position);
-            FireSelectedMainBattery();
+            // Selecting a bracket or module owns this entire click, including its held phase.
+            // In particular it must never fire using the previous tick's engaged target.
+            if(SelectAt(mouse.Position))
+            {
+                _fireReleaseGuard=true;
+                if(Controlled?.Body is { } ship) SimWorld.StopLasers(ship);
+            }
+            else FireSelectedMainBattery();
         }
         return true;
     }
@@ -54,7 +60,7 @@ public partial class ScaleTest
     private void FireSelectedMainBattery()
     {
         if(Controlled?.Body is not { } ship || FireTarget?.Body is not { } target) return;
-        bool fired=World.TryAutoFire(ship,target,AimModule?.Definition.Center,double.PositiveInfinity,out var status);
+        bool fired=World.TryAutoFire(ship,target,AimModule?.Definition.Center,SimWorld.GunneryFlightLimit(ship),out var status);
         if(fired) Notify("주포 발사",false);
         else Notify(GunneryLabels.Status(status),true);
     }
@@ -73,7 +79,9 @@ public partial class Hud
 {
     private void DrawWeaponSelection(ShipBody ship,Vector2 screen)
     {
-        var start=new Vector2(screen.X*.5f-195,screen.Y-189);
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,ship.Railguns.Length);
+        DrawSelectedTargetReadout(layout);
+        var start=layout.Weapons;
         string[] labels={ ship.Railgun?.IsLaser == true ? "1 레이저 ∞" : $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",
             ship.Definition.Antimatter is null ? "3 어뢰 —" : $"3 어뢰 {ship.Ordnance.Antimatter.Rounds}" };
         for(int i=0;i<labels.Length;i++)

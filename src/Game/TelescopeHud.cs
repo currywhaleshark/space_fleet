@@ -45,7 +45,11 @@ public partial class Hud
         float bearing=Mathf.RadToDeg(Mathf.Atan2(local.X,-local.Z));
         float elevation=Mathf.RadToDeg(Mathf.Asin(Mathf.Clamp(local.Y,-1,1)));
         CenteredLabel(center+new Vector2(0,-radius-15),$"방위 {bearing:+0;-0;0}°    고각 {elevation:+0;-0;0}°",11,Dim);
-        CenteredLabel(new(screen.X*.5f,screen.Y*.5f+radius+23),"좌클릭 발사 · R 표적 선택 · 우클릭 해제 복귀",11,Dim);
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length);
+        float controlsY=Mathf.Min(screen.Y*.5f+radius+23,layout.Selection.Position.Y-12);
+        if(layout.Gunnery.Size.X>0 && layout.Gunnery.HasPoint(new Vector2(screen.X*.5f,controlsY)))
+            controlsY=layout.Gunnery.Position.Y-12;
+        CenteredLabel(new(screen.X*.5f,controlsY),"좌클릭 발사 · R 표적 선택 · 우클릭 해제 복귀",11,Dim);
         if(blocked) CenteredLabel(center+new Vector2(0,48),"선체에 시야 가림",13,Motion);
         else if(Game.Scheme==ControlScheme.Pilot && controlled.Body.Forward.AngleTo(cam.AimForward)
             > Mathf.DegToRad(controlled.Body.Railgun!.Definition.TraverseDegrees))

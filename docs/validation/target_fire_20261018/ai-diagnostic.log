@@ -1,0 +1,6 @@
+Fleet attack (RBB+2DD vs BB, 110 km): first missile 2s, first railgun 2s, first damage 11s
+Unhandled exception. System.InvalidOperationException: The interceptor must make repeated passes: 1; target destroyed=True, disabled=False, structure=0, attacker destroyed=False, activity=대기, ammo=113
+   at AIChecks.Require(Boolean condition, String message) in C:\Users\yurib\Documents\New project\space_fleet\tests\SimChecks\AIChecks.cs:line 28
+   at AIChecks.CheckAttackRun() in C:\Users\yurib\Documents\New project\space_fleet\tests\SimChecks\AIChecks.cs:line 150
+   at AIChecks.Run() in C:\Users\yurib\Documents\New project\space_fleet\tests\SimChecks\AIChecks.cs:line 15
+   at SimChecks.Main(String[] args) in C:\Users\yurib\Documents\New project\space_fleet\tests\SimChecks\Program.cs:line 48

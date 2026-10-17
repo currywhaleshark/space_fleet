@@ -1,0 +1,4 @@
+PASS: 199 obstacle geometry checks
+PASS: 71 obstacle collision/avoidance checks
+PASS: 30 obstacle sensor/memory checks
+PASS: 82 obstacle weapon/probe checks

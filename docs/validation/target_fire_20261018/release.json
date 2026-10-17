@@ -1,0 +1,36 @@
+{
+  "name": "SpaceFleet-20261018-target-fire-fix-Windows-x64",
+  "builtAt": "2026-10-18T00:49:05.6912676+09:00",
+  "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+  "sourceCommit": "4d46cc5a74e47c6516046952139d3d3d0c71a466",
+  "localChanges": true,
+  "platform": "Windows x64",
+  "selfContained": true,
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 40 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 62 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 10420 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.568",
+    "PASS: 120 fleet audio checks",
+    "PASS: 17 laser render/audio/equipment checks",
+    "PASS: 243 HUD readability/marker preservation checks",
+    "PASS: 303 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ],
+  "checkCount": 11984,
+  "zipSha256": "fe76f5aec58117bb795978fb16ff558b2c8703bbcfd6eb891f2a0eb0774cb5e9",
+  "zipCrcValid": true,
+  "compiledAssemblyHashes": {
+    "SpaceFleet.dll": "bb0b531fa6cc729524f929a594fadf464ecfa8c8701309cf7e8c5b0957ef2ffc",
+    "SpaceFleet.Sim.dll": "e3be40a9c58e237bb28c6c3ebcabbedb372822aa62c6e007b576f0880f7b9993"
+  },
+  "verifiedAt": "2026-10-18T00:50:13.018663+09:00"
+}

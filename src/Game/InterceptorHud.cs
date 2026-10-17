@@ -7,7 +7,8 @@ using SpaceFleet.View;
 
 namespace SpaceFleet.Game;
 
-public readonly record struct ProbeMarker(Vec3d Position, string Label, bool Enemy, bool Lost, bool Observing);
+public readonly record struct ProbeMarker(Vec3d Position, string Label, bool Enemy, bool Lost, bool Observing)
+{ public object? Key { get; init; } }
 
 public partial class ScaleTest
 {
@@ -85,11 +86,11 @@ public partial class ScaleTest
         Faction faction = Controlled?.Body.Faction ?? Faction.Blue;
         foreach (var probe in World.Probes)
             if (probe.Faction == faction)
-                yield return new(probe.Position, $"P{probe.Id} · {probe.Remaining:0}s", false, false, probe.Observing > 0);
+                yield return new(probe.Position, $"P{probe.Id} · {probe.Remaining:0}s", false, false, probe.Observing > 0) { Key=probe };
         foreach (var track in World.Sensors.SmallContacts(faction))
             if (track.Kind == SmallContactKind.Probe)
                 yield return new(track.Fresh(World.Time) ? track.Predict(World.Time) : track.Position,
-                    track.Fresh(World.Time) ? "적 프로브" : "프로브 · 신호 소실", true, !track.Fresh(World.Time), false);
+                    track.Fresh(World.Time) ? "적 프로브" : "프로브 · 신호 소실", true, !track.Fresh(World.Time), false) { Key=track.Target };
     }
 
     public void SelectMapContact(ShipView? view)
@@ -152,10 +153,11 @@ public partial class Hud
                 (size.Y * .5f - 100) / Mathf.Max(.001f, Mathf.Abs(delta.Y)));
             p = size * .5f + delta * scale;
         }
-        DrawDiamond(p, selected ? 13 : 7, color);
+        if (selected) p = SelectionMarkerPosition;
+        else DrawDiamond(p, 7, color);
         string kind = target.Kind == SmallContactKind.Missile ? "적 미사일" : "적 프로브";
         double range = Game.Controlled is { } me ? (target.Predict(Game.World.Time) - me.Body.Position).Length() / 1000 : 0;
-        CenteredLabel(p + new Vector2(0, -22), $"{(selected ? "지정 · " : "")}{kind} {range:0.0}km", 12, color);
+        if (!selected) CenteredLabel(p + new Vector2(0, -22), $"{kind} {range:0.0}km", 12, color);
         CenteredLabel(p + new Vector2(0, 30), Game.SmallAimStatus, 12, color);
         if (Game.SmallApproachSeconds is { } seconds)
             CenteredLabel(p + new Vector2(0, 48), $"최근접 {seconds:0.0}초", 12, seconds < 2 ? Hostile : Motion);

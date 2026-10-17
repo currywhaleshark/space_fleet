@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-18",
+  "executable": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261018-scope-squad-Windows-x64\\SpaceFleet.exe",
+  "fixes": [
+    "Manual telescope displays the shared FireControl lead for the locked selected target; manual battery still aims at the crosshair",
+    "Scoped lead remains visible with pilot assistance disabled; lock loss removes it",
+    "Owned squad green / other allies blue across combat markers, radar, map, squad status and roster",
+    "Ownership survives handover and spectating; radar grouping keeps own and other allied squads separate"
+  ],
+  "sourceChecks": {
+    "telescope": 24,
+    "selectedTargetWithScreenshots": 160,
+    "matchFlow": 43,
+    "hudReadability": 278
+  },
+  "packagedSuites": 18,
+  "packagedChecks": 12166,
+  "renders": {
+    "1600x900": 160,
+    "960x720": 160
+  },
+  "archive": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261018-scope-squad-Windows-x64.zip",
+  "archiveFiles": 204,
+  "zipCrcValid": true,
+  "sha256": "b447b97fefbd828c2b95c9faae1adf3bc9bb1075f648c438ca2db44a40f48ded",
+  "compiledDllMatches": {
+    "SpaceFleet.dll": "b17099fc73919d98f8e3c3f5b4d5def0d0d8ab254d7e1fadd45d6f5e4622e8e5",
+    "SpaceFleet.Sim.dll": "e3be40a9c58e237bb28c6c3ebcabbedb372822aa62c6e007b576f0880f7b9993"
+  },
+  "notes": [
+    "No simulation balance changes or new full balance run; this task changes game presentation and uses existing FireControl.",
+    "Screenshot fixtures place ships deliberately and test contact/lock loss, manual no-fire behavior and overlapping owned/allied radar contacts.",
+    "Actual final executable captures inspected for scoped lead, combat squad colors and full-map colors at 1600x900 and 960x720."
+  ]
+}

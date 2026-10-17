@@ -1,0 +1,14 @@
+{
+  "src/Game/GunneryControl.cs": "4d6e7827555d0591b8045dd45294ef23579a623d523ec5dd44ce4bd8236b6399",
+  "src/Game/WeaponControls.cs": "1cb4804304add4d34ed9be2a1afcace8dbef015c9c4c68759f326d5748f40a2b",
+  "src/Game/PointerTargeting.cs": "b654a9ebac4a10efa8c68e87a079356e513fdf64f9cb8fd7d8072a70f4f467a2",
+  "src/Game/CombatTest.cs": "03bac81c7489b2dad5ddb2002a7756e06ba17611f2ea10ed00a7828f6f5c4262",
+  "src/Game/RadialCommands.cs": "c3db5b9cfa62e10e56efdc807afe99d5d15de7bf844669834922be25a90597d5",
+  "src/Game/AimPartHud.cs": "735834cc9c07f78befa89f74b7740d9b9c2faadc4773759a4e03f9de7712ff7a",
+  "src/Game/WeaponInputChecks.cs": "32b19f298507afe0a81e094842345c32313fc599be74526649e9774d651ec271",
+  "src/Game/PointerTargetChecks.cs": "61c761410f8e1c9d0d18843ccf3f3be2e1cdf314c9dc9b61f926166d790d9612",
+  "src/Sim/Gunnery.cs": "c93c6d266201e1175d3d31b2e52440e8caec7c197f4bfdde54154a80644c3d79",
+  "tests/SimChecks/GunneryChecks.cs": "589fc3ad294c526f2611b8fab8d803d4176ebf07b49a71678cdb488483ae32d4",
+  "tests/SimChecks/AIChecks.cs": "fb9530eb363c898d4023b269f0a003eb266683c4aba757bb7150746d8123a6e5",
+  "tools/export-windows.ps1": "d5e86feaef569634f51e796c9d4615370cd289f308cc9bf5fbaf0aa043f30a32"
+}
