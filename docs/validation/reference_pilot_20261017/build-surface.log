@@ -1,0 +1,50 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+17:46:43 | INFO: Starting glTF 2.0 export
+17:46:43 | INFO: Extracting primitive: Wedge ram hull.001
+17:46:43 | INFO: Primitives created: 10
+17:46:43 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+17:46:43 | INFO: Primitives created: 3
+17:46:43 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+17:46:43 | INFO: Primitives created: 3
+17:46:43 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+17:46:43 | INFO: Primitives created: 3
+17:46:43 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+17:46:43 | INFO: Primitives created: 3
+17:46:43 | INFO: Extracting primitive: PD 0 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 0 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Extracting primitive: PD 1 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 1 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Extracting primitive: PD 2 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 2 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Extracting primitive: PD 3 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 3 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Finished glTF 2.0 export in 0.1406841278076172 s
+
+Info: Saved as "earth_gun_cruiser_t5.blend"
+BUILT earth_gun_cruiser_t5 10768 triangles
+17:46:43 | INFO: Starting glTF 2.0 export
+17:46:43 | INFO: Extracting primitive: Main pressure hull.001
+17:46:43 | INFO: Primitives created: 10
+17:46:43 | INFO: Extracting primitive: PD 0 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 0 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Extracting primitive: PD 1 receiver.001
+17:46:43 | INFO: Primitives created: 1
+17:46:43 | INFO: Extracting primitive: PD 1 barrel.002
+17:46:43 | INFO: Primitives created: 2
+17:46:43 | INFO: Finished glTF 2.0 export in 0.04733777046203613 s
+
+Info: Saved as "interceptor_t5.blend"
+BUILT interceptor_t5 6772 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

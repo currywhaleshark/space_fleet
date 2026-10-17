@@ -9,14 +9,14 @@
     "reconProbes": {
       "launchPoints": [
         [
-          -3.05,
-          0.8,
-          -0.3
+          -3.4,
+          0.75,
+          -0.5
         ],
         [
-          3.05,
-          0.8,
-          -0.3
+          3.4,
+          0.75,
+          -0.5
         ]
       ]
     },
@@ -99,12 +99,12 @@
         "center": [
           0,
           0,
-          1.7999999999999998
+          2.6
         ],
         "halfSize": [
-          2.9,
-          1.65,
-          8.8
+          1.95,
+          1.5,
+          8.6
         ]
       },
       {
@@ -122,12 +122,12 @@
         "center": [
           0,
           0,
-          -9.8
+          -10.55
         ],
         "halfSize": [
-          1.45,
-          1,
-          4.8
+          1.3,
+          1.0,
+          4.65
         ]
       },
       {
@@ -154,74 +154,64 @@
       },
       {
         "armor": {
+          "thicknessMm": 18
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 8
+          }
+        },
+        "id": "shoulder-port",
+        "name": "shoulder-port",
+        "center": [
+          -2.55,
+          -0.05,
+          1.0
+        ],
+        "halfSize": [
+          0.7,
+          1.0,
+          4.6
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 18
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 8
+          }
+        },
+        "id": "shoulder-starboard",
+        "name": "shoulder-starboard",
+        "center": [
+          2.55,
+          -0.05,
+          1.0
+        ],
+        "halfSize": [
+          0.7,
+          1.0,
+          4.6
+        ]
+      },
+      {
+        "armor": {
           "thicknessMm": 8
         },
         "faces": {},
         "id": "engine-port",
         "name": "engine-port",
         "center": [
-          -5.6,
+          -3.1,
           0,
-          8.9
+          8.7
         ],
         "halfSize": [
-          1.4,
-          1.4,
-          3.5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "wing-port-0",
-        "name": "wing-port-0",
-        "center": [
-          -2.9000000000000004,
-          0,
-          -6.65
-        ],
-        "halfSize": [
-          1.3,
-          0.35,
-          1.35
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "wing-port-1",
-        "name": "wing-port-1",
-        "center": [
-          -5.75,
-          0,
-          2.9000000000000004
-        ],
-        "halfSize": [
-          3.6500000000000004,
-          0.35,
-          5.9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "fin-port",
-        "name": "fin-port",
-        "center": [
-          -5.725,
-          2.705,
-          9.3
-        ],
-        "halfSize": [
-          0.265,
-          1.795,
-          2.1
+          1.25,
+          1.25,
+          3.7
         ]
       },
       {
@@ -232,14 +222,32 @@
         "id": "engine-starboard",
         "name": "engine-starboard",
         "center": [
-          5.6,
+          3.1,
           0,
-          8.9
+          8.7
         ],
         "halfSize": [
-          1.4,
-          1.4,
-          3.5
+          1.25,
+          1.25,
+          3.7
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "wing-port-0",
+        "name": "wing-port-0",
+        "center": [
+          -2.45,
+          0,
+          -7.0
+        ],
+        "halfSize": [
+          1.25,
+          0.3,
+          1.3
         ]
       },
       {
@@ -250,14 +258,32 @@
         "id": "wing-starboard-0",
         "name": "wing-starboard-0",
         "center": [
-          2.9000000000000004,
+          2.45,
           0,
-          -6.65
+          -7.0
         ],
         "halfSize": [
-          1.3,
-          0.35,
-          1.35
+          1.25,
+          0.3,
+          1.3
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "wing-port-1",
+        "name": "wing-port-1",
+        "center": [
+          -2.75,
+          0,
+          1.5
+        ],
+        "halfSize": [
+          0.85,
+          0.3,
+          7.5
         ]
       },
       {
@@ -268,14 +294,68 @@
         "id": "wing-starboard-1",
         "name": "wing-starboard-1",
         "center": [
-          5.75,
+          2.75,
           0,
-          2.9000000000000004
+          1.5
         ],
         "halfSize": [
-          3.6500000000000004,
-          0.35,
-          5.9
+          0.85,
+          0.3,
+          7.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "wing-port-2",
+        "name": "wing-port-2",
+        "center": [
+          -6.45,
+          0,
+          3.45
+        ],
+        "halfSize": [
+          2.85,
+          0.3,
+          4.95
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "wing-starboard-2",
+        "name": "wing-starboard-2",
+        "center": [
+          6.45,
+          0,
+          3.45
+        ],
+        "halfSize": [
+          2.85,
+          0.3,
+          4.95
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "fin-port",
+        "name": "fin-port",
+        "center": [
+          -3.225,
+          2.6,
+          9.15
+        ],
+        "halfSize": [
+          0.27,
+          1.8,
+          1.95
         ]
       },
       {
@@ -286,14 +366,14 @@
         "id": "fin-starboard",
         "name": "fin-starboard",
         "center": [
-          5.725,
-          2.705,
-          9.3
+          3.225,
+          2.6,
+          9.15
         ],
         "halfSize": [
-          0.265,
-          1.795,
-          2.1
+          0.27,
+          1.8,
+          1.95
         ]
       }
     ],
@@ -441,9 +521,9 @@
         "name": "좌현 냉각 장치",
         "kind": "Cooling",
         "center": [
-          -5.6,
+          -3.1,
           0,
-          7.300000000000001
+          7.2
         ],
         "halfSize": [
           0.3,
@@ -459,9 +539,9 @@
         "name": "좌현 추진기",
         "kind": "Thruster",
         "center": [
-          -5.6,
+          -3.1,
           0,
-          9.4
+          9.6
         ],
         "halfSize": [
           0.6,
@@ -536,9 +616,9 @@
         "name": "우현 냉각 장치",
         "kind": "Cooling",
         "center": [
-          5.6,
+          3.1,
           0,
-          7.300000000000001
+          7.2
         ],
         "halfSize": [
           0.3,
@@ -554,9 +634,9 @@
         "name": "우현 추진기",
         "kind": "Thruster",
         "center": [
-          5.6,
+          3.1,
           0,
-          9.4
+          9.6
         ],
         "halfSize": [
           0.6,

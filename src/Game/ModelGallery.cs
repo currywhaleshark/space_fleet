@@ -60,7 +60,18 @@ public partial class ModelGallery : Node3D
         }
         camera.LookAtFromPosition(focus + dir.Normalized() * distance, focus, View == "top" ? Vector3.Forward : Vector3.Up);
         camera.MakeCurrent();
+        if (Studio)
+        {
+            // 도장 검토용 채움광(전투 조명에는 없음): 카메라 쪽 주광과 반대편 약한 역광.
+            var key = new DirectionalLight3D { LightEnergy = 4f, ShadowEnabled = true };
+            AddChild(key); key.LookAtFromPosition(camera.Position + Vector3.Up * l * .6f, focus, Vector3.Up);
+            var fill = new DirectionalLight3D { LightEnergy = .8f, LightColor = new Color(.75f, .82f, 1f) };
+            AddChild(fill); fill.LookAtFromPosition(-camera.Position + Vector3.Down * l * .3f, focus, Vector3.Up);
+        }
     }
+
+    /// <summary>--gallery-light=studio: 도장·표면 검토용 채움광을 더한다.</summary>
+    public bool Studio { get; init; }
 
     private ZoneStructures.Built? _zone;
 
@@ -141,5 +152,6 @@ public partial class ModelGallery : Node3D
         View = args.GetValueOrDefault("gallery-view", "hero"),
         Faction = string.Equals(args.GetValueOrDefault("gallery-faction", "Blue"), "Red", StringComparison.OrdinalIgnoreCase) ? Faction.Red : Faction.Blue,
         Output = args.GetValueOrDefault("shot"),
+        Studio = args.GetValueOrDefault("gallery-light") == "studio",
     };
 }

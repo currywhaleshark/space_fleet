@@ -50,7 +50,7 @@ public static class ImportedShipModels
             string name = source?.ResourceName ?? "";
             Material? replacement = name.StartsWith("EngineGlow") ? b.Palette.Glow
                 : name.StartsWith("IFF") ? accent : name.StartsWith("ShieldGlow") ? shield
-                : HullSurface(id, name, source as BaseMaterial3D, cls.Length, definition.Design);
+                : HullSurface(id, name, source as BaseMaterial3D, cls.Length, definition.Design, def);
             if (replacement is not null) mesh.SetSurfaceOverrideMaterial(i, replacement);
         }
         foreach (var engine in def.GetProperty("engines").EnumerateArray().OrderBy(e => e.GetProperty("index").GetInt32()))
@@ -104,7 +104,7 @@ public static class ImportedShipModels
     /// 장갑·모서리·홈 재질을 선체 패널 셰이더로 바꾼다(Blender 기본색 유지). 판 크기는 함선 길이에 비례한다.
     /// 작업등(주황 점)은 장갑판에만, 화성 설계는 더 많고 붉게.
     /// </summary>
-    private static ShaderMaterial? HullSurface(string ship, string name, BaseMaterial3D? source, float length, DesignFamily design)
+    private static ShaderMaterial? HullSurface(string ship, string name, BaseMaterial3D? source, float length, DesignFamily design, JsonElement model)
     {
         if (source is null) return null;
         (float Variation, float Hatch, float Lights, float Seam)? style =
@@ -134,6 +134,23 @@ public static class ImportedShipModels
         m.SetShaderParameter("light_color", mars ? new Vector3(1f, .3f, .05f) : new Vector3(1f, .55f, .16f));
         m.SetShaderParameter("light_energy", mars ? 5f : 3.5f);
         m.SetShaderParameter("seed", (ship.GetHashCode() & 255) * .37f);
+        // 시안 맞춤 모델의 선택 도장(매니페스트 "surface"). 없으면 셰이더 기본값으로 기존 모습 유지.
+        if (model.TryGetProperty("surface", out JsonElement surface))
+        {
+            float Value(string key) => surface.TryGetProperty(key, out JsonElement v) ? v.GetSingle() : 0f;
+            bool hull = name.StartsWith("Armor - graphite");
+            if (hull && surface.TryGetProperty("accent", out JsonElement accent))
+            {
+                m.SetShaderParameter("accent_color", new Vector3(accent[0].GetSingle(), accent[1].GetSingle(), accent[2].GetSingle()) * shade);
+                m.SetShaderParameter("accent_ratio", Value("accentRatio"));
+                if (surface.TryGetProperty("accentScale", out JsonElement scale)) m.SetShaderParameter("accent_scale", scale.GetSingle());
+            }
+            if (hull || name.StartsWith("Armor - raised"))
+            {
+                m.SetShaderParameter("wear", Value("wear"));
+                m.SetShaderParameter("streaks", Value("streaks"));
+            }
+        }
         HullSurfaces[(ship, name)] = m;
         return m;
     }

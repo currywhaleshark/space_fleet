@@ -6,10 +6,13 @@ from mathutils import Vector
 ROOT=Path(sys.argv[sys.argv.index('--root')+1]);sys.path.insert(0,str(ROOT/'tools'))
 from branch_model_layout import resolve
 from fleet_model_primitives import g
-OUT=ROOT/'docs/validation/t5_models_20261017'
+OUT=ROOT/(sys.argv[sys.argv.index('--out')+1] if '--out' in sys.argv else 'docs/validation/t5_models_20261017')
+ONLY=sys.argv[sys.argv.index('--only')+1].split(',') if '--only' in sys.argv else None
 manifest=json.loads((ROOT/'assets/ships/manifest.json').read_text(encoding='utf-8'));reports=[];issues=[]
 for path in sorted((ROOT/'data/variants').glob('*_t5.json')):
-    key=path.stem;d=resolve(ROOT,key);entry=next(v for v in manifest['ships'] if v['id']==key)
+    key=path.stem
+    if ONLY and key not in ONLY:continue
+    d=resolve(ROOT,key);entry=next(v for v in manifest['ships'] if v['id']==key)
     bpy.ops.wm.open_mainfile(filepath=str(ROOT/f'art/blender/{key}.blend'));bpy.context.view_layer.update()
     objects={o.name:o for o in bpy.data.collections[key+' | editable parts'].all_objects}
     markers={'module_'+m['id'].replace('-','_'):m['center'] for m in d['modules']}
@@ -62,4 +65,4 @@ for path in sorted((ROOT/'data/variants').glob('*_t5.json')):
 print('Visibility issues:',issues,flush=True)
 assert not issues,issues
 assert all(r['attachmentComponentCount']==1 for r in reports),'Inspect detached candidates'
-print('PASS: 10 T5 source audits; AABB adjacency is a candidate check, complemented by rendered visual review.')
+print(f'PASS: {len(reports)} T5 source audits; AABB adjacency is a candidate check, complemented by rendered visual review.')

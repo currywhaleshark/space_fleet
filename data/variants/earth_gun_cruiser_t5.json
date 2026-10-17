@@ -62,6 +62,28 @@
       "moduleDamage": 173.056
     },
     "pointDefense": {
+      "mounts": [
+        [
+          22,
+          23,
+          60
+        ],
+        [
+          -22,
+          23,
+          60
+        ],
+        [
+          0,
+          -20,
+          40
+        ],
+        [
+          0,
+          24,
+          -40
+        ]
+      ],
       "shotsPerSecond": 8.4,
       "damagePerHit": 4.3264000000000005
     },
@@ -69,6 +91,52 @@
       "count": 6
     },
     "hullSections": [
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "충각 선수",
+        "center": [
+          0,
+          -2.5,
+          -171.5
+        ],
+        "halfSize": [
+          15,
+          10.5,
+          13.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "쐐기 선수",
+        "center": [
+          0,
+          -1.5,
+          -135
+        ],
+        "halfSize": [
+          23,
+          16,
+          23
+        ]
+      },
       {
         "armor": {
           "thicknessMm": 100
@@ -86,58 +154,87 @@
         "center": [
           0,
           0,
-          9
+          -31
         ],
         "halfSize": [
-          27,
-          19,
-          129
+          28,
+          18.5,
+          81
         ]
       },
       {
         "armor": {
-          "thicknessMm": 130
+          "thicknessMm": 100
         },
         "faces": {
           "Fore": {
-            "thicknessMm": 216.0,
-            "slopeDegrees": 25
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
           }
         },
-        "id": "bow-1",
-        "name": "함수 1",
+        "id": "engine-block",
+        "name": "후방 기관 어깨",
         "center": [
           0,
-          -1,
-          -135
+          0,
+          94
         ],
         "halfSize": [
-          30,
-          16,
+          32,
+          21,
+          44
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "citadel-lower",
+        "name": "포격 지휘탑 하단",
+        "center": [
+          0,
+          22.5,
           25
+        ],
+        "halfSize": [
+          17,
+          5,
+          50
         ]
       },
       {
         "armor": {
-          "thicknessMm": 130
+          "thicknessMm": 100
         },
         "faces": {
           "Fore": {
-            "thicknessMm": 216.0,
-            "slopeDegrees": 35
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
           }
         },
-        "id": "bow-2",
-        "name": "함수 2",
+        "id": "citadel-upper",
+        "name": "포격 지휘탑 상단",
         "center": [
           0,
-          -3,
-          -172.5
+          30.5,
+          38
         ],
         "halfSize": [
-          20,
-          11,
-          12.5
+          12,
+          3,
+          30
         ]
       },
       {
@@ -149,13 +246,13 @@
         "name": "함교",
         "center": [
           0,
-          31,
+          34.5,
           58
         ],
         "halfSize": [
-          17,
-          15,
-          24
+          11,
+          12,
+          16
         ]
       },
       {
@@ -166,14 +263,14 @@
         "id": "radiator-port",
         "name": "좌현 방열판",
         "center": [
-          -52,
-          -3,
-          70
+          -58,
+          0,
+          72
         ],
         "halfSize": [
-          18,
+          24,
           1,
-          23
+          26
         ]
       },
       {
@@ -184,14 +281,14 @@
         "id": "radiator-starboard",
         "name": "우현 방열판",
         "center": [
-          52,
-          -3,
-          70
+          58,
+          0,
+          72
         ],
         "halfSize": [
-          18,
+          24,
           1,
-          23
+          26
         ]
       },
       {
@@ -210,12 +307,12 @@
         "name": "turret-base-gun-1",
         "center": [
           0,
-          22.5,
+          22,
           -60
         ],
         "halfSize": [
           10,
-          3.5,
+          4,
           10
         ]
       },
@@ -235,63 +332,13 @@
         "name": "turret-base-gun-2",
         "center": [
           0,
-          -22.5,
+          -22,
           -30
         ],
         "halfSize": [
           10,
-          3.5,
+          4,
           10
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 216.0
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "armor-shoulder--1",
-        "name": "armor-shoulder--1",
-        "center": [
-          -26,
-          0,
-          61
-        ],
-        "halfSize": [
-          11,
-          16,
-          51
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 216.0
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "armor-shoulder-1",
-        "name": "armor-shoulder-1",
-        "center": [
-          26,
-          0,
-          61
-        ],
-        "halfSize": [
-          11,
-          16,
-          51
         ]
       }
     ],
@@ -301,14 +348,14 @@
         "name": "좌현 방열판",
         "kind": "Cooling",
         "center": [
-          -52,
-          -3,
-          70
+          -58,
+          0,
+          72
         ],
         "halfSize": [
-          17,
+          23,
           0.9,
-          22
+          25
         ],
         "hitPoints": 55.125,
         "resistanceMm": 3,
@@ -319,14 +366,14 @@
         "name": "우현 방열판",
         "kind": "Cooling",
         "center": [
-          52,
-          -3,
-          70
+          58,
+          0,
+          72
         ],
         "halfSize": [
-          17,
+          23,
           0.9,
-          22
+          25
         ],
         "hitPoints": 55.125,
         "resistanceMm": 3,

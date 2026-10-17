@@ -1,0 +1,58 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+17:58:14 | INFO: Starting glTF 2.0 export
+17:58:14 | INFO: Extracting primitive: Wedge ram hull.001
+17:58:15 | INFO: Primitives created: 10
+17:58:15 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+17:58:15 | INFO: Primitives created: 3
+17:58:15 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+17:58:15 | INFO: Primitives created: 3
+17:58:15 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+17:58:15 | INFO: Primitives created: 3
+17:58:15 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+17:58:15 | INFO: Primitives created: 3
+17:58:15 | INFO: Extracting primitive: PD 0 receiver.001
+17:58:15 | INFO: Primitives created: 1
+17:58:15 | INFO: Extracting primitive: PD 0 barrel.002
+17:58:15 | INFO: Primitives created: 2
+17:58:15 | INFO: Extracting primitive: PD 1 receiver.001
+17:58:15 | INFO: Primitives created: 1
+17:58:15 | INFO: Extracting primitive: PD 1 barrel.002
+17:58:15 | INFO: Primitives created: 2
+17:58:15 | INFO: Extracting primitive: PD 2 receiver.001
+17:58:15 | INFO: Primitives created: 1
+17:58:15 | INFO: Extracting primitive: PD 2 barrel.002
+17:58:15 | INFO: Primitives created: 2
+17:58:15 | INFO: Extracting primitive: PD 3 receiver.001
+17:58:15 | INFO: Primitives created: 1
+17:58:15 | INFO: Extracting primitive: PD 3 barrel.002
+17:58:15 | INFO: Primitives created: 2
+17:58:15 | INFO: Finished glTF 2.0 export in 0.11470508575439453 s
+00:12.484  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\earth_gun_cruiser_t5_hero.png'
+00:21.484  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\earth_gun_cruiser_t5_underside.png'
+00:29.750  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\earth_gun_cruiser_t5_top.png'
+00:37.531  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\earth_gun_cruiser_t5_rear.png'
+
+Info: Saved as "earth_gun_cruiser_t5.blend"
+BUILT earth_gun_cruiser_t5 10768 triangles
+17:58:49 | INFO: Starting glTF 2.0 export
+17:58:49 | INFO: Extracting primitive: Main pressure hull.001
+17:58:49 | INFO: Primitives created: 10
+17:58:49 | INFO: Extracting primitive: PD 0 receiver.001
+17:58:49 | INFO: Primitives created: 1
+17:58:49 | INFO: Extracting primitive: PD 0 barrel.002
+17:58:49 | INFO: Primitives created: 2
+17:58:49 | INFO: Extracting primitive: PD 1 receiver.001
+17:58:49 | INFO: Primitives created: 1
+17:58:49 | INFO: Extracting primitive: PD 1 barrel.002
+17:58:49 | INFO: Primitives created: 2
+17:58:49 | INFO: Finished glTF 2.0 export in 0.05038285255432129 s
+00:46.547  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\interceptor_t5_hero.png'
+00:55.875  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\interceptor_t5_underside.png'
+01:04.453  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\interceptor_t5_rear.png'
+01:13.328  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\reference_pilot_20261017\interceptor_t5_top.png'
+
+Info: Saved as "interceptor_t5.blend"
+BUILT interceptor_t5 6772 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

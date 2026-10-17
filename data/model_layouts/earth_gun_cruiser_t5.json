@@ -2,62 +2,107 @@
   "id": "earth_gun_cruiser_t5",
   "sections": [
     {
+      "id": "bow-2",
+      "name": "충각 선수",
+      "center": [
+        0,
+        -2.5,
+        -171.5
+      ],
+      "halfSize": [
+        15,
+        10.5,
+        13.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bow-1",
+      "name": "쐐기 선수",
+      "center": [
+        0,
+        -1.5,
+        -135
+      ],
+      "halfSize": [
+        23,
+        16,
+        23
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
       "id": "hull",
       "name": "주선체",
       "center": [
         0,
         0,
-        9
+        -31
       ],
       "halfSize": [
-        27,
-        19,
-        129
+        28,
+        18.5,
+        81
       ],
       "armorFrom": "hull"
     },
     {
-      "id": "bow-1",
-      "name": "함수 1",
+      "id": "engine-block",
+      "name": "후방 기관 어깨",
       "center": [
         0,
-        -1,
-        -135
+        0,
+        94
       ],
       "halfSize": [
-        30,
-        16,
-        25
+        32,
+        21,
+        44
       ],
-      "armorFrom": "bow-1"
+      "armorFrom": "hull"
     },
     {
-      "id": "bow-2",
-      "name": "함수 2",
+      "id": "citadel-lower",
+      "name": "포격 지휘탑 하단",
       "center": [
         0,
-        -3,
-        -172.5
+        22.5,
+        25
       ],
       "halfSize": [
-        20,
-        11,
-        12.5
+        17,
+        5,
+        50
       ],
-      "armorFrom": "bow-2"
+      "armorFrom": "hull"
+    },
+    {
+      "id": "citadel-upper",
+      "name": "포격 지휘탑 상단",
+      "center": [
+        0,
+        30.5,
+        38
+      ],
+      "halfSize": [
+        12,
+        3,
+        30
+      ],
+      "armorFrom": "hull"
     },
     {
       "id": "bridge",
       "name": "함교",
       "center": [
         0,
-        31,
+        34.5,
         58
       ],
       "halfSize": [
-        17,
-        15,
-        24
+        11,
+        12,
+        16
       ],
       "armorFrom": "bridge"
     },
@@ -65,14 +110,14 @@
       "id": "radiator-port",
       "name": "좌현 방열판",
       "center": [
-        -52,
-        -3,
-        70
+        -58,
+        0,
+        72
       ],
       "halfSize": [
-        18,
+        24,
         1,
-        23
+        26
       ],
       "armorFrom": "radiator-port"
     },
@@ -80,14 +125,14 @@
       "id": "radiator-starboard",
       "name": "우현 방열판",
       "center": [
-        52,
-        -3,
-        70
+        58,
+        0,
+        72
       ],
       "halfSize": [
-        18,
+        24,
         1,
-        23
+        26
       ],
       "armorFrom": "radiator-starboard"
     },
@@ -96,12 +141,12 @@
       "name": "turret-base-gun-1",
       "center": [
         0,
-        22.5,
+        22,
         -60
       ],
       "halfSize": [
         10,
-        3.5,
+        4,
         10
       ],
       "armorFrom": "hull"
@@ -111,43 +156,13 @@
       "name": "turret-base-gun-2",
       "center": [
         0,
-        -22.5,
+        -22,
         -30
       ],
       "halfSize": [
         10,
-        3.5,
+        4,
         10
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "armor-shoulder--1",
-      "name": "armor-shoulder--1",
-      "center": [
-        -26,
-        0,
-        61
-      ],
-      "halfSize": [
-        11,
-        16,
-        51
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "armor-shoulder-1",
-      "name": "armor-shoulder-1",
-      "center": [
-        26,
-        0,
-        61
-      ],
-      "halfSize": [
-        11,
-        16,
-        51
       ],
       "armorFrom": "hull"
     }
@@ -162,29 +177,39 @@
     },
     "radiator-port": {
       "center": [
-        -52,
-        -3,
-        70
+        -58,
+        0,
+        72
+      ],
+      "halfSize": [
+        23,
+        0.9,
+        25
       ]
     },
     "radiator-starboard": {
       "center": [
-        52,
-        -3,
-        70
+        58,
+        0,
+        72
+      ],
+      "halfSize": [
+        23,
+        0.9,
+        25
       ]
     }
   },
   "bays": {},
   "pdMounts": [
     [
-      18,
       22,
+      23,
       60
     ],
     [
-      -18,
-      22,
+      -22,
+      23,
       60
     ],
     [
@@ -204,6 +229,50 @@
     -104
   ],
   "blockout": {
-    "role": "gun"
+    "role": "gun",
+    "reference": "art/reference/20261017_t5_fleet/cruisers.png",
+    "profile": [
+      [
+        -185,
+        10,
+        6.5,
+        -3
+      ],
+      [
+        -158,
+        15,
+        10,
+        -2.5
+      ],
+      [
+        -112,
+        23,
+        15,
+        -1
+      ],
+      [
+        -80,
+        28,
+        18,
+        0
+      ],
+      [
+        50,
+        28,
+        18,
+        0
+      ]
+    ],
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.3,
+      "accentScale": 5,
+      "wear": 0.25,
+      "streaks": 0.35
+    }
   }
 }

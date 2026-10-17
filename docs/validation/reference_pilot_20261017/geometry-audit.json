@@ -1,0 +1,24 @@
+[
+  {
+    "id": "earth_gun_cruiser_t5",
+    "markers": 49,
+    "maxMarkerError": 4.76837158203125e-07,
+    "meshParts": 221,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "interceptor_t5",
+    "markers": 41,
+    "maxMarkerError": 0.0,
+    "meshParts": 123,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "symmetricFins": true
+  }
+]

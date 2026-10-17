@@ -1,0 +1,163 @@
+PASS: 226 laser channel/damage/heat/sensor/fit checks
+(earth_air_defense_cruiser, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.053, pulses 0 rails 48
+(earth_air_defense_cruiser, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.135, pulses 302 rails 0
+(earth_air_defense_cruiser, True, False, 12, 2000): intercepted 40/48, hits 8, distinct 2, heat 0.053, pulses 0 rails 48
+(earth_air_defense_cruiser, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.139, pulses 312 rails 0
+(earth_air_defense_cruiser_t4, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.050, pulses 0 rails 48
+(earth_air_defense_cruiser_t4, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.129, pulses 302 rails 0
+(earth_air_defense_cruiser_t4, True, False, 12, 2000): intercepted 41/48, hits 7, distinct 2, heat 0.050, pulses 0 rails 48
+(earth_air_defense_cruiser_t4, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.132, pulses 312 rails 0
+(earth_air_defense_cruiser_t5, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.048, pulses 0 rails 48
+(earth_air_defense_cruiser_t5, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.123, pulses 302 rails 0
+(earth_air_defense_cruiser_t5, True, False, 12, 2000): intercepted 38/48, hits 10, distinct 2, heat 0.048, pulses 0 rails 48
+(earth_air_defense_cruiser_t5, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.125, pulses 312 rails 0
+(earth_air_defense_cruiser, False, False, 48, 3500): intercepted 16/192, hits 176, distinct 2, heat 0.052, pulses 0 rails 32
+(earth_air_defense_cruiser, False, True, 48, 3500): intercepted 22/192, hits 170, distinct 2, heat 0.072, pulses 130 rails 0
+(earth_air_defense_cruiser, True, False, 48, 3500): intercepted 25/192, hits 167, distinct 2, heat 0.053, pulses 0 rails 34
+(earth_air_defense_cruiser, True, True, 48, 3500): intercepted 32/192, hits 160, distinct 2, heat 0.073, pulses 124 rails 0
+PASS: 33 air-defense factory/commands/sensors/thermal/wave checks
+PASS: 2237 replacement system/catalog/research/preset checks
+PASS: 67844 primary hardpoint/weapon/legacy compatibility checks
+PASS: 47 engagement timing/planning checks
+Interceptor straight boost: 5.00 G
+Turn rate at 0.1s: 20m/s=36.0deg/s, 380m/s=4.3deg/s
+180deg from 100m/s: aligned at 3.55s, min speed=14.6, peak=4.98G, max slip=0.0deg
+180deg from 380m/s: aligned at 10.20s, min speed=17.5, peak=4.98G, max slip=0.0deg
+180deg from 760m/s: aligned at 20.50s, min speed=33.5, peak=5.00G, max slip=3.8deg
+Space 90deg at 380m/s: nose 1.05s, velocity aligned 10.07s, min speed 251
+PASS: 44 simulation checks
+World 380m/s half turn: 10.23s
+PASS: 73 collision/world checks
+PASS: 199 obstacle geometry checks
+Rock visual surface error (fraction of bounding radius): outward 0.015106, inward 0.013702
+PASS: 403961 asteroid layout/shape checks
+PASS: 20000 sphere fast-path reference checks
+PASS: 92693 obstacle BVH/reference checks
+Field 1: 262 rocks, 0 deterministic regeneration(s)
+Field 2: 298 rocks, 0 deterministic regeneration(s)
+Field 3: 262 rocks, 0 deterministic regeneration(s)
+Navigation Battleship: nearest 533.3m, plans 2, collisions 0
+Navigation Escort: nearest 1.1m, plans 1, collisions 0
+Navigation Interceptor: nearest 0.3m, plans 1, collisions 0
+PASS: 95 terrain navigation checks
+PASS: 105630 navigation visibility/reference checks
+PASS: 322 incremental navigation checks
+Sidestep first rail fire 33.85s, attempts 1, starts 1, success 1, max station offset 4340.2m
+Missile-only sidestep first launch 31.28s
+PASS: 12 terrain firing-position checks
+Cover cost 72801.1 -> 61880.9; path 29120.4 -> 29120.4
+PASS: 18 observed terrain cover checks
+PASS: 71 obstacle collision/avoidance checks
+PASS: 30 obstacle sensor/memory checks
+PASS: 82 obstacle weapon/probe checks
+PASS: 7423 wreck collider reuse/reference collision checks
+PASS: 14400 wreck ray group/reference checks
+Collision: 380 m/s ram → BB modules hit 2, 60 m/s ram → IC modules hit 2
+PASS: 128 damage/data checks
+PASS: 184505 critical damage / emergency repair risk checks
+structure finish battleship: 650 penetrating 100-damage rays
+structure finish escort: 63 penetrating 100-damage rays
+structure finish interceptor: 13 penetrating 100-damage rays
+structure finish mars_battleship: 182 penetrating 100-damage rays
+structure finish mars_escort: 25 penetrating 100-damage rays
+structure finish mars_interceptor: 10 penetrating 100-damage rays
+PASS: 52 cumulative hull structure checks
+PASS: 69 damage-control checks
+PASS: 218 shield boundary/breakup checks
+PASS: 78 ballistics/fire-control checks
+RCS cost (IC 3° nudge at 380 m/s): engines peak 9.2 MW (38% of full main burn)
+Brownout (BB, main reactor lost, full activity): supply 73%, 1048/1437 MW
+Heat (IC, boost+fire+shields): overheat at 19.8s, recovered 5.7s later
+Cooling lost (IC idle): overheat at 90.9s
+PASS: 28 power/heat checks
+Sensor ranges BB vs BB: contact 381 km, identify 220 km, lock 135 km
+Contact at 150 km: error 1671 m, worst offset step per 0.25 s update 11.0%
+PASS: 26 sensor/EW checks
+PASS: 79 datalink fire-control checks
+PASS: 93 long-range accuracy/EW/defense-power checks
+Missile DD->BB 60 km stationary: impact after 20.3s
+Missile DD->DD 30 km crossing 200 m/s: impact after 14.5s
+Salvo BB->DD, four directions/roll phases at 40 km: no PD 96/96 hits / PD 3 intercepted, 93 hits
+Salvo BB->DD x6 at 40 km: decoys 1 hits (no decoys 6)
+Group defense, four directions at 30/60 km: 4/64 intercepted, 60 hit
+Near miss battleship at 2500 m/s: reapproach=42.5s, no hit, coast/expiry OK
+Near miss escort at 2500 m/s: reapproach=35.0s, no hit, coast/expiry OK
+Near miss interceptor at 2500 m/s: reapproach=none, no hit, coast/expiry OK
+Low-speed rear-target reattack: hit after 33.2s, turn reaches 15.5 km
+PASS: 128 missile/PD/decoy checks
+Counter trial interceptor offset=0 speed=3000 lateral=0: 1.850s, one round
+Counter trial interceptor offset=0 speed=3000 lateral=600: 1.900s, one round
+Counter trial interceptor offset=0 speed=6000 lateral=0: 1.150s, one round
+Counter trial interceptor offset=0 speed=6000 lateral=600: 1.217s, one round
+Counter trial interceptor offset=1000000000000 speed=3000 lateral=0: 1.850s, one round
+Counter trial interceptor offset=1000000000000 speed=3000 lateral=600: 1.900s, one round
+Counter trial interceptor offset=1000000000000 speed=6000 lateral=0: 1.150s, one round
+Counter trial interceptor offset=1000000000000 speed=6000 lateral=600: 1.217s, one round
+Counter trial mars_interceptor offset=0 speed=3000 lateral=0: 1.817s, one round
+Counter trial mars_interceptor offset=0 speed=3000 lateral=600: 1.867s, one round
+Counter trial mars_interceptor offset=0 speed=6000 lateral=0: 1.150s, one round
+Counter trial mars_interceptor offset=0 speed=6000 lateral=600: 1.217s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=3000 lateral=0: 1.817s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=3000 lateral=600: 1.867s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=6000 lateral=0: 1.150s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=6000 lateral=600: 1.217s, one round
+PASS: 129 counter-missile checks
+PD arcs (BB vs IC at 2.5 km, 5 s): above 48 shots, below 0, aft-below 0; exposed IC shield 0/120
+Infiltration (IC vs BB with PD, from 25 km ahead): first engine hit 39s, BB propulsion 68%, IC 0 modules lost
+PASS: 12 infiltration checks
+PASS: 6 helm checks
+PASS: 20 gunnery checks
+PASS: 71 turret checks
+Tracking: BB->DD 3 km 200 m/s pass 17 (total 77), BB->IC 1.5 km 400 m/s pass 0 (total 5), DD->IC 1.5 km 400 m/s pass 6 (total 30), BB->DD 12 km pass 67
+PASS: 4 tracking checks
+PD interceptor flyby / 5 s: slow-near 33, fast-near 13, fast-far 29 shots
+PD missile flyby / 5 s: slow-near 33, fast-near 13, fast-far 29 shots
+PASS: 272 point-defense tracking checks
+Drone fore approach / 3 s: all-around 12, fore 64, aft 0 shots
+PASS: 76 defense drone checks
+IC auxiliary 0 stock drone kill: 6.92s, 32 shots
+IC auxiliary 0 vs drone / 5 s: slow 22, fast 2 shots
+IC auxiliary 1 stock drone kill: 6.92s, 32 shots
+IC auxiliary 1 vs drone / 5 s: slow 22, fast 2 shots
+PASS: 49 drone combat checks
+AM range 2.0 km: hit=True, expired=False, flight=1.88s, path=1220m
+AM range 5.0 km: hit=True, expired=False, flight=4.52s, path=4217m
+AM range 7.8 km: hit=True, expired=False, flight=6.25s, path=7014m
+AM range 10.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+AM range 15.0 km: hit=False, expired=True, flight=6.78s, path=8000m
+AM structure interceptor -> battleship, shield=False: 165.70 -> 331.41
+AM structure interceptor -> battleship, shield=True: 0.00 -> 0.00
+AM structure interceptor -> mars_battleship, shield=False: 196.96 -> 393.93
+AM structure interceptor -> mars_battleship, shield=True: 0.00 -> 0.00
+AM structure mars_interceptor -> battleship, shield=False: 165.71 -> 331.41
+AM structure mars_interceptor -> battleship, shield=True: 0.00 -> 0.00
+AM structure mars_interceptor -> mars_battleship, shield=False: 196.96 -> 393.93
+AM structure mars_interceptor -> mars_battleship, shield=True: 0.00 -> 0.00
+PASS: 271 antimatter checks
+PASS: 33 engagement approach/commitment/arming checks
+PASS: 33 radial/preset checks
+PASS: 9 player squad command checks
+Fleet attack (RBB+2DD vs BB, 110 km): first missile 2s, first railgun 2s, first damage 11s
+Attack run (IC vs DD, 25 km, 180 s): 2 passes, DD shield 0/0
+PASS: 30 AI/fleet checks
+PASS: 142 interceptor role/probe/outer defense checks
+PASS: 168 player missile lead/proximity checks
+Canonical battle: Blue:0.000/0.000/0.250/88.000/127.421/171.617/182.054/191.901/690.642/191.901/-;M=102/14;R=1154/102;AM=0/0|Red:0.000/0.000/0.250/92.750/160.446/119.733/182.297/657.735/-/657.805/-;M=140/13;R=749/165;AM=4/1|Approach:120.000,Missile:180.000,Gunnery:120.000,Sniping:123.117,Brawl:150.000|collisions=0|events=186|winner=Red;time=693.117
+  destroyed/disabled 9/24
+Brawl statistics (seeds 1-6): 6/6 battles, brawl s = 60 183 90 90 90 120, outcome s = 573 693 734 821 671 691
+PASS: 66 battle/setup/log/rules checks
+PASS: 14525 random matchmaking checks
+PASS: 21 battle objective checks
+PASS: 26 simulation profiler checks
+PASS: 5608 conservative spatial bounds checks
+PASS: 229431 projectile broadphase/reference checks
+PASS: 4369549 defense broadphase checks (shots=4419, removed=270)
+PASS: 144072 sensor traversal/reference checks
+PASS: 175 design/catalog/Mars/ECM checks
+PASS: 10915 loadout/role data/legacy equivalence checks
+PASS: 175 physical equipment/bay/damage/recovery checks
+Defense role: escort 3/12 intercepted, 9 hit; AA 6/12 intercepted, counter 2, drone 0, 6 hit
+PASS: 220 cruiser catalog/doctrine/defense/salvo checks
+PASS: 799 squad loadout/preset/storage/matchmaking checks
+PASS: 558 research/tree/reward/migration/tier matching checks
+PASS: 682 tier branch/catalog/save/recon/rally checks
