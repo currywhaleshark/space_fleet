@@ -8,6 +8,9 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--aa-lasers")){AirDefenseLaserChecks.Run();return;}
+        if(args.Contains("--laser-perf")){LaserChecks.Profile();return;}
+        if(args.Contains("--lasers")){LaserChecks.Run();return;}
         if(args.Contains("--components")){ComponentChecks.Run();return;}
         if(args.Contains("--hardpoints")){MainBatteryChecks.Run();return;}
         if(args.Contains("--long-range")){LongRangeBalanceChecks.Run();return;}
@@ -62,6 +65,8 @@ static class SimChecks
         if (args.Contains("--drones")) { DefenseDroneChecks.Run(); DroneCombatChecks.Run(); return; }
         if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
         if (args.Contains("--am-moving")) { AntimatterTrials.Moving(); return; }
+        LaserChecks.Run();
+        AirDefenseLaserChecks.Run();
         ComponentChecks.Run();
         MainBatteryChecks.Run();
         EngagementTimingChecks.Run();

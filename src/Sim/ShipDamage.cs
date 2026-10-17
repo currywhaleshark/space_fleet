@@ -99,11 +99,11 @@ public sealed class ShipDamage
     /// <summary>실드가 마지막으로 에너지를 흡수한 시뮬레이션 시각. HUD 강조용.</summary>
     public double LastShieldHitTime { get; private set; } = double.NegativeInfinity;
     public ModuleState Module(string id) => _byId[id];
-    public float WeaponFraction(string id)
+    public float WeaponFraction(string id, bool usesAmmunition = true)
     {
         if (Destroyed) return 0;
         var module = _byId[id];
-        return module.HealthFraction * GridPower(module.Definition.Grid) * Average(ModuleKind.Magazine, powered: false);
+        return module.HealthFraction * GridPower(module.Definition.Grid) * (usesAmmunition ? Average(ModuleKind.Magazine, powered: false) : 1);
     }
 
     /// <summary>
@@ -304,7 +304,8 @@ public sealed class ShipDamage
         GenerationFraction = Generation();
         PropulsionFraction = Average(ModuleKind.Thruster, powered: true);
         ManeuverFraction = Average(ModuleKind.ManeuverThruster, powered: true);
-        WeaponsFraction = Average(ModuleKind.Gun, powered: true) * Average(ModuleKind.Magazine, powered: false);
+        WeaponsFraction = Average(ModuleKind.Gun, powered: true) *
+            (_definition.Battery?.Weapon.System == PrimaryWeaponSystem.Laser ? 1 : Average(ModuleKind.Magazine, powered: false));
         SensorFraction = Average(ModuleKind.Sensor, powered: true);
         CoolingFraction = Average(ModuleKind.Cooling, powered: true);
         MagazineFraction = Average(ModuleKind.Magazine, powered: false);

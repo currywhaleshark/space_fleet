@@ -1,0 +1,15 @@
+{
+  "source": "Agent Audio / Stable Audio 3 Medium; portable tflite backend",
+  "prompt": "Continuous sustained high energy ship laser emitter machinery. Dense electrical hum, focused sizzling high frequency beam with a restrained low mechanical resonance, steady intensity, dry close onboard structure vibration. No voices, no music, no rhythmic pulses, no explosions. Three seconds steady sound suitable for looping.",
+  "sourcePath": "assets\\audio\\laser_emitter_source.wav",
+  "outputPath": "assets\\audio\\laser_emitter_loop.wav",
+  "seconds": 2.2500226757369615,
+  "sampleRate": 44100,
+  "channels": 2,
+  "peak": 0.65,
+  "rms": 0.17590372739825036,
+  "boundaryStep": 0.004116544894748941,
+  "clippedSamples": 0,
+  "sha256": "abb47f549a621262ca34d5bfa1d3ec7d50e892ff13e755e3936af4c36af151ba",
+  "verification": "Numerical waveform/loop checks; subjective listening not performed."
+}

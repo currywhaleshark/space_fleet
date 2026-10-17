@@ -49,7 +49,7 @@ public static class ShipLoadouts
         var definition = ShipDefinition.Parse(source.ToJsonString(), strict: true);
         if (loadout.MainWeapon is not null && loadout.Components?.MainGun is not null)
             throw new InvalidDataException("Choose a catalog primary or an explicit primary, not both");
-        definition = ShipComponents.Apply(definition, loadout.Components);
+        definition = ShipComponents.Apply(definition, loadout.Components, useFactoryPrimary:loadout.MainWeapon is null);
         if (definition.InstalledEquipment.Length > 0)
             throw new InvalidDataException("Install equipment through bay selections, not definition patches");
         if (loadout.Equipment is { Count: > 0 } mounts) definition = Install(definition, mounts);

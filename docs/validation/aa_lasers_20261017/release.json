@@ -1,0 +1,50 @@
+{
+  "name": "SpaceFleet-20261017-aa-lasers-v2-Windows-x64",
+  "sourceCommit": "5d70e422dc84db5c74f70afcbe63976b158a2f3b",
+  "localChanges": true,
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 40 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 62 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 10420 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.445",
+    "PASS: 120 fleet audio checks",
+    "PASS: 17 laser render/audio/equipment checks",
+    "PASS: 294 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ],
+  "checkGroups": 16,
+  "checkCount": 11732,
+  "zipEntries": 204,
+  "zipCrcPassed": true,
+  "compiledAssemblyMatches": true,
+  "files": [
+    {
+      "path": "builds/SpaceFleet-20261017-aa-lasers-v2-Windows-x64/SpaceFleet.exe",
+      "bytes": 109372928,
+      "sha256": "abfe34b86c3159dac2f5cb7ea83ecd3ca832fb58ea5557bbfe7ebe52d5f1618f"
+    },
+    {
+      "path": "builds/SpaceFleet-20261017-aa-lasers-v2-Windows-x64/SpaceFleet.pck",
+      "bytes": 13321672,
+      "sha256": "ec574ee110bcf8bc21724c5d946adb50c41790db9d3a864c683bb950a67a42a7"
+    },
+    {
+      "path": "builds/SpaceFleet-20261017-aa-lasers-v2-Windows-x64/data_SpaceFleet_windows_x86_64/SpaceFleet.dll",
+      "bytes": 1262080,
+      "sha256": "120a91908075fe9a13b9f18413bf77b775682e814f81c025d4670a806e1f37a5"
+    },
+    {
+      "path": "builds/SpaceFleet-20261017-aa-lasers-v2-Windows-x64.zip",
+      "bytes": 88045583,
+      "sha256": "f6307a95241a17083664c8d87c91ed5012a257cc971eb9c7d69a1a849471f46f"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ public static class PrimaryWeaponModels
 {
     public static void Apply(Node3D hull,ShipDefinition def,Palette palette)
     {
+        if(def.Battery?.Weapon.Laser is not null) { ApplyLasers(hull,def,palette); return; }
         if(def.Components?.MainGun is not { } id)return;
         if(def.Railgun?.Mounts is not { } mounts)
         {
@@ -60,6 +61,46 @@ public static class PrimaryWeaponModels
             var mesh=body.Commit();rails.Commit(mesh);
             mesh.SurfaceSetMaterial(0,palette.Hull);mesh.SurfaceSetMaterial(1,palette.Dark);
             recoil.AddChild(new MeshInstance3D{Name="ReplacementPrimaryBarrels",Mesh=mesh});
+        }
+    }
+
+    private static void ApplyLasers(Node3D hull,ShipDefinition def,Palette palette)
+    {
+        foreach(var binding in def.PrimaryMounts)
+        {
+            Node3D parent; Vector3 muzzle;
+            if(binding.Turret is { } turret)
+            {
+                string key=turret.ModuleId.Replace('-','_');
+                parent=hull.FindChild("recoil_"+key,true,false) as Node3D
+                    ??throw new InvalidOperationException("Missing laser socket: "+key);
+                foreach(Node old in parent.GetChildren()){parent.RemoveChild(old);old.Free();}
+                muzzle=turret.Muzzles[0];
+                parent.AddChild(new Node3D{Name=$"muzzle_{key}_0",Position=muzzle});
+            }
+            else
+            {
+                var module=def.Modules.Single(m=>m.Id==binding.Hardpoint.ModuleId);
+                parent=new Node3D{Name="ReplacementFixedReceiver",Position=module.Center};hull.AddChild(parent);
+                muzzle=def.Railgun!.Muzzle-module.Center;
+            }
+            float length=Mathf.Max(.3f,-muzzle.Z), width=length*.075f;
+            var body=new SurfaceTool();body.Begin(Mesh.PrimitiveType.Triangles);
+            // Optical shroud ends at the physical muzzle. Collars visibly distinguish it from exposed rail pairs.
+            MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,width),new(width*2.6f,width*1.8f),
+                muzzle,new(width*1.8f,width*1.8f));
+            for(int i=0;i<4;i++)
+            {
+                float z=-length*(.15f+i*.2f);
+                MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,z+width*.15f),new(width*3,width*2.2f),
+                    new(muzzle.X,muzzle.Y,z-width*.15f),new(width*3,width*2.2f));
+            }
+            var mesh=body.Commit();mesh.SurfaceSetMaterial(0,palette.Hull);
+            parent.AddChild(new MeshInstance3D{Name="ReplacementLaserEmitter",Mesh=mesh});
+            var lens=new StandardMaterial3D{AlbedoColor=new(.04f,.22f,.3f),Metallic=.6f,Roughness=.18f,
+                EmissionEnabled=true,Emission=new(.12f,.65f,.85f),EmissionEnergyMultiplier=.6f};
+            parent.AddChild(new MeshInstance3D{Name="LaserOptic",Position=muzzle,RotationDegrees=new(90,0,0),
+                Mesh=new CylinderMesh{TopRadius=width*.65f,BottomRadius=width*.65f,Height=width*.03f,RadialSegments=16,Material=lens}});
         }
     }
 }

@@ -133,6 +133,13 @@ public partial class Main
             MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
             HangarVerify(view.CurrentFit.Definition.Id=="earth_gun_cruiser"&&view.CurrentFit.Definition.InstalledEquipment.Length==1,"Escort slot keeps variant and independent fit");
             view.SelectSlot(2);view.ChangeMember("earth_air_defense_cruiser");
+            view.SelectSystem(ComponentSlot.MainGun);
+            HangarVerify(view.CurrentFit.Definition.Battery!.Weapon.Laser is not null&&view.CurrentFit.Definition.Components?.MainGun is null,"AA factory laser is equipped without buying a part");
+            HangarVerify(((MenuItemButton)Find("component-stock")).Caption=="기본 레이저"&&((MenuItemButton)Find("component-stock")).Detail=="장착 중","Factory laser has the real stock label and installed state");
+            // A previously purchased explicit laser remains a valid save selection.
+            Hangar.SetComponent("earth_air_defense_cruiser",0,ComponentSlot.MainGun,"main-laser",true);
+            view.SelectSystem(ComponentSlot.MainGun);
+            HangarVerify(((MenuItemButton)Find("component-stock")).Detail=="장착 중","Old explicit laser selection still displays the equipped factory weapon");
             view.SelectBay("utility-port");view.Install("shield-capacity");
             MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
             preview=view.Preview;float yaw=preview.Yaw;

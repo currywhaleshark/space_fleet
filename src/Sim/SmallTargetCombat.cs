@@ -101,7 +101,7 @@ public sealed partial class SimWorld
     {
         direction = Vector3.Zero; aim = track.Predict(Time);
         var gun = weapon ?? ship.Railgun;
-        if (!track.Fresh(Time) || gun is null || ship.Damage.WeaponsFraction <= .01f
+        if (!track.Fresh(Time) || gun is null || (gun.IsLaser ? gun.Output : ship.Damage.WeaponsFraction) <= .01f
             || ship.Power.SensorEffect <= .01f) return false;
         double age = Math.Clamp(Time - track.SeenAt, 0, .5);
         Vector3 acceleration = playerAssist ? track.Acceleration : Vector3.Zero;
@@ -111,8 +111,10 @@ public sealed partial class SimWorld
         bool earlyMissile = playerAssist && track.Kind == SmallContactKind.Missile;
         float maxRange = earlyMissile ? (ship.Definition.Design == DesignFamily.Mars ? 12000 : 14000)
             : ship.Definition.Design == DesignFamily.Mars ? 4500 : 6000;
+        if(ship.Definition.Branch==ShipBranch.AirDefenseCruiser)maxRange=12000;
         double maxFlight = earlyMissile ? 2.8 : 1.4;
         if (range > maxRange || range < 1) return false;
+        if (gun.IsLaser) { direction = relative.ToVector3().Normalized(); return true; }
         Vector3 velocity = track.Velocity + acceleration * (float)age - ship.Velocity;
         double a = velocity.LengthSquared() - gun.Definition.MuzzleSpeed * gun.Definition.MuzzleSpeed;
         double b = 2 * relative.Dot(Vec3d.From(velocity)), c = relative.LengthSquared();

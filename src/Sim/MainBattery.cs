@@ -28,7 +28,11 @@ public sealed record RailgunBallistics(float MuzzleSpeed, float ReloadSeconds, f
 /// Legacy stock weapons have zero separately-accounted cost (their cost remains in the hull).
 /// </summary>
 public sealed record PrimaryWeaponDefinition(string Id, PrimaryWeaponSystem System, WeaponSize Size,
-    int BarrelCount, RailgunBallistics? Railgun, float TraverseSpeedScale = 1, float MassKg = 0, float PowerMw = 0);
+    int BarrelCount, RailgunBallistics? Railgun, float TraverseSpeedScale = 1, float MassKg = 0, float PowerMw = 0)
+{
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public LaserDefinition? Laser { get; init; }
+}
 
 /// <summary>Weapon-owned barrel geometry and magazine at a hull socket; offsets are from its trunnion.</summary>
 public sealed record WeaponInstallationDefinition(string HardpointId, Vector3[] Muzzles, int Rounds);
@@ -84,12 +88,16 @@ public static class MainBatteries
         Require(b.Weapon is not null && Identifier(b.Weapon.Id) && Enum.IsDefined(b.Weapon.System)
             && Enum.IsDefined(b.Weapon.Size), "invalid weapon identity");
         var w = b.Weapon;
-        // Reserve the schema value, but never silently run a laser as a railgun.
-        Require(w.System == PrimaryWeaponSystem.Railgun, "weapon system is not implemented");
-        Require(w.Railgun is not null && w.BarrelCount is >= 1 and <= 3
+        Require(w.BarrelCount is >= 1 and <= 3
             && Positive(w.TraverseSpeedScale) && w.TraverseSpeedScale <= 1
             && Nonnegative(w.MassKg) && Nonnegative(w.PowerMw), "invalid weapon format/cost");
-        var g = w.Railgun;
+        if (w.System == PrimaryWeaponSystem.Laser)
+        {
+            Require(w.Railgun is null && w.Laser is not null && w.BarrelCount == 1, "laser requires one emitter and laser parameters only");
+            w.Laser.Validate();
+        }
+        else Require(w.Railgun is not null && w.Laser is null, "railgun requires ballistic parameters only");
+        var g = w.Railgun ?? w.Laser!.GeometryAdapter;
         Require(Positive(g.MuzzleSpeed) && Positive(g.ReloadSeconds) && Positive(g.Energy)
             && Positive(g.PenetrationMm) && Positive(g.ModuleDamage) && Positive(g.MaxRange)
             && Nonnegative(g.SensorErrorMeters) && Nonnegative(g.SensorErrorPerKm)
@@ -108,7 +116,8 @@ public static class MainBatteries
                 && h.HousingHalfSize.IsFinite() && (h.HousingHalfSize == Vector3.Zero
                     || h.HousingHalfSize.X > 0 && h.HousingHalfSize.Y > 0 && h.HousingHalfSize.Z > 0), "invalid socket geometry");
             Require(m.Muzzles is not null && m.Muzzles.Length == w.BarrelCount
-                && m.Muzzles.All(p => p.IsFinite() && p.Z < 0) && m.Rounds > 0, "invalid barrels or ammunition");
+                && m.Muzzles.All(p => p.IsFinite() && p.Z < 0)
+                && (w.System == PrimaryWeaponSystem.Laser ? m.Rounds == 0 : m.Rounds > 0), "invalid barrels or ammunition");
             Require(Nonnegative(h.AimConeDegrees) && h.AimConeDegrees <= 180
                 && Positive(h.ToleranceDegrees) && h.ToleranceDegrees <= 1, "invalid aiming limits");
             if (h.Fixed)
@@ -127,7 +136,7 @@ public static class MainBatteries
 
     internal static RailgunDefinition Compile(MainBatteryDefinition b)
     {
-        var w = b.Weapon; var g = w.Railgun!;
+        var w = b.Weapon; var g = w.Railgun ?? w.Laser!.GeometryAdapter;
         var mounts = b.Hardpoints[0].Fixed ? null : b.Hardpoints.Select((h, i) =>
             new TurretDefinition(h.ModuleId, h.Pivot, h.Trunnion, (Vector3[])b.Installations[i].Muzzles.Clone(),
                 h.Ventral, h.YawDegrees, h.MinElevation, h.MaxElevation,

@@ -62,6 +62,17 @@
     }
   },
   {
+    "id": "main-laser",
+    "slot": "MainGun",
+    "name": "채널링 레이저",
+    "description": "탄약 없음 · 같은 선체 부위 8초 조사 시 입구 장갑 최대 75% 약화 · 실드에는 약화 없음 · 거리 감쇠 · 과열 차단 · 조사 중 신호 증가 · 질량 +1% · 무장 전력 +25%",
+    "cost": 140,
+    "effects": {
+      "massFraction": 0.01,
+      "power": 1.25
+    }
+  },
+  {
     "id": "pd-barrage",
     "slot": "Secondary",
     "name": "탄막형 부포",

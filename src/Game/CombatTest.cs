@@ -149,7 +149,7 @@ public partial class ScaleTest
     {
         StepDrill();
         StepJettison();
-        if (MapControlsBlocked) return;
+        if (MapControlsBlocked) { if(Controlled?.Body is { } blocked) SimWorld.StopLasers(blocked); return; }
         // 검증용 자동 디코이: 나를 노리는 미사일이 8 km 안이면 쿨다운마다 사출.
         if (_shot is { AutoDecoys: true } && Controlled?.Body is ShipBody me && me.Ordnance.DecoyReady
             && World.Missiles.Any(m => m.Target == me && (m.Position - me.Position).Length() < 8000))
@@ -159,6 +159,7 @@ public partial class ScaleTest
             && InspectTarget is ShipView mt && World.LaunchMissile(Controlled.Body, mt.Body).Fired)
             _autoMissiles++;
         if (Controlled?.Body is not ShipBody player) return;
+        if (SelectedWeapon != PlayerWeapon.MainGun || MenuOpen || RadarPointerCaptured || _fireReleaseGuard) SimWorld.StopLasers(player);
         UpdateSmallAim(player);
         if (Scheme == ControlScheme.Helm)
         {

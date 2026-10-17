@@ -34,7 +34,7 @@ static class ProgressionChecks
             var original=ShipDefinitions.ById(node.HullId!);string before=original.ToJson();
             var fitted=tree.Resolve(node.HullId!,node.Upgrades.Select(u=>u.Id).ToArray(),Array.Empty<EquipmentMount>()).Definition;
             Check(fitted.StructureHitPoints>original.StructureHitPoints&&fitted.Flight.ForwardAccel>original.Flight.ForwardAccel,"Permanent upgrades alter full ship definition");
-            Check(fitted.Railgun!.ReloadSeconds<original.Railgun!.ReloadSeconds&&fitted.Power.OutputMw>original.Power.OutputMw,"Weapon/reactor upgrades apply");
+            Check((original.Battery!.Weapon.Laser is { } laser ? fitted.Battery!.Weapon.Laser!.EnergyPerSecond>laser.EnergyPerSecond : fitted.Railgun!.ReloadSeconds<original.Railgun!.ReloadSeconds)&&fitted.Power.OutputMw>original.Power.OutputMw,"Weapon/reactor upgrades improve the selected weapon system");
             Check(original.ToJson()==before&&fitted.ModelId==original.ModelId,"Research does not mutate base data/model");
             Reject(()=>tree.Resolve(node.HullId!,new[]{"free-power"},Array.Empty<EquipmentMount>()),"Unknown upgrade rejects");
         }

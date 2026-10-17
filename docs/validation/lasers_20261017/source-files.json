@@ -1,0 +1,230 @@
+[
+  {
+    "path": "assets/audio/laser_emitter_loop.wav",
+    "sha256": "abb47f549a621262ca34d5bfa1d3ec7d50e892ff13e755e3936af4c36af151ba"
+  },
+  {
+    "path": "assets/audio/laser_emitter_loop.wav.import",
+    "sha256": "7dab5ff55ff7a9840ebf955c7508fe10b3a79ed126a42f882303b8d3d9eff6de"
+  },
+  {
+    "path": "assets/audio/laser_emitter_source.wav",
+    "sha256": "1c8973b3627e453b36c722f40e3354bbf8842c18a4a3fa4c36fa5dc19a6d42a6"
+  },
+  {
+    "path": "assets/audio/laser_emitter_source.wav.import",
+    "sha256": "b091d6b00f81504d429ed41d092008577eefb21bb86fbf6ca99d683469ddc0d0"
+  },
+  {
+    "path": "assets/audio/laser_manifest.json",
+    "sha256": "5c86da577664c4c67c4b33f5a9042eba8f36a492b8b2b0b17b130a309431e548"
+  },
+  {
+    "path": "assets/ui/equipment/main-laser.svg",
+    "sha256": "951cfa4e4d639b38c7ae66c805654a92e87c4449806315bcc8388538e9ef4eb1"
+  },
+  {
+    "path": "assets/ui/equipment/main-laser.svg.import",
+    "sha256": "9cf7758846f4f3cb852b2fb865da505f256a8582298b779b3e96a5d73598ef69"
+  },
+  {
+    "path": "data/components/catalog.json",
+    "sha256": "e95420fdfd3abd00cdefcb91cb1d2fae83339e4a9a414c89ee9fcbeb600486cf"
+  },
+  {
+    "path": "src/Game/BattleFlow.cs",
+    "sha256": "6aa75eebfb94e0502f3b2c2b6a12386668d74194f987e0842071c5ee82ee0b9a"
+  },
+  {
+    "path": "src/Game/CombatAudio.cs",
+    "sha256": "c2814bb9052f9f6ea60c725500f5d6d838bdba55a906d5494ed3435eca20a5dd"
+  },
+  {
+    "path": "src/Game/CombatAudioChecks.cs",
+    "sha256": "f526fb635ba10e53531a1db847d6d73f56e78316ed1f30baa39490deea19efed"
+  },
+  {
+    "path": "src/Game/CombatHud.cs",
+    "sha256": "cf324ebffb9dcce0244c997b20088d4a84fb0bf241a9bf9ae26098ccbc432672"
+  },
+  {
+    "path": "src/Game/CombatTest.cs",
+    "sha256": "03bac81c7489b2dad5ddb2002a7756e06ba17611f2ea10ed00a7828f6f5c4262"
+  },
+  {
+    "path": "src/Game/ComponentComparison.cs",
+    "sha256": "77f7c6c4528fa52d23c15c208244f422a042e3072c5a642a994db6fe8e341c9a"
+  },
+  {
+    "path": "src/Game/FleetAudio.cs",
+    "sha256": "a28fc78f96ce9807803d8293ad7622c083b3e702af3e95ec1782d887c48ea201"
+  },
+  {
+    "path": "src/Game/FleetAudioChecks.cs",
+    "sha256": "bee019aa80249b7ab1a88329bac3a40f3eaa893e4d9c7e2d7616e9a51993a302"
+  },
+  {
+    "path": "src/Game/GunneryHud.cs",
+    "sha256": "71f33996db8e0a23f804944cdd66529dbbe30bc9eb2c65b00485ea82d82749f7"
+  },
+  {
+    "path": "src/Game/HangarView.cs",
+    "sha256": "9f81c42ec9b72ac2b16dd173ff0a1fddab2d320ad7337cebc2d685b3f7af2bde"
+  },
+  {
+    "path": "src/Game/LaserGameChecks.cs",
+    "sha256": "167023d47c67680aca56ecb643dac9d53c3b7c089649411b0a4fb2846d247731"
+  },
+  {
+    "path": "src/Game/LaserGameChecks.cs.uid",
+    "sha256": "37631e433b8c8a79fd9324feb01859ff9d28d55893c09cdf4ca91eb92746c3fb"
+  },
+  {
+    "path": "src/Game/LaserInputChecks.cs",
+    "sha256": "b8dc4c5b056f8305628aa83693d7b06a933d37f5e5cd0ce840eb61bb8b676577"
+  },
+  {
+    "path": "src/Game/LaserInputChecks.cs.uid",
+    "sha256": "a9d2ba6feb4e3496e3e970cd39e52717b2b685db4afa7a67f51f6f6856eae8ca"
+  },
+  {
+    "path": "src/Game/Main.cs",
+    "sha256": "faa40108695f8717b0cc94804749a70d0ac7acd438f0bee750e0e1a2b31c484a"
+  },
+  {
+    "path": "src/Game/MenuArt.cs",
+    "sha256": "d577e50fec50c59c3929646ff751b0ef8eff0ae42fd7a85176c0446bd1503ef9"
+  },
+  {
+    "path": "src/Game/OffscreenHud.cs",
+    "sha256": "647d5f103f120198edb1a3eb193c3fa5e6ecdfe37ebc6560128075134697d8e6"
+  },
+  {
+    "path": "src/Game/ScaleTest.cs",
+    "sha256": "3f6bb58059fef61ebe030eba76cc296d96fec0a4f634bdd90dd09f55fba41082"
+  },
+  {
+    "path": "src/Game/ShipModelChecks.cs",
+    "sha256": "680b07679823b44c98fdd0cc30c304a211941cb77da1d723d033b6949a1173c0"
+  },
+  {
+    "path": "src/Game/WeaponControls.cs",
+    "sha256": "9fb9cf96f0fec9b61608ec0b472d29cfca9081ce5658a5bd5a3d85a85a32bd09"
+  },
+  {
+    "path": "src/Game/WeaponInputChecks.cs",
+    "sha256": "94acbd134791cd9bbab37abc7ef5c103f88c1ff0ded1d1c4b201bc2c3fe452ed"
+  },
+  {
+    "path": "src/Sim/BattleLog.cs",
+    "sha256": "f8693e5f6a1236d7a3776e9a8d2bdfd3e6b3c36c1292510e7f446bf7b61706ca"
+  },
+  {
+    "path": "src/Sim/DamageRay.cs",
+    "sha256": "ae978bfb689ca082f34aa1150ec448e2fa9ea4edb9e9f22894e04f83edcaa230"
+  },
+  {
+    "path": "src/Sim/FireControl.cs",
+    "sha256": "6f0099d4ed20cf735198b6a22b5bb52a2d70f3263c6723edcec3f6ed75893503"
+  },
+  {
+    "path": "src/Sim/Gunnery.cs",
+    "sha256": "0f487cec6321376a4dc3f704c45d99bdafa92cccce38e2c9e9f6c1029883b235"
+  },
+  {
+    "path": "src/Sim/InterceptorMissions.cs",
+    "sha256": "c5e934e380244a3844fbfcaa2b24e1e28d786141609cf6672ff719adc035ce2d"
+  },
+  {
+    "path": "src/Sim/Lasers.cs",
+    "sha256": "fe825470a454dee3ca7c69f611092e9b681e2d20c1e80c0a1183f2036f7e2918"
+  },
+  {
+    "path": "src/Sim/Lasers.cs.uid",
+    "sha256": "24b0d4a361279413b3472ed6bb90f4a53de85dae89f50bed803743b6515e1b0a"
+  },
+  {
+    "path": "src/Sim/LaserSensors.cs",
+    "sha256": "a32f878e076084afe65d50b1b4a85065082bdf277fba1a6f26fb504ecc3dd9a0"
+  },
+  {
+    "path": "src/Sim/LaserSensors.cs.uid",
+    "sha256": "e3076d6c13bedde57a5e05f67727bc3ceef977e73241781bedbaabe44e926611"
+  },
+  {
+    "path": "src/Sim/MainBattery.cs",
+    "sha256": "48abc197c37879adcfd95848d58da858197c8470ca3b473cd50d4ee35c16649e"
+  },
+  {
+    "path": "src/Sim/Railgun.cs",
+    "sha256": "4be2c9f88c040aab52974333cb63f438682447463958b4cfd95a1596f2108b37"
+  },
+  {
+    "path": "src/Sim/SensorNet.cs",
+    "sha256": "5f25a49eff03c1265467d5d4c8d91db81bea3f62bbaadbca25dda4fe3d143ebe"
+  },
+  {
+    "path": "src/Sim/ShipComponents.cs",
+    "sha256": "3a44fe0a4e99f5e7f3d9902f0618adea4637e0f2e5e4fda1ca0eefcf4be9d912"
+  },
+  {
+    "path": "src/Sim/ShipDamage.cs",
+    "sha256": "f912f641ff1e27f2c61f13a6e12bf6a37734dfd23cda9dfd912a2e21300359e1"
+  },
+  {
+    "path": "src/Sim/ShipDefinition.cs",
+    "sha256": "e7b159840827f059bc93acc58fccb43d5c971909e1ca87bbe40325bae945d922"
+  },
+  {
+    "path": "src/Sim/ShipPower.cs",
+    "sha256": "f49bee973967b5605d20bc0928435c7dfc314f9fd67af86c06da343b1bc4c5a4"
+  },
+  {
+    "path": "src/Sim/SimAI.cs",
+    "sha256": "6873858fbfd43e8e066a6c88fb206d7d254b22ad6bcb939278a05d45f306b3be"
+  },
+  {
+    "path": "src/Sim/SimBallistics.cs",
+    "sha256": "bad4ef943d91c9d5b34f707b0d2f1c72457641d96f1b007ed2c3303ec341a235"
+  },
+  {
+    "path": "src/Sim/SimWorld.cs",
+    "sha256": "d16d0f6c3621f1c40bb444726dde9d4182464070e233d753876cb97342b19e44"
+  },
+  {
+    "path": "src/Sim/SmallTargetCombat.cs",
+    "sha256": "f33882703d6f1c68d886b6223de6288264debbe2c0d926eca8d7790680ec92fc"
+  },
+  {
+    "path": "src/View/BallisticsView.cs",
+    "sha256": "010814d4f4aeceb969eced11d60787f92eeb33e31f4f7c33eff128ede6520b43"
+  },
+  {
+    "path": "src/View/PrimaryWeaponModels.cs",
+    "sha256": "3d4aadbf8ca8399034051511215960257ac0e7947ad6e1e598d4cb40654c03b7"
+  },
+  {
+    "path": "tests/SimChecks/ComponentChecks.cs",
+    "sha256": "42b72deba57e4cd62409aef833476bf041ef90a442e66553aac997dc4b47c529"
+  },
+  {
+    "path": "tests/SimChecks/LaserChecks.cs",
+    "sha256": "83f0995719d530eea5c7303f72ae43308ddb99ec46ea2a06ecce9f0007fa9116"
+  },
+  {
+    "path": "tests/SimChecks/MainBatteryChecks.cs",
+    "sha256": "82e280a5eb8cb76478a70a7922d331250bbbd4dd3b46b16571ebc4d00c6d794d"
+  },
+  {
+    "path": "tests/SimChecks/Program.cs",
+    "sha256": "5cf2cfe433b192c16f178418b1f8e45e9cb7cfb0f3872bb8a9be42ba3c620314"
+  },
+  {
+    "path": "tools/export-windows.ps1",
+    "sha256": "1da2a76536d99acc3d39743c776f5a9ae7e93964cf308ce9705d099b6d88e647"
+  },
+  {
+    "path": "tools/prepare-laser-audio.py",
+    "sha256": "eaff2afb46f5c90d3e17ba5533489adb5756d28d9c276dbaf7b292c9427779c3"
+  }
+]

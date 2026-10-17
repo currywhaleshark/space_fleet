@@ -1,0 +1,17 @@
+(earth_air_defense_cruiser, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.053, pulses 0 rails 48
+(earth_air_defense_cruiser, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.135, pulses 302 rails 0
+(earth_air_defense_cruiser, True, False, 12, 2000): intercepted 40/48, hits 8, distinct 2, heat 0.053, pulses 0 rails 48
+(earth_air_defense_cruiser, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.139, pulses 312 rails 0
+(earth_air_defense_cruiser_t4, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.050, pulses 0 rails 48
+(earth_air_defense_cruiser_t4, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.129, pulses 302 rails 0
+(earth_air_defense_cruiser_t4, True, False, 12, 2000): intercepted 41/48, hits 7, distinct 2, heat 0.050, pulses 0 rails 48
+(earth_air_defense_cruiser_t4, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.132, pulses 312 rails 0
+(earth_air_defense_cruiser_t5, False, False, 12, 2000): intercepted 24/48, hits 24, distinct 2, heat 0.048, pulses 0 rails 48
+(earth_air_defense_cruiser_t5, False, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.123, pulses 302 rails 0
+(earth_air_defense_cruiser_t5, True, False, 12, 2000): intercepted 38/48, hits 10, distinct 2, heat 0.048, pulses 0 rails 48
+(earth_air_defense_cruiser_t5, True, True, 12, 2000): intercepted 48/48, hits 0, distinct 2, heat 0.125, pulses 312 rails 0
+(earth_air_defense_cruiser, False, False, 48, 3500): intercepted 16/192, hits 176, distinct 2, heat 0.052, pulses 0 rails 32
+(earth_air_defense_cruiser, False, True, 48, 3500): intercepted 22/192, hits 170, distinct 2, heat 0.072, pulses 130 rails 0
+(earth_air_defense_cruiser, True, False, 48, 3500): intercepted 25/192, hits 167, distinct 2, heat 0.053, pulses 0 rails 34
+(earth_air_defense_cruiser, True, True, 48, 3500): intercepted 32/192, hits 160, distinct 2, heat 0.073, pulses 124 rails 0
+PASS: 33 air-defense factory/commands/sensors/thermal/wave checks

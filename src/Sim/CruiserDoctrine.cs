@@ -67,6 +67,7 @@ public sealed partial class SimWorld
     private bool EngageCruiserDefense(ShipBrain brain)
     {
         if(brain.Ship.Definition.Branch!=ShipBranch.AirDefenseCruiser)return false;
+        EngageDefenseBattery(brain.Ship,out _);
         if(brain.SmallTarget is Missile missile && !_missiles.Any(m=>m.Faction==brain.Ship.Faction&&m.InterceptTarget==missile&&!m.InterceptPassed))
             LaunchCounterMissile(brain.Ship,missile);
         return true;

@@ -50,6 +50,14 @@ public partial class Hud
     private void DrawOffscreenShips(Camera3D cam, ShipView controlled, Vector2 screen)
     {
         _edgeMarks.Clear();
+        foreach(var bearing in Game.World.Sensors.LaserBearings(controlled.Body.Faction,Game.World.Time))
+        {
+            Vector2 d=EdgeDirection(cam,bearing.Direction), at=EdgePoint(d,screen,MissileBand);
+            if(_edgeMarks.Exists(p=>p.DistanceTo(at)<28))continue;
+            _edgeMarks.Add(at);
+            DrawLine(at-d*14,at,Motion,3);
+            CenteredLabel(at-d*38,"레이저 입사방위",11,Motion);
+        }
         ShipView? focus = Game.InspectTarget is { } selected && Game.ContactOf(selected)?.SignalLost == true ? selected : Game.FireTarget;
         var candidates = new List<(ShipView View, double Dist)>();
         foreach (ShipView view in Game.Views)

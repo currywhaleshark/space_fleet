@@ -22,7 +22,9 @@ public partial class CombatAudio : Node
     private readonly int[] _lastVariant = Enumerable.Repeat(-1, SoundCount).ToArray();
     private readonly int[] _nextVoice = new int[SoundCount];
     private uint _variationState = 0x49a370cd; // Presentation-only random stream; never changes simulation rolls.
-    private AudioStreamPlayer _engine = null!, _boost = null!;
+    private AudioStreamPlayer _engine = null!, _boost = null!, _laser = null!;
+    private float _laserLevel;
+    internal bool LaserPlaying => _laser.Playing;
     private FleetAudio _fleet = null!;
     private float _engineTarget, _boostTarget;
     private HullKind _engineClass;
@@ -74,6 +76,7 @@ public partial class CombatAudio : Node
             }
         }
         _engine = MakeLoop("engine_drive_loop"); _boost = MakeLoop("boost_drive_loop");
+        _laser = MakeLoop("laser_emitter_loop");
         _fleet = new FleetAudio { Name = "FleetAudio" }; AddChild(_fleet);
         AssetsReady &= _fleet.AssetsReady;
         if (!AssetsReady) GD.PushWarning("Combat audio assets are missing; see assets/audio.");
@@ -189,6 +192,12 @@ public partial class CombatAudio : Node
     {
         if (_paused || !AssetsReady || dt <= 0) return;
         _fleet.Advance(dt);
+        float laserTarget=0, focus=0;
+        if(_controlled is {Damage.Destroyed:false} followed)
+            foreach(var gun in followed.Railguns)
+                if(gun.Laser is {Active:true} beam) { laserTarget=1; focus=Mathf.Max(focus,beam.FocusFraction); }
+        _laserLevel=SmoothLevel(_laserLevel,laserTarget,dt,20,22);
+        DriveLoop(_laser,_laserLevel,.32f,.9f+focus*.22f);
         // Refresh damage even if physics has stopped immediately after a kill.
         if (_controlled is { } ship && (ship.Damage.Destroyed || ship.Damage.PropulsionFraction <= .001f
             || ship.Damage.GenerationFraction <= .001f)) _engineTarget = _boostTarget = 0;
@@ -256,12 +265,15 @@ public partial class CombatAudio : Node
         _fleet.SetPaused(paused);
         foreach (var player in _players.SelectMany(p => p)) player.StreamPaused = paused;
         _engine.StreamPaused = _boost.StreamPaused = paused;
+        _laser.StreamPaused = paused;
     }
     public void StopAll()
     {
         _fleet?.StopAll();
         foreach (var voices in _players) if (voices is not null) foreach (var player in voices) player.Stop();
         _engine?.Stop(); _boost?.Stop();
+        _laser?.Stop(); _laserLevel=0;
+        _controlled=null;
         EngineLevel = BoostLevel = _engineTarget = _boostTarget = 0;
         Array.Clear(_nextPlay);
     }

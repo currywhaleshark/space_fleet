@@ -19,6 +19,7 @@ public partial class BallisticsView : Node3D
         EmissionEnabled=true,Emission=new Color(1,.38f,.08f),EmissionEnergyMultiplier=2 };
     public int VisibleTrails { get; private set; }
     public int VisibleFragments { get; private set; }
+    public int VisibleLaserBeams { get; private set; }
     public int VisibleBurstSparks => _bursts.VisibleSparks;
     public int VisibleBurstFlashes => _bursts.VisibleFlashes;
     public override void _Ready()
@@ -46,6 +47,27 @@ public partial class BallisticsView : Node3D
     {
         _bursts.Begin();
         int t=0,f=0,s=0;
+        VisibleLaserBeams=0;
+        foreach(var ship in world.Ships)
+        foreach(var gun in ship.Railguns)
+        {
+            if(gun.Laser is not {Active:true} laser || world.Time-laser.LastPulseAt>.1 || ship.Damage.Destroyed)continue;
+            var pose=ship.InterpolatedOrientation((float)alpha);
+            Vector3 start=(ship.InterpolatedPosition(alpha)-origin).ToVector3()+pose*gun.LocalMuzzle;
+            Vector3 end=laser.HitShip is { } target
+                ? (target.InterpolatedPosition(alpha)-origin).ToVector3()+target.InterpolatedOrientation((float)alpha)*laser.HitLocal
+                : (laser.End-origin).ToVector3();
+            // Screen-facing core with restrained halo. No projectile streak, recoil, smoke or muzzle blast.
+            Vector3 midpoint=(start+end)*.5f;
+            float width=Mathf.Max(.07f,CombatFx.PixelSize(camera,midpoint,1.25f));
+            CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,ship.Definition.Design==DesignFamily.Mars?_enemyHalo:_halo),camera,start,end,width*3);
+            CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,_head),camera,start,end,width);
+            CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,start,Mathf.Max(.3f,ship.Class.Length*.003f),6);
+            if(laser.HitShip is not null)
+                CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,laser.ShieldHit?_shield:_impact),camera,end,
+                    Mathf.Max(.6f,ship.Class.Length*.004f)*(1+laser.FocusFraction),8+laser.FocusFraction*6);
+            VisibleLaserBeams++;
+        }
         foreach(var p in world.Projectiles)
         {
             Vector3 head=(Vec3d.Lerp(p.PrevPosition,p.Position,alpha)-origin).ToVector3();

@@ -104,6 +104,7 @@ public sealed partial class SimWorld
         long probeTiming = SimProfiler.Begin();
         StepProbes(TickDelta);
         SimProfiler.End(SimSection.Probes, probeTiming);
+        StepLasers(TickDelta);
         Tick++;
         sectionTiming = SimProfiler.Begin();
         Sensors.Update(_ships, Time, probes: _probes, missiles: _missiles);

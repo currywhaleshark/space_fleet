@@ -199,6 +199,8 @@ public sealed partial class SimWorld
             && Time - ship.Ordnance.LastMissileLaunch < 15) standoff *= 1.3f;
         if (ship.Definition.Branch == ShipBranch.MissileCruiser && ship.Ordnance.Missiles == 0 && ship.Railgun is { } fallbackGun)
             standoff = Math.Min(standoff, fallbackGun.Definition.MuzzleSpeed * brain.Profile.RailFlightSeconds * .7f);
+        if (ship.Railgun?.Laser is { } laser)
+            standoff = Math.Min(standoff, laser.Definition.FalloffMeters * .7f) * (laser.AutoCooling ? 1.3f : 1f);
         brain.WantBoost = d > standoff * 2.5f
             || track.Level < TrackLevel.Locked && d > standoff * 1.2f + 2000;
         float approachSpeed = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);

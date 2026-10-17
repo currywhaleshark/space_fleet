@@ -32,6 +32,7 @@ public partial class WeaponInputChecks : Node
     }
     private void Run()
     {
+        CheckLaserInput();
         CheckCounterMissileInput();
         CheckMissileTracking();
         CheckPointerTargets();

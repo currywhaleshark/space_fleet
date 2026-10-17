@@ -36,11 +36,16 @@ static class ComponentChecks
                     for(int t=0;t<ticks;t++){foreach(var g in body.Railguns)g.Aim(aim);world.Step();}
                     var fire=world.FireRailguns(body,aim);
                     Check(fire.Shots==body.Railguns.Sum(g=>g.BarrelCount),$"Every replacement barrel fires a physical round: {source.Id}/{part.Id}: {fire}");
-                    Check(body.Railguns.All(g=>g.Rounds==g.Definition.Rounds-g.BarrelCount),"Replacement magazine accounts for actual barrels");
+                    Check(body.Railguns.All(g=>g.IsLaser ? g.Rounds==0 && world.Projectiles.Count==0 : g.Rounds==g.Definition.Rounds-g.BarrelCount),"Replacement magazine accounts for actual barrels");
                     var all=ResearchTree.Catalog.ByHull(source.Id).Upgrades.Select(u=>u.Id).ToArray();
                     var upgraded=FleetLoadouts.ResolveFit(Fit(source.Id,selection) with{Upgrades=all}).Definition;
                     var permanent=ResearchTree.Catalog.Resolve(source.Id,all,Array.Empty<EquipmentMount>()).Definition;
-                    Check(Math.Abs(upgraded.Railgun!.ReloadSeconds-permanent.Railgun!.ReloadSeconds*part.Effects.Reload)<.0001,
+                    // The AA factory baseline is now an emitter. Rail replacements still
+                    // derive from the researched ballistic template retained by the variant.
+                    if(source.DefaultMainGun is not null)
+                        permanent=CruiserTrials.Resolve(source.Id,ResearchTree.Catalog.ByHull(source.Id).Upgrades.Select(u=>u.Patch.ToJsonString())
+                            .Append("{\"defaultMainGun\":null}").ToArray()).Definition;
+                    Check(upgraded.Battery!.Weapon.Laser is { } l ? l.EnergyPerSecond > d.Battery!.Weapon.Laser!.EnergyPerSecond : Math.Abs(upgraded.Railgun!.ReloadSeconds-permanent.Railgun!.ReloadSeconds*part.Effects.Reload)<.0001,
                         "Permanent fire-control research does not erase selected reload tradeoff");
                 }
             }

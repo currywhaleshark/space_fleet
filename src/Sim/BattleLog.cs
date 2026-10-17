@@ -6,7 +6,7 @@ using System.Linq;
 namespace SpaceFleet.Sim;
 
 public enum BattlePhase { Approach, Missile, Gunnery, Sniping, Brawl }
-public enum BattleWeapon { Railgun, Missile, PointDefense, Antimatter, DefenseDrone }
+public enum BattleWeapon { Railgun, Missile, PointDefense, Antimatter, DefenseDrone, Laser }
 public enum BattleEventKind { ModuleDestroyed, Disabled, Destroyed, Collision }
 public sealed record BattleEvent(double Time, string Ship, Faction Victim, Faction? Attacker, BattleEventKind Kind, string? Module = null, string? OtherShip = null);
 public sealed record BattleInterval(double Start, double Duration, BattlePhase Phase);
@@ -16,12 +16,14 @@ public sealed class BattleSideLog
     public double? Contact, Identified, Locked, MissileLaunch, MissileHit, RailLaunch, RailHit, ModuleDestroyed, Disabled, Destroyed, Close;
     public int Missiles, MissileHits, Rails, RailHits;
     public int Torpedoes, TorpedoHits;
+    public int LaserPulses, LaserHits;
     public double?[] FirstTimes => new[] { Contact, Identified, Locked, MissileLaunch, MissileHit, RailLaunch, RailHit, ModuleDestroyed, Disabled, Destroyed, Close };
 }
 public sealed class BattleShipLog
 {
     public int Rails, RailHits, Missiles, MissileHits, ModulesDestroyed;
     public int Torpedoes, TorpedoHits;
+    public int LaserPulses, LaserHits;
     public float ShieldDamage, ModuleDamage;
     public int DronesDestroyed;
     public int ArmorPenetrations;
@@ -105,6 +107,7 @@ public sealed class BattleLog
         var bucket = At(time);
         if (weapon == BattleWeapon.Missile) { side.Missiles++; stats.Missiles++; First(ref side.MissileLaunch, time); bucket.Missile = true; }
         else if (weapon == BattleWeapon.Antimatter) { side.Torpedoes++; stats.Torpedoes++; bucket.Brawl = true; }
+        else if (weapon == BattleWeapon.Laser) { side.LaserPulses++; stats.LaserPulses++; bucket.Rail = true; }
         else if (weapon == BattleWeapon.Railgun)
         {
             side.Rails++; stats.Rails++; First(ref side.RailLaunch, time);
@@ -128,7 +131,8 @@ public sealed class BattleLog
     {
         if (hit.Target is not { } victim) return;
         var side = Side(shooter.Faction); var stats = Ship(shooter); var received = Ship(victim);
-        if (weapon == BattleWeapon.Railgun) { side.RailHits++; stats.RailHits++; First(ref side.RailHit, time); }
+        if (weapon == BattleWeapon.Laser) { side.LaserHits++; stats.LaserHits++; }
+        else if (weapon == BattleWeapon.Railgun) { side.RailHits++; stats.RailHits++; First(ref side.RailHit, time); }
         else if (weapon == BattleWeapon.Missile) { side.MissileHits++; stats.MissileHits++; First(ref side.MissileHit, time); }
         else if (weapon == BattleWeapon.Antimatter) { side.TorpedoHits++; stats.TorpedoHits++; }
         if (shooter.Class.Kind == HullKind.Interceptor && victim.Class.Kind != HullKind.Interceptor) At(time).Brawl = true;

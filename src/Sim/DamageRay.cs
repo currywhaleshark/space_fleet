@@ -105,14 +105,16 @@ public static class DamageRay
         return float.IsFinite(distance);
     }
 
-    public static ShotResult Apply(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet, double time, uint sequence)
-        => ApplyAtPose(ship, origin, direction, packet, time, sequence, ship.Position, ship.Orientation);
+    public static ShotResult Apply(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet, double time, uint sequence, float entryArmorScale = 1)
+        => ApplyAtPose(ship, origin, direction, packet, time, sequence, ship.Position, ship.Orientation, entryArmorScale: entryArmorScale);
 
     /// <param name="shieldApplies">false면 실드를 건너뛴다(충돌 파쇄처럼 선체가 직접 맞닿는 경우).</param>
     public static ShotResult ApplyAtPose(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet,
-        double time, uint sequence, Vec3d position, Quaternion orientation, bool shieldApplies = true)
+        double time, uint sequence, Vec3d position, Quaternion orientation, bool shieldApplies = true, float entryArmorScale = 1)
     {
         packet.Validate();
+        if (!float.IsFinite(entryArmorScale) || entryArmorScale <= 0 || entryArmorScale > 1)
+            throw new ArgumentException("Invalid temporary entry armor scale");
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) throw new ArgumentException("Invalid ray direction");
         direction = direction.Normalized();
         Vector3 o = orientation.Inverse() * (origin - position).ToVector3();
@@ -220,6 +222,7 @@ public static class DamageRay
             ArmorPlate plate = section.Plate(Side(normal));
             // 입사각과 데이터의 장갑 경사를 합성한 프로토타입 등가 두께. 도탄은 사격 단계에서 확장한다.
             float effective = plate.ThicknessMm / Mathf.Max(0.05f, Mathf.Abs(d.Dot(normal)) * Mathf.Cos(Mathf.DegToRad(plate.SlopeDegrees)));
+            if (entering && ReferenceEquals(section, regions[0].EntrySection)) effective *= entryArmorScale;
             float before = penetration;
             penetration = Mathf.Max(0, penetration - effective);
             energy *= before > 0 ? penetration / before : 0;

@@ -163,7 +163,7 @@ public partial class ScaleTest : Node3D
         if(HandleRosterInput(e))return;
         if(RosterOpen){GetViewport().SetInputAsHandled();return;}
         if (e is InputEventMouse mouse && Input.MouseMode != Input.MouseModeEnum.Captured) _selectionPointer = mouse.Position;
-        if (e.IsActionReleased(InputSetup.Fire)) _fireReleaseGuard = false;
+        if (e.IsActionReleased(InputSetup.Fire)) { _fireReleaseGuard = false; if(Controlled?.Body is { } released) SimWorld.StopLasers(released); }
         if (e.IsActionReleased(InputSetup.Telescope)) Camera.SetTelescope(false);
         if (WorldMapOpen) { _worldMap.HandleInput(e); return; }
         if (Paused) return;
@@ -389,6 +389,7 @@ public partial class ScaleTest : Node3D
         if(BattleMode&&OwnedSquadron is { } owned&&!owned.Members.Contains(_playable[index].Body))return;
         ShipBody? previous = _playable.Count > 0 ? _playable[_controlledIndex].Body : null;
         previous?.Ordnance.Antimatter.Cancel();
+        if(previous is not null) SimWorld.StopLasers(previous);
         SelectedWeapon=PlayerWeapon.MainGun; JettisonProgress=0;
         _fireReleaseGuard=Input.IsActionPressed(InputSetup.Fire) || Input.IsMouseButtonPressed(MouseButton.Left);
         _controlledIndex = index;

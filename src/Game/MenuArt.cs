@@ -17,8 +17,9 @@ internal static class MenuArt
     internal static Texture2D Icon(string name)=>Load($"res://assets/ui/equipment/{name}.svg");
     internal static Texture2D Component(ComponentSlot slot,string? id=null,ShipDefinition? hull=null)=>Icon(id switch
     {
-        "main-single"=>"main-single","main-triple"=>"main-triple",
+        "main-laser"=>"main-laser","main-single"=>"main-single","main-triple"=>"main-triple",
         "main-precision" or "main-rapid"=>"forward-gun",
+        _ when slot==ComponentSlot.MainGun&&hull?.Battery?.Weapon.Laser is not null=>"main-laser",
         _ when slot==ComponentSlot.MainGun&&hull?.Railgun?.Mounts is null&&hull is not null=>"forward-gun",
         _=>slot switch{ComponentSlot.MainGun=>"main-twin",ComponentSlot.Secondary=>"point-defense",
             ComponentSlot.Engine=>"engine",ComponentSlot.Sensor=>"sensor",ComponentSlot.Generator=>"generator",_=>"shield"}

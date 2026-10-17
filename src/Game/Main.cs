@@ -45,6 +45,8 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.ContainsKey("laser-test")||_args.ContainsKey("laser-preview"))
+        { AddChild(new LaserGameChecks{Shot=_args.ContainsKey("laser-preview")?_args.GetValueOrDefault("shot"):null});return; }
         if(_args.ContainsKey("export-menu-art")){AddChild(new MenuArtExport());return;}
         LoadFleetChoice();
         if(_args.TryGetValue("battlefield",out var battlefield))SelectedBattlefield=Enum.Parse<Battlefield>(battlefield,true);

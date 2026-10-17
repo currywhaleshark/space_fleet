@@ -103,6 +103,9 @@ Tab 유지: 양팀 편성·생존 현황. 내 함선 격침 시 내 편대원에
 관전 음향은 관전 중인 함선의 엔진·사격·피격과 그 주변 함대를 기준으로 들립니다.
 F1: 조작 도움말 / Esc: 일시정지·메뉴.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
+격납고 계통 교체 → 주포 → 채널링 레이저(140 × 함급 티어 RP): 1 선택 후 좌클릭 유지로 조사. 자동 사격도 지원.
+실드가 없는 같은 선체 부위를 8초 조사하면 해당 조사기의 입구 장갑 판정이 최대 75% 완화됩니다.
+탄약 대신 전력·열을 사용하며 과열 시 차단됩니다. 조준선 오른쪽 호는 집중, 왼쪽 호는 열 여유입니다.
 F 전력 / B 사격 / N 편대 / 4 드론 방어구역: 누른 채 방향 선택 후 놓기.
 5 응급복구: 자동/계통 우선/중지 선택. 자재를 사용해 손상 모듈을 35%까지 응급복구.
 응급복구한 탄약고·반응로는 다시 관통·파괴될 때 유폭 확률이 1.5배, 두 번 이상 복구 시 최대 2배입니다.
@@ -127,12 +130,15 @@ R: 마우스(비행/망원은 중앙 조준선)에 가장 가까운 적 함선·
 지정 미사일 요격탄은 지구 40m/화성 32m 근접신관, 단일 표적 피해 6. 일반 탄약·연사력·선회 한계 유지.
 탐지된 미사일의 조준 보조는 지구 14km/화성 12km부터 가능. 모든 고속 횡단 표적의 요격을 보장하지 않음.
 
+지구 T3~T5 방공순양함은 기본 레이저를 무료 장착합니다. 자율 주포는 12km 내 탐지된 접근 미사일을 포탑별로 나눠 요격합니다.
+수동·집중·정지 명령이 우선하며, 기존 PD·요격 미사일·방어 드론은 함께 작동합니다.
+
 THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임의 고지가 있습니다.
 '@ | Set-Content -LiteralPath (Join-Path $sfOutput '읽어주세요.txt') -Encoding UTF8
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
+foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

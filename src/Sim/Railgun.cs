@@ -26,11 +26,18 @@ public sealed class RailgunState
         var common = ship.Definition.Railgun!;
         Definition = mount is null ? common : common with { ModuleId = mount.ModuleId, Rounds = mount.Rounds,
             Muzzle = mount.Breech(0) + mount.MountBasis * (mount.Muzzles[0] + mount.Muzzles[^1]) * .5f };
+        Laser = Weapon.Laser is { } laser ? new LaserState(laser) : null;
         Reset();
     }
     public RailgunDefinition Definition { get; }
     public WeaponHardpointDefinition Hardpoint { get; }
     public PrimaryWeaponDefinition Weapon { get; }
+    public LaserState? Laser { get; }
+    public bool IsLaser => Laser is not null;
+    public object? DefenseTarget { get; internal set; }
+    internal long DefenseTick = -1;
+    internal GunneryStatus DefenseStatus;
+    public bool HasAmmunition => IsLaser || Rounds > 0;
     public WeaponInstallationDefinition Installation { get; }
     /// <summary>Compiled adapter retained for firing geometry and existing model rigs.</summary>
     public TurretDefinition? Mount { get; }
@@ -39,7 +46,7 @@ public sealed class RailgunState
     public float PreviousYaw { get; internal set; }
     public float PreviousElevation { get; internal set; }
     public int BarrelCount => Mount?.Muzzles.Length ?? 1;
-    public int SalvoRounds => Math.Min(Rounds, BarrelCount);
+    public int SalvoRounds => IsLaser ? 1 : Math.Min(Rounds, BarrelCount);
     public int LastSalvoRounds { get; private set; }
     public double LastFiredAt { get; private set; } = double.NegativeInfinity;
     public uint ShotCount { get; private set; }
@@ -74,18 +81,22 @@ public sealed class RailgunState
         || Direction.AngleTo(worldDirection) <= Mathf.DegToRad(Mount.ToleranceDegrees);
     public int Rounds { get; private set; }
     public float ReloadRemaining { get; private set; }
-    public float Output => _ship.Damage.WeaponFraction(Definition.ModuleId);
+    public float Output => _ship.Damage.WeaponFraction(Definition.ModuleId, usesAmmunition: !IsLaser);
     private float ReloadRate => Output * _ship.Power.WeaponEffect;
     public Vec3d MuzzlePosition => _ship.Position + Vec3d.From(_ship.Orientation * LocalMuzzle);
-    public string Status => _ship.Damage.Destroyed ? "격침" : Output <= 0.01f ? "주포/전력/탄약고 손상"
-        : Rounds <= 0 ? "탄약 소진" : _ship.Power.Overheated ? "과열 · 발사 불가"
+    public string Status => _ship.Damage.Destroyed ? "격침" : Output <= 0.01f ? (IsLaser ? "조사기/전력 손상" : "주포/전력/탄약고 손상")
+        : !HasAmmunition ? "탄약 소진" : _ship.Power.Overheated ? "과열 · 발사 불가"
+        : Laser is { } laser ? laser.Active ? $"조사 중 · 장갑 약화 {laser.FocusFraction*laser.Definition.MaxArmorReduction:P0}" : "레이저 준비"
         : ReloadRemaining > 0 ? ReloadRate <= 0.01f ? "재장전 대기 · 무장 전력 없음"
             : $"재장전 {ReloadRemaining / ReloadRate:0.0}s" : "발사 준비";
-    public bool Ready => !_ship.Damage.Destroyed && Output > 0.01f && Rounds > 0 && ReloadRemaining <= 0 && !_ship.Power.Overheated;
+    public bool Ready => !_ship.Damage.Destroyed && Output > 0.01f && HasAmmunition && ReloadRemaining <= 0 && !_ship.Power.Overheated
+        && (!IsLaser || _ship.Power.WeaponEffect > .01f);
     public void Reset()
     {
         Rounds = Definition.Rounds; ReloadRemaining = 0; Yaw = Elevation = PreviousYaw = PreviousElevation = 0;
         LastSalvoRounds = 0; LastFiredAt = double.NegativeInfinity; ShotCount = 0; _aimDirection = null; _aimRate = Vector3.Zero;
+        Laser?.Reset();
+        DefenseTarget=null;DefenseTick=-1;
     }
     internal void Step(double dt)
     {

@@ -31,12 +31,14 @@ public partial class Hud
         if (weapon is not null && Game.SelectedWeapon == PlayerWeapon.MainGun)
         {
         // 왼쪽 호: 남은 탄약(아래에서 위로).
-        float ammo = weapon.Rounds / (float)weapon.Definition.Rounds;
+        float ammo = weapon.IsLaser ? 1-Mathf.Clamp(controlled.Body.Power.HeatFraction,0,1) : weapon.Rounds / (float)weapon.Definition.Rounds;
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(145), Mathf.DegToRad(70), ammo, ammo > 0.2f ? Dim : Hostile, 3f);
 
         // 오른쪽 호: 재장전 진행. 주포·전력·탄약고 손상으로 쏠 수 없으면 빨간 빈 호.
-        bool disabled = weapon.Output <= 0.01f || weapon.Rounds <= 0 || controlled.Body.Damage.Destroyed || controlled.Body.Power.Overheated;
-        float reload = disabled ? 0f : 1f - weapon.ReloadRemaining / weapon.Definition.ReloadSeconds;
+        bool disabled = weapon.Output <= 0.01f || !weapon.HasAmmunition || controlled.Body.Damage.Destroyed || controlled.Body.Power.Overheated;
+        float reload = disabled ? 0f : weapon.Laser is { } laser ? laser.FocusFraction : 1f - weapon.ReloadRemaining / weapon.Definition.ReloadSeconds;
+        if(weapon.IsLaser && controlled.Body.Power.Overheated)
+            CenteredLabel(c+new Vector2(0,65),"과열 차단 · 냉각 중",12,Hostile);
         ArcGauge(c, CrosshairRadius, Mathf.DegToRad(35), Mathf.DegToRad(-70), reload, weapon.Ready ? Good : Motion, 3f);
         if (disabled)
             DrawArc(c, CrosshairRadius, Mathf.DegToRad(35), Mathf.DegToRad(-35), 12, Hostile, 3f);

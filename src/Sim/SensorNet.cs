@@ -89,7 +89,7 @@ public sealed partial class SensorNet
         : observer.Definition.Sensors.Strength * (1 + observer.Damage.SensorStrengthBonus) * observer.Damage.SensorFraction * observer.Power.SensorEffect;
 
     public static float Signature(ShipBody target) => target.Definition.Sensors.Signature
-        * (1 + target.Damage.SignatureBonus)
+        * (1 + target.Damage.SignatureBonus) * (1 + LaserSignature(target))
         * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction)
         * (1f + (target.Definition.Missiles is { LaunchSignatureFraction: > 0 } missile
             && target.SimTime - target.Ordnance.LastMissileLaunch < missile.LaunchSignatureSeconds ? missile.LaunchSignatureFraction : 0));

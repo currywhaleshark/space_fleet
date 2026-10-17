@@ -136,7 +136,7 @@ public sealed partial class SimWorld
             float side = i % 2 == 0 ? 1 : -1;
             Vec3d station = anchor.Position + Vec3d.From(direction * 7500 + lateral * side * (1000 + i * 450) + Vector3.Up * (i % 3 - 1) * 650);
             bool impaired = WingMemberImpaired(ship);
-            bool exhausted = ship.Railguns.All(g => g.Rounds == 0) && ship.Ordnance.Missiles == 0 && ship.Ordnance.Antimatter.Rounds == 0;
+            bool exhausted = ship.Railguns.All(g => !g.HasAmmunition) && ship.Ordnance.Missiles == 0 && ship.Ordnance.Antimatter.Rounds == 0;
             var mission = impaired || exhausted ? InterceptorMission.Return : wing.Mission;
             if (mission == InterceptorMission.Assault && ship.Ordnance.Antimatter.Rounds == 0) mission = InterceptorMission.AirDefense;
             ShipOrder order = ShipOrder.HoldAt(station);

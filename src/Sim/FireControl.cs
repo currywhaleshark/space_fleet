@@ -82,6 +82,8 @@ public static class FireControl
         Vec3d observedPosition = aimBase + SmoothNoise(seed, time) * error;
         Vector3 observedVelocity = velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * velocityError;
         Vec3d relative = observedPosition - muzzle;
+        if (weapon.IsLaser)
+            return new(true, linked ? "아군 링크 조사" : "직접 조사", relative.ToVector3().Normalized(), observedPosition, 0, error, range) { ViaDatalink = linked };
         Vec3d relativeVelocity = Vec3d.From(observedVelocity - shooter.Velocity);
         if (!Intercept(relative, relativeVelocity, gun.MuzzleSpeed, gun.MaxRange / gun.MuzzleSpeed, out double flight))
             return Invalid("선행 계산 불가");

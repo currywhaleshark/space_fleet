@@ -1,0 +1,130 @@
+[
+  {
+    "hull": "earth_air_defense_cruiser",
+    "incomingPerRun": 12,
+    "layered": false,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 24,
+      "incoming": 48,
+      "hits": 24
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser",
+    "incomingPerRun": 12,
+    "layered": true,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 40,
+      "incoming": 48,
+      "hits": 8
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser",
+    "incomingPerRun": 48,
+    "layered": false,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 16,
+      "incoming": 192,
+      "hits": 176
+    },
+    "laser": {
+      "intercepted": 22,
+      "incoming": 192,
+      "hits": 170
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser",
+    "incomingPerRun": 48,
+    "layered": true,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 25,
+      "incoming": 192,
+      "hits": 167
+    },
+    "laser": {
+      "intercepted": 32,
+      "incoming": 192,
+      "hits": 160
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser_t4",
+    "incomingPerRun": 12,
+    "layered": false,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 24,
+      "incoming": 48,
+      "hits": 24
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser_t4",
+    "incomingPerRun": 12,
+    "layered": true,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 41,
+      "incoming": 48,
+      "hits": 7
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser_t5",
+    "incomingPerRun": 12,
+    "layered": false,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 24,
+      "incoming": 48,
+      "hits": 24
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  },
+  {
+    "hull": "earth_air_defense_cruiser_t5",
+    "incomingPerRun": 12,
+    "layered": true,
+    "runsPerWeapon": 4,
+    "railgun": {
+      "intercepted": 38,
+      "incoming": 48,
+      "hits": 10
+    },
+    "laser": {
+      "intercepted": 48,
+      "incoming": 48,
+      "hits": 0
+    }
+  }
+]

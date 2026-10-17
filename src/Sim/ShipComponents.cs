@@ -82,15 +82,18 @@ public static class ShipComponents
         }
         return Array.AsReadOnly(rows);
     }
-    internal static ShipDefinition Apply(ShipDefinition hull,ShipComponentSelection? selection)
+    internal static ShipDefinition Apply(ShipDefinition hull,ShipComponentSelection? selection,bool useFactoryPrimary=true)
     {
-        if(selection is null||!selection.Ids.Any())return hull;
+        if(selection is not null&&!selection.Ids.Any())selection=null;
+        string? primary=selection?.MainGun??(useFactoryPrimary&&hull.Battery is not null?hull.DefaultMainGun:null);
+        if(selection is null&&primary is null)return hull;
         ValidateSelection(hull,selection);
         if(hull.Components is not null)throw new InvalidDataException("교체 부품을 중복 합성할 수 없습니다.");
-        ComponentEffects E(ComponentSlot slot)=>selection.Get(slot) is { } id?ById(id).Effects:new();
+        var effective=(selection??new()).With(ComponentSlot.MainGun,primary);
+        ComponentEffects E(ComponentSlot slot)=>effective.Get(slot) is { } id?ById(id).Effects:new();
         var gun=E(ComponentSlot.MainGun);var pd=E(ComponentSlot.Secondary);var engine=E(ComponentSlot.Engine);
         var sensor=E(ComponentSlot.Sensor);var generator=E(ComponentSlot.Generator);var shield=E(ComponentSlot.Shield);
-        float massScale=1+selection.Ids.Sum(id=>ById(id).Effects.MassFraction);
+        float massScale=1+effective.Ids.Sum(id=>ById(id).Effects.MassFraction);
         var f=hull.Flight;var p=hull.Power;
         var json=JsonNode.Parse(hull.ToJson())!.AsObject();
         void Set<T>(string name,T value)=>json[name]=JsonNode.Parse(ShipDefinition.SerializeData(value));
@@ -103,25 +106,36 @@ public static class ShipComponents
         Set(nameof(ShipDefinition.Sensors),hull.Sensors with{Strength=hull.Sensors.Strength*sensor.Strength,Signature=hull.Sensors.Signature*sensor.Signature});
         Set(nameof(ShipDefinition.Shield),hull.Shield with{Capacity=hull.Shield.Capacity*shield.Capacity,
             RechargePerSecond=hull.Shield.RechargePerSecond*shield.Recharge,RechargeDelay=hull.Shield.RechargeDelay*shield.Delay});
-        if(selection.Secondary is not null&&hull.PointDefense is { } d)
+        if(selection?.Secondary is not null&&hull.PointDefense is { } d)
             Set(nameof(ShipDefinition.PointDefense),d with{ShotsPerSecond=d.ShotsPerSecond*pd.Rate,DamagePerHit=d.DamagePerHit*pd.Damage,
                 MissileDamagePerHit=pd.MissileDamage is float missileDamage?d.EffectiveMissileDamage*missileDamage:d.MissileDamagePerHit*pd.Damage,
                 RangeMeters=d.RangeMeters*pd.Range,YawRate=d.YawRate*pd.Tracking,ElevationRate=d.ElevationRate*pd.Tracking,
                 ShipPacket=d.EffectiveShipPacket with{Energy=d.EffectiveShipPacket.Energy*pd.Damage,
                     ModuleDamage=d.EffectiveShipPacket.ModuleDamage*pd.Damage,Range=d.RangeMeters*pd.Range}});
-        if(selection.MainGun is { } gunId)
+        if(primary is { } gunId)
         {
-            var b=hull.Battery!;int count=gun.Barrels==0?b.Weapon.BarrelCount:gun.Barrels;
+            var b=hull.Battery!;bool laser=gunId=="main-laser";int count=laser?1:gun.Barrels==0?b.Weapon.BarrelCount:gun.Barrels;
             float energy=gun.SalvoEnergy*b.Weapon.BarrelCount/count;var ballistics=b.Weapon.Railgun!;
             var w=b.Weapon with{Id="component-"+gunId,BarrelCount=count,TraverseSpeedScale=b.Weapon.TraverseSpeedScale*gun.Traverse,
                 Railgun=ballistics with{Energy=ballistics.Energy*energy,PenetrationMm=ballistics.PenetrationMm*Mathf.Pow(energy,.6f),
                     ModuleDamage=ballistics.ModuleDamage*energy,ReloadSeconds=ballistics.ReloadSeconds*gun.Reload,
                     AimErrorScale=ballistics.AimErrorScale*gun.Accuracy,ShotHeatMj=ballistics.ShotHeatMj*gun.ShotHeat}};
+            if(laser)
+            {
+                float barrels=b.Weapon.BarrelCount, cadence=ballistics.ReloadSeconds;
+                float mounts=b.Hardpoints.Length;
+                w=w with{System=PrimaryWeaponSystem.Laser,Railgun=null,BarrelCount=1,
+                    Laser=new LaserDefinition(ballistics.Energy*barrels/cadence*.9f,ballistics.ModuleDamage*barrels/cadence*.9f,
+                        ballistics.PenetrationMm*.32f,
+                        (hull.Power.HeatCapacityMj/16+hull.Power.CoolingMw*.4f)/mounts,
+                        hull.Kind==HullKind.Battleship?40000:hull.Kind==HullKind.Escort?20000:5000,
+                        ballistics.SensorErrorMeters,ballistics.SensorErrorPerKm*3,ballistics.AimErrorScale)};
+            }
             var installs=b.Installations.Select(m=>{
                 var center=(m.Muzzles[0]+m.Muzzles[^1])*.5f;
                 float span=Mathf.Max(Mathf.Abs(m.Muzzles[^1].X-m.Muzzles[0].X)*.5f,Mathf.Abs(center.Z)*.06f);
                 var muzzles=Enumerable.Range(0,count).Select(i=>center+Vector3.Right*(count==1?0:(2f*i/(count-1)-1)*span)).ToArray();
-                return m with{Muzzles=muzzles};}).ToArray();
+                return m with{Muzzles=muzzles,Rounds=laser?0:m.Rounds};}).ToArray();
             json.Remove(nameof(ShipDefinition.Railgun));
             Set(nameof(ShipDefinition.MainBattery),b with{Weapon=w,Installations=installs});
         }

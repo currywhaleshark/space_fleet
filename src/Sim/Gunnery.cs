@@ -55,7 +55,7 @@ public sealed partial class SimWorld
             int rank = state switch { GunneryStatus.Firing => 10, GunneryStatus.Traversing => 9,
                 GunneryStatus.Reload => 8, GunneryStatus.FriendlyLine => 7, GunneryStatus.HullBlocked or GunneryStatus.Obstructed => 6,
                 GunneryStatus.Arc => 5, _ => 4 };
-            if (gun.Output <= .01f || gun.Rounds == 0) rank = 0;
+            if (gun.Output <= .01f || !gun.HasAmmunition) rank = 0;
             if (rank > priority) { priority = rank; status = state; solved = solution; }
         }
         return fired;
@@ -67,7 +67,10 @@ public sealed partial class SimWorld
         solved = null;
         status = GunneryStatus.NoTarget;
         if (ship.Damage.Destroyed || target.Damage.Destroyed || target.Faction == ship.Faction) return false;
-        if (gun.Output <= .01f || gun.Rounds <= 0) { status = GunneryStatus.Reload; return false; }
+        if(gun.DefenseTick==Tick){status=gun.DefenseStatus;return false;}
+        if(AutoLaserCooling(ship,gun))
+        {status=GunneryStatus.Reload;return false;}
+        if (gun.Output <= .01f || !gun.HasAmmunition) { status = GunneryStatus.Reload; return false; }
         SensorTrack track = Sensors.Track(ship.Faction, target);
         if (track.Level < TrackLevel.Locked) { status = GunneryStatus.WaitLock; return false; }
         FiringSolution solution = FireControl.Solve(ship, target, Time, track: track, localAim: localAim, weapon: gun);
@@ -84,7 +87,7 @@ public sealed partial class SimWorld
         if (!gun.Ready) { status = GunneryStatus.Reload; return false; }
         // Armor preview has no state effects. Only evaluate it when it can affect this attempt;
         // preserve every Aim call and the existing range/arc/traverse/reload status precedence.
-        bool worthIt = target.Damage.Shield > 1f
+        bool worthIt = gun.IsLaser || target.Damage.Shield > 1f
             || DamageRay.PreviewArmor(target, gun.MuzzlePosition, solution.Direction, gun.Definition.PenetrationMm, out _);
         if (!worthIt) { status = GunneryStatus.Armor; return false; }
         Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
@@ -143,13 +146,15 @@ public sealed partial class SimWorld
             if (order.PlayerSmallTarget) { order.Status = GunneryStatus.Manual; continue; }
             if (order.Doctrine is FireDoctrine.Hold or FireDoctrine.Manual)
             { order.Status = order.Doctrine == FireDoctrine.Hold ? GunneryStatus.Hold : GunneryStatus.Manual; continue; }
+            GunneryStatus defenseStatus=GunneryStatus.NoTarget;
+            bool defending=order.Doctrine==FireDoctrine.Free&&EngageDefenseBattery(ship,out defenseStatus);
             if (order.Target is { } remembered && Sensors.Memory(ship.Faction,remembered,Time) is not null
                 && order.Doctrine is FireDoctrine.Focus or FireDoctrine.Disable)
             { order.Engaged=remembered; order.Status=GunneryStatus.WaitLock; continue; }
             ShipBody? target = order.Target is { Damage.Destroyed: false } chosen && chosen.Faction != ship.Faction
                 && (order.Doctrine is FireDoctrine.Focus or FireDoctrine.Disable || Sensors.Track(ship.Faction, chosen).Level >= TrackLevel.Locked)
                 ? chosen : order.Doctrine == FireDoctrine.Focus ? null : PickGunneryTarget(ship);
-            if (target is null) { order.Status = GunneryStatus.NoTarget; continue; }
+            if (target is null) { order.Status = defending?defenseStatus:GunneryStatus.NoTarget; continue; }
             order.Engaged = target;
             order.EngagedModule = PickGunneryModule(ship, target, order);
             TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, AiProfile.For(ship.Definition).RailFlightSeconds * 1.5,

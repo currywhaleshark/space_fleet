@@ -148,7 +148,7 @@ public partial class CombatAudioChecks : Node
                 CombatFeedbackChecks.Strike(_world, _blue, _red, HitKind.Critical, 9002);
                 _incoming.Observe(_world, _red);
                 Check(_incoming.PlayCount(CombatSound.Critical)==before+1, "Module destruction plays critical cue");
-                Check(_incoming.GetChildren().OfType<AudioStreamPlayer>().Sum(p=>p.MaxPolyphony)==19, "Seventeen one-shot voices (incl. three missile-launch) plus two loops stay bounded");
+                Check(_incoming.GetChildren().OfType<AudioStreamPlayer>().Sum(p=>p.MaxPolyphony)==20, "Seventeen one-shot voices plus three engine/boost/laser loops stay bounded");
                 _stage++;
             }
             else if (_stage == 8 && elapsed >= 5_800)

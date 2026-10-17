@@ -77,6 +77,7 @@ public sealed partial class SimWorld
     {
         if (!_ships.Contains(shooter) || !System.Array.Exists(shooter.Railguns, g => g == gun))
             return new(false, "월드에 없는 함선/포탑", Failure: FireFailure.NotInWorld);
+        if (gun.IsLaser) return RequestLaser(shooter, gun, direction);
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return new(false, "조준 방향 없음", Failure: FireFailure.NoDirection);
         gun.Aim(direction);
         if (!gun.Ready) return new(false, gun.Status, Failure: FireFailure.NotReady);
@@ -119,7 +120,7 @@ public sealed partial class SimWorld
         FireFailure result = FireFailure.NoGun;
         foreach (RailgunState gun in shooter.Railguns)
         {
-            if (gun.Output <= .01f || gun.Rounds <= 0) continue;
+            if (gun.Output <= .01f || !gun.HasAmmunition) continue;
             FireFailure line = RailLineLocal(shooter, gun, local);
             if (line == FireFailure.None) return line;
             if (result == FireFailure.NoGun || line == FireFailure.HullBlocked) result = line;
@@ -177,7 +178,7 @@ public sealed partial class SimWorld
     public void ResetWeapons()
     {
         foreach (ShipBody ship in _ships) foreach (RailgunState gun in ship.Railguns) gun.Reset();
-        _projectiles.Clear(); _impacts.Clear();
+        _projectiles.Clear(); _impacts.Clear(); Sensors.ResetLasers();
         Array.Clear(_projectileSmallTargets, 0, _projectileSmallCount);
         _projectileSmallCount = 0;
         Array.Clear(_pdMissileSnapshot, 0, _pdMissileSnapshotCount);

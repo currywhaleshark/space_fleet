@@ -13,6 +13,7 @@ internal static class ComponentComparison
     private static float Signature(ShipDefinition d)=>d.Sensors.Signature*(1+d.InstalledEquipment.Sum(m=>m.Equipment.Effects.SignatureFraction));
     internal static string Summary(ComponentSlot slot,ShipDefinition a,ShipDefinition b)=>slot switch
     {
+        ComponentSlot.MainGun when a.Battery?.Weapon.Laser is not null || b.Battery?.Weapon.Laser is not null => LaserSummary(a,b),
         ComponentSlot.MainGun when a.Railgun is {} x&&b.Railgun is {} y =>
             $"발당 에너지 {Change(x.Energy,y.Energy)} · {a.Battery!.Weapon.BarrelCount} → {b.Battery!.Weapon.BarrelCount}연장\n"+
             $"관통 {Change(x.PenetrationMm,y.PenetrationMm,"0")} mm\n장전 {Change(x.ReloadSeconds,y.ReloadSeconds)}초",
@@ -25,6 +26,13 @@ internal static class ComponentComparison
         ComponentSlot.Shield => $"실드 용량 {Change(Shield(a),Shield(b))}\n재충전 {Change(a.Shield.RechargePerSecond,b.Shield.RechargePerSecond)}/초\n재충전 지연 {Change(Delay(a),Delay(b))}초",
         _=>"이 계통을 탑재하지 않은 함선입니다."
     };
+    private static string LaserSummary(ShipDefinition a,ShipDefinition b)
+    {
+        string Describe(ShipDefinition d)=>d.Battery?.Weapon.Laser is { } l
+            ? $"레이저 · 포당 에너지 {l.EnergyPerSecond:0.#}/초\n기본 관통 {l.PenetrationMm:0} mm · {l.RampSeconds:0}초 유지 시 입구 장갑 -{l.MaxArmorReduction:P0}\n기본 폐열 {l.HeatMw:0.#} MW/포 · 반감 거리 {l.FalloffMeters/1000:0} km · 탄약 없음"
+            : $"레일건 · 발당 에너지 {d.Railgun!.Energy:0.#} · {d.Battery!.Weapon.BarrelCount}연장\n관통 {d.Railgun.PenetrationMm:0} mm · 장전 {d.Railgun.ReloadSeconds:0.##}초";
+        return Describe(a)+"\n↓\n"+Describe(b);
+    }
     internal static string Costs(ShipDefinition a,ShipDefinition b)
     {
         float Demand(ShipDefinition d)=>d.Power.Engines+d.Power.Shields+d.Power.Weapons+d.Power.Sensors+d.InstalledEquipment.Sum(m=>m.Equipment.PowerMw);
@@ -33,7 +41,7 @@ internal static class ComponentComparison
     internal static string Fitting(ComponentSlot slot,ShipDefinition a,ShipDefinition b)
     {
         string result=Summary(slot,a,b);
-        if(slot==ComponentSlot.MainGun&&a.Railgun is {} x&&b.Railgun is {} y)
+        if(slot==ComponentSlot.MainGun&&a.Battery?.Weapon.Laser is null&&b.Battery?.Weapon.Laser is null&&a.Railgun is {} x&&b.Railgun is {} y)
         {
             result+=$"\n{(x.Mounts is {Length:>0}?"포탑 일제":"발사")} 발열 {Change(x.ShotHeatMj*a.Battery!.Weapon.BarrelCount,y.ShotHeatMj*b.Battery!.Weapon.BarrelCount)} MJ";
             if(x.AimErrorScale!=y.AimErrorScale)result+=$"\n조준 오차 배율 {Change(x.AimErrorScale,y.AimErrorScale)}";

@@ -36,14 +36,22 @@ static class MainBatteryChecks
         {
             string before = original.ToJson();
             var battery = original.Battery!;
-            Check(original.MainBattery is null && battery is not null, original.Id + ": stock schema retained");
-            Check(!before.Contains("MainBattery") && !before.Contains("PrimaryMounts"), "Derived data does not change legacy JSON");
+            if(original.DefaultMainGun is null)
+            {
+                Check(original.MainBattery is null && battery is not null, original.Id + ": stock schema retained");
+                Check(!before.Contains("MainBattery") && !before.Contains("PrimaryMounts"), "Derived data does not change legacy JSON");
+                var selected = ShipDefinitions.All.Any(d => d.Id == original.Id)
+                    ? ShipLoadouts.Resolve(new(original.Id) { MainWeapon = new(battery.Weapon) })
+                    : ShipVariants.Resolve(original.Id, null, null, new(battery.Weapon));
+                Check(selected.Definition.ToJson() == before, "Explicit stock selection also preserves the old schema");
+            }
+            else
+            {
+                Check(original.MainBattery?.Weapon.Laser is not null,"Factory energy weapon uses the native battery schema");
+                Check(ShipDefinition.Parse(before,true).ToJson()==before,"Factory native battery round trips without cost duplication");
+            }
             Check(battery.Hardpoints.Length == (original.Railgun!.Mounts?.Length ?? 1), "All stock sockets are represented");
-            Check(battery.Installations.Sum(m => m.Rounds) == original.Railgun.Rounds, "Legacy ammunition preserved");
-            var selected = ShipDefinitions.All.Any(d => d.Id == original.Id)
-                ? ShipLoadouts.Resolve(new(original.Id) { MainWeapon = new(battery.Weapon) })
-                : ShipVariants.Resolve(original.Id, null, null, new(battery.Weapon));
-            Check(selected.Definition.ToJson() == before, "Explicit stock selection also preserves the old schema");
+            Check(battery.Installations.Sum(m => m.Rounds) == original.Railgun.Rounds, "Stock ammunition preserved");
             var native = Native(original);
             string saved = native.ToJson();
             var parsed = JsonNode.Parse(saved)!.AsObject();
@@ -94,8 +102,10 @@ static class MainBatteryChecks
             Check(wa.Projectiles.Select(p => (p.ModuleId, p.Barrel, p.Position, p.Velocity, p.Packet, p.Age))
                 .SequenceEqual(wb.Projectiles.Select(p => (p.ModuleId, p.Barrel, p.Position, p.Velocity, p.Packet, p.Age))), "Actual projectile states unchanged");
             wa.Step(); wb.Step();
+            if(a.Railgun!.IsLaser)Check(a.Railguns.Select(g=>(g.Laser!.Pulses,g.Laser.Active,g.Laser.FocusFraction)).SequenceEqual(
+                b.Railguns.Select(g=>(g.Laser!.Pulses,g.Laser.Active,g.Laser.FocusFraction))),"Factory native laser cadence and focus remain identical");
         }
-        Check(a.Railguns.Sum(g => g.ShotCount) > 0, "Compatibility fixture actually fires");
+        Check(a.Railguns.Any(g => (g.IsLaser?g.Laser!.Pulses:g.ShotCount)>0), "Compatibility fixture actually fires");
     }
 
     private static PrimaryWeaponSelection Triple(ShipDefinition hull)
@@ -190,7 +200,7 @@ static class MainBatteryChecks
         Bad(b with { Hardpoints = new[] { b.Hardpoints[0] with { ModuleId = "missing" }, b.Hardpoints[1] } }, "missing damage module");
         Bad(b with { Weapon = b.Weapon with { Size = WeaponSize.ExtraLarge } }, "oversized weapon");
         Bad(b with { Weapon = b.Weapon with { BarrelCount = 3 } }, "mixed barrel count");
-        Bad(b with { Weapon = b.Weapon with { System = PrimaryWeaponSystem.Laser } }, "unimplemented system cannot masquerade as a railgun");
+        Bad(b with { Weapon = b.Weapon with { System = PrimaryWeaponSystem.Laser } }, "laser requires dedicated parameters instead of ballistic data");
         Bad(b with { Weapon = b.Weapon with { TraverseSpeedScale = 1.1f } }, "cannot exceed hull drive rating");
         Bad(b with { Weapon = b.Weapon with { MassKg = -1 } }, "negative mass");
         Bad(b with { Weapon = b.Weapon with { PowerMw = 1000 } }, "authored power inconsistent");

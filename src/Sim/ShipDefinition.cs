@@ -58,6 +58,9 @@ public sealed class ShipDefinition
     public MainBatteryDefinition? MainBattery { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ShipComponentSelection? Components { get; init; }
+    // Applied after research by ShipLoadouts; null selections mean the hull's factory weapon.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? DefaultMainGun { get; init; }
     public MissileDefinition? Missiles { get; init; }
     public AntimatterDefinition? Antimatter { get; init; }
     public DefenseDroneDefinition? DefenseDrones { get; init; }
@@ -139,6 +142,7 @@ public sealed class ShipDefinition
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
         ShipRoleValidation.Validate(this);
+        Require(DefaultMainGun is null or "main-laser", "invalid factory primary");
         Require(Positive(StructureHitPoints), "invalid structure hit points");
         Require(DamageControl is not null && DamageControl.Kits >= 0 && DamageControl.Kits <= 32
             && Positive(DamageControl.RepairSeconds) && Positive(DamageControl.RestoreFraction)
@@ -180,7 +184,7 @@ public sealed class ShipDefinition
         {
             Require(Modules.Any(m => m.Id == gun.ModuleId && m.Kind == ModuleKind.Gun), "railgun must reference a gun module");
             Require(gun.Muzzle.IsFinite() && Positive(gun.MuzzleSpeed) && Positive(gun.ReloadSeconds)
-                && Positive(gun.MaxRange) && gun.Rounds > 0 && float.IsFinite(gun.TraverseDegrees) && gun.TraverseDegrees >= 0 && gun.TraverseDegrees <= 180
+                && Positive(gun.MaxRange) && (MainBattery?.Weapon.System == PrimaryWeaponSystem.Laser ? gun.Rounds == 0 : gun.Rounds > 0) && float.IsFinite(gun.TraverseDegrees) && gun.TraverseDegrees >= 0 && gun.TraverseDegrees <= 180
                 && float.IsFinite(gun.SensorErrorMeters) && gun.SensorErrorMeters >= 0
                 && float.IsFinite(gun.SensorErrorPerKm) && gun.SensorErrorPerKm >= 0
                 && float.IsFinite(gun.VelocityError) && gun.VelocityError >= 0
@@ -203,7 +207,8 @@ public sealed class ShipDefinition
                     Require(Positive(m.YawDegrees) && m.YawDegrees <= 180 && float.IsFinite(m.MinElevation)
                         && float.IsFinite(m.MaxElevation) && m.MinElevation >= -90 && m.MinElevation <= 0
                         && m.MaxElevation > 0 && m.MaxElevation <= 90 && Positive(m.YawRate) && Positive(m.ElevationRate)
-                        && Positive(m.ToleranceDegrees) && m.ToleranceDegrees <= 1 && m.Rounds > 0, "invalid turret drive/ammunition");
+                        && Positive(m.ToleranceDegrees) && m.ToleranceDegrees <= 1
+                        && (MainBattery?.Weapon.System == PrimaryWeaponSystem.Laser ? m.Rounds == 0 : m.Rounds > 0), "invalid turret drive/ammunition");
                 }
                 Require(mounts.Sum(m => m.Rounds) == gun.Rounds, "turret ammunition must equal ship magazine loadout");
             }

@@ -36,9 +36,9 @@ public partial class Hud
         var ring = new Vector2(x + 52f, cy);
         CenteredLabel(ring, GunneryLabels.Doctrine(order.Doctrine), 14, order.Doctrine == FireDoctrine.Hold ? Motion : Text);
         var battery = controlled.Body.Railguns;
-        float ammo = battery.Sum(g => g.Rounds) / (float)battery.Sum(g => g.Definition.Rounds);
+        float ammo = gun.IsLaser ? 1-Mathf.Clamp(controlled.Body.Power.HeatFraction,0,1) : battery.Sum(g => g.Rounds) / (float)battery.Sum(g => g.Definition.Rounds);
         ArcGauge(ring, 40f, Mathf.DegToRad(145), Mathf.DegToRad(70), ammo, Friendly, 4);
-        float reload = battery.Average(g => g.Output <= .01f || controlled.Body.Power.Overheated ? 0 : 1-g.ReloadRemaining/g.Definition.ReloadSeconds);
+        float reload = battery.Average(g => g.Output <= .01f || controlled.Body.Power.Overheated ? 0 : g.Laser is { } laser ? laser.FocusFraction : 1-g.ReloadRemaining/g.Definition.ReloadSeconds);
         ArcGauge(ring, 40f, Mathf.DegToRad(35), Mathf.DegToRad(-70), reload, battery.Any(g => g.Ready) ? Good : Motion, 4);
         DrawOrdnanceArcs(controlled, ring, 40f);
 
@@ -70,10 +70,10 @@ public partial class Hud
         for (int i = 0; i < battery.Length; i++)
         {
             RailgunState mount = battery[i];
-            string label = mount.Output <= .01f ? $"{i+1} 파손" : mount.Rounds == 0 ? $"{i+1} 소진"
-                : mount.Ready ? $"{i+1} 준비" : $"{i+1} 장전";
+            string label = mount.Output <= .01f ? $"{i+1} 파손" : !mount.HasAmmunition ? $"{i+1} 소진"
+                : mount.Laser?.Active == true ? $"{i+1} 조사" : mount.Ready ? $"{i+1} 준비" : $"{i+1} 장전";
             CenteredLabel(new(mx + (i-(battery.Length-1)*.5f)*52, cy+49), label, 10,
-                mount.Output <= .01f || mount.Rounds == 0 ? Hostile : mount.Ready ? Good : Motion);
+                mount.Output <= .01f || !mount.HasAmmunition ? Hostile : mount.Ready ? Good : Motion);
         }
 
         if (panel.Size.X > 270f)

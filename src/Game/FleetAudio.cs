@@ -9,7 +9,7 @@ namespace SpaceFleet.Game;
 /// <summary>Nearby fleet sounds. Camera-relative spatial audio, independent of simulation RNG and floating origin.</summary>
 public partial class FleetAudio : Node3D
 {
-    internal const int EngineSlots = 4, BurstSlots = 12;
+    internal const int EngineSlots = 4, BurstSlots = 12, LaserSlots = 4;
     private sealed class EngineVoice
     {
         public required AudioStreamPlayer3D Engine, Boost;
@@ -32,6 +32,8 @@ public partial class FleetAudio : Node3D
     private readonly List<Cue> _pending = new();
     private readonly List<EngineVoice> _engines = new();
     private readonly List<BurstVoice> _bursts = new();
+    private readonly List<AudioStreamPlayer3D> _laserVoices = new();
+    internal int ActiveLasers => _laserVoices.Count(v=>v.Playing);
     private readonly Dictionary<AudioStreamPlayer3D, float> _resume = new();
     private readonly Dictionary<CombatSound, AudioStream[]> _clips = new();
     private readonly Dictionary<CombatSound, int> _variants = new();
@@ -68,6 +70,8 @@ public partial class FleetAudio : Node3D
         for (int i = 0; i < EngineSlots; i++)
             _engines.Add(new EngineVoice { Engine = Player($"Engine{i}", engine), Boost = Player($"Boost{i}", boost) });
         for (int i = 0; i < BurstSlots; i++) _bursts.Add(new BurstVoice { Player = Player($"Burst{i}") });
+        var laser=Loop("laser_emitter_loop");
+        for(int i=0;i<LaserSlots;i++)_laserVoices.Add(Player($"Laser{i}",laser));
     }
 
     private AudioStream? Load(string name)
@@ -211,6 +215,15 @@ public partial class FleetAudio : Node3D
     {
         if (_paused || !_enabled || !_listenerReady || !AssetsReady || _world is null || dt <= 0) return;
         _clock += dt;
+        // At most four neighboring continuous emitters, separate from the followed ship's onboard loop.
+        var beams=_world.Ships.Where(s=>s!=_controlled&&!s.Damage.Destroyed&&s.Railguns.Any(g=>g.Laser?.Active==true))
+            .Select(s=>(Ship:s,Gain:.22f*DistanceGain((s.Position-_ear).Length(),1800,24000)))
+            .Where(v=>v.Gain>.002f).OrderByDescending(v=>v.Gain).Take(_laserVoices.Count).ToArray();
+        for(int i=0;i<_laserVoices.Count;i++)
+        {
+            if(i>=beams.Length){_laserVoices[i].Stop();continue;}
+            var source=beams[i];Drive(_laserVoices[i],source.Ship.Position,source.Gain,BodyPitch(source.Ship));
+        }
         // Carbon Audio's relevance/culling approach: bounded voices, range and
         // event importance, plus a small preference for already active emitters.
         var audible = _world.Ships.Where(s => s != _controlled && EngineGain(s) > .002f)
@@ -293,7 +306,7 @@ public partial class FleetAudio : Node3D
             _pending.Clear(); _resume.Clear();
             // 3D Play is deferred until the next physics frame. StreamPaused
             // cannot pause that pending start; explicitly suspend at its offset.
-            foreach (var player in _engines.SelectMany(v => new[] { v.Engine, v.Boost }).Concat(_bursts.Select(v => v.Player)))
+            foreach (var player in _engines.SelectMany(v => new[] { v.Engine, v.Boost }).Concat(_bursts.Select(v => v.Player)).Concat(_laserVoices))
             {
                 if (player.Playing) _resume[player] = player.GetPlaybackPosition();
                 player.Stop();
@@ -311,5 +324,6 @@ public partial class FleetAudio : Node3D
         foreach (var voice in _engines)
         { voice.Engine.Stop(); voice.Boost.Stop(); voice.Ship = null; voice.Level = voice.BoostLevel = 0; }
         foreach (var voice in _bursts) { voice.Player.Stop(); voice.EndsAt = 0; }
+        foreach(var voice in _laserVoices)voice.Stop();
     }
 }

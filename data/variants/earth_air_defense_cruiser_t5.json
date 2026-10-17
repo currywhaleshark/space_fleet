@@ -5,6 +5,7 @@
   "patch": {
     "id": "earth_air_defense_cruiser_t5",
     "branch": "AirDefenseCruiser",
+    "defaultMainGun": "main-laser",
     "modelId": "earth_air_defense_cruiser_t5",
     "squadron": {
       "role": "AirDefenseSquadron",

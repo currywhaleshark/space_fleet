@@ -31,8 +31,8 @@ public partial class FleetAudioChecks : Node3D
             _audio = new FleetAudio(); AddChild(_audio);
             _audio.SyncListener(Vec3d.Zero, Basis.Identity);
             Check(_audio.AssetsReady, "Fleet banks and loops load");
-            Check(_audio.GetChildren().OfType<AudioStreamPlayer3D>().Count() == FleetAudio.EngineSlots * 2 + FleetAudio.BurstSlots,
-                "Fleet uses a bounded 20-voice pool");
+            Check(_audio.GetChildren().OfType<AudioStreamPlayer3D>().Count() == FleetAudio.EngineSlots * 2 + FleetAudio.BurstSlots + FleetAudio.LaserSlots,
+                "Fleet uses a bounded 24-voice pool including four nearby lasers");
             Check(_audio.GetChildren().OfType<AudioStreamPlayer3D>().All(p => p.Bus == SoundSettings.Bus && p.MaxPolyphony == 1),
                 "All spatial voices share the existing mute, volume and limiter bus");
             Functional();

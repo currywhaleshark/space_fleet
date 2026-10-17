@@ -167,7 +167,7 @@ public partial class HangarView : Control
             foreach(var system in Enum.GetValues<ComponentSlot>())
             {
                 int index=(int)system;var id=parts?.Get(system);
-                string name=id is null?"기본 "+ShipComponents.Name(system):ShipComponents.ById(id).Name;
+                string name=id is null?(system==ComponentSlot.MainGun&&def.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(system)):ShipComponents.ById(id).Name;
                 Item(name,MenuArt.Component(system,id,def),new(340+index%3*265,658+index/3*58,250,52),()=>SelectSystem(system),
                     name+"\n"+ShipComponents.Name(system)+" · 교체 부품 선택\n"+(id is null?"기본 장착 계통":ShipComponents.ById(id).Description),
                     _system==system).SetMeta("focus_key","system-"+system);
@@ -227,9 +227,12 @@ public partial class HangarView : Control
     {
         var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);
         string? installed=fit.Components?.Get(_system);
+        if(_system==ComponentSlot.MainGun&&installed==def.DefaultMainGun)installed=null;
         Label(ShipComponents.Name(_system)+" 교체",new(1170,425,385,32),19,Blue);
         var stockProblem=SystemProblem(fit,null);
-        var stock=Item("기본 "+ShipComponents.Name(_system),MenuArt.Component(_system,hull:def),new(1170,465,385,68),()=>InstallSystem(null),
+        var stockHull=ShipDefinitions.ById(def.Id);
+        string stockName=_system==ComponentSlot.MainGun&&stockHull.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(_system);
+        var stock=Item(stockName,MenuArt.Component(_system,hull:stockHull),new(1170,465,385,68),()=>InstallSystem(null),
             "연구 비용 없이 기본형으로 복귀",installed is null,status:stockProblem is not null?"장착 불가":installed is null?"장착 중":"");
         stock.SetMeta("focus_key","component-stock");
         stock.TooltipText=SystemProblem(fit,null)??"연구 비용 없이 기본형으로 복귀";
@@ -237,15 +240,15 @@ public partial class HangarView : Control
         if(!stock.Disabled){var original=FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,null)}).Definition;
             stock.TooltipText+="\n"+ComponentComparison.Summary(_system,def,original)+"\n"+ComponentComparison.Costs(def,original);}
         int row=0;
-        foreach(var part in ShipComponents.All.Where(p=>p.Slot==_system&&ShipComponents.Available(def,p)))
+        foreach(var part in ShipComponents.All.Where(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun))
         {
             bool unlocked=research.HasComponent(def.Id,part.Id);int cost=research.ComponentCost(def.Id,part.Id);
             string? problem=SystemProblem(fit,part.Id);
             if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
-            float y=545+row++*84;
+            float y=545+row++*72;
             string action=installed==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 연구 및 장착";
             string state=problem is not null?(unlocked?"장착 불가":$"{cost:N0} RP · 연구 불가"):action;
-            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(1170,y,385,76),()=>InstallSystem(part.Id,true),"",installed==part.Id,status:state);
+            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(1170,y,385,64),()=>InstallSystem(part.Id,true),"",installed==part.Id,status:state);
             button.AddThemeFontSizeOverride("font_size",17);button.SetMeta("focus_key","component-"+part.Id);
             button.Disabled=problem is not null;
             string comparison=part.Description,costs="";

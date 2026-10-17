@@ -1,0 +1,32 @@
+{
+  "name": "SpaceFleet-20261017-lasers-v2-Windows-x64",
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 40 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 59 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 10504 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.668",
+    "PASS: 120 fleet audio checks",
+    "PASS: 17 laser render/audio/equipment checks",
+    "PASS: 294 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ],
+  "groups": 16,
+  "assertions": 11813,
+  "archiveSha256": "41399affe545f3e938064e96e063bd64d480376cd656339d3ad835278e3691bb",
+  "dllSha256": "f091214bcc0bdf6a03415296eae82346b915b11542807d54b3241e16a605705f",
+  "dllMatchesCompiled": true,
+  "compiledDll": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\.godot\\mono\\temp\\bin\\ExportRelease\\win-x64\\SpaceFleet.dll",
+  "executable": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261017-lasers-v2-Windows-x64\\SpaceFleet.exe",
+  "builtAt": "2026-10-17T13:07:38.2045982+09:00",
+  "sourceCommit": "5d70e422dc84db5c74f70afcbe63976b158a2f3b",
+  "localChanges": true,
+  "archiveCrcVerified": true
+}

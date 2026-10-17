@@ -41,7 +41,7 @@ public partial class ShipModelChecks : Node
                     Node3D? hull = model.Root.GetNodeOrNull<Node3D>("BlenderHull");
                     Check(hull is not null, $"{kind}: imported asset must load without procedural fallback");
                     var meshes = ImportedShipModels.Meshes(hull!).ToArray();
-                    Check(meshes.Length == 1 + 2 * ((def.Railgun?.Mounts?.Length ?? 0) + (def.PointDefense?.Mounts.Length ?? 0)),
+                    Check(meshes.Length == 1 + (def.Battery?.Weapon.Laser is null?2:3) * (def.Railgun?.Mounts?.Length ?? 0) + 2 * (def.PointDefense?.Mounts.Length ?? 0),
                         $"{kind}: hull, main and PD moving groups must be merged separately");
                     MeshInstance3D mesh = meshes.Single(m => m.Name == "FleetHull");
                     Aabb bounds = mesh.GetAabb();
@@ -51,7 +51,7 @@ public partial class ShipModelChecks : Node
                         $"{kind}: long axis must be Z after Blender import");
                     Check(mesh.Mesh.GetSurfaceCount() <= 12, $"{kind}: excessive draw surfaces");
                     Check(mesh.Transform.IsEqualApprox(Transform3D.Identity), $"{kind}: mesh transforms should be baked");
-                    var nodes = Nodes(hull!).ToDictionary(n => n.Name.ToString());
+                    var nodes = Nodes(hull!).Where(n=>n.Name!="ReplacementLaserEmitter"&&n.Name!="LaserOptic").ToDictionary(n => n.Name.ToString());
                     Check(model.Turrets.Count == (def.Railgun?.Mounts?.Length ?? 0), $"{kind}: every turret is bound");
                     foreach (var rig in model.Turrets)
                     {
@@ -60,7 +60,7 @@ public partial class ShipModelChecks : Node
                         Check(rig.Elevation.GetParent() == rig.Yaw && rig.Recoil.GetParent() == rig.Elevation,
                             $"{kind}/{rig.ModuleId}: independent yaw/elevation/recoil hierarchy");
                         var housing = rig.Yaw.GetChildren().OfType<MeshInstance3D>().Single();
-                        var barrels = rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single();
+                        var barrels = rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single(n=>n.Name!="LaserOptic");
                         Check(housing.Transform.IsEqualApprox(Transform3D.Identity) && !housing.TopLevel
                             && barrels.Transform.IsEqualApprox(Transform3D.Identity) && !barrels.TopLevel,
                             $"{kind}/{rig.ModuleId}: visible meshes inherit the turret rig transforms");
@@ -83,7 +83,7 @@ public partial class ShipModelChecks : Node
                         Check(nodes.TryGetValue(key, out Node3D? socket) && socket.Position.DistanceTo(module.Center) < .001f,
                             $"{kind}: missing or transformed damage-module socket {key}");
                     }
-                    Check(nodes["socket_railgun_muzzle"].Position.DistanceTo(def.Railgun!.Muzzle) < .001f,
+                    Check(nodes["socket_railgun_muzzle"].Position.DistanceTo(def.DefaultMainGun is null?def.Railgun!.Muzzle:CruiserModelSource(def).Railgun!.Muzzle) < .001f,
                         $"{kind}: railgun muzzle differs from simulation");
                     Check(nodes["socket_missile_launch"].Position.DistanceTo(def.Missiles!.LaunchPoint) < .001f,
                         $"{kind}: missile socket differs from simulation");
@@ -126,6 +126,8 @@ public partial class ShipModelChecks : Node
         CheckReplacementModels();
     }
 
+    private static ShipDefinition CruiserModelSource(ShipDefinition def)=>ShipVariants.Resolve(def.Id,new[]{"{\"defaultMainGun\":null}"}).Definition;
+
     private void CheckReplacementModels()
     {
         foreach(var original in FleetLoadouts.Hulls.DistinctBy(d=>d.ModelId))
@@ -143,14 +145,14 @@ public partial class ShipModelChecks : Node
                         {
                             var mount=mounts.Single(m=>m.ModuleId==rig.ModuleId);
                             Check(rig.Muzzles.Count==mount.Muzzles.Length,"Replacement rig binds the selected barrel count");
-                            Check(rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single().Name=="ReplacementPrimaryBarrels",
+                            Check(def.Battery!.Weapon.Laser is not null ? rig.Recoil.GetChildren().OfType<MeshInstance3D>().Count()==2 && rig.Recoil.FindChild("ReplacementLaserEmitter",false,false) is MeshInstance3D : rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single().Name=="ReplacementPrimaryBarrels",
                                 "Original barrels are replaced, without duplicate floating guns");
                             for(int i=0;i<rig.Muzzles.Count;i++)
                                 Check(rig.Muzzles[i].GlobalPosition.DistanceTo(mount.Muzzle(0,0,i))<.002f,
                                     "Replacement mesh muzzle uses the projectile exit position");
                         }
                     }
-                    else Check(model.Root.FindChild("ReplacementFixedReceiver",true,false) is MeshInstance3D,
+                    else Check(model.Root.FindChild("ReplacementFixedReceiver",true,false) is Node3D,
                         "Fixed primary uses an acceleration pack while preserving its original muzzle");
                 }
                 finally{model.Root.Free();}
@@ -305,10 +307,10 @@ public partial class ShipModelChecks : Node
             Check(attempt.Shots == body.Railguns.Sum(g=>g.BarrelCount), $"{def.Id}: visual broadside fires every installed barrel");
             view.Sync(origin, 1, .016f);
             var flashes = Nodes(view).Where(n => n.Name == "MuzzleFlash").ToArray();
-            Check(flashes.Count(n => n.Visible) == body.Railguns.Sum(g=>g.BarrelCount), $"{def.Id}: all fired barrels flash together");
+            Check(flashes.Count(n => n.Visible) == (body.Railgun!.IsLaser?0:body.Railguns.Sum(g=>g.BarrelCount)), $"{def.Id}: all fired barrels flash together");
             for (int i = 0; i < 3; i++) world.Step();
             view.Sync(origin, 1, .05f);
-            Check(Nodes(view).Where(n => n.Name.ToString().StartsWith("recoil_gun_")).All(n => n.Position.Z > 0),
+            Check(Nodes(view).Where(n => n.Name.ToString().StartsWith("recoil_gun_")).All(n => body.Railgun!.IsLaser ? n.Position.IsZeroApprox() : n.Position.Z > 0),
                 $"{def.Kind}: firing recoils the barrel groups");
             for (int i = 0; i < 60; i++) world.Step();
             view.Sync(origin, 1, 1);
@@ -337,8 +339,8 @@ public partial class ShipModelChecks : Node
                 foreach(var gun in body.Railguns.Where(g=>g.Mount!.Ventral==(side<0)))
                 {
                     var key=gun.Definition.ModuleId.Replace('-','_');
-                    var barrel=(MeshInstance3D)view.FindChild($"mesh_recoil_{key}",true,false);
-                    Check(Math.Abs(gun.Yaw)>.5f && gun.Elevation>.2f && gun.ShotCount>0,
+                    var barrel=(MeshInstance3D)(view.FindChild($"recoil_{key}",true,false).GetChildren().OfType<MeshInstance3D>().Single(n=>n.Name!="LaserOptic"));
+                    Check(Math.Abs(gun.Yaw)>.5f && gun.Elevation>.2f && (gun.IsLaser?gun.Laser!.Pulses>0:gun.ShotCount>0),
                         $"{def.Kind}/{key}: automatic fire slews sideways and elevates toward {(side>0 ? "upper" : "lower")} target");
                     Check((-barrel.GlobalBasis.Z).Dot(gun.Direction)>.99999f,
                         $"{def.Kind}/{key}: visible barrel follows automatic azimuth and elevation");

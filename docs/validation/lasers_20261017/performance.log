@@ -1,0 +1,4 @@
+LASER PERF ships=24 emitters=48 firing=False p50_ms=0.183 p95_ms=0.327 p99_ms=0.420 max_ms=21.288 bytes_tick=392 pulses=0
+LASER PERF ships=24 emitters=48 firing=True p50_ms=0.833 p95_ms=1.819 p99_ms=2.252 max_ms=5.320 bytes_tick=10390 pulses=6816
+LASER PERF ships=240 emitters=480 firing=False p50_ms=1.015 p95_ms=2.745 p99_ms=5.326 max_ms=9.097 bytes_tick=2402 pulses=0
+LASER PERF ships=240 emitters=480 firing=True p50_ms=2.847 p95_ms=12.535 p99_ms=14.642 max_ms=19.943 bytes_tick=98928 pulses=68160

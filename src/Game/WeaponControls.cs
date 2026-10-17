@@ -18,7 +18,7 @@ public partial class ScaleTest
         { Notify("반물질 강습어뢰 미탑재",true); return; }
         if(weapon==PlayerWeapon.Missile && ship.Definition.Missiles is null)
         { Notify("미사일 미탑재",true); return; }
-        if(weapon!=SelectedWeapon) ship.Ordnance.Antimatter.Cancel();
+        if(weapon!=SelectedWeapon) { ship.Ordnance.Antimatter.Cancel(); SimWorld.StopLasers(ship); }
         SelectedWeapon=weapon;
         // A held click must not become a shot from the newly selected weapon.
         _fireReleaseGuard=Input.IsActionPressed(InputSetup.Fire) || Input.IsMouseButtonPressed(MouseButton.Left);
@@ -62,6 +62,7 @@ public partial class ScaleTest
     public override void _Notification(int what)
     {
         if(what!=NotificationApplicationFocusOut) return;
+        if(Controlled?.Body is { } ship) SimWorld.StopLasers(ship);
         CloseRoster();
         Camera?.ResetTelescope(); _selectionPointer=null; _fireReleaseGuard=true; JettisonProgress=0;
         if (MenuOpen) { _radial.Cancel(); _radialAction=null; }
@@ -73,7 +74,7 @@ public partial class Hud
     private void DrawWeaponSelection(ShipBody ship,Vector2 screen)
     {
         var start=new Vector2(screen.X*.5f-195,screen.Y-189);
-        string[] labels={ $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",
+        string[] labels={ ship.Railgun?.IsLaser == true ? "1 레이저 ∞" : $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",
             ship.Definition.Antimatter is null ? "3 어뢰 —" : $"3 어뢰 {ship.Ordnance.Antimatter.Rounds}" };
         for(int i=0;i<labels.Length;i++)
         {
