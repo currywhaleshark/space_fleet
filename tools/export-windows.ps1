@@ -1,4 +1,4 @@
-# Export a portable Windows x64 release, test the exported executable, and zip the whole folder.
+﻿# Export a portable Windows x64 release, test the exported executable, and zip the whole folder.
 param([string]$Name = ('SpaceFleet-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '-Windows-x64'))
 $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\godot.ps1"
@@ -91,9 +91,16 @@ SpaceFleet.exe를 실행하세요. Godot와 .NET을 별도로 설치할 필요�
 다른 곳으로 옮길 때는 이 폴더 전체를 복사하세요.
 SpaceFleet.pck와 data_* 폴더도 실행에 필요합니다.
 
-시작 → 내 함선·편대 선택 → 출격 → 10 대 10 편대 AI 무작위 매칭.
+메인메뉴 → 격납고 → 편대·장비 편성 → 출격 → 10 대 10 편대 AI 무작위 매칭.
+처음에는 지구권·화성권 T1 호위함이 제공됩니다. 전투로 얻은 진영별 RP로 연구소에서 함급과 영구 개량을 해금합니다.
+격납고에서 편대원별 함급·프리셋을 선택하고 주포·부포/PD·엔진·센서·발전기·실드를 교체할 수 있습니다.
+함선은 이미지 카드, 장비는 아이콘과 이름으로 선택합니다. 마우스를 올리면 툴팁에 현재 → 교체 후 수치와 전력·질량·이득/대가가 표시됩니다.
+키보드로 장비를 선택한 뒤 F1을 누르면 상세창이 열립니다. Esc 또는 바깥 클릭으로 닫습니다.
+같은 함급·프리셋을 공유하는 편대원에게 함께 적용됩니다. 외형 교체는 주포에 적용됩니다.
+연구·격납고 선택은 자동 저장되며, 연구 부족 점수와 장착 불가 사유는 해당 항목의 툴팁에서 확인합니다.
 Tab 유지: 양팀 편성·생존 현황. 내 함선 격침 시 내 편대원에게 지휘권 인계.
 내 편대 전멸 시 계속 관전 또는 메인으로 나가기. 관전 중 ← → 함선 변경, 중클릭 회전, 휠 줌.
+관전 음향은 관전 중인 함선의 엔진·사격·피격과 그 주변 함대를 기준으로 들립니다.
 F1: 조작 도움말 / Esc: 일시정지·메뉴.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
 F 전력 / B 사격 / N 편대 / 4 드론 방어구역: 누른 채 방향 선택 후 놓기.
@@ -110,8 +117,9 @@ M 전장 지도 / F10 효과음 켜기·끄기.
 AI는 장애물을 우회하고 명령 범위 안에서 사선을 확보합니다. 요격함은 정찰·강습 우회 시 엄폐를 선호합니다.
 요격함 N: 정찰/방공/제공/강습/복귀/자동 임무/프로브 사출.
 요격함 경량 미사일 4발: 함선/미사일 겸용. R 적 미사일 지정 → 2 → 좌클릭으로 요격.
-지구 85G/화성 95G, 대함 위력 약 15% 감소. AM 어뢰는 3발, 전투 중 보충 없음.
-프로브는 2개·수명 120초. M 지도에서 Shift로 위치·탐지범위를 미리 보고 좌클릭으로 전개.
+일반 요격함 경량 미사일은 지구 85G/화성 95G, 대함 위력 약 15% 감소. AM 어뢰는 일반 요격함 기준 3발, 전투 중 보충 없음.
+프로브는 일반 요격함 기준 2개·수명 120초. 정찰함·강습함 등 함급별 탄약과 프로브 수는 격납고 및 HUD에서 확인하세요.
+M 지도에서 Shift로 위치·탐지범위를 미리 보고 좌클릭으로 프로브를 전개합니다.
 청색은 아군 함선, 녹색은 프로브, 황색은 전개 예정 탐지범위. 반투명 구체가 겹치면 통합 영역으로 표시.
 R: 마우스(비행/망원은 중앙 조준선)에 가장 가까운 적 함선·미사일·프로브 지정.
 요격함: 1 주포 → R 미사일 지정 → 좌클릭 유지. 기수가 선행점으로 추적하고 사계 진입 시 발사.
@@ -124,7 +132,7 @@ THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','match-flow-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
+foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

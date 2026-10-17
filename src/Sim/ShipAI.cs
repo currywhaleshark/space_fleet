@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 
 namespace SpaceFleet.Sim;
@@ -26,19 +27,8 @@ public readonly record struct ShipOrder(OrderKind Kind, ShipBody? Target = null,
 /// </summary>
 public readonly record struct AiProfile(float StandoffMeters, float RailFlightSeconds, float MissileRangeMeters, bool AttackRuns)
 {
-    public static AiProfile For(ShipDefinition definition) => definition.Design != DesignFamily.Mars ? For(definition.Kind) : definition.Kind switch
-    {
-        HullKind.Battleship => new(90_000f, 7.5f, 140_000f, false),
-        HullKind.Escort => new(52_000f, 6.5f, 110_000f, false),
-        _ => new(7_000f, 2.5f, 15_000f, true),
-    };
-    public static AiProfile For(HullKind kind) => kind switch
-    {
-        // 미사일 사거리 > 레일건 유효 거리(전함 12 km/s × 8 s ≈ 96 km): 장거리 미사일전이 포격전보다 먼저 온다.
-        HullKind.Battleship => new(60_000f, 8f, 140_000f, false),
-        HullKind.Escort => new(30_000f, 5f, 110_000f, false),
-        _ => new(6_000f, 2.5f, 15_000f, true),
-    };
+    public static AiProfile For(ShipDefinition definition) => definition.Ai.Profile;
+    public static AiProfile For(HullKind kind) => For(ShipDefinitions.For(kind));
 }
 
 /// <summary>
@@ -53,14 +43,7 @@ public sealed class ShipBrain
         Order = order;
         Profile = AiProfile.For(ship.Definition);
         _side = fleetSlot % 2 == 0 ? 1f : -1f;
-        DefaultPips = ship.Class.Kind == HullKind.Interceptor ? new[] { 2, 2, 2, 2, 0 } : new[] { 2, 2, 1, 1, 2 };
-        if (ship.Definition.Design == DesignFamily.Mars)
-            DefaultPips = ship.Class.Kind switch
-            {
-                HullKind.Battleship => new[] { 2, 1, 2, 2, 1 },
-                HullKind.Escort => new[] { 2, 1, 1, 2, 2 },
-                _ => new[] { 3, 1, 2, 2, 0 },
-            };
+        DefaultPips = ship.Definition.Ai.DefaultPips.ToArray();
     }
 
     public ShipBody Ship { get; }
@@ -72,7 +55,7 @@ public sealed class ShipBrain
     public Vector3 FormationOffset { get; set; }
     /// <summary>
     /// 기본 전력 배분(추진·실드·무장·센서·ECM). 위협이 없을 때 돌아간다.
-    /// 전함·호위함은 ECM 2핍(무장·센서 1핍씩)을 켜고, 요격함은 끈다.
+    /// 함체 데이터의 기본값을 사용한다. 교전 중 방공·ECCM 필요에 따라 임시 조정한다.
     /// </summary>
     public int[] DefaultPips { get; set; }
 
@@ -80,7 +63,7 @@ public sealed class ShipBrain
     public ShipBody? Target => Order.Kind == OrderKind.Attack ? Order.Target : Order.FireAt;
     /// <summary>HUD·검증용: 마지막 판단 요약.</summary>
     public string Activity { get; internal set; } = "";
-    /// <summary>방해를 뚫으려고 센서 핍을 올린 상태.</summary>
+    /// <summary>방해 또는 약한 항적에 대응하려고 센서 핍을 올린 상태.</summary>
     public bool Eccm { get; internal set; }
 
     public object? SmallTarget { get; internal set; }

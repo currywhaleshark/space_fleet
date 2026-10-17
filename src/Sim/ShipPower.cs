@@ -87,14 +87,14 @@ public sealed class ShipPower
     public bool Overheated { get; private set; }
     /// <summary>지금 빼낼 수 있는 열(MW). 냉각 모듈 손상에 따라 줄어든다.</summary>
     public float CoolingMw => Definition.CoolingMw * _ship.Damage.CoolingFraction;
-    /// <summary>이번 틱에 실제로 소비한 전력 합 = 발열(MW, 레일건 순간 발열 제외).</summary>
+    /// <summary>이번 틱의 소비 전력 + 장비 추가 폐열(MW, 레일건 순간 발열 제외).</summary>
     public float HeatInMw { get; private set; }
 
     public int Pips(PowerChannel channel) => _pips[(int)channel];
     /// <summary>채널의 실제 소비 전력(MW, 전압 강하 반영).</summary>
     public float DrawMw(PowerChannel channel) => _draw[(int)channel];
     /// <summary>채널을 4핍으로 최대 활동시킬 때의 소비 전력(MW). HUD 눈금용(부스트 중 추진은 넘을 수 있다).</summary>
-    public float MaxDrawMw(PowerChannel channel) => Definition.Nominal(channel) * DrawByPips[MaxPips];
+    public float MaxDrawMw(PowerChannel channel) => (Definition.Nominal(channel) + _ship.Damage.EquipmentPowerMw(channel)) * DrawByPips[MaxPips];
 
     /// <summary>채널 성능 배율. 핍 배율 × 공급 비율 × 과열 제한.</summary>
     public float Effect(PowerChannel channel) => _ship.Damage.Destroyed ? 0f
@@ -175,7 +175,7 @@ public sealed class ShipPower
         for (int i = 0; i < ChannelCount; i++)
         {
             float[] draws = i == (int)PowerChannel.Ecm ? EcmDrawByPips : DrawByPips;
-            _draw[i] = def.Nominal((PowerChannel)i) * draws[_pips[i]] * activity[i];
+            _draw[i] = (def.Nominal((PowerChannel)i) + damage.EquipmentPowerMw((PowerChannel)i)) * draws[_pips[i]] * activity[i];
             demand += _draw[i];
         }
         DemandMw = demand;
@@ -186,6 +186,8 @@ public sealed class ShipPower
         {
             _draw[i] *= Supply;
             heatIn += _draw[i];
+            float[] draws = i == (int)PowerChannel.Ecm ? EcmDrawByPips : DrawByPips;
+            heatIn += damage.EquipmentHeatMw((PowerChannel)i) * draws[_pips[i]] * activity[i] * Supply;
         }
         HeatInMw = heatIn;
         HeatMj = Mathf.Clamp(HeatMj + (heatIn - CoolingMw) * (float)dt, 0f, def.HeatCapacityMj * HeatCeiling);

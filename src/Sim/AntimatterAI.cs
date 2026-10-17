@@ -11,13 +11,15 @@ public sealed partial class SimWorld
         if (state.Definition is not { } def || state.Rounds == 0) return;
         if (state.Warning) { state.Jettison(); return; }
         double range = (track.EstimatedPosition-ship.Position).Length();
-        bool inSector = (ship.Position-track.EstimatedPosition).ToVector3().AngleTo(track.ObservedOrientation*InfiltrationSector)
-            < Mathf.DegToRad(InfiltrationConeDegrees);
-        if (target.Class.Kind == HullKind.Interceptor || track.Level < TrackLevel.Locked || Time < brain.BreakUntil
-            || !inSector || range > def.RecommendedMaxMeters+1500)
+        // Prepare on identification before the firing window. A short lock dip or the
+        // defender rolling its stern cone must not restart the entire arming sequence.
+        double prepareRange = def.RecommendedMaxMeters + 3000;
+        double cancelRange = prepareRange + 2000;
+        if (target.Class.Kind == HullKind.Interceptor || track.Level < TrackLevel.Identified || Time < brain.BreakUntil
+            || range > cancelRange)
         { state.Cancel(); return; }
-        if (state.Mode == AntimatterMode.Safe) state.BeginArming();
-        if (!state.Ready || range > def.RecommendedMaxMeters) return;
+        if (state.Mode == AntimatterMode.Safe && range <= prepareRange) state.BeginArming();
+        if (!state.Ready || track.Level < TrackLevel.Locked || range > def.RecommendedMaxMeters) return;
         Vector3 localAim = brain.AimModule?.Definition.Center ?? Vector3.Zero;
         Vec3d launch = ship.Position+Vec3d.From(ship.Orientation*def.Flight.LaunchPoint);
         Vector3 aim = (track.EstimatedPosition+Vec3d.From(track.ObservedOrientation*localAim)-launch).ToVector3();

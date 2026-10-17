@@ -1,0 +1,867 @@
+{
+  "Before": [
+    {
+      "Distance": 20000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 31,
+        "Mars": 1
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 11.90000000000017,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 1,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 5.10833333333332,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 29,
+          "Disabled": 2
+        }
+      }
+    },
+    {
+      "Distance": 20000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 32
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 46.09166666666533,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 249,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 6.249999999999983,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 2,
+          "TorpedoHits": 1,
+          "Intercepts": 161,
+          "Destroyed": 32,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 32
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 26.79999999999976,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 15.850000000000367,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 31,
+          "Disabled": 1
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 29,
+        "Mars": 3
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 142.30833333333874,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 13,
+          "TorpedoHits": 3,
+          "Intercepts": 0,
+          "Destroyed": 4,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 16.033333333333704,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 132,
+          "TorpedoHits": 65,
+          "Intercepts": 0,
+          "Destroyed": 32,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Mars": 23,
+        "Earth": 9
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 55.424999999998136,
+          "NeverFired": 4,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 20,
+          "Disabled": 3
+        },
+        "Mars": {
+          "MedianFightingSeconds": 55.424999999998136,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 9,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Mars": 29,
+        "Earth": 3
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 61.64999999999778,
+          "NeverFired": 4,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 41,
+          "TorpedoHits": 13,
+          "Intercepts": 96,
+          "Destroyed": 30,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 391.67499999997244,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 64,
+          "TorpedoHits": 14,
+          "Intercepts": 27,
+          "Destroyed": 4,
+          "Disabled": 0
+        }
+      }
+    }
+  ],
+  "After": [
+    {
+      "Distance": 20000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 30,
+        "Mars": 2
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 88.3333333333296,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 2,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 10.050000000000079,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 21,
+          "Disabled": 9
+        }
+      }
+    },
+    {
+      "Distance": 20000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 32
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 68.22499999999741,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 206,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 9.383333333333379,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 21,
+          "TorpedoHits": 5,
+          "Intercepts": 228,
+          "Destroyed": 19,
+          "Disabled": 13
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Mars": 5,
+        "Earth": 27
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 88.5083333333296,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 1,
+          "Disabled": 3
+        },
+        "Mars": {
+          "MedianFightingSeconds": 28.508333333332995,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 20,
+          "Disabled": 7
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Earth": 31,
+        "Mars": 1
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 180.55000000003582,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 32,
+          "TorpedoHits": 24,
+          "Intercepts": 1,
+          "Destroyed": 1,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 25.366666666666507,
+          "NeverFired": 0,
+          "JointTorpedoes": 48,
+          "JointBattles": 6,
+          "Torpedoes": 196,
+          "TorpedoHits": 119,
+          "Intercepts": 0,
+          "Destroyed": 29,
+          "Disabled": 2
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 32,
+      "Winners": {
+        "Mars": 22,
+        "Earth": 10
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 92.58333333332936,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 22,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 94.8499999999959,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 9,
+          "Disabled": 1
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 32,
+      "Winners": {
+        "Mars": 21,
+        "Earth": 11
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 190.2833333333769,
+          "NeverFired": 0,
+          "JointTorpedoes": 46,
+          "JointBattles": 5,
+          "Torpedoes": 222,
+          "TorpedoHits": 137,
+          "Intercepts": 0,
+          "Destroyed": 22,
+          "Disabled": 3
+        },
+        "Mars": {
+          "MedianFightingSeconds": 227.26666666673967,
+          "NeverFired": 0,
+          "JointTorpedoes": 152,
+          "JointBattles": 16,
+          "Torpedoes": 184,
+          "TorpedoHits": 54,
+          "Intercepts": 2,
+          "Destroyed": 10,
+          "Disabled": 2
+        }
+      }
+    }
+  ],
+  "HoldoutBefore": [
+    {
+      "Distance": 20000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Mars": 1,
+        "Earth": 23
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 20.483333333333306,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 1,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 7.333333333333313,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 22,
+          "Disabled": 1
+        }
+      }
+    },
+    {
+      "Distance": 20000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 24
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 45.691666666665355,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 166,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 6.891666666666648,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 2,
+          "TorpedoHits": 1,
+          "Intercepts": 106,
+          "Destroyed": 24,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 24
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 25.033333333333193,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 20.366666666666784,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 23,
+          "Disabled": 1
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 21,
+        "Mars": 3
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 139.81666666667007,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 6,
+          "TorpedoHits": 1,
+          "Intercepts": 0,
+          "Destroyed": 4,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 16.033333333333704,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 89,
+          "TorpedoHits": 45,
+          "Intercepts": 0,
+          "Destroyed": 24,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 6,
+        "Mars": 18
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 58.51666666666463,
+          "NeverFired": 4,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 15,
+          "Disabled": 3
+        },
+        "Mars": {
+          "MedianFightingSeconds": 86.81666666666302,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 6,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Mars": 21,
+        "Earth": 3
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 63.0999999999977,
+          "NeverFired": 4,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 18,
+          "TorpedoHits": 9,
+          "Intercepts": 76,
+          "Destroyed": 22,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 347.9833333333455,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 46,
+          "TorpedoHits": 11,
+          "Intercepts": 18,
+          "Destroyed": 3,
+          "Disabled": 0
+        }
+      }
+    }
+  ],
+  "HoldoutAfter": [
+    {
+      "Distance": 20000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 22,
+        "Mars": 2
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 84.26666666666317,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 2,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 9.941666666666741,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 15,
+          "Disabled": 7
+        }
+      }
+    },
+    {
+      "Distance": 20000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 24
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 71.12499999999724,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 138,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 9.616666666666724,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 21,
+          "TorpedoHits": 5,
+          "Intercepts": 131,
+          "Destroyed": 13,
+          "Disabled": 11
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 22,
+        "Mars": 2
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 58.483333333331295,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 0,
+          "Disabled": 1
+        },
+        "Mars": {
+          "MedianFightingSeconds": 28.483333333332997,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 16,
+          "Disabled": 6
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 24
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 183.17500000003793,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 32,
+          "TorpedoHits": 24,
+          "Intercepts": 1,
+          "Destroyed": 0,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 25.366666666666507,
+          "NeverFired": 0,
+          "JointTorpedoes": 9,
+          "JointBattles": 3,
+          "Torpedoes": 144,
+          "TorpedoHits": 75,
+          "Intercepts": 0,
+          "Destroyed": 23,
+          "Disabled": 1
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        0,
+        0
+      ],
+      "Games": 24,
+      "Winners": {
+        "Mars": 16,
+        "Earth": 8
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 92.58333333332936,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 16,
+          "Disabled": 0
+        },
+        "Mars": {
+          "MedianFightingSeconds": 92.58333333332936,
+          "NeverFired": 0,
+          "JointTorpedoes": 0,
+          "JointBattles": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "Intercepts": 0,
+          "Destroyed": 8,
+          "Disabled": 0
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "Wings": [
+        5,
+        5
+      ],
+      "Games": 24,
+      "Winners": {
+        "Earth": 10,
+        "Mars": 14
+      },
+      "Sides": {
+        "Earth": {
+          "MedianFightingSeconds": 189.64166666670974,
+          "NeverFired": 0,
+          "JointTorpedoes": 36,
+          "JointBattles": 3,
+          "Torpedoes": 147,
+          "TorpedoHits": 93,
+          "Intercepts": 0,
+          "Destroyed": 15,
+          "Disabled": 2
+        },
+        "Mars": {
+          "MedianFightingSeconds": 200.88333333338534,
+          "NeverFired": 0,
+          "JointTorpedoes": 91,
+          "JointBattles": 11,
+          "Torpedoes": 123,
+          "TorpedoHits": 36,
+          "Intercepts": 0,
+          "Destroyed": 8,
+          "Disabled": 2
+        }
+      }
+    }
+  ]
+}

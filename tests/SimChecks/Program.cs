@@ -8,6 +8,19 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--components")){ComponentChecks.Run();return;}
+        if(args.Contains("--hardpoints")){MainBatteryChecks.Run();return;}
+        if(args.Contains("--long-range")){LongRangeBalanceChecks.Run();return;}
+        if(args.Contains("--engagement")){EngagementChecks.Run();return;}
+        if(args.Contains("--engagement-timing")){EngagementTimingChecks.Run();return;}
+        if(args.Contains("--tier-branches")){TierBranchChecks.Run();return;}
+        if(args.Contains("--progression")){ProgressionChecks.Run();return;}
+        if(args.Contains("--starter-battle")){ProgressionChecks.Battles();return;}
+        if(args.Contains("--squad-loadouts")){FleetLoadoutChecks.Run();return;}
+        if(args.Contains("--equipped-battles")){FleetLoadoutChecks.BattleSmoke();return;}
+        if(args.Contains("--cruisers")){CruiserChecks.Run();return;}
+        if(args.Contains("--equipment")){EquipmentChecks.Run();return;}
+        if(args.Contains("--loadouts")){LoadoutChecks.Run();return;}
         if(args.Contains("--matchmaking")){MatchmakingChecks.Run();return;}
         if(args.Contains("--critical")){DamageChecks.Run();CriticalDamageChecks.Run();DamageControlChecks.Run();return;}
         if(args.Contains("--structure")){StructuralDamageChecks.Run();DamageChecks.Run();CriticalDamageChecks.Run();DamageControlChecks.Run();return;}
@@ -49,6 +62,9 @@ static class SimChecks
         if (args.Contains("--drones")) { DefenseDroneChecks.Run(); DroneCombatChecks.Run(); return; }
         if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
         if (args.Contains("--am-moving")) { AntimatterTrials.Moving(); return; }
+        ComponentChecks.Run();
+        MainBatteryChecks.Run();
+        EngagementTimingChecks.Run();
         CheckCombinedG();
         CheckInertialFlight();
         CheckTurnBySpeed();
@@ -78,6 +94,7 @@ static class SimChecks
         PowerChecks.Run();
         SensorChecks.Run();
         DatalinkChecks.Run();
+        LongRangeBalanceChecks.Run();
         MissileChecks.Run();
         CounterMissileChecks.Run();
         InfiltrationChecks.Run();
@@ -89,6 +106,7 @@ static class SimChecks
         DefenseDroneChecks.Run();
         DroneCombatChecks.Run();
         AntimatterChecks.Run();
+        EngagementChecks.Run();
         RadialChecks.Run();
         SquadCommandChecks.Run();
         AIChecks.Run();
@@ -103,6 +121,12 @@ static class SimChecks
         DefenseBroadphaseChecks.Run();
         SensorTraversalChecks.Run();
         DesignChecks.Run();
+        LoadoutChecks.Run();
+        EquipmentChecks.Run();
+        CruiserChecks.Run();
+        FleetLoadoutChecks.Run();
+        ProgressionChecks.Run();
+        TierBranchChecks.Run();
     }
 
     private static ShipBody Create(ShipClass? shipClass = null, float speed = 0f)

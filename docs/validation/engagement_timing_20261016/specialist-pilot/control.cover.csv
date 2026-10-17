@@ -1,0 +1,3 @@
+seed,mirror,enabled,pathMeters,pathExposureMeters,exposureSum,samples,entrants,arrivals,lostBeforeArrival,budgetFallbacks
+1,0,True,0.000,0.000,0.000,0,0,0,0,0
+1,1,True,0.000,0.000,0.000,0,0,0,0,0

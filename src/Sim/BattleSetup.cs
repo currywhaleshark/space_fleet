@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace SpaceFleet.Sim;
@@ -32,8 +33,14 @@ public static class BattleSetup
     {
         if (world.Ships.Count != 0 || !double.IsFinite(config.StartDistance) || config.StartDistance <= 0)
             throw new ArgumentException("Duel requires an empty world and a positive separation");
-        var blue = world.Add(new ShipBody("DUEL-B", ShipDefinitions.For(kind, config.BlueDesign), Faction.Blue));
-        var red = world.Add(new ShipBody("DUEL-R", ShipDefinitions.For(kind, config.RedDesign), Faction.Red));
+        ShipDefinition Hull(string call, DesignFamily design)
+        {
+            var def=config.HullOverrides?.TryGetValue(call,out var id)==true?ShipDefinitions.ById(id):ShipDefinitions.For(kind,design);
+            if(def.Kind!=kind)throw new ArgumentException("Duel override must keep its physical hull class");
+            return def;
+        }
+        var blue = world.Add(new ShipBody("DUEL-B", Hull("DUEL-B",config.BlueDesign), Faction.Blue));
+        var red = world.Add(new ShipBody("DUEL-R", Hull("DUEL-R",config.RedDesign), Faction.Red));
         var random = new Random(config.Seed);
         foreach (var ship in new[] { blue, red })
         {
@@ -102,7 +109,9 @@ public static class BattleSetup
             for (int i = 0; i < ic.Length; i++)
                 ic[i] = Make(blue ? $"IC-2{i + 1}" : $"IC-X{i + 1}", ShipClass.Interceptor, 2, 420 + 60 * i, 110 - 25 * i, 850 + 50 * i);
             world.AddSquadron(blue ? "전투단" : "적 전투단", faction, SquadronRole.BattleGroup, bg);
-            world.AddSquadron(blue ? "호위 전대" : "적 호위 전대", faction, SquadronRole.EscortSquadron, es);
+            var role = es.All(s => s.Definition.Squadron.Role == es[0].Definition.Squadron.Role)
+                ? es[0].Definition.Squadron.Role : SquadronRole.EscortSquadron;
+            world.AddSquadron(blue ? "호위 전대" : "적 호위 전대", faction, role, es);
             world.AddSquadron(blue ? "요격 편대" : "적 요격 편대", faction, SquadronRole.InterceptorWing, ic);
             flagships[(int)faction] = bg[0];
         }

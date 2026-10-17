@@ -1,0 +1,60 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+10:38:24 | INFO: Starting glTF 2.0 export
+10:38:24 | INFO: Extracting primitive: hull.001
+10:38:24 | INFO: Primitives created: 10
+10:38:25 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+10:38:25 | INFO: Primitives created: 3
+10:38:25 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+10:38:25 | INFO: Primitives created: 3
+10:38:25 | INFO: Extracting primitive: PD 0 receiver.001
+10:38:25 | INFO: Primitives created: 1
+10:38:25 | INFO: Extracting primitive: PD 0 barrel.002
+10:38:25 | INFO: Primitives created: 2
+10:38:25 | INFO: Extracting primitive: PD 1 receiver.001
+10:38:25 | INFO: Primitives created: 1
+10:38:25 | INFO: Extracting primitive: PD 1 barrel.002
+10:38:25 | INFO: Primitives created: 2
+10:38:25 | INFO: Extracting primitive: PD 2 receiver.001
+10:38:25 | INFO: Primitives created: 1
+10:38:25 | INFO: Extracting primitive: PD 2 barrel.002
+10:38:25 | INFO: Primitives created: 2
+10:38:25 | INFO: Extracting primitive: PD 3 receiver.001
+10:38:25 | INFO: Primitives created: 1
+10:38:25 | INFO: Extracting primitive: PD 3 barrel.002
+10:38:25 | INFO: Primitives created: 2
+10:38:25 | INFO: Finished glTF 2.0 export in 0.13147807121276855 s
+00:04.203  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_1540_e47b3153317093ac8ad80afddd0104b3.png.png"
+00:11.921  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\earth_starter_escort_hero.png'
+00:19.421  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\earth_starter_escort_underside.png'
+00:26.593  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\earth_starter_escort_top.png'
+00:33.687  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\earth_starter_escort_rear.png'
+
+Info: Saved as "earth_starter_escort.blend"
+BUILT earth_starter_escort 9420 triangles
+10:38:54 | INFO: Starting glTF 2.0 export
+10:38:54 | INFO: Extracting primitive: hull.001
+10:38:54 | INFO: Primitives created: 10
+10:38:54 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+10:38:54 | INFO: Primitives created: 3
+10:38:54 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+10:38:54 | INFO: Primitives created: 3
+10:38:54 | INFO: Extracting primitive: PD 0 receiver.001
+10:38:54 | INFO: Primitives created: 1
+10:38:54 | INFO: Extracting primitive: PD 0 barrel.002
+10:38:54 | INFO: Primitives created: 2
+10:38:54 | INFO: Extracting primitive: PD 1 receiver.001
+10:38:54 | INFO: Primitives created: 1
+10:38:54 | INFO: Extracting primitive: PD 1 barrel.002
+10:38:55 | INFO: Primitives created: 2
+10:38:55 | INFO: Finished glTF 2.0 export in 0.05886983871459961 s
+00:34.171  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_1540_3e836d9cd21ca8ec17d0c3cf78bc6aaa.png.png"
+00:41.765  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\mars_starter_escort_hero.png'
+00:49.234  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\mars_starter_escort_underside.png'
+00:56.359  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\mars_starter_escort_top.png'
+01:03.468  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t1_starter_models_20261017\mars_starter_escort_rear.png'
+
+Info: Saved as "mars_starter_escort.blend"
+BUILT mars_starter_escort 9456 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

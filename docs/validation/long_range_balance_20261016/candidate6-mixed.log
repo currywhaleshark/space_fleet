@@ -1,0 +1,55 @@
+done 1/normal: Blue:0.000/0.000/120.250/88.750/363.842/226.050/236.250/215.011/242.879/439.130/-;M=92/36;R=130/11;AM=0/0|Red:0.000/0.000/0.250/94.000/162.108/160.217/209.807/236.283/422.483/236.283/-;M=110/28;R=470/264;AM=10/3|Approach:90.000,Missile:210.000,Gunnery:30.000,Sniping:60.000,Brawl:56.633|collisions=0|events=132|winner=Blue;time=446.633 wall=11.8s
+done 2/normal: Blue:0.000/0.000/120.250/88.750/260.383/226.017/236.218/211.645/542.813/537.356/-;M=120/18;R=120/65;AM=0/0|Red:0.000/0.000/0.250/94.000/162.129/160.217/209.472/236.254/581.136/389.430/-;M=127/31;R=706/348;AM=0/0|Approach:60.000,Missile:180.000,Gunnery:180.000,Sniping:365.367,Brawl:30.000|collisions=0|events=220|winner=Blue;time=815.367 wall=20.8s
+done 1/mirror: Blue:0.000/0.000/131.250/100.000/202.379/207.400/217.764/209.612/255.116/406.285/-;M=100/24;R=18/16;AM=0/0|Red:0.000/0.000/0.250/90.250/123.817/132.183/209.587/217.798/431.658/-/-;M=131/42;R=704/351;AM=0/0|Approach:120.000,Missile:120.000,Gunnery:150.000,Sniping:367.583,Brawl:0.000|collisions=0|events=134|winner=Red;time=757.583 wall=14.7s
+done 2/mirror: Blue:0.000/0.000/131.250/99.983/202.375/208.150/218.536/211.676/387.550/649.544/-;M=120/19;R=284/35;AM=0/0|Red:0.000/0.000/0.250/90.000/123.596/132.200/209.442/218.555/409.488/791.285/-;M=128/42;R=1101/454;AM=0/0|Approach:90.000,Missile:180.000,Gunnery:210.000,Sniping:382.550,Brawl:0.000|collisions=0|events=195|winner=Blue;time=862.550 wall=16.5s
+AM PointDefense: 5 (mean launch 3678m, closest hull 863.1m)
+AM Hit: 3 (mean launch 4288m, closest hull 0.0m)
+AM Drone: 2 (mean launch 3947m, closest hull 253.4m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+Blue Locked: median=125.75 min=120.25 max=131.25 occurred=4/4
+Red Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+MissileLaunch: median=89.38 min=88.75 max=90.25 occurred=4/4
+Blue MissileLaunch: median=94.37 min=88.75 max=100.00 occurred=4/4
+Red MissileLaunch: median=92.12 min=90.00 max=94.00 occurred=4/4
+MissileHit: median=142.96 min=123.60 max=162.13 occurred=4/4
+Blue MissileHit: median=231.38 min=202.38 max=363.84 occurred=4/4
+Red MissileHit: median=142.96 min=123.60 max=162.13 occurred=4/4
+RailLaunch: median=146.21 min=132.18 max=160.22 occurred=4/4
+Blue RailLaunch: median=217.08 min=207.40 max=226.05 occurred=4/4
+Red RailLaunch: median=146.21 min=132.18 max=160.22 occurred=4/4
+RailHit: median=209.53 min=209.44 max=209.81 occurred=4/4
+Blue RailHit: median=227.38 min=217.76 max=236.25 occurred=4/4
+Red RailHit: median=209.53 min=209.44 max=209.81 occurred=4/4
+ModuleDestroyed: median=211.66 min=209.61 max=215.01 occurred=4/4
+Blue ModuleDestroyed: median=211.66 min=209.61 max=215.01 occurred=4/4
+Red ModuleDestroyed: median=227.40 min=217.80 max=236.28 occurred=4/4
+Disabled: median=321.33 min=242.88 max=542.81 occurred=4/4
+Blue Disabled: median=321.33 min=242.88 max=542.81 occurred=4/4
+Red Disabled: median=427.07 min=409.49 max=581.14 occurred=4/4
+Destroyed: median=397.86 min=236.28 max=649.54 occurred=4/4
+Blue Destroyed: median=488.24 min=406.29 max=649.54 occurred=4/4
+Red Destroyed: median=389.43 min=236.28 max=791.28 occurred=3/4
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=786.48 min=446.63 max=862.55 occurred=4/4
+Wall: median=15.60 min=11.77 max=20.81 occurred=4/4
+wins Blue: 3/4
+wins Red: 1/4
+draws: 0/4; unresolved: 0
+position normal: Blue 2/2, Red 0/2
+position mirror: Blue 1/2, Red 1/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 4/4
+phase Gunnery >=60s: 3/4
+phase Sniping >=60s: 4/4
+phase Brawl >=60s: 0/4
+friendly collisions: mean=0.00
+batch wall=38.0s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\docs\validation\long_range_balance_20261016\candidate6\mixed.csv

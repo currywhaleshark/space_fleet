@@ -1,0 +1,56 @@
+done 1/normal: Blue:0.000/0.000/105.500/74.500/107.988/112.150/148.273/237.049/239.083/376.080/-;M=131/39;R=410/70;AM=4/1|Red:0.000/0.000/111.000/80.283/113.696/106.650/125.325/218.258/362.879/-/-;M=132/31;R=906/214;AM=0/0|Approach:90.000,Missile:30.000,Gunnery:270.000,Sniping:199.850,Brawl:60.000|collisions=0|events=107|winner=Red;time=649.850 wall=17.7s
+done 2/normal: Blue:0.000/0.000/64.500/72.517/106.154/107.683/114.912/116.561/506.504/495.576/-;M=132/48;R=267/93;AM=7/4|Red:0.000/0.000/101.750/70.233/172.529/104.633/116.552/264.092/-/339.659/-;M=132/29;R=1161/391;AM=13/5|Approach:90.000,Missile:60.000,Gunnery:180.000,Sniping:270.000,Brawl:159.667|collisions=0|events=212|winner=Red;time=759.667 wall=19.7s
+done 2/mirror: Blue:0.000/0.000/99.750/68.000/102.008/101.650/151.335/200.502/514.887/484.110/-;M=127/47;R=120/33;AM=0/0|Red:0.000/0.000/102.250/69.400/142.504/100.600/182.720/56.688/-/56.688/-;M=106/33;R=1018/360;AM=0/0|Approach:150.000,Missile:90.000,Gunnery:210.000,Sniping:428.183,Brawl:0.000|collisions=2|events=214|winner=Red;time=878.183 wall=17.2s
+done 1/mirror: Blue:0.000/0.000/100.250/69.000/167.363/102.050/109.369/179.533/-/360.614/-;M=132/34;R=1078/469;AM=0/0|Red:0.000/0.000/102.750/71.750/207.750/104.433/111.723/229.719/473.935/483.182/-;M=132/36;R=176/108;AM=0/0|Approach:180.000,Missile:30.000,Gunnery:330.000,Sniping:314.900,Brawl:150.000|collisions=0|events=217|winner=Blue;time=1004.900 wall=19.8s
+AM Expired: 8 (mean launch 4699m, closest hull 62.4m)
+AM Hit: 10 (mean launch 4373m, closest hull 0.5m)
+AM Drone: 1 (mean launch 5455m, closest hull 73.7m)
+AM PointDefense: 2 (mean launch 3324m, closest hull 1008.5m)
+AM InFlight at outcome: 3
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=100.00 min=64.50 max=105.50 occurred=4/4
+Blue Locked: median=100.00 min=64.50 max=105.50 occurred=4/4
+Red Locked: median=102.50 min=101.75 max=111.00 occurred=4/4
+MissileLaunch: median=69.62 min=68.00 max=74.50 occurred=4/4
+Blue MissileLaunch: median=70.76 min=68.00 max=74.50 occurred=4/4
+Red MissileLaunch: median=70.99 min=69.40 max=80.28 occurred=4/4
+MissileHit: median=107.07 min=102.01 max=167.36 occurred=4/4
+Blue MissileHit: median=107.07 min=102.01 max=167.36 occurred=4/4
+Red MissileHit: median=157.52 min=113.70 max=207.75 occurred=4/4
+RailLaunch: median=103.34 min=100.60 max=106.65 occurred=4/4
+Blue RailLaunch: median=104.87 min=101.65 max=112.15 occurred=4/4
+Red RailLaunch: median=104.53 min=100.60 max=106.65 occurred=4/4
+RailHit: median=120.12 min=109.37 max=151.34 occurred=4/4
+Blue RailHit: median=131.59 min=109.37 max=151.34 occurred=4/4
+Red RailHit: median=120.94 min=111.72 max=182.72 occurred=4/4
+ModuleDestroyed: median=148.05 min=56.69 max=218.26 occurred=4/4
+Blue ModuleDestroyed: median=190.02 min=116.56 max=237.05 occurred=4/4
+Red ModuleDestroyed: median=223.99 min=56.69 max=264.09 occurred=4/4
+Disabled: median=490.22 min=239.08 max=514.89 occurred=4/4
+Blue Disabled: median=506.50 min=239.08 max=514.89 occurred=3/4
+Red Disabled: median=418.41 min=362.88 max=473.94 occurred=2/4
+Destroyed: median=350.14 min=56.69 max=376.08 occurred=4/4
+Blue Destroyed: median=430.09 min=360.61 max=495.58 occurred=4/4
+Red Destroyed: median=339.66 min=56.69 max=483.18 occurred=3/4
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=818.92 min=649.85 max=1004.90 occurred=4/4
+Wall: median=18.71 min=17.17 max=19.76 occurred=4/4
+wins Blue: 1/4
+wins Red: 3/4
+draws: 0/4; unresolved: 0
+position normal: Blue 0/2, Red 2/2
+position mirror: Blue 1/2, Red 1/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 2/4
+phase Gunnery >=60s: 4/4
+phase Sniping >=60s: 4/4
+phase Brawl >=60s: 3/4
+friendly collisions: mean=0.50
+batch wall=38.3s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\docs\validation\engagement_ai_20261015\final\mars.csv

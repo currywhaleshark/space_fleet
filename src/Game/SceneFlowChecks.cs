@@ -17,7 +17,7 @@ public partial class Main
     private void CheckSceneFlow()
     {
         int frame=++_flowFrame;
-        if(frame==10){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Select,"Title button selects roles");}
+        if(frame==10){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Hangar,"Title opens the hangar first");ChangeScreen(BattleScreen.Select);}
         if(frame==14)
         {
             _overlay.ActivateButton(3);
@@ -128,7 +128,7 @@ public partial class Main
         if(frame==450)
         {
             Verify(Screen==BattleScreen.Result&&Battle!.TimeScale==1,"Outcome opens result after delay at x1");
-            _overlay.ActivateButton(1);Verify(Screen==BattleScreen.Select&&Battle is null,"Result can change role");
+            _overlay.ActivateButton(1);Verify(Screen==BattleScreen.Hangar&&Battle is null,"Result returns to fitting");ChangeScreen(BattleScreen.Select);
             _overlay.ActivateButton(3);
             Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Earth,"UI supports Earth vs Earth");
             _overlay.ActivateButton(3); ToggleDesign(true);

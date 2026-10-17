@@ -40,7 +40,7 @@ public static class CineScript
         Captions = new[] { (1.6, 4.4, "지구 함대", "Bastion급 전함 · 1,200 m"), (4.4, 7.5, "주포탑 3 · 근접방어 8", "방어 드론 8기 호위") },
     };
 
-    // 2. 화성 함대: 아래 앞쪽에서 아레스 전함과 데이모스 호위함 두 척이 다가온다. 방열 격자가 붉게 빛난다.
+    // 2. 화성 함대: 아래 앞쪽에서 아레스 전함과 솔리스 호위함 두 척이 다가온다. 방열 격자가 붉게 빛난다.
     private static CineShot Mars() => new()
     {
         Name = "mars", Duration = 7.0, FadeIn = 0.2, FadeOut = 0.25, PreRoll = 0.5,
@@ -58,7 +58,7 @@ public static class CineScript
             Vector3 look = new(0, 30, (float)(-80 + 160 * k));
             return CamPose.Look(s.Local3(bb, cam) + Drift(t, 2.5f), s.Local3(bb, look), 46);
         },
-        Captions = new[] { (0.8, 3.6, "화성 함대", "Ares급 전함 · 1,080 m"), (4.0, 6.7, "데이모스 호위함", "정찰 · 전자전 · 신속 대응") },
+        Captions = new[] { (0.8, 3.6, "화성 함대", "Ares급 전함 · 1,080 m"), (4.0, 6.7, "솔리스 호위함", "정찰 · 전자전 · 신속 대응") },
     };
 
     // 2b. 정찰: 지구 요격기가 정찰 프로브를 사출해 멀어지는 것을 보고(망원), 컷 — 프로브 곁에서 따라가다가
@@ -151,7 +151,7 @@ public static class CineScript
             ShipBody bb = s.Spawn("BB-X1", ShipClass.Battleship, Faction.Red, V(0, 0, 0), Vector3.Back, 40);
             s.Spawn("DD-X1", ShipClass.Escort, Faction.Red, V(900, 240, 500), Vector3.Back, 40);
             s.Spawn("DD-X2", ShipClass.Escort, Faction.Red, V(-1000, -200, 300), Vector3.Back, 40);
-            // 포보스 요격 편대가 방공 임무로 전함 앞을 가로막고 미사일을 주포·요격 미사일로 떨어뜨린다.
+            // 로웰 요격 편대가 방공 임무로 전함 앞을 가로막고 미사일을 주포·요격 미사일로 떨어뜨린다.
             var wing = Enumerable.Range(1, 4).Select(i =>
                 s.Spawn($"IC-X{i}", ShipClass.Interceptor, Faction.Red, V(-450 + i * 220, 200 + (i % 2) * 120, 2600 + i * 150), Vector3.Back, 200)).ToArray();
             foreach (ShipBody ic in wing) s.World.AttachBrain(ic, ShipOrder.EscortOf(bb));
@@ -187,7 +187,7 @@ public static class CineScript
         Captions = new[] { (0.8, 4.5, "다층 방어", "요격기 · 포대 · 방어 드론 · 디코이") },
     };
 
-    // 6. 포격: 지구 전함 주포탑들이 따로 선회해 21 km 밖 데이모스를 쏜다.
+    // 6. 포격: 지구 전함 주포탑들이 따로 선회해 21 km 밖 솔리스를 쏜다.
     private static CineShot Broadside() => new()
     {
         Name = "broadside", Duration = 5.5, Phase = 3, PreRoll = 1.0, FadeIn = 0.15, FadeOut = 0.1,

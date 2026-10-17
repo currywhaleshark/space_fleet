@@ -1,0 +1,24 @@
+Measuring DeepSpace before 1
+ships=240 repeat=0 mean=12.357 p99=23.291ms rails=1767 missiles=434 hash=1348FD31940F
+Measuring DeepSpace after 1
+ships=240 repeat=0 mean=12.560 p99=22.438ms rails=1767 missiles=469 hash=A80785D66A69
+Measuring DeepSpace after 2
+ships=240 repeat=0 mean=13.124 p99=22.981ms rails=1767 missiles=469 hash=A80785D66A69
+Measuring DeepSpace before 2
+ships=240 repeat=0 mean=12.357 p99=24.400ms rails=1767 missiles=434 hash=1348FD31940F
+Measuring DeepSpace before 3
+ships=240 repeat=0 mean=12.209 p99=22.108ms rails=1767 missiles=434 hash=1348FD31940F
+Measuring DeepSpace after 3
+ships=240 repeat=0 mean=12.177 p99=22.636ms rails=1767 missiles=469 hash=A80785D66A69
+Measuring AsteroidCluster before 1
+ships=240 repeat=0 mean=15.063 p99=30.439ms rails=1498 missiles=393 hash=CDC9814D69D1
+Measuring AsteroidCluster after 1
+ships=240 repeat=0 mean=15.768 p99=32.516ms rails=1498 missiles=400 hash=1F54C055EAA8
+Measuring AsteroidCluster after 2
+ships=240 repeat=0 mean=14.964 p99=29.351ms rails=1498 missiles=400 hash=1F54C055EAA8
+Measuring AsteroidCluster before 2
+ships=240 repeat=0 mean=14.805 p99=28.844ms rails=1498 missiles=393 hash=CDC9814D69D1
+Measuring AsteroidCluster before 3
+ships=240 repeat=0 mean=14.835 p99=29.101ms rails=1498 missiles=393 hash=CDC9814D69D1
+Measuring AsteroidCluster after 3
+ships=240 repeat=0 mean=14.940 p99=30.103ms rails=1498 missiles=400 hash=1F54C055EAA8

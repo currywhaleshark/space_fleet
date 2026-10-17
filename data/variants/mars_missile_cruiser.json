@@ -1,0 +1,433 @@
+{
+  "id": "mars_missile_cruiser",
+  "baseHullId": "mars_escort",
+  "tier": 3,
+  "patch": {
+    "id": "mars_missile_cruiser",
+    "branch": "MissileCruiser",
+    "modelId": "mars_missile_cruiser",
+    "squadron": {
+      "role": "MissileSquadron",
+      "composition": "미사일순양함 4"
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 85000,
+        "railFlightSeconds": 5,
+        "missileRangeMeters": 125000
+      },
+      "defaultPips": [
+        2,
+        1,
+        3,
+        2,
+        0
+      ],
+      "targetPreference": {
+        "Battleship": 0,
+        "Escort": 1
+      },
+      "missilesPerSalvo": 4
+    },
+    "battleValue": {
+      "weight": 2.4
+    },
+    "railgun": {
+      "reloadSeconds": 2.8,
+      "energy": 429.0,
+      "moduleDamage": 126.75
+    },
+    "flight": {
+      "displayName": "크리세급 미사일순양함"
+    },
+    "missiles": {
+      "rounds": 32,
+      "reloadSeconds": 1.5,
+      "seekerRangeMeters": 22000,
+      "seekerStrength": 4.5,
+      "launchSignatureFraction": 0.6,
+      "launchSignatureSeconds": 10
+    },
+    "pointDefense": {
+      "shotsPerSecond": 7.800000000000001
+    },
+    "hullSections": [
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "hull",
+        "name": "주선체",
+        "center": [
+          0.0,
+          0.0,
+          7.56
+        ],
+        "halfSize": [
+          19.71,
+          14.82,
+          108.36
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "함수 1",
+        "center": [
+          0.0,
+          -0.78,
+          -113.4
+        ],
+        "halfSize": [
+          16.06,
+          11.7,
+          21.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "함수 2",
+        "center": [
+          0.0,
+          -2.34,
+          -144.9
+        ],
+        "halfSize": [
+          8.76,
+          7.8,
+          10.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 24.5
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "함교",
+        "center": [
+          0.0,
+          34.32,
+          33.6
+        ],
+        "halfSize": [
+          11.68,
+          20.28,
+          15.12
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {},
+        "id": "radiator-port",
+        "name": "좌현 방열판",
+        "center": [
+          -22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "우현 방열판",
+        "center": [
+          22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 6
+        },
+        "id": "sensor-head",
+        "name": "외부 센서 헤드",
+        "center": [
+          0.0,
+          63.9,
+          33.6
+        ],
+        "halfSize": [
+          6.424,
+          8.58,
+          8.316
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "id": "turret-base-gun-1",
+        "name": "주포 바베트",
+        "center": [
+          0.0,
+          16.78,
+          -50.4
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "id": "turret-base-gun-2",
+        "name": "주포 바베트",
+        "center": [
+          0.0,
+          -16.78,
+          -25.2
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette--1-0",
+        "name": "missile-cassette--1-0",
+        "center": [
+          -27,
+          0,
+          -80
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette--1-1",
+        "name": "missile-cassette--1-1",
+        "center": [
+          -27,
+          0,
+          -45
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette--1-2",
+        "name": "missile-cassette--1-2",
+        "center": [
+          -27,
+          0,
+          -10
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette--1-3",
+        "name": "missile-cassette--1-3",
+        "center": [
+          -27,
+          0,
+          25
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette-1-0",
+        "name": "missile-cassette-1-0",
+        "center": [
+          27,
+          0,
+          -80
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette-1-1",
+        "name": "missile-cassette-1-1",
+        "center": [
+          27,
+          0,
+          -45
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette-1-2",
+        "name": "missile-cassette-1-2",
+        "center": [
+          27,
+          0,
+          -10
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-cassette-1-3",
+        "name": "missile-cassette-1-3",
+        "center": [
+          27,
+          0,
+          25
+        ],
+        "halfSize": [
+          12,
+          13,
+          17
+        ]
+      }
+    ]
+  }
+}

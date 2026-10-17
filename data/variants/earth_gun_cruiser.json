@@ -1,0 +1,274 @@
+{
+  "id": "earth_gun_cruiser",
+  "baseHullId": "escort",
+  "tier": 3,
+  "patch": {
+    "id": "earth_gun_cruiser",
+    "branch": "GunCruiser",
+    "modelId": "earth_gun_cruiser",
+    "squadron": {
+      "role": "GunCruiserSquadron",
+      "composition": "포격순양함 4"
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 32000,
+        "railFlightSeconds": 6
+      },
+      "defaultPips": [
+        2,
+        1,
+        2,
+        2,
+        1
+      ]
+    },
+    "battleValue": {
+      "weight": 2.4
+    },
+    "railgun": {
+      "reloadSeconds": 1.23,
+      "penetrationMm": 1062.0
+    },
+    "flight": {
+      "displayName": "다뉴브급 포격순양함",
+      "massKg": 162000000.0,
+      "forwardAccel": 12.962962962962962,
+      "strafeAccel": 5.555555555555555,
+      "brakeAccel": 11.11111111111111
+    },
+    "pointDefense": {
+      "shotsPerSecond": 8.4
+    },
+    "decoys": {
+      "count": 6
+    },
+    "hullSections": [
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "hull",
+        "name": "주선체",
+        "center": [
+          0,
+          0,
+          9
+        ],
+        "halfSize": [
+          27,
+          19,
+          129
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "함수 1",
+        "center": [
+          0,
+          -1,
+          -135
+        ],
+        "halfSize": [
+          26,
+          17,
+          25
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "함수 2",
+        "center": [
+          0,
+          -2,
+          -172.5
+        ],
+        "halfSize": [
+          18,
+          13,
+          12.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "함교",
+        "center": [
+          0,
+          36,
+          40
+        ],
+        "halfSize": [
+          16,
+          18,
+          18
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {},
+        "id": "radiator-port",
+        "name": "좌현 방열판",
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "우현 방열판",
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "gun-shoulder--1",
+        "name": "gun-shoulder--1",
+        "center": [
+          -28,
+          0,
+          -45
+        ],
+        "halfSize": [
+          7,
+          17,
+          56
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "gun-shoulder-1",
+        "name": "gun-shoulder-1",
+        "center": [
+          28,
+          0,
+          -45
+        ],
+        "halfSize": [
+          7,
+          17,
+          56
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "turret-base-gun-1",
+        "name": "turret-base-gun-1",
+        "center": [
+          0,
+          22.5,
+          -60
+        ],
+        "halfSize": [
+          10,
+          3.5,
+          10
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 216.0
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "turret-base-gun-2",
+        "name": "turret-base-gun-2",
+        "center": [
+          0,
+          -22.5,
+          -30
+        ],
+        "halfSize": [
+          10,
+          3.5,
+          10
+        ]
+      }
+    ]
+  }
+}

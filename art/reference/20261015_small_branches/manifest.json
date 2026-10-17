@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-15",
+  "tool": "built-in image_gen",
+  "selected": [
+    "earth_recon_t3_v2.png",
+    "mars_assault_t3_v2.png"
+  ],
+  "images": {
+    "earth_recon_t3_v1.png": [
+      1536,
+      1024
+    ],
+    "earth_recon_t3_v2.png": [
+      1536,
+      1024
+    ],
+    "mars_assault_t3_v1.png": [
+      1536,
+      1024
+    ],
+    "mars_assault_t3_v2.png": [
+      1536,
+      1024
+    ]
+  },
+  "files": {
+    "earth_recon_t3_v1.png": {
+      "sha256": "db1f96c403103f168736a6be7d890e030391e9df012f5ba6deb899eb980b58bb",
+      "bytes": 2315973
+    },
+    "earth_recon_t3_v2.png": {
+      "sha256": "286aa0798fc85f3849f486380b18bc7ea6426a754870546d94d463568ece2b25",
+      "bytes": 2214678
+    },
+    "edits.json": {
+      "sha256": "7757090b812be67a6b88eaa78dada602ab9deefd0daccaa089ce5615ba494acf",
+      "bytes": 2030
+    },
+    "mars_assault_t3_v1.png": {
+      "sha256": "0987c29f678123471cab77568342cdb371c81a7b83e98af8326ef2872274e535",
+      "bytes": 2219669
+    },
+    "mars_assault_t3_v2.png": {
+      "sha256": "a483dedb0f31f9103ebc4ea279beb24b1b0a1a6013147c0bd85bd4d25683f0fa",
+      "bytes": 2116065
+    },
+    "prompts.json": {
+      "sha256": "839a43bc70736fe10b81ace65be0d6cd156fb03b0c17ab30156d7eedfd22a83f",
+      "bytes": 6363
+    },
+    "README.md": {
+      "sha256": "f0fa076ce84c56b61892aea51b1b77c6c7643c4c24874e1665613659511d7d09",
+      "bytes": 3739
+    },
+    "source_earth_interceptor.jpg": {
+      "sha256": "d8d62868080cf0953e171a649019bb9b66bf29228176459df21e78dbc21414a1",
+      "bytes": 311017
+    },
+    "source_mars_interceptor.jpg": {
+      "sha256": "2ff2d7532494e9231376c09bd89130a9982ad4925cffe119750a62c29197557e",
+      "bytes": 299059
+    }
+  }
+}

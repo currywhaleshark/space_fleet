@@ -1,0 +1,19 @@
+  복원할 프로젝트를 확인하는 중...
+C:\Users\yurib\Documents\New project\space_fleet\src\Sim\SpaceFleet.Sim.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다. [C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj]
+C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+  복원할 모든 프로젝트가 최신 상태입니다.
+C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+C:\Users\yurib\Documents\New project\space_fleet\src\Sim\SpaceFleet.Sim.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+  SpaceFleet.Sim -> C:\Users\yurib\Documents\New project\space_fleet\src\Sim\bin\Debug\net8.0\SpaceFleet.Sim.dll
+  SpaceFleet -> C:\Users\yurib\Documents\New project\space_fleet\.godot\mono\temp\bin\Debug\SpaceFleet.dll
+
+빌드했습니다.
+
+C:\Users\yurib\Documents\New project\space_fleet\src\Sim\SpaceFleet.Sim.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다. [C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj]
+C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+C:\Users\yurib\Documents\New project\space_fleet\SpaceFleet.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+C:\Users\yurib\Documents\New project\space_fleet\src\Sim\SpaceFleet.Sim.csproj : warning NU1900: 패키지 취약성 데이터를 가져오는 동안 오류가 발생했습니다. https://api.nuget.org/v3/index.json 소스에 대한 서비스 인덱스를 로드할 수 없습니다.
+    경고 4개
+    오류 0개
+
+경과 시간: 00:00:21.57

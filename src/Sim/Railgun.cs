@@ -3,10 +3,11 @@ using Godot;
 
 namespace SpaceFleet.Sim;
 
+/// <param name="AimErrorScale">Firing-solution uncertainty multiplier (1 = nominal); does not change physical hit detection.</param>
 public sealed record RailgunDefinition(string ModuleId, Vector3 Muzzle, float MuzzleSpeed, float ReloadSeconds,
     float Energy, float PenetrationMm, float ModuleDamage, float MaxRange, int Rounds, float TraverseDegrees,
     float SensorErrorMeters = 1f, float SensorErrorPerKm = 0.15f, float VelocityError = 0.3f, float ShotHeatMj = 0f,
-    TurretDefinition[]? Mounts = null)
+    TurretDefinition[]? Mounts = null, float AimErrorScale = 1f)
 {
     public DamagePacket Packet => new(Energy, PenetrationMm, ModuleDamage, MaxRange);
 }
@@ -18,15 +19,20 @@ public sealed record RailgunDefinition(string ModuleId, Vector3 Muzzle, float Mu
 public sealed class RailgunState
 {
     private readonly ShipBody _ship;
-    public RailgunState(ShipBody ship, TurretDefinition? mount = null)
+    internal RailgunState(ShipBody ship, ResolvedWeaponMount binding)
     {
-        _ship = ship; Mount = mount;
+        _ship = ship; Hardpoint = binding.Hardpoint; Weapon = binding.Weapon; Installation = binding.Installation;
+        var mount = binding.Turret; Mount = mount;
         var common = ship.Definition.Railgun!;
         Definition = mount is null ? common : common with { ModuleId = mount.ModuleId, Rounds = mount.Rounds,
             Muzzle = mount.Breech(0) + mount.MountBasis * (mount.Muzzles[0] + mount.Muzzles[^1]) * .5f };
         Reset();
     }
     public RailgunDefinition Definition { get; }
+    public WeaponHardpointDefinition Hardpoint { get; }
+    public PrimaryWeaponDefinition Weapon { get; }
+    public WeaponInstallationDefinition Installation { get; }
+    /// <summary>Compiled adapter retained for firing geometry and existing model rigs.</summary>
     public TurretDefinition? Mount { get; }
     public float Yaw { get; private set; }
     public float Elevation { get; private set; }

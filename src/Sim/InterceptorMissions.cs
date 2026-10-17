@@ -19,6 +19,8 @@ public sealed partial class SimWorld
     public void OrderWing(Squadron wing, InterceptorMission? mission, ShipBody? target = null, Vector3? direction = null)
     {
         if (!_squadrons.Contains(wing) || wing.Role != SquadronRole.InterceptorWing) return;
+        if (mission is not null && (mission != InterceptorMission.Assault
+            || target is not null && target != wing.AssaultCommittedTarget)) wing.AssaultCommittedTarget = null;
         wing.OrderedMission = mission; wing.MissionTarget = target;
         wing.ReconDirection = direction is { } d && d.IsFinite() && d.LengthSquared() > .01f ? d.Normalized() : null;
         wing.MissionSince = double.NegativeInfinity;
@@ -56,10 +58,16 @@ public sealed partial class SimWorld
             && (k.Track.EstimatedPosition - anchor.Position).Length() < 22_000)
             .OrderBy(k => (k.Track.EstimatedPosition - anchor.Position).LengthSquared()).ToArray();
         var threats = Sensors.SmallContacts(wing.Faction).Where(t => t.Fresh(Time)).ToArray();
-        bool incoming = threats.Any(t => t.Kind == SmallContactKind.Missile && Threatens(t, anchor, out _));
+        // Do not abandon another mission for a missile this wing cannot intercept.
+        // Late/pass-through threats belong to the escort and capital defense layers.
+        bool incoming = threats.Any(t => t.Kind == SmallContactKind.Missile && Threatens(t, anchor, out _)
+            && members.Any(s => TryDefenseIntercept(s, anchor, t, out _)));
         var capitals = known.Where(k => k.Ship.Class.Kind != HullKind.Interceptor).ToArray();
         bool mars = leader.Definition.Design == DesignFamily.Mars;
-        double assaultReach = mars ? 100_000 : 85_000;
+        bool scout = leader.Definition.Branch == ShipBranch.Recon;
+        // Planning distance only: observed screen openings, readiness and weapon ranges still gate an attack.
+        double assaultReach = leader.Definition.Ai.AssaultReachMeters > 0
+            ? leader.Definition.Ai.AssaultReachMeters : mars ? 100_000 : 85_000;
         var strike = capitals.Where(k => (k.Track.EstimatedPosition - anchor.Position).Length() < assaultReach)
             .OrderBy(k => k.Track.ObservedShieldFraction)
             .ThenBy(k => (k.Track.EstimatedPosition - leader.Position).LengthSquared()).FirstOrDefault();
@@ -73,10 +81,12 @@ public sealed partial class SimWorld
         int cover = strike.Ship is null ? int.MaxValue : known.Count(k => k.Ship != strike.Ship && k.Ship.Class.Kind == HullKind.Escort
             && (k.Track.EstimatedPosition - strike.Track.EstimatedPosition).Length() < 18_000);
         bool heavyLoss = members.Length * 2 < wing.Members.Count;
-        // Keep the committed navigation target through a brief occlusion. Live
-        // missile/raider threats and damage still take priority over that memory.
+        // A brief occlusion retains navigation only; firing still needs a live observation.
         ShipBody? remembered = wing.Target is { } old && Sensors.Memory(wing.Faction,old,Time) is not null ? old : null;
-        bool armed = members.Any(s => s.Ordnance.Antimatter.Rounds > 0 && !s.Ordnance.Antimatter.Warning);
+        bool armed = members.Any(s => s.Ordnance.Antimatter.Rounds > 0 && !s.Ordnance.Antimatter.Warning && !WingMemberImpaired(s));
+        if (heavyLoss || !armed || wing.AssaultCommittedTarget is { } committedTarget
+            && strike.Ship != committedTarget && remembered != committedTarget) wing.AssaultCommittedTarget = null;
+        bool committedRun = wing.AssaultCommittedTarget is not null;
         bool stocks = members.Any(s => s.Ordnance.Interceptor.Probes > 0);
         bool deployed = _probes.Any(p => p.Active && p.Owner.Squadron == wing);
         // A dispersed escort screen can leave a usable rear/ventral approach even while its ships survive.
@@ -89,15 +99,18 @@ public sealed partial class SimWorld
             || cover == 1 && strike.Track.ObservedShieldFraction < .3f || flankOpen);
         bool intelPoor = capitals.Length == 0 || capitals.All(k => k.Track.Level < TrackLevel.Locked);
         InterceptorMission recommendation = heavyLoss ? InterceptorMission.Return
+            : scout ? InterceptorMission.Recon
             : incoming ? InterceptorMission.AirDefense
             : raiders.Length > 0 ? InterceptorMission.Superiority
             : stocks && !deployed && intelPoor ? InterceptorMission.Recon
             : wing.AssaultAvailable ? InterceptorMission.Assault
             : threats.Any(t => t.Kind == SmallContactKind.Probe && (t.Position - anchor.Position).Length() < 20_000)
                 ? InterceptorMission.Superiority : InterceptorMission.AirDefense;
-        InterceptorMission desired = wing.OrderedMission ?? (remembered is not null && !heavyLoss && !incoming && raiders.Length==0
+        InterceptorMission desired = wing.OrderedMission ?? (committedRun ? InterceptorMission.Assault
+            : !scout && remembered is not null && !heavyLoss && !incoming && raiders.Length==0
             && wing.Mission is InterceptorMission.Assault or InterceptorMission.Superiority ? wing.Mission : recommendation);
-        // Explicit commands persist. Automatic choices dwell for 12 s; immediate defensive threats can interrupt.
+        // Explicit commands persist. Automatic choices dwell for 12 s; reachable
+        // defensive threats can interrupt before an assault commits, and heavy losses always can.
         bool urgent = wing.OrderedMission is null && (incoming || heavyLoss || raiders.Length > 0);
         if (double.IsNegativeInfinity(wing.MissionSince) || desired != wing.Mission && (urgent || Time - wing.MissionSince >= 12))
         { wing.Mission = desired; wing.MissionSince = Time; wing.MissionChanges++; }
@@ -106,6 +119,11 @@ public sealed partial class SimWorld
         Vector3 direction = wing.ReconDirection ?? (capitals.Length > 0
             ? (capitals[0].Track.EstimatedPosition - anchor.Position).ToVector3().Normalized() : anchor.Forward);
         Vector3 lateral = direction.Cross(Mathf.Abs(direction.Y) > .9f ? Vector3.Right : Vector3.Up).Normalized();
+        Vec3d rally=anchor.Position+Vec3d.From(direction*6500+lateral*4500);
+        if(strike.Ship is not null&&(rally-strike.Track.EstimatedPosition).Length()<22_000)
+            rally=anchor.Position+Vec3d.From(-direction*4500+lateral*4500);
+        bool gathering=PrepareAssaultRally(wing,leader,members,strike.Ship,rally,anchor.Velocity);
+        if(gathering)wing.Activity=$"강습 집결 {wing.RallyReady}/{wing.RallyRequired}";
         var assigned = new Dictionary<ShipBody, int>();
         var usedThreats = new HashSet<object>();
         for (int i = 0; i < members.Length; i++)
@@ -117,20 +135,25 @@ public sealed partial class SimWorld
             brain.StationVelocity = Vector3.Zero;
             float side = i % 2 == 0 ? 1 : -1;
             Vec3d station = anchor.Position + Vec3d.From(direction * 7500 + lateral * side * (1000 + i * 450) + Vector3.Up * (i % 3 - 1) * 650);
-            bool impaired = ship.Damage.PropulsionFraction < .25f || ship.Damage.WeaponsFraction < .1f
-                || ship.Damage.Modules.Sum(m => m.Health) < ship.Damage.Modules.Sum(m => m.Definition.HitPoints) * .35f;
+            bool impaired = WingMemberImpaired(ship);
             bool exhausted = ship.Railguns.All(g => g.Rounds == 0) && ship.Ordnance.Missiles == 0 && ship.Ordnance.Antimatter.Rounds == 0;
             var mission = impaired || exhausted ? InterceptorMission.Return : wing.Mission;
             if (mission == InterceptorMission.Assault && ship.Ordnance.Antimatter.Rounds == 0) mission = InterceptorMission.AirDefense;
             ShipOrder order = ShipOrder.HoldAt(station);
-            if (remembered is not null && mission is InterceptorMission.Assault or InterceptorMission.Superiority)
+            if(gathering&&mission==InterceptorMission.Assault)
+                order=ShipOrder.HoldAt(rally+Vec3d.From(lateral*side*(i/2+1)*250));
+            else if (remembered is not null && mission is InterceptorMission.Assault or InterceptorMission.Superiority)
             { order=ShipOrder.AttackOn(remembered); wing.Target=remembered; }
             else if (mission == InterceptorMission.Recon)
             {
-                float forward = ship.Definition.Design == DesignFamily.Mars ? 12_000 : 8500;
+                bool reconHull=ship.Definition.Branch==ShipBranch.Recon;
+                float forward = reconHull ? 16_000 : ship.Definition.Design == DesignFamily.Mars ? 12_000 : 8500;
                 station = anchor.Position + Vec3d.From(direction * forward + lateral * side * (3000 + i * 1000));
                 // Do not fly into a known capital's defense bubble while deploying a sensor.
-                if (capitals.Any(k => (station - k.Track.EstimatedPosition).Length() < 20_000)) station = ship.Position;
+                if (capitals.Any(k => (station - k.Track.EstimatedPosition).Length() < 20_000))
+                    station = reconHull ? anchor.Position+Vec3d.From(lateral*side*(6000+i*700)-direction*3000) : ship.Position;
+                if(reconHull&&known.Any(k=>(k.Track.EstimatedPosition-ship.Position).Length()<11_000))
+                    station=anchor.Position+Vec3d.From(lateral*side*(6000+i*700)-direction*6000);
                 order = ShipOrder.HoldAt(station);
                 bool covered = _probes.Any(p => p.Active && p.Owner.Squadron == wing
                     && (p.Destination - (ship.Position + Vec3d.From(direction) * p.Definition.DeploymentMeters)).Length() < 12_000);
@@ -167,9 +190,10 @@ public sealed partial class SimWorld
             else if (mission == InterceptorMission.Assault && strike.Ship is not null && armed)
             {
                 // Player may order a risky assault; automatic assault requires the observed screen opening.
-                if (wing.OrderedMission is not null || wing.AssaultAvailable)
+                if (wing.OrderedMission is not null || wing.AssaultAvailable || committedRun)
                 {
                     order = ShipOrder.AttackOn(strike.Ship); wing.Target = strike.Ship;
+                    wing.AssaultCommittedTarget = strike.Ship;
                     ship.Ordnance.Interceptor.FirstAssault ??= Time;
                 }
             }
@@ -201,6 +225,10 @@ public sealed partial class SimWorld
         arrival = velocity.LengthSquared() > 1 ? -r.Dot(velocity) / velocity.LengthSquared() : -1;
         return arrival > 0 && arrival < 35 && (r + velocity * arrival).Length() < 6500;
     }
+
+    private static bool WingMemberImpaired(ShipBody ship) => ship.Damage.PropulsionFraction < .25f
+        || ship.Damage.WeaponsFraction < .1f
+        || ship.Damage.Modules.Sum(m => m.Health) < ship.Damage.Modules.Sum(m => m.Definition.HitPoints) * .35f;
 
     public bool TryDefenseIntercept(ShipBody ship, ShipBody anchor, SmallContact threat, out Vec3d point)
     {

@@ -1,0 +1,246 @@
+using System.Collections.Concurrent;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
+using Godot;
+using SpaceFleet.Sim;
+
+// Opt-in measurement fixtures, never invoked by gameplay. Controlled benches and free AI
+// engagements are recorded separately: no resets or privileged aiming in the AI battles.
+internal static class ComponentTrials
+{
+    private static readonly JsonSerializerOptions Json=new(){WriteIndented=true,IncludeFields=true,
+        Converters={new JsonStringEnumConverter()}};
+    private static readonly string[] Hulls={"battleship","mars_battleship","escort","mars_escort","interceptor","mars_interceptor"};
+    private static IEnumerable<string?> Choices(string hull,ComponentSlot slot)=>new string?[]{null}.Concat(
+        ShipComponents.All.Where(c=>c.Slot==slot&&ShipComponents.Available(ShipDefinitions.ById(hull),c)).Select(c=>(string?)c.Id));
+    private static ShipDefinition Fit(string hull,string? part,ComponentSlot slot=ComponentSlot.MainGun)=>
+        FleetLoadouts.ResolveFit(FleetLoadouts.Empty(hull) with{Components=part is null?null:new ShipComponentSelection().With(slot,part)}).Definition;
+    private static ShipDefinition Edit(ShipDefinition d,Action<JsonObject> edit)
+    {var j=JsonNode.Parse(d.ToJson())!.AsObject();edit(j);return ShipDefinition.Parse(j.ToJsonString(),strict:true);}
+    private static ShipDefinition NoDefense(ShipDefinition d)=>Edit(d,j=>{j["PointDefense"]=null;j["DefenseDrones"]=null;});
+    private static ShipBody Add(SimWorld w,string name,ShipDefinition d,Faction side,Vec3d position,Quaternion rotation=default)
+    {
+        var s=w.Add(new ShipBody(name,d,side));s.Place(position,rotation==default?Quaternion.Identity:rotation);
+        s.Control=new ShipControl{FlightAssist=false};return s;
+    }
+    private static object Stats(SimWorld w,ShipBody s)=>new {s.Callsign,Hull=s.Definition.Id,Components=s.Definition.Components,
+        s.Damage.Destroyed,s.Damage.Disabled,s.Damage.StructureFraction,s.Damage.Shield,
+        Log=w.Log!.Ship(s),Ammo=s.Railguns.Sum(g=>g.Rounds),PdShots=s.Ordnance.PointDefense.Sum(p=>(long)p.ShotCount)};
+
+    public static void Save(string output,string phase,int[] seeds,int jobs,double seconds,bool legacyPd=false)
+    {
+        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
+            ||seeds.Length==0||seeds.Distinct().Count()!=seeds.Length)throw new ArgumentException("Invalid component trial options");
+        var tasks=new List<(string Id,Func<object> Run)>();
+        if(phase is "all" or "bench")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
+        {
+            foreach(bool hot in new[]{false,true})tasks.Add(($"cadence-{id}-{part??"stock"}-{hot}",()=>Cadence(id,part,hot,seconds)));
+            tasks.Add(($"armor-{id}-{part??"stock"}",()=>Armor(id,part)));
+            tasks.Add(($"shield-{id}-{part??"stock"}",()=>Shield(id,part)));
+        }
+        if(phase is "all" or "pd")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.Secondary))
+        foreach(int seed in seeds)foreach(bool missile in new[]{false,true})
+        foreach(var exposure in new[]{(Name:"near",Range:500f,Speed:0f),(Name:"fast",Range:500f,Speed:1200f),
+            (Name:"outer",Range:ShipDefinitions.ById(id).PointDefense!.RangeMeters*1.12f,Speed:0f)})
+            tasks.Add(($"pd-{id}-{part??"stock"}-{seed}-{missile}-{exposure.Name}",()=>Pd(id,part,seed,missile,exposure.Name,exposure.Range,exposure.Speed,legacyPd)));
+        if(phase is "all" or "duels")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
+        foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
+        foreach(double range in ShipDefinitions.ById(id).Kind switch{HullKind.Battleship=>new[]{20000d,100000d},HullKind.Escort=>new[]{6000d,40000d},_=>new[]{3000d,15000d}})
+            tasks.Add(($"duel-{id}-{part??"stock"}-{seed}-{mirror}-{range}",()=>Duel(id,part,seed,mirror,range,seconds)));
+        if(phase is "all" or "fleet")foreach(string id in new[]{"battleship","mars_interceptor"})foreach(string? part in Choices(id,ComponentSlot.MainGun))
+        foreach(int seed in seeds)tasks.Add(($"fleet-{id}-{part??"stock"}-{seed}",()=>Fleet(id,part,seed,seconds)));
+        if(phase is "pd-salvos")foreach(string id in Hulls)
+        foreach(string part in new[]{"stock","barrage-before","pd-barrage","pd-longrange"})
+        foreach(int seed in seeds)foreach(string threat in new[]{"light","heavy"})foreach(float speed in new[]{650f,1800f})
+            tasks.Add(($"salvo-{id}-{part}-{seed}-{threat}-{speed}",()=>PdSalvo(id,part,seed,threat,speed)));
+        Directory.CreateDirectory(Path.GetDirectoryName(output)!);
+        var results=new ConcurrentBag<(string Id,object Data)>();int done=0;
+        Parallel.ForEach(tasks,new ParallelOptions{MaxDegreeOfParallelism=jobs},task=>{
+            results.Add((task.Id,task.Run()));int count=Interlocked.Increment(ref done);
+            if(count%12==0||count==tasks.Count)Console.WriteLine($"Component trials {count}/{tasks.Count}");});
+        File.WriteAllText(output,JsonSerializer.Serialize(results.OrderBy(x=>x.Id).Select(x=>new{x.Id,Result=x.Data}).ToArray(),Json));
+        Console.WriteLine($"Saved {results.Count} {phase} trials: {output}");
+    }
+
+    private static object Cadence(string hull,string? part,bool priority,double seconds)
+    {
+        var d=Fit(hull,part);var w=new SimWorld();var s=Add(w,"GUN",NoDefense(d),Faction.Blue,Vec3d.Zero);
+        if(priority)s.Power.SetPips(1,1,4,2,0);
+        Vector3 aim=s.Railgun!.Mount is null?Vector3.Forward:new Vector3(1,.035f,-.4f).Normalized();
+        int settle=s.Railgun.Mount is null?0:(int)Math.Ceiling((90/s.Railguns.Min(g=>Math.Min(g.Mount!.YawRate,g.Mount.ElevationRate))+1)*SimWorld.TickRate);
+        for(int i=0;i<settle;i++){foreach(var g in s.Railguns)g.Aim(aim);w.Step();}
+        double start=w.Time,hot=0;float peak=0;double? firstHot=null,empty=null;int shots=0;var gates=new Dictionary<FireFailure,int>();
+        for(int i=0;i<(int)(seconds*SimWorld.TickRate);i++)
+        {
+            var fire=w.FireRailguns(s,aim);shots+=fire.Shots;
+            if(!fire.Fired)gates[fire.Failure]=gates.GetValueOrDefault(fire.Failure)+1;
+            peak=Math.Max(peak,s.Power.HeatFraction);
+            if(s.Power.Overheated){hot+=SimWorld.TickDelta;firstHot??=w.Time-start;}
+            if(s.Railguns.All(g=>g.Rounds==0))empty??=w.Time-start;
+            w.Step();
+        }
+        return new{Kind="cadence",Hull=hull,Part=part??"stock",Priority=priority,Seconds=seconds,Shots=shots,
+            FiredEnergy=shots*d.Railgun!.Energy,Ammo=s.Railguns.Sum(g=>g.Rounds),EmptyAt=empty,HotSeconds=hot,FirstHot=firstHot,PeakHeat=peak,
+            Guns=s.Railguns.Length,Barrels=s.Railgun.BarrelCount,d.Railgun.Energy,d.Railgun.PenetrationMm,d.Railgun.ReloadSeconds,
+            d.Railgun.ShotHeatMj,d.Railgun.AimErrorScale,Gates=gates};
+    }
+
+    private static object Armor(string hull,string? part)
+    {
+        var d=Fit(hull,part);var target=ShipDefinitions.For(d.Kind==HullKind.Interceptor?HullKind.Escort:HullKind.Battleship,
+            d.Design==DesignFamily.Earth?DesignFamily.Mars:DesignFamily.Earth);
+        var s=new ShipBody("PLATE",target,Faction.Red);int rays=0,penetrated=0,criticals=0;double modules=0,structure=0;
+        foreach(var m in target.Modules)foreach(var direction in new[]{Vector3.Left,Vector3.Down,Vector3.Back,
+            new Vector3(-1,0,.7f).Normalized(),new Vector3(-.3f,0,1).Normalized()})
+        {
+            s.Damage.Reset();var origin=Vec3d.From(m.Center-direction*target.Flight.Length*2);
+            var hit=DamageRay.ApplyAtPose(s,origin,direction,d.Railgun!.Packet,0,(uint)++rays,s.Position,s.Orientation,shieldApplies:false);
+            if(hit.StructuralDamage>0||hit.Modules.Count>0)penetrated++;
+            modules+=hit.Modules.Sum(x=>x.Damage);structure+=hit.StructuralDamage;if(s.Damage.Destroyed)criticals++;
+        }
+        return new{Kind="armor",Hull=hull,Part=part??"stock",Target=target.Id,Rays=rays,Penetrated=penetrated,
+            ModuleDamagePerRound=modules/rays,StructurePerRound=structure/rays,Criticals=criticals,
+            ModuleDamagePerMountSalvo=modules/rays*d.Battery!.Weapon.BarrelCount};
+    }
+
+    private static object Shield(string hull,string? part)
+    {
+        var d=Fit(hull,part);var target=ShipDefinitions.For(d.Kind==HullKind.Interceptor?HullKind.Escort:HullKind.Battleship,
+            d.Design==DesignFamily.Earth?DesignFamily.Mars:DesignFamily.Earth);
+        var w=new SimWorld();var shooter=Add(w,"GUN",NoDefense(d),Faction.Blue,Vec3d.Zero);
+        // One actual mount is placed abreast of a stationary target. All physical muzzles
+        // aim at it independently; the target keeps its real shield/armor and regeneration.
+        var gun=shooter.Railgun!;var direction=gun.Mount is null?Vector3.Forward:new Vector3(1,.1f,-.4f).Normalized();
+        var victim=Add(w,"TARGET",NoDefense(target),Faction.Red,Vec3d.From(direction*5000));
+        victim.DamageControl.Priority=RepairPriority.Hold;w.Log=new BattleLog(w);
+        double? first=null,down=null;
+        for(int tick=0;tick<180*SimWorld.TickRate;tick++)
+        {
+            var aim=(victim.Position-gun.MuzzlePosition).ToVector3().Normalized();
+            var fire=w.FireRailgun(shooter,gun,aim);if(fire.Fired)first??=w.Time;
+            w.Step();
+            if(victim.Damage.Shield<=.001){down=w.Time;break;}
+        }
+        // Salvo impacts need not arrive in projectile-ID order. BattleLog records
+        // every hit at resolution, unlike a maximum-ID cursor over visual events.
+        var log=w.Log.Ship(shooter);
+        return new{Kind="shield",Hull=hull,Part=part??"stock",Target=target.Id,FirstFire=first,ShieldDown=down,
+            TimeFromFirst=down-first,Shots=gun.ShotCount,Hits=log.RailHits,Absorbed=log.ShieldDamageInflicted,Remaining=victim.Damage.Shield};
+    }
+
+    private static object Pd(string hull,string? part,int seed,bool missile,string exposure,float range,float speed,bool legacy)
+    {
+        var d=Edit(Fit(hull,part,ComponentSlot.Secondary),j=>j["DefenseDrones"]=null);
+        if(legacy)d=Edit(d,j=>j["PointDefense"]!.AsObject().Remove("ShipPacket"));
+        var w=new SimWorld();var defender=Add(w,"DEFENDER",d,Faction.Blue,Vec3d.Zero);
+        var raider=Add(w,"RAIDER-"+seed,NoDefense(ShipDefinitions.ById("interceptor")),Faction.Red,new(0,0,-20000));
+        var pd=d.PointDefense!;var normal=pd.Normals![0].Normalized();var tangent=normal.Cross(Vector3.Up);
+        if(tangent.LengthSquared()<.01f)tangent=Vector3.Right;else tangent=tangent.Normalized();
+        Missile? threat=null;
+        if(missile)
+        {
+            // Acquire at close range before stepping, then move the launcher outside PD coverage.
+            raider.Place(new(0,0,-500),new Quaternion(Vector3.Up,Mathf.Pi));w.Sensors.Update(w.Ships,w.Time,true);
+            for(int i=0;i<seed;i++)
+            {
+                raider.Ordnance.Reset();var launch=w.LaunchMissile(raider,defender);
+                if(!launch.Fired)throw new Exception("PD fixture launch: "+hull+" "+launch.Reason);
+                if(threat is not null){threat.Health=0;threat.Age=threat.Definition.MaxFlightSeconds+1;}
+                threat=w.Missiles.Last();
+            }
+            raider.Place(new(0,0,-20000),Quaternion.Identity);
+            threat!.Age=threat.Definition.BurnSeconds+1;threat.NextSeekerCheck=double.MaxValue;
+        }
+        w.Log=new BattleLog(w);double? killed=null;double start=w.Time;int hits=0;uint last=0;
+        for(int tick=0;tick<360;tick++)
+        {
+            var position=Vec3d.From(pd.Mounts[0]+normal*range+tangent*((tick/60f-3)*speed));
+            if(threat is not null){threat.Position=threat.PrevPosition=position;threat.Velocity=tangent*speed;}
+            else{raider.Place(position,Quaternion.Identity);raider.Velocity=tangent*speed;raider.Damage.Reset();}
+            w.Step();
+            foreach(var impact in w.Impacts.Where(x=>x.Id>last)){hits++;last=Math.Max(last,impact.Id);}
+            if(threat is not null&&!w.Missiles.Contains(threat)){killed=w.Time-start;break;}
+        }
+        return new{Kind="pd",Hull=hull,Part=part??"stock",Legacy=legacy,Seed=seed,Missile=missile,Exposure=exposure,Range=range,Speed=speed,
+            Shots=defender.Ordnance.PointDefense.Sum(p=>(long)p.ShotCount),Hits=hits,ShieldDamage=w.Log.Ship(defender).ShieldDamageInflicted,
+            ModuleDamage=w.Log.Ship(defender).ModuleDamageInflicted,Intercepted=w.Log.Ship(defender).MissilesIntercepted,KilledAt=killed};
+    }
+
+    private static object PdSalvo(string hull,string part,int seed,string type,float speed)
+    {
+        var d=Edit(Fit(hull,part=="stock"?null:part=="barrage-before"?"pd-barrage":part,ComponentSlot.Secondary),j=>{
+            j["DefenseDrones"]=null;
+            if(part=="barrage-before")j["PointDefense"]!.AsObject().Remove("MissileDamagePerHit");});
+        var w=new SimWorld();var defender=Add(w,"DEFENDER",d,Faction.Blue,Vec3d.Zero);
+        var launcher=Add(w,"LAUNCHER",NoDefense(ShipDefinitions.ById("interceptor")),Faction.Red,new(0,0,-20000));
+        var pd=d.PointDefense!;var first=defender.Ordnance.PointDefense[0];
+        Vector3 approach=first.MountBasis*new Basis(Vector3.Up,first.CenterYaw)
+            *new Basis(Vector3.Right,Mathf.DegToRad(45))*Vector3.Forward;
+        Vector3 across=approach.Cross(Vector3.Up).Normalized();
+        var flight=ShipDefinitions.ById(type=="light"?"interceptor":"escort").Missiles!;
+        double distance=ShipDefinitions.ById(hull).PointDefense!.RangeMeters*.7;
+        var random=new Random(seed);var offsets=Enumerable.Range(0,12).Select(_=>(float)(random.NextDouble()-.5)*80).ToArray();
+        w.Log=new BattleLog(w);int launched=0;double? firstKill=null;
+        while(w.Time<20)
+        {
+            if(launched<12&&w.Time+1e-8>=launched*.3)
+            {
+                // Controlled mid-flight stream: stock missile body, HP, fuze and
+                // damage; exhausted motor and constant approach, no position resets.
+                var position=Vec3d.From(pd.Mounts[0])+Vec3d.From(approach)*distance+Vec3d.From(across*offsets[launched]);
+                Vector3 nose=(-position).ToVector3().Normalized();
+                ((List<Missile>)w.Missiles).Add(new Missile{Id=(uint)(10000+seed*100+launched),Shooter=launcher,
+                    Target=defender,AimPoint=defender.Position,
+                    Definition=flight,Health=flight.HitPoints,Position=position,PrevPosition=position,Velocity=nose*speed,
+                    NoseDirection=nose,PreviousNoseDirection=nose,Age=flight.BurnSeconds+1,NextSeekerCheck=double.MaxValue});
+                launched++;
+            }
+            w.Step();if(w.Log.Ship(defender).MissilesIntercepted>0)firstKill??=w.Time;
+            if(launched==12&&w.Missiles.Count==0)break;
+        }
+        var log=w.Log.Ship(defender);
+        return new{Kind="pd-salvo",Hull=hull,Part=part,Seed=seed,Threat=type,Speed=speed,StartRange=distance,Launched=launched,
+            Intercepted=log.MissilesIntercepted,Hits=w.Log.Ship(launcher).MissileHits,FirstKill=firstKill,Seconds=w.Time,
+            Shots=defender.Ordnance.PointDefense.Sum(p=>(long)p.ShotCount),Remaining=w.Missiles.Count,
+            defender.Damage.Destroyed,defender.Damage.StructureFraction,Received=log.ModuleDamage};
+    }
+
+    private static object Duel(string hull,string? part,int seed,bool mirror,double range,double seconds)
+    {
+        var w=new SimWorld();var random=new Random(seed);var selected=Fit(hull,part);var stock=ShipDefinitions.ById(hull);
+        // Swap the equipped side, retaining each side's callsign, starting pose,
+        // update order and deterministic hit salt. Stock/stock pairs stay identical.
+        var blue=Add(w,"DUEL-B",mirror?stock:selected,Faction.Blue,new(0,(random.NextDouble()-.5)*2000,0));
+        var red=Add(w,"DUEL-R",mirror?selected:stock,Faction.Red,new(0,(random.NextDouble()-.5)*2000,-range),new Quaternion(Vector3.Up,Mathf.Pi));
+        var a=mirror?red:blue;var b=mirror?blue:red;
+        w.AttachBrain(blue,ShipOrder.AttackOn(red));w.AttachBrain(red,ShipOrder.AttackOn(blue));w.Doctrine=new FleetDoctrine();
+        w.Rules=new BattleRules(w,BattleObjective.Annihilation);w.Sensors.Update(w.Ships,0,true);w.Log=new BattleLog(w);
+        double hotA=0,hotB=0;double? fireA=null,fireB=null;
+        while(w.Time<seconds&&w.Rules.Outcome is null)
+        {
+            w.Step();if(a.Power.Overheated)hotA+=SimWorld.TickDelta;if(b.Power.Overheated)hotB+=SimWorld.TickDelta;
+            if(w.Log.Ship(a).Rails>0)fireA??=w.Time;if(w.Log.Ship(b).Rails>0)fireB??=w.Time;
+            if(!a.Velocity.IsFinite()||!b.Velocity.IsFinite())throw new Exception("Non-finite trial motion");
+        }
+        w.Log.Finish();return new{Kind="duel",Hull=hull,Part=part??"stock",Seed=seed,Mirror=mirror,Range=range,
+            Seconds=w.Time,SelectedSide=a.Faction,Winner=w.Rules.Outcome?.Winner,Reason=w.Rules.Outcome?.Reason??"time-cap",
+            Selected=Stats(w,a),Stock=Stats(w,b),SelectedHot=hotA,StockHot=hotB,SelectedFirstFire=fireA,StockFirstFire=fireB};
+    }
+
+    private static object Fleet(string hull,string? part,int seed,double seconds)
+    {
+        var baseFit=FleetLoadouts.Default(hull);
+        var fit=baseFit with{Members=baseFit.Members.Select(m=>m.HullId==hull?m with{Components=part is null?null:new(MainGun:part)}:m).ToArray()};
+        var unlocks=new Dictionary<string,IReadOnlySet<string>>{{hull,part is null?new HashSet<string>():new HashSet<string>{ShipComponents.UnlockKey(part)}}};
+        var match=Matchmaking.CreateTiered(seed,fit,FleetLoadouts.Hulls.Select(d=>d.Id).ToHashSet(),unlocks);
+        var w=new SimWorld();BattleSetup.Spawn(w,new BattleConfig{Match=match,Seed=seed});
+        var calls=Enumerable.Range(0,match.Player.ShipCount).Select(match.Player.Callsign).ToHashSet();
+        var owned=w.Ships.Where(s=>calls.Contains(s.Callsign)).ToArray();
+        while(w.Time<seconds&&w.Rules!.Outcome is null)w.Step();w.Log!.Finish();
+        if(w.Ships.Any(s=>!s.Velocity.IsFinite()||!double.IsFinite(s.Position.Length())))throw new Exception("Non-finite fleet motion");
+        return new{Kind="fleet",Hull=hull,Part=part??"stock",Seed=seed,Ships=w.Ships.Count,Seconds=w.Time,
+            Winner=w.Rules!.Outcome?.Winner,Selected=owned.Select(s=>Stats(w,s)).ToArray(),
+            Blue=w.Log.Side(Faction.Blue),Red=w.Log.Side(Faction.Red),w.Log.FriendlyCollisions};
+    }
+}

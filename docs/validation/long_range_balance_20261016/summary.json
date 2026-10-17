@@ -1,0 +1,1037 @@
+{
+  "before": {
+    "duel-130000-Earth": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 164.217,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 0,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 164.21,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 240,
+          "hits": 218,
+          "hitPercent": 90.83,
+          "meanSurvival": 164.217,
+          "meanFiringRangeKm": 117.554,
+          "moduleDamage": 5118.875,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-130000-Mars": {
+      "games": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 176.933,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 288,
+          "hits": 244,
+          "hitPercent": 84.72,
+          "meanSurvival": 176.933,
+          "meanFiringRangeKm": 116.53,
+          "moduleDamage": 4425.122,
+          "firstShotSample": 2.509
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 0,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 176.925,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        }
+      }
+    },
+    "duel-20000-Earth": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 88.383,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 20,
+          "hits": 20,
+          "hitPercent": 100.0,
+          "meanSurvival": 88.374,
+          "meanFiringRangeKm": 20.01,
+          "moduleDamage": 1968.0,
+          "firstShotSample": 5.0
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 240,
+          "hits": 240,
+          "hitPercent": 100.0,
+          "meanSurvival": 88.383,
+          "meanFiringRangeKm": 21.122,
+          "moduleDamage": 5836.964,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-20000-Mars": {
+      "games": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 87.709,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 240,
+          "hits": 240,
+          "hitPercent": 100.0,
+          "meanSurvival": 87.709,
+          "meanFiringRangeKm": 21.104,
+          "moduleDamage": 5573.079,
+          "firstShotSample": 5.0
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 20,
+          "hits": 20,
+          "hitPercent": 100.0,
+          "meanSurvival": 87.7,
+          "meanFiringRangeKm": 20.008,
+          "moduleDamage": 1968.0,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-70000-Earth": {
+      "games": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 5.85,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 24,
+          "hits": 8,
+          "hitPercent": 33.33,
+          "meanSurvival": 5.85,
+          "meanFiringRangeKm": 69.997,
+          "moduleDamage": 662.36,
+          "firstShotSample": 5.0
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 24,
+          "hits": 16,
+          "hitPercent": 66.67,
+          "meanSurvival": 5.843,
+          "meanFiringRangeKm": 69.997,
+          "moduleDamage": 200.0,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-70000-Mars": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 154.204,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 3,
+          "disabled": 1,
+          "rails": 80,
+          "hits": 72,
+          "hitPercent": 90.0,
+          "meanSurvival": 97.864,
+          "meanFiringRangeKm": 70.312,
+          "moduleDamage": 3261.583,
+          "firstShotSample": 2.509
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 88,
+          "hits": 87,
+          "hitPercent": 98.86,
+          "meanSurvival": 154.204,
+          "meanFiringRangeKm": 68.986,
+          "moduleDamage": 6611.24,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "earth": {
+      "games": 4,
+      "wins": {
+        "Blue": 2,
+        "Red": 2
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 559.271,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 6,
+          "disabled": 1,
+          "rails": 154,
+          "hits": 136,
+          "hitPercent": 88.31,
+          "meanSurvival": 316.003,
+          "meanFiringRangeKm": 92.801,
+          "moduleDamage": 13271.111,
+          "firstShotSample": 257.5
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 40,
+          "destroyed": 11,
+          "disabled": 0,
+          "rails": 964,
+          "hits": 513,
+          "hitPercent": 53.22,
+          "meanSurvival": 550.665,
+          "meanFiringRangeKm": 31.644,
+          "moduleDamage": 16215.059,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 1,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 554.601,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        }
+      }
+    },
+    "mars": {
+      "games": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 772.054,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 6,
+          "disabled": 0,
+          "rails": 338,
+          "hits": 222,
+          "hitPercent": 65.68,
+          "meanSurvival": 548.176,
+          "meanFiringRangeKm": 100.449,
+          "moduleDamage": 6702.14,
+          "firstShotSample": 127.5
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 36,
+          "destroyed": 24,
+          "disabled": 0,
+          "rails": 3876,
+          "hits": 1244,
+          "hitPercent": 32.09,
+          "meanSurvival": 643.24,
+          "meanFiringRangeKm": 53.409,
+          "moduleDamage": 16745.254,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 40,
+          "destroyed": 3,
+          "disabled": 0,
+          "rails": 1167,
+          "hits": 395,
+          "hitPercent": 33.85,
+          "meanSurvival": 759.087,
+          "meanFiringRangeKm": 10.632,
+          "moduleDamage": 2555.454,
+          "firstShotSample": null
+        }
+      }
+    },
+    "mixed": {
+      "games": 8,
+      "wins": {
+        "Red": 8
+      },
+      "designWins": {
+        "Mars": 8
+      },
+      "meanEnd": 720.719,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 0,
+          "destroyed": 8,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 291.826,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 299.067,
+          "firstShotSample": null
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 15,
+          "destroyed": 22,
+          "disabled": 1,
+          "rails": 670,
+          "hits": 131,
+          "hitPercent": 19.55,
+          "meanSurvival": 672.081,
+          "meanFiringRangeKm": 20.3,
+          "moduleDamage": 4731.602,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 3,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 719.699,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        },
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 0,
+          "disabled": 1,
+          "rails": 992,
+          "hits": 724,
+          "hitPercent": 72.98,
+          "meanSurvival": 636.727,
+          "meanFiringRangeKm": 116.597,
+          "moduleDamage": 12145.201,
+          "firstShotSample": 112.5
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 48,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 3806,
+          "hits": 1909,
+          "hitPercent": 50.16,
+          "meanSurvival": 720.719,
+          "meanFiringRangeKm": 47.787,
+          "moduleDamage": 28915.892,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 40,
+          "destroyed": 3,
+          "disabled": 0,
+          "rails": 1043,
+          "hits": 298,
+          "hitPercent": 28.57,
+          "meanSurvival": 709.603,
+          "meanFiringRangeKm": 10.803,
+          "moduleDamage": 2632.355,
+          "firstShotSample": null
+        }
+      }
+    },
+    "swapped": {
+      "games": 8,
+      "wins": {
+        "Blue": 8
+      },
+      "designWins": {
+        "Mars": 8
+      },
+      "meanEnd": 691.542,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 1002,
+          "hits": 726,
+          "hitPercent": 72.46,
+          "meanSurvival": 691.542,
+          "meanFiringRangeKm": 114.441,
+          "moduleDamage": 12228.289,
+          "firstShotSample": 113.75
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 48,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 3940,
+          "hits": 1813,
+          "hitPercent": 46.02,
+          "meanSurvival": 687.486,
+          "meanFiringRangeKm": 48.998,
+          "moduleDamage": 27868.705,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 40,
+          "destroyed": 5,
+          "disabled": 0,
+          "rails": 897,
+          "hits": 200,
+          "hitPercent": 22.3,
+          "meanSurvival": 672.062,
+          "meanFiringRangeKm": 10.737,
+          "moduleDamage": 849.039,
+          "firstShotSample": null
+        },
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 0,
+          "destroyed": 8,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 282.345,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 17,
+          "destroyed": 21,
+          "disabled": 2,
+          "rails": 662,
+          "hits": 63,
+          "hitPercent": 9.52,
+          "meanSurvival": 659.736,
+          "meanFiringRangeKm": 19.904,
+          "moduleDamage": 4084.301,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 689.491,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        }
+      }
+    }
+  },
+  "after": {
+    "duel-130000-Earth": {
+      "games": 4,
+      "wins": {
+        "Blue": 2,
+        "Red": 2
+      },
+      "designWins": {
+        "Earth": 2,
+        "Mars": 2
+      },
+      "meanEnd": 151.9,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 2,
+          "disabled": 0,
+          "rails": 78,
+          "hits": 54,
+          "hitPercent": 69.23,
+          "meanSurvival": 151.898,
+          "meanFiringRangeKm": 122.965,
+          "moduleDamage": 3093.008,
+          "firstShotSample": 35.0
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 2,
+          "disabled": 0,
+          "rails": 252,
+          "hits": 238,
+          "hitPercent": 94.44,
+          "meanSurvival": 151.897,
+          "meanFiringRangeKm": 121.578,
+          "moduleDamage": 7805.009,
+          "firstShotSample": 40.0
+        }
+      }
+    },
+    "duel-130000-Mars": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 58.242,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 52,
+          "hits": 38,
+          "hitPercent": 73.08,
+          "meanSurvival": 58.234,
+          "meanFiringRangeKm": 126.346,
+          "moduleDamage": 5679.723,
+          "firstShotSample": 40.0
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 48,
+          "hits": 31,
+          "hitPercent": 64.58,
+          "meanSurvival": 58.242,
+          "meanFiringRangeKm": 126.819,
+          "moduleDamage": 2595.396,
+          "firstShotSample": 35.0
+        }
+      }
+    },
+    "duel-20000-Earth": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 115.067,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 20,
+          "hits": 20,
+          "hitPercent": 100.0,
+          "meanSurvival": 115.063,
+          "meanFiringRangeKm": 20.01,
+          "moduleDamage": 1968.0,
+          "firstShotSample": 5.0
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 318,
+          "hits": 307,
+          "hitPercent": 96.54,
+          "meanSurvival": 115.067,
+          "meanFiringRangeKm": 22.002,
+          "moduleDamage": 6524.597,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-20000-Mars": {
+      "games": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 114.809,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 316,
+          "hits": 311,
+          "hitPercent": 98.42,
+          "meanSurvival": 114.809,
+          "meanFiringRangeKm": 21.965,
+          "moduleDamage": 6534.416,
+          "firstShotSample": 5.0
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 20,
+          "hits": 20,
+          "hitPercent": 100.0,
+          "meanSurvival": 114.804,
+          "meanFiringRangeKm": 20.008,
+          "moduleDamage": 1968.0,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-70000-Earth": {
+      "games": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 5.858,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 24,
+          "hits": 12,
+          "hitPercent": 50.0,
+          "meanSurvival": 5.858,
+          "meanFiringRangeKm": 69.998,
+          "moduleDamage": 1437.689,
+          "firstShotSample": 5.0
+        },
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 24,
+          "hits": 16,
+          "hitPercent": 66.67,
+          "meanSurvival": 5.847,
+          "meanFiringRangeKm": 69.997,
+          "moduleDamage": 200.0,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "duel-70000-Mars": {
+      "games": 4,
+      "wins": {
+        "Red": 3,
+        "Blue": 1
+      },
+      "designWins": {
+        "Earth": 3,
+        "Mars": 1
+      },
+      "meanEnd": 37.925,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 3,
+          "disabled": 0,
+          "rails": 60,
+          "hits": 56,
+          "hitPercent": 93.33,
+          "meanSurvival": 37.917,
+          "meanFiringRangeKm": 72.005,
+          "moduleDamage": 1781.411,
+          "firstShotSample": 2.509
+        },
+        "Earth/Battleship": {
+          "ships": 4,
+          "fired": 4,
+          "destroyed": 1,
+          "disabled": 0,
+          "rails": 24,
+          "hits": 12,
+          "hitPercent": 50.0,
+          "meanSurvival": 37.924,
+          "meanFiringRangeKm": 69.995,
+          "moduleDamage": 1826.499,
+          "firstShotSample": 5.0
+        }
+      }
+    },
+    "earth": {
+      "games": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "designWins": {
+        "Earth": 4
+      },
+      "meanEnd": 778.279,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 5,
+          "disabled": 1,
+          "rails": 354,
+          "hits": 240,
+          "hitPercent": 67.8,
+          "meanSurvival": 427.212,
+          "meanFiringRangeKm": 103.925,
+          "moduleDamage": 21117.949,
+          "firstShotSample": 170.0
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 35,
+          "destroyed": 21,
+          "disabled": 3,
+          "rails": 2052,
+          "hits": 922,
+          "hitPercent": 44.93,
+          "meanSurvival": 728.441,
+          "meanFiringRangeKm": 33.6,
+          "moduleDamage": 29100.147,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 778.279,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        }
+      }
+    },
+    "mars": {
+      "games": 4,
+      "wins": {
+        "Red": 4
+      },
+      "designWins": {
+        "Mars": 4
+      },
+      "meanEnd": 571.321,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 294,
+          "hits": 163,
+          "hitPercent": 55.44,
+          "meanSurvival": 361.905,
+          "meanFiringRangeKm": 78.696,
+          "moduleDamage": 9289.901,
+          "firstShotSample": 162.5
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 48,
+          "destroyed": 17,
+          "disabled": 4,
+          "rails": 4916,
+          "hits": 638,
+          "hitPercent": 12.98,
+          "meanSurvival": 488.592,
+          "meanFiringRangeKm": 56.124,
+          "moduleDamage": 15818.095,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 40,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 588,
+          "hits": 61,
+          "hitPercent": 10.37,
+          "meanSurvival": 543.303,
+          "meanFiringRangeKm": 11.074,
+          "moduleDamage": 353.939,
+          "firstShotSample": null
+        }
+      }
+    },
+    "mixed": {
+      "games": 8,
+      "wins": {
+        "Blue": 5,
+        "Red": 3
+      },
+      "designWins": {
+        "Earth": 5,
+        "Mars": 3
+      },
+      "meanEnd": 780.883,
+      "ships": {
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 4,
+          "disabled": 0,
+          "rails": 370,
+          "hits": 197,
+          "hitPercent": 53.24,
+          "meanSurvival": 570.452,
+          "meanFiringRangeKm": 79.449,
+          "moduleDamage": 12594.475,
+          "firstShotSample": 224.375
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 16,
+          "destroyed": 25,
+          "disabled": 2,
+          "rails": 824,
+          "hits": 27,
+          "hitPercent": 3.28,
+          "meanSurvival": 642.736,
+          "meanFiringRangeKm": 17.04,
+          "moduleDamage": 8263.933,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 780.883,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        },
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 5,
+          "disabled": 1,
+          "rails": 384,
+          "hits": 383,
+          "hitPercent": 99.74,
+          "meanSurvival": 395.198,
+          "meanFiringRangeKm": 117.707,
+          "moduleDamage": 15990.02,
+          "firstShotSample": 213.75
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 48,
+          "destroyed": 10,
+          "disabled": 2,
+          "rails": 4196,
+          "hits": 1769,
+          "hitPercent": 42.16,
+          "meanSurvival": 741.384,
+          "meanFiringRangeKm": 59.779,
+          "moduleDamage": 32953.531,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 36,
+          "destroyed": 12,
+          "disabled": 0,
+          "rails": 686,
+          "hits": 451,
+          "hitPercent": 65.74,
+          "meanSurvival": 678.752,
+          "meanFiringRangeKm": 9.564,
+          "moduleDamage": 2065.841,
+          "firstShotSample": null
+        }
+      }
+    },
+    "swapped": {
+      "games": 8,
+      "wins": {
+        "Blue": 7,
+        "Red": 1
+      },
+      "designWins": {
+        "Mars": 7,
+        "Earth": 1
+      },
+      "meanEnd": 683.312,
+      "ships": {
+        "Mars/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 2,
+          "disabled": 0,
+          "rails": 378,
+          "hits": 364,
+          "hitPercent": 96.3,
+          "meanSurvival": 599.381,
+          "meanFiringRangeKm": 120.202,
+          "moduleDamage": 14633.784,
+          "firstShotSample": 213.75
+        },
+        "Mars/Escort": {
+          "ships": 48,
+          "fired": 48,
+          "destroyed": 1,
+          "disabled": 0,
+          "rails": 3642,
+          "hits": 1020,
+          "hitPercent": 28.01,
+          "meanSurvival": 678.881,
+          "meanFiringRangeKm": 62.064,
+          "moduleDamage": 18345.788,
+          "firstShotSample": null
+        },
+        "Mars/Interceptor": {
+          "ships": 40,
+          "fired": 39,
+          "destroyed": 5,
+          "disabled": 0,
+          "rails": 372,
+          "hits": 30,
+          "hitPercent": 8.06,
+          "meanSurvival": 681.475,
+          "meanFiringRangeKm": 13.336,
+          "moduleDamage": 452.098,
+          "firstShotSample": null
+        },
+        "Earth/Battleship": {
+          "ships": 8,
+          "fired": 8,
+          "destroyed": 7,
+          "disabled": 0,
+          "rails": 118,
+          "hits": 83,
+          "hitPercent": 70.34,
+          "meanSurvival": 292.869,
+          "meanFiringRangeKm": 116.826,
+          "moduleDamage": 3821.176,
+          "firstShotSample": 229.375
+        },
+        "Earth/Escort": {
+          "ships": 48,
+          "fired": 6,
+          "destroyed": 21,
+          "disabled": 1,
+          "rails": 270,
+          "hits": 5,
+          "hitPercent": 1.85,
+          "meanSurvival": 630.82,
+          "meanFiringRangeKm": 17.392,
+          "moduleDamage": 4939.202,
+          "firstShotSample": null
+        },
+        "Earth/Interceptor": {
+          "ships": 40,
+          "fired": 0,
+          "destroyed": 0,
+          "disabled": 0,
+          "rails": 0,
+          "hits": 0,
+          "hitPercent": null,
+          "meanSurvival": 683.312,
+          "meanFiringRangeKm": null,
+          "moduleDamage": 0.0,
+          "firstShotSample": null
+        }
+      }
+    }
+  }
+}

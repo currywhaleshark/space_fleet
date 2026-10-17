@@ -1,0 +1,52 @@
+done 1/normal: Blue:0.000/0.000/0.250/84.750/152.463/165.883/176.313/176.073/565.387/186.920/-;M=102/34;R=342/211;AM=0/0|Red:0.000/0.000/0.250/90.250/376.067/165.617/176.048/177.493/601.930/674.819/-;M=120/11;R=248/126;AM=0/0|Approach:120.000,Missile:300.000,Gunnery:60.000,Sniping:244.517,Brawl:0.000|collisions=0|events=161|winner=Red;time=724.517 wall=15.6s
+done 1/mirror: Blue:0.000/0.000/0.250/90.500/198.588/165.633/176.065/176.353/392.494/398.588/-;M=102/38;R=602/131;AM=0/0|Red:0.000/0.000/0.250/79.500/113.000/165.900/176.330/176.090/462.992/682.709/-;M=120/27;R=344/172;AM=0/0|Approach:60.000,Missile:210.000,Gunnery:180.000,Sniping:289.267,Brawl:0.000|collisions=0|events=170|winner=Blue;time=739.267 wall=13.4s
+done 2/normal: Blue:0.000/0.000/0.250/84.717/152.446/165.450/175.879/180.456/-/185.240/696.000;M=102/15;R=466/189;AM=0/0|Red:0.000/0.000/0.250/90.817/124.317/165.200/175.636/175.902/186.942/318.888/696.000;M=96/7;R=274/38;AM=0/0|Approach:210.000,Missile:240.000,Gunnery:90.000,Sniping:150.000,Brawl:15.283|collisions=2|events=169|winner=Blue;time=705.283 wall=12.5s
+done 2/mirror: Blue:0.000/0.000/0.250/91.500/131.067/165.267/175.701/175.907/613.128/629.764/792.000;M=120/28;R=158/119;AM=0/0|Red:0.000/0.000/0.250/78.133/111.617/165.450/175.879/185.306/778.640/391.121/792.000;M=103/39;R=320/196;AM=0/0|Approach:60.000,Missile:330.000,Gunnery:60.000,Sniping:382.517,Brawl:0.000|collisions=0|events=214|winner=Blue;time=832.517 wall=14.0s
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+Blue Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+Red Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+MissileLaunch: median=82.11 min=78.13 max=84.75 occurred=4/4
+Blue MissileLaunch: median=87.62 min=84.72 max=91.50 occurred=4/4
+Red MissileLaunch: median=84.88 min=78.13 max=90.82 occurred=4/4
+MissileHit: median=118.66 min=111.62 max=152.46 occurred=4/4
+Blue MissileHit: median=152.45 min=131.07 max=198.59 occurred=4/4
+Red MissileHit: median=118.66 min=111.62 max=376.07 occurred=4/4
+RailLaunch: median=165.44 min=165.20 max=165.63 occurred=4/4
+Blue RailLaunch: median=165.54 min=165.27 max=165.88 occurred=4/4
+Red RailLaunch: median=165.53 min=165.20 max=165.90 occurred=4/4
+RailHit: median=175.87 min=175.64 max=176.06 occurred=4/4
+Blue RailHit: median=175.97 min=175.70 max=176.31 occurred=4/4
+Red RailHit: median=175.96 min=175.64 max=176.33 occurred=4/4
+ModuleDestroyed: median=175.99 min=175.90 max=176.09 occurred=4/4
+Blue ModuleDestroyed: median=176.21 min=175.91 max=180.46 occurred=4/4
+Red ModuleDestroyed: median=176.79 min=175.90 max=185.31 occurred=4/4
+Disabled: median=478.94 min=186.94 max=613.13 occurred=4/4
+Blue Disabled: median=565.39 min=392.49 max=613.13 occurred=3/4
+Red Disabled: median=532.46 min=186.94 max=778.64 occurred=4/4
+Destroyed: median=289.02 min=185.24 max=398.59 occurred=4/4
+Blue Destroyed: median=292.75 min=185.24 max=629.76 occurred=4/4
+Red Destroyed: median=532.97 min=318.89 max=682.71 occurred=4/4
+Close: median=744.00 min=696.00 max=792.00 occurred=2/4
+Blue Close: median=744.00 min=696.00 max=792.00 occurred=2/4
+Red Close: median=744.00 min=696.00 max=792.00 occurred=2/4
+Outcome: median=731.89 min=705.28 max=832.52 occurred=4/4
+Wall: median=13.69 min=12.48 max=15.62 occurred=4/4
+wins Blue: 3/4
+wins Red: 1/4
+draws: 0/4; unresolved: 0
+position normal: Blue 1/2, Red 1/2
+position mirror: Blue 2/2, Red 0/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 4/4
+phase Gunnery >=60s: 4/4
+phase Sniping >=60s: 4/4
+phase Brawl >=60s: 0/4
+friendly collisions: mean=0.50
+batch wall=56.1s jobs=1 csv=C:\Users\yurib\Documents\New project\space_fleet\docs\validation\gunnery_tuning_20261016\fleet\earth.csv

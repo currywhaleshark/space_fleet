@@ -1,0 +1,66 @@
+{
+  "stock_definitions_identical": 34,
+  "unchanged_existing_regression_output": true,
+  "simulation_groups": 61,
+  "simulation_checks": 5677201,
+  "component_checks": 2033,
+  "pd_comparison_cases": 432,
+  "changed_pd_cases": 36,
+  "changed_only_barrage_vs_missiles": true,
+  "salvo_cases": 768,
+  "summary": {
+    "stock": {
+      "trials": 192,
+      "launched": 2304,
+      "intercepted": 420,
+      "ship_hits": 1733,
+      "defenders_destroyed": 50
+    },
+    "barrage-before": {
+      "trials": 192,
+      "launched": 2304,
+      "intercepted": 192,
+      "ship_hits": 1961,
+      "defenders_destroyed": 50
+    },
+    "pd-barrage": {
+      "trials": 192,
+      "launched": 2304,
+      "intercepted": 478,
+      "ship_hits": 1683,
+      "defenders_destroyed": 49
+    },
+    "pd-longrange": {
+      "trials": 192,
+      "launched": 2304,
+      "intercepted": 297,
+      "ship_hits": 1856,
+      "defenders_destroyed": 50
+    }
+  },
+  "build_warnings": {
+    "batch-build": 0,
+    "game-build": 4,
+    "scale-build": 0
+  },
+  "source_sha256": {
+    "data/components/catalog.json": "a18ff2a712afb6f932c0394dbf2d05733900df042816b8f39046fcc4f7d9073b",
+    "src/Sim/ShipComponents.cs": "f578d42f9b6c319ae833c17533223ed12d0b4a992d9b6876438a7bb8de498852",
+    "src/Sim/Missiles.cs": "2d46a7ad37394c1c6caffa6785be0b3e7a5c054c7f0820d73a15f17a68267273",
+    "src/Sim/ShipDefinition.cs": "a0758dd47ea4fc8e7a914773db7c2cd4c36d3bea8dcd7adc8fb422e63cb9ac2c",
+    "src/Sim/SimPointDefense.cs": "a5e74cbbcb91c6eb969ede1e8d8b8f44a6e5423f5f46bc0b506eaa984ff40c9c",
+    "tests/SimChecks/ComponentChecks.cs": "2be02e9ee2515a102bb0e7e76d7488cb209423add0b3b472827bd481c8cdd45a",
+    "tools/BattleBatch/ComponentTrials.cs": "fe496f9e08305a680b5d41f818db6bef6a5100c22aea5fd9c21f03368ff42c07",
+    "docs/validation/pd_barrage_20261016/verify.py": "c157e9ea1dac2685be634f22a91f647de1327e3cbdb6d874a6eaa9a5243b279e"
+  },
+  "evidence_sha256": {
+    "batch-build.log": "52c95cd76b12be5cc540db1a239db44263e77326046e8722dc6eaea5559d4c3d",
+    "components.log": "f2013f5107593656907fe2a6f720f5183f7d0f75872db4ba0616ec0da43289d9",
+    "game-build.log": "4b99b2dda998fffe8b087a23f2e2761d3426b0b74f78c9e6b73ea6a7bfc941b2",
+    "pd-after.json": "84d5461d55281f3ef70fa72d5bc967ee90b1a9d681b0551afce61018de60d0b9",
+    "salvos.json": "8a25b514bcf190798404243770439d8d8a6ba6b61286bfc63f98f6a53a355f7a",
+    "scale-build.log": "710d5ee4a03fae24615e7cb5e9c4bd021d3a7db51a1d7191d8ade6feb0ebd0da",
+    "sim-checks.log": "113d38b2309c084e2d1e07b7d831dfa01cc74c1bc39c5a2b52f18ff73aee56b3",
+    "stock-definitions.json": "8abae7240489a231d87f8fb996c0b656eeda5be0a127249887f2a02ec9694bed"
+  }
+}

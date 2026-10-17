@@ -1,0 +1,76 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+10:09:40 | INFO: Starting glTF 2.0 export
+10:09:40 | INFO: Extracting primitive: Main pressure hull.001
+10:09:40 | INFO: Primitives created: 10
+10:09:40 | INFO: Extracting primitive: PD 0 receiver.001
+10:09:40 | INFO: Primitives created: 1
+10:09:40 | INFO: Extracting primitive: PD 0 barrel.002
+10:09:40 | INFO: Primitives created: 2
+10:09:40 | INFO: Extracting primitive: PD 1 receiver.001
+10:09:40 | INFO: Primitives created: 1
+10:09:40 | INFO: Extracting primitive: PD 1 barrel.002
+10:09:40 | INFO: Primitives created: 2
+10:09:40 | INFO: Finished glTF 2.0 export in 0.12549734115600586 s
+00:04.016  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_3588_95656956acf05879d33a5ccb6822ac3e.png.png"
+00:13.437  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\earth_recon_t4_hero.png'
+00:23.469  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\earth_recon_t4_underside.png'
+00:34.859  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\earth_recon_t4_rear.png'
+00:43.891  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\earth_recon_t4_top.png'
+
+Info: Saved as "earth_recon_t4.blend"
+BUILT earth_recon_t4 7524 triangles
+10:10:21 | INFO: Starting glTF 2.0 export
+10:10:21 | INFO: Extracting primitive: Main pressure hull.001
+10:10:21 | INFO: Primitives created: 10
+10:10:21 | INFO: Extracting primitive: PD 0 receiver.001
+10:10:21 | INFO: Primitives created: 1
+10:10:21 | INFO: Extracting primitive: PD 0 barrel.002
+10:10:21 | INFO: Primitives created: 2
+10:10:21 | INFO: Extracting primitive: PD 1 receiver.001
+10:10:21 | INFO: Primitives created: 1
+10:10:21 | INFO: Extracting primitive: PD 1 barrel.002
+10:10:21 | INFO: Primitives created: 2
+10:10:21 | INFO: Finished glTF 2.0 export in 0.0750417709350586 s
+00:44.437  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_3588_410859e2d00e1746eabecd3a1908e0d5.png.png"
+00:53.984  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\interceptor_t4_hero.png'
+01:03.109  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\interceptor_t4_underside.png'
+01:11.609  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\interceptor_t4_rear.png'
+01:20.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\interceptor_t4_top.png'
+
+Info: Saved as "interceptor_t4.blend"
+BUILT interceptor_t4 6496 triangles
+10:10:57 | INFO: Starting glTF 2.0 export
+10:10:57 | INFO: Extracting primitive: Main pressure hull.001
+10:10:57 | INFO: Primitives created: 10
+10:10:57 | INFO: Extracting primitive: PD 0 receiver.001
+10:10:57 | INFO: Primitives created: 1
+10:10:57 | INFO: Extracting primitive: PD 0 barrel.002
+10:10:57 | INFO: Primitives created: 2
+10:10:57 | INFO: Finished glTF 2.0 export in 0.061196327209472656 s
+01:20.500  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_3588_ee550b3c8a1a65711117c9287d257f40.png.png"
+01:29.375  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_assault_t4_hero.png'
+01:38.312  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_assault_t4_underside.png'
+01:46.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_assault_t4_rear.png'
+01:55.516  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_assault_t4_top.png'
+
+Info: Saved as "mars_assault_t4.blend"
+BUILT mars_assault_t4 5968 triangles
+10:11:32 | INFO: Starting glTF 2.0 export
+10:11:32 | INFO: Extracting primitive: Main pressure hull.001
+10:11:32 | INFO: Primitives created: 10
+10:11:32 | INFO: Extracting primitive: PD 0 receiver.001
+10:11:32 | INFO: Primitives created: 1
+10:11:32 | INFO: Extracting primitive: PD 0 barrel.002
+10:11:32 | INFO: Primitives created: 2
+10:11:32 | INFO: Finished glTF 2.0 export in 0.04762530326843262 s
+01:55.859  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_3588_fd5ccf9ead9eaf2fb31243d861756eb2.png.png"
+02:04.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_interceptor_t4_hero.png'
+02:12.625  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_interceptor_t4_underside.png'
+02:21.078  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_interceptor_t4_rear.png'
+02:29.359  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t4_small_models_20261017\mars_interceptor_t4_top.png'
+
+Info: Saved as "mars_interceptor_t4.blend"
+BUILT mars_interceptor_t4 6224 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

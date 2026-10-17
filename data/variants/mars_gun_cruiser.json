@@ -1,0 +1,225 @@
+{
+  "id": "mars_gun_cruiser",
+  "baseHullId": "mars_escort",
+  "tier": 3,
+  "patch": {
+    "id": "mars_gun_cruiser",
+    "branch": "GunCruiser",
+    "modelId": "mars_gun_cruiser",
+    "squadron": {
+      "role": "GunCruiserSquadron",
+      "composition": "포격순양함 4"
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 44000,
+        "railFlightSeconds": 7.5
+      },
+      "defaultPips": [
+        2,
+        1,
+        2,
+        2,
+        1
+      ]
+    },
+    "battleValue": {
+      "weight": 2.4
+    },
+    "railgun": {
+      "reloadSeconds": 1.64,
+      "penetrationMm": 1180.0
+    },
+    "flight": {
+      "displayName": "칸도르급 포격순양함",
+      "massKg": 110160000.0,
+      "forwardAccel": 17.499999999999996,
+      "strafeAccel": 7.499999999999999,
+      "brakeAccel": 14.999999999999998
+    },
+    "pointDefense": {
+      "shotsPerSecond": 8.4
+    },
+    "decoys": {
+      "count": 6
+    },
+    "hullSections": [
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 151.2
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "hull",
+        "name": "주선체",
+        "center": [
+          0.0,
+          0.0,
+          7.56
+        ],
+        "halfSize": [
+          19.71,
+          14.82,
+          108.36
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 151.2,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "함수 1",
+        "center": [
+          0.0,
+          -0.78,
+          -113.4
+        ],
+        "halfSize": [
+          16.06,
+          11.7,
+          21.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 151.2,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "함수 2",
+        "center": [
+          0.0,
+          -2.34,
+          -144.9
+        ],
+        "halfSize": [
+          7,
+          7.8,
+          10.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 24.5
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "함교",
+        "center": [
+          0.0,
+          34.32,
+          33.6
+        ],
+        "halfSize": [
+          11.68,
+          20.28,
+          15.12
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {},
+        "id": "radiator-port",
+        "name": "좌현 방열판",
+        "center": [
+          -22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "우현 방열판",
+        "center": [
+          22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 6
+        },
+        "id": "sensor-head",
+        "name": "외부 센서 헤드",
+        "center": [
+          0.0,
+          63.9,
+          33.6
+        ],
+        "halfSize": [
+          6.424,
+          8.58,
+          8.316
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "id": "turret-base-gun-1",
+        "name": "주포 바베트",
+        "center": [
+          0.0,
+          16.78,
+          -50.4
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "id": "turret-base-gun-2",
+        "name": "주포 바베트",
+        "center": [
+          0.0,
+          -16.78,
+          -25.2
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ]
+      }
+    ]
+  }
+}

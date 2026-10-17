@@ -1,0 +1,8 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+1,0,Blue,IC-24,BB-X1,Battleship,336.096,5430.5,3.225,3923.2,0.000,815.1,Drone,
+1,0,Blue,IC-21,BB-X1,Battleship,572.529,5262.3,3.908,4580.5,0.000,634.9,Drone,
+1,0,Blue,IC-22,BB-X1,Battleship,596.579,5463.9,2.579,2629.1,0.579,1822.1,PointDefense,
+2,1,Blue,IC-25,DD-X6,Escort,639.496,4851.6,4.129,3909.5,0.000,8.0,Hit,DD-X6
+2,1,Blue,IC-24,DD-X6,Escort,640.996,4854.6,4.096,3971.8,0.000,24.6,Hit,DD-X6
+2,1,Blue,IC-22,DD-X6,Escort,641.246,4865.8,4.113,3846.9,0.000,27.8,Hit,DD-X6
+2,1,Blue,IC-21,DD-X6,Escort,642.046,4904.9,4.129,3908.2,0.000,34.5,Hit,DD-X6

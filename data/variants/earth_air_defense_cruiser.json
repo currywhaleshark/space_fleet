@@ -1,0 +1,427 @@
+{
+  "id": "earth_air_defense_cruiser",
+  "baseHullId": "escort",
+  "tier": 3,
+  "patch": {
+    "id": "earth_air_defense_cruiser",
+    "branch": "AirDefenseCruiser",
+    "modelId": "earth_air_defense_cruiser",
+    "squadron": {
+      "role": "AirDefenseSquadron",
+      "composition": "방공순양함 4"
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 28000,
+        "missileRangeMeters": 16000
+      },
+      "defaultPips": [
+        2,
+        1,
+        3,
+        2,
+        0
+      ],
+      "targetPreference": {
+        "Battleship": 2,
+        "Escort": 1,
+        "Interceptor": 0
+      }
+    },
+    "battleValue": {
+      "weight": 2.4
+    },
+    "railgun": {
+      "reloadSeconds": 1.9500000000000002,
+      "energy": 420.0,
+      "moduleDamage": 125.99999999999999
+    },
+    "flight": {
+      "displayName": "시러스급 방공순양함"
+    },
+    "missiles": {
+      "rounds": 20,
+      "reloadSeconds": 2,
+      "ejectSpeed": 300,
+      "accelG": 85,
+      "burnSeconds": 14,
+      "maxFlightSeconds": 45,
+      "seekerRangeMeters": 8000,
+      "seekerFovDegrees": 90,
+      "seekerStrength": 2,
+      "fuzeMeters": 10,
+      "turnRateDegrees": 240,
+      "thrustGimbalDegrees": 30,
+      "energy": 250,
+      "penetrationMm": 350,
+      "moduleDamage": 75,
+      "hitPoints": 4,
+      "launchHeatMj": 2,
+      "canInterceptMissiles": true,
+      "interceptRangeMeters": 16000,
+      "interceptFuzeMeters": 40,
+      "interceptDamage": 12,
+      "bodyScale": 0.7
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          39,
+          12,
+          35
+        ],
+        [
+          -39,
+          12,
+          35
+        ],
+        [
+          0,
+          -20,
+          40
+        ],
+        [
+          0,
+          24,
+          -40
+        ],
+        [
+          39,
+          12,
+          -70
+        ],
+        [
+          -39,
+          12,
+          -70
+        ]
+      ],
+      "rangeMeters": 5000,
+      "hitChance": 0.11,
+      "normals": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          -0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ]
+      ]
+    },
+    "hullSections": [
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "hull",
+        "name": "주선체",
+        "center": [
+          0,
+          0,
+          9
+        ],
+        "halfSize": [
+          27,
+          19,
+          129
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "함수 1",
+        "center": [
+          0,
+          -1,
+          -135
+        ],
+        "halfSize": [
+          22,
+          15,
+          25
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "함수 2",
+        "center": [
+          0,
+          -3,
+          -172.5
+        ],
+        "halfSize": [
+          12,
+          10,
+          12.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "함교",
+        "center": [
+          0,
+          36,
+          40
+        ],
+        "halfSize": [
+          16,
+          18,
+          18
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {},
+        "id": "radiator-port",
+        "name": "좌현 방열판",
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "우현 방열판",
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "pd-deck-forward--1",
+        "name": "pd-deck-forward--1",
+        "center": [
+          -36,
+          0,
+          -70
+        ],
+        "halfSize": [
+          17,
+          11,
+          43
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "pd-deck-aft--1",
+        "name": "pd-deck-aft--1",
+        "center": [
+          -36,
+          0,
+          34
+        ],
+        "halfSize": [
+          17,
+          11,
+          38
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "pd-deck-forward-1",
+        "name": "pd-deck-forward-1",
+        "center": [
+          36,
+          0,
+          -70
+        ],
+        "halfSize": [
+          17,
+          11,
+          43
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "pd-deck-aft-1",
+        "name": "pd-deck-aft-1",
+        "center": [
+          36,
+          0,
+          34
+        ],
+        "halfSize": [
+          17,
+          11,
+          38
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "turret-base-gun-1",
+        "name": "turret-base-gun-1",
+        "center": [
+          0,
+          22.5,
+          -60
+        ],
+        "halfSize": [
+          10,
+          3.5,
+          10
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "turret-base-gun-2",
+        "name": "turret-base-gun-2",
+        "center": [
+          0,
+          -22.5,
+          -30
+        ],
+        "halfSize": [
+          10,
+          3.5,
+          10
+        ]
+      }
+    ],
+    "defenseDrones": {
+      "count": 4,
+      "orbitMeters": 600,
+      "rangeMeters": 1800,
+      "shotsPerSecond": 3,
+      "hitChance": 0.18,
+      "damagePerHit": 4,
+      "roundsPerDrone": 60,
+      "repositionSpeed": 240,
+      "hitPoints": 8,
+      "radiusMeters": 4,
+      "shipEnergy": 10,
+      "shipPenetrationMm": 30,
+      "shipModuleDamage": 6
+    }
+  }
+}

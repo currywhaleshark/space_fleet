@@ -72,15 +72,16 @@ public partial class Hud
 {
     private void DrawWeaponSelection(ShipBody ship,Vector2 screen)
     {
-        var start=new Vector2(screen.X*.5f-195,screen.Y-185);
+        var start=new Vector2(screen.X*.5f-195,screen.Y-189);
         string[] labels={ $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",
             ship.Definition.Antimatter is null ? "3 어뢰 —" : $"3 어뢰 {ship.Ordnance.Antimatter.Rounds}" };
         for(int i=0;i<labels.Length;i++)
         {
-            var rect=new Rect2(start+new Vector2(i*132,0),new Vector2(126,25));
+            var rect=new Rect2(start+new Vector2(i*132,0),new Vector2(126,31));
             bool selected=(int)Game.SelectedWeapon==i;
             DrawRect(rect,PanelBack); DrawRect(rect,selected ? Lead : Faint,false,selected ? 2 : 1);
-            CenteredLabel(rect.Position+new Vector2(63,17),labels[i],12,selected ? Lead : Dim);
+            if(selected)DrawRect(new(rect.Position+new Vector2(0,27),new Vector2(126,4)),Lead);
+            CenteredLabel(rect.Position+new Vector2(63,18),labels[i],15,selected ? Lead : Text);
         }
     }
 }

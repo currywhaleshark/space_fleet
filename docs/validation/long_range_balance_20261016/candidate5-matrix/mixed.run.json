@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\tools\\BattleBatch\\bin\\Release\\net8.0\\BattleBatch.dll",
+    "--mirror",
+    "--telemetry",
+    "--jobs",
+    "2",
+    "--seeds",
+    "1,2,3,4",
+    "--blue-design",
+    "Earth",
+    "--red-design",
+    "Mars",
+    "--blue-wing",
+    "earth_recon_t3",
+    "--red-wing",
+    "mars_assault_t3",
+    "--output",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\docs\\validation\\long_range_balance_20261016\\after\\mixed.csv"
+  ],
+  "binarySha256": "7a242acec11d33386930bdec77b6e78da9c588fc1dd471375e1ba1e1f7a712ed"
+}

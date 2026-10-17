@@ -1,0 +1,327 @@
+{
+  "id": "mars_starter_escort",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "hull",
+      "center": [
+        0,
+        0,
+        -21.32
+      ],
+      "halfSize": [
+        15.768,
+        11.856,
+        59.32
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "bow-1",
+      "center": [
+        0,
+        -0.624,
+        -90.72
+      ],
+      "halfSize": [
+        12.848,
+        9.36,
+        16.8
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "bow-2",
+      "center": [
+        0,
+        -1.872,
+        -115.92
+      ],
+      "halfSize": [
+        7.008,
+        6.24,
+        8.4
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "bridge",
+      "center": [
+        0,
+        20,
+        20
+      ],
+      "halfSize": [
+        8,
+        8.5,
+        12
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "sensor-head",
+      "center": [
+        0,
+        40,
+        20
+      ],
+      "halfSize": [
+        5.1392,
+        6.864,
+        6.6528
+      ],
+      "armorFrom": "sensor-head"
+    },
+    {
+      "id": "mast-stem",
+      "name": "mast-stem",
+      "center": [
+        0,
+        31,
+        20
+      ],
+      "halfSize": [
+        2.8,
+        5,
+        3.8
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        13.424,
+        -40.32
+      ],
+      "halfSize": [
+        5.6,
+        3.08,
+        5.6
+      ],
+      "armorFrom": "turret-base-gun-1"
+    },
+    {
+      "id": "aft-block",
+      "name": "aft-block",
+      "center": [
+        0,
+        0,
+        85
+      ],
+      "halfSize": [
+        15.768,
+        11.856,
+        7.736
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engineering-keel",
+      "name": "engineering-keel",
+      "center": [
+        0,
+        -7,
+        57.7
+      ],
+      "halfSize": [
+        5,
+        4,
+        20.2
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "service-generator-port",
+      "name": "service-generator-port",
+      "center": [
+        -7.5920000000000005,
+        0.0,
+        47.04
+      ],
+      "halfSize": [
+        3.804,
+        7.787999999999999,
+        10.38
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "service-cooling-port",
+      "name": "service-cooling-port",
+      "center": [
+        -11.68,
+        0.0,
+        53.760000000000005
+      ],
+      "halfSize": [
+        3.2199999999999998,
+        6.54,
+        8.364
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "service-cooling-starboard",
+      "name": "service-cooling-starboard",
+      "center": [
+        11.68,
+        0.0,
+        53.760000000000005
+      ],
+      "halfSize": [
+        3.2199999999999998,
+        6.54,
+        8.364
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "starboard-feed",
+      "name": "starboard-feed",
+      "center": [
+        11.68,
+        0,
+        41.8
+      ],
+      "halfSize": [
+        2.92,
+        3,
+        4
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "truss-chord-port--1",
+      "name": "truss-chord-port--1",
+      "center": [
+        -15.4,
+        -10,
+        57.7
+      ],
+      "halfSize": [
+        1,
+        1,
+        20.2
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "truss-chord-port-1",
+      "name": "truss-chord-port-1",
+      "center": [
+        -15.4,
+        10,
+        57.7
+      ],
+      "halfSize": [
+        1,
+        1,
+        20.2
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -20,
+        0,
+        58
+      ],
+      "halfSize": [
+        0.36,
+        10.8,
+        18.4
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "truss-chord-starboard--1",
+      "name": "truss-chord-starboard--1",
+      "center": [
+        15.4,
+        -10,
+        57.7
+      ],
+      "halfSize": [
+        1,
+        1,
+        20.2
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "truss-chord-starboard-1",
+      "name": "truss-chord-starboard-1",
+      "center": [
+        15.4,
+        10,
+        57.7
+      ],
+      "halfSize": [
+        1,
+        1,
+        20.2
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        20,
+        0,
+        58
+      ],
+      "halfSize": [
+        0.36,
+        10.8,
+        18.4
+      ],
+      "armorFrom": "radiator-starboard"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        40,
+        20
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -20,
+        0,
+        58
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        20,
+        0,
+        58
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      0.0,
+      -12.48,
+      26.880000000000003
+    ],
+    [
+      0.0,
+      14.975999999999999,
+      -26.880000000000003
+    ]
+  ],
+  "stage": "Independent T1 role blockout; surface finish pending"
+}

@@ -1,0 +1,9 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+2,1,Red,IC-X3,BB-01,Battleship,410.613,4593.9,0.558,456.8,0.000,4116.8,PointDefense,
+2,1,Red,IC-X5,BB-01,Battleship,413.546,4457.3,3.879,4617.8,1.879,0.0,Hit,BB-01
+2,1,Red,IC-X2,BB-01,Battleship,414.346,4507.3,3.892,4649.2,1.892,0.0,Hit,BB-01
+2,1,Red,IC-X1,BB-01,Battleship,417.846,4445.8,3.313,3780.4,1.312,826.6,Drone,
+2,1,Red,IC-X5,BB-01,Battleship,422.046,2913.7,0.658,453.5,0.158,2454.7,PointDefense,
+2,1,Red,IC-X4,BB-01,Battleship,425.396,4547.1,2.992,3302.5,0.992,1486.2,Drone,
+2,1,Red,IC-X1,BB-01,Battleship,426.346,3455.4,3.179,2675.1,2.000,1031.8,Drone,
+2,1,Red,IC-X4,BB-01,Battleship,433.896,2710.6,1.046,765.7,0.046,1996.7,PointDefense,

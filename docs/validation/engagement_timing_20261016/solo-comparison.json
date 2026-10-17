@@ -1,0 +1,109 @@
+[
+  {
+    "Distance": 20000,
+    "Escorts": 0,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 12,
+        "Earth": 4
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 6,
+        "Earth": 10
+      }
+    }
+  },
+  {
+    "Distance": 20000,
+    "Escorts": 2,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Earth": 15,
+        "Mars": 1
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Earth": 15,
+        "Mars": 1
+      }
+    }
+  },
+  {
+    "Distance": 70000,
+    "Escorts": 0,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 6,
+        "Earth": 10
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 11,
+        "Earth": 5
+      }
+    }
+  },
+  {
+    "Distance": 70000,
+    "Escorts": 2,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Earth": 16
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 3,
+        "Earth": 13
+      }
+    }
+  },
+  {
+    "Distance": 130000,
+    "Escorts": 0,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 15,
+        "Earth": 1
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 15,
+        "Earth": 1
+      }
+    }
+  },
+  {
+    "Distance": 130000,
+    "Escorts": 2,
+    "Before": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 11,
+        "Earth": 5
+      }
+    },
+    "After": {
+      "Games": 16,
+      "Wins": {
+        "Mars": 11,
+        "Earth": 5
+      }
+    }
+  }
+]

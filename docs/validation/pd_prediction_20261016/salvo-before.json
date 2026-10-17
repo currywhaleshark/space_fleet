@@ -1,0 +1,58 @@
+[
+  {
+    "az": 0,
+    "launched": 6,
+    "shots": 126,
+    "hitShots": 9,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      63,
+      63,
+      0,
+      0
+    ]
+  },
+  {
+    "az": 90,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 5,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      33,
+      0,
+      0,
+      30
+    ]
+  },
+  {
+    "az": 180,
+    "launched": 6,
+    "shots": 185,
+    "hitShots": 16,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      58,
+      58,
+      0,
+      69
+    ]
+  },
+  {
+    "az": 270,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 5,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      0,
+      33,
+      0,
+      30
+    ]
+  }
+]

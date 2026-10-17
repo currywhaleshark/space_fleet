@@ -1,0 +1,324 @@
+{
+  "id": "earth_air_defense_cruiser_t5",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        9
+      ],
+      "halfSize": [
+        27,
+        19,
+        129
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0,
+        -1,
+        -135
+      ],
+      "halfSize": [
+        19,
+        14,
+        25
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0,
+        -3,
+        -172.5
+      ],
+      "halfSize": [
+        8,
+        9,
+        12.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        29,
+        46
+      ],
+      "halfSize": [
+        18,
+        12,
+        22
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -61,
+        -3,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        61,
+        -3,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        22.5,
+        -60
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "turret-base-gun-2",
+      "center": [
+        0,
+        -22.5,
+        -30
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "sensor-head",
+      "name": "sensor-head",
+      "center": [
+        0,
+        38,
+        46
+      ],
+      "halfSize": [
+        8.5,
+        10.5,
+        9.5
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "defense-deck--1",
+      "name": "defense-deck--1",
+      "center": [
+        -44,
+        0,
+        -5
+      ],
+      "halfSize": [
+        14,
+        9,
+        100
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root--1-0",
+      "name": "deck-root--1-0",
+      "center": [
+        -29,
+        0,
+        -65
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root--1-1",
+      "name": "deck-root--1-1",
+      "center": [
+        -29,
+        0,
+        0
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root--1-2",
+      "name": "deck-root--1-2",
+      "center": [
+        -29,
+        0,
+        65
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "defense-deck-1",
+      "name": "defense-deck-1",
+      "center": [
+        44,
+        0,
+        -5
+      ],
+      "halfSize": [
+        14,
+        9,
+        100
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root-1-0",
+      "name": "deck-root-1-0",
+      "center": [
+        29,
+        0,
+        -65
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root-1-1",
+      "name": "deck-root-1-1",
+      "center": [
+        29,
+        0,
+        0
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-root-1-2",
+      "name": "deck-root-1-2",
+      "center": [
+        29,
+        0,
+        65
+      ],
+      "halfSize": [
+        8,
+        4,
+        9
+      ],
+      "armorFrom": "hull"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        38,
+        46
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -61,
+        -3,
+        70
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        61,
+        -3,
+        70
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      44,
+      11,
+      65
+    ],
+    [
+      -44,
+      11,
+      65
+    ],
+    [
+      0,
+      -21,
+      45
+    ],
+    [
+      0,
+      23,
+      -38
+    ],
+    [
+      44,
+      11,
+      -65
+    ],
+    [
+      -44,
+      11,
+      -65
+    ]
+  ],
+  "missileLaunch": [
+    -18,
+    23,
+    -104
+  ],
+  "blockout": {
+    "role": "defense"
+  }
+}

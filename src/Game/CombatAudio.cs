@@ -43,6 +43,8 @@ public partial class CombatAudio : Node
     internal float BoostLevel { get; private set; }
     internal bool EnginePlaying => _engine.Playing;
     internal bool BoostPlaying => _boost.Playing;
+    internal ShipBody? FollowedShip => _controlled;
+    internal FleetAudio Fleet => _fleet;
 
     public override void _Ready()
     {

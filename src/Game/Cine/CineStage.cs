@@ -55,7 +55,7 @@ public sealed class CineStage
     /// <summary>함선 하나를 놓는다. heading은 전방(-Z)이 향할 방향, 속도는 전방 기준 m/s.</summary>
     public ShipBody Spawn(string callsign, ShipClass cls, Faction faction, Vec3d at, Vector3 heading, float speed = 0, float roll = 0, bool drones = true)
     {
-        // 청군은 지구 설계, 적군은 화성 설계(아레스·데이모스·포보스).
+        // 청군은 지구 설계, 적군은 화성 설계(아레스·솔리스·로웰).
         var definition = ShipDefinitions.For(cls.Kind, faction == Faction.Red ? DesignFamily.Mars : DesignFamily.Earth);
         var body = World.Add(new ShipBody(callsign, definition, faction));
         Quaternion q = Basis.LookingAt(heading.Normalized(), Vector3.Up).GetRotationQuaternion();

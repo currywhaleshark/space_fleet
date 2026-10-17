@@ -1,9 +1,135 @@
 {
   "id": "mars_interceptor",
+  "branch": "Interceptor",
+  "modelId": "mars_interceptor",
+  "matchClass": "Small",
+  "squadron": {
+    "role": "InterceptorWing",
+    "composition": "요격함 5",
+    "members": [
+      {
+        "hullId": null,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          60,
+          -25,
+          50
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          120,
+          -50,
+          100
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          180,
+          -75,
+          150
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          240,
+          -100,
+          200
+        ]
+      }
+    ]
+  },
+  "ai": {
+    "profile": {
+      "standoffMeters": 7000,
+      "railFlightSeconds": 2.5,
+      "missileRangeMeters": 15000,
+      "attackRuns": true
+    },
+    "defaultPips": [
+      3,
+      1,
+      2,
+      2,
+      0
+    ],
+    "targetPreference": {
+      "Battleship": 2,
+      "Escort": 1,
+      "Interceptor": 0
+    },
+    "assaultReachMeters": 160000
+  },
+  "battleValue": {
+    "weight": 0.5,
+    "captureStrength": 1,
+    "hudMarkerRadius": 3
+  },
+  "bays": [
+    {
+      "id": "utility-port",
+      "size": "Small",
+      "center": [
+        -1.127,
+        0.0,
+        -1.275
+      ],
+      "halfSize": [
+        0.25,
+        0.22,
+        0.45
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "utility-starboard",
+      "size": "Small",
+      "center": [
+        1.127,
+        0.0,
+        -1.275
+      ],
+      "halfSize": [
+        0.25,
+        0.22,
+        0.45
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    }
+  ],
   "structureHitPoints": 540,
-  "damageControl": { "kits": 2, "repairSeconds": 10, "restoreFraction": 0.35, "quietSeconds": 5 },
+  "damageControl": {
+    "kits": 2,
+    "repairSeconds": 10,
+    "restoreFraction": 0.35,
+    "quietSeconds": 5
+  },
   "kind": "Interceptor",
-  "reconProbes": { "count": 2, "deploymentMeters": 36000, "acceleration": 280, "burnSeconds": 7, "sensorStrength": 115 },
+  "reconProbes": {
+    "count": 2,
+    "deploymentMeters": 36000,
+    "acceleration": 280,
+    "burnSeconds": 7,
+    "sensorStrength": 115
+  },
   "railgun": {
     "moduleId": "gun",
     "muzzle": [
@@ -26,7 +152,7 @@
   },
   "flight": {
     "kind": "Interceptor",
-    "displayName": "포보스급 요격함",
+    "displayName": "로웰급 요격함",
     "length": 26,
     "massKg": 81600.0,
     "forwardAccel": 47.25,

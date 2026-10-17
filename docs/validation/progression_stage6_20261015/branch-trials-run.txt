@@ -1,0 +1,6 @@
+interceptor_t3: probes=0, first assault=0.00, rally=0.00s, nearest=0.40km, AM=8/11, alive=5
+earth_recon_t3: probes=5, first assault=, rally=0.00s, nearest=26.20km, AM=0/0, alive=5
+mars_interceptor_t3: probes=0, first assault=0.00, rally=0.00s, nearest=0.69km, AM=13/13, alive=5
+mars_assault_t3: probes=0, first assault=39.00, rally=39.00s, nearest=0.71km, AM=5/5, alive=5
+earth_recon_t5: probes=5, first assault=, rally=0.00s, nearest=26.20km, AM=0/0, alive=5
+mars_assault_t5: probes=0, first assault=39.00, rally=39.00s, nearest=0.76km, AM=5/5, alive=5

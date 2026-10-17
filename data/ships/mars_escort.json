@@ -1,5 +1,112 @@
 {
   "id": "mars_escort",
+  "branch": "Escort",
+  "modelId": "mars_escort",
+  "matchClass": "Medium",
+  "squadron": {
+    "role": "EscortSquadron",
+    "composition": "호위함 4",
+    "members": [
+      {
+        "hullId": null,
+        "offset": [
+          -1200,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          1200,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          -2400,
+          0,
+          900
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          2400,
+          0,
+          900
+        ]
+      }
+    ]
+  },
+  "ai": {
+    "profile": {
+      "standoffMeters": 52000,
+      "railFlightSeconds": 6.5,
+      "missileRangeMeters": 110000,
+      "attackRuns": false
+    },
+    "defaultPips": [
+      2,
+      1,
+      1,
+      2,
+      2
+    ],
+    "targetPreference": {
+      "Battleship": 1,
+      "Escort": 0,
+      "Interceptor": 2
+    }
+  },
+  "battleValue": {
+    "weight": 2,
+    "captureStrength": 1.5,
+    "hudMarkerRadius": 4
+  },
+  "bays": [
+    {
+      "id": "utility-port",
+      "size": "Medium",
+      "center": [
+        -16.753,
+        0.0,
+        -46.62
+      ],
+      "halfSize": [
+        1.5,
+        1.5,
+        3
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Shield",
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "utility-starboard",
+      "size": "Small",
+      "center": [
+        13.797,
+        0.0,
+        -35.784
+      ],
+      "halfSize": [
+        1,
+        1,
+        2
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    }
+  ],
   "structureHitPoints": 2100,
   "damageControl": { "kits": 4, "repairSeconds": 14, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Escort",
@@ -111,7 +218,7 @@
   },
   "flight": {
     "kind": "Escort",
-    "displayName": "데이모스급 호위함",
+    "displayName": "솔리스급 호위함",
     "length": 280,
     "massKg": 102000000.0,
     "forwardAccel": 18.9,

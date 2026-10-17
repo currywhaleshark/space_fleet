@@ -25,17 +25,34 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
     public float InterceptFuzeMeters { get; init; } = 24;
     public float InterceptDamage { get; init; } = 12;
     public float BodyScale { get; init; } = 1;
+    public float LaunchSignatureFraction { get; init; }
+    public float LaunchSignatureSeconds { get; init; }
 }
 
 /// <summary>
 /// 근접방어 포대. Mounts는 함선 로컬 위치이며 포대마다 독립적으로 사격한다.
 /// Normals(로컬, 포대가 바라보는 방향)가 있으면 그 방향에서 ArcDegrees 안만 쏠 수 있다(선체가 만드는 사각).
 /// YawDegrees는 포대 담당 방위 중심에서 좌우 한계, 고각은 갑판 기준, 구동 속도는 초당 도 단위다.
+/// MuzzleSpeed(m/s)는 통계형 선행조준에 사용한다. TrackingErrorMeters는 기동 예측 오차의 명중률 보정 척도이며 실제 피탄 반경이 아니다.
 /// </summary>
 public sealed record PointDefenseDefinition(Vector3[] Mounts, float RangeMeters, float ShotsPerSecond, float HitChance, float DamagePerHit,
     Vector3[]? Normals = null, float ArcDegrees = 100f, float YawDegrees = 110f,
     float MinElevation = -5f, float MaxElevation = 85f, float YawRate = 60f,
-    float ElevationRate = 45f, float ToleranceDegrees = 1.5f);
+    float ElevationRate = 45f, float ToleranceDegrees = 1.5f,
+    float MuzzleSpeed = 6000f, float TrackingErrorMeters = 6f)
+{
+    // Legacy anti-ship rounds remain unchanged unless a replacement explicitly defines them.
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public DamagePacket? ShipPacket { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public DamagePacket EffectiveShipPacket => ShipPacket ?? new DamagePacket(20f,25f,10f,5000f);
+    // Missile bodies (including assault torpedoes) may use a different round
+    // effect from drones/probes. Null retains the legacy damage and stock JSON.
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public float? MissileDamagePerHit { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore]
+    public float EffectiveMissileDamage => MissileDamagePerHit ?? DamagePerHit;
+}
 
 /// <summary>디코이. 한 번에 PerLaunch개를 사출하며, 신호는 함선 기본 신호 × SignatureFactor에서 수명 동안 0으로 줄어든다.</summary>
 public sealed record DecoyDefinition(int Count, int PerLaunch, float CooldownSeconds, float SignatureFactor, float LifetimeSeconds, float EjectSpeed);
@@ -52,7 +69,7 @@ public sealed class OrdnanceState
         Antimatter = new AntimatterState(ship);
         Drones = new DefenseDroneState(ship);
         PointDefense = new PointDefenseMountState[ship.Definition.PointDefense?.Mounts.Length ?? 0];
-        for (int i = 0; i < PointDefense.Length; i++) PointDefense[i] = new PointDefenseMountState(ship.Definition.PointDefense!, i);
+        for (int i = 0; i < PointDefense.Length; i++) PointDefense[i] = new PointDefenseMountState(ship.Definition.PointDefense!, i, ShipBrain.Hash(ship.Callsign));
         Reset();
     }
 
@@ -62,6 +79,7 @@ public sealed class OrdnanceState
     public DefenseDroneState Drones { get; }
     public PointDefenseMountState[] PointDefense { get; }
     public float MissileReload { get; private set; }
+    public double LastMissileLaunch { get; private set; } = double.NegativeInfinity;
     public int Decoys { get; private set; }
     public float DecoyCooldown { get; private set; }
 
@@ -82,6 +100,7 @@ public sealed class OrdnanceState
         Missiles = MissileDefinition?.Rounds ?? 0;
         Decoys = DecoyDefinition?.Count ?? 0;
         MissileReload = 0;
+        LastMissileLaunch = double.NegativeInfinity;
         DecoyCooldown = 0;
         // Resetting the practice guns/repair tools cannot restock a spent or jettisoned AM payload.
         Antimatter.Cancel();
@@ -100,6 +119,7 @@ public sealed class OrdnanceState
     internal void ConsumeMissile()
     {
         Missiles--;
+        LastMissileLaunch = _ship.SimTime;
         MissileReload = MissileDefinition!.ReloadSeconds;
         _ship.Power.AddHeat(MissileDefinition.LaunchHeatMj);
     }

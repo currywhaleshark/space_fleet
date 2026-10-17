@@ -1,0 +1,15 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+1,0,Blue,IC-23,DD-X5,Escort,548.812,4003.2,2.029,1777.3,0.000,2353.0,PointDefense,
+1,0,Blue,IC-25,DD-X5,Escort,550.212,4183.0,3.075,3085.6,0.000,1243.5,PointDefense,
+1,0,Blue,IC-23,DD-X5,Escort,557.312,3202.4,1.521,1149.3,0.000,2195.1,PointDefense,
+1,0,Blue,IC-25,DD-X5,Escort,558.712,3208.5,2.629,2168.8,0.629,1304.1,PointDefense,
+1,0,Blue,IC-24,DD-X5,Escort,560.296,4932.8,3.908,4519.1,0.908,601.8,PointDefense,
+1,0,Blue,IC-21,DD-X5,Escort,561.829,4930.2,3.642,4075.9,0.642,1007.3,PointDefense,
+1,0,Blue,IC-22,DD-X5,Escort,563.846,4930.2,4.042,5122.5,1.000,0.0,Hit,DD-X5
+1,0,Blue,IC-23,DD-X5,Escort,565.812,3620.0,4.221,4042.7,0.000,18.6,Hit,DD-X5
+1,0,Blue,IC-25,DD-X5,Escort,567.212,4033.5,4.721,4533.2,0.000,35.3,Hit,DD-X5
+1,0,Blue,IC-21,DD-X3,Escort,572.946,2933.1,2.946,2969.1,1.446,0.0,Hit,DD-X3
+1,0,Blue,IC-22,DD-X3,Escort,574.546,2186.3,2.446,2186.2,1.000,8.1,Hit,DD-X3
+2,1,Blue,IC-21,DD-X2,Escort,506.329,4924.3,3.246,4234.7,0.746,562.8,PointDefense,
+2,1,Blue,IC-24,DD-X2,Escort,508.946,4895.5,3.542,4834.4,1.500,0.0,Hit,DD-X2
+2,1,Blue,IC-23,DD-X1,Escort,641.379,3134.1,2.696,3285.4,1.196,0.0,Hit,DD-X1

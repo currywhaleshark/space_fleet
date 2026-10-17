@@ -1,0 +1,40 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+11:11:31 | INFO: Starting glTF 2.0 export
+11:11:31 | INFO: Extracting primitive: hull.001
+11:11:32 | INFO: Primitives created: 10
+11:11:32 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:11:32 | INFO: Primitives created: 3
+11:11:32 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:11:32 | INFO: Primitives created: 3
+11:11:32 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+11:11:32 | INFO: Primitives created: 3
+11:11:32 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+11:11:32 | INFO: Primitives created: 3
+11:11:32 | INFO: Extracting primitive: PD 0 receiver.001
+11:11:32 | INFO: Primitives created: 1
+11:11:32 | INFO: Extracting primitive: PD 0 barrel.002
+11:11:32 | INFO: Primitives created: 2
+11:11:32 | INFO: Extracting primitive: PD 1 receiver.001
+11:11:32 | INFO: Primitives created: 1
+11:11:32 | INFO: Extracting primitive: PD 1 barrel.002
+11:11:32 | INFO: Primitives created: 2
+11:11:32 | INFO: Extracting primitive: PD 2 receiver.001
+11:11:32 | INFO: Primitives created: 1
+11:11:32 | INFO: Extracting primitive: PD 2 barrel.002
+11:11:32 | INFO: Primitives created: 2
+11:11:32 | INFO: Extracting primitive: PD 3 receiver.001
+11:11:32 | INFO: Primitives created: 1
+11:11:32 | INFO: Extracting primitive: PD 3 barrel.002
+11:11:32 | INFO: Primitives created: 2
+11:11:32 | INFO: Finished glTF 2.0 export in 0.11636805534362793 s
+00:04.141  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_14092_a20e171c3cf8ee23f25a32d98e4976a3.png.png"
+00:11.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_hero.png'
+00:19.203  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_underside.png'
+00:26.734  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_top.png'
+00:35.219  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_rear.png'
+
+Info: Saved as "mars_battleship_t5.blend"
+BUILT mars_battleship_t5 11836 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

@@ -1,7 +1,151 @@
 {
   "id": "mars_battleship",
-  "structureHitPoints": 5400,
-  "damageControl": { "kits": 5, "repairSeconds": 18, "restoreFraction": 0.35, "quietSeconds": 5 },
+  "branch": "LineBattleship",
+  "modelId": "mars_battleship",
+  "matchClass": "Large",
+  "squadron": {
+    "role": "BattleGroup",
+    "composition": "전함 1 + 호위함 2",
+    "members": [
+      {
+        "hullId": null,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": "mars_escort",
+        "allowedKind": "Escort",
+        "offset": [
+          -1500,
+          150,
+          -600
+        ]
+      },
+      {
+        "hullId": "mars_escort",
+        "allowedKind": "Escort",
+        "offset": [
+          1500,
+          -150,
+          -600
+        ]
+      }
+    ]
+  },
+  "ai": {
+    "profile": {
+      "standoffMeters": 90000,
+      "railFlightSeconds": 7.0,
+      "missileRangeMeters": 140000,
+      "attackRuns": false
+    },
+    "defaultPips": [
+      2,
+      1,
+      2,
+      2,
+      1
+    ],
+    "targetPreference": {
+      "Battleship": 0,
+      "Escort": 1,
+      "Interceptor": 3
+    }
+  },
+  "battleValue": {
+    "weight": 6,
+    "captureStrength": 2,
+    "hudMarkerRadius": 5
+  },
+  "bays": [
+    {
+      "id": "utility-port",
+      "size": "Medium",
+      "center": [
+        -41.65,
+        0.0,
+        -135.15
+      ],
+      "halfSize": [
+        4,
+        4,
+        7
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Shield",
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "utility-starboard",
+      "size": "Medium",
+      "center": [
+        41.65,
+        0.0,
+        -135.15
+      ],
+      "halfSize": [
+        4,
+        4,
+        7
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Shield",
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "hangar",
+      "size": "Large",
+      "center": [
+        -41.65,
+        0.0,
+        194.65
+      ],
+      "halfSize": [
+        8,
+        8,
+        14
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Drone"
+      ]
+    },
+    {
+      "id": "sensor",
+      "size": "Small",
+      "center": [
+        41.65,
+        0.0,
+        235.875
+      ],
+      "halfSize": [
+        2,
+        2,
+        3
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    }
+  ],
+  "structureHitPoints": 16200.0,
+  "damageControl": {
+    "kits": 5,
+    "repairSeconds": 18,
+    "restoreFraction": 0.35,
+    "quietSeconds": 5
+  },
   "kind": "Battleship",
   "railgun": {
     "moduleId": "gun-1",
@@ -12,12 +156,13 @@
     ],
     "muzzleSpeed": 18000,
     "reloadSeconds": 5.2,
-    "energy": 2300,
-    "penetrationMm": 2650,
-    "moduleDamage": 410,
+    "energy": 2000,
+    "penetrationMm": 2200,
+    "moduleDamage": 340,
     "maxRange": 310000,
     "rounds": 480,
     "traverseDegrees": 120,
+    "aimErrorScale": 1.1,
     "sensorErrorMeters": 0.55,
     "sensorErrorPerKm": 0.044000000000000004,
     "velocityError": 0.0825,
@@ -128,7 +273,7 @@
     "cameraHeight": 384.0
   },
   "shield": {
-    "capacity": 816.0000000000001,
+    "capacity": 3264.0,
     "rechargePerSecond": 70.0,
     "rechargeDelay": 5
   },
@@ -532,7 +677,7 @@
         37.05,
         106.39999999999999
       ],
-      "hitPoints": 53.135999999999996,
+      "hitPoints": 159.408005,
       "resistanceMm": 4.0,
       "grid": "Port"
     },
@@ -550,7 +695,7 @@
         37.05,
         106.39999999999999
       ],
-      "hitPoints": 53.135999999999996,
+      "hitPoints": 159.408005,
       "resistanceMm": 4.0,
       "grid": "Starboard"
     },
@@ -568,7 +713,7 @@
         12.0,
         17.0
       ],
-      "hitPoints": 82.0,
+      "hitPoints": 246.0,
       "resistanceMm": 40.0,
       "grid": "Shared"
     },
@@ -586,7 +731,7 @@
         8.0,
         23.8
       ],
-      "hitPoints": 180.4,
+      "hitPoints": 541.199951,
       "resistanceMm": 80.0,
       "grid": "Port"
     },
@@ -604,7 +749,7 @@
         8.0,
         23.8
       ],
-      "hitPoints": 180.4,
+      "hitPoints": 541.199951,
       "resistanceMm": 80.0,
       "grid": "Shared"
     },
@@ -622,11 +767,11 @@
         20.0,
         38.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 80.0,
       "grid": "Port",
       "criticalChance": 0.35,
-      "criticalEnergy": 220
+      "criticalEnergy": 440.0
     },
     {
       "id": "magazine-starboard",
@@ -642,11 +787,11 @@
         20.0,
         38.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 80.0,
       "grid": "Starboard",
       "criticalChance": 0.35,
-      "criticalEnergy": 220
+      "criticalEnergy": 440.0
     },
     {
       "id": "generator-port",
@@ -662,13 +807,14 @@
         14.4,
         29.75
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 64.0,
       "grid": "Port",
       "feeds": [
         "Port"
       ],
-      "capacity": 0.3
+      "capacity": 0.3,
+      "criticalEnergy": 600.0
     },
     {
       "id": "reactor-main",
@@ -684,7 +830,7 @@
         28.0,
         51.0
       ],
-      "hitPoints": 492.0,
+      "hitPoints": 1476.0,
       "resistanceMm": 160.0,
       "grid": "Shared",
       "feeds": [
@@ -693,7 +839,7 @@
       ],
       "capacity": 1,
       "criticalChance": 0.18,
-      "criticalEnergy": 320
+      "criticalEnergy": 640.0
     },
     {
       "id": "bus-port",
@@ -709,9 +855,10 @@
         20.0,
         25.5
       ],
-      "hitPoints": 82.0,
+      "hitPoints": 246.0,
       "resistanceMm": 48.0,
-      "grid": "Port"
+      "grid": "Port",
+      "criticalEnergy": 600.0
     },
     {
       "id": "bus-starboard",
@@ -727,9 +874,10 @@
         20.0,
         25.5
       ],
-      "hitPoints": 82.0,
+      "hitPoints": 246.0,
       "resistanceMm": 48.0,
-      "grid": "Starboard"
+      "grid": "Starboard",
+      "criticalEnergy": 600.0
     },
     {
       "id": "cooling-port",
@@ -745,7 +893,7 @@
         20.0,
         29.75
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 40.0,
       "grid": "Port"
     },
@@ -763,7 +911,7 @@
         20.0,
         29.75
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 40.0,
       "grid": "Starboard"
     },
@@ -781,7 +929,7 @@
         14.4,
         21.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 64.0,
       "grid": "Port",
       "visualEngineIndex": 0
@@ -800,7 +948,7 @@
         14.4,
         21.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 64.0,
       "grid": "Starboard",
       "visualEngineIndex": 1
@@ -819,7 +967,7 @@
         14.4,
         21.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 64.0,
       "grid": "Port",
       "visualEngineIndex": 2
@@ -838,7 +986,7 @@
         14.4,
         21.25
       ],
-      "hitPoints": 147.6,
+      "hitPoints": 442.800018,
       "resistanceMm": 64.0,
       "grid": "Starboard",
       "visualEngineIndex": 3
@@ -857,7 +1005,7 @@
         12.0,
         17.0
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 40.0,
       "grid": "Port"
     },
@@ -875,7 +1023,7 @@
         12.0,
         17.0
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 40.0,
       "grid": "Starboard"
     },
@@ -893,7 +1041,7 @@
         8.0,
         21.25
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 48.0,
       "grid": "Port"
     },
@@ -911,7 +1059,7 @@
         8.0,
         21.25
       ],
-      "hitPoints": 114.8,
+      "hitPoints": 344.400024,
       "resistanceMm": 48.0,
       "grid": "Starboard"
     }

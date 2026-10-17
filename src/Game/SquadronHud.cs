@@ -34,7 +34,7 @@ public partial class Hud
             foreach (ShipBody ship in q.Members)
             {
                 var center = new Vector2(x + 4, y + 10);
-                float r = ship.Class.Kind switch { HullKind.Battleship => 5f, HullKind.Escort => 4f, _ => 3f };
+                float r = ship.Definition.BattleValue.HudMarkerRadius;
                 if (ship.Damage.Destroyed)
                 {
                     DrawLine(center + new Vector2(-r, -r), center + new Vector2(r, r), Dim, 1.5f);

@@ -1,0 +1,374 @@
+{
+  "id": "interceptor_t5",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "hull",
+      "center": [
+        0,
+        0,
+        1.7999999999999998
+      ],
+      "halfSize": [
+        2.9,
+        1.65,
+        8.8
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "nose",
+      "name": "nose",
+      "center": [
+        0,
+        0,
+        -9.8
+      ],
+      "halfSize": [
+        1.45,
+        1,
+        4.8
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "am-keel",
+      "name": "am-keel",
+      "center": [
+        0,
+        -1.55,
+        -3.1
+      ],
+      "halfSize": [
+        1,
+        1,
+        1.8
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-port",
+      "name": "engine-port",
+      "center": [
+        -5.6,
+        0,
+        8.9
+      ],
+      "halfSize": [
+        1.4,
+        1.4,
+        3.5
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-port-0",
+      "name": "wing-port-0",
+      "center": [
+        -2.9000000000000004,
+        0,
+        -6.65
+      ],
+      "halfSize": [
+        1.3,
+        0.35,
+        1.35
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-port-1",
+      "name": "wing-port-1",
+      "center": [
+        -5.75,
+        0,
+        2.9000000000000004
+      ],
+      "halfSize": [
+        3.6500000000000004,
+        0.35,
+        5.9
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-port",
+      "name": "fin-port",
+      "center": [
+        -5.725,
+        2.705,
+        9.3
+      ],
+      "halfSize": [
+        0.265,
+        1.795,
+        2.1
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "engine-starboard",
+      "name": "engine-starboard",
+      "center": [
+        5.6,
+        0,
+        8.9
+      ],
+      "halfSize": [
+        1.4,
+        1.4,
+        3.5
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-starboard-0",
+      "name": "wing-starboard-0",
+      "center": [
+        2.9000000000000004,
+        0,
+        -6.65
+      ],
+      "halfSize": [
+        1.3,
+        0.35,
+        1.35
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-starboard-1",
+      "name": "wing-starboard-1",
+      "center": [
+        5.75,
+        0,
+        2.9000000000000004
+      ],
+      "halfSize": [
+        3.6500000000000004,
+        0.35,
+        5.9
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-starboard",
+      "name": "fin-starboard",
+      "center": [
+        5.725,
+        2.705,
+        9.3
+      ],
+      "halfSize": [
+        0.265,
+        1.795,
+        2.1
+      ],
+      "armorFrom": "fins"
+    }
+  ],
+  "modules": {
+    "am-containment": {
+      "center": [
+        0,
+        -1.55,
+        -3.1
+      ]
+    },
+    "gun": {
+      "center": [
+        0,
+        -0.6,
+        -12.3
+      ]
+    },
+    "sensor": {
+      "center": [
+        0,
+        0.75,
+        -7
+      ]
+    },
+    "shield": {
+      "center": [
+        0,
+        0.6,
+        1.7
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -5.6,
+        0,
+        9.4
+      ]
+    },
+    "cooling-port": {
+      "center": [
+        -5.6,
+        0,
+        7.300000000000001
+      ]
+    },
+    "engine-1": {
+      "center": [
+        5.6,
+        0,
+        9.4
+      ]
+    },
+    "cooling-starboard": {
+      "center": [
+        5.6,
+        0,
+        7.300000000000001
+      ]
+    }
+  },
+  "bays": {},
+  "gunMuzzle": [
+    0,
+    -0.6,
+    -16.7
+  ],
+  "missileLaunch": [
+    -2.95,
+    -0.65,
+    -3.8
+  ],
+  "amLaunch": [
+    0,
+    -1.55,
+    -5.08
+  ],
+  "pdMounts": [
+    [
+      0,
+      -1.9,
+      6.7
+    ],
+    [
+      0,
+      1.9,
+      7.2
+    ]
+  ],
+  "blockout": {
+    "core": [
+      [
+        -7,
+        1.9,
+        1.35,
+        0
+      ],
+      [
+        -2,
+        2.9,
+        1.65,
+        0
+      ],
+      [
+        6.5,
+        2.9,
+        1.65,
+        0
+      ],
+      [
+        10.6,
+        1.7,
+        1.35,
+        0
+      ]
+    ],
+    "nose": [
+      [
+        -14.6,
+        0.5,
+        0.6,
+        0
+      ],
+      [
+        -9,
+        1.45,
+        1,
+        0
+      ],
+      [
+        -5,
+        1.45,
+        1,
+        0
+      ]
+    ],
+    "wings": [
+      [
+        [
+          1.6,
+          -8
+        ],
+        [
+          4.2,
+          -6.3
+        ],
+        [
+          4.2,
+          -5.3
+        ],
+        [
+          1.7,
+          -5.4
+        ]
+      ],
+      [
+        [
+          2.2,
+          -3
+        ],
+        [
+          6.2,
+          1
+        ],
+        [
+          9.4,
+          6.2
+        ],
+        [
+          8.8,
+          8
+        ],
+        [
+          2.1,
+          8.8
+        ]
+      ]
+    ],
+    "wingThickness": 0.7,
+    "engine": [
+      5.6,
+      0,
+      8.9
+    ],
+    "engineHalf": [
+      1.4,
+      1.4,
+      3.5
+    ],
+    "fin": [
+      0.25,
+      4.5
+    ],
+    "role": "defense"
+  },
+  "probeLaunchPoints": [
+    [
+      -3.05,
+      0.8,
+      -0.3
+    ],
+    [
+      3.05,
+      0.8,
+      -0.3
+    ]
+  ]
+}

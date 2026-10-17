@@ -1,0 +1,1246 @@
+{
+  "design": "Mars",
+  "nodes": [
+    {
+      "id": "mars_starter_escort",
+      "name": "루나에급 호위함",
+      "tier": 1,
+      "branch": "Escort",
+      "parentId": null,
+      "lane": 1,
+      "hullId": "mars_starter_escort",
+      "cost": 0,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 1927.8000000000002
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.1058823529411765
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 19.845,
+              "strafeAccel": 8.505,
+              "brakeAccel": 17.01
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_escort",
+      "name": "솔리스급 호위함",
+      "tier": 2,
+      "branch": "Escort",
+      "parentId": "mars_starter_escort",
+      "lane": 1,
+      "hullId": "mars_escort",
+      "cost": 200,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2268.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.88
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 19.845,
+              "strafeAccel": 8.505,
+              "brakeAccel": 17.01
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_interceptor",
+      "name": "로웰급 요격함",
+      "tier": 2,
+      "branch": "Interceptor",
+      "parentId": "mars_starter_escort",
+      "lane": 3,
+      "hullId": "mars_interceptor",
+      "cost": 200,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 583.2
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6579999999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 63.0,
+              "coolingMw": 44.1
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 49.612500000000004,
+              "strafeAccel": 56.7,
+              "brakeAccel": 56.7
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_gun_cruiser",
+      "name": "칸도르급 포격순양함",
+      "tier": 3,
+      "branch": "GunCruiser",
+      "parentId": "mars_escort",
+      "lane": 0,
+      "hullId": "mars_gun_cruiser",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2268.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.5415999999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 18.374999999999996,
+              "strafeAccel": 7.874999999999999,
+              "brakeAccel": 15.749999999999998
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_missile_cruiser",
+      "name": "크리세급 미사일순양함",
+      "tier": 3,
+      "branch": "MissileCruiser",
+      "parentId": "mars_escort",
+      "lane": 2,
+      "hullId": "mars_missile_cruiser",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2268.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 2.6319999999999997
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 19.845,
+              "strafeAccel": 8.505,
+              "brakeAccel": 17.01
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_battleship",
+      "name": "아레스급 전함",
+      "tier": 4,
+      "branch": "LineBattleship",
+      "parentId": "mars_gun_cruiser",
+      "lane": 1,
+      "hullId": "mars_battleship",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 17496.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 4.888
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 2100.0,
+              "coolingMw": 1575.0
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 4.2525,
+              "strafeAccel": 1.7010000000000003,
+              "brakeAccel": 3.4020000000000006
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 16.560000000000002
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_gun_cruiser_t4",
+      "name": "멜라스급 포격순양함",
+      "tier": 4,
+      "branch": "GunCruiser",
+      "parentId": "mars_gun_cruiser",
+      "lane": 0,
+      "hullId": "mars_gun_cruiser_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2449.44
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.4953519999999998
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 551.25,
+              "coolingMw": 363.825
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 18.7425,
+              "strafeAccel": 8.0325,
+              "brakeAccel": 16.065
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_gun_cruiser_t5",
+      "name": "마리네리스급 포격순양함",
+      "tier": 5,
+      "branch": "GunCruiser",
+      "parentId": "mars_gun_cruiser_t4",
+      "lane": 0,
+      "hullId": "mars_gun_cruiser_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2645.3952000000004
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.4504914399999997
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 578.8125,
+              "coolingMw": 382.01625
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 19.11735,
+              "strafeAccel": 8.19315,
+              "brakeAccel": 16.3863
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_missile_cruiser_t4",
+      "name": "아르기레급 미사일순양함",
+      "tier": 4,
+      "branch": "MissileCruiser",
+      "parentId": "mars_missile_cruiser",
+      "lane": 2,
+      "hullId": "mars_missile_cruiser_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2449.44
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 2.5530399999999998
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 551.25,
+              "coolingMw": 363.825
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 20.2419,
+              "strafeAccel": 8.6751,
+              "brakeAccel": 17.3502
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_missile_cruiser_t5",
+      "name": "헬라스급 미사일순양함",
+      "tier": 5,
+      "branch": "MissileCruiser",
+      "parentId": "mars_missile_cruiser_t4",
+      "lane": 2,
+      "hullId": "mars_missile_cruiser_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2645.3952000000004
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 2.4764487999999996
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 578.8125,
+              "coolingMw": 382.01625
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 20.646738,
+              "strafeAccel": 8.848602,
+              "brakeAccel": 17.697204
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_battleship_t5",
+      "name": "네르갈급 전함",
+      "tier": 5,
+      "branch": "LineBattleship",
+      "parentId": "mars_battleship",
+      "lane": 1,
+      "hullId": "mars_battleship_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 18895.68
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 4.741359999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 2205.0,
+              "coolingMw": 1653.75
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 4.33755,
+              "strafeAccel": 1.7350200000000002,
+              "brakeAccel": 3.4700400000000005
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 16.560000000000002
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_interceptor_t3",
+      "name": "허셜급 요격함",
+      "tier": 3,
+      "branch": "Interceptor",
+      "parentId": "mars_interceptor",
+      "lane": 3,
+      "hullId": "mars_interceptor_t3",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 629.8560000000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6382599999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 66.15,
+              "coolingMw": 46.30500000000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 50.60475,
+              "strafeAccel": 57.834,
+              "brakeAccel": 57.834
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_interceptor_t4",
+      "name": "하위헌스급 요격함",
+      "tier": 4,
+      "branch": "Interceptor",
+      "parentId": "mars_interceptor_t3",
+      "lane": 3,
+      "hullId": "mars_interceptor_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 680.2444800000002
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6191121999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 69.45750000000001,
+              "coolingMw": 48.62025
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 51.616845000000005,
+              "strafeAccel": 58.990680000000005,
+              "brakeAccel": 58.990680000000005
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_interceptor_t5",
+      "name": "스키아파렐리급 요격함",
+      "tier": 5,
+      "branch": "Interceptor",
+      "parentId": "mars_interceptor_t4",
+      "lane": 3,
+      "hullId": "mars_interceptor_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 734.6640384000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6005388339999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 72.93037500000001,
+              "coolingMw": 51.05126250000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 52.64918190000001,
+              "strafeAccel": 60.170493600000015,
+              "brakeAccel": 60.170493600000015
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_assault_t3",
+      "name": "데이모스급 강습함",
+      "tier": 3,
+      "branch": "Assault",
+      "parentId": "mars_interceptor",
+      "lane": 4,
+      "hullId": "mars_assault_t3",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 755.8272000000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6382599999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 66.15,
+              "coolingMw": 46.30500000000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 45.1828125,
+              "strafeAccel": 51.637499999999996,
+              "brakeAccel": 51.637499999999996
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_assault_t4",
+      "name": "포보스급 강습함",
+      "tier": 4,
+      "branch": "Assault",
+      "parentId": "mars_assault_t3",
+      "lane": 4,
+      "hullId": "mars_assault_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 816.2933760000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6191121999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 69.45750000000001,
+              "coolingMw": 48.62025
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 46.08646875,
+              "strafeAccel": 52.670249999999996,
+              "brakeAccel": 52.670249999999996
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "mars_assault_t5",
+      "name": "에니오급 강습함",
+      "tier": 5,
+      "branch": "Assault",
+      "parentId": "mars_assault_t4",
+      "lane": 4,
+      "hullId": "mars_assault_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 881.5968460800001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.6005388339999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 72.93037500000001,
+              "coolingMw": 51.05126250000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 47.008198125,
+              "strafeAccel": 53.72365500000001,
+              "brakeAccel": 53.72365500000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

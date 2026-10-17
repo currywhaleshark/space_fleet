@@ -1,0 +1,56 @@
+{
+  "name": "SpaceFleet-20261016-hangar-ui-Windows-x64",
+  "dateKst": "2026-10-16",
+  "sourceCommit": "e4cdec2e0461771335c955ea5f5bad32f9ddf97a",
+  "includesLocalChanges": true,
+  "selfContained": true,
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 30 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 35 hangar/preview/launch/handoff flow checks",
+    "PASS: 32 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 3560 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.607",
+    "PASS: 120 fleet audio checks",
+    "PASS: 276 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ],
+  "checkGroups": 15,
+  "checksPassed": 4796,
+  "zipCrc": "passed",
+  "zipEntries": 204,
+  "koreanReadme": "verified",
+  "files": {
+    "builds/SpaceFleet-20261016-hangar-ui-Windows-x64/SpaceFleet.exe": {
+      "bytes": 109372928,
+      "sha256": "abfe34b86c3159dac2f5cb7ea83ecd3ca832fb58ea5557bbfe7ebe52d5f1618f"
+    },
+    "builds/SpaceFleet-20261016-hangar-ui-Windows-x64/SpaceFleet.pck": {
+      "bytes": 8332356,
+      "sha256": "8002befeb14a6fe3e4795727c212dc8f88c59d434368ff38b85a2a863d69ae5a"
+    },
+    "builds/SpaceFleet-20261016-hangar-ui-Windows-x64.zip": {
+      "bytes": 81107347,
+      "sha256": "2aa4bbed318d9ebfc72940adf401c531c274727d6b8029c54ac3d111983db3d0"
+    },
+    "builds/SpaceFleet-20261016-hangar-ui-Windows-x64/data_SpaceFleet_windows_x86_64/SpaceFleet.dll": {
+      "bytes": 1087488,
+      "sha256": "3496476ca0270e209ca10272d3da6ee1f2b5949c45f99d7b006547d1a017a5a4"
+    },
+    "builds/SpaceFleet-20261016-hangar-ui-Windows-x64/data_SpaceFleet_windows_x86_64/SpaceFleet.Sim.dll": {
+      "bytes": 1103360,
+      "sha256": "f583011768fba62c1c4d3f99d93a3778ed3c27cdae352a00bf00046b3f724411"
+    }
+  },
+  "logDirectory": "shots/SpaceFleet-20261016-hangar-ui-Windows-x64",
+  "screenshots": [
+    "hangar.png",
+    "research.png"
+  ]
+}

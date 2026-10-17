@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\tools\\BattleBatch\\bin\\Release\\net8.0\\BattleBatch.dll",
+    "--mirror",
+    "--jobs",
+    "2",
+    "--seeds",
+    "1,2",
+    "--blue-design",
+    "Earth",
+    "--red-design",
+    "Mars",
+    "--blue-wing",
+    "earth_recon_t3",
+    "--red-wing",
+    "mars_assault_t3",
+    "--output",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\docs\\validation\\engagement_timing_20261016\\specialist-pilot\\mixed.csv",
+    "--specialist-reach-scale",
+    "0.625"
+  ]
+}

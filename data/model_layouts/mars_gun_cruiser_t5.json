@@ -1,0 +1,289 @@
+{
+  "id": "mars_gun_cruiser_t5",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        -44
+      ],
+      "halfSize": [
+        19.71,
+        14.82,
+        56.8
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0.0,
+        -0.78,
+        -113.4
+      ],
+      "halfSize": [
+        13,
+        11.7,
+        21
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0.0,
+        -2.34,
+        -144.9
+      ],
+      "halfSize": [
+        3.8,
+        7.8,
+        10.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        26,
+        75
+      ],
+      "halfSize": [
+        9,
+        12,
+        14
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -34,
+        0,
+        83
+      ],
+      "halfSize": [
+        0.45,
+        13.5,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        34,
+        0,
+        83
+      ],
+      "halfSize": [
+        0.45,
+        13.5,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "sensor-head",
+      "name": "외부 센서 헤드",
+      "center": [
+        0,
+        60,
+        75
+      ],
+      "halfSize": [
+        6.424,
+        8.58,
+        8.316
+      ],
+      "armorFrom": "sensor-head"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        16.78,
+        -50.4
+      ],
+      "halfSize": [
+        7,
+        3.8500000000000005,
+        7
+      ],
+      "armorFrom": "turret-base-gun-1"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        -16.78,
+        -25.2
+      ],
+      "halfSize": [
+        7,
+        3.8500000000000005,
+        7
+      ],
+      "armorFrom": "turret-base-gun-2"
+    },
+    {
+      "id": "aft-core",
+      "name": "aft-core",
+      "center": [
+        0,
+        0,
+        75
+      ],
+      "halfSize": [
+        19.71,
+        14.82,
+        40.92
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mid-spine",
+      "name": "mid-spine",
+      "center": [
+        0,
+        0,
+        25.2
+      ],
+      "halfSize": [
+        10,
+        10,
+        15
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mast-stem",
+      "name": "mast-stem",
+      "center": [
+        0,
+        46,
+        75
+      ],
+      "halfSize": [
+        3,
+        9,
+        4
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "mid-truss-port",
+      "name": "mid-truss-port",
+      "center": [
+        -18.5,
+        0,
+        23.5
+      ],
+      "halfSize": [
+        1.2,
+        12,
+        14
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "forward-rail-port",
+      "name": "forward-rail-port",
+      "center": [
+        -20.5,
+        -7,
+        -73
+      ],
+      "halfSize": [
+        3.5,
+        3.5,
+        43
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mid-truss-starboard",
+      "name": "mid-truss-starboard",
+      "center": [
+        18.5,
+        0,
+        23.5
+      ],
+      "halfSize": [
+        1.2,
+        12,
+        14
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "forward-rail-starboard",
+      "name": "forward-rail-starboard",
+      "center": [
+        20.5,
+        -7,
+        -73
+      ],
+      "halfSize": [
+        3.5,
+        3.5,
+        43
+      ],
+      "armorFrom": "hull"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        60,
+        75
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -34,
+        0,
+        83
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        34,
+        0,
+        83
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      0.0,
+      -15.6,
+      33.6
+    ],
+    [
+      0.0,
+      18.72,
+      -33.6
+    ]
+  ],
+  "missileLaunch": [
+    -13,
+    19,
+    -86
+  ],
+  "blockout": {
+    "role": "gun"
+  }
+}

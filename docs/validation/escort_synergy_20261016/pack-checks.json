@@ -1,0 +1,22 @@
+{
+  "pilot.json": {
+    "raw_sha256": "b33059cbd6ed65d628418c32723466724e9376fd7d7805db8d00eba195625a19",
+    "bytes": 562800,
+    "packed_bytes": 23484,
+    "roundtrip": true
+  },
+  "pilot.traces.zip": {
+    "entries": 48,
+    "roundtrip": true
+  },
+  "results.json": {
+    "raw_sha256": "8f96472979098253466fd0d418dfb8a69fee8e040a82ddce4bdf84f5eab34cb7",
+    "bytes": 8798277,
+    "packed_bytes": 351923,
+    "roundtrip": true
+  },
+  "results.traces.zip": {
+    "entries": 768,
+    "roundtrip": true
+  }
+}

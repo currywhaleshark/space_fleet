@@ -1,0 +1,6 @@
+PASS: escort trial fixture/instrumentation (89 checks)
+Sensor ranges BB vs BB: contact 381 km, identify 220 km, lock 135 km
+Contact at 150 km: error 1671 m, worst offset step per 0.25 s update 11.0%
+PASS: 26 sensor/EW checks
+PASS: 79 datalink fire-control checks
+PASS: 78 long-range accuracy/EW/defense-power checks

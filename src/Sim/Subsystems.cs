@@ -36,7 +36,7 @@ public static class Subsystems
         AimSubsystem.Engines => module.Kind == ModuleKind.Thruster,
         AimSubsystem.Radiators => module.Kind == ModuleKind.Cooling && module.Id.StartsWith("radiator"),
         AimSubsystem.Guns => module.Kind == ModuleKind.Gun,
-        AimSubsystem.Sensors => module.Kind == ModuleKind.Sensor,
+        AimSubsystem.Sensors => module.Kind is ModuleKind.Sensor or ModuleKind.SensorBooster or ModuleKind.EcmSuite,
         _ => false,
     };
 

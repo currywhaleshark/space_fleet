@@ -1,0 +1,393 @@
+{
+  "id": "mars_assault_t3",
+  "sections": [
+    {
+      "id": "nose",
+      "name": "nose",
+      "center": [
+        0,
+        0,
+        -9
+      ],
+      "halfSize": [
+        1.0,
+        1.2,
+        3.8
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "hull",
+      "name": "hull",
+      "center": [
+        0,
+        0,
+        1
+      ],
+      "halfSize": [
+        2.5,
+        1.7,
+        7
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "am-keel",
+      "name": "am-keel",
+      "center": [
+        0,
+        -1.3,
+        -0.5
+      ],
+      "halfSize": [
+        1.5,
+        1.4,
+        2.1
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-port",
+      "name": "engine-port",
+      "center": [
+        -4.1,
+        0,
+        9.6
+      ],
+      "halfSize": [
+        1.5,
+        1.6,
+        3.2
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "pylon-port",
+      "name": "pylon-port",
+      "center": [
+        -2.8,
+        0,
+        7
+      ],
+      "halfSize": [
+        1.7,
+        0.65,
+        2
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-port",
+      "name": "fin-port",
+      "center": [
+        -4.45,
+        2.6,
+        10
+      ],
+      "halfSize": [
+        0.65,
+        1.3,
+        2
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "stores-port",
+      "name": "stores-port",
+      "center": [
+        -2.75,
+        0,
+        -3.2
+      ],
+      "halfSize": [
+        0.8,
+        1.0,
+        1.7
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-starboard",
+      "name": "engine-starboard",
+      "center": [
+        4.1,
+        0,
+        9.6
+      ],
+      "halfSize": [
+        1.5,
+        1.6,
+        3.2
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "pylon-starboard",
+      "name": "pylon-starboard",
+      "center": [
+        2.8,
+        0,
+        7
+      ],
+      "halfSize": [
+        1.7,
+        0.65,
+        2
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-starboard",
+      "name": "fin-starboard",
+      "center": [
+        4.45,
+        2.6,
+        10
+      ],
+      "halfSize": [
+        0.65,
+        1.3,
+        2
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "stores-starboard",
+      "name": "stores-starboard",
+      "center": [
+        2.75,
+        0,
+        -3.2
+      ],
+      "halfSize": [
+        0.8,
+        1.0,
+        1.7
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "ventral-fin-port",
+      "name": "ventral-fin-port",
+      "center": [
+        -4.45,
+        -1.95,
+        10
+      ],
+      "halfSize": [
+        0.65,
+        0.75,
+        2
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "ventral-fin-starboard",
+      "name": "ventral-fin-starboard",
+      "center": [
+        4.45,
+        -1.95,
+        10
+      ],
+      "halfSize": [
+        0.65,
+        0.75,
+        2
+      ],
+      "armorFrom": "fins"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        0.45,
+        -10.5
+      ],
+      "halfSize": [
+        0.42,
+        0.25,
+        0.7
+      ]
+    },
+    "gun": {
+      "center": [
+        0,
+        -0.3,
+        -10
+      ],
+      "halfSize": [
+        0.35,
+        0.3,
+        1.5
+      ]
+    },
+    "magazine": {
+      "center": [
+        0,
+        -0.1,
+        -4.9
+      ],
+      "halfSize": [
+        0.7,
+        0.55,
+        1
+      ]
+    },
+    "am-containment": {
+      "center": [
+        0,
+        -1.45,
+        -0.5
+      ],
+      "halfSize": [
+        1.1,
+        1.1,
+        1.6
+      ]
+    },
+    "reactor": {
+      "center": [
+        0,
+        0,
+        4
+      ],
+      "halfSize": [
+        0.7,
+        0.8,
+        1
+      ]
+    },
+    "shield": {
+      "center": [
+        0,
+        1,
+        6
+      ],
+      "halfSize": [
+        0.4,
+        0.4,
+        0.7
+      ]
+    },
+    "generator-port": {
+      "center": [
+        -1.4,
+        0,
+        4.3
+      ]
+    },
+    "bus-port": {
+      "center": [
+        -1.5,
+        0,
+        1.3
+      ]
+    },
+    "cooling-port": {
+      "center": [
+        -1.8,
+        0,
+        6.5
+      ]
+    },
+    "maneuver-port": {
+      "center": [
+        -1.6,
+        0,
+        -4
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -4.1,
+        0,
+        9.5
+      ],
+      "halfSize": [
+        0.9,
+        0.8,
+        1.4
+      ]
+    },
+    "generator-starboard": {
+      "center": [
+        1.4,
+        0,
+        4.3
+      ]
+    },
+    "bus-starboard": {
+      "center": [
+        1.5,
+        0,
+        1.3
+      ]
+    },
+    "cooling-starboard": {
+      "center": [
+        1.8,
+        0,
+        6.5
+      ]
+    },
+    "maneuver-starboard": {
+      "center": [
+        1.6,
+        0,
+        -4
+      ]
+    },
+    "engine-1": {
+      "center": [
+        4.1,
+        0,
+        9.5
+      ],
+      "halfSize": [
+        0.9,
+        0.8,
+        1.4
+      ]
+    }
+  },
+  "bays": {
+    "utility-port": {
+      "center": [
+        -1.9,
+        0,
+        -2
+      ]
+    },
+    "utility-starboard": {
+      "center": [
+        1.9,
+        0,
+        -2
+      ]
+    }
+  },
+  "gunMuzzle": [
+    0,
+    -0.3,
+    -13.8
+  ],
+  "missileLaunch": [
+    -2.9,
+    -0.45,
+    -5.1
+  ],
+  "amLaunch": [
+    0,
+    -2.3,
+    -2.8
+  ],
+  "pdMounts": [
+    [
+      0,
+      1.85,
+      7
+    ]
+  ],
+  "probeLaunchPoints": []
+}

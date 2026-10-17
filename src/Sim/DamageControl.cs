@@ -133,8 +133,8 @@ public sealed class DamageControlState
         RepairPriority.Power => kind is ModuleKind.PowerBus or ModuleKind.Generator or ModuleKind.Reactor,
         RepairPriority.Propulsion => kind is ModuleKind.Thruster or ModuleKind.ManeuverThruster,
         RepairPriority.Weapons => kind is ModuleKind.Gun or ModuleKind.Magazine,
-        RepairPriority.Sensors => kind == ModuleKind.Sensor,
-        RepairPriority.Defense => kind == ModuleKind.ShieldEmitter,
+        RepairPriority.Sensors => kind is ModuleKind.Sensor or ModuleKind.SensorBooster or ModuleKind.EcmSuite,
+        RepairPriority.Defense => kind is ModuleKind.ShieldEmitter or ModuleKind.ShieldBooster or ModuleKind.DroneBay,
         RepairPriority.Cooling => kind == ModuleKind.Cooling,
         _ => false,
     };

@@ -1,0 +1,2207 @@
+{
+  "assault": [
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 74.333,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 74.667,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 74.556,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 74.889,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 87.333,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 6,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 87.667,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 27.663,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 27.663,
+      "pdShotsMean": 87.333,
+      "destructions": {}
+    },
+    {
+      "phase": "before",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 2,
+      "Disabled": 0,
+      "Escaped": 7,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 25.19,
+      "pdShotsMean": 63.333,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 74.333,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": true,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.815,
+      "escapeSecondsMean": 53.539,
+      "pdShotsMean": 74.667,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 74.667,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "earth_recon_t3",
+      "legacy": false,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 41.809,
+      "escapeSecondsMean": 53.569,
+      "pdShotsMean": 74.889,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 73.222,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": true,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 6,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.065,
+      "escapeSecondsMean": 27.667,
+      "pdShotsMean": 73.556,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "none",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 27.663,
+      "pdShotsMean": 0,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "pd",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 9,
+      "Intercepted": 0,
+      "Destroyed": 0,
+      "Disabled": 0,
+      "Escaped": 9,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 27.663,
+      "pdShotsMean": 73.111,
+      "destructions": {}
+    },
+    {
+      "phase": "after",
+      "hull": "mars_assault_t3",
+      "legacy": false,
+      "defense": "pd_drones",
+      "runs": 9,
+      "Launched": 9,
+      "Hits": 5,
+      "Intercepted": 0,
+      "Destroyed": 2,
+      "Disabled": 0,
+      "Escaped": 7,
+      "firstLaunchMean": 51.067,
+      "escapeSecondsMean": 25.19,
+      "pdShotsMean": 50.556,
+      "destructions": {
+        "Antimatter": 2
+      }
+    }
+  ],
+  "fleets": [
+    {
+      "scenario": "mixed",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Red": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 791.354,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "791.167"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "776.833"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "785.383"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "812.033"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 4.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 13.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 304.469,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 245,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 11.0,
+          "disabled": 1.0,
+          "rails": 10.0,
+          "railHits": 10.0,
+          "missiles": 369.0,
+          "missileHits": 137.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 1.0,
+          "shieldDamageInflicted": 18622.348,
+          "moduleDamageInflicted": 1872.3949999999995,
+          "firstInactiveOrCensoredSeconds": 747.686,
+          "firstAssaultMean": null,
+          "meanRailRange": 40319.0978,
+          "activeSamples": 3624,
+          "lockedActiveSamples": 271,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 80.0,
+          "probeContacts": 13.0,
+          "probeIdentifications": 2.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 791.354,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3180,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 498.0,
+          "railHits": 372.0,
+          "missiles": 64.0,
+          "missileHits": 20.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 8.0,
+          "shieldDamageInflicted": 21337.525999999998,
+          "moduleDamageInflicted": 6643.818,
+          "firstInactiveOrCensoredSeconds": 738.966,
+          "firstAssaultMean": null,
+          "meanRailRange": 108512.75630120482,
+          "activeSamples": 629,
+          "lockedActiveSamples": 164,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 1578.0,
+          "railHits": 786.0,
+          "missiles": 384.0,
+          "missileHits": 39.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 23638.244000000002,
+          "moduleDamageInflicted": 12521.100999999999,
+          "firstInactiveOrCensoredSeconds": 786.91,
+          "firstAssaultMean": null,
+          "meanRailRange": 49416.80812991129,
+          "activeSamples": 3811,
+          "lockedActiveSamples": 1240,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 226.0,
+          "railHits": 0.0,
+          "missiles": 75.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 55.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 791.354,
+          "firstAssaultMean": 657.625,
+          "meanRailRange": null,
+          "activeSamples": 3180,
+          "lockedActiveSamples": 240,
+          "assaultActivities": {
+            "위치 유지": 430,
+            "강습 외곽 우회": 260
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "earth",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 756.558,
+      "friendlyCollisions": 3.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "830.083"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "820.250"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "693.650"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "682.250"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 182.0,
+          "railHits": 159.0,
+          "missiles": 96.0,
+          "missileHits": 66.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 5.0,
+          "shieldDamageInflicted": 19780.635000000002,
+          "moduleDamageInflicted": 12850.134,
+          "firstInactiveOrCensoredSeconds": 756.558,
+          "firstAssaultMean": null,
+          "meanRailRange": 65241.16279120879,
+          "activeSamples": 608,
+          "lockedActiveSamples": 214,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 9.0,
+          "disabled": 1.0,
+          "rails": 582.0,
+          "railHits": 384.0,
+          "missiles": 384.0,
+          "missileHits": 192.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 2.0,
+          "shieldDamageInflicted": 43125.259999999995,
+          "moduleDamageInflicted": 10099.683999999997,
+          "firstInactiveOrCensoredSeconds": 692.539,
+          "firstAssaultMean": null,
+          "meanRailRange": 35104.52560309279,
+          "activeSamples": 3360,
+          "lockedActiveSamples": 871,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 64.0,
+          "probeContacts": 18.0,
+          "probeIdentifications": 31.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 756.558,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3040,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 3.0,
+          "disabled": 1.0,
+          "rails": 54.0,
+          "railHits": 46.0,
+          "missiles": 96.0,
+          "missileHits": 62.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 7.0,
+          "shieldDamageInflicted": 14629.133000000002,
+          "moduleDamageInflicted": 5254.468,
+          "firstInactiveOrCensoredSeconds": 570.26,
+          "firstAssaultMean": null,
+          "meanRailRange": 95802.52268518518,
+          "activeSamples": 459,
+          "lockedActiveSamples": 201,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 12.0,
+          "disabled": 2.0,
+          "rails": 636.0,
+          "railHits": 495.0,
+          "missiles": 384.0,
+          "missileHits": 196.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 50492.398,
+          "moduleDamageInflicted": 10296.426,
+          "firstInactiveOrCensoredSeconds": 700.937,
+          "firstAssaultMean": null,
+          "meanRailRange": 33895.83925,
+          "activeSamples": 3449,
+          "lockedActiveSamples": 1166,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 69.0,
+          "probeContacts": 4.0,
+          "probeIdentifications": 19.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 756.558,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3040,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        }
+      ]
+    },
+    {
+      "scenario": "mars",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 583.163,
+      "friendlyCollisions": 2.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "874.667"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "698.317"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "345.183"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "414.483"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 3.0,
+          "disabled": 0.0,
+          "rails": 80.0,
+          "railHits": 51.0,
+          "missiles": 48.0,
+          "missileHits": 16.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 1.0,
+          "shieldDamageInflicted": 10617.898000000001,
+          "moduleDamageInflicted": 1942.64,
+          "firstInactiveOrCensoredSeconds": 377.588,
+          "firstAssaultMean": null,
+          "meanRailRange": 103892.0470625,
+          "activeSamples": 328,
+          "lockedActiveSamples": 74,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 3.0,
+          "disabled": 0.0,
+          "rails": 1660.0,
+          "railHits": 298.0,
+          "missiles": 368.0,
+          "missileHits": 106.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 20929.536,
+          "moduleDamageInflicted": 5699.091999999999,
+          "firstInactiveOrCensoredSeconds": 570.937,
+          "firstAssaultMean": null,
+          "meanRailRange": 47497.311308433724,
+          "activeSamples": 2749,
+          "lockedActiveSamples": 596,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 7.0,
+          "disabled": 0.0,
+          "rails": 218.0,
+          "railHits": 20.0,
+          "missiles": 53.0,
+          "missileHits": 4.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 3.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 34.0,
+          "shieldDamageInflicted": 716.454,
+          "moduleDamageInflicted": 53.136,
+          "firstInactiveOrCensoredSeconds": 548.907,
+          "firstAssaultMean": 394.0,
+          "meanRailRange": 13061.763369565217,
+          "activeSamples": 2204,
+          "lockedActiveSamples": 260,
+          "assaultActivities": {
+            "위치 유지": 227,
+            "강습 외곽 우회": 237,
+            "침투 우회": 43,
+            "호위": 5
+          }
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 1.0,
+          "disabled": 1.0,
+          "rails": 68.0,
+          "railHits": 47.0,
+          "missiles": 44.0,
+          "missileHits": 13.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 3.0,
+          "shieldDamageInflicted": 10225.025999999998,
+          "moduleDamageInflicted": 1202.209,
+          "firstInactiveOrCensoredSeconds": 436.693,
+          "firstAssaultMean": null,
+          "meanRailRange": 90961.77588235294,
+          "activeSamples": 351,
+          "lockedActiveSamples": 102,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 6.0,
+          "disabled": 0.0,
+          "rails": 1866.0,
+          "railHits": 289.0,
+          "missiles": 359.0,
+          "missileHits": 96.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 19210.651,
+          "moduleDamageInflicted": 4779.616999999999,
+          "firstInactiveOrCensoredSeconds": 556.973,
+          "firstAssaultMean": null,
+          "meanRailRange": 38300.25863129689,
+          "activeSamples": 2696,
+          "lockedActiveSamples": 555,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 237.0,
+          "railHits": 2.0,
+          "missiles": 67.0,
+          "missileHits": 5.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 33.0,
+          "shieldDamageInflicted": 156.666,
+          "moduleDamageInflicted": 292.779,
+          "firstInactiveOrCensoredSeconds": 583.163,
+          "firstAssaultMean": 421.5,
+          "meanRailRange": 13095.915260869564,
+          "activeSamples": 2340,
+          "lockedActiveSamples": 290,
+          "assaultActivities": {
+            "위치 유지": 295,
+            "강습 외곽 우회": 225
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "mixed",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 833.421,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "729.450"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "966.900"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "754.667"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "882.667"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 4.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 13.0,
+          "missileHits": 1.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 816.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 340.286,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 274,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 12.0,
+          "disabled": 0.0,
+          "rails": 300.0,
+          "railHits": 18.0,
+          "missiles": 384.0,
+          "missileHits": 169.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 16972.798,
+          "moduleDamageInflicted": 2440.106,
+          "firstInactiveOrCensoredSeconds": 814.238,
+          "firstAssaultMean": null,
+          "meanRailRange": 20544.50004,
+          "activeSamples": 3919,
+          "lockedActiveSamples": 371,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 80.0,
+          "probeContacts": 9.0,
+          "probeIdentifications": 3.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 833.421,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3340,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 494.0,
+          "railHits": 378.0,
+          "missiles": 64.0,
+          "missileHits": 28.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 4.0,
+          "shieldDamageInflicted": 22030.543999999998,
+          "moduleDamageInflicted": 6379.676,
+          "firstInactiveOrCensoredSeconds": 758.599,
+          "firstAssaultMean": null,
+          "meanRailRange": 121074.43372064778,
+          "activeSamples": 662,
+          "lockedActiveSamples": 162,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 2062.0,
+          "railHits": 850.0,
+          "missiles": 384.0,
+          "missileHits": 10.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 36145.943999999996,
+          "moduleDamageInflicted": 12919.770999999999,
+          "firstInactiveOrCensoredSeconds": 833.421,
+          "firstAssaultMean": null,
+          "meanRailRange": 50673.4557643065,
+          "activeSamples": 4008,
+          "lockedActiveSamples": 1344,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 1.0,
+          "disabled": 0.0,
+          "rails": 277.0,
+          "railHits": 38.0,
+          "missiles": 76.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 57.0,
+          "shieldDamageInflicted": 127.313,
+          "moduleDamageInflicted": 328.153,
+          "firstInactiveOrCensoredSeconds": 821.596,
+          "firstAssaultMean": 621.0,
+          "meanRailRange": 7202.992153846154,
+          "activeSamples": 3293,
+          "lockedActiveSamples": 106,
+          "assaultActivities": {
+            "위치 유지": 487,
+            "강습 외곽 우회": 267,
+            "접근": 11,
+            "침투 우회": 33,
+            "침투 돌진": 4,
+            "호위": 2
+          }
+        }
+      ]
+    },
+    {
+      "scenario": "earth",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 3,
+        "Blue": 1
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 753.221,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "755.117"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "700.117"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "715.117"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "842.533"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 2.0,
+          "disabled": 1.0,
+          "rails": 82.0,
+          "railHits": 70.0,
+          "missiles": 96.0,
+          "missileHits": 63.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 4.0,
+          "shieldDamageInflicted": 21479.82,
+          "moduleDamageInflicted": 7321.166,
+          "firstInactiveOrCensoredSeconds": 660.967,
+          "firstAssaultMean": null,
+          "meanRailRange": 82880.9518902439,
+          "activeSamples": 541,
+          "lockedActiveSamples": 193,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 11.0,
+          "disabled": 1.0,
+          "rails": 556.0,
+          "railHits": 498.0,
+          "missiles": 384.0,
+          "missileHits": 198.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 3.0,
+          "shieldDamageInflicted": 39001.85800000001,
+          "moduleDamageInflicted": 11774.657000000001,
+          "firstInactiveOrCensoredSeconds": 685.728,
+          "firstAssaultMean": null,
+          "meanRailRange": 33148.40448201438,
+          "activeSamples": 3365,
+          "lockedActiveSamples": 925,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 63.0,
+          "probeContacts": 14.0,
+          "probeIdentifications": 25.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 753.221,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3030,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "battleship"
+          ],
+          "destroyed": 2.0,
+          "disabled": 0.0,
+          "rails": 98.0,
+          "railHits": 78.0,
+          "missiles": 96.0,
+          "missileHits": 68.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 5.0,
+          "shieldDamageInflicted": 16681.408,
+          "moduleDamageInflicted": 7273.642,
+          "firstInactiveOrCensoredSeconds": 677.837,
+          "firstAssaultMean": null,
+          "meanRailRange": 87680.48337755102,
+          "activeSamples": 545,
+          "lockedActiveSamples": 276,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "escort"
+          ],
+          "destroyed": 6.0,
+          "disabled": 2.0,
+          "rails": 906.0,
+          "railHits": 818.0,
+          "missiles": 384.0,
+          "missileHits": 192.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 42918.675,
+          "moduleDamageInflicted": 17010.724,
+          "firstInactiveOrCensoredSeconds": 709.94,
+          "firstAssaultMean": null,
+          "meanRailRange": 32728.135729580572,
+          "activeSamples": 3477,
+          "lockedActiveSamples": 1442,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "earth_recon_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 0.0,
+          "railHits": 0.0,
+          "missiles": 0.0,
+          "missileHits": 0.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 68.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 15.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 0.0,
+          "moduleDamageInflicted": 0.0,
+          "firstInactiveOrCensoredSeconds": 753.221,
+          "firstAssaultMean": null,
+          "meanRailRange": null,
+          "activeSamples": 3030,
+          "lockedActiveSamples": 0,
+          "assaultActivities": {}
+        }
+      ]
+    },
+    {
+      "scenario": "mars",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 756.058,
+      "friendlyCollisions": 5.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "765.650"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "1011.183"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "908.300"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "339.100"
+        }
+      ],
+      "ships": [
+        {
+          "side": "Blue",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 3.0,
+          "disabled": 0.0,
+          "rails": 106.0,
+          "railHits": 74.0,
+          "missiles": 46.0,
+          "missileHits": 14.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 5.0,
+          "shieldDamageInflicted": 11198.21,
+          "moduleDamageInflicted": 1748.046,
+          "firstInactiveOrCensoredSeconds": 410.678,
+          "firstAssaultMean": null,
+          "meanRailRange": 90405.3255283019,
+          "activeSamples": 436,
+          "lockedActiveSamples": 58,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 14.0,
+          "disabled": 0.0,
+          "rails": 910.0,
+          "railHits": 350.0,
+          "missiles": 352.0,
+          "missileHits": 68.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 0.0,
+          "shieldDamageInflicted": 16529.792,
+          "moduleDamageInflicted": 5341.255000000001,
+          "firstInactiveOrCensoredSeconds": 594.866,
+          "firstAssaultMean": null,
+          "meanRailRange": 59318.504905494505,
+          "activeSamples": 2866,
+          "lockedActiveSamples": 445,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Blue",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 0.0,
+          "disabled": 0.0,
+          "rails": 577.0,
+          "railHits": 130.0,
+          "missiles": 71.0,
+          "missileHits": 4.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 29.0,
+          "shieldDamageInflicted": 1083.1409999999998,
+          "moduleDamageInflicted": 809.6890000000001,
+          "firstInactiveOrCensoredSeconds": 756.058,
+          "firstAssaultMean": 447.167,
+          "meanRailRange": 9181.476792405063,
+          "activeSamples": 3035,
+          "lockedActiveSamples": 260,
+          "assaultActivities": {
+            "위치 유지": 490,
+            "강습 외곽 우회": 270,
+            "대기": 5,
+            "접근": 40
+          }
+        },
+        {
+          "side": "Red",
+          "kind": "Battleship",
+          "count": 4,
+          "hulls": [
+            "mars_battleship"
+          ],
+          "destroyed": 4.0,
+          "disabled": 0.0,
+          "rails": 60.0,
+          "railHits": 14.0,
+          "missiles": 48.0,
+          "missileHits": 11.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 3.0,
+          "shieldDamageInflicted": 5975.498,
+          "moduleDamageInflicted": 577.227,
+          "firstInactiveOrCensoredSeconds": 460.86,
+          "firstAssaultMean": null,
+          "meanRailRange": 66987.61448333334,
+          "activeSamples": 371,
+          "lockedActiveSamples": 40,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Escort",
+          "count": 24,
+          "hulls": [
+            "mars_escort"
+          ],
+          "destroyed": 8.0,
+          "disabled": 1.0,
+          "rails": 3242.0,
+          "railHits": 816.0,
+          "missiles": 368.0,
+          "missileHits": 86.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 0.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 1.0,
+          "shieldDamageInflicted": 30782.459000000006,
+          "moduleDamageInflicted": 9916.422000000002,
+          "firstInactiveOrCensoredSeconds": 653.468,
+          "firstAssaultMean": null,
+          "meanRailRange": 59825.95532603332,
+          "activeSamples": 3151,
+          "lockedActiveSamples": 890,
+          "assaultActivities": {}
+        },
+        {
+          "side": "Red",
+          "kind": "Interceptor",
+          "count": 20,
+          "hulls": [
+            "mars_assault_t3"
+          ],
+          "destroyed": 9.0,
+          "disabled": 0.0,
+          "rails": 339.0,
+          "railHits": 89.0,
+          "missiles": 50.0,
+          "missileHits": 3.0,
+          "torpedoes": 0.0,
+          "torpedoHits": 0.0,
+          "amFailures": 5.0,
+          "probesLaunched": 0.0,
+          "probeContacts": 0.0,
+          "probeIdentifications": 0.0,
+          "missilesIntercepted": 27.0,
+          "shieldDamageInflicted": 363.198,
+          "moduleDamageInflicted": 393.64700000000005,
+          "firstInactiveOrCensoredSeconds": 690.248,
+          "firstAssaultMean": 441.625,
+          "meanRailRange": 8409.427147058823,
+          "activeSamples": 2773,
+          "lockedActiveSamples": 302,
+          "assaultActivities": {
+            "위치 유지": 434,
+            "강습 외곽 우회": 319,
+            "접근": 36,
+            "침투 우회": 27,
+            "침투 돌진": 18,
+            "이탈": 2,
+            "호위": 1
+          }
+        }
+      ]
+    }
+  ],
+  "geometry": [
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "fore",
+      "Area": 30.5,
+      "PdDamagedArea": 6.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 3,
+      "RailReactorArea": 0.75,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "aft",
+      "Area": 30.5,
+      "PdDamagedArea": 6.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 3,
+      "RailReactorArea": 1,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "side",
+      "Area": 92,
+      "PdDamagedArea": 20,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 6,
+      "RailReactorArea": 0,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "dorsal",
+      "Area": 291,
+      "PdDamagedArea": 32,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 4.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "ventral",
+      "Area": 291,
+      "PdDamagedArea": 32,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 4.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "View": "rear_lower",
+      "Area": 151,
+      "PdDamagedArea": 3,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 4.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "fore",
+      "Area": 42.5,
+      "PdDamagedArea": 11.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 1.5,
+      "RailReactorArea": 0.75,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "aft",
+      "Area": 42.5,
+      "PdDamagedArea": 13.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 1.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0.5
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "side",
+      "Area": 96,
+      "PdDamagedArea": 26.75,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 5.25,
+      "RailReactorArea": 4,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "dorsal",
+      "Area": 176,
+      "PdDamagedArea": 34.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 3.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "ventral",
+      "Area": 176,
+      "PdDamagedArea": 34.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 3.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "View": "rear_lower",
+      "Area": 113,
+      "PdDamagedArea": 14.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 3,
+      "RailReactorArea": 2.5,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "fore",
+      "Area": 19,
+      "PdDamagedArea": 3,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 1,
+      "RailReactorArea": 1,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "aft",
+      "Area": 19,
+      "PdDamagedArea": 3,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 1,
+      "RailReactorArea": 1,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "side",
+      "Area": 71.25,
+      "PdDamagedArea": 13,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 2.5,
+      "RailReactorArea": 0,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "dorsal",
+      "Area": 166,
+      "PdDamagedArea": 14,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 2.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "ventral",
+      "Area": 166,
+      "PdDamagedArea": 14,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 2.5,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "View": "rear_lower",
+      "Area": 87.5,
+      "PdDamagedArea": 1.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 2,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "fore",
+      "Area": 43,
+      "PdDamagedArea": 16,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 4,
+      "RailReactorArea": 1.25,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "aft",
+      "Area": 43,
+      "PdDamagedArea": 16,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 4,
+      "RailReactorArea": 2,
+      "RailBothArea": 0.5
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "side",
+      "Area": 89,
+      "PdDamagedArea": 24,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 6,
+      "RailReactorArea": 4,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "dorsal",
+      "Area": 139,
+      "PdDamagedArea": 29,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 6,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "ventral",
+      "Area": 139,
+      "PdDamagedArea": 29,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 6,
+      "RailReactorArea": 2,
+      "RailBothArea": 0
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "View": "rear_lower",
+      "Area": 95,
+      "PdDamagedArea": 16.5,
+      "ArmedPdCatastropheArea": 0,
+      "RailAmArea": 6,
+      "RailReactorArea": 2.5,
+      "RailBothArea": 0
+    }
+  ],
+  "coverage": [
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": true,
+      "Directions": 2048,
+      "Mechanical": 1125,
+      "Clear": 1125,
+      "Blocked": 0,
+      "BuriedMounts": 0,
+      "Cardinal": {
+        "fore": [
+          0,
+          0
+        ],
+        "aft": [
+          2,
+          2
+        ],
+        "port": [
+          2,
+          2
+        ],
+        "starboard": [
+          2,
+          2
+        ],
+        "dorsal": [
+          0,
+          0
+        ],
+        "ventral": [
+          0,
+          0
+        ],
+        "rear_upper": [
+          1,
+          1
+        ],
+        "rear_lower": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Legacy": false,
+      "Directions": 2048,
+      "Mechanical": 1123,
+      "Clear": 1027,
+      "Blocked": 96,
+      "BuriedMounts": 0,
+      "Cardinal": {
+        "fore": [
+          0,
+          0
+        ],
+        "aft": [
+          2,
+          2
+        ],
+        "port": [
+          2,
+          2
+        ],
+        "starboard": [
+          2,
+          2
+        ],
+        "dorsal": [
+          0,
+          0
+        ],
+        "ventral": [
+          0,
+          0
+        ],
+        "rear_upper": [
+          1,
+          1
+        ],
+        "rear_lower": [
+          1,
+          1
+        ]
+      }
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": true,
+      "Directions": 2048,
+      "Mechanical": 610,
+      "Clear": 575,
+      "Blocked": 35,
+      "BuriedMounts": 0,
+      "Cardinal": {
+        "fore": [
+          0,
+          0
+        ],
+        "aft": [
+          1,
+          1
+        ],
+        "port": [
+          1,
+          1
+        ],
+        "starboard": [
+          1,
+          1
+        ],
+        "dorsal": [
+          0,
+          0
+        ],
+        "ventral": [
+          0,
+          0
+        ],
+        "rear_upper": [
+          1,
+          1
+        ],
+        "rear_lower": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Legacy": false,
+      "Directions": 2048,
+      "Mechanical": 610,
+      "Clear": 489,
+      "Blocked": 121,
+      "BuriedMounts": 0,
+      "Cardinal": {
+        "fore": [
+          0,
+          0
+        ],
+        "aft": [
+          1,
+          1
+        ],
+        "port": [
+          1,
+          1
+        ],
+        "starboard": [
+          1,
+          1
+        ],
+        "dorsal": [
+          0,
+          0
+        ],
+        "ventral": [
+          0,
+          0
+        ],
+        "rear_upper": [
+          1,
+          1
+        ],
+        "rear_lower": [
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "simChecks": 5607657,
+  "simFailure": false,
+  "changedSinceBlockoutManifest": []
+}

@@ -1,0 +1,23 @@
+{
+  "recordedUtc": "2026-10-16T02:15:29.158974+00:00",
+  "commands": [
+    "dotnet tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll --wing-trials --seeds 1,2,3,4 --jobs 4 --output docs/validation/wing_synergy_20261016/results-s1.json.gz",
+    "dotnet tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll --wing-trials --seeds 5,6,7,8 --jobs 4 --output docs/validation/wing_synergy_20261016/results-s5.json.gz",
+    "dotnet tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll --wing-trials --seeds 9,10,11,12 --jobs 4 --output docs/validation/wing_synergy_20261016/results-s9.json.gz",
+    "dotnet tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll --wing-trials --seeds 13,14,15,16 --jobs 4 --output docs/validation/wing_synergy_20261016/results-s13.json.gz"
+  ],
+  "productionSnapshot": "before-hashes.json",
+  "inputs": {
+    "tools/BattleBatch/EscortTrials.cs": "c76b83f1774e6bbcd1cd78a48540efef76e8b4dd95776d6250a16e9dbe571b8c",
+    "tools/BattleBatch/WingTrials.cs": "8dd378db1f082a80b5bc9f6e88b7e6b5813d39b1e7bb4bbcc677ddeb14547617",
+    "tools/BattleBatch/Program.cs": "5bdbbf67d5b8b9f9bcf99836e489578cec3c2b0ec28e83e8aa7a129d4bfaa776",
+    "tools/BattleBatch/BalanceTelemetry.cs": "846fdccbc30c806ce71432bd3b97a30272a23ec2c2aff0ae2f699e59a14dd91b",
+    "tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll": "e37cb5b2b1c704ac9351e9504ccff394e71a1757191b07059562b2e092a55701"
+  },
+  "notes": [
+    "Four compressed chunks preserve completed groups under constrained disk space.",
+    "Wall time includes concurrent runs; not a performance benchmark.",
+    "No production tuning applied in this comparison.",
+    "Full 5-second telemetry is retained for the pilot; aborted-run traces are not used in outcome statistics."
+  ]
+}

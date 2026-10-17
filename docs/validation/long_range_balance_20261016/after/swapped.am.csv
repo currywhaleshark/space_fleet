@@ -1,0 +1,2 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+1,1,Blue,IC-22,BB-X1,Battleship,434.962,4545.2,3.071,3635.7,0.000,1168.9,Drone,

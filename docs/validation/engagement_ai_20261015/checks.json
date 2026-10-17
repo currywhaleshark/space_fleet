@@ -1,0 +1,17 @@
+{
+  "checks": 5607690,
+  "passLines": 57,
+  "failureText": false,
+  "lastLines": [
+    "PASS: 143936 sensor traversal/reference checks",
+    "PASS: 175 design/catalog/Mars/ECM checks",
+    "PASS: 10915 loadout/role data/legacy equivalence checks",
+    "PASS: 175 physical equipment/bay/damage/recovery checks",
+    "PASS: 116 cruiser catalog/doctrine/defense/salvo checks",
+    "PASS: 799 squad loadout/preset/storage/matchmaking checks",
+    "PASS: 478 research/tree/reward/migration/tier matching checks",
+    "PASS: 255 tier branch/catalog/save/recon/rally checks"
+  ],
+  "blockoutFilesChecked": 48,
+  "changedBlockoutFiles": []
+}

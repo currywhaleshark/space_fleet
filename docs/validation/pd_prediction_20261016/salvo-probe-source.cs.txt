@@ -1,0 +1,38 @@
+using Godot;
+using SpaceFleet.Sim;
+using System.Text.Json.Nodes;
+using System.Text.Json;
+
+ShipDefinition Def(string name, bool pd=true)
+{
+    var node=JsonNode.Parse(ShipDefinitions.ById(name).ToJson())!;
+    if(!pd){node.AsObject().Remove("PointDefense");node.AsObject().Remove("DefenseDrones");}
+    node.AsObject().Remove("Decoys");
+    foreach(var m in node["Modules"]!.AsArray())m!["CriticalChance"]=0;
+    return ShipDefinition.Parse(node.ToJsonString());
+}
+var rows=new List<object>();
+foreach(int pattern in new[]{0,1,2,3})
+foreach(float az in new[]{0f,90,180,270})
+{
+    var w=new SimWorld();
+    typeof(SimWorld).GetField("_pointDefenseSequence",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance)!
+        .SetValue(w,(uint)pattern*104729);
+    var shooter=w.Add(new ShipBody("S",Def("battleship"),Faction.Blue));
+    var target=w.Add(new ShipBody("T",Def("escort"),Faction.Red));
+    shooter.Place(Vec3d.Zero,Quaternion.Identity);
+    target.Place(Vec3d.From(new Vector3(0,0,-40000).Rotated(Vector3.Up,Mathf.DegToRad(az))),Quaternion.Identity);
+    shooter.Control=target.Control=new ShipControl{FlightAssist=false};
+    w.Step();int launched=0;var seen=new HashSet<OrdnanceEvent>();var shots=new HashSet<PointDefenseShot>();var hits=new HashSet<uint>();
+    for(int tick=0;tick<240*60 && (w.Missiles.Count>0 ||tick==0);tick++)
+    {
+        if(launched<6&&shooter.Ordnance.MissileReady&&w.LaunchMissile(shooter,target).Fired)launched++;
+        w.Step();
+        foreach(var ev in w.OrdnanceEvents)seen.Add(ev);
+        foreach(var shot in w.PointDefenseShots)if(shot.Faction==Faction.Red)shots.Add(shot);
+        foreach(var impact in w.Impacts)if(impact.Hit.Target==target)hits.Add(impact.Id);
+    }
+    rows.Add(new{pattern,az,launched,shots=shots.Count,hitShots=shots.Count(s=>s.Hit),missileHits=hits.Count,
+        intercepted=seen.Count(e=>e.Kind==OrdnanceEventKind.Intercepted),byMount=target.Ordnance.PointDefense.Select(p=>p.ShotCount).ToArray()});
+}
+Console.WriteLine(JsonSerializer.Serialize(rows,new JsonSerializerOptions{WriteIndented=true}));

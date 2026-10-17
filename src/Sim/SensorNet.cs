@@ -22,7 +22,7 @@ public readonly record struct SensorObservation(ShipBody Observer, double Time, 
 
 /// <param name="TrackSnr">식별·잠금에 쓰는 신호(ECM 방해 반영).</param>
 /// <param name="DetectSnr">접촉에 쓰는 신호(ECM 방해 전파는 오히려 멀리서 잡힌다).</param>
-/// <param name="JamRatio">관측 쪽에서 본 방해 세기(ECM 배율 ÷ 관측 센서 배율). 0이면 방해 없음.</param>
+/// <param name="JamRatio">관측 쪽의 실효 방해 세기(ECM ÷ 센서 배율에 한계효용 적용). 0이면 방해 없음.</param>
 /// <param name="ErrorMeters">진영이 아는 위치의 오차 규모(m).</param>
 /// <param name="EstimatedPosition">진영이 아는 위치(갱신 시점의 실제 위치 + Offset).</param>
 /// <param name="Offset">추정 오차 벡터(m). 몇 초에 걸쳐 천천히 흘러간다. 화면은 매 프레임 실제 이동 + 이 값으로 그린다.</param>
@@ -51,7 +51,8 @@ public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, floa
 /// 신호 = 관측 센서 세기 × 표적 신호 ÷ 거리(km)². 단계 기준은 접촉 1, 식별 3, 잠금 8이며 떨어질 때는 80%까지 버틴다.
 /// - 관측 센서 세기 = 데이터 Strength × 센서 모듈 상태 × 센서 채널 배율(핍·전력·과열).
 /// - 표적 신호 = 데이터 Signature × (1 + 0.5·엔진 출력 + 0.5·열 비율). 태우고 뜨거우면 잘 보인다.
-/// - 표적 ECM: 식별·잠금 신호를 (1 + 방해) 로 나눈다. 방해 = Jammer × ECM 배율 ÷ 관측 센서 배율(ECCM).
+/// - 표적 ECM: 식별·잠금 신호를 (1 + 실효 방해)로 나눈다. 원 방해 = Jammer × ECM 배율 ÷ 관측 센서 배율(ECCM).
+///   실효 방해 = 원 방해 / (1 + 원 방해 / 2). 자기 ECM과 아군 방해 중 강한 쪽에 한 번 적용한다.
 ///   대신 방해 전파 때문에 접촉 신호는 (1 + 2·ECM 배율) 배로 커진다.
 /// </summary>
 public sealed partial class SensorNet
@@ -85,10 +86,19 @@ public sealed partial class SensorNet
     }
 
     public static float Strength(ShipBody observer) => observer.Damage.Destroyed ? 0f
-        : observer.Definition.Sensors.Strength * observer.Damage.SensorFraction * observer.Power.SensorEffect;
+        : observer.Definition.Sensors.Strength * (1 + observer.Damage.SensorStrengthBonus) * observer.Damage.SensorFraction * observer.Power.SensorEffect;
 
     public static float Signature(ShipBody target) => target.Definition.Sensors.Signature
-        * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction);
+        * (1 + target.Damage.SignatureBonus)
+        * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction)
+        * (1f + (target.Definition.Missiles is { LaunchSignatureFraction: > 0 } missile
+            && target.SimTime - target.Ordnance.LastMissileLaunch < missile.LaunchSignatureSeconds ? missile.LaunchSignatureFraction : 0));
+
+    public static float Jammer(ShipBody ship) => ship.Definition.Sensors.Jammer + ship.Damage.JammerBonus;
+
+    // Diminishing returns keep strong ECM useful without making a weak sensor
+    // channel almost completely blind. Apply after combining local and escort ECM.
+    internal static float EffectiveJamming(float raw) => raw / (1f + raw / 2f);
 
     /// <summary>관측함 한 척이 표적을 보는 신호(접촉용·추적용)와 방해 비율.</summary>
     public static (float Track,float Detect,float Jam) Measure(ShipBody observer,ShipBody target,ObstacleSet obstacles,float screenJammer=0)
@@ -99,10 +109,11 @@ public sealed partial class SensorNet
         double km = Math.Max((target.Position - observer.Position).Length() / 1000.0, 1e-3);
         float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km));
         float jam = target.Power.EcmActive
-            ? target.Definition.Sensors.Jammer * target.Power.EcmEffect / Mathf.Max(observer.Power.SensorEffect, 0.05f)
+            ? Jammer(target) * target.Power.EcmEffect / Mathf.Max(observer.Power.SensorEffect, 0.05f)
             : 0f;
         float strobe = target.Power.EcmActive ? 1f + JamStrobe * target.Power.EcmEffect : 1f;
         jam = Mathf.Max(jam, screenJammer / Mathf.Max(observer.Power.SensorEffect, .05f));
+        jam = EffectiveJamming(jam);
         return (baseSnr / (1f + jam), baseSnr * strobe, jam);
     }
 
@@ -131,7 +142,7 @@ public sealed partial class SensorNet
                 if (support == target || support.Faction != target.Faction || support.Definition.Design != DesignFamily.Mars
                     || support.Class.Kind != HullKind.Escort || !Squadron.Active(support) || !support.Power.EcmActive) continue;
                 float falloff = Mathf.Clamp(1f - (float)(support.Position - target.Position).Length() / 12_000f, 0, 1);
-                screen = Mathf.Max(screen, support.Definition.Sensors.Jammer * support.Power.EcmEffect * .6f * falloff);
+                screen = Mathf.Max(screen, Jammer(support) * support.Power.EcmEffect * .6f * falloff);
             }
             foreach (ShipBody observer in ships)
             {

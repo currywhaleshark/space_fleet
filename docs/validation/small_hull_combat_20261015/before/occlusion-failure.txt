@@ -1,0 +1,8 @@
+Observed before the production fix, after building the new regression case:
+dotnet tests/SimChecks/bin/Release/net8.0/SimChecks.dll --turrets
+Exit code: 1
+Unhandled exception. System.Exception: earth_recon_t3/False/False: PD cannot shoot through its own tail fin
+   at PointDefenseChecks.CheckHullOcclusion()
+
+False/False means interceptor target at the origin (not a missile / not the large-coordinate rotated case).
+The test first confirms that the mechanically reachable ray intersects the real T3 tail fin.

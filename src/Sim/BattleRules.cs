@@ -47,12 +47,7 @@ public sealed class CaptureZone
         {
             if (!Squadron.Active(ship) || (ship.Position - Position).LengthSquared() > radiusSquared) continue;
             // Caps prevent a cluster of tiny craft from capturing instantaneously.
-            double strength = ship.Class.Kind switch
-            {
-                HullKind.Battleship => 2,
-                HullKind.Escort => 1.5,
-                _ => 1,
-            };
+            double strength = ship.Definition.BattleValue.CaptureStrength;
             if (ship.Faction == Faction.Blue) BluePresence += strength;
             else RedPresence += strength;
         }
@@ -77,8 +72,10 @@ public sealed class CaptureZone
 
 public sealed class BattleRules
 {
-    // Preserve the old annihilation thresholds and baseline behaviour.
-    public const double BattleshipWeight = 6, EscortWeight = 2, InterceptorWeight = 0.5;
+    // Legacy accessors resolve the default Earth hull; runtime values belong to each definition.
+    public static double BattleshipWeight => Weight(HullKind.Battleship);
+    public static double EscortWeight => Weight(HullKind.Escort);
+    public static double InterceptorWeight => Weight(HullKind.Interceptor);
     public const double DefeatFraction = 0.25, FlagshipDefeatFraction = 0.5;
     public const double TimeLimitSeconds = 25 * 60, DrawMargin = 0.1;
     public const int DefaultDominationScore = 500;
@@ -119,7 +116,7 @@ public sealed class BattleRules
     }
 
     public BattleRules(SimWorld world, BattleObjective objective = BattleObjective.Annihilation,
-        IEnumerable<CaptureZone>? zones = null, int scoreLimit = DefaultDominationScore)
+        IEnumerable<CaptureZone>? zones = null, int scoreLimit = DefaultDominationScore,IReadOnlyList<ShipBody>? flagships=null)
     {
         if (!Enum.IsDefined(objective) || scoreLimit <= 0)
             throw new ArgumentException("Invalid battle objective configuration");
@@ -135,15 +132,16 @@ public sealed class BattleRules
         {
             _initial[(int)f] = Strength(world.Ships, f);
             _flagships[(int)f] = world.Squadrons.FirstOrDefault(q => q.Faction == f && q.Role == SquadronRole.BattleGroup)?.Members
-                .FirstOrDefault(s => s.Class.Kind == HullKind.Battleship);
+                .FirstOrDefault(s => s.Class.Kind == HullKind.Battleship)
+                ??flagships?.FirstOrDefault(s=>s.Faction==f);
         }
         _lastEvaluatedTime = world.Time;
     }
 
-    public static double Weight(HullKind kind) => kind switch
-    { HullKind.Battleship => BattleshipWeight, HullKind.Escort => EscortWeight, _ => InterceptorWeight };
+    public static double Weight(HullKind kind) => Weight(ShipDefinitions.For(kind));
+    public static double Weight(ShipDefinition definition) => definition.BattleValue.Weight;
     public static double Strength(IEnumerable<ShipBody> ships, Faction faction) => ships
-        .Where(s => s.Faction == faction && !s.Damage.Destroyed && !s.Damage.Disabled).Sum(s => Weight(s.Class.Kind));
+        .Where(s => s.Faction == faction && !s.Damage.Destroyed && !s.Damage.Disabled).Sum(s => Weight(s.Definition));
     public double Initial(Faction f) => _initial[(int)f];
     public static ShipBody? Replacement(IEnumerable<ShipBody> ships, Faction faction, HullKind preferred) => ships
         .Where(s => s.Faction == faction && Squadron.Active(s)).OrderBy(s => s.Class.Kind == preferred ? 0 : 1)
@@ -155,7 +153,7 @@ public sealed class BattleRules
         if (Outcome is not null) return Outcome;
         // 응급복구로 무력화를 풀고 있는 함선은 아직 잃은 전력으로 치지 않는다.
         double Recoverable(Faction f) => Strength(_world.Ships, f)
-            + _world.Ships.Where(s => s.Faction == f && s.DamageControl.RecoveringDisable).Sum(s => Weight(s.Class.Kind));
+            + _world.Ships.Where(s => s.Faction == f && s.DamageControl.RecoveringDisable).Sum(s => Weight(s.Definition));
         double RecoverableFraction(Faction f) => Initial(f) <= 0 ? 0 : Recoverable(f) / Initial(f);
         bool FlagshipDown(Faction f) => _flagships[(int)f] is { } flagship
             && (flagship.Damage.Destroyed || flagship.Damage.Disabled && !flagship.DamageControl.RecoveringDisable);

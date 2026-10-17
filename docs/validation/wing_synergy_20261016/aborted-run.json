@@ -1,0 +1,30 @@
+{
+  "reason": "Disk-full exception while saving telemetry; no aggregate result was written. These traces are diagnostic artifacts only and excluded from final statistics.",
+  "reportedComplete": 552,
+  "traceFiles": 560,
+  "invalidGzipFromAbortedRun": [
+    "s7-d130000-ebFalse-mFalse-e2-r2.csv.gz"
+  ],
+  "runRecord": {
+    "recordedUtc": "2026-10-16T02:09:16.385222+00:00",
+    "command": "dotnet tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll --wing-trials --seeds 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 --jobs 4 --telemetry --output docs/validation/wing_synergy_20261016/results.json",
+    "productionSnapshot": "before-hashes.json",
+    "inputs": {
+      "tools/BattleBatch/EscortTrials.cs": "c76b83f1774e6bbcd1cd78a48540efef76e8b4dd95776d6250a16e9dbe571b8c",
+      "tools/BattleBatch/WingTrials.cs": "d92a1f2e82b6ad0489f6572c4bd0a3beb12bd2625a4c9d6c61d8edd1514abeba",
+      "tools/BattleBatch/Program.cs": "5bdbbf67d5b8b9f9bcf99836e489578cec3c2b0ec28e83e8aa7a129d4bfaa776",
+      "tools/BattleBatch/BalanceTelemetry.cs": "846fdccbc30c806ce71432bd3b97a30272a23ec2c2aff0ae2f699e59a14dd91b",
+      "tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll": "d0a51f01897f71109bf904367ea127770c5b914ff33c11e1f4c6a902f68ceb9a"
+    },
+    "notes": [
+      "Wall time includes concurrent runs; not a performance benchmark.",
+      "No production tuning applied in this comparison."
+    ]
+  },
+  "incompleteTelemetryFiles": [
+    "s11-d130000-ebFalse-mTrue-e2-r2-wi5-0.csv.gz",
+    "s15-d130000-ebFalse-mFalse-e2-r2-wi5-5.csv.gz",
+    "s3-d130000-ebFalse-mTrue-e2-r2-wi5-5.csv.gz",
+    "s7-d130000-ebFalse-mFalse-e2-r2.csv.gz"
+  ]
+}

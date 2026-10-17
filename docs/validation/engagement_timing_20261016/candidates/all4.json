@@ -1,0 +1,8 @@
+{
+  "CoreHealthScale": 4,
+  "ExternalHealthScale": 4,
+  "ShieldScale": 4,
+  "StructureScale": 4,
+  "CriticalEnergyScale": 2,
+  "AssaultReachScale": 1.6
+}

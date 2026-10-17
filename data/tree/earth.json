@@ -1,0 +1,1246 @@
+{
+  "design": "Earth",
+  "nodes": [
+    {
+      "id": "earth_starter_escort",
+      "name": "제피르급 호위함",
+      "tier": 1,
+      "branch": "Escort",
+      "parentId": null,
+      "lane": 1,
+      "hullId": "earth_starter_escort",
+      "cost": 0,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2478.6000000000004
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.8294117647058823
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 14.700000000000001,
+              "strafeAccel": 6.300000000000001,
+              "brakeAccel": 12.600000000000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 60,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "escort",
+      "name": "미스트랄급 호위함",
+      "tier": 2,
+      "branch": "Escort",
+      "parentId": "earth_starter_escort",
+      "lane": 1,
+      "hullId": "escort",
+      "cost": 200,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2916.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.41
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 14.700000000000001,
+              "strafeAccel": 6.300000000000001,
+              "brakeAccel": 12.600000000000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "interceptor",
+      "name": "소콜급 요격함",
+      "tier": 2,
+      "branch": "Interceptor",
+      "parentId": "earth_starter_escort",
+      "lane": 3,
+      "hullId": "interceptor",
+      "cost": 200,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 777.6
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.564
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 63.0,
+              "coolingMw": 44.1
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 36.75,
+              "strafeAccel": 42.0,
+              "brakeAccel": 42.0
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 120,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_gun_cruiser",
+      "name": "다뉴브급 포격순양함",
+      "tier": 3,
+      "branch": "GunCruiser",
+      "parentId": "escort",
+      "lane": 0,
+      "hullId": "earth_gun_cruiser",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2916.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.1562
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 13.61111111111111,
+              "strafeAccel": 5.833333333333333,
+              "brakeAccel": 11.666666666666666
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_air_defense_cruiser",
+      "name": "시러스급 방공순양함",
+      "tier": 3,
+      "branch": "AirDefenseCruiser",
+      "parentId": "escort",
+      "lane": 2,
+      "hullId": "earth_air_defense_cruiser",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 2916.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.833
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 525.0,
+              "coolingMw": 346.5
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 14.700000000000001,
+              "strafeAccel": 6.300000000000001,
+              "brakeAccel": 12.600000000000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "battleship",
+      "name": "안데스급 전함",
+      "tier": 4,
+      "branch": "LineBattleship",
+      "parentId": "earth_gun_cruiser",
+      "lane": 1,
+      "hullId": "battleship",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 23328.0
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 2.961
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 2100.0,
+              "coolingMw": 1575.0
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 3.1500000000000004,
+              "strafeAccel": 1.26,
+              "brakeAccel": 2.52
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 16.560000000000002
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_gun_cruiser_t4",
+      "name": "나일급 포격순양함",
+      "tier": 4,
+      "branch": "GunCruiser",
+      "parentId": "earth_gun_cruiser",
+      "lane": 0,
+      "hullId": "earth_gun_cruiser_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 3149.28
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.121514
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 551.25,
+              "coolingMw": 363.825
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 13.883333333333333,
+              "strafeAccel": 5.95,
+              "brakeAccel": 11.9
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_gun_cruiser_t5",
+      "name": "아마존급 포격순양함",
+      "tier": 5,
+      "branch": "GunCruiser",
+      "parentId": "earth_gun_cruiser_t4",
+      "lane": 0,
+      "hullId": "earth_gun_cruiser_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 3401.2224000000006
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.0878685799999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 578.8125,
+              "coolingMw": 382.01625
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 14.160999999999998,
+              "strafeAccel": 6.069,
+              "brakeAccel": 12.138
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_air_defense_cruiser_t4",
+      "name": "스트라투스급 방공순양함",
+      "tier": 4,
+      "branch": "AirDefenseCruiser",
+      "parentId": "earth_air_defense_cruiser",
+      "lane": 2,
+      "hullId": "earth_air_defense_cruiser_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 3149.28
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.77801
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 551.25,
+              "coolingMw": 363.825
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 14.994000000000002,
+              "strafeAccel": 6.426,
+              "brakeAccel": 12.852
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_air_defense_cruiser_t5",
+      "name": "님버스급 방공순양함",
+      "tier": 5,
+      "branch": "AirDefenseCruiser",
+      "parentId": "earth_air_defense_cruiser_t4",
+      "lane": 2,
+      "hullId": "earth_air_defense_cruiser_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 3401.2224000000006
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 1.7246697
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 578.8125,
+              "coolingMw": 382.01625
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 15.29388,
+              "strafeAccel": 6.55452,
+              "brakeAccel": 13.10904
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 12.88
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "battleship_t5",
+      "name": "히말라야급 전함",
+      "tier": 5,
+      "branch": "LineBattleship",
+      "parentId": "battleship",
+      "lane": 1,
+      "hullId": "battleship_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 25194.24
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 2.8721699999999997
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 2205.0,
+              "coolingMw": 1653.75
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 3.213,
+              "strafeAccel": 1.2852000000000001,
+              "brakeAccel": 2.5704000000000002
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 16.560000000000002
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "interceptor_t3",
+      "name": "팔케급 요격함",
+      "tier": 3,
+      "branch": "Interceptor",
+      "parentId": "interceptor",
+      "lane": 3,
+      "hullId": "interceptor_t3",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 839.8080000000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.5470799999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 66.15,
+              "coolingMw": 46.30500000000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 37.48500000000001,
+              "strafeAccel": 42.839999999999996,
+              "brakeAccel": 42.839999999999996
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "interceptor_t4",
+      "name": "사크르급 요격함",
+      "tier": 4,
+      "branch": "Interceptor",
+      "parentId": "interceptor_t3",
+      "lane": 3,
+      "hullId": "interceptor_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 906.9926400000002
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.5306675999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 69.45750000000001,
+              "coolingMw": 48.62025
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 38.234700000000004,
+              "strafeAccel": 43.6968,
+              "brakeAccel": 43.6968
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "interceptor_t5",
+      "name": "해동청급 요격함",
+      "tier": 5,
+      "branch": "Interceptor",
+      "parentId": "interceptor_t4",
+      "lane": 3,
+      "hullId": "interceptor_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 979.5520512000003
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.514747572
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 72.93037500000001,
+              "coolingMw": 51.05126250000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 38.99939400000001,
+              "strafeAccel": 44.57073600000001,
+              "brakeAccel": 44.57073600000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_recon_t3",
+      "name": "알타이르급 정찰함",
+      "tier": 3,
+      "branch": "Recon",
+      "parentId": "interceptor",
+      "lane": 4,
+      "hullId": "earth_recon_t3",
+      "cost": 400,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 755.8272000000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.5470799999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 66.15,
+              "coolingMw": 46.30500000000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 37.48500000000001,
+              "strafeAccel": 42.839999999999996,
+              "brakeAccel": 42.839999999999996
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 180,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_recon_t4",
+      "name": "카노푸스급 정찰함",
+      "tier": 4,
+      "branch": "Recon",
+      "parentId": "earth_recon_t3",
+      "lane": 4,
+      "hullId": "earth_recon_t4",
+      "cost": 800,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 816.2933760000001
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.5306675999999999
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 69.45750000000001,
+              "coolingMw": 48.62025
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 38.234700000000004,
+              "strafeAccel": 43.6968,
+              "brakeAccel": 43.6968
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 240,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth_recon_t5",
+      "name": "폴라리스급 정찰함",
+      "tier": 5,
+      "branch": "Recon",
+      "parentId": "earth_recon_t4",
+      "lane": 4,
+      "hullId": "earth_recon_t5",
+      "cost": 1600,
+      "upgrades": [
+        {
+          "id": "hull",
+          "name": "선체 보강",
+          "description": "구조 내구도 +8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "structureHitPoints": 881.5968460800003
+          }
+        },
+        {
+          "id": "fire-control",
+          "name": "사격통제 개량",
+          "description": "주포 재장전 시간 -6%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "railgun": {
+              "reloadSeconds": 0.514747572
+            }
+          }
+        },
+        {
+          "id": "reactor",
+          "name": "반응로 개량",
+          "description": "발전·냉각 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "power": {
+              "outputMw": 72.93037500000001,
+              "coolingMw": 51.05126250000001
+            }
+          }
+        },
+        {
+          "id": "drive",
+          "name": "추진계 개량",
+          "description": "병진 가속 +5%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "flight": {
+              "forwardAccel": 38.99939400000001,
+              "strafeAccel": 44.57073600000001,
+              "brakeAccel": 44.57073600000001
+            }
+          }
+        },
+        {
+          "id": "repair",
+          "name": "복구계 개량",
+          "description": "응급복구 시간 -8%",
+          "cost": 300,
+          "matchBonus": 0.025,
+          "patch": {
+            "damageControl": {
+              "repairSeconds": 9.200000000000001
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

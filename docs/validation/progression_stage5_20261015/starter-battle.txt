@@ -1,0 +1,2 @@
+T1 match: ships=80; outcome=BattleOutcome { Winner = Red, Reason = 전력 상실, Time = 982.8 }; destroyed=45
+PASS: 4 T1 full battle checks

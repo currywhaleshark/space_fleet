@@ -1,0 +1,1532 @@
+[
+  {
+    "Id": "armor-battleship-main-single",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "battleship",
+      "Part": "main-single",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 105,
+      "ModuleDamagePerRound": 605.8802294049945,
+      "StructurePerRound": 288.10537236531576,
+      "Criticals": 1,
+      "ModuleDamagePerMountSalvo": 605.8802294049945
+    }
+  },
+  {
+    "Id": "armor-battleship-main-triple",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "battleship",
+      "Part": "main-triple",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 105,
+      "ModuleDamagePerRound": 313.72276063646586,
+      "StructurePerRound": 126.7416990053086,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 941.1682819093976
+    }
+  },
+  {
+    "Id": "armor-battleship-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 105,
+      "ModuleDamagePerRound": 411.2517630077544,
+      "StructurePerRound": 172.00228508540562,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 822.5035260155088
+    }
+  },
+  {
+    "Id": "armor-escort-main-single",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "escort",
+      "Part": "main-single",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 105,
+      "ModuleDamagePerRound": 350.23136335100446,
+      "StructurePerRound": 146.274536214556,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 350.23136335100446
+    }
+  },
+  {
+    "Id": "armor-escort-main-triple",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "escort",
+      "Part": "main-triple",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 104,
+      "ModuleDamagePerRound": 142.31604993911017,
+      "StructurePerRound": 55.091905467283155,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 426.94814981733055
+    }
+  },
+  {
+    "Id": "armor-escort-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "escort",
+      "Part": "stock",
+      "Target": "mars_battleship",
+      "Rays": 105,
+      "Penetrated": 105,
+      "ModuleDamagePerRound": 201.364063449133,
+      "StructurePerRound": 79.59558890206473,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 402.728126898266
+    }
+  },
+  {
+    "Id": "armor-interceptor-main-precision",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "interceptor",
+      "Part": "main-precision",
+      "Target": "mars_escort",
+      "Rays": 90,
+      "Penetrated": 86,
+      "ModuleDamagePerRound": 116.26269124348958,
+      "StructurePerRound": 61.24270095825195,
+      "Criticals": 2,
+      "ModuleDamagePerMountSalvo": 116.26269124348958
+    }
+  },
+  {
+    "Id": "armor-interceptor-main-rapid",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "interceptor",
+      "Part": "main-rapid",
+      "Target": "mars_escort",
+      "Rays": 90,
+      "Penetrated": 76,
+      "ModuleDamagePerRound": 67.95051534440782,
+      "StructurePerRound": 30.41455277469423,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 67.95051534440782
+    }
+  },
+  {
+    "Id": "armor-interceptor-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Target": "mars_escort",
+      "Rays": 90,
+      "Penetrated": 86,
+      "ModuleDamagePerRound": 89.97146217226982,
+      "StructurePerRound": 42.45181634591685,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 89.97146217226982
+    }
+  },
+  {
+    "Id": "armor-mars_battleship-main-single",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_battleship",
+      "Part": "main-single",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 120,
+      "ModuleDamagePerRound": 801.3459714253744,
+      "StructurePerRound": 233.85091576576232,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 801.3459714253744
+    }
+  },
+  {
+    "Id": "armor-mars_battleship-main-triple",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_battleship",
+      "Part": "main-triple",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 120,
+      "ModuleDamagePerRound": 382.28002268473307,
+      "StructurePerRound": 101.87284974257152,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 1146.8400680541993
+    }
+  },
+  {
+    "Id": "armor-mars_battleship-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 120,
+      "ModuleDamagePerRound": 514.1787625630697,
+      "StructurePerRound": 138.22185029188793,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 1028.3575251261393
+    }
+  },
+  {
+    "Id": "armor-mars_escort-main-single",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_escort",
+      "Part": "main-single",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 120,
+      "ModuleDamagePerRound": 390.008168665568,
+      "StructurePerRound": 107.47160834471384,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 390.008168665568
+    }
+  },
+  {
+    "Id": "armor-mars_escort-main-triple",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_escort",
+      "Part": "main-triple",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 102,
+      "ModuleDamagePerRound": 149.94914665222169,
+      "StructurePerRound": 41.34273801445961,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 449.8474399566651
+    }
+  },
+  {
+    "Id": "armor-mars_escort-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Target": "battleship",
+      "Rays": 120,
+      "Penetrated": 102,
+      "ModuleDamagePerRound": 212.73861598968506,
+      "StructurePerRound": 58.72015341520309,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 425.4772319793701
+    }
+  },
+  {
+    "Id": "armor-mars_interceptor-main-precision",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_interceptor",
+      "Part": "main-precision",
+      "Target": "escort",
+      "Rays": 95,
+      "Penetrated": 83,
+      "ModuleDamagePerRound": 114.91115481728002,
+      "StructurePerRound": 39.50612910923205,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 114.91115481728002
+    }
+  },
+  {
+    "Id": "armor-mars_interceptor-main-rapid",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_interceptor",
+      "Part": "main-rapid",
+      "Target": "escort",
+      "Rays": 95,
+      "Penetrated": 79,
+      "ModuleDamagePerRound": 63.10245247891075,
+      "StructurePerRound": 18.78540802503887,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 63.10245247891075
+    }
+  },
+  {
+    "Id": "armor-mars_interceptor-stock",
+    "Result": {
+      "Kind": "armor",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Target": "escort",
+      "Rays": 95,
+      "Penetrated": 83,
+      "ModuleDamagePerRound": 84.60831262688887,
+      "StructurePerRound": 26.75794411960401,
+      "Criticals": 0,
+      "ModuleDamagePerMountSalvo": 84.60831262688887
+    }
+  },
+  {
+    "Id": "cadence-battleship-main-single-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "main-single",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 285,
+      "FiredEnergy": 638400,
+      "Ammo": 435,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0585,
+      "Guns": 3,
+      "Barrels": 1,
+      "Energy": 2240,
+      "PenetrationMm": 2386.4067,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 390,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17905
+      }
+    }
+  },
+  {
+    "Id": "cadence-battleship-main-single-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "main-single",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 426,
+      "FiredEnergy": 954240,
+      "Ammo": 294,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0585,
+      "Guns": 3,
+      "Barrels": 1,
+      "Energy": 2240,
+      "PenetrationMm": 2386.4067,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 390,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17858
+      }
+    }
+  },
+  {
+    "Id": "cadence-battleship-main-triple-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "main-triple",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 720,
+      "FiredEnergy": 772799.94,
+      "Ammo": 0,
+      "EmptyAt": 250.16666666666669,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.1215,
+      "Guns": 3,
+      "Barrels": 3,
+      "Energy": 1073.3333,
+      "PenetrationMm": 1534.7457,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 270,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17920
+      }
+    }
+  },
+  {
+    "Id": "cadence-battleship-main-triple-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "main-triple",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 720,
+      "FiredEnergy": 772799.94,
+      "Ammo": 0,
+      "EmptyAt": 269.1333333333333,
+      "HotSeconds": 137.61666666666832,
+      "FirstHot": 25.416666666666668,
+      "PeakHeat": 1.0419108,
+      "Guns": 3,
+      "Barrels": 3,
+      "Energy": 1073.3333,
+      "PenetrationMm": 1534.7457,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 270,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17920
+      }
+    }
+  },
+  {
+    "Id": "cadence-battleship-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 570,
+      "FiredEnergy": 798000,
+      "Ammo": 150,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.09,
+      "Guns": 3,
+      "Barrels": 2,
+      "Energy": 1400,
+      "PenetrationMm": 1800,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 300,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17905
+      }
+    }
+  },
+  {
+    "Id": "cadence-battleship-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 690,
+      "FiredEnergy": 966000,
+      "Ammo": 30,
+      "EmptyAt": null,
+      "HotSeconds": 80.59999999999671,
+      "FirstHot": 61.400000000000006,
+      "PeakHeat": 1.0142615,
+      "Guns": 3,
+      "Barrels": 2,
+      "Energy": 1400,
+      "PenetrationMm": 1800,
+      "ReloadSeconds": 3.15,
+      "ShotHeatMj": 300,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17885
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-main-single-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "main-single",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 400,
+      "FiredEnergy": 384000,
+      "Ammo": 240,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.034666665,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 960,
+      "PenetrationMm": 1193.2034,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 78,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-main-single-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "main-single",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 526,
+      "FiredEnergy": 504960,
+      "Ammo": 114,
+      "EmptyAt": null,
+      "HotSeconds": 44.8666666666654,
+      "FirstHot": 87.01666666666667,
+      "PeakHeat": 1.0013107,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 960,
+      "PenetrationMm": 1193.2034,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 78,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17737
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-main-triple-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "main-triple",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 294400,
+      "Ammo": 0,
+      "EmptyAt": 173,
+      "HotSeconds": 18.450000000000234,
+      "FirstHot": 91.51666666666668,
+      "PeakHeat": 1.0074356,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 460,
+      "PenetrationMm": 767.37286,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 54,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17893
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-main-triple-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "main-triple",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 294400,
+      "Ammo": 0,
+      "EmptyAt": 199.55,
+      "HotSeconds": 108.29999999999514,
+      "FirstHot": 17.016666666666666,
+      "PeakHeat": 1.0515407,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 460,
+      "PenetrationMm": 767.37286,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 54,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17893
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 384000,
+      "Ammo": 0,
+      "EmptyAt": 238.5,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.053333335,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 600,
+      "PenetrationMm": 900,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 60,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17840
+      }
+    }
+  },
+  {
+    "Id": "cadence-escort-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "escort",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 384000,
+      "Ammo": 0,
+      "EmptyAt": 239.35,
+      "HotSeconds": 95.09999999999589,
+      "FirstHot": 30.016666666666666,
+      "PeakHeat": 1.0134073,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 600,
+      "PenetrationMm": 900,
+      "ReloadSeconds": 1.5,
+      "ShotHeatMj": 60,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17840
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-main-precision-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "main-precision",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 57200,
+      "Ammo": 0,
+      "EmptyAt": 162.51666666666665,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0125,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 286,
+      "PenetrationMm": 292.62134,
+      "ReloadSeconds": 0.81000006,
+      "ShotHeatMj": 7.5,
+      "AimErrorScale": 0.8,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-main-precision-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "main-precision",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 57200,
+      "Ammo": 0,
+      "EmptyAt": 109.45,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0125,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 286,
+      "PenetrationMm": 292.62134,
+      "ReloadSeconds": 0.81000006,
+      "ShotHeatMj": 7.5,
+      "AimErrorScale": 0.8,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-main-rapid-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "main-rapid",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 35200,
+      "Ammo": 0,
+      "EmptyAt": 92.86666666666666,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0085,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 176,
+      "PenetrationMm": 218.67241,
+      "ReloadSeconds": 0.45000002,
+      "ShotHeatMj": 5.1000004,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-main-rapid-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "main-rapid",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 35200,
+      "Ammo": 0,
+      "EmptyAt": 63.016666666666666,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0085,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 176,
+      "PenetrationMm": 218.67241,
+      "ReloadSeconds": 0.45000002,
+      "ShotHeatMj": 5.1000004,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 44000,
+      "Ammo": 0,
+      "EmptyAt": 122.71666666666667,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.01,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 220,
+      "PenetrationMm": 250,
+      "ReloadSeconds": 0.6,
+      "ShotHeatMj": 6,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-interceptor-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 44000,
+      "Ammo": 0,
+      "EmptyAt": 82.91666666666667,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.01,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 220,
+      "PenetrationMm": 250,
+      "ReloadSeconds": 0.6,
+      "ShotHeatMj": 6,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-main-single-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "main-single",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 116,
+      "FiredEnergy": 371200,
+      "Ammo": 364,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0611,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 3200,
+      "PenetrationMm": 2916.7195,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 611,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17942
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-main-single-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "main-single",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 174,
+      "FiredEnergy": 556800,
+      "Ammo": 306,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0611,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 3200,
+      "PenetrationMm": 2916.7195,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 611,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17913
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-main-triple-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "main-triple",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 348,
+      "FiredEnergy": 533600,
+      "Ammo": 132,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.1269,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 1533.3333,
+      "PenetrationMm": 1875.8003,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 423,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17942
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-main-triple-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "main-triple",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 414,
+      "FiredEnergy": 634799.94,
+      "Ammo": 66,
+      "EmptyAt": null,
+      "HotSeconds": 95.66666666666252,
+      "FirstHot": 66.2,
+      "PeakHeat": 1.0425197,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 1533.3333,
+      "PenetrationMm": 1875.8003,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 423,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17931
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 232,
+      "FiredEnergy": 464000,
+      "Ammo": 248,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.094,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 2000,
+      "PenetrationMm": 2200,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 470,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17942
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_battleship-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 348,
+      "FiredEnergy": 696000,
+      "Ammo": 132,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.094,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 2000,
+      "PenetrationMm": 2200,
+      "ReloadSeconds": 5.2,
+      "ShotHeatMj": 470,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17913
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-main-single-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "main-single",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 300,
+      "FiredEnergy": 316800,
+      "Ammo": 340,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.040444445,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 1056,
+      "PenetrationMm": 1325.7816,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 91,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17850
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-main-single-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "main-single",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 420,
+      "FiredEnergy": 443520,
+      "Ammo": 220,
+      "EmptyAt": null,
+      "HotSeconds": 26.266666666666456,
+      "FirstHot": 142.68333333333334,
+      "PeakHeat": 1.0073652,
+      "Guns": 2,
+      "Barrels": 1,
+      "Energy": 1056,
+      "PenetrationMm": 1325.7816,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 91,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17790
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-main-triple-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "main-triple",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 323840,
+      "Ammo": 0,
+      "EmptyAt": 212,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.9709945,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 506,
+      "PenetrationMm": 852.63654,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 63,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17893
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-main-triple-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "main-triple",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 323840,
+      "Ammo": 0,
+      "EmptyAt": 257.81666666666666,
+      "HotSeconds": 141.50000000000475,
+      "FirstHot": 20.016666666666666,
+      "PeakHeat": 1.0346518,
+      "Guns": 2,
+      "Barrels": 3,
+      "Energy": 506,
+      "PenetrationMm": 852.63654,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 63,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17893
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 600,
+      "FiredEnergy": 396000,
+      "Ammo": 40,
+      "EmptyAt": null,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.062222224,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 660,
+      "PenetrationMm": 1000,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 70,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17850
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_escort-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 640,
+      "FiredEnergy": 422400,
+      "Ammo": 0,
+      "EmptyAt": 299.06666666666666,
+      "HotSeconds": 106.81666666666189,
+      "FirstHot": 37.35,
+      "PeakHeat": 1.0324475,
+      "Guns": 2,
+      "Barrels": 2,
+      "Energy": 660,
+      "PenetrationMm": 1000,
+      "ReloadSeconds": 2,
+      "ShotHeatMj": 70,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17840
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-main-precision-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "main-precision",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 52000,
+      "Ammo": 0,
+      "EmptyAt": 189.05,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0125,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 260,
+      "PenetrationMm": 292.62134,
+      "ReloadSeconds": 0.945,
+      "ShotHeatMj": 7.5,
+      "AimErrorScale": 0.8,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-main-precision-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "main-precision",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 52000,
+      "Ammo": 0,
+      "EmptyAt": 126.03333333333333,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0125,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 260,
+      "PenetrationMm": 292.62134,
+      "ReloadSeconds": 0.945,
+      "ShotHeatMj": 7.5,
+      "AimErrorScale": 0.8,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-main-rapid-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "main-rapid",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 32000,
+      "Ammo": 0,
+      "EmptyAt": 106.13333333333333,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0085,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 160,
+      "PenetrationMm": 218.67241,
+      "ReloadSeconds": 0.525,
+      "ShotHeatMj": 5.1000004,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-main-rapid-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "main-rapid",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 32000,
+      "Ammo": 0,
+      "EmptyAt": 72.96666666666667,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.0085,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 160,
+      "PenetrationMm": 218.67241,
+      "ReloadSeconds": 0.525,
+      "ShotHeatMj": 5.1000004,
+      "AimErrorScale": 1.1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-stock-False",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Priority": false,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 40000,
+      "Ammo": 0,
+      "EmptyAt": 142.61666666666667,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.01,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 200,
+      "PenetrationMm": 250,
+      "ReloadSeconds": 0.7,
+      "ShotHeatMj": 6,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "cadence-mars_interceptor-stock-True",
+    "Result": {
+      "Kind": "cadence",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Priority": true,
+      "Seconds": 300,
+      "Shots": 200,
+      "FiredEnergy": 40000,
+      "Ammo": 0,
+      "EmptyAt": 92.86666666666666,
+      "HotSeconds": 0,
+      "FirstHot": null,
+      "PeakHeat": 0.01,
+      "Guns": 1,
+      "Barrels": 1,
+      "Energy": 200,
+      "PenetrationMm": 250,
+      "ReloadSeconds": 0.7,
+      "ShotHeatMj": 6,
+      "AimErrorScale": 1,
+      "Gates": {
+        "NotReady": 17800
+      }
+    }
+  },
+  {
+    "Id": "shield-battleship-main-single",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "battleship",
+      "Part": "main-single",
+      "Target": "mars_battleship",
+      "FirstFire": 8.966666666666667,
+      "ShieldDown": 12.533333333333333,
+      "TimeFromFirst": 3.5666666666666664,
+      "Shots": 2,
+      "Hits": 2,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-battleship-main-triple",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "battleship",
+      "Part": "main-triple",
+      "Target": "mars_battleship",
+      "FirstFire": 11.2,
+      "ShieldDown": 14.766666666666666,
+      "TimeFromFirst": 3.5666666666666664,
+      "Shots": 6,
+      "Hits": 6,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-battleship-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Target": "mars_battleship",
+      "FirstFire": 8.966666666666667,
+      "ShieldDown": 12.533333333333333,
+      "TimeFromFirst": 3.5666666666666664,
+      "Shots": 4,
+      "Hits": 4,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-escort-main-single",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "escort",
+      "Part": "main-single",
+      "Target": "mars_battleship",
+      "FirstFire": 1.45,
+      "ShieldDown": 6.566666666666666,
+      "TimeFromFirst": 5.116666666666666,
+      "Shots": 4,
+      "Hits": 4,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-escort-main-triple",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "escort",
+      "Part": "main-triple",
+      "Target": "mars_battleship",
+      "FirstFire": 1.8,
+      "ShieldDown": 5.416666666666667,
+      "TimeFromFirst": 3.616666666666667,
+      "Shots": 9,
+      "Hits": 9,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-escort-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "escort",
+      "Part": "stock",
+      "Target": "mars_battleship",
+      "FirstFire": 1.45,
+      "ShieldDown": 5.066666666666666,
+      "TimeFromFirst": 3.6166666666666663,
+      "Shots": 6,
+      "Hits": 6,
+      "Absorbed": 3264,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-interceptor-main-precision",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "interceptor",
+      "Part": "main-precision",
+      "Target": "mars_escort",
+      "FirstFire": 0,
+      "ShieldDown": 0.8166666666666667,
+      "TimeFromFirst": 0.8166666666666667,
+      "Shots": 1,
+      "Hits": 1,
+      "Absorbed": 272,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-interceptor-main-rapid",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "interceptor",
+      "Part": "main-rapid",
+      "Target": "mars_escort",
+      "FirstFire": 0,
+      "ShieldDown": 1.2833333333333332,
+      "TimeFromFirst": 1.2833333333333332,
+      "Shots": 3,
+      "Hits": 2,
+      "Absorbed": 272,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-interceptor-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Target": "mars_escort",
+      "FirstFire": 0,
+      "ShieldDown": 1.4333333333333333,
+      "TimeFromFirst": 1.4333333333333333,
+      "Shots": 3,
+      "Hits": 2,
+      "Absorbed": 272,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_battleship-main-single",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_battleship",
+      "Part": "main-single",
+      "Target": "battleship",
+      "FirstFire": 8.9,
+      "ShieldDown": 14.366666666666667,
+      "TimeFromFirst": 5.466666666666667,
+      "Shots": 2,
+      "Hits": 2,
+      "Absorbed": 4821.66455078125,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_battleship-main-triple",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_battleship",
+      "Part": "main-triple",
+      "Target": "battleship",
+      "FirstFire": 11.116666666666667,
+      "ShieldDown": 16.583333333333332,
+      "TimeFromFirst": 5.466666666666665,
+      "Shots": 6,
+      "Hits": 4,
+      "Absorbed": 4821.666931152344,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_battleship-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Target": "battleship",
+      "FirstFire": 8.9,
+      "ShieldDown": 14.366666666666667,
+      "TimeFromFirst": 5.466666666666667,
+      "Shots": 4,
+      "Hits": 3,
+      "Absorbed": 4821.667724609375,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_escort-main-single",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_escort",
+      "Part": "main-single",
+      "Target": "battleship",
+      "FirstFire": 1.4333333333333333,
+      "ShieldDown": 9.883333333333333,
+      "TimeFromFirst": 8.45,
+      "Shots": 5,
+      "Hits": 5,
+      "Absorbed": 4800,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_escort-main-triple",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_escort",
+      "Part": "main-triple",
+      "Target": "battleship",
+      "FirstFire": 1.8,
+      "ShieldDown": 8.25,
+      "TimeFromFirst": 6.45,
+      "Shots": 12,
+      "Hits": 10,
+      "Absorbed": 4800,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_escort-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Target": "battleship",
+      "FirstFire": 1.4333333333333333,
+      "ShieldDown": 7.883333333333333,
+      "TimeFromFirst": 6.449999999999999,
+      "Shots": 8,
+      "Hits": 8,
+      "Absorbed": 4800,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_interceptor-main-precision",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_interceptor",
+      "Part": "main-precision",
+      "Target": "escort",
+      "FirstFire": 0,
+      "ShieldDown": 1.75,
+      "TimeFromFirst": 1.75,
+      "Shots": 2,
+      "Hits": 2,
+      "Absorbed": 400,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_interceptor-main-rapid",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_interceptor",
+      "Part": "main-rapid",
+      "Target": "escort",
+      "FirstFire": 0,
+      "ShieldDown": 1.8666666666666667,
+      "TimeFromFirst": 1.8666666666666667,
+      "Shots": 4,
+      "Hits": 3,
+      "Absorbed": 400,
+      "Remaining": 0
+    }
+  },
+  {
+    "Id": "shield-mars_interceptor-stock",
+    "Result": {
+      "Kind": "shield",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Target": "escort",
+      "FirstFire": 0,
+      "ShieldDown": 1.5166666666666666,
+      "TimeFromFirst": 1.5166666666666666,
+      "Shots": 3,
+      "Hits": 2,
+      "Absorbed": 400,
+      "Remaining": 0
+    }
+  }
+]

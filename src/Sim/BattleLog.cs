@@ -27,6 +27,7 @@ public sealed class BattleShipLog
     public int ArmorPenetrations;
     public double ShieldDamageInflicted, ModuleDamageInflicted, RailRangeSum;
     public int RailRangeSamples, MissilesIntercepted, TorpedoesIntercepted;
+    public int CounterMissileKills;
     public double? DisabledAt, DestroyedAt;
 }
 

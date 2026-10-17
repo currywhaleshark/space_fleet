@@ -1,0 +1,38 @@
+{
+  "stock_hulls": 34,
+  "stock_definitions_and_loadout_ids_identical": true,
+  "existing_regression_output_identical": true,
+  "simulation": {
+    "groups": 61,
+    "checks": 5677048
+  },
+  "component_checks": 1880,
+  "render_checks": {
+    "model-checks": 3560,
+    "hangar-flow": 32,
+    "progression-flow": 30
+  },
+  "game_build_warnings": 0,
+  "game_build_errors": 0,
+  "source_sha256": {
+    "src/Sim/ShipComponents.cs": "a6315011a950c1ec24537533562f028ca7bece0726fa75768e6c8fbb7766b926",
+    "data/components/catalog.json": "3e13d8597de1db9aabc88cc45e9ee1edf94be773afcf1ad21a8b47ce53e5ce18",
+    "src/Sim/ShipDefinition.cs": "3710a45896872382a738df389d471d1fa22dea5ee060ac50b286ec70bee209de",
+    "src/Sim/ShipLoadouts.cs": "7a0dbfb547e24ff90d9958717b38ae2eba50120d16e9f88a81cdd29b0f95e2da",
+    "src/Sim/FleetLoadouts.cs": "3d4c2e4020d35899f28f5ec83162c5e0f9d59bc075be9b9cd2e81e5d4003b1e0",
+    "src/Sim/ResearchTree.cs": "95decbf14db4dcd2114219161f25b5074d8099d845e417d3afe037bd0fafb646",
+    "src/Sim/TierMatchmaking.cs": "15f18ec447f0f742c47b18b90dde621010fe1b75c8ce13cefcaaa285c732b2dd",
+    "src/Game/ResearchProgress.cs": "361289fa4c8b686b86e20b82beb943581dcc94b79e674af6e8ba2e16f80cb021",
+    "src/Game/HangarProfile.cs": "bb18e0723a29a7a6c5fc9ee7432bcedb3ebe9bc9f7d60dd26bc5e7dce6c6be99",
+    "src/Game/HangarView.cs": "0769fe8033cf3e0ee7d1d0f1aa37d873cf5ce5f11ad8ec3053c149541fb377ab",
+    "src/Game/Main.cs": "7267f7b0a53ca13ab5be1f2991268ab3ecb864e6fb40a9998bfeb91376f5cc7b",
+    "src/Game/ShipModelChecks.cs": "2bb781163201322036486b9ae9783c2e9f5797240d3ef4b5bea2a486fb370513",
+    "src/Game/HangarFlowChecks.cs": "6d912112bff8245e9e5876b2845195c7545b11d9b3c77a600ad8563ab3ba3553",
+    "src/View/PrimaryWeaponModels.cs": "23e60c2a1153f6af2f393b4772f05ffd3b7ff698f0a28d4771b04d58d169aeca",
+    "src/View/ImportedShipModels.cs": "40339bdfa4929149d0ff2c62c23307af73dcdb5c3ceb55235c7efe3a9100d7f3",
+    "tests/SimChecks/ComponentChecks.cs": "84de2a8675bad816d0e9c1bea725ebfebde0ddaa935cbb387b94052e15573892",
+    "tests/SimChecks/FleetLoadoutChecks.cs": "4f0d5a372fd303f1822cc215c4b5828f5568506e4cf6f172fb523c006623a3ac",
+    "tests/SimChecks/ProgressionChecks.cs": "8f55de94570c6d9523cb57be71cc509bbc729f83b39d1de3eb6bc812bb8bed16",
+    "tests/SimChecks/Program.cs": "647f7c49f1298d91f9e830accdf6a02e1c22c848ec92ab0da5e7e1c9c2db1687"
+  }
+}

@@ -1,0 +1,702 @@
+[
+  {
+    "case": "s11-d130000-ebTrue-mTrue-e2-r2",
+    "end_time": 138.23333333333332,
+    "disabled_at": 31.271147220837108,
+    "destroyed_at": 138.2207847261694,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "127.715",
+        "minFlightSeconds": "",
+        "trackSnr": "7.201",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "127.951",
+        "minFlightSeconds": "10.620",
+        "trackSnr": "8.601",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "127.789",
+        "minFlightSeconds": "10.564",
+        "trackSnr": "8.748",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "127.466",
+        "minFlightSeconds": "",
+        "trackSnr": "5.969",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "127.571",
+        "minFlightSeconds": "",
+        "trackSnr": "6.145",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "126.879",
+        "minFlightSeconds": "",
+        "trackSnr": "6.287",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "126.341",
+        "minFlightSeconds": "",
+        "trackSnr": "6.414",
+        "pips": "2/1/1/4/0",
+        "weapons": "0.667",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s12-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 42.61666666666667,
+    "disabled_at": null,
+    "destroyed_at": 42.606284048158386,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "129.750",
+        "minFlightSeconds": "",
+        "trackSnr": "7.089",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "129.910",
+        "minFlightSeconds": "10.718",
+        "trackSnr": "8.476",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "129.139",
+        "minFlightSeconds": "10.645",
+        "trackSnr": "8.620",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "128.272",
+        "minFlightSeconds": "",
+        "trackSnr": "5.887",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "128.945",
+        "minFlightSeconds": "",
+        "trackSnr": "6.012",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "128.314",
+        "minFlightSeconds": "",
+        "trackSnr": "6.125",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "127.051",
+        "minFlightSeconds": "",
+        "trackSnr": "6.229",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "125.810",
+        "minFlightSeconds": "",
+        "trackSnr": "6.321",
+        "pips": "2/1/1/4/0",
+        "weapons": "0.667",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s15-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 34.61666666666667,
+    "disabled_at": null,
+    "destroyed_at": 34.6000292328413,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "128.779",
+        "minFlightSeconds": "",
+        "trackSnr": "7.198",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "128.923",
+        "minFlightSeconds": "10.636",
+        "trackSnr": "8.592",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "128.159",
+        "minFlightSeconds": "10.563",
+        "trackSnr": "8.734",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "127.306",
+        "minFlightSeconds": "",
+        "trackSnr": "5.961",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "127.972",
+        "minFlightSeconds": "",
+        "trackSnr": "6.181",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "127.336",
+        "minFlightSeconds": "",
+        "trackSnr": "6.324",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "126.064",
+        "minFlightSeconds": "",
+        "trackSnr": "6.458",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s16-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 73.35,
+    "disabled_at": null,
+    "destroyed_at": 73.34765571175399,
+    "locked_snapshots": 1,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "133.791",
+        "minFlightSeconds": "",
+        "trackSnr": "6.670",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Identified",
+        "rangeKm": "133.944",
+        "minFlightSeconds": "",
+        "trackSnr": "7.977",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "133.153",
+        "minFlightSeconds": "10.977",
+        "trackSnr": "8.113",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "132.281",
+        "minFlightSeconds": "",
+        "trackSnr": "5.534",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "133.037",
+        "minFlightSeconds": "",
+        "trackSnr": "5.650",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "132.407",
+        "minFlightSeconds": "",
+        "trackSnr": "5.755",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "131.092",
+        "minFlightSeconds": "",
+        "trackSnr": "5.850",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "129.800",
+        "minFlightSeconds": "",
+        "trackSnr": "5.935",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s3-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 123.89999999999999,
+    "disabled_at": 63.89468848927531,
+    "destroyed_at": null,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "132.758",
+        "minFlightSeconds": "",
+        "trackSnr": "6.775",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "132.891",
+        "minFlightSeconds": "10.965",
+        "trackSnr": "8.088",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "132.112",
+        "minFlightSeconds": "10.890",
+        "trackSnr": "8.223",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "131.251",
+        "minFlightSeconds": "",
+        "trackSnr": "5.611",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "131.963",
+        "minFlightSeconds": "",
+        "trackSnr": "5.732",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "131.333",
+        "minFlightSeconds": "",
+        "trackSnr": "5.841",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "130.038",
+        "minFlightSeconds": "",
+        "trackSnr": "5.941",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "128.766",
+        "minFlightSeconds": "",
+        "trackSnr": "6.029",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s4-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 39.43333333333333,
+    "disabled_at": null,
+    "destroyed_at": 39.42620329433133,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "129.798",
+        "minFlightSeconds": "",
+        "trackSnr": "7.084",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "129.957",
+        "minFlightSeconds": "10.722",
+        "trackSnr": "8.465",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "129.187",
+        "minFlightSeconds": "10.649",
+        "trackSnr": "8.607",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "128.320",
+        "minFlightSeconds": "",
+        "trackSnr": "5.885",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "128.974",
+        "minFlightSeconds": "",
+        "trackSnr": "6.009",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "128.348",
+        "minFlightSeconds": "",
+        "trackSnr": "6.122",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "127.105",
+        "minFlightSeconds": "",
+        "trackSnr": "6.225",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "125.876",
+        "minFlightSeconds": "",
+        "trackSnr": "6.317",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s7-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 151.86666666666667,
+    "disabled_at": 58.504331312242215,
+    "destroyed_at": 151.8577266248831,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "132.741",
+        "minFlightSeconds": "",
+        "trackSnr": "6.775",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "132.899",
+        "minFlightSeconds": "10.965",
+        "trackSnr": "8.089",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "132.110",
+        "minFlightSeconds": "10.890",
+        "trackSnr": "8.224",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "131.235",
+        "minFlightSeconds": "",
+        "trackSnr": "5.611",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "131.966",
+        "minFlightSeconds": "",
+        "trackSnr": "5.732",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "131.332",
+        "minFlightSeconds": "",
+        "trackSnr": "5.841",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "130.033",
+        "minFlightSeconds": "",
+        "trackSnr": "5.941",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "128.757",
+        "minFlightSeconds": "",
+        "trackSnr": "6.029",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      }
+    ]
+  },
+  {
+    "case": "s8-d130000-ebFalse-mTrue-e2-r2",
+    "end_time": 42.36666666666667,
+    "disabled_at": null,
+    "destroyed_at": 42.357768339758934,
+    "locked_snapshots": 2,
+    "flight_eligible_snapshots": 0,
+    "early_trace": [
+      {
+        "time": "0.017",
+        "track": "Identified",
+        "rangeKm": "129.729",
+        "minFlightSeconds": "",
+        "trackSnr": "7.091",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "5.000",
+        "track": "Locked",
+        "rangeKm": "129.899",
+        "minFlightSeconds": "10.716",
+        "trackSnr": "8.481",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "10.000",
+        "track": "Locked",
+        "rangeKm": "129.123",
+        "minFlightSeconds": "10.643",
+        "trackSnr": "8.627",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "15.000",
+        "track": "Identified",
+        "rangeKm": "128.253",
+        "minFlightSeconds": "",
+        "trackSnr": "5.887",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "20.000",
+        "track": "Identified",
+        "rangeKm": "128.949",
+        "minFlightSeconds": "",
+        "trackSnr": "6.013",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "25.000",
+        "track": "Identified",
+        "rangeKm": "128.310",
+        "minFlightSeconds": "",
+        "trackSnr": "6.126",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "30.000",
+        "track": "Identified",
+        "rangeKm": "127.028",
+        "minFlightSeconds": "",
+        "trackSnr": "6.230",
+        "pips": "2/1/1/4/0",
+        "weapons": "1.000",
+        "sensors": "1.000"
+      },
+      {
+        "time": "35.000",
+        "track": "Identified",
+        "rangeKm": "125.775",
+        "minFlightSeconds": "",
+        "trackSnr": "6.322",
+        "pips": "2/1/1/4/0",
+        "weapons": "0.667",
+        "sensors": "1.000"
+      }
+    ]
+  }
+]

@@ -70,8 +70,9 @@ static class ObstacleWeaponChecks
             dw.Obstacles.Add(new("BARRIER",new(blocked?0:15000,0,-1550),Quaternion.Identity,
                 ObstaclePart.Capsule(new(-5000,0,0),new(5000,0,0),500)));
             var def=attacker.Definition.Missiles!;
-            var threat=new Missile{Id=1,Shooter=attacker,Definition=def with{BurnSeconds=0},Position=new(0,0,-2100),
-                PrevPosition=new(0,0,-2100),AimPoint=new(0,0,-2100),Velocity=Vector3.Zero,Health=1e6f,NextSeekerCheck=100};
+            // Above the bow: the test isolates terrain, not the battleship's own deck occlusion.
+            var threat=new Missile{Id=1,Shooter=attacker,Definition=def with{BurnSeconds=0},Position=new(0,300,-2100),
+                PrevPosition=new(0,300,-2100),AimPoint=new(0,300,-2100),Velocity=Vector3.Zero,Health=1e6f,NextSeekerCheck=100};
             ((List<Missile>)dw.Missiles).Add(threat);
             int rounds=guard.Ordnance.Drones.RemainingRounds;
             for(int i=0;i<600;i++)dw.Step();

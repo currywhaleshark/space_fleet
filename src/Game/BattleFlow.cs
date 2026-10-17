@@ -108,17 +108,19 @@ public partial class ScaleTest
     {
         if(!Spectating)return;
         var candidates=Views.Where(v=>v.Body.Faction==Faction.Blue&&!v.Body.Damage.Destroyed).ToArray();
-        if(candidates.Length==0){_spectatedView=null;return;}
+        if(candidates.Length==0){_spectatedView=null;_audio.Prime(World,null);return;}
         int index=Array.IndexOf(candidates,_spectatedView);
         _spectatedView=candidates[(index+step+candidates.Length)%candidates.Length];
         Camera.ResetAim(_spectatedView.Body.Orientation);Camera.ClearImpacts();
+        // Handoff snapshots counters so earlier salvos and impacts cannot replay.
+        _audio.Prime(World,_spectatedView.Body);
     }
     public void AdvanceBattle(double seconds)
     {
         bool autoplay=AutoPlay;AutoPlay=true;EnableAutoPlay();
         double end=World.Time+seconds;while(World.Time<end)World.Step();
         UpdateContacts();
-        _audio.Prime(World,Controlled?.Body);
+        _audio.Prime(World,AudioShip);
         Camera.ClearImpacts();
         AutoPlay=autoplay;BriefRemaining=0;
         if(!AutoPlay&&Controlled is { } me){World.DetachBrain(me.Body);MarkPlayerSquadron();SetupGunnery(null,me.Body);ApplySquadOrder();}

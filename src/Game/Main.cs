@@ -6,7 +6,7 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-public enum BattleScreen { Title, Select, Matching, Battle, Pause, Eliminated, Result }
+public enum BattleScreen { Title, Select, Matching, Battle, Pause, Eliminated, Result, Hangar, Research }
 public partial class Main : Node3D
 {
     public BattleScreen Screen { get; private set; } = BattleScreen.Title;
@@ -33,7 +33,7 @@ public partial class Main : Node3D
     {
         if (enemy) EnemyDesign = EnemyDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
         else PlayerDesign = PlayerDesign == DesignFamily.Earth ? DesignFamily.Mars : DesignFamily.Earth;
-        if (!enemy) SaveFleetChoice();
+        if (!enemy) { var wanted=ShipDefinitions.For(SelectedKind,PlayerDesign).Id;ChooseHull(Hangar.Owned.Contains(wanted)?wanted:ResearchTree.Catalog.Root(PlayerDesign).HullId!); return; }
         _overlay.Rebuild();
     }
     public BattleOutcome? Outcome => _fixtureOutcome ?? Battle?.World.Rules?.Outcome;
@@ -45,10 +45,24 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.ContainsKey("export-menu-art")){AddChild(new MenuArtExport());return;}
         LoadFleetChoice();
         if(_args.TryGetValue("battlefield",out var battlefield))SelectedBattlefield=Enum.Parse<Battlefield>(battlefield,true);
         if(_args.TryGetValue("field-seed",out var fieldSeed))FieldSeed=int.Parse(fieldSeed);
-        if (_args.TryGetValue("blue-design", out var blue)) PlayerDesign = Enum.Parse<DesignFamily>(blue, true);
+        if (_args.TryGetValue("blue-design", out var blue))
+        { PlayerDesign = Enum.Parse<DesignFamily>(blue, true); Hangar.SelectedHullId=ShipDefinitions.For(SelectedKind,PlayerDesign).Id; }
+        if (_args.TryGetValue("hangar-hull",out var hangarHull))
+        { var hull=ShipDefinitions.ById(hangarHull);Hangar.SelectedHullId=hull.Id;SelectedKind=hull.Kind;PlayerDesign=hull.Design; }
+        // Visual fixtures use an isolated profile and cannot overwrite the player's saved fits.
+        if(_args.ContainsKey("shot")&&_args.ContainsKey("hangar-fit"))
+            foreach(var fit in FleetLoadouts.AiPreset(PlayerHullId,1).Members)
+                Hangar.Hulls[fit.HullId].Presets[0]=fit.Equipment.ToArray();
+        if(_args.ContainsKey("shot")&&_args.TryGetValue("hangar-component",out var component))
+        {
+            Hangar.Research!.Points[PlayerDesign]=100000;
+            foreach(string id in component.Split(','))
+                Hangar.SetComponent(PlayerHullId,0,ShipComponents.ById(id).Slot,id,true);
+        }
         if (_args.TryGetValue("red-design", out var red)) EnemyDesign = Enum.Parse<DesignFamily>(red, true);
         if (_args.TryGetValue("objective", out var objective)
             && Enum.TryParse<BattleObjective>(objective, true, out var parsed) && Enum.IsDefined(parsed))
@@ -86,6 +100,8 @@ public partial class Main : Node3D
         string menu = _args.GetValueOrDefault("menu", "title");
         if(_args.ContainsKey("match"))BeginMatch(useRequestedSeed:true);
         else if (menu == "select") ChangeScreen(BattleScreen.Select);
+        else if (menu == "hangar") ChangeScreen(BattleScreen.Hangar);
+        else if (menu == "research") OpenResearch();
         else if (menu == "result" || _args.ContainsKey("result-test"))
         {
             StartBattle(_args.GetValueOrDefault("control", "BB-01"), useRequestedSeed:true);
@@ -139,11 +155,33 @@ public partial class Main : Node3D
         TrackPerformance(delta);
         if(_args.ContainsKey("flow-test"))CheckSceneFlow();
         if(_args.ContainsKey("match-flow-test"))CheckMatchFlow();
+        if(_args.ContainsKey("hangar-test"))CheckHangarFlow();
+        if(_args.ContainsKey("progression-test"))CheckProgressionFlow();
         StepMatching(delta);
         PreviewMatch();
+        // Isolated screenshot fixtures; --shot profiles never read or save the player's ledger.
+        if(_args.ContainsKey("shot")&&_frame==60&&_args.TryGetValue("menu-confirm",out var confirmKind))
+        {
+            if(_overlay.HangarView is {} hangar)
+            {
+                Hangar.Research!.Points[ShipDefinitions.ById(PlayerHullId).Design]=1200;
+                if(confirmKind=="equipment")hangar.Install("shield-capacity");
+                else {hangar.SelectSystem(ComponentSlot.MainGun);hangar.InstallSystem("main-triple",true);}
+            }
+            else if(_overlay.ResearchView is {} research)
+            {
+                if(confirmKind=="hull"){research.SelectNode("escort");research.Purchase();}
+                else research.Purchase("drive");
+            }
+        }
+        if(_args.ContainsKey("shot")&&_frame==60&&_args.TryGetValue("menu-details",out var detailKey))
+        {
+            foreach(var button in _overlay.FindChildren("*","Button",true,false).OfType<MenuItemButton>())
+                if(button.GetMeta("focus_key","").AsString()==detailKey){button.ShowDetails();break;}
+        }
         if (Screen is BattleScreen.Battle or BattleScreen.Eliminated && Outcome is not null)
         {
-            if (_resultDelay == 0) Battle!.BeginSpectating();
+            if (_resultDelay == 0) {ClaimResearchReward();Battle!.BeginSpectating();}
             Battle!.SetBattleSpeed(1); _resultDelay += delta;
             if (_resultDelay >= 2) { Battle.BeginSpectating(); ChangeScreen(BattleScreen.Result); }
         }
@@ -155,9 +193,20 @@ public partial class Main : Node3D
     public void Quit() => GetTree().Quit();
     public override void _UnhandledInput(InputEvent e)
     {
+        var confirmation=_overlay?.HangarView is {} hangar?MenuConfirmation.Pending(hangar):
+            _overlay?.ResearchView is {} research?MenuConfirmation.Pending(research):null;
+        if(confirmation is not null)
+        {
+            if(e.IsActionPressed(InputSetup.ReleaseMouse))confirmation.Cancel();
+            GetViewport().SetInputAsHandled();return;
+        }
         if (e.IsActionPressed(InputSetup.ToggleMute))
         { SoundSettings.ToggleMute(); _overlay?.Rebuild(); GetViewport().SetInputAsHandled(); }
         else if(Screen==BattleScreen.Pause && e.IsActionPressed(InputSetup.ReleaseMouse))
         {TogglePause();GetViewport().SetInputAsHandled();}
+        else if(Screen==BattleScreen.Hangar && e.IsActionPressed(InputSetup.ReleaseMouse))
+        {ReturnToPort();GetViewport().SetInputAsHandled();}
+        else if(Screen==BattleScreen.Research && e.IsActionPressed(InputSetup.ReleaseMouse))
+        {OpenHangar();GetViewport().SetInputAsHandled();}
     }
 }

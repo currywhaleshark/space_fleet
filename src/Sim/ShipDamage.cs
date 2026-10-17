@@ -32,6 +32,10 @@ public sealed class ShipDamage
     private readonly Dictionary<string, ModuleState> _byId;
     private readonly Dictionary<int, ModuleState> _engines;
     private readonly Dictionary<ModuleKind, ModuleState[]> _byKind;
+    private readonly ModuleState[] _coreModules;
+    private readonly (EquipmentDefinition Device, ModuleState Module)[] _equipment;
+    private readonly float[] _equipmentPower = new float[ShipPower.ChannelCount];
+    private readonly float[] _equipmentHeat = new float[ShipPower.ChannelCount];
     private readonly List<DamageReport> _reports = new();
     private double _sinceHit;
     private float _portPower = 1f, _starboardPower = 1f;
@@ -44,6 +48,8 @@ public sealed class ShipDamage
         _seed = Hash(callsign);
         Modules = Array.AsReadOnly(definition.Modules.Select(m => new ModuleState(m)).ToArray());
         _byId = Modules.ToDictionary(m => m.Definition.Id);
+        _coreModules = Modules.Where(m => !EquipmentRules.IsEquipment(m.Definition.Kind)).ToArray();
+        _equipment = definition.InstalledEquipment.Select(i => (i.Equipment, _byId[i.ModuleId])).ToArray();
         // Immutable membership, live ModuleState references, original summation order.
         _byKind = Modules.GroupBy(m => m.Definition.Kind).ToDictionary(g => g.Key, g => g.ToArray());
         _engines = Modules.Where(m => m.Definition.Kind == ModuleKind.Thruster && m.Definition.VisualEngineIndex >= 0)
@@ -67,7 +73,13 @@ public sealed class ShipDamage
     /// </summary>
     public float GenerationFraction { get; private set; }
     /// <summary>실드가 피격 지연을 지나 재충전 중인가. 전력 수요 계산용.</summary>
-    public bool ShieldRecharging => !Destroyed && Shield < ShieldCapacity && _sinceHit >= _definition.Shield.RechargeDelay;
+    public bool ShieldRecharging => !Destroyed && Shield < ShieldCapacity && _sinceHit >= ShieldRechargeDelay;
+    public float ShieldRechargeDelay { get; private set; }
+    public float SensorStrengthBonus { get; private set; }
+    public float SignatureBonus { get; private set; }
+    public float JammerBonus { get; private set; }
+    public float EquipmentPowerMw(PowerChannel channel) => _equipmentPower[(int)channel];
+    public float EquipmentHeatMw(PowerChannel channel) => _equipmentHeat[(int)channel];
     public float PropulsionFraction { get; private set; }
     public float ManeuverFraction { get; private set; }
     public float WeaponsFraction { get; private set; }
@@ -138,8 +150,8 @@ public sealed class ShipDamage
     {
         double previous = _sinceHit;
         _sinceHit += dt;
-        double rechargeTime = Math.Max(0, _sinceHit - _definition.Shield.RechargeDelay)
-            - Math.Max(0, previous - _definition.Shield.RechargeDelay);
+        double rechargeTime = Math.Max(0, _sinceHit - ShieldRechargeDelay)
+            - Math.Max(0, previous - ShieldRechargeDelay);
         if (!Destroyed && rechargeTime > 0)
             Shield = Mathf.Min(ShieldCapacity, Shield + (float)rechargeTime * _definition.Shield.RechargePerSecond * rechargeScale);
     }
@@ -184,11 +196,12 @@ public sealed class ShipDamage
                 && Roll(_seed ^ Hash(module.Definition.Id) ^ shotSequence) < module.CriticalChance)
             {
                 _catastrophic = true;
-                Destruction=module.Definition.Kind==ModuleKind.Magazine?DestructionKind.Magazine:DestructionKind.Reactor;
+                Destruction=module.Definition.Kind==ModuleKind.Reactor?DestructionKind.Reactor:DestructionKind.Magazine;
                 DestructionPoint=module.Definition.Center; DestroyedAt=time;
                 foreach (ModuleState state in Modules) state.Health = 0;
                 Shield = 0;
-                Report(time, module.Definition.Kind == ModuleKind.Magazine ? "탄약고 유폭 · 함선 격침" : "반응로 폭주 · 함선 격침");
+                Report(time, module.Definition.Kind switch { ModuleKind.DroneBay => "드론 격납고 유폭 · 함선 격침",
+                    ModuleKind.Magazine => "탄약고 유폭 · 함선 격침", _ => "반응로 폭주 · 함선 격침" });
             }
         }
         else if (generator && wasRated && module.HealthFraction < GeneratorDegradeThreshold)
@@ -282,7 +295,7 @@ public sealed class ShipDamage
 
     private void RecomputeSystems()
     {
-        _allDestroyed = Modules.All(m => m.Destroyed);
+        _allDestroyed = _coreModules.All(m => m.Destroyed);
         if (Destroyed) StructureHealth = 0;
         if(_allDestroyed && Destruction==DestructionKind.None)
         { Destruction=DestructionKind.Structural; DestroyedAt=Modules.Max(m=>m.LastHitTime); }
@@ -295,7 +308,22 @@ public sealed class ShipDamage
         SensorFraction = Average(ModuleKind.Sensor, powered: true);
         CoolingFraction = Average(ModuleKind.Cooling, powered: true);
         MagazineFraction = Average(ModuleKind.Magazine, powered: false);
-        ShieldCapacity = _definition.Shield.Capacity * Average(ModuleKind.ShieldEmitter, powered: true);
+        float shieldBonus = 0;
+        ShieldRechargeDelay = _definition.Shield.RechargeDelay;
+        SensorStrengthBonus = SignatureBonus = JammerBonus = 0;
+        Array.Clear(_equipmentPower); Array.Clear(_equipmentHeat);
+        foreach (var (device, module) in _equipment)
+        {
+            float fraction = Destroyed ? 0 : module.HealthFraction * GridPower(module.Definition.Grid);
+            shieldBonus += device.Effects.ShieldCapacityFraction * fraction;
+            ShieldRechargeDelay += device.Effects.ShieldDelaySeconds * fraction;
+            SensorStrengthBonus += device.Effects.SensorStrengthFraction * fraction;
+            SignatureBonus += device.Effects.SignatureFraction * fraction;
+            JammerBonus += device.Effects.Jammer * fraction;
+            _equipmentPower[(int)device.Channel] += device.PowerMw * fraction;
+            _equipmentHeat[(int)device.Channel] += device.HeatMw * fraction;
+        }
+        ShieldCapacity = _definition.Shield.Capacity * (1 + shieldBonus) * Average(ModuleKind.ShieldEmitter, powered: true);
         Shield = Mathf.Min(Shield, ShieldCapacity);
     }
 

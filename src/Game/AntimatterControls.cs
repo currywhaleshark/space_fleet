@@ -55,13 +55,23 @@ public partial class Hud
         float width=294;
         Vector2 start=screen.X>=1450 ? new(screen.X*.5f+212,screen.Y-155) : new(screen.X*.5f-width*.5f,screen.Y-325);
         if(Game.Camera.TelescopeHeld && screen.X<1450) start=new(16,screen.Y*.5f-40);
+        // Stowed, healthy ordnance needs status, not firing instructions over the battlefield.
+        // Any preparation, damage warning or jettison returns the complete warning/control panel.
+        if(!Game.AntimatterSelected&&!am.Warning&&am.Mode==AntimatterMode.Safe&&Game.JettisonProgress<=0)
+        {
+            start+=new Vector2(0,75); // Keep the panel's bottom edge, leaving the aiming area clear.
+            DrawRect(new(start,new Vector2(width,50)),PanelBack);
+            Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds} · {am.Status}",15,Text);
+            Label(start+new Vector2(10,41),$"격리용기 {am.Containment*100:0}% · 3 어뢰 선택",13,Dim);
+            return;
+        }
         var panel=new Rect2(start,new Vector2(width,125));
         DrawRect(panel,PanelBack);
         Color color=am.Warning || am.Mode==AntimatterMode.Failed ? Hostile : Game.AntimatterSelected ? Lead : Dim;
         DrawRect(panel,new Color(color,.5f),false,1);
         Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds}",15,color);
         Label(start+new Vector2(93,20),am.Status,13,color);
-        Label(start+new Vector2(10,42),$"CONTAINMENT {am.Containment*100:0}%",11,am.Warning ? Hostile : Dim);
+        Label(start+new Vector2(10,42),$"격리용기 {am.Containment*100:0}%",13,am.Warning ? Hostile : Text);
         var bar=new Rect2(start+new Vector2(180,34),new Vector2(102,5));
         DrawRect(bar,Faint); DrawRect(new Rect2(bar.Position,new Vector2(bar.Size.X*am.Containment,bar.Size.Y)),color);
         string range="권장 2–5 km · 최대 비행 8 km";

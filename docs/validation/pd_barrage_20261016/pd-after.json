@@ -1,0 +1,8642 @@
+[
+  {
+    "Id": "pd-battleship-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 113,
+      "Hits": 11,
+      "ShieldDamage": 198,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 198,
+      "Hits": 26,
+      "ShieldDamage": 468,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.85
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0333333333333332
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 113,
+      "Hits": 8,
+      "ShieldDamage": 144,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 198,
+      "Hits": 26,
+      "ShieldDamage": 468,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 113,
+      "Hits": 16,
+      "ShieldDamage": 288,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 198,
+      "Hits": 40,
+      "ShieldDamage": 720,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.75
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 113,
+      "Hits": 17,
+      "ShieldDamage": 306,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 198,
+      "Hits": 38,
+      "ShieldDamage": 684,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.8
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9833333333333333
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 69,
+      "Hits": 5,
+      "ShieldDamage": 115,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 127,
+      "Hits": 15,
+      "ShieldDamage": 345,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 90,
+      "Hits": 4,
+      "ShieldDamage": 92,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0833333333333333
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3166666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.7
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 69,
+      "Hits": 3,
+      "ShieldDamage": 69,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 127,
+      "Hits": 14,
+      "ShieldDamage": 322,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 90,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9333333333333333
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1666666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.1666666666666665
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 69,
+      "Hits": 11,
+      "ShieldDamage": 253,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 127,
+      "Hits": 26,
+      "ShieldDamage": 598,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 90,
+      "Hits": 7,
+      "ShieldDamage": 161,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9333333333333333
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1666666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5166666666666666
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 69,
+      "Hits": 14,
+      "ShieldDamage": 322,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 127,
+      "Hits": 26,
+      "ShieldDamage": 598,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 90,
+      "Hits": 7,
+      "ShieldDamage": 161,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0333333333333332
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2
+    }
+  },
+  {
+    "Id": "pd-battleship-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5666666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 103,
+      "Hits": 9,
+      "ShieldDamage": 180,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 165,
+      "Hits": 20,
+      "ShieldDamage": 400,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 103,
+      "Hits": 7,
+      "ShieldDamage": 140,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 165,
+      "Hits": 19,
+      "ShieldDamage": 380,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9666666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 103,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 165,
+      "Hits": 35,
+      "ShieldDamage": 700,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.7666666666666666
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9666666666666667
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 103,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 165,
+      "Hits": 34,
+      "ShieldDamage": 680,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.85
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1
+    }
+  },
+  {
+    "Id": "pd-battleship-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 92,
+      "Hits": 10,
+      "ShieldDamage": 180,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 143,
+      "Hits": 18,
+      "ShieldDamage": 324,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.6666666666666666
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3166666666666667
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 92,
+      "Hits": 6,
+      "ShieldDamage": 108,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 143,
+      "Hits": 20,
+      "ShieldDamage": 360,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.15
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 92,
+      "Hits": 17,
+      "ShieldDamage": 306,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 143,
+      "Hits": 28,
+      "ShieldDamage": 504,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.4
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.15
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 92,
+      "Hits": 16,
+      "ShieldDamage": 288,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 143,
+      "Hits": 35,
+      "ShieldDamage": 630,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.5333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.25
+    }
+  },
+  {
+    "Id": "pd-escort-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 63,
+      "Hits": 6,
+      "ShieldDamage": 138,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 91,
+      "Hits": 14,
+      "ShieldDamage": 322,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 93,
+      "Hits": 4,
+      "ShieldDamage": 92,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9666666666666667
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.6333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5333333333333332
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 63,
+      "Hits": 4,
+      "ShieldDamage": 92,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 91,
+      "Hits": 12,
+      "ShieldDamage": 276,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 93,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.55
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 63,
+      "Hits": 11,
+      "ShieldDamage": 253,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 91,
+      "Hits": 22,
+      "ShieldDamage": 506,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 93,
+      "Hits": 9,
+      "ShieldDamage": 207,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.55
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 63,
+      "Hits": 12,
+      "ShieldDamage": 276,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 91,
+      "Hits": 27,
+      "ShieldDamage": 621,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 93,
+      "Hits": 9,
+      "ShieldDamage": 207,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.7666666666666666
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5333333333333332
+    }
+  },
+  {
+    "Id": "pd-escort-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4333333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 87,
+      "Hits": 8,
+      "ShieldDamage": 160,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 119,
+      "Hits": 17,
+      "ShieldDamage": 340,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.7833333333333333
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3666666666666667
+    }
+  },
+  {
+    "Id": "pd-escort-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 87,
+      "Hits": 6,
+      "ShieldDamage": 120,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 119,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.45
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2
+    }
+  },
+  {
+    "Id": "pd-escort-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 87,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 119,
+      "Hits": 26,
+      "ShieldDamage": 520,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.45
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2
+    }
+  },
+  {
+    "Id": "pd-escort-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 87,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 119,
+      "Hits": 33,
+      "ShieldDamage": 660,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.6166666666666667
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2833333333333332
+    }
+  },
+  {
+    "Id": "pd-escort-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 33,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.8166666666666667
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 33,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 3.3166666666666664
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 33,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.15
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 33,
+      "Hits": 4,
+      "ShieldDamage": 72,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4833333333333334
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.5833333333333335
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.5833333333333335
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 4.833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 4.833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.0833333333333335
+    }
+  },
+  {
+    "Id": "pd-interceptor-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 21,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 27,
+      "Hits": 2,
+      "ShieldDamage": 40,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.0833333333333335
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 27,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 3.8833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 27,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2833333333333332
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 27,
+      "Hits": 4,
+      "ShieldDamage": 80,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 2,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.6833333333333333
+    }
+  },
+  {
+    "Id": "pd-interceptor-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1344,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 56,
+      "Hits": 4,
+      "ShieldDamage": 72,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 98,
+      "Hits": 12,
+      "ShieldDamage": 216,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0333333333333332
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2666666666666666
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 56,
+      "Hits": 3,
+      "ShieldDamage": 54,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 98,
+      "Hits": 9,
+      "ShieldDamage": 162,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 56,
+      "Hits": 10,
+      "ShieldDamage": 180,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 98,
+      "Hits": 21,
+      "ShieldDamage": 378,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.8333333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 56,
+      "Hits": 9,
+      "ShieldDamage": 162,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 98,
+      "Hits": 21,
+      "ShieldDamage": 378,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.9333333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 35,
+      "Hits": 3,
+      "ShieldDamage": 69,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 63,
+      "Hits": 8,
+      "ShieldDamage": 184,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 30,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.7
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.5
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 35,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 63,
+      "Hits": 4,
+      "ShieldDamage": 92,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 30,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3833333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 3.9
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 35,
+      "Hits": 5,
+      "ShieldDamage": 115,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 63,
+      "Hits": 11,
+      "ShieldDamage": 253,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 30,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.0666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3833333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.8833333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 35,
+      "Hits": 8,
+      "ShieldDamage": 184,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 63,
+      "Hits": 13,
+      "ShieldDamage": 299,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 30,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2166666666666666
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5333333333333332
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.183333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 52,
+      "Hits": 4,
+      "ShieldDamage": 80,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 81,
+      "Hits": 10,
+      "ShieldDamage": 200,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.1166666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 52,
+      "Hits": 2,
+      "ShieldDamage": 40,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 81,
+      "Hits": 7,
+      "ShieldDamage": 140,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.8666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.15
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 52,
+      "Hits": 10,
+      "ShieldDamage": 200,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 81,
+      "Hits": 16,
+      "ShieldDamage": 320,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 0.8666666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.15
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 52,
+      "Hits": 9,
+      "ShieldDamage": 180,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 81,
+      "Hits": 18,
+      "ShieldDamage": 360,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2666666666666666
+    }
+  },
+  {
+    "Id": "pd-mars_battleship-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_battleship",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 30,
+      "Hits": 3,
+      "ShieldDamage": 54,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.55
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 30,
+      "Hits": 2,
+      "ShieldDamage": 36,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2666666666666666
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 30,
+      "Hits": 4,
+      "ShieldDamage": 72,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.2666666666666666
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 30,
+      "Hits": 7,
+      "ShieldDamage": 126,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 19,
+      "Hits": 4,
+      "ShieldDamage": 92,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 19,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5833333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 19,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.5833333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 19,
+      "Hits": 3,
+      "ShieldDamage": 69,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.7833333333333332
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 31,
+      "Hits": 3,
+      "ShieldDamage": 60,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.65
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 31,
+      "Hits": 2,
+      "ShieldDamage": 40,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3166666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 31,
+      "Hits": 4,
+      "ShieldDamage": 80,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3166666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 31,
+      "Hits": 6,
+      "ShieldDamage": 120,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4833333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_escort-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_escort",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 5040,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 26,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.15
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 26,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 4.033333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 26,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.3166666666666667
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 1,
+      "ShieldDamage": 18,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 26,
+      "Hits": 4,
+      "ShieldDamage": 72,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.7333333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-barrage-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-barrage",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 3.0833333333333335
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 3.0833333333333335
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 5.883333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 5.883333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.8333333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.8333333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 2,
+      "ShieldDamage": 46,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 1,
+      "ShieldDamage": 23,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.45
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-pd-longrange-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "pd-longrange",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 22,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 8,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 2.4833333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-1-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 1,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 22,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 17,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 4.733333333333333
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-2-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 2,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 22,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 4,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.4833333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-3-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 3,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-False-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 1,
+      "ShieldDamage": 20,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-False-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 22,
+      "Hits": 2,
+      "ShieldDamage": 40,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-False-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": false,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-True-fast",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "fast",
+      "Range": 500,
+      "Speed": 1200,
+      "Shots": 1,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-True-near",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "near",
+      "Range": 500,
+      "Speed": 0,
+      "Shots": 6,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 1,
+      "KilledAt": 1.9833333333333334
+    }
+  },
+  {
+    "Id": "pd-mars_interceptor-stock-4-True-outer",
+    "Result": {
+      "Kind": "pd",
+      "Hull": "mars_interceptor",
+      "Part": "stock",
+      "Legacy": false,
+      "Seed": 4,
+      "Missile": true,
+      "Exposure": "outer",
+      "Range": 1120,
+      "Speed": 0,
+      "Shots": 0,
+      "Hits": 0,
+      "ShieldDamage": 0,
+      "ModuleDamage": 0,
+      "Intercepted": 0,
+      "KilledAt": null
+    }
+  }
+]

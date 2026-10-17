@@ -1,0 +1,5 @@
+Measuring DeepSpace before 1
+ships=240 repeat=0 mean=12.548 p99=23.344ms rails=1767 missiles=469 hash=A80785D66A69
+Measuring DeepSpace after 1
+ships=240 repeat=0 mean=13.752 p99=28.129ms rails=1767 missiles=469 hash=A80785D66A69
+Measuring DeepSpace after 2

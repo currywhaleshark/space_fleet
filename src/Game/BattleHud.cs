@@ -93,8 +93,8 @@ public partial class Hud
         var enemies=Game.World.Ships.Where(s=>s.Faction==Faction.Red).ToArray();
         var identified=enemies.Where(s=>Game.World.Sensors.Track(Faction.Blue,s).Level>=TrackLevel.Identified).ToArray();
         float initial=(float)rules.Initial(Faction.Red);
-        float known=(float)identified.Where(Squadron.Active).Sum(s=>BattleRules.Weight(s.Class.Kind))/initial;
-        float unknown=1-(float)identified.Sum(s=>BattleRules.Weight(s.Class.Kind))/initial;
+        float known=(float)identified.Where(Squadron.Active).Sum(s=>BattleRules.Weight(s.Definition))/initial;
+        float unknown=1-(float)identified.Sum(s=>BattleRules.Weight(s.Definition))/initial;
         var enemyBar=new Rect2(x+215,24,185,8);DrawRect(enemyBar,Faint);
         DrawRect(new(enemyBar.Position,new Vector2(185*known,8)),Hostile);
         float unknownStart=enemyBar.Position.X+185*known, unknownEnd=Mathf.Min(enemyBar.End.X,unknownStart+185*unknown);

@@ -1,0 +1,305 @@
+{
+  "id": "battleship_t5",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        35
+      ],
+      "halfSize": [
+        85,
+        60,
+        485
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0,
+        -3,
+        -492
+      ],
+      "halfSize": [
+        87,
+        50,
+        42
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0,
+        -7,
+        -565
+      ],
+      "halfSize": [
+        74,
+        38,
+        43
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bow-3",
+      "name": "함수 3",
+      "center": [
+        0,
+        -10,
+        -638
+      ],
+      "halfSize": [
+        58,
+        27,
+        42
+      ],
+      "armorFrom": "bow-3"
+    },
+    {
+      "id": "deck",
+      "name": "상부 갑판",
+      "center": [
+        0,
+        72,
+        0
+      ],
+      "halfSize": [
+        48,
+        16,
+        420
+      ],
+      "armorFrom": "deck"
+    },
+    {
+      "id": "keel",
+      "name": "하부 용골",
+      "center": [
+        0,
+        -72,
+        40
+      ],
+      "halfSize": [
+        58,
+        15,
+        340
+      ],
+      "armorFrom": "keel"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        102,
+        294
+      ],
+      "halfSize": [
+        38,
+        43,
+        60
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -170,
+        0,
+        330
+      ],
+      "halfSize": [
+        85,
+        1.5,
+        75
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        170,
+        0,
+        330
+      ],
+      "halfSize": [
+        85,
+        1.5,
+        75
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "engine-block",
+      "name": "추진 구획",
+      "center": [
+        0,
+        0,
+        550
+      ],
+      "halfSize": [
+        90,
+        65,
+        30
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "sensor-head",
+      "name": "sensor-head",
+      "center": [
+        0,
+        136,
+        294
+      ],
+      "halfSize": [
+        14.5,
+        15.5,
+        20.5
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "armor-shoulder--1",
+      "name": "armor-shoulder--1",
+      "center": [
+        -91,
+        -2,
+        -35
+      ],
+      "halfSize": [
+        22,
+        48,
+        380
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "armor-shoulder-1",
+      "name": "armor-shoulder-1",
+      "center": [
+        91,
+        -2,
+        -35
+      ],
+      "halfSize": [
+        22,
+        48,
+        380
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        83,
+        -320
+      ],
+      "halfSize": [
+        30,
+        5,
+        28.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "turret-base-gun-2",
+      "center": [
+        0,
+        83,
+        160
+      ],
+      "halfSize": [
+        30,
+        5,
+        28.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-3",
+      "name": "turret-base-gun-3",
+      "center": [
+        0,
+        -83,
+        -120
+      ],
+      "halfSize": [
+        30,
+        5,
+        28.5
+      ],
+      "armorFrom": "hull"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        136,
+        294
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      66,
+      62,
+      -260
+    ],
+    [
+      -66,
+      62,
+      -260
+    ],
+    [
+      66,
+      62,
+      -100
+    ],
+    [
+      -66,
+      62,
+      -100
+    ],
+    [
+      66,
+      62,
+      60
+    ],
+    [
+      -66,
+      62,
+      60
+    ],
+    [
+      66,
+      62,
+      220
+    ],
+    [
+      -66,
+      62,
+      220
+    ]
+  ],
+  "missileLaunch": [
+    -55,
+    66,
+    -180
+  ],
+  "blockout": {
+    "role": "battleship"
+  }
+}

@@ -1,0 +1,5367 @@
+{
+  "battleship": {
+    "id": "battleship",
+    "branch": "LineBattleship",
+    "modelId": "battleship",
+    "matchClass": "Large",
+    "squadron": {
+      "role": "BattleGroup",
+      "composition": "\uc804\ud568 1 + \ud638\uc704\ud568 2",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": "escort",
+          "allowedKind": "Escort",
+          "offset": [
+            -1500,
+            150,
+            -600
+          ]
+        },
+        {
+          "hullId": "escort",
+          "allowedKind": "Escort",
+          "offset": [
+            1500,
+            -150,
+            -600
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 60000,
+        "railFlightSeconds": 10.5,
+        "missileRangeMeters": 140000,
+        "attackRuns": false
+      },
+      "defaultPips": [
+        2,
+        2,
+        1,
+        2,
+        1
+      ],
+      "targetPreference": {
+        "Battleship": 0,
+        "Escort": 1,
+        "Interceptor": 3
+      }
+    },
+    "battleValue": {
+      "weight": 6,
+      "captureStrength": 2,
+      "hudMarkerRadius": 5
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Medium",
+        "center": [
+          -59.5,
+          0,
+          -159.0
+        ],
+        "halfSize": [
+          4,
+          4,
+          7
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Medium",
+        "center": [
+          59.5,
+          0,
+          -159.0
+        ],
+        "halfSize": [
+          4,
+          4,
+          7
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "hangar",
+        "size": "Large",
+        "center": [
+          -59.5,
+          0,
+          229.0
+        ],
+        "halfSize": [
+          8,
+          8,
+          14
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Drone"
+        ]
+      },
+      {
+        "id": "sensor",
+        "size": "Small",
+        "center": [
+          59.5,
+          0,
+          229.0
+        ],
+        "halfSize": [
+          2,
+          2,
+          3
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 7200,
+    "damageControl": {
+      "kits": 8,
+      "repairSeconds": 18,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Battleship",
+    "railgun": {
+      "moduleId": "gun-1",
+      "muzzle": [
+        0,
+        94,
+        -410
+      ],
+      "muzzleSpeed": 12000,
+      "reloadSeconds": 3.15,
+      "energy": 1400,
+      "penetrationMm": 1800,
+      "moduleDamage": 300,
+      "maxRange": 250000,
+      "rounds": 720,
+      "traverseDegrees": 120,
+      "sensorErrorMeters": 1,
+      "sensorErrorPerKm": 0.08,
+      "velocityError": 0.15,
+      "shotHeatMj": 300,
+      "mounts": [
+        {
+          "moduleId": "gun-1",
+          "pivot": [
+            0,
+            88,
+            -320
+          ],
+          "trunnion": [
+            0,
+            6,
+            0
+          ],
+          "muzzles": [
+            [
+              -8.4,
+              0,
+              -90
+            ],
+            [
+              8.4,
+              0,
+              -90
+            ]
+          ],
+          "ventral": false,
+          "housingCenter": [
+            0,
+            16.5,
+            -4.5
+          ],
+          "housingHalfSize": [
+            30,
+            12,
+            28.5
+          ],
+          "yawDegrees": 150,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 8,
+          "elevationRate": 8,
+          "rounds": 240
+        },
+        {
+          "moduleId": "gun-2",
+          "pivot": [
+            0,
+            88,
+            160
+          ],
+          "trunnion": [
+            0,
+            16.8,
+            0
+          ],
+          "muzzles": [
+            [
+              -8.4,
+              0,
+              -120
+            ],
+            [
+              8.4,
+              0,
+              -120
+            ]
+          ],
+          "ventral": false,
+          "housingCenter": [
+            0,
+            16.5,
+            -4.5
+          ],
+          "housingHalfSize": [
+            30,
+            12,
+            28.5
+          ],
+          "yawDegrees": 150,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 8,
+          "elevationRate": 8,
+          "rounds": 240
+        },
+        {
+          "moduleId": "gun-3",
+          "pivot": [
+            0,
+            -88,
+            -120
+          ],
+          "trunnion": [
+            0,
+            16.8,
+            0
+          ],
+          "muzzles": [
+            [
+              -8.4,
+              0,
+              -120
+            ],
+            [
+              8.4,
+              0,
+              -120
+            ]
+          ],
+          "ventral": true,
+          "housingCenter": [
+            0,
+            16.5,
+            -4.5
+          ],
+          "housingHalfSize": [
+            30,
+            12,
+            28.5
+          ],
+          "yawDegrees": 150,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 8,
+          "elevationRate": 8,
+          "rounds": 240
+        }
+      ]
+    },
+    "flight": {
+      "kind": "Battleship",
+      "displayName": "\uc548\ub370\uc2a4\uae09 \uc804\ud568",
+      "length": 1200,
+      "massKg": 12000000000,
+      "forwardAccel": 3,
+      "strafeAccel": 1.2,
+      "brakeAccel": 2.4,
+      "maxAccelG": 0.5,
+      "maxSpeed": 90,
+      "boostMultiplier": 1.5,
+      "pitchYawRateDeg": 6,
+      "pitchYawAccelDeg": 2,
+      "rollRateDeg": 12,
+      "rollAccelDeg": 3,
+      "cameraDistance": 2400,
+      "cameraHeight": 480
+    },
+    "shield": {
+      "capacity": 1200,
+      "rechargePerSecond": 100,
+      "rechargeDelay": 5
+    },
+    "power": {
+      "outputMw": 2000,
+      "engines": 600,
+      "shields": 500,
+      "weapons": 400,
+      "sensors": 100,
+      "ecm": 200,
+      "heatCapacityMj": 20000,
+      "coolingMw": 1500
+    },
+    "sensors": {
+      "strength": 1450,
+      "signature": 100,
+      "jammer": 2
+    },
+    "missiles": {
+      "rounds": 24,
+      "reloadSeconds": 4,
+      "launchPoint": [
+        0,
+        90,
+        40
+      ],
+      "ejectSpeed": 60,
+      "accelG": 25,
+      "burnSeconds": 80,
+      "maxFlightSeconds": 180,
+      "seekerRangeMeters": 20000,
+      "seekerFovDegrees": 40,
+      "seekerStrength": 4,
+      "fuzeMeters": 40,
+      "turnRateDegrees": 90,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 10,
+      "energy": 900,
+      "penetrationMm": 1000,
+      "moduleDamage": 260,
+      "hitPoints": 16,
+      "launchHeatMj": 20
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          66,
+          62,
+          -260
+        ],
+        [
+          -66,
+          62,
+          -260
+        ],
+        [
+          66,
+          62,
+          -100
+        ],
+        [
+          -66,
+          62,
+          -100
+        ],
+        [
+          66,
+          62,
+          60
+        ],
+        [
+          -66,
+          62,
+          60
+        ],
+        [
+          66,
+          62,
+          220
+        ],
+        [
+          -66,
+          62,
+          220
+        ]
+      ],
+      "rangeMeters": 4500,
+      "shotsPerSecond": 8,
+      "hitChance": 0.08,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ]
+      ],
+      "arcDegrees": 100,
+      "yawDegrees": 110,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 60,
+      "elevationRate": 45,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 16,
+      "perLaunch": 2,
+      "cooldownSeconds": 4,
+      "signatureFactor": 2.5,
+      "lifetimeSeconds": 6,
+      "ejectSpeed": 80
+    },
+    "defenseDrones": {
+      "count": 8,
+      "orbitMeters": 900,
+      "rangeMeters": 1800,
+      "shotsPerSecond": 3,
+      "hitChance": 0.18,
+      "damagePerHit": 4,
+      "roundsPerDrone": 80,
+      "repositionSpeed": 240,
+      "hitPoints": 8,
+      "radiusMeters": 4,
+      "shipEnergy": 10,
+      "shipPenetrationMm": 30,
+      "shipModuleDamage": 6
+    },
+    "hullSections": [
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0,
+          0,
+          35
+        ],
+        "halfSize": [
+          85,
+          60,
+          485
+        ],
+        "armor": {
+          "thicknessMm": 300
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 500
+          },
+          "Aft": {
+            "thicknessMm": 150
+          },
+          "Dorsal": {
+            "thicknessMm": 180
+          },
+          "Ventral": {
+            "thicknessMm": 220
+          }
+        }
+      },
+      {
+        "id": "bow-1",
+        "name": "\ud568\uc218 1",
+        "center": [
+          0,
+          -3,
+          -492
+        ],
+        "halfSize": [
+          75,
+          50,
+          42
+        ],
+        "armor": {
+          "thicknessMm": 350
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 500,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "bow-2",
+        "name": "\ud568\uc218 2",
+        "center": [
+          0,
+          -7,
+          -565
+        ],
+        "halfSize": [
+          55,
+          38,
+          31
+        ],
+        "armor": {
+          "thicknessMm": 350
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 500,
+            "slopeDegrees": 35
+          }
+        }
+      },
+      {
+        "id": "bow-3",
+        "name": "\ud568\uc218 3",
+        "center": [
+          0,
+          -10,
+          -638
+        ],
+        "halfSize": [
+          38,
+          27,
+          42
+        ],
+        "armor": {
+          "thicknessMm": 350
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 500,
+            "slopeDegrees": 45
+          }
+        }
+      },
+      {
+        "id": "deck",
+        "name": "\uc0c1\ubd80 \uac11\ud310",
+        "center": [
+          0,
+          72,
+          0
+        ],
+        "halfSize": [
+          48,
+          16,
+          420
+        ],
+        "armor": {
+          "thicknessMm": 150
+        },
+        "faces": {}
+      },
+      {
+        "id": "keel",
+        "name": "\ud558\ubd80 \uc6a9\uace8",
+        "center": [
+          0,
+          -72,
+          40
+        ],
+        "halfSize": [
+          58,
+          15,
+          340
+        ],
+        "armor": {
+          "thicknessMm": 200
+        },
+        "faces": {}
+      },
+      {
+        "id": "bridge",
+        "name": "\ud568\uad50",
+        "center": [
+          0,
+          140,
+          294
+        ],
+        "halfSize": [
+          46,
+          61,
+          55
+        ],
+        "armor": {
+          "thicknessMm": 90
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          -170,
+          0,
+          330
+        ],
+        "halfSize": [
+          85,
+          1.5,
+          75
+        ],
+        "armor": {
+          "thicknessMm": 8
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          170,
+          0,
+          330
+        ],
+        "halfSize": [
+          85,
+          1.5,
+          75
+        ],
+        "armor": {
+          "thicknessMm": 8
+        },
+        "faces": {}
+      },
+      {
+        "id": "engine-block",
+        "name": "\ucd94\uc9c4 \uad6c\ud68d",
+        "center": [
+          0,
+          0,
+          550
+        ],
+        "halfSize": [
+          90,
+          65,
+          30
+        ],
+        "armor": {
+          "thicknessMm": 120
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 80
+          }
+        }
+      }
+    ],
+    "modules": [
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          -170,
+          0,
+          330
+        ],
+        "halfSize": [
+          80,
+          1.4,
+          70
+        ],
+        "hitPoints": 90,
+        "resistanceMm": 5,
+        "grid": "Port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          170,
+          0,
+          330
+        ],
+        "halfSize": [
+          80,
+          1.4,
+          70
+        ],
+        "hitPoints": 90,
+        "resistanceMm": 5,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\ud568\uad50 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0,
+          170,
+          285
+        ],
+        "halfSize": [
+          14,
+          15,
+          20
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 50,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun-1",
+        "name": "\uc804\ubc29 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          72,
+          -320
+        ],
+        "halfSize": [
+          20,
+          10,
+          28
+        ],
+        "hitPoints": 220,
+        "resistanceMm": 100,
+        "grid": "Port"
+      },
+      {
+        "id": "gun-2",
+        "name": "\ud6c4\ubc29 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          72,
+          160
+        ],
+        "halfSize": [
+          20,
+          10,
+          28
+        ],
+        "hitPoints": 220,
+        "resistanceMm": 100,
+        "grid": "Starboard"
+      },
+      {
+        "id": "gun-3",
+        "name": "\ud558\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          -72,
+          -120
+        ],
+        "halfSize": [
+          20,
+          10,
+          28
+        ],
+        "hitPoints": 220,
+        "resistanceMm": 100,
+        "grid": "Shared"
+      },
+      {
+        "id": "magazine-port",
+        "name": "\uc88c\ud604 \ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          -40,
+          0,
+          -250
+        ],
+        "halfSize": [
+          18,
+          25,
+          45
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 100,
+        "grid": "Port",
+        "criticalChance": 0.35,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "magazine-starboard",
+        "name": "\uc6b0\ud604 \ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          40,
+          0,
+          -250
+        ],
+        "halfSize": [
+          18,
+          25,
+          45
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 100,
+        "grid": "Starboard",
+        "criticalChance": 0.35,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -55,
+          0,
+          300
+        ],
+        "halfSize": [
+          12,
+          18,
+          35
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "generator-starboard",
+        "name": "\uc6b0\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          55,
+          0,
+          300
+        ],
+        "halfSize": [
+          12,
+          18,
+          35
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Starboard",
+        "feeds": [
+          "Starboard"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "reactor-main",
+        "name": "\uc8fc\ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0,
+          0,
+          100
+        ],
+        "halfSize": [
+          25,
+          35,
+          60
+        ],
+        "hitPoints": 600,
+        "resistanceMm": 200,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "capacity": 1,
+        "criticalChance": 0.18,
+        "criticalEnergy": 320
+      },
+      {
+        "id": "reactor-backup",
+        "name": "\ubcf4\uc870 \ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0,
+          0,
+          240
+        ],
+        "halfSize": [
+          20,
+          30,
+          35
+        ],
+        "hitPoints": 350,
+        "resistanceMm": 150,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "capacity": 0.5,
+        "criticalChance": 0.12,
+        "criticalEnergy": 320
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -55,
+          0,
+          -60
+        ],
+        "halfSize": [
+          12,
+          25,
+          30
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 60,
+        "grid": "Port"
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          55,
+          0,
+          -60
+        ],
+        "halfSize": [
+          12,
+          25,
+          30
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 60,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -65,
+          0,
+          330
+        ],
+        "halfSize": [
+          10,
+          25,
+          35
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 50,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          65,
+          0,
+          330
+        ],
+        "halfSize": [
+          10,
+          25,
+          35
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 50,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-0",
+        "name": "1\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -48,
+          -32,
+          550
+        ],
+        "halfSize": [
+          18,
+          18,
+          25
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "engine-1",
+        "name": "2\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          48,
+          -32,
+          550
+        ],
+        "halfSize": [
+          18,
+          18,
+          25
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "engine-2",
+        "name": "3\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -48,
+          32,
+          550
+        ],
+        "halfSize": [
+          18,
+          18,
+          25
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Port",
+        "visualEngineIndex": 2
+      },
+      {
+        "id": "engine-3",
+        "name": "4\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          48,
+          32,
+          550
+        ],
+        "halfSize": [
+          18,
+          18,
+          25
+        ],
+        "hitPoints": 180,
+        "resistanceMm": 80,
+        "grid": "Starboard",
+        "visualEngineIndex": 3
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -70,
+          0,
+          -120
+        ],
+        "halfSize": [
+          10,
+          15,
+          20
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 50,
+        "grid": "Port"
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          70,
+          0,
+          -120
+        ],
+        "halfSize": [
+          10,
+          15,
+          20
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 50,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield-port",
+        "name": "\uc88c\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          -40,
+          25,
+          0
+        ],
+        "halfSize": [
+          10,
+          10,
+          25
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 60,
+        "grid": "Port"
+      },
+      {
+        "id": "shield-starboard",
+        "name": "\uc6b0\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          40,
+          25,
+          0
+        ],
+        "halfSize": [
+          10,
+          10,
+          25
+        ],
+        "hitPoints": 140,
+        "resistanceMm": 60,
+        "grid": "Starboard"
+      }
+    ]
+  },
+  "escort": {
+    "id": "escort",
+    "branch": "Escort",
+    "modelId": "escort",
+    "matchClass": "Medium",
+    "squadron": {
+      "role": "EscortSquadron",
+      "composition": "\ud638\uc704\ud568 4",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            -1200,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            1200,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            -2400,
+            0,
+            900
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            2400,
+            0,
+            900
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 30000,
+        "railFlightSeconds": 5,
+        "missileRangeMeters": 110000,
+        "attackRuns": false
+      },
+      "defaultPips": [
+        2,
+        2,
+        1,
+        2,
+        1
+      ],
+      "targetPreference": {
+        "Battleship": 1,
+        "Escort": 0,
+        "Interceptor": 2
+      }
+    },
+    "battleValue": {
+      "weight": 2,
+      "captureStrength": 1.5,
+      "hudMarkerRadius": 4
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Medium",
+        "center": [
+          -22.95,
+          0,
+          -55.5
+        ],
+        "halfSize": [
+          1.5,
+          1.5,
+          3
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Small",
+        "center": [
+          18.9,
+          0,
+          -42.6
+        ],
+        "halfSize": [
+          1,
+          1,
+          2
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 2700,
+    "damageControl": {
+      "kits": 5,
+      "repairSeconds": 14,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Escort",
+    "railgun": {
+      "moduleId": "gun-1",
+      "muzzle": [
+        0,
+        32,
+        -96
+      ],
+      "muzzleSpeed": 8000,
+      "reloadSeconds": 1.5,
+      "energy": 600,
+      "penetrationMm": 900,
+      "moduleDamage": 180,
+      "maxRange": 150000,
+      "rounds": 640,
+      "traverseDegrees": 100,
+      "sensorErrorMeters": 0.7,
+      "sensorErrorPerKm": 0.1,
+      "velocityError": 0.2,
+      "shotHeatMj": 60,
+      "mounts": [
+        {
+          "moduleId": "gun-1",
+          "pivot": [
+            0,
+            26,
+            -60
+          ],
+          "trunnion": [
+            0,
+            6,
+            0
+          ],
+          "muzzles": [
+            [
+              -2.52,
+              0,
+              -36
+            ],
+            [
+              2.52,
+              0,
+              -36
+            ]
+          ],
+          "ventral": false,
+          "housingCenter": [
+            0,
+            4.95,
+            -1.35
+          ],
+          "housingHalfSize": [
+            9,
+            3.6,
+            8.55
+          ],
+          "yawDegrees": 165,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 48,
+          "elevationRate": 36,
+          "rounds": 320
+        },
+        {
+          "moduleId": "gun-2",
+          "pivot": [
+            0,
+            -26,
+            -30
+          ],
+          "trunnion": [
+            0,
+            5.04,
+            0
+          ],
+          "muzzles": [
+            [
+              -2.52,
+              0,
+              -36
+            ],
+            [
+              2.52,
+              0,
+              -36
+            ]
+          ],
+          "ventral": true,
+          "housingCenter": [
+            0,
+            4.95,
+            -1.35
+          ],
+          "housingHalfSize": [
+            9,
+            3.6,
+            8.55
+          ],
+          "yawDegrees": 165,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 48,
+          "elevationRate": 36,
+          "rounds": 320
+        }
+      ]
+    },
+    "flight": {
+      "kind": "Escort",
+      "displayName": "\ubbf8\uc2a4\ud2b8\ub784\uae09 \ud638\uc704\ud568",
+      "length": 300,
+      "massKg": 150000000,
+      "forwardAccel": 14,
+      "strafeAccel": 6,
+      "brakeAccel": 12,
+      "maxAccelG": 2,
+      "maxSpeed": 220,
+      "boostMultiplier": 1.6,
+      "pitchYawRateDeg": 22,
+      "pitchYawAccelDeg": 14,
+      "rollRateDeg": 35,
+      "rollAccelDeg": 25,
+      "cameraDistance": 620,
+      "cameraHeight": 120
+    },
+    "shield": {
+      "capacity": 400,
+      "rechargePerSecond": 35,
+      "rechargeDelay": 5
+    },
+    "power": {
+      "outputMw": 500,
+      "engines": 160,
+      "shields": 120,
+      "weapons": 100,
+      "sensors": 20,
+      "ecm": 80,
+      "heatCapacityMj": 4500,
+      "coolingMw": 330
+    },
+    "sensors": {
+      "strength": 1000,
+      "signature": 20,
+      "jammer": 3
+    },
+    "missiles": {
+      "rounds": 16,
+      "reloadSeconds": 3,
+      "launchPoint": [
+        0,
+        30,
+        -20
+      ],
+      "ejectSpeed": 50,
+      "accelG": 30,
+      "burnSeconds": 60,
+      "maxFlightSeconds": 150,
+      "seekerRangeMeters": 15000,
+      "seekerFovDegrees": 40,
+      "seekerStrength": 3,
+      "fuzeMeters": 25,
+      "turnRateDegrees": 120,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 10,
+      "energy": 500,
+      "penetrationMm": 600,
+      "moduleDamage": 160,
+      "hitPoints": 12,
+      "launchHeatMj": 8
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          18,
+          22,
+          60
+        ],
+        [
+          -18,
+          22,
+          60
+        ],
+        [
+          0,
+          -20,
+          40
+        ],
+        [
+          0,
+          24,
+          -40
+        ]
+      ],
+      "rangeMeters": 4500,
+      "shotsPerSecond": 12,
+      "hitChance": 0.09,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          -0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ]
+      ],
+      "arcDegrees": 100,
+      "yawDegrees": 110,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 90,
+      "elevationRate": 60,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 10,
+      "perLaunch": 2,
+      "cooldownSeconds": 3,
+      "signatureFactor": 2.5,
+      "lifetimeSeconds": 5,
+      "ejectSpeed": 60
+    },
+    "hullSections": [
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0,
+          0,
+          9
+        ],
+        "halfSize": [
+          27,
+          19,
+          129
+        ],
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        }
+      },
+      {
+        "id": "bow-1",
+        "name": "\ud568\uc218 1",
+        "center": [
+          0,
+          -1,
+          -135
+        ],
+        "halfSize": [
+          22,
+          15,
+          25
+        ],
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "bow-2",
+        "name": "\ud568\uc218 2",
+        "center": [
+          0,
+          -3,
+          -172.5
+        ],
+        "halfSize": [
+          12,
+          10,
+          12.5
+        ],
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 35
+          }
+        }
+      },
+      {
+        "id": "bridge",
+        "name": "\ud568\uad50",
+        "center": [
+          0,
+          44,
+          40
+        ],
+        "halfSize": [
+          16,
+          26,
+          18
+        ],
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {}
+      }
+    ],
+    "modules": [
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          17,
+          0.9,
+          22
+        ],
+        "hitPoints": 50,
+        "resistanceMm": 3,
+        "grid": "Port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          17,
+          0.9,
+          22
+        ],
+        "hitPoints": 50,
+        "resistanceMm": 3,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\ud568\uad50 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0,
+          44,
+          40
+        ],
+        "halfSize": [
+          8,
+          10,
+          9
+        ],
+        "hitPoints": 70,
+        "resistanceMm": 25,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun-1",
+        "name": "\uc0c1\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          12,
+          -60
+        ],
+        "halfSize": [
+          8,
+          6,
+          18
+        ],
+        "hitPoints": 130,
+        "resistanceMm": 50,
+        "grid": "Port"
+      },
+      {
+        "id": "gun-2",
+        "name": "\ud558\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          -12,
+          -30
+        ],
+        "halfSize": [
+          8,
+          5,
+          18
+        ],
+        "hitPoints": 130,
+        "resistanceMm": 50,
+        "grid": "Starboard"
+      },
+      {
+        "id": "magazine",
+        "name": "\ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          -12,
+          0,
+          -60
+        ],
+        "halfSize": [
+          8,
+          10,
+          20
+        ],
+        "hitPoints": 120,
+        "resistanceMm": 50,
+        "grid": "Shared",
+        "criticalChance": 0.32,
+        "criticalEnergy": 150
+      },
+      {
+        "id": "reactor",
+        "name": "\ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0,
+          0,
+          30
+        ],
+        "halfSize": [
+          10,
+          12,
+          16
+        ],
+        "hitPoints": 250,
+        "resistanceMm": 100,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "criticalChance": 0.2,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -13,
+          0,
+          70
+        ],
+        "halfSize": [
+          6,
+          12,
+          15
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 40,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.35
+      },
+      {
+        "id": "generator-starboard",
+        "name": "\uc6b0\ud604 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          13,
+          0,
+          70
+        ],
+        "halfSize": [
+          6,
+          12,
+          15
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 40,
+        "grid": "Starboard",
+        "feeds": [
+          "Starboard"
+        ],
+        "capacity": 0.35
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -18,
+          0,
+          -20
+        ],
+        "halfSize": [
+          7,
+          10,
+          20
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -20,
+          0,
+          80
+        ],
+        "halfSize": [
+          5,
+          10,
+          12
+        ],
+        "hitPoints": 90,
+        "resistanceMm": 30,
+        "grid": "Port"
+      },
+      {
+        "id": "engine-0",
+        "name": "\uc88c\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -14,
+          0,
+          125
+        ],
+        "halfSize": [
+          10,
+          12,
+          8
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 40,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -20,
+          0,
+          -85
+        ],
+        "halfSize": [
+          4,
+          8,
+          10
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Port"
+      },
+      {
+        "id": "shield-port",
+        "name": "\uc88c\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          -10,
+          10,
+          0
+        ],
+        "halfSize": [
+          6,
+          6,
+          10
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Port"
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          18,
+          0,
+          -20
+        ],
+        "halfSize": [
+          7,
+          10,
+          20
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          20,
+          0,
+          80
+        ],
+        "halfSize": [
+          5,
+          10,
+          12
+        ],
+        "hitPoints": 90,
+        "resistanceMm": 30,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-1",
+        "name": "\uc6b0\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          14,
+          0,
+          125
+        ],
+        "halfSize": [
+          10,
+          12,
+          8
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 40,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          20,
+          0,
+          -85
+        ],
+        "halfSize": [
+          4,
+          8,
+          10
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield-starboard",
+        "name": "\uc6b0\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          10,
+          10,
+          0
+        ],
+        "halfSize": [
+          6,
+          6,
+          10
+        ],
+        "hitPoints": 80,
+        "resistanceMm": 30,
+        "grid": "Starboard"
+      }
+    ]
+  },
+  "interceptor": {
+    "id": "interceptor",
+    "branch": "Interceptor",
+    "modelId": "interceptor",
+    "matchClass": "Small",
+    "squadron": {
+      "role": "InterceptorWing",
+      "composition": "\uc694\uaca9\ud568 5",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            60,
+            -25,
+            50
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            120,
+            -50,
+            100
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            180,
+            -75,
+            150
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            240,
+            -100,
+            200
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 6000,
+        "railFlightSeconds": 2.5,
+        "missileRangeMeters": 15000,
+        "attackRuns": true
+      },
+      "defaultPips": [
+        2,
+        2,
+        2,
+        2,
+        0
+      ],
+      "targetPreference": {
+        "Battleship": 2,
+        "Escort": 1,
+        "Interceptor": 0
+      }
+    },
+    "battleValue": {
+      "weight": 0.5,
+      "captureStrength": 1,
+      "hudMarkerRadius": 3
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Small",
+        "center": [
+          -1.61,
+          0.0,
+          -1.5
+        ],
+        "halfSize": [
+          0.25,
+          0.22,
+          0.45
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Small",
+        "center": [
+          1.61,
+          0.0,
+          -1.5
+        ],
+        "halfSize": [
+          0.25,
+          0.22,
+          0.45
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 720,
+    "damageControl": {
+      "kits": 2,
+      "repairSeconds": 10,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Interceptor",
+    "reconProbes": {
+      "count": 2,
+      "deploymentMeters": 30000,
+      "acceleration": 220,
+      "burnSeconds": 8,
+      "sensorStrength": 85
+    },
+    "railgun": {
+      "moduleId": "gun",
+      "muzzle": [
+        0,
+        -0.6,
+        -18.4
+      ],
+      "muzzleSpeed": 6000,
+      "reloadSeconds": 0.6,
+      "energy": 220,
+      "penetrationMm": 250,
+      "moduleDamage": 120,
+      "maxRange": 80000,
+      "rounds": 200,
+      "traverseDegrees": 12,
+      "sensorErrorMeters": 0.5,
+      "sensorErrorPerKm": 0.15,
+      "velocityError": 0.3,
+      "shotHeatMj": 6
+    },
+    "flight": {
+      "kind": "Interceptor",
+      "displayName": "\uc18c\ucf5c\uae09 \uc694\uaca9\ud568",
+      "length": 30,
+      "massKg": 120000,
+      "forwardAccel": 35,
+      "strafeAccel": 40,
+      "brakeAccel": 40,
+      "maxAccelG": 5,
+      "maxSpeed": 380,
+      "boostMultiplier": 2,
+      "pitchYawRateDeg": 110,
+      "pitchYawAccelDeg": 360,
+      "rollRateDeg": 200,
+      "rollAccelDeg": 600,
+      "cameraDistance": 42,
+      "cameraHeight": 9
+    },
+    "shield": {
+      "capacity": 120,
+      "rechargePerSecond": 8,
+      "rechargeDelay": 4
+    },
+    "power": {
+      "outputMw": 60,
+      "engines": 24,
+      "shields": 12,
+      "weapons": 10,
+      "sensors": 2,
+      "ecm": 6,
+      "heatCapacityMj": 600,
+      "coolingMw": 42
+    },
+    "sensors": {
+      "strength": 60,
+      "signature": 3,
+      "jammer": 1
+    },
+    "missiles": {
+      "rounds": 4,
+      "reloadSeconds": 1.5,
+      "launchPoint": [
+        0,
+        -1.8,
+        -2
+      ],
+      "ejectSpeed": 300,
+      "accelG": 85,
+      "burnSeconds": 14,
+      "maxFlightSeconds": 45,
+      "seekerRangeMeters": 8000,
+      "seekerFovDegrees": 90,
+      "seekerStrength": 2,
+      "fuzeMeters": 10,
+      "turnRateDegrees": 240,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 30,
+      "energy": 210,
+      "penetrationMm": 255,
+      "moduleDamage": 95,
+      "hitPoints": 4,
+      "launchHeatMj": 2,
+      "canInterceptMissiles": true,
+      "interceptRangeMeters": 12000,
+      "interceptFuzeMeters": 40,
+      "interceptDamage": 12,
+      "bodyScale": 0.7
+    },
+    "antimatter": {
+      "moduleId": "am-containment",
+      "rounds": 3,
+      "armingSeconds": 2.5,
+      "recommendedMinMeters": 2000,
+      "recommendedMaxMeters": 5000,
+      "maxTravelMeters": 8000,
+      "terminalAccelG": 6,
+      "launchConeDegrees": 15,
+      "damageDepthMeters": 180,
+      "structuralDamageMultiplier": 2,
+      "warningHealth": 0.85,
+      "safeFailureHealth": 0.15,
+      "armedFailureHealth": 0.65,
+      "flight": {
+        "rounds": 3,
+        "reloadSeconds": 2.5,
+        "launchPoint": [
+          1.2,
+          -1.8,
+          -7
+        ],
+        "ejectSpeed": 450,
+        "accelG": 22,
+        "burnSeconds": 7,
+        "maxFlightSeconds": 7,
+        "seekerRangeMeters": 3500,
+        "seekerFovDegrees": 35,
+        "seekerStrength": 0.3,
+        "fuzeMeters": 1,
+        "energy": 1100,
+        "penetrationMm": 2400,
+        "moduleDamage": 1200,
+        "hitPoints": 12,
+        "launchHeatMj": 35
+      }
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          0,
+          -1.6,
+          5
+        ],
+        [
+          0,
+          1.6,
+          10
+        ]
+      ],
+      "rangeMeters": 1200,
+      "shotsPerSecond": 5,
+      "hitChance": 0.06,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0,
+          -0.5,
+          0.85
+        ],
+        [
+          0,
+          0.5,
+          0.85
+        ]
+      ],
+      "arcDegrees": 110,
+      "yawDegrees": 100,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 90,
+      "elevationRate": 60,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 6,
+      "perLaunch": 2,
+      "cooldownSeconds": 2,
+      "signatureFactor": 3,
+      "lifetimeSeconds": 4,
+      "ejectSpeed": 30
+    },
+    "hullSections": [
+      {
+        "id": "nose",
+        "name": "\uae30\uc218",
+        "center": [
+          0,
+          -0.1,
+          -11
+        ],
+        "halfSize": [
+          1.3,
+          1,
+          7
+        ],
+        "armor": {
+          "thicknessMm": 12
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 20,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0,
+          0,
+          3
+        ],
+        "halfSize": [
+          2.3,
+          1.6,
+          9
+        ],
+        "armor": {
+          "thicknessMm": 18
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 8
+          }
+        }
+      },
+      {
+        "id": "wing-front",
+        "name": "\uc804\ubc29 \ub0a0\uac1c",
+        "center": [
+          0,
+          -0.2,
+          -2.25
+        ],
+        "halfSize": [
+          6,
+          0.35,
+          3.75
+        ],
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {}
+      },
+      {
+        "id": "wing-back",
+        "name": "\ud6c4\ubc29 \ub0a0\uac1c",
+        "center": [
+          0,
+          -0.2,
+          5.25
+        ],
+        "halfSize": [
+          10,
+          0.35,
+          3.75
+        ],
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {}
+      },
+      {
+        "id": "fins",
+        "name": "\uc218\uc9c1 \ud540",
+        "center": [
+          0,
+          1.8,
+          5.5
+        ],
+        "halfSize": [
+          1.9,
+          1.8,
+          3.5
+        ],
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {}
+      },
+      {
+        "id": "engine-block",
+        "name": "\uc5d4\uc9c4 \ube14\ub85d",
+        "center": [
+          0,
+          0,
+          11
+        ],
+        "halfSize": [
+          2.3,
+          1.6,
+          1.2
+        ],
+        "armor": {
+          "thicknessMm": 8
+        },
+        "faces": {}
+      }
+    ],
+    "modules": [
+      {
+        "id": "am-containment",
+        "name": "\ubc18\ubb3c\uc9c8 \uaca9\ub9ac\uc6a9\uae30",
+        "kind": "AntimatterContainment",
+        "center": [
+          1.2,
+          0,
+          1
+        ],
+        "halfSize": [
+          0.7,
+          0.8,
+          1.4
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 5,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\uc870\uc900 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0,
+          0.6,
+          -7
+        ],
+        "halfSize": [
+          0.4,
+          0.2,
+          1
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 8,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun",
+        "name": "\uae30\uc218 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0,
+          -0.6,
+          -14
+        ],
+        "halfSize": [
+          0.3,
+          0.3,
+          2
+        ],
+        "hitPoints": 70,
+        "resistanceMm": 10,
+        "grid": "Shared"
+      },
+      {
+        "id": "magazine",
+        "name": "\ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          0,
+          0,
+          -9
+        ],
+        "halfSize": [
+          0.6,
+          0.5,
+          1.2
+        ],
+        "hitPoints": 55,
+        "resistanceMm": 12,
+        "grid": "Shared",
+        "criticalChance": 0.28,
+        "criticalEnergy": 85
+      },
+      {
+        "id": "reactor",
+        "name": "\uc18c\ud615 \ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0,
+          0,
+          1
+        ],
+        "halfSize": [
+          0.6,
+          0.7,
+          1.2
+        ],
+        "hitPoints": 100,
+        "resistanceMm": 25,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "criticalChance": 0.16,
+        "criticalEnergy": 120
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -1.3,
+          0,
+          3
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.6
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 8,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -1.5,
+          0,
+          0
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.8
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 8,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -1.5,
+          0,
+          6
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.8
+        ],
+        "hitPoints": 45,
+        "resistanceMm": 8,
+        "grid": "Port"
+      },
+      {
+        "id": "engine-0",
+        "name": "\uc88c\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -1.1,
+          0,
+          10
+        ],
+        "halfSize": [
+          0.6,
+          0.6,
+          1.2
+        ],
+        "hitPoints": 70,
+        "resistanceMm": 12,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -1.5,
+          0,
+          -3
+        ],
+        "halfSize": [
+          0.3,
+          0.4,
+          0.8
+        ],
+        "hitPoints": 45,
+        "resistanceMm": 8,
+        "grid": "Port"
+      },
+      {
+        "id": "generator-starboard",
+        "name": "\uc6b0\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          1.3,
+          0,
+          3
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.6
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 8,
+        "grid": "Starboard",
+        "feeds": [
+          "Starboard"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          1.5,
+          0,
+          0
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.8
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 8,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          1.5,
+          0,
+          6
+        ],
+        "halfSize": [
+          0.3,
+          0.5,
+          0.8
+        ],
+        "hitPoints": 45,
+        "resistanceMm": 8,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-1",
+        "name": "\uc6b0\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          1.1,
+          0,
+          10
+        ],
+        "halfSize": [
+          0.6,
+          0.6,
+          1.2
+        ],
+        "hitPoints": 70,
+        "resistanceMm": 12,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          1.5,
+          0,
+          -3
+        ],
+        "halfSize": [
+          0.3,
+          0.4,
+          0.8
+        ],
+        "hitPoints": 45,
+        "resistanceMm": 8,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield",
+        "name": "\uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          0,
+          0.6,
+          5
+        ],
+        "halfSize": [
+          0.3,
+          0.4,
+          0.8
+        ],
+        "hitPoints": 50,
+        "resistanceMm": 10,
+        "grid": "Shared"
+      }
+    ]
+  },
+  "mars_battleship": {
+    "id": "mars_battleship",
+    "branch": "LineBattleship",
+    "modelId": "mars_battleship",
+    "matchClass": "Large",
+    "squadron": {
+      "role": "BattleGroup",
+      "composition": "\uc804\ud568 1 + \ud638\uc704\ud568 2",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": "mars_escort",
+          "allowedKind": "Escort",
+          "offset": [
+            -1500,
+            150,
+            -600
+          ]
+        },
+        {
+          "hullId": "mars_escort",
+          "allowedKind": "Escort",
+          "offset": [
+            1500,
+            -150,
+            -600
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 90000,
+        "railFlightSeconds": 7.0,
+        "missileRangeMeters": 140000,
+        "attackRuns": false
+      },
+      "defaultPips": [
+        2,
+        1,
+        2,
+        2,
+        1
+      ],
+      "targetPreference": {
+        "Battleship": 0,
+        "Escort": 1,
+        "Interceptor": 3
+      }
+    },
+    "battleValue": {
+      "weight": 6,
+      "captureStrength": 2,
+      "hudMarkerRadius": 5
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Medium",
+        "center": [
+          -41.65,
+          0.0,
+          -135.15
+        ],
+        "halfSize": [
+          4,
+          4,
+          7
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Medium",
+        "center": [
+          41.65,
+          0.0,
+          -135.15
+        ],
+        "halfSize": [
+          4,
+          4,
+          7
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "hangar",
+        "size": "Large",
+        "center": [
+          -41.65,
+          0.0,
+          194.65
+        ],
+        "halfSize": [
+          8,
+          8,
+          14
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Drone"
+        ]
+      },
+      {
+        "id": "sensor",
+        "size": "Small",
+        "center": [
+          41.65,
+          0.0,
+          235.875
+        ],
+        "halfSize": [
+          2,
+          2,
+          3
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 5400,
+    "damageControl": {
+      "kits": 5,
+      "repairSeconds": 18,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Battleship",
+    "railgun": {
+      "moduleId": "gun-1",
+      "muzzle": [
+        0.0,
+        82.5,
+        -502.0
+      ],
+      "muzzleSpeed": 18000,
+      "reloadSeconds": 5.2,
+      "energy": 2000,
+      "penetrationMm": 2200,
+      "moduleDamage": 340,
+      "maxRange": 310000,
+      "rounds": 480,
+      "traverseDegrees": 120,
+      "aimErrorScale": 1.1,
+      "sensorErrorMeters": 0.55,
+      "sensorErrorPerKm": 0.044000000000000004,
+      "velocityError": 0.0825,
+      "shotHeatMj": 470,
+      "mounts": [
+        {
+          "moduleId": "gun-1",
+          "pivot": [
+            0.0,
+            70.4,
+            -272.0
+          ],
+          "trunnion": [
+            0,
+            12.100000000000001,
+            0
+          ],
+          "muzzles": [
+            [
+              -5.88,
+              0.0,
+              -230
+            ],
+            [
+              5.88,
+              0.0,
+              -230
+            ]
+          ],
+          "ventral": false,
+          "housingCenter": [
+            0,
+            12.100000000000001,
+            2.6399999999999997
+          ],
+          "housingHalfSize": [
+            22,
+            8.36,
+            21.119999999999997
+          ],
+          "yawDegrees": 150,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 8,
+          "elevationRate": 8,
+          "rounds": 240
+        },
+        {
+          "moduleId": "gun-3",
+          "pivot": [
+            0.0,
+            -70.4,
+            -102.0
+          ],
+          "trunnion": [
+            0,
+            12.100000000000001,
+            0
+          ],
+          "muzzles": [
+            [
+              -5.88,
+              0.0,
+              -160
+            ],
+            [
+              5.88,
+              0.0,
+              -160
+            ]
+          ],
+          "ventral": true,
+          "housingCenter": [
+            0,
+            12.100000000000001,
+            2.6399999999999997
+          ],
+          "housingHalfSize": [
+            22,
+            8.36,
+            21.119999999999997
+          ],
+          "yawDegrees": 150,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 8,
+          "elevationRate": 8,
+          "rounds": 240
+        }
+      ]
+    },
+    "flight": {
+      "kind": "Battleship",
+      "displayName": "\uc544\ub808\uc2a4\uae09 \uc804\ud568",
+      "length": 1080,
+      "massKg": 8160000000.000001,
+      "forwardAccel": 4.05,
+      "strafeAccel": 1.62,
+      "brakeAccel": 3.24,
+      "maxAccelG": 0.6,
+      "maxSpeed": 109.8,
+      "boostMultiplier": 1.5,
+      "pitchYawRateDeg": 7.800000000000001,
+      "pitchYawAccelDeg": 2.6,
+      "rollRateDeg": 15.600000000000001,
+      "rollAccelDeg": 3.9000000000000004,
+      "cameraDistance": 2040.0,
+      "cameraHeight": 384.0
+    },
+    "shield": {
+      "capacity": 816.0000000000001,
+      "rechargePerSecond": 70.0,
+      "rechargeDelay": 5
+    },
+    "power": {
+      "outputMw": 2000,
+      "engines": 600,
+      "shields": 500,
+      "weapons": 400,
+      "sensors": 100,
+      "ecm": 200,
+      "heatCapacityMj": 20000,
+      "coolingMw": 1500
+    },
+    "sensors": {
+      "strength": 1725.0,
+      "signature": 82.0,
+      "jammer": 2.3
+    },
+    "missiles": {
+      "rounds": 16,
+      "reloadSeconds": 4,
+      "launchPoint": [
+        0.0,
+        72.0,
+        34.0
+      ],
+      "ejectSpeed": 60,
+      "accelG": 25,
+      "burnSeconds": 80,
+      "maxFlightSeconds": 180,
+      "seekerRangeMeters": 20000,
+      "seekerFovDegrees": 40,
+      "seekerStrength": 4,
+      "fuzeMeters": 40,
+      "turnRateDegrees": 90,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 10,
+      "energy": 900,
+      "penetrationMm": 1000,
+      "moduleDamage": 260,
+      "hitPoints": 16,
+      "launchHeatMj": 20
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          46.2,
+          49.6,
+          -221.0
+        ],
+        [
+          -46.2,
+          49.6,
+          -221.0
+        ],
+        [
+          46.2,
+          49.6,
+          187.0
+        ],
+        [
+          -46.2,
+          49.6,
+          187.0
+        ]
+      ],
+      "rangeMeters": 4500,
+      "shotsPerSecond": 8,
+      "hitChance": 0.08,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          0.55,
+          0.75,
+          -0.35
+        ],
+        [
+          -0.55,
+          0.75,
+          -0.35
+        ]
+      ],
+      "arcDegrees": 100,
+      "yawDegrees": 110,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 60,
+      "elevationRate": 45,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 16,
+      "perLaunch": 2,
+      "cooldownSeconds": 4,
+      "signatureFactor": 2.5,
+      "lifetimeSeconds": 6,
+      "ejectSpeed": 80
+    },
+    "defenseDrones": {
+      "count": 4,
+      "orbitMeters": 900,
+      "rangeMeters": 1800,
+      "shotsPerSecond": 3,
+      "hitChance": 0.18,
+      "damagePerHit": 4,
+      "roundsPerDrone": 80,
+      "repositionSpeed": 240,
+      "hitPoints": 8,
+      "radiusMeters": 4,
+      "shipEnergy": 10,
+      "shipPenetrationMm": 30,
+      "shipModuleDamage": 6
+    },
+    "hullSections": [
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0.0,
+          0.0,
+          29.75
+        ],
+        "halfSize": [
+          59.5,
+          48.0,
+          412.25
+        ],
+        "armor": {
+          "thicknessMm": 210.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0
+          },
+          "Aft": {
+            "thicknessMm": 105.0
+          },
+          "Dorsal": {
+            "thicknessMm": 126.0
+          },
+          "Ventral": {
+            "thicknessMm": 154.0
+          }
+        }
+      },
+      {
+        "id": "bow-1",
+        "name": "\ud568\uc218 1",
+        "center": [
+          0.0,
+          -2.4,
+          -418.2
+        ],
+        "halfSize": [
+          52.5,
+          40.0,
+          35.7
+        ],
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "bow-2",
+        "name": "\ud568\uc218 2",
+        "center": [
+          0.0,
+          -5.6,
+          -480.25
+        ],
+        "halfSize": [
+          38.5,
+          30.4,
+          26.35
+        ],
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 35
+          }
+        }
+      },
+      {
+        "id": "bow-3",
+        "name": "\ud568\uc218 3",
+        "center": [
+          0.0,
+          -8.0,
+          -542.3
+        ],
+        "halfSize": [
+          26.6,
+          21.6,
+          35.7
+        ],
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 45
+          }
+        }
+      },
+      {
+        "id": "deck",
+        "name": "\uc0c1\ubd80 \uac11\ud310",
+        "center": [
+          0.0,
+          57.6,
+          0.0
+        ],
+        "halfSize": [
+          33.6,
+          12.8,
+          357.0
+        ],
+        "armor": {
+          "thicknessMm": 105.0
+        },
+        "faces": {}
+      },
+      {
+        "id": "keel",
+        "name": "\ud558\ubd80 \uc6a9\uace8",
+        "center": [
+          0.0,
+          -57.6,
+          34.0
+        ],
+        "halfSize": [
+          40.6,
+          12.0,
+          289.0
+        ],
+        "armor": {
+          "thicknessMm": 140.0
+        },
+        "faces": {}
+      },
+      {
+        "id": "bridge",
+        "name": "\ud568\uad50",
+        "center": [
+          0.0,
+          112.0,
+          249.9
+        ],
+        "halfSize": [
+          32.2,
+          48.8,
+          46.75
+        ],
+        "armor": {
+          "thicknessMm": 63.0
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          -68,
+          0,
+          190
+        ],
+        "halfSize": [
+          1.2,
+          39,
+          112
+        ],
+        "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          68,
+          0,
+          190
+        ],
+        "halfSize": [
+          1.2,
+          39,
+          112
+        ],
+        "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {}
+      },
+      {
+        "id": "engine-block",
+        "name": "\ucd94\uc9c4 \uad6c\ud68d",
+        "center": [
+          0.0,
+          0.0,
+          467.5
+        ],
+        "halfSize": [
+          63.0,
+          52.0,
+          25.5
+        ],
+        "armor": {
+          "thicknessMm": 84.0
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 56.0
+          }
+        }
+      },
+      {
+        "id": "sensor-head",
+        "name": "\uc678\ubd80 \uc13c\uc11c \ud5e4\ub4dc",
+        "center": [
+          0.0,
+          177.8,
+          242.25
+        ],
+        "halfSize": [
+          10.780000000000001,
+          13.200000000000001,
+          18.700000000000003
+        ],
+        "armor": {
+          "thicknessMm": 12
+        }
+      },
+      {
+        "id": "turret-base-gun-1",
+        "name": "\uc8fc\ud3ec \ubc14\ubca0\ud2b8",
+        "center": [
+          0.0,
+          59.400000000000006,
+          -272.0
+        ],
+        "halfSize": [
+          22,
+          12.100000000000001,
+          22
+        ],
+        "armor": {
+          "thicknessMm": 100
+        }
+      },
+      {
+        "id": "turret-base-gun-3",
+        "name": "\uc8fc\ud3ec \ubc14\ubca0\ud2b8",
+        "center": [
+          0.0,
+          -59.400000000000006,
+          -102.0
+        ],
+        "halfSize": [
+          22,
+          12.100000000000001,
+          22
+        ],
+        "armor": {
+          "thicknessMm": 100
+        }
+      }
+    ],
+    "modules": [
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          -68,
+          0,
+          190
+        ],
+        "halfSize": [
+          1.14,
+          37.05,
+          106.39999999999999
+        ],
+        "hitPoints": 53.135999999999996,
+        "resistanceMm": 4.0,
+        "grid": "Port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          68,
+          0,
+          190
+        ],
+        "halfSize": [
+          1.14,
+          37.05,
+          106.39999999999999
+        ],
+        "hitPoints": 53.135999999999996,
+        "resistanceMm": 4.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\ud568\uad50 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0.0,
+          177.8,
+          242.25
+        ],
+        "halfSize": [
+          9.8,
+          12.0,
+          17.0
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 40.0,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun-1",
+        "name": "\uc804\ubc29 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0.0,
+          57.6,
+          -272.0
+        ],
+        "halfSize": [
+          14.0,
+          8.0,
+          23.8
+        ],
+        "hitPoints": 180.4,
+        "resistanceMm": 80.0,
+        "grid": "Port"
+      },
+      {
+        "id": "gun-3",
+        "name": "\ud558\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0.0,
+          -57.6,
+          -102.0
+        ],
+        "halfSize": [
+          14.0,
+          8.0,
+          23.8
+        ],
+        "hitPoints": 180.4,
+        "resistanceMm": 80.0,
+        "grid": "Shared"
+      },
+      {
+        "id": "magazine-port",
+        "name": "\uc88c\ud604 \ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          -28.0,
+          0.0,
+          -212.5
+        ],
+        "halfSize": [
+          12.6,
+          20.0,
+          38.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 80.0,
+        "grid": "Port",
+        "criticalChance": 0.35,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "magazine-starboard",
+        "name": "\uc6b0\ud604 \ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          28.0,
+          0.0,
+          -212.5
+        ],
+        "halfSize": [
+          12.6,
+          20.0,
+          38.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 80.0,
+        "grid": "Starboard",
+        "criticalChance": 0.35,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -38.5,
+          0.0,
+          255.0
+        ],
+        "halfSize": [
+          8.4,
+          14.4,
+          29.75
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 64.0,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "reactor-main",
+        "name": "\uc8fc\ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0.0,
+          0.0,
+          85.0
+        ],
+        "halfSize": [
+          17.5,
+          28.0,
+          51.0
+        ],
+        "hitPoints": 492.0,
+        "resistanceMm": 160.0,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "capacity": 1,
+        "criticalChance": 0.18,
+        "criticalEnergy": 320
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -38.5,
+          0.0,
+          -51.0
+        ],
+        "halfSize": [
+          8.4,
+          20.0,
+          25.5
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 48.0,
+        "grid": "Port"
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          38.5,
+          0.0,
+          -51.0
+        ],
+        "halfSize": [
+          8.4,
+          20.0,
+          25.5
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 48.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -45.5,
+          0.0,
+          280.5
+        ],
+        "halfSize": [
+          7.0,
+          20.0,
+          29.75
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 40.0,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          45.5,
+          0.0,
+          280.5
+        ],
+        "halfSize": [
+          7.0,
+          20.0,
+          29.75
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 40.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-0",
+        "name": "1\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -33.6,
+          -25.6,
+          467.5
+        ],
+        "halfSize": [
+          12.6,
+          14.4,
+          21.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 64.0,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "engine-1",
+        "name": "2\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          33.6,
+          -25.6,
+          467.5
+        ],
+        "halfSize": [
+          12.6,
+          14.4,
+          21.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 64.0,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "engine-2",
+        "name": "3\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -33.6,
+          25.6,
+          467.5
+        ],
+        "halfSize": [
+          12.6,
+          14.4,
+          21.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 64.0,
+        "grid": "Port",
+        "visualEngineIndex": 2
+      },
+      {
+        "id": "engine-3",
+        "name": "4\ubc88 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          33.6,
+          25.6,
+          467.5
+        ],
+        "halfSize": [
+          12.6,
+          14.4,
+          21.25
+        ],
+        "hitPoints": 147.6,
+        "resistanceMm": 64.0,
+        "grid": "Starboard",
+        "visualEngineIndex": 3
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -49.0,
+          0.0,
+          -102.0
+        ],
+        "halfSize": [
+          7.0,
+          12.0,
+          17.0
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 40.0,
+        "grid": "Port"
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          49.0,
+          0.0,
+          -102.0
+        ],
+        "halfSize": [
+          7.0,
+          12.0,
+          17.0
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 40.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield-port",
+        "name": "\uc88c\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          -28.0,
+          20.0,
+          0.0
+        ],
+        "halfSize": [
+          7.0,
+          8.0,
+          21.25
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 48.0,
+        "grid": "Port"
+      },
+      {
+        "id": "shield-starboard",
+        "name": "\uc6b0\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          28.0,
+          20.0,
+          0.0
+        ],
+        "halfSize": [
+          7.0,
+          8.0,
+          21.25
+        ],
+        "hitPoints": 114.8,
+        "resistanceMm": 48.0,
+        "grid": "Starboard"
+      }
+    ],
+    "design": "Mars"
+  },
+  "mars_escort": {
+    "id": "mars_escort",
+    "branch": "Escort",
+    "modelId": "mars_escort",
+    "matchClass": "Medium",
+    "squadron": {
+      "role": "EscortSquadron",
+      "composition": "\ud638\uc704\ud568 4",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            -1200,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            1200,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            -2400,
+            0,
+            900
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            2400,
+            0,
+            900
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 52000,
+        "railFlightSeconds": 6.5,
+        "missileRangeMeters": 110000,
+        "attackRuns": false
+      },
+      "defaultPips": [
+        2,
+        1,
+        1,
+        2,
+        2
+      ],
+      "targetPreference": {
+        "Battleship": 1,
+        "Escort": 0,
+        "Interceptor": 2
+      }
+    },
+    "battleValue": {
+      "weight": 2,
+      "captureStrength": 1.5,
+      "hudMarkerRadius": 4
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Medium",
+        "center": [
+          -16.753,
+          0.0,
+          -46.62
+        ],
+        "halfSize": [
+          1.5,
+          1.5,
+          3
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Shield",
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Small",
+        "center": [
+          13.797,
+          0.0,
+          -35.784
+        ],
+        "halfSize": [
+          1,
+          1,
+          2
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 2100,
+    "damageControl": {
+      "kits": 4,
+      "repairSeconds": 14,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Escort",
+    "railgun": {
+      "moduleId": "gun-1",
+      "muzzle": [
+        0.0,
+        24.130000000000003,
+        -111.4
+      ],
+      "muzzleSpeed": 10500,
+      "reloadSeconds": 2,
+      "energy": 660,
+      "penetrationMm": 1000,
+      "moduleDamage": 195,
+      "maxRange": 150000,
+      "rounds": 640,
+      "traverseDegrees": 100,
+      "sensorErrorMeters": 0.385,
+      "sensorErrorPerKm": 0.05500000000000001,
+      "velocityError": 0.11000000000000001,
+      "shotHeatMj": 70,
+      "mounts": [
+        {
+          "moduleId": "gun-1",
+          "pivot": [
+            0.0,
+            20.28,
+            -50.4
+          ],
+          "trunnion": [
+            0,
+            3.8500000000000005,
+            0
+          ],
+          "muzzles": [
+            [
+              -1.8396,
+              0.0,
+              -61
+            ],
+            [
+              1.8396,
+              0.0,
+              -61
+            ]
+          ],
+          "ventral": false,
+          "housingCenter": [
+            0,
+            3.8500000000000005,
+            0.84
+          ],
+          "housingHalfSize": [
+            7,
+            2.66,
+            6.72
+          ],
+          "yawDegrees": 165,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 48,
+          "elevationRate": 36,
+          "rounds": 320
+        },
+        {
+          "moduleId": "gun-2",
+          "pivot": [
+            0.0,
+            -20.28,
+            -25.2
+          ],
+          "trunnion": [
+            0,
+            3.8500000000000005,
+            0
+          ],
+          "muzzles": [
+            [
+              -1.8396,
+              0.0,
+              -61
+            ],
+            [
+              1.8396,
+              0.0,
+              -61
+            ]
+          ],
+          "ventral": true,
+          "housingCenter": [
+            0,
+            3.8500000000000005,
+            0.84
+          ],
+          "housingHalfSize": [
+            7,
+            2.66,
+            6.72
+          ],
+          "yawDegrees": 165,
+          "minElevation": -5,
+          "maxElevation": 85,
+          "yawRate": 48,
+          "elevationRate": 36,
+          "rounds": 320
+        }
+      ]
+    },
+    "flight": {
+      "kind": "Escort",
+      "displayName": "\uc194\ub9ac\uc2a4\uae09 \ud638\uc704\ud568",
+      "length": 280,
+      "massKg": 102000000.0,
+      "forwardAccel": 18.9,
+      "strafeAccel": 8.1,
+      "brakeAccel": 16.2,
+      "maxAccelG": 2.4,
+      "maxSpeed": 268.4,
+      "boostMultiplier": 1.6,
+      "pitchYawRateDeg": 28.6,
+      "pitchYawAccelDeg": 18.2,
+      "rollRateDeg": 45.5,
+      "rollAccelDeg": 32.5,
+      "cameraDistance": 520.8,
+      "cameraHeight": 93.60000000000001
+    },
+    "shield": {
+      "capacity": 272.0,
+      "rechargePerSecond": 24.5,
+      "rechargeDelay": 5
+    },
+    "power": {
+      "outputMw": 500,
+      "engines": 160,
+      "shields": 120,
+      "weapons": 100,
+      "sensors": 20,
+      "ecm": 80,
+      "heatCapacityMj": 4500,
+      "coolingMw": 330
+    },
+    "sensors": {
+      "strength": 1480.0,
+      "signature": 16.4,
+      "jammer": 4.65
+    },
+    "missiles": {
+      "rounds": 16,
+      "reloadSeconds": 3,
+      "launchPoint": [
+        0.0,
+        23.4,
+        -16.8
+      ],
+      "ejectSpeed": 50,
+      "accelG": 30,
+      "burnSeconds": 60,
+      "maxFlightSeconds": 150,
+      "seekerRangeMeters": 15000,
+      "seekerFovDegrees": 40,
+      "seekerStrength": 3,
+      "fuzeMeters": 25,
+      "turnRateDegrees": 120,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 10,
+      "energy": 500,
+      "penetrationMm": 600,
+      "moduleDamage": 160,
+      "hitPoints": 12,
+      "launchHeatMj": 8
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          0.0,
+          -15.6,
+          33.6
+        ],
+        [
+          0.0,
+          18.72,
+          -33.6
+        ]
+      ],
+      "rangeMeters": 4500,
+      "shotsPerSecond": 12,
+      "hitChance": 0.09,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0,
+          -1,
+          0
+        ],
+        [
+          0,
+          0.8,
+          -0.6
+        ]
+      ],
+      "arcDegrees": 100,
+      "yawDegrees": 110,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 90,
+      "elevationRate": 60,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 10,
+      "perLaunch": 2,
+      "cooldownSeconds": 3,
+      "signatureFactor": 2.5,
+      "lifetimeSeconds": 5,
+      "ejectSpeed": 60
+    },
+    "hullSections": [
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0.0,
+          0.0,
+          7.56
+        ],
+        "halfSize": [
+          19.71,
+          14.82,
+          108.36
+        ],
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        }
+      },
+      {
+        "id": "bow-1",
+        "name": "\ud568\uc218 1",
+        "center": [
+          0.0,
+          -0.78,
+          -113.4
+        ],
+        "halfSize": [
+          16.06,
+          11.7,
+          21.0
+        ],
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "bow-2",
+        "name": "\ud568\uc218 2",
+        "center": [
+          0.0,
+          -2.34,
+          -144.9
+        ],
+        "halfSize": [
+          8.76,
+          7.8,
+          10.5
+        ],
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 35
+          }
+        }
+      },
+      {
+        "id": "bridge",
+        "name": "\ud568\uad50",
+        "center": [
+          0.0,
+          34.32,
+          33.6
+        ],
+        "halfSize": [
+          11.68,
+          20.28,
+          15.12
+        ],
+        "armor": {
+          "thicknessMm": 24.5
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          -22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "center": [
+          22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.45,
+          13.5,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 2.8
+        },
+        "faces": {}
+      },
+      {
+        "id": "sensor-head",
+        "name": "\uc678\ubd80 \uc13c\uc11c \ud5e4\ub4dc",
+        "center": [
+          0.0,
+          63.9,
+          33.6
+        ],
+        "halfSize": [
+          6.424,
+          8.58,
+          8.316
+        ],
+        "armor": {
+          "thicknessMm": 6
+        }
+      },
+      {
+        "id": "turret-base-gun-1",
+        "name": "\uc8fc\ud3ec \ubc14\ubca0\ud2b8",
+        "center": [
+          0.0,
+          16.78,
+          -50.4
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ],
+        "armor": {
+          "thicknessMm": 38
+        }
+      },
+      {
+        "id": "turret-base-gun-2",
+        "name": "\uc8fc\ud3ec \ubc14\ubca0\ud2b8",
+        "center": [
+          0.0,
+          -16.78,
+          -25.2
+        ],
+        "halfSize": [
+          7,
+          3.8500000000000005,
+          7
+        ],
+        "armor": {
+          "thicknessMm": 38
+        }
+      }
+    ],
+    "modules": [
+      {
+        "id": "radiator-port",
+        "name": "\uc88c\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          -22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.4275,
+          12.825,
+          21.849999999999998
+        ],
+        "hitPoints": 29.52,
+        "resistanceMm": 2.4,
+        "grid": "Port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "\uc6b0\ud604 \ubc29\uc5f4\ud310",
+        "kind": "Cooling",
+        "center": [
+          22.5,
+          0,
+          59
+        ],
+        "halfSize": [
+          0.4275,
+          12.825,
+          21.849999999999998
+        ],
+        "hitPoints": 29.52,
+        "resistanceMm": 2.4,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\ud568\uad50 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0.0,
+          63.9,
+          33.6
+        ],
+        "halfSize": [
+          5.84,
+          7.8,
+          7.56
+        ],
+        "hitPoints": 57.4,
+        "resistanceMm": 20.0,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun-1",
+        "name": "\uc0c1\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0.0,
+          9.36,
+          -50.4
+        ],
+        "halfSize": [
+          5.84,
+          4.68,
+          15.12
+        ],
+        "hitPoints": 106.6,
+        "resistanceMm": 40.0,
+        "grid": "Port"
+      },
+      {
+        "id": "gun-2",
+        "name": "\ud558\ubd80 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0.0,
+          -9.36,
+          -25.2
+        ],
+        "halfSize": [
+          5.84,
+          3.9,
+          15.12
+        ],
+        "hitPoints": 106.6,
+        "resistanceMm": 40.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "magazine",
+        "name": "\ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          -8.76,
+          0.0,
+          -50.4
+        ],
+        "halfSize": [
+          5.84,
+          7.8,
+          16.8
+        ],
+        "hitPoints": 98.4,
+        "resistanceMm": 40.0,
+        "grid": "Shared",
+        "criticalChance": 0.32,
+        "criticalEnergy": 150
+      },
+      {
+        "id": "reactor",
+        "name": "\ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0.0,
+          0.0,
+          25.2
+        ],
+        "halfSize": [
+          7.3,
+          9.36,
+          13.44
+        ],
+        "hitPoints": 205.0,
+        "resistanceMm": 80.0,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "criticalChance": 0.2,
+        "criticalEnergy": 220
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -9.49,
+          0.0,
+          58.8
+        ],
+        "halfSize": [
+          4.38,
+          9.36,
+          12.6
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 32.0,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.35
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -13.14,
+          0.0,
+          -16.8
+        ],
+        "halfSize": [
+          5.11,
+          7.8,
+          16.8
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -14.6,
+          0.0,
+          67.2
+        ],
+        "halfSize": [
+          3.65,
+          7.8,
+          10.08
+        ],
+        "hitPoints": 73.8,
+        "resistanceMm": 24.0,
+        "grid": "Port"
+      },
+      {
+        "id": "engine-0",
+        "name": "\uc88c\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -10.22,
+          0.0,
+          105.0
+        ],
+        "halfSize": [
+          7.3,
+          9.36,
+          6.72
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 32.0,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -14.6,
+          0.0,
+          -71.4
+        ],
+        "halfSize": [
+          2.92,
+          6.24,
+          8.4
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Port"
+      },
+      {
+        "id": "shield-port",
+        "name": "\uc88c\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          -7.3,
+          7.8,
+          0.0
+        ],
+        "halfSize": [
+          4.38,
+          4.68,
+          8.4
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Port"
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          13.14,
+          0.0,
+          -16.8
+        ],
+        "halfSize": [
+          5.11,
+          7.8,
+          16.8
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          14.6,
+          0.0,
+          67.2
+        ],
+        "halfSize": [
+          3.65,
+          7.8,
+          10.08
+        ],
+        "hitPoints": 73.8,
+        "resistanceMm": 24.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-1",
+        "name": "\uc6b0\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          10.22,
+          0.0,
+          105.0
+        ],
+        "halfSize": [
+          7.3,
+          9.36,
+          6.72
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 32.0,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          14.6,
+          0.0,
+          -71.4
+        ],
+        "halfSize": [
+          2.92,
+          6.24,
+          8.4
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield-starboard",
+        "name": "\uc6b0\ud604 \uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          7.3,
+          7.8,
+          0.0
+        ],
+        "halfSize": [
+          4.38,
+          4.68,
+          8.4
+        ],
+        "hitPoints": 65.6,
+        "resistanceMm": 24.0,
+        "grid": "Starboard"
+      }
+    ],
+    "design": "Mars"
+  },
+  "mars_interceptor": {
+    "id": "mars_interceptor",
+    "branch": "Interceptor",
+    "modelId": "mars_interceptor",
+    "matchClass": "Small",
+    "squadron": {
+      "role": "InterceptorWing",
+      "composition": "\uc694\uaca9\ud568 5",
+      "members": [
+        {
+          "hullId": null,
+          "offset": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            60,
+            -25,
+            50
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            120,
+            -50,
+            100
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            180,
+            -75,
+            150
+          ]
+        },
+        {
+          "hullId": null,
+          "offset": [
+            240,
+            -100,
+            200
+          ]
+        }
+      ]
+    },
+    "ai": {
+      "profile": {
+        "standoffMeters": 7000,
+        "railFlightSeconds": 2.5,
+        "missileRangeMeters": 15000,
+        "attackRuns": true
+      },
+      "defaultPips": [
+        3,
+        1,
+        2,
+        2,
+        0
+      ],
+      "targetPreference": {
+        "Battleship": 2,
+        "Escort": 1,
+        "Interceptor": 0
+      }
+    },
+    "battleValue": {
+      "weight": 0.5,
+      "captureStrength": 1,
+      "hudMarkerRadius": 3
+    },
+    "bays": [
+      {
+        "id": "utility-port",
+        "size": "Small",
+        "center": [
+          -1.127,
+          0.0,
+          -1.275
+        ],
+        "halfSize": [
+          0.25,
+          0.22,
+          0.45
+        ],
+        "grid": "Port",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      },
+      {
+        "id": "utility-starboard",
+        "size": "Small",
+        "center": [
+          1.127,
+          0.0,
+          -1.275
+        ],
+        "halfSize": [
+          0.25,
+          0.22,
+          0.45
+        ],
+        "grid": "Starboard",
+        "accepts": [
+          "Sensor",
+          "Ecm"
+        ]
+      }
+    ],
+    "structureHitPoints": 540,
+    "damageControl": {
+      "kits": 2,
+      "repairSeconds": 10,
+      "restoreFraction": 0.35,
+      "quietSeconds": 5
+    },
+    "kind": "Interceptor",
+    "reconProbes": {
+      "count": 2,
+      "deploymentMeters": 36000,
+      "acceleration": 280,
+      "burnSeconds": 7,
+      "sensorStrength": 115
+    },
+    "railgun": {
+      "moduleId": "gun",
+      "muzzle": [
+        0.0,
+        -0.48,
+        -17.6
+      ],
+      "muzzleSpeed": 6000,
+      "reloadSeconds": 0.7,
+      "energy": 200,
+      "penetrationMm": 250,
+      "moduleDamage": 105,
+      "maxRange": 80000,
+      "rounds": 200,
+      "traverseDegrees": 12,
+      "sensorErrorMeters": 0.275,
+      "sensorErrorPerKm": 0.0825,
+      "velocityError": 0.165,
+      "shotHeatMj": 6
+    },
+    "flight": {
+      "kind": "Interceptor",
+      "displayName": "\ub85c\uc6f0\uae09 \uc694\uaca9\ud568",
+      "length": 26,
+      "massKg": 81600.0,
+      "forwardAccel": 47.25,
+      "strafeAccel": 54.0,
+      "brakeAccel": 54.0,
+      "maxAccelG": 6.0,
+      "maxSpeed": 463.59999999999997,
+      "boostMultiplier": 2,
+      "pitchYawRateDeg": 143.0,
+      "pitchYawAccelDeg": 468.0,
+      "rollRateDeg": 260.0,
+      "rollAccelDeg": 780.0,
+      "cameraDistance": 35.699999999999996,
+      "cameraHeight": 7.2
+    },
+    "shield": {
+      "capacity": 81.60000000000001,
+      "rechargePerSecond": 5.6,
+      "rechargeDelay": 4
+    },
+    "power": {
+      "outputMw": 60,
+      "engines": 24,
+      "shields": 12,
+      "weapons": 10,
+      "sensors": 2,
+      "ecm": 6,
+      "heatCapacityMj": 600,
+      "coolingMw": 42
+    },
+    "sensors": {
+      "strength": 90.0,
+      "signature": 2.46,
+      "jammer": 1.15
+    },
+    "missiles": {
+      "rounds": 4,
+      "reloadSeconds": 1.5,
+      "launchPoint": [
+        0.0,
+        -1.44,
+        -1.7
+      ],
+      "ejectSpeed": 300,
+      "accelG": 95,
+      "burnSeconds": 14,
+      "maxFlightSeconds": 45,
+      "seekerRangeMeters": 8000,
+      "seekerFovDegrees": 90,
+      "seekerStrength": 2,
+      "fuzeMeters": 10,
+      "turnRateDegrees": 260,
+      "maxSteeringAngleDegrees": 90,
+      "thrustGimbalDegrees": 35,
+      "energy": 210,
+      "penetrationMm": 255,
+      "moduleDamage": 95,
+      "hitPoints": 4,
+      "launchHeatMj": 2,
+      "canInterceptMissiles": true,
+      "interceptRangeMeters": 10000,
+      "interceptFuzeMeters": 32,
+      "interceptDamage": 12,
+      "bodyScale": 0.7
+    },
+    "antimatter": {
+      "moduleId": "am-containment",
+      "rounds": 3,
+      "armingSeconds": 2.5,
+      "recommendedMinMeters": 2000,
+      "recommendedMaxMeters": 5000,
+      "maxTravelMeters": 8000,
+      "terminalAccelG": 6,
+      "launchConeDegrees": 15,
+      "damageDepthMeters": 180,
+      "structuralDamageMultiplier": 2,
+      "warningHealth": 0.85,
+      "safeFailureHealth": 0.15,
+      "armedFailureHealth": 0.65,
+      "flight": {
+        "rounds": 3,
+        "reloadSeconds": 2.5,
+        "launchPoint": [
+          0.84,
+          -1.44,
+          -5.95
+        ],
+        "ejectSpeed": 450,
+        "accelG": 22,
+        "burnSeconds": 7,
+        "maxFlightSeconds": 7,
+        "seekerRangeMeters": 3500,
+        "seekerFovDegrees": 35,
+        "seekerStrength": 0.3,
+        "fuzeMeters": 1,
+        "energy": 1100,
+        "penetrationMm": 2400,
+        "moduleDamage": 1200,
+        "hitPoints": 12,
+        "launchHeatMj": 35
+      }
+    },
+    "pointDefense": {
+      "mounts": [
+        [
+          0.0,
+          1.28,
+          8.5
+        ]
+      ],
+      "rangeMeters": 1000,
+      "shotsPerSecond": 4,
+      "hitChance": 0.06,
+      "damagePerHit": 4,
+      "normals": [
+        [
+          0,
+          0.5,
+          0.85
+        ]
+      ],
+      "arcDegrees": 110,
+      "yawDegrees": 100,
+      "minElevation": -5,
+      "maxElevation": 85,
+      "yawRate": 90,
+      "elevationRate": 60,
+      "toleranceDegrees": 1.5
+    },
+    "decoys": {
+      "count": 6,
+      "perLaunch": 2,
+      "cooldownSeconds": 2,
+      "signatureFactor": 3,
+      "lifetimeSeconds": 4,
+      "ejectSpeed": 30
+    },
+    "hullSections": [
+      {
+        "id": "nose",
+        "name": "\uae30\uc218",
+        "center": [
+          0.0,
+          -0.08,
+          -9.35
+        ],
+        "halfSize": [
+          0.91,
+          0.8,
+          5.95
+        ],
+        "armor": {
+          "thicknessMm": 8.4
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 14.0,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "hull",
+        "name": "\uc8fc\uc120\uccb4",
+        "center": [
+          0.0,
+          0.0,
+          2.55
+        ],
+        "halfSize": [
+          1.61,
+          1.28,
+          7.65
+        ],
+        "armor": {
+          "thicknessMm": 12.6
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 5.6
+          }
+        }
+      },
+      {
+        "id": "wing-front",
+        "name": "\uc804\ubc29 \ub0a0\uac1c",
+        "center": [
+          0.0,
+          -0.16,
+          -1.9125
+        ],
+        "halfSize": [
+          4.2,
+          0.28,
+          3.1875
+        ],
+        "armor": {
+          "thicknessMm": 2.1
+        },
+        "faces": {}
+      },
+      {
+        "id": "wing-back",
+        "name": "\ud6c4\ubc29 \ub0a0\uac1c",
+        "center": [
+          0.0,
+          -0.16,
+          4.4625
+        ],
+        "halfSize": [
+          7.0,
+          0.28,
+          3.1875
+        ],
+        "armor": {
+          "thicknessMm": 2.1
+        },
+        "faces": {}
+      },
+      {
+        "id": "fins",
+        "name": "\uc218\uc9c1 \ud540",
+        "center": [
+          0.0,
+          1.44,
+          4.675
+        ],
+        "halfSize": [
+          1.33,
+          1.44,
+          2.975
+        ],
+        "armor": {
+          "thicknessMm": 2.1
+        },
+        "faces": {}
+      },
+      {
+        "id": "engine-block",
+        "name": "\uc5d4\uc9c4 \ube14\ub85d",
+        "center": [
+          0.0,
+          0.0,
+          9.35
+        ],
+        "halfSize": [
+          1.61,
+          1.28,
+          1.02
+        ],
+        "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {}
+      }
+    ],
+    "modules": [
+      {
+        "id": "am-containment",
+        "name": "\ubc18\ubb3c\uc9c8 \uaca9\ub9ac\uc6a9\uae30",
+        "kind": "AntimatterContainment",
+        "center": [
+          0.84,
+          0.0,
+          0.85
+        ],
+        "halfSize": [
+          0.49,
+          0.64,
+          1.19
+        ],
+        "hitPoints": 40,
+        "resistanceMm": 4.0,
+        "grid": "Starboard"
+      },
+      {
+        "id": "sensor",
+        "name": "\uc870\uc900 \uc13c\uc11c",
+        "kind": "Sensor",
+        "center": [
+          0.0,
+          0.48,
+          -5.95
+        ],
+        "halfSize": [
+          0.28,
+          0.16,
+          0.85
+        ],
+        "hitPoints": 32.8,
+        "resistanceMm": 6.4,
+        "grid": "Shared"
+      },
+      {
+        "id": "gun",
+        "name": "\uae30\uc218 \uc8fc\ud3ec",
+        "kind": "Gun",
+        "center": [
+          0.0,
+          -0.48,
+          -11.9
+        ],
+        "halfSize": [
+          0.21,
+          0.24,
+          1.7
+        ],
+        "hitPoints": 57.4,
+        "resistanceMm": 8.0,
+        "grid": "Shared"
+      },
+      {
+        "id": "magazine",
+        "name": "\ud0c4\uc57d\uace0",
+        "kind": "Magazine",
+        "center": [
+          0.0,
+          0.0,
+          -7.65
+        ],
+        "halfSize": [
+          0.42,
+          0.4,
+          1.02
+        ],
+        "hitPoints": 45.1,
+        "resistanceMm": 9.6,
+        "grid": "Shared",
+        "criticalChance": 0.28,
+        "criticalEnergy": 85
+      },
+      {
+        "id": "reactor",
+        "name": "\uc18c\ud615 \ubc18\uc751\ub85c",
+        "kind": "Reactor",
+        "center": [
+          0.0,
+          0.0,
+          0.85
+        ],
+        "halfSize": [
+          0.42,
+          0.56,
+          1.02
+        ],
+        "hitPoints": 82.0,
+        "resistanceMm": 20.0,
+        "grid": "Shared",
+        "feeds": [
+          "Port",
+          "Starboard"
+        ],
+        "criticalChance": 0.16,
+        "criticalEnergy": 120
+      },
+      {
+        "id": "generator-port",
+        "name": "\uc88c\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          -0.91,
+          0.0,
+          2.55
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.51
+        ],
+        "hitPoints": 32.8,
+        "resistanceMm": 6.4,
+        "grid": "Port",
+        "feeds": [
+          "Port"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "bus-port",
+        "name": "\uc88c\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          -1.05,
+          0.0,
+          0.0
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.68
+        ],
+        "hitPoints": 32.8,
+        "resistanceMm": 6.4,
+        "grid": "Port"
+      },
+      {
+        "id": "cooling-port",
+        "name": "\uc88c\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          -1.05,
+          0.0,
+          5.1
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.68
+        ],
+        "hitPoints": 36.9,
+        "resistanceMm": 6.4,
+        "grid": "Port"
+      },
+      {
+        "id": "engine-0",
+        "name": "\uc88c\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          -0.77,
+          0.0,
+          8.5
+        ],
+        "halfSize": [
+          0.42,
+          0.48,
+          1.02
+        ],
+        "hitPoints": 57.4,
+        "resistanceMm": 9.6,
+        "grid": "Port",
+        "visualEngineIndex": 0
+      },
+      {
+        "id": "maneuver-port",
+        "name": "\uc88c\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          -1.05,
+          0.0,
+          -2.55
+        ],
+        "halfSize": [
+          0.21,
+          0.32,
+          0.68
+        ],
+        "hitPoints": 36.9,
+        "resistanceMm": 6.4,
+        "grid": "Port"
+      },
+      {
+        "id": "generator-starboard",
+        "name": "\uc6b0\ud604 \ubcf4\uc870 \ubc1c\uc804\uae30",
+        "kind": "Generator",
+        "center": [
+          0.91,
+          0.0,
+          2.55
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.51
+        ],
+        "hitPoints": 32.8,
+        "resistanceMm": 6.4,
+        "grid": "Starboard",
+        "feeds": [
+          "Starboard"
+        ],
+        "capacity": 0.3
+      },
+      {
+        "id": "bus-starboard",
+        "name": "\uc6b0\ud604 \uc804\ub825\ub9dd",
+        "kind": "PowerBus",
+        "center": [
+          1.05,
+          0.0,
+          0.0
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.68
+        ],
+        "hitPoints": 32.8,
+        "resistanceMm": 6.4,
+        "grid": "Starboard"
+      },
+      {
+        "id": "cooling-starboard",
+        "name": "\uc6b0\ud604 \ub0c9\uac01 \uc7a5\uce58",
+        "kind": "Cooling",
+        "center": [
+          1.05,
+          0.0,
+          5.1
+        ],
+        "halfSize": [
+          0.21,
+          0.4,
+          0.68
+        ],
+        "hitPoints": 36.9,
+        "resistanceMm": 6.4,
+        "grid": "Starboard"
+      },
+      {
+        "id": "engine-1",
+        "name": "\uc6b0\ud604 \ucd94\uc9c4\uae30",
+        "kind": "Thruster",
+        "center": [
+          0.77,
+          0.0,
+          8.5
+        ],
+        "halfSize": [
+          0.42,
+          0.48,
+          1.02
+        ],
+        "hitPoints": 57.4,
+        "resistanceMm": 9.6,
+        "grid": "Starboard",
+        "visualEngineIndex": 1
+      },
+      {
+        "id": "maneuver-starboard",
+        "name": "\uc6b0\ud604 \uae30\ub3d9 \ucd94\uc9c4\uae30",
+        "kind": "ManeuverThruster",
+        "center": [
+          1.05,
+          0.0,
+          -2.55
+        ],
+        "halfSize": [
+          0.21,
+          0.32,
+          0.68
+        ],
+        "hitPoints": 36.9,
+        "resistanceMm": 6.4,
+        "grid": "Starboard"
+      },
+      {
+        "id": "shield",
+        "name": "\uc2e4\ub4dc \ubc1c\uc0dd\uae30",
+        "kind": "ShieldEmitter",
+        "center": [
+          0.0,
+          0.48,
+          4.25
+        ],
+        "halfSize": [
+          0.21,
+          0.32,
+          0.68
+        ],
+        "hitPoints": 41.0,
+        "resistanceMm": 8.0,
+        "grid": "Shared"
+      }
+    ],
+    "design": "Mars"
+  }
+}

@@ -1,0 +1,54 @@
+done 1/normal: Blue:0.000/0.000/397.500/133.250/192.825/134.017/660.615/142.180/721.694/249.440/-;M=122/41;R=265/164;AM=2/2|Red:0.000/0.000/0.500/96.000/441.846/128.350/135.793/443.746/554.042/750.475/-;M=132/8;R=1059/349;AM=0/0|Approach:120.000,Missile:240.000,Gunnery:120.000,Sniping:217.250,Brawl:150.000|collisions=0|events=232|winner=Red;time=847.250 wall=18.7s
+done 2/normal: Blue:0.000/0.000/416.750/133.267/521.313/134.050/495.904/171.896/926.217/318.268/-;M=119/44;R=635/132;AM=0/0|Red:0.000/0.000/0.500/96.000/257.858/128.567/136.008/547.383/920.741/902.098/-;M=132/10;R=756/317;AM=2/0|Approach:90.000,Missile:300.000,Gunnery:150.000,Sniping:169.017,Brawl:270.000|collisions=0|events=203|winner=Red;time=979.017 wall=20.9s
+done 1/mirror: Blue:0.000/0.000/230.000/137.100/267.729/171.150/725.744/173.309/669.831/336.276/-;M=124/44;R=212/112;AM=0/0|Red:0.000/0.000/0.500/100.050/139.717/132.383/139.802/379.675/-/757.900/-;M=132/19;R=834/412;AM=0/0|Approach:180.000,Missile:180.000,Gunnery:180.000,Sniping:259.250,Brawl:60.000|collisions=0|events=190|winner=Red;time=859.250 wall=17.5s
+done 2/mirror: Blue:0.000/0.000/405.750/137.050/411.113/171.083/711.399/133.500/-/345.768/-;M=115/34;R=275/191;AM=0/0|Red:0.000/0.000/0.500/100.000/133.500/132.300/139.720/563.150/-/563.150/-;M=132/21;R=498/224;AM=0/0|Approach:180.000,Missile:180.000,Gunnery:180.000,Sniping:150.000,Brawl:148.317|collisions=0|events=153|winner=Red;time=838.317 wall=16.1s
+AM Hit: 2 (mean launch 3525m, closest hull 0.0m)
+AM PointDefense: 2 (mean launch 3403m, closest hull 1950.5m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=0.50 min=0.50 max=0.50 occurred=4/4
+Blue Locked: median=401.62 min=230.00 max=416.75 occurred=4/4
+Red Locked: median=0.50 min=0.50 max=0.50 occurred=4/4
+MissileLaunch: median=98.00 min=96.00 max=100.05 occurred=4/4
+Blue MissileLaunch: median=135.16 min=133.25 max=137.10 occurred=4/4
+Red MissileLaunch: median=98.00 min=96.00 max=100.05 occurred=4/4
+MissileHit: median=166.27 min=133.50 max=257.86 occurred=4/4
+Blue MissileHit: median=339.42 min=192.82 max=521.31 occurred=4/4
+Red MissileHit: median=198.79 min=133.50 max=441.85 occurred=4/4
+RailLaunch: median=130.43 min=128.35 max=132.38 occurred=4/4
+Blue RailLaunch: median=152.57 min=134.02 max=171.15 occurred=4/4
+Red RailLaunch: median=130.43 min=128.35 max=132.38 occurred=4/4
+RailHit: median=137.86 min=135.79 max=139.80 occurred=4/4
+Blue RailHit: median=686.01 min=495.90 max=725.74 occurred=4/4
+Red RailHit: median=137.86 min=135.79 max=139.80 occurred=4/4
+ModuleDestroyed: median=157.04 min=133.50 max=173.31 occurred=4/4
+Blue ModuleDestroyed: median=157.04 min=133.50 max=173.31 occurred=4/4
+Red ModuleDestroyed: median=495.56 min=379.68 max=563.15 occurred=4/4
+Disabled: median=669.83 min=554.04 max=920.74 occurred=3/4
+Blue Disabled: median=721.69 min=669.83 max=926.22 occurred=3/4
+Red Disabled: median=737.39 min=554.04 max=920.74 occurred=2/4
+Destroyed: median=327.27 min=249.44 max=345.77 occurred=4/4
+Blue Destroyed: median=327.27 min=249.44 max=345.77 occurred=4/4
+Red Destroyed: median=754.19 min=563.15 max=902.10 occurred=4/4
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=853.25 min=838.32 max=979.02 occurred=4/4
+Wall: median=18.09 min=16.15 max=20.85 occurred=4/4
+wins Blue: 0/4
+wins Red: 4/4
+draws: 0/4; unresolved: 0
+position normal: Blue 0/2, Red 2/2
+position mirror: Blue 0/2, Red 2/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 4/4
+phase Gunnery >=60s: 4/4
+phase Sniping >=60s: 4/4
+phase Brawl >=60s: 4/4
+friendly collisions: mean=0.00
+batch wall=37.4s jobs=2 csv=C:\Users\yurib\Documents\New project\space_fleet\docs\validation\progression_stage3_20261015\base-vs-base.csv

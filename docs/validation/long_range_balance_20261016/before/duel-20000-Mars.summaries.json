@@ -1,0 +1,22 @@
+[
+  {
+    "Seed": 1,
+    "Mirror": false,
+    "Summary": "Blue:0.000/0.000/0.000/0.000/12.817/0.017/1.070/1.799/-/-/-;M=8/6;R=60/60;AM=0/0|Red:0.000/0.000/0.000/0.000/-/0.100/1.662/1.070/-/87.616/-;M=1/0;R=4/4;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:30.000,Sniping:57.617,Brawl:0.000|collisions=0|events=26|winner=Blue;time=87.617"
+  },
+  {
+    "Seed": 1,
+    "Mirror": true,
+    "Summary": "Blue:0.000/0.000/0.000/0.000/12.817/0.017/1.070/1.799/-/-/-;M=8/6;R=60/60;AM=0/0|Red:0.000/0.000/0.000/0.000/-/0.100/1.662/1.070/-/87.616/-;M=1/0;R=4/4;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:30.000,Sniping:57.617,Brawl:0.000|collisions=0|events=26|winner=Blue;time=87.617"
+  },
+  {
+    "Seed": 2,
+    "Mirror": false,
+    "Summary": "Blue:0.000/0.000/0.000/0.000/12.913/0.167/1.222/1.956/-/-/-;M=8/6;R=60/60;AM=0/0|Red:0.000/0.000/0.000/0.000/-/0.333/1.897/1.222/-/87.784/-;M=1/0;R=6/6;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:30.000,Sniping:57.800,Brawl:0.000|collisions=0|events=26|winner=Blue;time=87.800"
+  },
+  {
+    "Seed": 2,
+    "Mirror": true,
+    "Summary": "Blue:0.000/0.000/0.000/0.000/12.913/0.167/1.222/1.956/-/-/-;M=8/6;R=60/60;AM=0/0|Red:0.000/0.000/0.000/0.000/-/0.333/1.897/1.222/-/87.784/-;M=1/0;R=6/6;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:30.000,Sniping:57.800,Brawl:0.000|collisions=0|events=26|winner=Blue;time=87.800"
+  }
+]

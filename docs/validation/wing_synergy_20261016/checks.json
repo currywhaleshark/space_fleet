@@ -1,0 +1,23 @@
+{
+  "batchBuildErrors": 0,
+  "batchBuildWarnings": 0,
+  "finalChunkExitCode": 0,
+  "finalBattles": 768,
+  "baselineControlsMatched": 192,
+  "pilotReplayMatched": 48,
+  "escortFixtureAssertions": 91,
+  "wingFixtureAssertions": 219,
+  "interceptorRoleAssertions": 142,
+  "engagementAssertions": 33,
+  "antimatterAssertions": 271,
+  "productionInputModelHashesChecked": 142,
+  "changedProductionInputs": [],
+  "pilotTracesVerified": 48,
+  "finalGzipChunksVerified": 4,
+  "incompleteAbortedRunExcluded": true,
+  "finalTruncatedEvents": 0,
+  "notes": [
+    "The existing full SimChecks suite was not rerun; this change is limited to measurement tooling and documentation.",
+    "Complete simulation inputs remain unchanged. No executable export, commit or push."
+  ]
+}

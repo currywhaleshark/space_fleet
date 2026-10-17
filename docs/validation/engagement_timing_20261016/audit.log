@@ -1,0 +1,52 @@
+{
+  "ExactAppliedReplay": 192,
+  "ExactBaselineReplay": 8,
+  "InputHashes": 142,
+  "PreservedModels": 23,
+  "ChangedProductionFiles": [
+    "data/ships/battleship.json",
+    "data/ships/interceptor.json",
+    "data/ships/mars_battleship.json",
+    "data/ships/mars_interceptor.json",
+    "data/tree/earth.json",
+    "data/tree/mars.json",
+    "data/variants/battleship_t5.json",
+    "data/variants/mars_battleship_t5.json",
+    "src/Sim/InterceptorMissions.cs",
+    "src/Sim/ShipRoles.cs"
+  ],
+  "CompletedTrials": {
+    "final.json.gz": 192,
+    "holdout-baseline.json.gz": 144,
+    "holdout-selected.json.gz": 144,
+    "pilot-baseline.json.gz": 48,
+    "pilot-combined.json.gz": 48,
+    "pilot-core2-shield4.json.gz": 48,
+    "pilot-core2.json.gz": 48,
+    "pilot-core4-shield4.json.gz": 48,
+    "pilot-forward12.json.gz": 48,
+    "pilot-reach.json.gz": 48,
+    "pilot-reserve2-reach.json.gz": 48,
+    "pilot-reserve2.json.gz": 48,
+    "pilot-reserve4-reach.json.gz": 48,
+    "pilot-shield4.json.gz": 48,
+    "replay-baseline.json.gz": 8,
+    "solo-control.json.gz": 96,
+    "window-all2.json.gz": 48,
+    "window-all3-forward.json.gz": 48,
+    "window-all3-structure3.json.gz": 48,
+    "window-all3.json.gz": 48,
+    "window-all4.json.gz": 48,
+    "window-baseline.json.gz": 48
+  },
+  "CompletedCsvTrials": {
+    "fleet\\earth.csv": 4,
+    "fleet\\mars.csv": 4,
+    "fleet\\mixed.csv": 8,
+    "fleet\\swapped.csv": 8,
+    "specialist-pilot\\control.csv": 2,
+    "specialist-pilot\\mixed.csv": 4,
+    "specialist-pilot\\swapped.csv": 4
+  },
+  "TotalMeasuredBattles": 1434
+}

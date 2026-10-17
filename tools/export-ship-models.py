@@ -18,6 +18,7 @@ args = parser.parse_args(sys.argv[sys.argv.index('--') + 1:])
 root = Path(args.root)
 sys.path.insert(0, str(root / 'tools'))
 from fleet_model_export import export_collection
+from branch_model_layout import resolve
 manifest_path = root / 'assets/ships/manifest.json'
 manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
 
@@ -36,7 +37,7 @@ for entry in manifest['ships']:
     bpy.ops.wm.open_mainfile(filepath=str(root / entry['source']))
     collection = bpy.data.collections[f'{key} | editable parts']
     objects = {o.name: o for o in collection.all_objects}
-    definition = json.loads((root / f'data/ships/{key}.json').read_text(encoding='utf-8-sig'))
+    definition=resolve(root,key)
     for module in definition['modules']:
         check_socket(objects, 'module_' + module['id'].replace('-', '_'), module['center'])
     check_socket(objects, 'socket_railgun_muzzle', definition['railgun']['muzzle'])
@@ -45,6 +46,8 @@ for entry in manifest['ships']:
         check_socket(objects,'socket_antimatter_launch',definition['antimatter']['flight']['launchPoint'])
     for i, p in enumerate(definition['pointDefense']['mounts']):
         check_socket(objects, f'socket_point_defense_{i}', p)
+    for i,p in enumerate((definition.get('reconProbes') or {}).get('launchPoints', [])):
+        check_socket(objects,f'socket_probe_{i}',p)
     for engine in entry['engines']:
         engine['position'] = position(objects[f"fx_engine_{engine['index']}"])
     for i, jet in enumerate(entry['rcs']):

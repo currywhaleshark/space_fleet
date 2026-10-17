@@ -18,7 +18,7 @@ public static class ImportedShipModels
     public static ShipModel? TryBuild(ShipDefinition definition, Faction faction, int seed)
     {
         ShipClass cls = definition.Flight;
-        string id = definition.Id;
+        string id = definition.ModelId;
         string path = $"res://assets/ships/{id}.glb";
         if (!ResourceLoader.Exists(path)) return null;
         if (!Scenes.TryGetValue(id, out PackedScene? scene)) Scenes[id] = scene = GD.Load<PackedScene>(path);
@@ -34,6 +34,12 @@ public static class ImportedShipModels
         var visual = scene.Instantiate<Node3D>();
         visual.Name = "BlenderHull";
         b.Root.AddChild(visual);
+        // Installed internals share the exact bay frame used by DamageRay. Base GLB assets stay reusable.
+        foreach (var fit in definition.InstalledEquipment)
+        {
+            var module = definition.Modules.Single(m => m.Id == fit.ModuleId);
+            visual.AddChild(new Node3D { Name = "module_" + module.Id.Replace('-', '_'), Position = module.Center });
+        }
         var accent = new StandardMaterial3D { AlbedoColor = faction == Faction.Blue ? new(.16f,.34f,.46f) : new(.48f,.12f,.07f), Metallic = .55f, Roughness = .4f };
         var shield = new StandardMaterial3D { AlbedoColor = new(.02f,.1f,.12f), EmissionEnabled = true,
             Emission = faction == Faction.Blue ? new(.08f,.5f,.8f) : new(.8f,.22f,.08f), EmissionEnergyMultiplier = .7f };
@@ -51,6 +57,7 @@ public static class ImportedShipModels
             b.Engine(V(engine.GetProperty("position")), engine.GetProperty("radius").GetSingle(), engine.GetProperty("plume").GetSingle(), buildNozzle: false);
         foreach (var jet in def.GetProperty("rcs").EnumerateArray())
             b.RcsNozzle(V(jet.GetProperty("position")), V(jet.GetProperty("exhaust")), jet.GetProperty("size").GetSingle(), jet.GetProperty("plume").GetSingle(), buildNozzle: false);
+        PrimaryWeaponModels.Apply(visual,definition,b.Palette);
         var turrets = new List<TurretRig>();
         Node3D Required(string name) => visual.FindChild(name, recursive: true, owned: false) as Node3D
             ?? throw new InvalidOperationException($"{id}: missing Blender turret node {name}. Run tools/build.ps1 to refresh model imports.");
@@ -62,13 +69,32 @@ public static class ImportedShipModels
                 Enumerable.Range(0, mount.Muzzles.Length).Select(i => Required($"muzzle_{key}_{i}")).ToArray()));
         }
         var defense = new List<PointDefenseRig>();
+        var modelPd=ShipDefinitions.All.FirstOrDefault(s=>s.ModelId==id)?.PointDefense;
         for(int i=0;i<(definition.PointDefense?.Mounts.Length ?? 0);i++)
         {
+            if(visual.FindChild($"pd_yaw_{i}",true,false) is null && modelPd is not null && i>=modelPd.Mounts.Length)
+            {
+                // Reuse the mounted hardware whose deck normal matches the new socket.
+                Vector3 normal=definition.PointDefense!.Normals![i];
+                int template=Enumerable.Range(0,modelPd.Mounts.Length)
+                    .OrderByDescending(j=>modelPd.Normals![j].Normalized().Dot(normal.Normalized())).First();
+                if(modelPd.Normals![template].Normalized().Dot(normal.Normalized())<.999f)
+                    throw new InvalidOperationException($"{id}: new PD socket needs a model with a matching normal");
+                var extra=(Node3D)Required($"pd_yaw_{template}").Duplicate();
+                RenamePd(extra,template,i);extra.Position=definition.PointDefense.Mounts[i];visual.AddChild(extra);
+                visual.AddChild(new Node3D {Name=$"socket_point_defense_{i}",Position=extra.Position});
+            }
             var yaw=Required($"pd_yaw_{i}");
             defense.Add(new(i,yaw,yaw.Basis,Required($"pd_pitch_{i}"),
                 Enumerable.Range(0,2).Select(j=>Required($"pd_muzzle_{i}_{j}")).ToArray()));
         }
         return b.Finish() with { Turrets = turrets, PointDefense = defense };
+    }
+
+    private static void RenamePd(Node node,int source,int destination)
+    {
+        node.Name=node.Name.ToString().Replace($"_{source}",$"_{destination}",StringComparison.Ordinal);
+        foreach(Node child in node.GetChildren())RenamePd(child,source,destination);
     }
 
     private static readonly Dictionary<(string Ship, string Material), ShaderMaterial> HullSurfaces = new();

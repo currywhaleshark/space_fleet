@@ -1,0 +1,430 @@
+{
+  "id": "earth_recon_t4",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "hull",
+      "center": [
+        0,
+        0,
+        1.75
+      ],
+      "halfSize": [
+        2.8,
+        1.5,
+        8.75
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "nose",
+      "name": "nose",
+      "center": [
+        0,
+        0,
+        -9.75
+      ],
+      "halfSize": [
+        1.9,
+        1.1,
+        4.75
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "am-keel",
+      "name": "am-keel",
+      "center": [
+        0,
+        -1.5,
+        -3.3
+      ],
+      "halfSize": [
+        0.95,
+        1,
+        1.8
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-port",
+      "name": "engine-port",
+      "center": [
+        -4.8,
+        0,
+        9
+      ],
+      "halfSize": [
+        1.25,
+        1.3,
+        3.1
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-port-0",
+      "name": "wing-port-0",
+      "center": [
+        -4.95,
+        0,
+        -0.25
+      ],
+      "halfSize": [
+        3.05,
+        0.35,
+        2.75
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-port-1",
+      "name": "wing-port-1",
+      "center": [
+        -3.4,
+        0,
+        6.5
+      ],
+      "halfSize": [
+        1.9,
+        0.35,
+        2.5
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-port",
+      "name": "fin-port",
+      "center": [
+        -5.0249999999999995,
+        1.8225,
+        9.4
+      ],
+      "halfSize": [
+        0.365,
+        0.9774999999999998,
+        2.1
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "sensor-ear-port",
+      "name": "sensor-ear-port",
+      "center": [
+        -7.6,
+        0,
+        -0.8
+      ],
+      "halfSize": [
+        0.65,
+        0.55,
+        1.2
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "engine-starboard",
+      "name": "engine-starboard",
+      "center": [
+        4.8,
+        0,
+        9
+      ],
+      "halfSize": [
+        1.25,
+        1.3,
+        3.1
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-starboard-0",
+      "name": "wing-starboard-0",
+      "center": [
+        4.95,
+        0,
+        -0.25
+      ],
+      "halfSize": [
+        3.05,
+        0.35,
+        2.75
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-starboard-1",
+      "name": "wing-starboard-1",
+      "center": [
+        3.4,
+        0,
+        6.5
+      ],
+      "halfSize": [
+        1.9,
+        0.35,
+        2.5
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-starboard",
+      "name": "fin-starboard",
+      "center": [
+        5.0249999999999995,
+        1.8225,
+        9.4
+      ],
+      "halfSize": [
+        0.365,
+        0.9774999999999998,
+        2.1
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "sensor-ear-starboard",
+      "name": "sensor-ear-starboard",
+      "center": [
+        7.6,
+        0,
+        -0.8
+      ],
+      "halfSize": [
+        0.65,
+        0.55,
+        1.2
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "probe-carrier",
+      "name": "probe-carrier",
+      "center": [
+        0,
+        1.75,
+        5.25
+      ],
+      "halfSize": [
+        1.9,
+        0.37,
+        1.35
+      ],
+      "armorFrom": "hull"
+    }
+  ],
+  "modules": {
+    "am-containment": {
+      "center": [
+        0,
+        -1.5,
+        -3.3
+      ]
+    },
+    "gun": {
+      "center": [
+        0,
+        -0.6,
+        -12.2
+      ]
+    },
+    "sensor": {
+      "center": [
+        0,
+        0.5,
+        -11.6
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -4.8,
+        0,
+        9.5
+      ]
+    },
+    "cooling-port": {
+      "center": [
+        -4.8,
+        0,
+        7.4
+      ]
+    },
+    "engine-1": {
+      "center": [
+        4.8,
+        0,
+        9.5
+      ]
+    },
+    "cooling-starboard": {
+      "center": [
+        4.8,
+        0,
+        7.4
+      ]
+    },
+    "shield": {
+      "center": [
+        0,
+        0.6,
+        3.1
+      ]
+    }
+  },
+  "bays": {},
+  "gunMuzzle": [
+    0,
+    -0.6,
+    -16.4
+  ],
+  "missileLaunch": [
+    -2.85,
+    -0.65,
+    -3.8
+  ],
+  "amLaunch": [
+    0,
+    -1.5,
+    -5.279999999999999
+  ],
+  "pdMounts": [
+    [
+      0,
+      -1.75,
+      7.5
+    ],
+    [
+      0,
+      1.75,
+      9
+    ]
+  ],
+  "blockout": {
+    "core": [
+      [
+        -7,
+        2.3,
+        1.45,
+        0
+      ],
+      [
+        -3,
+        2.8,
+        1.5,
+        0
+      ],
+      [
+        6,
+        2.8,
+        1.5,
+        0
+      ],
+      [
+        10.5,
+        1.8,
+        1.4,
+        0
+      ]
+    ],
+    "nose": [
+      [
+        -14.5,
+        1.15,
+        0.8,
+        0
+      ],
+      [
+        -11,
+        1.9,
+        1.1,
+        0
+      ],
+      [
+        -5,
+        1.9,
+        1.1,
+        0
+      ]
+    ],
+    "wings": [
+      [
+        [
+          1.9,
+          -3
+        ],
+        [
+          8,
+          -2
+        ],
+        [
+          8,
+          0.4
+        ],
+        [
+          2,
+          2.5
+        ]
+      ],
+      [
+        [
+          1.8,
+          4
+        ],
+        [
+          5.3,
+          6
+        ],
+        [
+          5.3,
+          9
+        ],
+        [
+          1.5,
+          9
+        ]
+      ]
+    ],
+    "wingThickness": 0.7,
+    "engine": [
+      4.8,
+      0,
+      9
+    ],
+    "engineHalf": [
+      1.25,
+      1.3,
+      3.1
+    ],
+    "fin": [
+      0.45,
+      2.8
+    ],
+    "role": "recon"
+  },
+  "probeLaunchPoints": [
+    [
+      -1.4,
+      2.3,
+      4.0
+    ],
+    [
+      -0.7,
+      2.3,
+      4.0
+    ],
+    [
+      0,
+      2.3,
+      4.0
+    ],
+    [
+      0.7,
+      2.3,
+      4.0
+    ],
+    [
+      1.4,
+      2.3,
+      4.0
+    ]
+  ]
+}

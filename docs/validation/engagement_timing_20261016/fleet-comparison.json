@@ -1,0 +1,225 @@
+{
+  "mixed": {
+    "Before": {
+      "Games": 8,
+      "Winners": {
+        "Mars": 4,
+        "Earth": 4
+      },
+      "TeamWins": {
+        "Red": 4,
+        "Blue": 4
+      },
+      "MedianBattleSeconds": 838.875,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 5,
+          "Disabled": 0,
+          "MedianCappedSurvival": 315.063,
+          "Torpedoes": 2,
+          "TorpedoHits": 0
+        },
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 4,
+          "Disabled": 0,
+          "MedianCappedSurvival": 439.37800000000004,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    },
+    "After": {
+      "Games": 8,
+      "Winners": {
+        "Mars": 8
+      },
+      "TeamWins": {
+        "Red": 8
+      },
+      "MedianBattleSeconds": 710.1500000000001,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 1,
+          "Disabled": 0,
+          "MedianCappedSurvival": 710.1500000000001,
+          "Torpedoes": 80,
+          "TorpedoHits": 4
+        },
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 8,
+          "Disabled": 0,
+          "MedianCappedSurvival": 266.407,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    }
+  },
+  "swapped": {
+    "Before": {
+      "Games": 8,
+      "Winners": {
+        "Mars": 6,
+        "Earth": 1,
+        "Draw": 1
+      },
+      "TeamWins": {
+        "Blue": 6,
+        "Red": 1,
+        "Draw": 1
+      },
+      "MedianBattleSeconds": 787.358,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 4,
+          "Disabled": 1,
+          "MedianCappedSurvival": 280.31350000000003,
+          "Torpedoes": 4,
+          "TorpedoHits": 3
+        },
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 6,
+          "Disabled": 0,
+          "MedianCappedSurvival": 357.25149999999996,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    },
+    "After": {
+      "Games": 8,
+      "Winners": {
+        "Earth": 2,
+        "Mars": 6
+      },
+      "TeamWins": {
+        "Red": 2,
+        "Blue": 6
+      },
+      "MedianBattleSeconds": 729.983,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 3,
+          "Disabled": 0,
+          "MedianCappedSurvival": 535.4014999999999,
+          "Torpedoes": 94,
+          "TorpedoHits": 2
+        },
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 5,
+          "Disabled": 0,
+          "MedianCappedSurvival": 333.5915,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    }
+  },
+  "earth": {
+    "Before": {
+      "Games": 4,
+      "Winners": {
+        "Earth": 4
+      },
+      "TeamWins": {
+        "Red": 1,
+        "Blue": 3
+      },
+      "MedianBattleSeconds": 731.892,
+      "Sides": {
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 5,
+          "Disabled": 1,
+          "MedianCappedSurvival": 391.8075,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    },
+    "After": {
+      "Games": 4,
+      "Winners": {
+        "Earth": 4
+      },
+      "TeamWins": {
+        "Blue": 2,
+        "Red": 2
+      },
+      "MedianBattleSeconds": 764.5165,
+      "Sides": {
+        "Earth": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 4,
+          "Disabled": 0,
+          "MedianCappedSurvival": 475.8795,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    }
+  },
+  "mars": {
+    "Before": {
+      "Games": 4,
+      "Winners": {
+        "Mars": 4
+      },
+      "TeamWins": {
+        "Red": 4
+      },
+      "MedianBattleSeconds": 539.2,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 4,
+          "Disabled": 0,
+          "MedianCappedSurvival": 314.168,
+          "Torpedoes": 7,
+          "TorpedoHits": 4
+        }
+      }
+    },
+    "After": {
+      "Games": 4,
+      "Winners": {
+        "Mars": 4
+      },
+      "TeamWins": {
+        "Red": 3,
+        "Blue": 1
+      },
+      "MedianBattleSeconds": 478.0335,
+      "Sides": {
+        "Mars": {
+          "Battleships": 8,
+          "Fired": 8,
+          "Destroyed": 5,
+          "Disabled": 0,
+          "MedianCappedSurvival": 198.97199999999998,
+          "Torpedoes": 0,
+          "TorpedoHits": 0
+        }
+      }
+    }
+  }
+}

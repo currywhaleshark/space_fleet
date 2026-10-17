@@ -1,0 +1,256 @@
+{
+  "battleship": {
+    "moduleId": "gun-1",
+    "muzzle": [
+      0,
+      94,
+      -410
+    ],
+    "muzzleSpeed": 12000,
+    "reloadSeconds": 3,
+    "energy": 1400,
+    "penetrationMm": 1800,
+    "moduleDamage": 300,
+    "maxRange": 250000,
+    "rounds": 720,
+    "traverseDegrees": 120,
+    "sensorErrorMeters": 1,
+    "sensorErrorPerKm": 0.08,
+    "velocityError": 0.15,
+    "shotHeatMj": 300,
+    "mounts": [
+      {
+        "moduleId": "gun-1",
+        "pivot": [
+          0,
+          88,
+          -320
+        ],
+        "trunnion": [
+          0,
+          6,
+          0
+        ],
+        "muzzles": [
+          [
+            -8.4,
+            0,
+            -90
+          ],
+          [
+            8.4,
+            0,
+            -90
+          ]
+        ],
+        "ventral": false,
+        "housingCenter": [
+          0,
+          16.5,
+          -4.5
+        ],
+        "housingHalfSize": [
+          30,
+          12,
+          28.5
+        ],
+        "yawDegrees": 150,
+        "minElevation": -5,
+        "maxElevation": 85,
+        "yawRate": 8,
+        "elevationRate": 8,
+        "rounds": 240
+      },
+      {
+        "moduleId": "gun-2",
+        "pivot": [
+          0,
+          88,
+          160
+        ],
+        "trunnion": [
+          0,
+          16.8,
+          0
+        ],
+        "muzzles": [
+          [
+            -8.4,
+            0,
+            -120
+          ],
+          [
+            8.4,
+            0,
+            -120
+          ]
+        ],
+        "ventral": false,
+        "housingCenter": [
+          0,
+          16.5,
+          -4.5
+        ],
+        "housingHalfSize": [
+          30,
+          12,
+          28.5
+        ],
+        "yawDegrees": 150,
+        "minElevation": -5,
+        "maxElevation": 85,
+        "yawRate": 8,
+        "elevationRate": 8,
+        "rounds": 240
+      },
+      {
+        "moduleId": "gun-3",
+        "pivot": [
+          0,
+          -88,
+          -120
+        ],
+        "trunnion": [
+          0,
+          16.8,
+          0
+        ],
+        "muzzles": [
+          [
+            -8.4,
+            0,
+            -120
+          ],
+          [
+            8.4,
+            0,
+            -120
+          ]
+        ],
+        "ventral": true,
+        "housingCenter": [
+          0,
+          16.5,
+          -4.5
+        ],
+        "housingHalfSize": [
+          30,
+          12,
+          28.5
+        ],
+        "yawDegrees": 150,
+        "minElevation": -5,
+        "maxElevation": 85,
+        "yawRate": 8,
+        "elevationRate": 8,
+        "rounds": 240
+      }
+    ]
+  },
+  "mars_battleship": {
+    "moduleId": "gun-1",
+    "muzzle": [
+      0.0,
+      82.5,
+      -502.0
+    ],
+    "muzzleSpeed": 18000,
+    "reloadSeconds": 5.2,
+    "energy": 2000,
+    "penetrationMm": 2200,
+    "moduleDamage": 340,
+    "maxRange": 310000,
+    "rounds": 480,
+    "traverseDegrees": 120,
+    "sensorErrorMeters": 0.55,
+    "sensorErrorPerKm": 0.044000000000000004,
+    "velocityError": 0.0825,
+    "shotHeatMj": 470,
+    "mounts": [
+      {
+        "moduleId": "gun-1",
+        "pivot": [
+          0.0,
+          70.4,
+          -272.0
+        ],
+        "trunnion": [
+          0,
+          12.100000000000001,
+          0
+        ],
+        "muzzles": [
+          [
+            -5.88,
+            0.0,
+            -230
+          ],
+          [
+            5.88,
+            0.0,
+            -230
+          ]
+        ],
+        "ventral": false,
+        "housingCenter": [
+          0,
+          12.100000000000001,
+          2.6399999999999997
+        ],
+        "housingHalfSize": [
+          22,
+          8.36,
+          21.119999999999997
+        ],
+        "yawDegrees": 150,
+        "minElevation": -5,
+        "maxElevation": 85,
+        "yawRate": 8,
+        "elevationRate": 8,
+        "rounds": 240
+      },
+      {
+        "moduleId": "gun-3",
+        "pivot": [
+          0.0,
+          -70.4,
+          -102.0
+        ],
+        "trunnion": [
+          0,
+          12.100000000000001,
+          0
+        ],
+        "muzzles": [
+          [
+            -5.88,
+            0.0,
+            -160
+          ],
+          [
+            5.88,
+            0.0,
+            -160
+          ]
+        ],
+        "ventral": true,
+        "housingCenter": [
+          0,
+          12.100000000000001,
+          2.6399999999999997
+        ],
+        "housingHalfSize": [
+          22,
+          8.36,
+          21.119999999999997
+        ],
+        "yawDegrees": 150,
+        "minElevation": -5,
+        "maxElevation": 85,
+        "yawRate": 8,
+        "elevationRate": 8,
+        "rounds": 240
+      }
+    ]
+  }
+}

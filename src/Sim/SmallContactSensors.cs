@@ -113,9 +113,9 @@ public sealed partial class SensorNet
             float km = Mathf.Max(.001f, delta.Length() / 1000);
             float signal = ProbeStrength(probe, target.Position) * Signature(target) / (km * km);
             float jammer = Mathf.Max(Obstacles is {Count:>0}?VisibleScreen(probe.Position,target,ships):screen,
-                target.Power.EcmActive ? target.Definition.Sensors.Jammer * target.Power.EcmEffect : 0);
+                target.Power.EcmActive ? Jammer(target) * target.Power.EcmEffect : 0);
             // Below even the lock hysteresis threshold. Multiple probes do not stack lock strength.
-            float track = Mathf.Min(5.5f, signal / (1 + jammer));
+            float track = Mathf.Min(5.5f, signal / (1 + EffectiveJamming(jammer)));
             if(Occluded(probe.Position,target.Position))
             { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,signal); continue; }
             detect = Mathf.Max(detect, signal);

@@ -1,0 +1,38 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+01:47:31 | INFO: Starting glTF 2.0 export
+01:47:31 | INFO: Extracting primitive: hull.001
+01:47:31 | INFO: Primitives created: 8
+01:47:31 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+01:47:31 | INFO: Primitives created: 3
+01:47:31 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+01:47:31 | INFO: Primitives created: 3
+01:47:31 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+01:47:31 | INFO: Primitives created: 3
+01:47:31 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+01:47:31 | INFO: Primitives created: 3
+01:47:31 | INFO: Extracting primitive: PD 0 receiver.001
+01:47:31 | INFO: Primitives created: 1
+01:47:31 | INFO: Extracting primitive: PD 0 barrel.002
+01:47:31 | INFO: Primitives created: 2
+01:47:31 | INFO: Extracting primitive: PD 1 receiver.001
+01:47:31 | INFO: Primitives created: 1
+01:47:31 | INFO: Extracting primitive: PD 1 barrel.002
+01:47:31 | INFO: Primitives created: 2
+01:47:31 | INFO: Extracting primitive: PD 2 receiver.001
+01:47:31 | INFO: Primitives created: 1
+01:47:31 | INFO: Extracting primitive: PD 2 barrel.002
+01:47:31 | INFO: Primitives created: 2
+01:47:31 | INFO: Extracting primitive: PD 3 receiver.001
+01:47:31 | INFO: Primitives created: 1
+01:47:31 | INFO: Extracting primitive: PD 3 barrel.002
+01:47:31 | INFO: Primitives created: 2
+01:47:31 | INFO: Finished glTF 2.0 export in 0.19418644905090332 s
+00:15.766  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_gun_cruiser_hero.png'
+00:26.344  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_gun_cruiser_underside.png'
+00:37.188  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_gun_cruiser_top.png'
+
+Info: Saved as "earth_gun_cruiser.blend"
+BUILT earth_gun_cruiser 12152 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

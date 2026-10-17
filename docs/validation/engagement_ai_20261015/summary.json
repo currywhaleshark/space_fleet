@@ -1,0 +1,1794 @@
+[
+  {
+    "path": "docs\\validation\\small_hull_combat_20261015\\after\\mixed-current.csv",
+    "wins": {
+      "Red": 4
+    },
+    "seconds": 833.421,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 816.0,
+        "survivalSeconds": 340.286,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 24,
+          "Contact": 249,
+          "None": 1
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 274
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 300.0,
+        "railHits": 18.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 12.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 2440.106,
+        "shieldDamageInflicted": 16972.798,
+        "survivalSeconds": 814.238,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1320,
+          "Contact": 2222,
+          "Locked": 371,
+          "None": 6
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3919
+        },
+        "firingWindowSamples": 68,
+        "railRange": 20544.50004
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 9.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 833.421,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 3340
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3340
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 494.0,
+        "railHits": 378.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 6379.676,
+        "shieldDamageInflicted": 22030.543999999998,
+        "survivalSeconds": 758.599,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 385,
+          "Locked": 162,
+          "Contact": 105,
+          "None": 10
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 662
+        },
+        "firingWindowSamples": 150,
+        "railRange": 121074.43372064778
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 2062.0,
+        "railHits": 850.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 12919.770999999999,
+        "shieldDamageInflicted": 36145.943999999996,
+        "survivalSeconds": 833.421,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1897,
+          "Locked": 1344,
+          "Contact": 711,
+          "None": 56
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 4008
+        },
+        "firingWindowSamples": 514,
+        "railRange": 50673.4557643065
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 277.0,
+        "railHits": 38.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 57.0,
+        "moduleDamageInflicted": 328.153,
+        "shieldDamageInflicted": 127.313,
+        "survivalSeconds": 821.596,
+        "firstAssault": 621.0,
+        "trackSamples": {
+          "None": 2978,
+          "Identified": 209,
+          "Locked": 106
+        },
+        "assaultActivities": {
+          "위치 유지": 487,
+          "강습 외곽 우회": 267,
+          "접근": 11,
+          "침투 우회": 33,
+          "침투 돌진": 4,
+          "호위": 2
+        },
+        "amModes": {
+          "Safe": 3293
+        },
+        "firingWindowSamples": 26,
+        "railRange": 7202.992153846154
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\small_hull_combat_20261015\\after\\earth-current.csv",
+    "wins": {
+      "Red": 3,
+      "Blue": 1
+    },
+    "seconds": 753.221,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 82.0,
+        "railHits": 70.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 2.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 7321.166,
+        "shieldDamageInflicted": 21479.82,
+        "survivalSeconds": 660.967,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 229,
+          "Contact": 119,
+          "Locked": 193
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 541
+        },
+        "firingWindowSamples": 69,
+        "railRange": 82880.9518902439
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 556.0,
+        "railHits": 498.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 11.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 3.0,
+        "moduleDamageInflicted": 11774.657000000001,
+        "shieldDamageInflicted": 39001.85800000001,
+        "survivalSeconds": 685.728,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1608,
+          "Contact": 832,
+          "Locked": 925
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3365
+        },
+        "firingWindowSamples": 104,
+        "railRange": 33148.40448201438
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 63.0,
+        "probeContacts": 14.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 753.221,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 3030
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3030
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 98.0,
+        "railHits": 78.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 2.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 5.0,
+        "moduleDamageInflicted": 7273.642,
+        "shieldDamageInflicted": 16681.408,
+        "survivalSeconds": 677.837,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 151,
+          "Contact": 118,
+          "Locked": 276
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 545
+        },
+        "firingWindowSamples": 88,
+        "railRange": 87680.48337755102
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 906.0,
+        "railHits": 818.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 6.0,
+        "disabled": 2.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 17010.724,
+        "shieldDamageInflicted": 42918.675,
+        "survivalSeconds": 709.94,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1246,
+          "Contact": 789,
+          "Locked": 1442
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3477
+        },
+        "firingWindowSamples": 188,
+        "railRange": 32728.135729580572
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 68.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 753.221,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 3030
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3030
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\small_hull_combat_20261015\\after\\mars-current.csv",
+    "wins": {
+      "Red": 2,
+      "Blue": 2
+    },
+    "seconds": 756.058,
+    "collisions": 5,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 106.0,
+        "railHits": 74.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 3.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 5.0,
+        "moduleDamageInflicted": 1748.046,
+        "shieldDamageInflicted": 11198.21,
+        "survivalSeconds": 410.678,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 281,
+          "Locked": 58,
+          "Contact": 96,
+          "None": 1
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 436
+        },
+        "firingWindowSamples": 58,
+        "railRange": 90405.3255283019
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 910.0,
+        "railHits": 350.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 14.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 5341.255000000001,
+        "shieldDamageInflicted": 16529.792,
+        "survivalSeconds": 594.866,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1909,
+          "Contact": 506,
+          "Locked": 445,
+          "None": 6
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2866
+        },
+        "firingWindowSamples": 206,
+        "railRange": 59318.504905494505
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 577.0,
+        "railHits": 130.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 29.0,
+        "moduleDamageInflicted": 809.6890000000001,
+        "shieldDamageInflicted": 1083.1409999999998,
+        "survivalSeconds": 756.058,
+        "firstAssault": 447.167,
+        "trackSamples": {
+          "None": 2535,
+          "Identified": 240,
+          "Locked": 260
+        },
+        "assaultActivities": {
+          "위치 유지": 490,
+          "강습 외곽 우회": 270,
+          "대기": 5,
+          "접근": 40
+        },
+        "amModes": {
+          "Safe": 3035
+        },
+        "firingWindowSamples": 98,
+        "railRange": 9181.476792405063
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 60.0,
+        "railHits": 14.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 3.0,
+        "moduleDamageInflicted": 577.227,
+        "shieldDamageInflicted": 5975.498,
+        "survivalSeconds": 460.86,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 278,
+          "Locked": 40,
+          "Contact": 52,
+          "None": 1
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 371
+        },
+        "firingWindowSamples": 40,
+        "railRange": 66987.61448333334
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 3242.0,
+        "railHits": 816.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 8.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 1.0,
+        "moduleDamageInflicted": 9916.422000000002,
+        "shieldDamageInflicted": 30782.459000000006,
+        "survivalSeconds": 653.468,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1897,
+          "Locked": 890,
+          "Contact": 358,
+          "None": 6
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3151
+        },
+        "firingWindowSamples": 716,
+        "railRange": 59825.95532603332
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 339.0,
+        "railHits": 89.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 9.0,
+        "disabled": 0.0,
+        "amFailures": 5.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 27.0,
+        "moduleDamageInflicted": 393.64700000000005,
+        "shieldDamageInflicted": 363.198,
+        "survivalSeconds": 690.248,
+        "firstAssault": 441.625,
+        "trackSamples": {
+          "None": 2371,
+          "Locked": 302,
+          "Identified": 95,
+          "Contact": 5
+        },
+        "assaultActivities": {
+          "위치 유지": 434,
+          "강습 외곽 우회": 319,
+          "접근": 36,
+          "침투 우회": 27,
+          "침투 돌진": 18,
+          "이탈": 2,
+          "호위": 1
+        },
+        "amModes": {
+          "Safe": 2773
+        },
+        "firingWindowSamples": 61,
+        "railRange": 8409.427147058823
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\final\\earth.csv",
+    "wins": {
+      "Blue": 2,
+      "Red": 2
+    },
+    "seconds": 559.271,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 66.0,
+        "railHits": 66.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 3.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 3.0,
+        "moduleDamageInflicted": 6627.742,
+        "shieldDamageInflicted": 7288.436,
+        "survivalSeconds": 285.82,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 70,
+          "Contact": 86,
+          "Locked": 75
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 231
+        },
+        "firingWindowSamples": 21,
+        "railRange": 94862.05227272728
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 292.0,
+        "railHits": 170.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 6.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 11.0,
+        "moduleDamageInflicted": 7235.576999999999,
+        "shieldDamageInflicted": 26230.449,
+        "survivalSeconds": 552.29,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1349,
+          "Contact": 783,
+          "Locked": 537
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2669
+        },
+        "firingWindowSamples": 90,
+        "railRange": 30810.986130136982
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 20.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 559.271,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 2245
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2245
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 88.0,
+        "railHits": 70.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 3.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 6643.369000000001,
+        "shieldDamageInflicted": 9117.291,
+        "survivalSeconds": 346.187,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 64,
+          "Contact": 90,
+          "Locked": 124
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 278
+        },
+        "firingWindowSamples": 52,
+        "railRange": 91255.15718181818
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 672.0,
+        "railHits": 343.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 5.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 1.0,
+        "moduleDamageInflicted": 8979.482000000002,
+        "shieldDamageInflicted": 26789.04,
+        "survivalSeconds": 549.041,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1092,
+          "Contact": 771,
+          "Locked": 782
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2645
+        },
+        "firingWindowSamples": 167,
+        "railRange": 32005.337025297624
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 1.0,
+        "probesLaunched": 76.0,
+        "probeContacts": 20.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 549.932,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 2207
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2207
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\final\\mars.csv",
+    "wins": {
+      "Red": 3,
+      "Blue": 1
+    },
+    "seconds": 823.15,
+    "collisions": 2,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 174.0,
+        "railHits": 110.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 2.0,
+        "moduleDamageInflicted": 3578.6440000000002,
+        "shieldDamageInflicted": 18017.832,
+        "survivalSeconds": 559.385,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 269,
+          "Locked": 140,
+          "Contact": 64,
+          "None": 2
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 475
+        },
+        "firingWindowSamples": 138,
+        "railRange": 100077.85743103448
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 1214.0,
+        "railHits": 424.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 15.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 5.0,
+        "moduleDamageInflicted": 5715.926000000001,
+        "shieldDamageInflicted": 12180.894999999999,
+        "survivalSeconds": 664.12,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 2304,
+          "Locked": 681,
+          "Contact": 273
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3258
+        },
+        "firingWindowSamples": 284,
+        "railRange": 56097.892130971995
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 487.0,
+        "railHits": 131.0,
+        "torpedoes": 11.0,
+        "torpedoHits": 5.0,
+        "destroyed": 2.0,
+        "disabled": 0.0,
+        "amFailures": 2.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 25.0,
+        "moduleDamageInflicted": 1590.0759999999998,
+        "shieldDamageInflicted": 2830.0150000000003,
+        "survivalSeconds": 799.21,
+        "firstAssault": 390.875,
+        "trackSamples": {
+          "None": 2488,
+          "Locked": 384,
+          "Identified": 328
+        },
+        "assaultActivities": {
+          "위치 유지": 611,
+          "강습 외곽 우회": 511,
+          "침투 우회": 48,
+          "이탈": 13,
+          "접근": 97,
+          "호위": 7,
+          "침투 돌진": 8
+        },
+        "amModes": {
+          "Safe": 3181,
+          "Arming": 11,
+          "Armed": 8
+        },
+        "firingWindowSamples": 84,
+        "railRange": 11109.001544802866
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 170.0,
+        "railHits": 120.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 3.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 1.0,
+        "moduleDamageInflicted": 3165.496,
+        "shieldDamageInflicted": 22310.520000000004,
+        "survivalSeconds": 588.061,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 253,
+          "Locked": 179,
+          "Contact": 37,
+          "None": 2
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 471
+        },
+        "firingWindowSamples": 177,
+        "railRange": 100971.27856470588
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 2668.0,
+        "railHits": 809.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 8.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 10898.652000000002,
+        "shieldDamageInflicted": 24643.994,
+        "survivalSeconds": 665.75,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1867,
+          "Contact": 242,
+          "Locked": 1153,
+          "None": 3
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3265
+        },
+        "firingWindowSamples": 665,
+        "railRange": 52739.53525262368
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 423.0,
+        "railHits": 144.0,
+        "torpedoes": 13.0,
+        "torpedoHits": 5.0,
+        "destroyed": 2.0,
+        "disabled": 0.0,
+        "amFailures": 2.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 28.0,
+        "moduleDamageInflicted": 397.746,
+        "shieldDamageInflicted": 384.014,
+        "survivalSeconds": 810.89,
+        "firstAssault": 450.75,
+        "trackSamples": {
+          "None": 2708,
+          "Locked": 361,
+          "Identified": 178
+        },
+        "assaultActivities": {
+          "위치 유지": 748,
+          "강습 외곽 우회": 381,
+          "침투 우회": 11,
+          "접근": 62,
+          "대기": 5,
+          "침투 돌진": 8,
+          "이탈": 11,
+          "AM 발사 · 이탈": 1
+        },
+        "amModes": {
+          "Safe": 3234,
+          "Arming": 5,
+          "Armed": 8
+        },
+        "firingWindowSamples": 53,
+        "railRange": 9892.045067632851
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\final\\mixed.csv",
+    "wins": {
+      "Red": 4
+    },
+    "seconds": 746.679,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 135.136,
+        "shieldDamageInflicted": 1132.0,
+        "survivalSeconds": 293.317,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 13,
+          "Contact": 220,
+          "None": 2,
+          "Locked": 2
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 237
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 366.0,
+        "railHits": 88.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 11.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 5.0,
+        "moduleDamageInflicted": 2329.317,
+        "shieldDamageInflicted": 18364.497,
+        "survivalSeconds": 702.193,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1517,
+          "Contact": 1620,
+          "Locked": 275,
+          "None": 12
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3424
+        },
+        "firingWindowSamples": 93,
+        "railRange": 24097.286857923496
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 9.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 746.679,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 2995
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2995
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 534.0,
+        "railHits": 391.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 6.0,
+        "moduleDamageInflicted": 5647.191000000001,
+        "shieldDamageInflicted": 16345.914,
+        "survivalSeconds": 578.695,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 351,
+          "Locked": 191,
+          "Contact": 41,
+          "None": 6
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 589
+        },
+        "firingWindowSamples": 171,
+        "railRange": 115094.42223033706
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 2780.0,
+        "railHits": 1338.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 16972.518,
+        "shieldDamageInflicted": 39636.241,
+        "survivalSeconds": 746.679,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1521,
+          "Locked": 1780,
+          "Contact": 257,
+          "None": 36
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3594
+        },
+        "firingWindowSamples": 836,
+        "railRange": 47856.51193453237
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 447.0,
+        "railHits": 104.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 1.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 63.0,
+        "moduleDamageInflicted": 1142.172,
+        "shieldDamageInflicted": 240.97000000000003,
+        "survivalSeconds": 738.687,
+        "firstAssault": 511.0,
+        "trackSamples": {
+          "None": 2570,
+          "Locked": 288,
+          "Identified": 105
+        },
+        "assaultActivities": {
+          "위치 유지": 518,
+          "강습 외곽 우회": 292,
+          "대기": 1,
+          "접근": 43,
+          "침투 돌진": 5,
+          "침투 우회": 2
+        },
+        "amModes": {
+          "Safe": 2955,
+          "Armed": 6,
+          "Arming": 2
+        },
+        "firingWindowSamples": 42,
+        "railRange": 11991.487640718562
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\iteration1\\mixed.csv",
+    "wins": {
+      "Red": 4
+    },
+    "seconds": 819.433,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 816.0,
+        "survivalSeconds": 356.631,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 24,
+          "Contact": 262,
+          "None": 1
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 287
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 252.0,
+        "railHits": 12.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 10.0,
+        "disabled": 3.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 1.0,
+        "moduleDamageInflicted": 2182.31,
+        "shieldDamageInflicted": 20113.263,
+        "survivalSeconds": 788.148,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1381,
+          "Contact": 2038,
+          "Locked": 436,
+          "None": 7
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3862
+        },
+        "firingWindowSamples": 68,
+        "railRange": 15905.140337301587
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 13.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 819.433,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 3285
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3285
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 512.0,
+        "railHits": 406.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 5603.352,
+        "shieldDamageInflicted": 22725.54,
+        "survivalSeconds": 819.433,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 424,
+          "Locked": 165,
+          "Contact": 61,
+          "None": 7
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 657
+        },
+        "firingWindowSamples": 152,
+        "railRange": 122092.46388085939
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 2232.0,
+        "railHits": 1044.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 19247.183,
+        "shieldDamageInflicted": 47475.511,
+        "survivalSeconds": 813.124,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1959,
+          "Locked": 1493,
+          "Contact": 443,
+          "None": 42
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3937
+        },
+        "firingWindowSamples": 594,
+        "railRange": 50870.96968996416
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 257.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 56.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 819.433,
+        "firstAssault": 606.5,
+        "trackSamples": {
+          "None": 2600,
+          "Locked": 420,
+          "Identified": 265
+        },
+        "assaultActivities": {
+          "위치 유지": 296,
+          "강습 외곽 우회": 684,
+          "침투 우회": 1,
+          "호위": 4
+        },
+        "amModes": {
+          "Safe": 3285
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\iteration2\\mixed.csv",
+    "wins": {
+      "Red": 4
+    },
+    "seconds": 641.134,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 276.547,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 4,
+          "Contact": 220
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 224
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 376.0,
+        "railHits": 45.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 11.0,
+        "disabled": 5.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 3.0,
+        "moduleDamageInflicted": 2114.5130000000004,
+        "shieldDamageInflicted": 18823.445,
+        "survivalSeconds": 606.867,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 779,
+          "Contact": 1761,
+          "Locked": 396
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2936
+        },
+        "firingWindowSamples": 86,
+        "railRange": 20466.18997340426
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 6.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 641.134,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 2570
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2570
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 504.0,
+        "railHits": 425.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 1.0,
+        "moduleDamageInflicted": 6000.615000000001,
+        "shieldDamageInflicted": 17332.174,
+        "survivalSeconds": 641.134,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 267,
+          "Locked": 193,
+          "Contact": 47,
+          "None": 7
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 514
+        },
+        "firingWindowSamples": 172,
+        "railRange": 116280.95797619048
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 1528.0,
+        "railHits": 727.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 14842.984,
+        "shieldDamageInflicted": 35135.814,
+        "survivalSeconds": 641.134,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1288,
+          "Locked": 1407,
+          "Contact": 347,
+          "None": 42
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3084
+        },
+        "firingWindowSamples": 519,
+        "railRange": 51434.72330693717
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 327.0,
+        "railHits": 59.0,
+        "torpedoes": 2.0,
+        "torpedoHits": 0.0,
+        "destroyed": 2.0,
+        "disabled": 0.0,
+        "amFailures": 2.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 67.0,
+        "moduleDamageInflicted": 534.7800000000001,
+        "shieldDamageInflicted": 573.5709999999999,
+        "survivalSeconds": 635.484,
+        "firstAssault": 511.667,
+        "trackSamples": {
+          "None": 2216,
+          "Identified": 93,
+          "Locked": 239
+        },
+        "assaultActivities": {
+          "위치 유지": 336,
+          "강습 외곽 우회": 271,
+          "접근": 27,
+          "침투 우회": 30,
+          "침투 돌진": 2,
+          "이탈": 2
+        },
+        "amModes": {
+          "Safe": 2545,
+          "Arming": 1,
+          "Armed": 2
+        },
+        "firingWindowSamples": 30,
+        "railRange": 9572.018793650794
+      }
+    ]
+  },
+  {
+    "path": "docs\\validation\\engagement_ai_20261015\\iteration3\\mixed.csv",
+    "wins": {
+      "Red": 4
+    },
+    "seconds": 746.679,
+    "collisions": 0,
+    "ships": [
+      {
+        "side": "Blue",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 4.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 135.136,
+        "shieldDamageInflicted": 1132.0,
+        "survivalSeconds": 293.317,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 13,
+          "Contact": 220,
+          "None": 2,
+          "Locked": 2
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 237
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Blue",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 366.0,
+        "railHits": 88.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 11.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 5.0,
+        "moduleDamageInflicted": 2329.317,
+        "shieldDamageInflicted": 18364.497,
+        "survivalSeconds": 702.193,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1517,
+          "Contact": 1620,
+          "Locked": 275,
+          "None": 12
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3424
+        },
+        "firingWindowSamples": 93,
+        "railRange": 24097.286857923496
+      },
+      {
+        "side": "Blue",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 0.0,
+        "railHits": 0.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 80.0,
+        "probeContacts": 9.0,
+        "missilesIntercepted": 0.0,
+        "moduleDamageInflicted": 0.0,
+        "shieldDamageInflicted": 0.0,
+        "survivalSeconds": 746.679,
+        "firstAssault": null,
+        "trackSamples": {
+          "None": 2995
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 2995
+        },
+        "firingWindowSamples": 0,
+        "railRange": 0.0
+      },
+      {
+        "side": "Red",
+        "kind": "Battleship",
+        "count": 4,
+        "rails": 534.0,
+        "railHits": 391.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 1.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 6.0,
+        "moduleDamageInflicted": 5647.191000000001,
+        "shieldDamageInflicted": 16345.914,
+        "survivalSeconds": 578.695,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 351,
+          "Locked": 191,
+          "Contact": 41,
+          "None": 6
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 589
+        },
+        "firingWindowSamples": 171,
+        "railRange": 115094.42223033706
+      },
+      {
+        "side": "Red",
+        "kind": "Escort",
+        "count": 24,
+        "rails": 2780.0,
+        "railHits": 1338.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 0.0,
+        "disabled": 0.0,
+        "amFailures": 0.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 4.0,
+        "moduleDamageInflicted": 16972.518,
+        "shieldDamageInflicted": 39636.241,
+        "survivalSeconds": 746.679,
+        "firstAssault": null,
+        "trackSamples": {
+          "Identified": 1521,
+          "Locked": 1780,
+          "Contact": 257,
+          "None": 36
+        },
+        "assaultActivities": {},
+        "amModes": {
+          "Safe": 3594
+        },
+        "firingWindowSamples": 836,
+        "railRange": 47856.51193453237
+      },
+      {
+        "side": "Red",
+        "kind": "Interceptor",
+        "count": 20,
+        "rails": 447.0,
+        "railHits": 104.0,
+        "torpedoes": 0.0,
+        "torpedoHits": 0.0,
+        "destroyed": 1.0,
+        "disabled": 0.0,
+        "amFailures": 1.0,
+        "probesLaunched": 0.0,
+        "probeContacts": 0.0,
+        "missilesIntercepted": 63.0,
+        "moduleDamageInflicted": 1142.172,
+        "shieldDamageInflicted": 240.97000000000003,
+        "survivalSeconds": 738.687,
+        "firstAssault": 511.0,
+        "trackSamples": {
+          "None": 2570,
+          "Locked": 288,
+          "Identified": 105
+        },
+        "assaultActivities": {
+          "위치 유지": 518,
+          "강습 외곽 우회": 292,
+          "대기": 1,
+          "접근": 43,
+          "침투 돌진": 5,
+          "침투 우회": 2
+        },
+        "amModes": {
+          "Safe": 2955,
+          "Armed": 6,
+          "Arming": 2
+        },
+        "firingWindowSamples": 42,
+        "railRange": 11991.487640718562
+      }
+    ]
+  }
+]

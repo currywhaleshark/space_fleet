@@ -1,0 +1,20 @@
+before duel-130000-Earth {'Red': 4} Earth BB fired 0/4 rounds 0 hits 0 survival 164.21
+after duel-130000-Earth {'Blue': 2, 'Red': 2} Earth BB fired 4/4 rounds 78 hits 54 survival 151.898
+before duel-130000-Mars {'Blue': 4} Earth BB fired 0/4 rounds 0 hits 0 survival 176.925
+after duel-130000-Mars {'Red': 4} Earth BB fired 4/4 rounds 48 hits 31 survival 58.242
+before duel-20000-Earth {'Red': 4} Earth BB fired 4/4 rounds 20 hits 20 survival 88.374
+after duel-20000-Earth {'Red': 4} Earth BB fired 4/4 rounds 20 hits 20 survival 115.063
+before duel-20000-Mars {'Blue': 4} Earth BB fired 4/4 rounds 20 hits 20 survival 87.7
+after duel-20000-Mars {'Blue': 4} Earth BB fired 4/4 rounds 20 hits 20 survival 114.804
+before duel-70000-Earth {'Blue': 4} Earth BB fired 4/4 rounds 24 hits 8 survival 5.85
+after duel-70000-Earth {'Blue': 4} Earth BB fired 4/4 rounds 24 hits 12 survival 5.858
+before duel-70000-Mars {'Red': 4} Earth BB fired 4/4 rounds 88 hits 87 survival 154.204
+after duel-70000-Mars {'Red': 3, 'Blue': 1} Earth BB fired 4/4 rounds 24 hits 12 survival 37.924
+before earth {'Blue': 2, 'Red': 2} Earth BB fired 8/8 rounds 154 hits 136 survival 316.003
+after earth {'Red': 2, 'Blue': 2} Earth BB fired 8/8 rounds 354 hits 240 survival 427.212
+before mars {'Red': 2, 'Blue': 2} Earth BB fired None/None rounds None hits None survival None
+after mars {'Red': 4} Earth BB fired None/None rounds None hits None survival None
+before mixed {'Red': 8} Earth BB fired 0/8 rounds 0 hits 0 survival 291.826
+after mixed {'Blue': 5, 'Red': 3} Earth BB fired 8/8 rounds 370 hits 197 survival 570.452
+before swapped {'Blue': 8} Earth BB fired 0/8 rounds 0 hits 0 survival 282.345
+after swapped {'Blue': 7, 'Red': 1} Earth BB fired 8/8 rounds 118 hits 83 survival 292.869

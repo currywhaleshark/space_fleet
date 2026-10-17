@@ -16,6 +16,8 @@ public sealed record FiringSolution(bool Valid, string Reason, Vector3 Direction
 public static class FireControl
 {
     public const double MaxObservationAge = SensorNet.UpdateInterval * 2;
+    public const double PredictionGraceSeconds = 2;
+    public const double PredictionErrorPerSecondSquared = 1.25;
     /// <param name="localAim">표적 로컬 좌표의 조준점(부위 조준). null이면 함선 중심.</param>
     public static FiringSolution Solve(ShipBody shooter, ShipBody target, double time, bool sensorError = true, SensorTrack? track = null,
         Vector3? localAim = null, RailgunState? weapon = null)
@@ -66,11 +68,19 @@ public static class FireControl
         // The observing ship supplies measurement quality. Receiver sensor destruction does not erase the link.
         // Signal strength and ECM still degrade accuracy; firing hardware/power are checked separately.
         float quality = Mathf.Max(0.05f, observationQuality) / trackScale;
-        float error = sensorError ? (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000)) / quality : 0;
+        // A current lock cannot predict future course changes indefinitely. Long
+        // flight adds uncertainty; short-range interception keeps its existing accuracy.
+        double predictionSeconds = Math.Max(0, range / gun.MuzzleSpeed - PredictionGraceSeconds);
+        float predictionError = (float)(PredictionErrorPerSecondSquared * predictionSeconds * predictionSeconds);
+        // Weapon-specific uncertainty scales the observed aim, never a hit/miss roll.
+        // A receiving ship keeps its own firing calibration when using an allied track.
+        float errorScale = sensorError ? gun.AimErrorScale : 0;
+        float error = (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000) + predictionError) / quality * errorScale;
+        float velocityError = gun.VelocityError / quality * errorScale;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
         Vec3d aimBase = localAim is Vector3 local ? position + Vec3d.From(orientation * local) : position;
         Vec3d observedPosition = aimBase + SmoothNoise(seed, time) * error;
-        Vector3 observedVelocity = velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * (sensorError ? gun.VelocityError / quality : 0);
+        Vector3 observedVelocity = velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * velocityError;
         Vec3d relative = observedPosition - muzzle;
         Vec3d relativeVelocity = Vec3d.From(observedVelocity - shooter.Velocity);
         if (!Intercept(relative, relativeVelocity, gun.MuzzleSpeed, gun.MaxRange / gun.MuzzleSpeed, out double flight))
@@ -78,7 +88,7 @@ public static class FireControl
         Vec3d aim = relative + relativeVelocity * flight;
         Vector3 direction = aim.ToVector3().Normalized();
         return new(true, linked ? "아군 링크 사격" : "선행 계산", direction, muzzle + aim, flight,
-            error + (sensorError ? gun.VelocityError / quality * (float)flight : 0), range) { ViaDatalink = linked };
+            error + velocityError * (float)flight, range) { ViaDatalink = linked };
     }
 
     public static bool Intercept(Vec3d relative, Vec3d velocity, double speed, double maxTime, out double time)

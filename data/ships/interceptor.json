@@ -1,18 +1,158 @@
 {
   "id": "interceptor",
+  "branch": "Interceptor",
+  "modelId": "interceptor",
+  "matchClass": "Small",
+  "squadron": {
+    "role": "InterceptorWing",
+    "composition": "요격함 5",
+    "members": [
+      {
+        "hullId": null,
+        "offset": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          60,
+          -25,
+          50
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          120,
+          -50,
+          100
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          180,
+          -75,
+          150
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          240,
+          -100,
+          200
+        ]
+      }
+    ]
+  },
+  "ai": {
+    "profile": {
+      "standoffMeters": 6000,
+      "railFlightSeconds": 2.5,
+      "missileRangeMeters": 15000,
+      "attackRuns": true
+    },
+    "defaultPips": [
+      2,
+      2,
+      2,
+      2,
+      0
+    ],
+    "targetPreference": {
+      "Battleship": 2,
+      "Escort": 1,
+      "Interceptor": 0
+    },
+    "assaultReachMeters": 136000
+  },
+  "battleValue": {
+    "weight": 0.5,
+    "captureStrength": 1,
+    "hudMarkerRadius": 3
+  },
+  "bays": [
+    {
+      "id": "utility-port",
+      "size": "Small",
+      "center": [
+        -1.61,
+        0.0,
+        -1.5
+      ],
+      "halfSize": [
+        0.25,
+        0.22,
+        0.45
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "utility-starboard",
+      "size": "Small",
+      "center": [
+        1.61,
+        0.0,
+        -1.5
+      ],
+      "halfSize": [
+        0.25,
+        0.22,
+        0.45
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    }
+  ],
   "structureHitPoints": 720,
-  "damageControl": { "kits": 2, "repairSeconds": 10, "restoreFraction": 0.35, "quietSeconds": 5 },
+  "damageControl": {
+    "kits": 2,
+    "repairSeconds": 10,
+    "restoreFraction": 0.35,
+    "quietSeconds": 5
+  },
   "kind": "Interceptor",
-  "reconProbes": { "count": 2, "deploymentMeters": 30000, "acceleration": 220, "burnSeconds": 8, "sensorStrength": 85 },
+  "reconProbes": {
+    "count": 2,
+    "deploymentMeters": 30000,
+    "acceleration": 220,
+    "burnSeconds": 8,
+    "sensorStrength": 85
+  },
   "railgun": {
-    "moduleId": "gun", "muzzle": [0, -0.6, -18.4], "muzzleSpeed": 6000,
-    "reloadSeconds": 0.6, "energy": 220, "penetrationMm": 250, "moduleDamage": 120,
-    "maxRange": 80000, "rounds": 200, "traverseDegrees": 12,
-    "sensorErrorMeters": 0.5, "sensorErrorPerKm": 0.15, "velocityError": 0.3, "shotHeatMj": 6
+    "moduleId": "gun",
+    "muzzle": [
+      0,
+      -0.6,
+      -18.4
+    ],
+    "muzzleSpeed": 6000,
+    "reloadSeconds": 0.6,
+    "energy": 220,
+    "penetrationMm": 250,
+    "moduleDamage": 120,
+    "maxRange": 80000,
+    "rounds": 200,
+    "traverseDegrees": 12,
+    "sensorErrorMeters": 0.5,
+    "sensorErrorPerKm": 0.15,
+    "velocityError": 0.3,
+    "shotHeatMj": 6
   },
   "flight": {
     "kind": "Interceptor",
-    "displayName": "요격함",
+    "displayName": "소콜급 요격함",
     "length": 30,
     "massKg": 120000,
     "forwardAccel": 35,
@@ -33,8 +173,21 @@
     "rechargePerSecond": 8,
     "rechargeDelay": 4
   },
-  "power": { "outputMw": 60, "engines": 24, "shields": 12, "weapons": 10, "sensors": 2, "ecm": 6, "heatCapacityMj": 600, "coolingMw": 42 },
-  "sensors": { "strength": 60, "signature": 3, "jammer": 1 },
+  "power": {
+    "outputMw": 60,
+    "engines": 24,
+    "shields": 12,
+    "weapons": 10,
+    "sensors": 2,
+    "ecm": 6,
+    "heatCapacityMj": 600,
+    "coolingMw": 42
+  },
+  "sensors": {
+    "strength": 60,
+    "signature": 3,
+    "jammer": 1
+  },
   "missiles": {
     "rounds": 4,
     "reloadSeconds": 1.5,
@@ -66,20 +219,87 @@
     "bodyScale": 0.7
   },
   "antimatter": {
-    "moduleId": "am-containment", "rounds": 3, "armingSeconds": 2.5,
-    "recommendedMinMeters": 2000, "recommendedMaxMeters": 5000, "maxTravelMeters": 8000,
-    "terminalAccelG": 6, "launchConeDegrees": 15, "damageDepthMeters": 180,
+    "moduleId": "am-containment",
+    "rounds": 3,
+    "armingSeconds": 2.5,
+    "recommendedMinMeters": 2000,
+    "recommendedMaxMeters": 5000,
+    "maxTravelMeters": 8000,
+    "terminalAccelG": 6,
+    "launchConeDegrees": 15,
+    "damageDepthMeters": 180,
     "structuralDamageMultiplier": 2,
-    "warningHealth": 0.85, "safeFailureHealth": 0.15, "armedFailureHealth": 0.65,
-    "flight": { "rounds": 3, "reloadSeconds": 2.5, "launchPoint": [1.2,-1.8,-7],
-      "ejectSpeed": 450, "accelG": 22, "burnSeconds": 7, "maxFlightSeconds": 7,
-      "seekerRangeMeters": 3500, "seekerFovDegrees": 35, "seekerStrength": 0.3, "fuzeMeters": 1,
-      "energy": 1100, "penetrationMm": 2400, "moduleDamage": 1200, "hitPoints": 12, "launchHeatMj": 35 }
+    "warningHealth": 0.85,
+    "safeFailureHealth": 0.15,
+    "armedFailureHealth": 0.65,
+    "flight": {
+      "rounds": 3,
+      "reloadSeconds": 2.5,
+      "launchPoint": [
+        1.2,
+        -1.8,
+        -7
+      ],
+      "ejectSpeed": 450,
+      "accelG": 22,
+      "burnSeconds": 7,
+      "maxFlightSeconds": 7,
+      "seekerRangeMeters": 3500,
+      "seekerFovDegrees": 35,
+      "seekerStrength": 0.3,
+      "fuzeMeters": 1,
+      "energy": 1100,
+      "penetrationMm": 2400,
+      "moduleDamage": 1200,
+      "hitPoints": 12,
+      "launchHeatMj": 35
+    }
   },
-  "pointDefense": { "mounts": [[0, -1.6, 5], [0, 1.6, 10]],
-    "rangeMeters": 1200, "shotsPerSecond": 5, "hitChance": 0.06, "damagePerHit": 4,
-    "normals": [[0, -0.5, 0.85], [0, 0.5, 0.85]], "arcDegrees": 110, "yawDegrees": 100, "minElevation": -5, "maxElevation": 85, "yawRate": 90, "elevationRate": 60, "toleranceDegrees": 1.5 },
-  "decoys": { "count": 6, "perLaunch": 2, "cooldownSeconds": 2, "signatureFactor": 3, "lifetimeSeconds": 4, "ejectSpeed": 30 },
+  "pointDefense": {
+    "mounts": [
+      [
+        0,
+        -1.6,
+        5
+      ],
+      [
+        0,
+        1.6,
+        10
+      ]
+    ],
+    "rangeMeters": 1200,
+    "shotsPerSecond": 5,
+    "hitChance": 0.06,
+    "damagePerHit": 4,
+    "normals": [
+      [
+        0,
+        -0.5,
+        0.85
+      ],
+      [
+        0,
+        0.5,
+        0.85
+      ]
+    ],
+    "arcDegrees": 110,
+    "yawDegrees": 100,
+    "minElevation": -5,
+    "maxElevation": 85,
+    "yawRate": 90,
+    "elevationRate": 60,
+    "toleranceDegrees": 1.5
+  },
+  "decoys": {
+    "count": 6,
+    "perLaunch": 2,
+    "cooldownSeconds": 2,
+    "signatureFactor": 3,
+    "lifetimeSeconds": 4,
+    "ejectSpeed": 30
+  },
   "hullSections": [
     {
       "id": "nose",
@@ -201,8 +421,21 @@
   ],
   "modules": [
     {
-      "id": "am-containment", "name": "반물질 격리용기", "kind": "AntimatterContainment",
-      "center": [1.2,0,1], "halfSize": [0.7,0.8,1.4], "hitPoints": 40, "resistanceMm": 5,
+      "id": "am-containment",
+      "name": "반물질 격리용기",
+      "kind": "AntimatterContainment",
+      "center": [
+        1.2,
+        0,
+        1
+      ],
+      "halfSize": [
+        0.7,
+        0.8,
+        1.4
+      ],
+      "hitPoints": 40,
+      "resistanceMm": 5,
       "grid": "Starboard"
     },
     {

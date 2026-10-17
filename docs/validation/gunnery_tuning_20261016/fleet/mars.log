@@ -1,0 +1,55 @@
+done 1/normal: Blue:0.000/0.000/0.250/78.750/146.438/122.800/165.623/168.072/492.760/168.072/-;M=122/25;R=1043/267;AM=3/0|Red:0.000/0.000/0.250/85.117/304.742/110.717/165.449/165.623/454.691/387.140/-;M=130/4;R=488/81;AM=0/0|Approach:61.567,Missile:210.000,Gunnery:0.000,Sniping:120.000,Brawl:210.000|collisions=0|events=178|winner=Red;time=601.567 wall=16.7s
+done 1/mirror: Blue:0.000/0.000/0.250/79.017/181.208/112.250/168.987/171.241/404.184/183.136/-;M=108/18;R=344/45;AM=0/0|Red:0.000/0.000/0.250/74.250/277.842/111.167/169.291/180.946/378.046/383.992/-;M=127/15;R=637/119;AM=0/0|Approach:60.000,Missile:180.000,Gunnery:0.000,Sniping:145.200,Brawl:60.000|collisions=0|events=135|winner=Red;time=445.200 wall=9.6s
+done 2/normal: Blue:0.000/0.000/0.250/78.883/237.629/122.717/163.174/163.223/177.296/276.545/-;M=113/17;R=434/141;AM=0/0|Red:0.000/0.000/0.250/85.000/180.133/145.317/163.223/163.174/422.824/425.879/-;M=122/11;R=573/145;AM=0/0|Approach:60.000,Missile:90.000,Gunnery:60.000,Sniping:266.833,Brawl:0.000|collisions=0|events=159|winner=Red;time=476.833 wall=10.7s
+done 2/mirror: Blue:0.000/0.000/0.250/78.983/244.508/106.717/168.953/171.191/183.087/320.163/-;M=122/32;R=739/198;AM=4/4|Red:0.000/0.000/0.250/74.250/200.038/111.167/169.260/180.916/515.080/505.708/-;M=132/10;R=802/222;AM=0/0|Approach:60.000,Missile:150.000,Gunnery:120.000,Sniping:312.433,Brawl:120.000|collisions=0|events=223|winner=Red;time=762.433 wall=15.0s
+AM Drone: 2 (mean launch 5346m, closest hull 725.0m)
+AM PointDefense: 1 (mean launch 5464m, closest hull 1822.1m)
+AM Hit: 4 (mean launch 4869m, closest hull 23.7m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=4/4
+Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=4/4
+Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+Blue Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+Red Locked: median=0.25 min=0.25 max=0.25 occurred=4/4
+MissileLaunch: median=76.50 min=74.25 max=78.88 occurred=4/4
+Blue MissileLaunch: median=78.93 min=78.75 max=79.02 occurred=4/4
+Red MissileLaunch: median=79.62 min=74.25 max=85.12 occurred=4/4
+MissileHit: median=180.67 min=146.44 max=200.04 occurred=4/4
+Blue MissileHit: median=209.42 min=146.44 max=244.51 occurred=4/4
+Red MissileHit: median=238.94 min=180.13 max=304.74 occurred=4/4
+RailLaunch: median=110.94 min=106.72 max=122.72 occurred=4/4
+Blue RailLaunch: median=117.48 min=106.72 max=122.80 occurred=4/4
+Red RailLaunch: median=111.17 min=110.72 max=145.32 occurred=4/4
+RailHit: median=167.20 min=163.17 max=168.99 occurred=4/4
+Blue RailHit: median=167.29 min=163.17 max=168.99 occurred=4/4
+Red RailHit: median=167.35 min=163.22 max=169.29 occurred=4/4
+ModuleDestroyed: median=168.41 min=163.17 max=171.24 occurred=4/4
+Blue ModuleDestroyed: median=169.63 min=163.22 max=171.24 occurred=4/4
+Red ModuleDestroyed: median=173.27 min=163.17 max=180.95 occurred=4/4
+Disabled: median=280.57 min=177.30 max=454.69 occurred=4/4
+Blue Disabled: median=293.64 min=177.30 max=492.76 occurred=4/4
+Red Disabled: median=438.76 min=378.05 max=515.08 occurred=4/4
+Destroyed: median=229.84 min=168.07 max=320.16 occurred=4/4
+Blue Destroyed: median=229.84 min=168.07 max=320.16 occurred=4/4
+Red Destroyed: median=406.51 min=383.99 max=505.71 occurred=4/4
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=539.20 min=445.20 max=762.43 occurred=4/4
+Wall: median=12.83 min=9.65 max=16.70 occurred=4/4
+wins Blue: 0/4
+wins Red: 4/4
+draws: 0/4; unresolved: 0
+position normal: Blue 0/2, Red 2/2
+position mirror: Blue 0/2, Red 2/2
+phase Approach >=60s: 4/4
+phase Missile >=60s: 4/4
+phase Gunnery >=60s: 2/4
+phase Sniping >=60s: 4/4
+phase Brawl >=60s: 3/4
+friendly collisions: mean=0.00
+batch wall=52.6s jobs=1 csv=C:\Users\yurib\Documents\New project\space_fleet\docs\validation\gunnery_tuning_20261016\fleet\mars.csv

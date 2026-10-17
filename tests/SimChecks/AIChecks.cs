@@ -190,7 +190,9 @@ static class AIChecks
     {
         var world = new SimWorld();
         ShipBody flagship = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "BB");
-        world.AttachBrain(flagship, ShipOrder.HoldAt(Vec3d.Zero));
+        // Isolate the wing's assault: the sensor/anchor ship must not kill the target
+        // with its own guns before the wing's mission dwell time expires.
+        world.AttachBrain(flagship, ShipOrder.HoldAt(Vec3d.Zero)).Enabled = false;
         world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { flagship });
         var wing = Enumerable.Range(0, 5).Select(i => Add(world, "interceptor", Faction.Blue, new Vec3d(-2000 + i * 1000, 500, -3000), $"I{i}")).ToList();
         foreach (ShipBody s in wing) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
@@ -203,7 +205,7 @@ static class AIChecks
             world.Step();
             struck = squadron.Mission == InterceptorMission.Assault;
         }
-        Require(struck && squadron.AssaultAvailable, "An observed unescorted capital creates an assault opportunity");
+        Require(struck && squadron.AssaultAvailable, $"An observed unescorted capital creates an assault opportunity: mission={squadron.Mission}, destroyed={target.Damage.Destroyed}, disabled={target.Damage.Disabled}, available={squadron.AssaultAvailable}");
         Require(wing.All(s => world.BrainOf(s)!.Order is { Kind: OrderKind.Attack } o && o.Target == target),
             "All five interceptors must strike the same target together");
         for (int i = 0; i < 60 * 60; i++) world.Step();

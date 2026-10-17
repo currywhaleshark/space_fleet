@@ -1,13 +1,20 @@
 using Godot;
 using SpaceFleet.Sim;
+using System.Text.Json.Nodes;
 
 static class InterceptorRoleChecks
 {
     private static int checks;
     private static void Check(bool ok, string message) { if (!ok) throw new InvalidOperationException(message); checks++; }
-    private static ShipBody Add(SimWorld world, string id, Faction faction, Vec3d position, string call)
+    private static ShipBody Add(SimWorld world, string id, Faction faction, Vec3d position, string call, float? assaultReach = null)
     {
         var def = ShipDefinitions.ById(id);
+        if (assaultReach is { } reach)
+        {
+            var node = JsonNode.Parse(def.ToJson())!;
+            node["Ai"]!["AssaultReachMeters"] = reach;
+            def = ShipDefinition.Parse(node.ToJsonString());
+        }
         var ship = world.Add(new ShipBody(call, def.Flight, faction, def));
         ship.Place(position, Quaternion.Identity); ship.Control = ShipControl.Idle;
         return ship;
@@ -214,7 +221,9 @@ static class InterceptorRoleChecks
             var world = new SimWorld { Doctrine = new FleetDoctrine() };
             var anchor = Add(world, "battleship", Faction.Blue, Vec3d.Zero, "ANCHOR");
             world.AddSquadron("BG", Faction.Blue, SquadronRole.BattleGroup, new[] { anchor });
-            var ships = Enumerable.Range(0, 5).Select(i => Add(world, id, Faction.Blue, new(i * 600, 0, -5000), $"W{i}")).ToArray();
+            // Legacy planning range isolates the no-timer/recon regression. The longer
+            // current range and an actually identified blocking screen are covered by EngagementTimingChecks.
+            var ships = Enumerable.Range(0, 5).Select(i => Add(world, id, Faction.Blue, new(i * 600, 0, -5000), $"W{i}", assaultReach: 0)).ToArray();
             foreach (var s in ships) world.AttachBrain(s, ShipOrder.HoldAt(s.Position));
             var wing = world.AddSquadron("W", Faction.Blue, SquadronRole.InterceptorWing, ships);
             var enemy = Add(world, "battleship", Faction.Red, new(0, 0, -140_000), "CAPITAL");

@@ -1,0 +1,268 @@
+{
+  "simChecks": 5607657,
+  "simFailure": false,
+  "preservationDifferences": [],
+  "fleets": [
+    {
+      "scenario": "mixed",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Red": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 791.354,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "791.167"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "776.833"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "785.383"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "812.033"
+        }
+      ]
+    },
+    {
+      "scenario": "earth",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Blue": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 756.558,
+      "friendlyCollisions": 3.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "830.083"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "820.250"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "693.650"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "682.250"
+        }
+      ]
+    },
+    {
+      "scenario": "mars",
+      "geometry": "legacy",
+      "runs": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 583.163,
+      "friendlyCollisions": 2.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "874.667"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "698.317"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "345.183"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "414.483"
+        }
+      ]
+    },
+    {
+      "scenario": "mixed",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 4
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 833.421,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "729.450"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "966.900"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "754.667"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "882.667"
+        }
+      ]
+    },
+    {
+      "scenario": "earth",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 3,
+        "Blue": 1
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 753.221,
+      "friendlyCollisions": 0.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "755.117"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "700.117"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "715.117"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "842.533"
+        }
+      ]
+    },
+    {
+      "scenario": "mars",
+      "geometry": "current",
+      "runs": 4,
+      "wins": {
+        "Red": 2,
+        "Blue": 2
+      },
+      "reasons": {
+        "전력 상실": 4
+      },
+      "meanSeconds": 756.058,
+      "friendlyCollisions": 5.0,
+      "battles": [
+        {
+          "seed": "1",
+          "mirror": "0",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "765.650"
+        },
+        {
+          "seed": "1",
+          "mirror": "1",
+          "winner": "Red",
+          "reason": "전력 상실",
+          "outcomeTime": "1011.183"
+        },
+        {
+          "seed": "2",
+          "mirror": "0",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "908.300"
+        },
+        {
+          "seed": "2",
+          "mirror": "1",
+          "winner": "Blue",
+          "reason": "전력 상실",
+          "outcomeTime": "339.100"
+        }
+      ]
+    }
+  ]
+}

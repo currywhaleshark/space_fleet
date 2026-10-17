@@ -1,0 +1,251 @@
+{
+  "holdout-mars_spread_10.json": {
+    "tuning": {
+      "mars_battleship": {
+        "ReloadSeconds": null,
+        "AimErrorScale": 1.1
+      }
+    },
+    "seeds": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "games": 288,
+    "groups": [
+      {
+        "distance": 20000,
+        "earth_escorts": 0,
+        "mars_escorts": 0,
+        "n": 48,
+        "baseline_wins": {
+          "Mars": 36,
+          "Earth": 12
+        },
+        "wins": {
+          "Mars": 37,
+          "Earth": 11
+        },
+        "transitions": {
+          "Mars->Mars": 36,
+          "Earth->Earth": 11,
+          "Earth->Mars": 1
+        },
+        "earth": {
+          "fired": 48,
+          "rounds": 332,
+          "hits": 319,
+          "hit_fraction": 0.9608433734939759,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.7868055555555555,
+          "module_damage": 31024.526914596558
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 2646,
+          "hits": 2587,
+          "hit_fraction": 0.9777021919879063,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.5458333333333333,
+          "module_damage": 69817.36469006538
+        },
+        "mean_duration": 95.87743055555555
+      },
+      {
+        "distance": 20000,
+        "earth_escorts": 2,
+        "mars_escorts": 2,
+        "n": 48,
+        "baseline_wins": {
+          "Earth": 46,
+          "Mars": 2
+        },
+        "wins": {
+          "Earth": 46,
+          "Mars": 2
+        },
+        "transitions": {
+          "Earth->Earth": 46,
+          "Mars->Mars": 2
+        },
+        "earth": {
+          "fired": 48,
+          "rounds": 776,
+          "hits": 716,
+          "hit_fraction": 0.9226804123711341,
+          "blind_linked_rounds": 218,
+          "first_fire_mean": 0.7868055555555555,
+          "module_damage": 40538.6835269928
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 360,
+          "hits": 356,
+          "hit_fraction": 0.9888888888888889,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.5458333333333333,
+          "module_damage": 14225.031530380249
+        },
+        "mean_duration": 38.04097222222222
+      },
+      {
+        "distance": 70000,
+        "earth_escorts": 0,
+        "mars_escorts": 0,
+        "n": 48,
+        "baseline_wins": {
+          "Earth": 33,
+          "Mars": 15
+        },
+        "wins": {
+          "Earth": 33,
+          "Mars": 15
+        },
+        "transitions": {
+          "Earth->Earth": 33,
+          "Mars->Mars": 15
+        },
+        "earth": {
+          "fired": 48,
+          "rounds": 278,
+          "hits": 223,
+          "hit_fraction": 0.802158273381295,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.5090277777777777,
+          "module_damage": 24342.878964722157
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 854,
+          "hits": 719,
+          "hit_fraction": 0.84192037470726,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.34791666666666665,
+          "module_damage": 23692.431048989296
+        },
+        "mean_duration": 43.83923611111111
+      },
+      {
+        "distance": 70000,
+        "earth_escorts": 2,
+        "mars_escorts": 2,
+        "n": 48,
+        "baseline_wins": {
+          "Earth": 48
+        },
+        "wins": {
+          "Earth": 48
+        },
+        "transitions": {
+          "Earth->Earth": 48
+        },
+        "earth": {
+          "fired": 48,
+          "rounds": 868,
+          "hits": 700,
+          "hit_fraction": 0.8064516129032258,
+          "blind_linked_rounds": 468,
+          "first_fire_mean": 0.5090277777777777,
+          "module_damage": 55545.51216697693
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 504,
+          "hits": 420,
+          "hit_fraction": 0.8333333333333334,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 0.34791666666666665,
+          "module_damage": 8825.797699570656
+        },
+        "mean_duration": 46.60486111111111
+      },
+      {
+        "distance": 130000,
+        "earth_escorts": 0,
+        "mars_escorts": 0,
+        "n": 48,
+        "baseline_wins": {
+          "Mars": 38,
+          "Draw": 1,
+          "Earth": 9
+        },
+        "wins": {
+          "Mars": 43,
+          "Earth": 5
+        },
+        "transitions": {
+          "Mars->Mars": 38,
+          "Draw->Mars": 1,
+          "Earth->Mars": 4,
+          "Earth->Earth": 5
+        },
+        "earth": {
+          "fired": 48,
+          "rounds": 716,
+          "hits": 176,
+          "hit_fraction": 0.24581005586592178,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 30.53611111111111,
+          "module_damage": 10881.905975341797
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 1384,
+          "hits": 1193,
+          "hit_fraction": 0.8619942196531792,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 32.60798611111111,
+          "module_damage": 75759.9527849108
+        },
+        "mean_duration": 78.15763888888888
+      },
+      {
+        "distance": 130000,
+        "earth_escorts": 2,
+        "mars_escorts": 2,
+        "n": 48,
+        "baseline_wins": {
+          "Mars": 43,
+          "Earth": 5
+        },
+        "wins": {
+          "Mars": 40,
+          "Earth": 8
+        },
+        "transitions": {
+          "Mars->Mars": 40,
+          "Earth->Earth": 5,
+          "Mars->Earth": 3
+        },
+        "earth": {
+          "fired": 42,
+          "rounds": 512,
+          "hits": 252,
+          "hit_fraction": 0.4921875,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 50.523809523809526,
+          "module_damage": 14734.659282684326
+        },
+        "mars": {
+          "fired": 48,
+          "rounds": 2088,
+          "hits": 1898,
+          "hit_fraction": 0.9090038314176245,
+          "blind_linked_rounds": 0,
+          "first_fire_mean": 32.77256944444444,
+          "module_damage": 73744.22633002698
+        },
+        "mean_duration": 97.13402777777777
+      }
+    ]
+  }
+}

@@ -1,0 +1,437 @@
+{
+  "File": "docs\\validation\\engagement_timing_20261016\\holdout-baseline.json.gz",
+  "Tuning": {
+    "CoreHealthScale": 1,
+    "ShieldScale": 1,
+    "WingForwardMeters": 0,
+    "StructureScale": 1,
+    "CriticalEnergyScale": 1,
+    "AssaultReachScale": 1,
+    "ExternalHealthScale": 1
+  },
+  "Seeds": [
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "Battles": 144,
+  "Rows": [
+    {
+      "Distance": 20000,
+      "WingPair": [
+        0,
+        0
+      ],
+      "Winners": {
+        "Mars": 1,
+        "Earth": 23
+      },
+      "MedianTime": 20.483333333333334,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "Reactor": 1,
+            "None": 23
+          },
+          "BattleshipMedianDestruction": 46.68333333333333,
+          "BattleshipSurvivalCappedMean": 32.25,
+          "BattleshipActive": 23,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 352,
+          "MeanBattleshipActiveSeconds": 32.25069444444371,
+          "MedianBattleshipFightingSeconds": 20.483333333333306,
+          "MedianFirstRailFire": 0.8083333333333333,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "None": 2,
+            "Structural": 10,
+            "Magazine": 9,
+            "Reactor": 3
+          },
+          "BattleshipMedianDestruction": 12.634940079448526,
+          "BattleshipSurvivalCappedMean": 32.241933872978095,
+          "BattleshipActive": 1,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 130,
+          "MeanBattleshipActiveSeconds": 26.268055555554838,
+          "MedianBattleshipFightingSeconds": 7.333333333333313,
+          "MedianFirstRailFire": 0.5499999999999999,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        }
+      }
+    },
+    {
+      "Distance": 20000,
+      "WingPair": [
+        5,
+        5
+      ],
+      "Winners": {
+        "Earth": 24
+      },
+      "MedianTime": 45.69166666666666,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "None": 24
+          },
+          "BattleshipMedianDestruction": null,
+          "BattleshipSurvivalCappedMean": 45.77916666666667,
+          "BattleshipActive": 24,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 490,
+          "MeanBattleshipActiveSeconds": 45.77916666666528,
+          "MedianBattleshipFightingSeconds": 45.691666666665355,
+          "MedianFirstRailFire": 0.8083333333333333,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": 0,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 3,
+          "Intercepts": 166,
+          "TorpedoOutcomes": {}
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "Magazine": 11,
+            "Structural": 10,
+            "Reactor": 3
+          },
+          "BattleshipMedianDestruction": 11.079285750974025,
+          "BattleshipSurvivalCappedMean": 9.763732298871446,
+          "BattleshipActive": 0,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 102,
+          "MeanBattleshipActiveSeconds": 9.49166666666678,
+          "MedianBattleshipFightingSeconds": 6.891666666666648,
+          "MedianFirstRailFire": 0.5499999999999999,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 2,
+          "TorpedoHits": 1,
+          "FirstAssault": 0.0,
+          "FirstTorpedo": 47.845833333333275,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 1,
+          "InterceptorDestroyed": 4,
+          "Intercepts": 106,
+          "TorpedoOutcomes": {
+            "Hit": 1
+          }
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "WingPair": [
+        0,
+        0
+      ],
+      "Winners": {
+        "Earth": 24
+      },
+      "MedianTime": 25.03333333333333,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "None": 24
+          },
+          "BattleshipMedianDestruction": null,
+          "BattleshipSurvivalCappedMean": 45.99583333333333,
+          "BattleshipActive": 24,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 474,
+          "MeanBattleshipActiveSeconds": 45.995833333331746,
+          "MedianBattleshipFightingSeconds": 25.033333333333193,
+          "MedianFirstRailFire": 0.5833333333333333,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "Structural": 8,
+            "Magazine": 10,
+            "None": 1,
+            "Reactor": 5
+          },
+          "BattleshipMedianDestruction": 25.033223113236865,
+          "BattleshipSurvivalCappedMean": 45.98811284322472,
+          "BattleshipActive": 0,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 280,
+          "MeanBattleshipActiveSeconds": 25.809027777777292,
+          "MedianBattleshipFightingSeconds": 20.366666666666784,
+          "MedianFirstRailFire": 0.4,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        }
+      }
+    },
+    {
+      "Distance": 70000,
+      "WingPair": [
+        5,
+        5
+      ],
+      "Winners": {
+        "Earth": 21,
+        "Mars": 3
+      },
+      "MedianTime": 141.41666666666669,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "None": 20,
+            "Reactor": 1,
+            "Structural": 3
+          },
+          "BattleshipMedianDestruction": 142.8243766567507,
+          "BattleshipSurvivalCappedMean": 140.30925611337844,
+          "BattleshipActive": 20,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 498,
+          "MeanBattleshipActiveSeconds": 140.31111111112554,
+          "MedianBattleshipFightingSeconds": 139.81666666667007,
+          "MedianFirstRailFire": 0.5833333333333333,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 6,
+          "Torpedoes": 6,
+          "TorpedoHits": 1,
+          "FirstAssault": 0.0,
+          "FirstTorpedo": 152.94583333333327,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 1,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {
+            "Expired": 2,
+            "PointDefense": 1,
+            "Hit": 1
+          }
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "Structural": 8,
+            "Magazine": 12,
+            "Reactor": 4
+          },
+          "BattleshipMedianDestruction": 16.020612559221778,
+          "BattleshipSurvivalCappedMean": 31.30331738958565,
+          "BattleshipActive": 0,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 288,
+          "MeanBattleshipActiveSeconds": 21.2006944444442,
+          "MedianBattleshipFightingSeconds": 16.033333333333704,
+          "MedianFirstRailFire": 0.4,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 89,
+          "TorpedoHits": 45,
+          "FirstAssault": 0.0,
+          "FirstTorpedo": 134.4124999999999,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 88,
+          "InterceptorDestroyed": 15,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {
+            "Hit": 45,
+            "Drone": 8,
+            "Expired": 17,
+            "PointDefense": 18
+          }
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "WingPair": [
+        0,
+        0
+      ],
+      "Winners": {
+        "Earth": 6,
+        "Mars": 18
+      },
+      "MedianTime": 86.81666666666666,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "None": 9,
+            "Reactor": 8,
+            "Magazine": 4,
+            "Structural": 3
+          },
+          "BattleshipMedianDestruction": 52.723752414307356,
+          "BattleshipSurvivalCappedMean": 87.56781867390382,
+          "BattleshipActive": 6,
+          "BattleshipNeverFired": 4,
+          "BattleshipRails": 210,
+          "MeanBattleshipActiveSeconds": 75.00000000000067,
+          "MedianBattleshipFightingSeconds": 58.51666666666463,
+          "MedianFirstRailFire": 46.75833333333333,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "Magazine": 6,
+            "None": 18
+          },
+          "BattleshipMedianDestruction": 89.80750615010973,
+          "BattleshipSurvivalCappedMean": 87.56952093850512,
+          "BattleshipActive": 18,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 808,
+          "MeanBattleshipActiveSeconds": 87.57222222222555,
+          "MedianBattleshipFightingSeconds": 86.81666666666302,
+          "MedianFirstRailFire": 37.91666666666667,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 0,
+          "TorpedoHits": 0,
+          "FirstAssault": null,
+          "FirstTorpedo": null,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 0,
+          "InterceptorDestroyed": 0,
+          "Intercepts": 0,
+          "TorpedoOutcomes": {}
+        }
+      }
+    },
+    {
+      "Distance": 130000,
+      "WingPair": [
+        5,
+        5
+      ],
+      "Winners": {
+        "Mars": 21,
+        "Earth": 3
+      },
+      "MedianTime": 364.375,
+      "Sides": {
+        "Earth": {
+          "BattleshipDestructionCauses": {
+            "Structural": 6,
+            "Reactor": 9,
+            "Magazine": 7,
+            "None": 2
+          },
+          "BattleshipMedianDestruction": 63.09545247300602,
+          "BattleshipSurvivalCappedMean": 123.99954923776934,
+          "BattleshipActive": 2,
+          "BattleshipNeverFired": 4,
+          "BattleshipRails": 228,
+          "MeanBattleshipActiveSeconds": 112.1020833333323,
+          "MedianBattleshipFightingSeconds": 63.0999999999977,
+          "MedianFirstRailFire": 42.166666666666664,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 0,
+          "Torpedoes": 18,
+          "TorpedoHits": 9,
+          "FirstAssault": 214.25,
+          "FirstTorpedo": 399.5125,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 18,
+          "InterceptorDestroyed": 8,
+          "Intercepts": 76,
+          "TorpedoOutcomes": {
+            "Expired": 1,
+            "PointDefense": 6,
+            "Drone": 2,
+            "Hit": 9
+          }
+        },
+        "Mars": {
+          "BattleshipDestructionCauses": {
+            "None": 21,
+            "Structural": 1,
+            "Magazine": 1,
+            "Reactor": 1
+          },
+          "BattleshipMedianDestruction": 91.82340625881923,
+          "BattleshipSurvivalCappedMean": 375.0744534637866,
+          "BattleshipActive": 21,
+          "BattleshipNeverFired": 0,
+          "BattleshipRails": 1488,
+          "MeanBattleshipActiveSeconds": 366.47569444440876,
+          "MedianBattleshipFightingSeconds": 347.9833333333455,
+          "MedianFirstRailFire": 38.05833333333334,
+          "JointTorpedoes": 0,
+          "OwnSupportedTorpedoes": 30,
+          "Torpedoes": 46,
+          "TorpedoHits": 11,
+          "FirstAssault": 162.25,
+          "FirstTorpedo": 290.6291666666666,
+          "EarlyTorpedoes": 0,
+          "LateOwnTorpedoes": 16,
+          "InterceptorDestroyed": 21,
+          "Intercepts": 18,
+          "TorpedoOutcomes": {
+            "Hit": 11,
+            "PointDefense": 24,
+            "Drone": 4,
+            "Expired": 1
+          }
+        }
+      }
+    }
+  ]
+}

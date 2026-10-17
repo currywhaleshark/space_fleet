@@ -1,0 +1,41 @@
+{
+  "stock_hulls": 34,
+  "stock_definitions_and_loadout_ids_identical": true,
+  "existing_regression_output_identical": true,
+  "before": {
+    "groups": 59,
+    "checks": 5608041
+  },
+  "after": {
+    "groups": 60,
+    "checks": 5675168
+  },
+  "model_checks": 2484,
+  "game_build_warnings": 0,
+  "game_build_errors": 0,
+  "source_sha256": {
+    "src/Sim/MainBattery.cs": "45508761aa614034f8b5c9abcdcb26046084acb16194d06873896be562d64d63",
+    "src/Sim/ShipDefinition.cs": "5ed512cffc038e0e31d0cc0b764f5966244ade372412cb27f5d159505bfa5e55",
+    "src/Sim/ShipBody.cs": "53d7e056c79cffa071069102c8256a77474b0c12c3ac00dac58daf05c774d1b3",
+    "src/Sim/Railgun.cs": "f631345f9e01b3145b692962b6c7e33877a4a2a2dac047ee8b86ecfd4ba5e38e",
+    "src/Sim/Turret.cs": "94a8140eee402689433891353e15f2c4fb5193a7a109987faf15120de681477f",
+    "src/Sim/SimBallistics.cs": "96487cbcfc3183e18470b9e74a5af9badaf157d36cb2873c42775c747011a7a8",
+    "src/Sim/ShipLoadouts.cs": "5210f986d2feac5d55b562109d1d88636458a5a9c7ef025e771e54b4078f3418",
+    "src/Sim/ShipVariants.cs": "7b410ca455a87f9c00ab49ccbfbb0ced9c6afe8fb1d0330680706f1645c3a056",
+    "tests/SimChecks/MainBatteryChecks.cs": "02bf4b1594e448ff752d529e3f989cc8b7e8433a6e80a60a9a66fdadcc8a8c07",
+    "tests/SimChecks/Program.cs": "b43a53808aacb3253be6d3717abf6cd6a2f361a9f550f80824a419a6efb916f9"
+  },
+  "artifacts_sha256": {
+    "after-definitions.json": "8abae7240489a231d87f8fb996c0b656eeda5be0a127249887f2a02ec9694bed",
+    "after-sim-checks.log": "66a2e4307d171fb23dec8999e83fae91b3731e94730c3eaf1747f524acf12a67",
+    "before-definitions.json": "8abae7240489a231d87f8fb996c0b656eeda5be0a127249887f2a02ec9694bed",
+    "before-sim-checks.log": "e4d9f0793ce45512deb6dc8f6ddcdd4550731778c1d538c163960b321d686b88",
+    "game-build.log": "37ad8998f46aff5a4eb07517a3f2b779c6116cb9fb894803c6d8ff07886eb15d",
+    "godot-model-engine.log": "bd1c0c7ea8b7299a0897bddf2e31d37dd10640ed8e44636eb08fff731ebaa4e6",
+    "hardpoint-checks.log": "1317a43331ddd16706bd2dcecd36687bdb8d996f57c568e2b8f909ffcff86379",
+    "model-checks-headless.log": "c61ecf1dfdf0414eb3719bccc8cd991a08051b11460a9a374f7fffa64a5d58b1",
+    "model-checks.log": "9081be4d48a5e0229c1a92689db90dc800e421b005c4085450af25f57a4b0c28",
+    "snapshot-source.cs.txt": "ef4e208224b10e1dd66819c24eae3de31318ee34f02c700875a96a2aaf8f96a3",
+    "verify.py": "36cc040f8bbbe66e59db512a4f36162e39d67353a9605c0dc5096b532660ce90"
+  }
+}

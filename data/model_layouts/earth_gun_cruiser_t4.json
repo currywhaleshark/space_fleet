@@ -1,0 +1,217 @@
+{
+  "id": "earth_gun_cruiser_t4",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        9
+      ],
+      "halfSize": [
+        27,
+        19,
+        129
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0,
+        -1,
+        -135
+      ],
+      "halfSize": [
+        28,
+        16,
+        25
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0,
+        -8,
+        -172.5
+      ],
+      "halfSize": [
+        7,
+        4,
+        12.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        31,
+        70
+      ],
+      "halfSize": [
+        14,
+        16,
+        20
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -44,
+        0,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        44,
+        0,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        22.5,
+        -60
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "turret-base-gun-2",
+      "center": [
+        0,
+        -22.5,
+        -30
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "cheek--1",
+      "name": "cheek--1",
+      "center": [
+        -24,
+        -1,
+        -115
+      ],
+      "halfSize": [
+        12,
+        15,
+        32
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "cheek-1",
+      "name": "cheek-1",
+      "center": [
+        24,
+        -1,
+        -115
+      ],
+      "halfSize": [
+        12,
+        15,
+        32
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "prow-jaw--1",
+      "name": "prow-jaw--1",
+      "center": [
+        -16,
+        -3,
+        -171
+      ],
+      "halfSize": [
+        8,
+        12.5,
+        14
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "prow-jaw-1",
+      "name": "prow-jaw-1",
+      "center": [
+        16,
+        -3,
+        -171
+      ],
+      "halfSize": [
+        8,
+        12.5,
+        14
+      ],
+      "armorFrom": "bow-2"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        35,
+        70
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      18,
+      22,
+      60
+    ],
+    [
+      -18,
+      22,
+      60
+    ],
+    [
+      0,
+      -20,
+      40
+    ],
+    [
+      0,
+      24,
+      -40
+    ]
+  ]
+}

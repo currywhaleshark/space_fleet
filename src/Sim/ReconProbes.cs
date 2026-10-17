@@ -18,6 +18,8 @@ public sealed record ReconProbeDefinition
     public float HitPoints { get; init; } = 4;
     public float Radius { get; init; } = 2;
     public float CooldownSeconds { get; init; } = 12;
+    /// <summary>Optional authored rack exits, in ship-local meters. Legacy hulls retain clearance launch.</summary>
+    public Vector3[]? LaunchPoints { get; init; }
 }
 
 /// <summary>Finite stores and lifetime counters; weapon/development reset cannot replenish probes.</summary>
@@ -68,15 +70,17 @@ public sealed partial class SimWorld
     {
         destination = ship.Position;
         if (ship.Definition.ReconProbes is not { } def) return false;
-        Vec3d delta = requested - ship.Position;
-        double distance = delta.Length(), clearance = ship.Hull.BoundingRadius + 4;
+        bool authored = def.LaunchPoints is { Length: > 0 };
+        Vec3d start = authored ? ProbeStart(ship, def, Vector3.Zero) : ship.Position;
+        Vec3d delta = requested - start;
+        double distance = delta.Length(), clearance = authored ? 0 : ship.Hull.BoundingRadius + 4;
         if (!double.IsFinite(distance) || distance <= clearance + 1) return false;
-        destination += delta * (Math.Min(distance, clearance + def.DeploymentMeters) / distance);
+        destination = start + delta * (Math.Min(distance, clearance + def.DeploymentMeters) / distance);
         if(obstacles is {Count:>0} && obstacles.SegmentBlocked(destination,destination,out _,def.Radius)
-            && obstacles.SegmentBlocked(ship.Position,destination,out var hit,def.Radius))
+            && obstacles.SegmentBlocked(start,destination,out var hit,def.Radius))
         {
             destination=hit.Position-delta*(2/distance);
-            if((destination-ship.Position).Length()<=clearance+1) return false;
+            if((destination-start).Length()<=clearance+1) return false;
         }
         return true;
     }
@@ -89,6 +93,11 @@ public sealed partial class SimWorld
 
     public FireAttempt LaunchProbe(ShipBody ship, Vector3 direction) => LaunchProbe(ship, direction, null);
 
+    private static Vec3d ProbeStart(ShipBody ship, ReconProbeDefinition definition, Vector3 direction)
+        => ship.Position + Vec3d.From(definition.LaunchPoints is { Length: > 0 } ports
+            ? ship.Orientation * ports[ship.Ordnance.Interceptor.Launched % ports.Length]
+            : direction * (ship.Hull.BoundingRadius + 4));
+
     private FireAttempt LaunchProbe(ShipBody ship, Vector3 direction, Vec3d? destination)
     {
         if (!_ships.Contains(ship) || ship.Definition.ReconProbes is not { } def)
@@ -99,7 +108,7 @@ public sealed partial class SimWorld
         if (Time < equipment.NextLaunch) return new(false, "프로브 사출 준비 중");
         if (!direction.IsFinite() || direction.LengthSquared() < .01f) return new(false, "투사 방향 없음");
         direction = direction.Normalized();
-        Vec3d start = ship.Position + Vec3d.From(direction * (ship.Hull.BoundingRadius + 4));
+        Vec3d start = ProbeStart(ship, def, direction);
         Vec3d goal=destination??start+Vec3d.From(direction)*def.DeploymentMeters;
         if(Obstacles.Count>0 && !TryProbeDestination(ship,goal,out goal,Obstacles)) return new(false,"프로브 투사 위치 없음");
         _probes.Add(new ReconProbe { Id = ++_shotSequence, Owner = ship, Definition = def,

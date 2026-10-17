@@ -1,0 +1,395 @@
+{
+  "id": "mars_battleship_t5",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        -100
+      ],
+      "halfSize": [
+        59.5,
+        48,
+        282.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0.0,
+        -2.4,
+        -418.2
+      ],
+      "halfSize": [
+        52.5,
+        40.0,
+        35.7
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0.0,
+        -5.6,
+        -480.25
+      ],
+      "halfSize": [
+        38.5,
+        30.4,
+        26.35
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bow-3",
+      "name": "함수 3",
+      "center": [
+        0.0,
+        -8.0,
+        -542.3
+      ],
+      "halfSize": [
+        26.6,
+        21.6,
+        35.7
+      ],
+      "armorFrom": "bow-3"
+    },
+    {
+      "id": "deck",
+      "name": "상부 갑판",
+      "center": [
+        0,
+        57.6,
+        -130
+      ],
+      "halfSize": [
+        33.6,
+        12.8,
+        240
+      ],
+      "armorFrom": "deck"
+    },
+    {
+      "id": "keel",
+      "name": "하부 용골",
+      "center": [
+        0,
+        -57.6,
+        -80
+      ],
+      "halfSize": [
+        40.6,
+        12,
+        230
+      ],
+      "armorFrom": "keel"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        86,
+        335
+      ],
+      "halfSize": [
+        24,
+        39,
+        35
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -78,
+        0,
+        240
+      ],
+      "halfSize": [
+        1.2,
+        39,
+        112
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        78,
+        0,
+        240
+      ],
+      "halfSize": [
+        1.2,
+        39,
+        112
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "engine-block",
+      "name": "추진 구획",
+      "center": [
+        0,
+        0,
+        464
+      ],
+      "halfSize": [
+        74,
+        51,
+        29
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "sensor-head",
+      "name": "외부 센서 헤드",
+      "center": [
+        0,
+        153,
+        335
+      ],
+      "halfSize": [
+        10.78,
+        13.2,
+        18.7
+      ],
+      "armorFrom": "sensor-head"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        59.400000000000006,
+        -272.0
+      ],
+      "halfSize": [
+        22,
+        12.100000000000001,
+        22
+      ],
+      "armorFrom": "turret-base-gun-1"
+    },
+    {
+      "id": "turret-base-gun-3",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        -59.400000000000006,
+        -102.0
+      ],
+      "halfSize": [
+        22,
+        12.100000000000001,
+        22
+      ],
+      "armorFrom": "turret-base-gun-3"
+    },
+    {
+      "id": "aft-spine",
+      "name": "aft-spine",
+      "center": [
+        0,
+        0,
+        306
+      ],
+      "halfSize": [
+        25,
+        27,
+        135
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mast-stem",
+      "name": "mast-stem",
+      "center": [
+        0,
+        132,
+        335
+      ],
+      "halfSize": [
+        5,
+        9,
+        7
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "engineering-pod-port",
+      "name": "engineering-pod-port",
+      "center": [
+        -47,
+        0,
+        270
+      ],
+      "halfSize": [
+        17,
+        25,
+        57
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "aft-truss-port",
+      "name": "aft-truss-port",
+      "center": [
+        -61,
+        0,
+        330
+      ],
+      "halfSize": [
+        3,
+        42,
+        112
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engineering-pod-starboard",
+      "name": "engineering-pod-starboard",
+      "center": [
+        47,
+        0,
+        270
+      ],
+      "halfSize": [
+        17,
+        25,
+        57
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "aft-truss-starboard",
+      "name": "aft-truss-starboard",
+      "center": [
+        61,
+        0,
+        330
+      ],
+      "halfSize": [
+        3,
+        42,
+        112
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bridge-foundation",
+      "name": "bridge-foundation",
+      "center": [
+        0,
+        37,
+        335
+      ],
+      "halfSize": [
+        23,
+        11,
+        30
+      ],
+      "armorFrom": "bridge"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        153,
+        335
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -78,
+        0,
+        240
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -51,
+        -25.6,
+        467.5
+      ]
+    },
+    "engine-2": {
+      "center": [
+        -51,
+        25.6,
+        467.5
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        78,
+        0,
+        240
+      ]
+    },
+    "engine-1": {
+      "center": [
+        51,
+        -25.6,
+        467.5
+      ]
+    },
+    "engine-3": {
+      "center": [
+        51,
+        25.6,
+        467.5
+      ]
+    }
+  },
+  "bays": {
+    "hangar": {
+      "center": [
+        -41.65,
+        0,
+        160
+      ]
+    }
+  },
+  "pdMounts": [
+    [
+      46.2,
+      49.6,
+      -221
+    ],
+    [
+      -46.2,
+      49.6,
+      -221
+    ],
+    [
+      61,
+      44,
+      370
+    ],
+    [
+      -61,
+      44,
+      370
+    ]
+  ],
+  "missileLaunch": [
+    -35,
+    52,
+    -160
+  ],
+  "blockout": {
+    "role": "battleship"
+  }
+}

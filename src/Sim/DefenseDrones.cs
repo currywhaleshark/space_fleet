@@ -20,13 +20,18 @@ public sealed class DefenseDroneState
     private readonly ShipBody _ship;
     private readonly Vector3[] _positions, _previous, _substepPrevious, _aim, _velocities;
     private readonly float[] _health;
+    private readonly ModuleState?[] _hangars;
     public DefenseDroneState(ShipBody ship)
     {
         _ship=ship;
         int count=ship.Definition.DefenseDrones?.Count??0;
         Rounds=new int[count]; Accum=new float[count]; LastFiredAt=new double[count];
         _positions=new Vector3[count]; _previous=new Vector3[count]; _substepPrevious=new Vector3[count];
-        _aim=new Vector3[count]; _velocities=new Vector3[count]; _health=new float[count]; Reset();
+        _aim=new Vector3[count]; _velocities=new Vector3[count]; _health=new float[count];
+        _hangars=new ModuleState?[count];
+        foreach (var fit in ship.Definition.InstalledEquipment)
+            for (int i=0;i<fit.Equipment.Effects.Drones;i++) _hangars[fit.DroneStartIndex+i]=ship.Damage.Module(fit.ModuleId);
+        Reset();
     }
     public int[] Rounds { get; }
     internal float[] Accum { get; }
@@ -39,11 +44,17 @@ public sealed class DefenseDroneState
         get { int count=0; foreach(float health in _health) if(health>0) count++; return count; }
     }
     public bool Alive(int index) => !_ship.Damage.Destroyed && _health[index]>0;
+    public bool Operational(int index) => Alive(index) && (_hangars[index] is not { } hangar
+        || !hangar.Destroyed && _ship.Damage.GridPower(hangar.Definition.Grid) > .01f);
     public float HealthFraction(int index) => _health[index]/_ship.Definition.DefenseDrones!.HitPoints;
     public int RemainingRounds => Enumerable.Range(0,Rounds.Length).Where(Alive).Sum(i=>Rounds[i]);
-    public bool Active => Rounds.Length > 0 && !_ship.Damage.Destroyed && SurvivingCount>0 && _ship.Damage.SensorFraction > .01f
+    public int OperationalCount
+    {
+        get { int count=0; for(int i=0;i<Rounds.Length;i++) if(Operational(i)) count++; return count; }
+    }
+    public bool Active => Rounds.Length > 0 && !_ship.Damage.Destroyed && OperationalCount>0 && _ship.Damage.SensorFraction > .01f
         && _ship.Damage.PowerFraction > .01f && _ship.Power.SensorEffect > .01f && _ship.Power.WeaponEffect > .01f;
-    public int ArmedCount => Enumerable.Range(0,Rounds.Length).Count(i => Alive(i) && Rounds[i]>0);
+    public int ArmedCount => Enumerable.Range(0,Rounds.Length).Count(i => Operational(i) && Rounds[i]>0);
     public int RepositioningCount { get; private set; }
     public static string Label(DroneSector sector) => sector switch
     { DroneSector.Fore => "전방", DroneSector.Aft => "후방", DroneSector.Port => "좌현", DroneSector.Starboard => "우현", _ => "전방위" };
@@ -116,7 +127,7 @@ public sealed class DefenseDroneState
         float maxAngle=def.RepositionSpeed*(float)dt/def.OrbitMeters;
         for (int i=0;i<_positions.Length;i++)
         {
-            if (!Alive(i)) continue;
+            if (!Operational(i)) { Accum[i]=0; _aim[i]=Vector3.Zero; continue; }
             Vector3 goal=Station(i,_ship.SimTime), current=_positions[i].Normalized(), desired=goal.Normalized();
             float angle=current.AngleTo(desired);
             if (angle<=maxAngle) _positions[i]=goal;
@@ -136,7 +147,7 @@ public sealed class DefenseDroneState
     {
         RepositioningCount=0;
         for (int i=0;i<_positions.Length;i++)
-            if (Alive(i) && _positions[i].DistanceSquaredTo(Station(i,_ship.SimTime))>60*60) RepositioningCount++;
+            if (Operational(i) && _positions[i].DistanceSquaredTo(Station(i,_ship.SimTime))>60*60) RepositioningCount++;
     }
 
     internal void Reset()
@@ -162,7 +173,7 @@ public sealed partial class SimWorld
             for(int i=0;i<def.Count;i++)
             {
                 drones.Aim(i,Vector3.Zero);
-                if(!drones.Alive(i) || drones.Rounds[i]==0) { drones.Accum[i]=0; continue; }
+                if(!drones.Operational(i) || drones.Rounds[i]==0) { drones.Accum[i]=0; continue; }
                 Vec3d origin=ship.Position+Vec3d.From(ship.Orientation*drones.LocalPosition(i,time));
                 Missile? target=null; double nearest=def.RangeMeters;
                 // Positions are unchanged since the PD snapshot, but earlier PD

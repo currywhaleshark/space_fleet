@@ -18,6 +18,7 @@ static class StructuralDamageChecks
         var data=Data();data.Remove("railgun");data.Remove("antimatter");
         data["structureHitPoints"]=400;
         data["shield"]!["capacity"]=shield;
+        data["bays"] = new JsonArray();
         data["hullSections"]=JsonNode.Parse("""
             [{"id":"hull","name":"시험 선체","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":0}}]
             """);

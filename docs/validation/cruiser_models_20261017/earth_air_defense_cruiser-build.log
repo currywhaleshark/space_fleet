@@ -1,0 +1,46 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+01:48:09 | INFO: Starting glTF 2.0 export
+01:48:09 | INFO: Extracting primitive: hull.001
+01:48:09 | INFO: Primitives created: 8
+01:48:09 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+01:48:10 | INFO: Primitives created: 3
+01:48:10 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+01:48:10 | INFO: Primitives created: 3
+01:48:10 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+01:48:10 | INFO: Primitives created: 3
+01:48:10 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+01:48:10 | INFO: Primitives created: 3
+01:48:10 | INFO: Extracting primitive: PD 0 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 0 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Extracting primitive: PD 1 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 1 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Extracting primitive: PD 2 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 2 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Extracting primitive: PD 3 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 3 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Extracting primitive: PD 4 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 4 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Extracting primitive: PD 5 receiver.001
+01:48:10 | INFO: Primitives created: 1
+01:48:10 | INFO: Extracting primitive: PD 5 barrel.002
+01:48:10 | INFO: Primitives created: 2
+01:48:10 | INFO: Finished glTF 2.0 export in 0.16924667358398438 s
+00:16.594  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_air_defense_cruiser_hero.png'
+00:27.547  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_air_defense_cruiser_underside.png'
+00:38.890  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\cruiser_models_20261017\earth_air_defense_cruiser_top.png'
+
+Info: Saved as "earth_air_defense_cruiser.blend"
+BUILT earth_air_defense_cruiser 13592 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

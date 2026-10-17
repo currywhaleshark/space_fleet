@@ -1,0 +1,66 @@
+{
+  "preservedFiles": 90,
+  "changedBaselineFiles": [
+    "data/variants/earth_recon_t4.json",
+    "data/variants/interceptor_t4.json",
+    "data/variants/mars_assault_t4.json",
+    "data/variants/mars_interceptor_t4.json",
+    "assets/ships/manifest.json"
+  ],
+  "unchangedPerformanceHullIds": [
+    "earth_recon_t4",
+    "interceptor_t4",
+    "mars_assault_t4",
+    "mars_interceptor_t4"
+  ],
+  "identicalRegeneratedVariants": [
+    "battleship_t5",
+    "earth_air_defense_cruiser_t4",
+    "earth_air_defense_cruiser_t5",
+    "earth_gun_cruiser_t4",
+    "earth_gun_cruiser_t5",
+    "earth_recon_t3",
+    "earth_recon_t4",
+    "earth_recon_t5",
+    "interceptor_t3",
+    "interceptor_t4",
+    "interceptor_t5",
+    "mars_assault_t3",
+    "mars_assault_t4",
+    "mars_assault_t5",
+    "mars_battleship_t5",
+    "mars_gun_cruiser_t4",
+    "mars_gun_cruiser_t5",
+    "mars_interceptor_t3",
+    "mars_interceptor_t4",
+    "mars_interceptor_t5",
+    "mars_missile_cruiser_t4",
+    "mars_missile_cruiser_t5"
+  ],
+  "modelCosts": [
+    {
+      "id": "interceptor_t4",
+      "triangles": 6496,
+      "editableParts": 114,
+      "meshGroups": 5
+    },
+    {
+      "id": "mars_assault_t4",
+      "triangles": 5968,
+      "editableParts": 100,
+      "meshGroups": 3
+    },
+    {
+      "id": "mars_interceptor_t4",
+      "triangles": 6224,
+      "editableParts": 108,
+      "meshGroups": 3
+    },
+    {
+      "id": "earth_recon_t4",
+      "triangles": 7524,
+      "editableParts": 128,
+      "meshGroups": 5
+    }
+  ]
+}

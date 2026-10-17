@@ -1,0 +1,20 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+11:16:54 | INFO: Starting glTF 2.0 export
+11:16:54 | INFO: Extracting primitive: Main pressure hull.001
+11:16:54 | INFO: Primitives created: 10
+11:16:54 | INFO: Extracting primitive: PD 0 receiver.001
+11:16:54 | INFO: Primitives created: 1
+11:16:54 | INFO: Extracting primitive: PD 0 barrel.002
+11:16:54 | INFO: Primitives created: 2
+11:16:54 | INFO: Finished glTF 2.0 export in 0.10721611976623535 s
+00:04.688  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_33952_c4918bd85531de90b0ce599468218617.png.png"
+00:14.078  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_hero.png'
+00:23.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_underside.png'
+00:32.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_rear.png'
+00:40.625  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_top.png'
+
+Info: Saved as "mars_interceptor_t5.blend"
+BUILT mars_interceptor_t5 6224 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

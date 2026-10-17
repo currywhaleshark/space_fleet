@@ -104,9 +104,10 @@ static class MissileChecks
         Console.WriteLine($"Missile DD->DD 30 km crossing 200 m/s: impact after {seconds:0.0}s");
     }
 
-    private static (int Hits, int Intercepted) Salvo(bool pointDefense, bool useDecoys, int count = 6, float azimuth = 0)
+    private static (int Hits, int Intercepted) Salvo(bool pointDefense, bool useDecoys, int count = 6, float azimuth = 0, int pattern = 0)
     {
         var world = new SimWorld();
+        world.PointDefenseSeedForCheck((uint)pattern * 104729);
         ShipBody shooter = Add(world, Variant("battleship"), Faction.Blue, Vec3d.Zero, "S");
         ShipBody target = Add(world, Variant("escort", pointDefense, decoys: useDecoys), Faction.Red,
             Vec3d.From(new Vector3(0, 0, -40_000).Rotated(Vector3.Up, Mathf.DegToRad(azimuth))), "T");
@@ -129,17 +130,20 @@ static class MissileChecks
     {
         int bareHits = 0, defendedHits = 0, intercepted = 0;
         // Finite PD arcs and deterministic hit rolls make one frontal volley a poor
-        // coverage test. Exercise all four sides without changing the actual PD data.
+        // coverage test. Include four deterministic hit-roll phases as well:
+        // the original 24-missile sample only intercepted one missile before lead
+        // prediction. Preserve that case and test useful defense across 96 missiles.
+        foreach (int pattern in new[] { 0, 1, 2, 3 })
         foreach (float azimuth in new[] { 0f, 90f, 180f, 270f })
         {
-            var bare = Salvo(false, false, azimuth: azimuth);
-            var defended = Salvo(true, false, azimuth: azimuth);
+            var bare = Salvo(false, false, azimuth: azimuth, pattern: pattern);
+            var defended = Salvo(true, false, azimuth: azimuth, pattern: pattern);
             Require(bare.Hits == 6 && bare.Intercepted == 0, $"Undefended salvo at {azimuth} degrees: {bare.Hits}/6 hits");
             bareHits += bare.Hits; defendedHits += defended.Hits; intercepted += defended.Intercepted;
         }
         Require(intercepted >= 1 && defendedHits > 0 && defendedHits < bareHits,
             $"PD must intercept missiles across four approach directions: {intercepted} intercepted, {defendedHits} hit");
-        Console.WriteLine($"Salvo BB->DD, four directions at 40 km: no PD {bareHits}/24 hits / PD {intercepted} intercepted, {defendedHits} hits");
+        Console.WriteLine($"Salvo BB->DD, four directions/roll phases at 40 km: no PD {bareHits}/96 hits / PD {intercepted} intercepted, {defendedHits} hits");
     }
 
     private static void CheckDecoys()

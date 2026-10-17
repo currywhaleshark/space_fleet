@@ -1,0 +1,638 @@
+{
+  "id": "earth_air_defense_cruiser",
+  "kind": "cruiser",
+  "modules": {},
+  "bays": {},
+  "pdMounts": [
+    [
+      39,
+      12,
+      35
+    ],
+    [
+      -39,
+      12,
+      35
+    ],
+    [
+      0,
+      -20,
+      40
+    ],
+    [
+      0,
+      24,
+      -40
+    ],
+    [
+      39,
+      12,
+      -70
+    ],
+    [
+      -39,
+      12,
+      -70
+    ]
+  ],
+  "inheritedGeometry": {
+    "modelId": "escort",
+    "hullSections": [
+      {
+        "id": "hull",
+        "name": "주선체",
+        "center": [
+          0,
+          0,
+          9
+        ],
+        "halfSize": [
+          27,
+          19,
+          129
+        ],
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        }
+      },
+      {
+        "id": "bow-1",
+        "name": "함수 1",
+        "center": [
+          0,
+          -1,
+          -135
+        ],
+        "halfSize": [
+          22,
+          15,
+          25
+        ],
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 25
+          }
+        }
+      },
+      {
+        "id": "bow-2",
+        "name": "함수 2",
+        "center": [
+          0,
+          -3,
+          -172.5
+        ],
+        "halfSize": [
+          12,
+          10,
+          12.5
+        ],
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 35
+          }
+        }
+      },
+      {
+        "id": "bridge",
+        "name": "함교",
+        "center": [
+          0,
+          44,
+          40
+        ],
+        "halfSize": [
+          16,
+          26,
+          18
+        ],
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-port",
+        "name": "좌현 방열판",
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {}
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "우현 방열판",
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          18,
+          1,
+          23
+        ],
+        "armor": {
+          "thicknessMm": 4
+        },
+        "faces": {}
+      }
+    ],
+    "modules": {
+      "radiator-port": {
+        "center": [
+          -44,
+          0,
+          70
+        ],
+        "halfSize": [
+          17,
+          0.9,
+          22
+        ]
+      },
+      "radiator-starboard": {
+        "center": [
+          44,
+          0,
+          70
+        ],
+        "halfSize": [
+          17,
+          0.9,
+          22
+        ]
+      },
+      "sensor": {
+        "center": [
+          0,
+          44,
+          40
+        ],
+        "halfSize": [
+          8,
+          10,
+          9
+        ]
+      },
+      "gun-1": {
+        "center": [
+          0,
+          12,
+          -60
+        ],
+        "halfSize": [
+          8,
+          6,
+          18
+        ]
+      },
+      "gun-2": {
+        "center": [
+          0,
+          -12,
+          -30
+        ],
+        "halfSize": [
+          8,
+          5,
+          18
+        ]
+      },
+      "magazine": {
+        "center": [
+          -12,
+          0,
+          -60
+        ],
+        "halfSize": [
+          8,
+          10,
+          20
+        ]
+      },
+      "reactor": {
+        "center": [
+          0,
+          0,
+          30
+        ],
+        "halfSize": [
+          10,
+          12,
+          16
+        ]
+      },
+      "generator-port": {
+        "center": [
+          -13,
+          0,
+          70
+        ],
+        "halfSize": [
+          6,
+          12,
+          15
+        ]
+      },
+      "generator-starboard": {
+        "center": [
+          13,
+          0,
+          70
+        ],
+        "halfSize": [
+          6,
+          12,
+          15
+        ]
+      },
+      "bus-port": {
+        "center": [
+          -18,
+          0,
+          -20
+        ],
+        "halfSize": [
+          7,
+          10,
+          20
+        ]
+      },
+      "cooling-port": {
+        "center": [
+          -20,
+          0,
+          80
+        ],
+        "halfSize": [
+          5,
+          10,
+          12
+        ]
+      },
+      "engine-0": {
+        "center": [
+          -14,
+          0,
+          125
+        ],
+        "halfSize": [
+          10,
+          12,
+          8
+        ]
+      },
+      "maneuver-port": {
+        "center": [
+          -20,
+          0,
+          -85
+        ],
+        "halfSize": [
+          4,
+          8,
+          10
+        ]
+      },
+      "shield-port": {
+        "center": [
+          -10,
+          10,
+          0
+        ],
+        "halfSize": [
+          6,
+          6,
+          10
+        ]
+      },
+      "bus-starboard": {
+        "center": [
+          18,
+          0,
+          -20
+        ],
+        "halfSize": [
+          7,
+          10,
+          20
+        ]
+      },
+      "cooling-starboard": {
+        "center": [
+          20,
+          0,
+          80
+        ],
+        "halfSize": [
+          5,
+          10,
+          12
+        ]
+      },
+      "engine-1": {
+        "center": [
+          14,
+          0,
+          125
+        ],
+        "halfSize": [
+          10,
+          12,
+          8
+        ]
+      },
+      "maneuver-starboard": {
+        "center": [
+          20,
+          0,
+          -85
+        ],
+        "halfSize": [
+          4,
+          8,
+          10
+        ]
+      },
+      "shield-starboard": {
+        "center": [
+          10,
+          10,
+          0
+        ],
+        "halfSize": [
+          6,
+          6,
+          10
+        ]
+      }
+    },
+    "bays": {
+      "utility-port": {
+        "center": [
+          -22.95,
+          0,
+          -55.5
+        ],
+        "halfSize": [
+          1.5,
+          1.5,
+          3
+        ]
+      },
+      "utility-starboard": {
+        "center": [
+          18.9,
+          0,
+          -42.6
+        ],
+        "halfSize": [
+          1,
+          1,
+          2
+        ]
+      }
+    },
+    "pdMounts": [
+      [
+        18,
+        22,
+        60
+      ],
+      [
+        -18,
+        22,
+        60
+      ],
+      [
+        0,
+        -20,
+        40
+      ],
+      [
+        0,
+        24,
+        -40
+      ],
+      [
+        15,
+        22,
+        -60
+      ],
+      [
+        -15,
+        22,
+        -60
+      ]
+    ]
+  },
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0,
+        0,
+        9
+      ],
+      "halfSize": [
+        27,
+        19,
+        129
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0,
+        -1,
+        -135
+      ],
+      "halfSize": [
+        22,
+        15,
+        25
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0,
+        -3,
+        -172.5
+      ],
+      "halfSize": [
+        12,
+        10,
+        12.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        36,
+        40
+      ],
+      "halfSize": [
+        16,
+        18,
+        18
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -44,
+        0,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        44,
+        0,
+        70
+      ],
+      "halfSize": [
+        18,
+        1,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "pd-deck-forward--1",
+      "name": "pd-deck-forward--1",
+      "center": [
+        -36,
+        0,
+        -70
+      ],
+      "halfSize": [
+        17,
+        11,
+        43
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pd-deck-aft--1",
+      "name": "pd-deck-aft--1",
+      "center": [
+        -36,
+        0,
+        34
+      ],
+      "halfSize": [
+        17,
+        11,
+        38
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pd-deck-forward-1",
+      "name": "pd-deck-forward-1",
+      "center": [
+        36,
+        0,
+        -70
+      ],
+      "halfSize": [
+        17,
+        11,
+        43
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pd-deck-aft-1",
+      "name": "pd-deck-aft-1",
+      "center": [
+        36,
+        0,
+        34
+      ],
+      "halfSize": [
+        17,
+        11,
+        38
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        22.5,
+        -60
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "turret-base-gun-2",
+      "center": [
+        0,
+        -22.5,
+        -30
+      ],
+      "halfSize": [
+        10,
+        3.5,
+        10
+      ],
+      "armorFrom": "hull"
+    }
+  ]
+}

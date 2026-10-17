@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\tools\\BattleBatch\\bin\\Release\\net8.0\\BattleBatch.dll",
+    "--mirror",
+    "--telemetry",
+    "--jobs",
+    "1",
+    "--seeds",
+    "1,2",
+    "--blue-design",
+    "Earth",
+    "--red-design",
+    "Earth",
+    "--blue-wing",
+    "earth_recon_t3",
+    "--red-wing",
+    "earth_recon_t3",
+    "--output",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\docs\\validation\\gunnery_tuning_20261016\\fleet\\earth.csv"
+  ],
+  "binarySha256": "b2ecdd8ee6af4c2bf3bc2476c6a68df4c51e81f3192266b8ab9806c5988884a8",
+  "baseline": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\docs\\validation\\long_range_balance_20261016\\after\\earth.csv"
+}

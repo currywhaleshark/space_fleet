@@ -1,0 +1,27 @@
+{
+  "fullSimExitCode": 0,
+  "fullAssertions": 5607919,
+  "passLines": 58,
+  "failureText": false,
+  "newAccuracyChecks": 15,
+  "trialFixtureChecks": 91,
+  "defaultScaleBaselineMatches": 96,
+  "appliedCandidateMatches": 384,
+  "sourceInputModelHashesChecked": 142,
+  "changedProductionFiles": [
+    "data/ships/battleship.json",
+    "data/ships/mars_battleship.json",
+    "data/variants/battleship_t5.json",
+    "src/Sim/FireControl.cs",
+    "src/Sim/Railgun.cs",
+    "src/Sim/ShipDefinition.cs"
+  ],
+  "modelsChanged": [],
+  "gameBuildErrors": 0,
+  "gameBuildWarnings": 0,
+  "batchBuildErrors": 0,
+  "testsBuildErrors": 0,
+  "fleetGames": 24,
+  "mixedEarthBattleshipsFired": 16,
+  "mixedEarthBattleships": 16
+}

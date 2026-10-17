@@ -14,7 +14,7 @@ public static class TeamRoster
         if(match is not null)return match.Participants.Where(p=>p.Team==team).Select(p=>
         {
             var squad=battle?.World.Squadrons.FirstOrDefault(s=>s.Name==p.SquadronName&&s.Faction==team);
-            return new TeamRosterRow(p.Name,p.Hull.Flight.DisplayName,p.Composition,p.Kind,
+            return new TeamRosterRow(p.Name,(p.Tier>0?$"T{p.Tier}  ":"")+p.Hull.Flight.DisplayName,p.Composition,p.Kind,
                 squad?.Members.Count(s=>!s.Damage.Destroyed)??p.ShipCount,p.ShipCount,p.IsPlayer);
         }).ToArray();
         return battle?.World.Squadrons.Where(s=>s.Faction==team).Select(s=>new TeamRosterRow(s.Name,
@@ -30,7 +30,7 @@ public partial class BattleOverlay
         bool matching=battle is null;
         DrawRect(new(0,0,1600,900),new(.005f,.015f,.03f,.96f));
         Center(105,matching?"전투 편성 완료":"양팀 전투 현황",36);
-        Center(147,matching?"10 대 10 편대 · AI 무작위 매칭":"공개 편성 · 생존 척수 / 출격 척수",18,Blue);
+        Center(147,match?.Tier is not null?$"T{match.LowTier}–{match.HighTier} · 편대 전력 {match.Participants.Where(p=>p.Team==Faction.Blue).Sum(p=>p.MatchPoints):0.##} : {match.Participants.Where(p=>p.Team==Faction.Red).Sum(p=>p.MatchPoints):0.##}":matching?"10 대 10 편대 · AI 무작위 매칭":"공개 편성 · 생존 척수 / 출격 척수",18,Blue);
         foreach(Faction team in Enum.GetValues<Faction>())
         {
             var rows=TeamRoster.Rows(match,battle,team);

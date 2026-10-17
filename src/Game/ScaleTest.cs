@@ -30,6 +30,8 @@ public partial class ScaleTest : Node3D
     private OrdnanceView _ordnance = null!;
     private BattleFx _battleFx = null!;
     private CombatAudio _audio = null!;
+    internal CombatAudio Audio => _audio;
+    internal ShipBody? AudioShip => Spectating ? SpectatedView?.Body is {Damage.Destroyed:false} ship ? ship : null : Controlled?.Body;
     public CombatFeedback Feedback => _audio.Feedback;
     private MeshInstance3D _planet = null!;
     private int _controlledIndex;
@@ -306,7 +308,7 @@ public partial class ScaleTest : Node3D
             _testShots++;
         }
         t = PerfTrace.Begin();
-        _audio.Observe(World, Spectating ? null : Controlled?.Body);
+        _audio.Observe(World, AudioShip);
         PerfTrace.End("audioObserve", t);
     }
 

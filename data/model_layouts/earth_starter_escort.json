@@ -1,0 +1,172 @@
+{
+  "id": "earth_starter_escort",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "hull",
+      "center": [
+        0,
+        0,
+        8
+      ],
+      "halfSize": [
+        21.6,
+        15.2,
+        102.4
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "bow-1",
+      "center": [
+        0,
+        -0.8,
+        -109
+      ],
+      "halfSize": [
+        19,
+        12.5,
+        20.5
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "bow-2",
+      "center": [
+        0,
+        -1.5,
+        -138
+      ],
+      "halfSize": [
+        14,
+        9.5,
+        10
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "bridge",
+      "center": [
+        0,
+        24,
+        41
+      ],
+      "halfSize": [
+        10,
+        9,
+        16
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "sensor-head",
+      "center": [
+        0,
+        28,
+        41
+      ],
+      "halfSize": [
+        6.9,
+        8.5,
+        7.7
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "turret-base-gun-1",
+      "center": [
+        0,
+        17.5,
+        -48
+      ],
+      "halfSize": [
+        8,
+        3.3,
+        8
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -35.2,
+        0,
+        64
+      ],
+      "halfSize": [
+        14.4,
+        0.8,
+        18.4
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        35.2,
+        0,
+        64
+      ],
+      "halfSize": [
+        14.4,
+        0.8,
+        18.4
+      ],
+      "armorFrom": "radiator-starboard"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        28,
+        41
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -35.2,
+        0,
+        64
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        35.2,
+        0,
+        64
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      16.8,
+      17.6,
+      65
+    ],
+    [
+      -16.8,
+      17.6,
+      65
+    ],
+    [
+      0,
+      -16,
+      32
+    ],
+    [
+      0,
+      19.2,
+      -32
+    ]
+  ],
+  "stage": "Independent T1 role blockout; surface finish pending"
+}

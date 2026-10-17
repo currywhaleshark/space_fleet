@@ -22,20 +22,20 @@ public partial class Main
         if(frame==5)
         {
             _overlay.ActivateButton(0);
-            MatchVerify(Screen==BattleScreen.Select,"Port opens fleet selection");
-            _overlay.ActivateButton(0);_overlay.ActivateButton(3);_overlay.ActivateButton(4);
+            MatchVerify(Screen==BattleScreen.Hangar,"Port opens fitting first");
+            ChooseHull("mars_battleship");BeginMatch();
             MatchVerify(Screen==BattleScreen.Matching && PendingMatch?.Player.HullId=="mars_battleship" && Battle is null,
                 "Selected hull queues without starting simulation early");
             _overlay.ActivateButton(0);
-            MatchVerify(Screen==BattleScreen.Select && PendingMatch is null && Battle is null,"Queue can be cancelled");
-            _overlay.ActivateButton(2);_overlay.ActivateButton(4);
+            MatchVerify(Screen==BattleScreen.Hangar && PendingMatch is null && Battle is null,"Queue can be cancelled back to fitting");
+            ChooseHull("mars_interceptor");BeginMatch();
             MatchVerify(PendingMatch?.Participants.Count==20 && PendingMatch.Player.HullId=="mars_interceptor","Twenty participants include chosen Phobos");
         }
         if(frame==110)
         {
             MatchVerify(Screen==BattleScreen.Battle && Battle is not null,"Matching enters battle");
             var game=Battle!;var world=game.World;var owned=game.OwnedSquadron!;
-            MatchVerify(world.Squadrons.Count==20 && world.Ships.Count is >=76 and <=84,"10 vs 10 existing squad templates");
+            MatchVerify(world.Squadrons.Count==20 && world.Ships.Count==game.LaunchConfig!.Match!.Participants.Sum(p=>p.ShipCount),"10 vs 10 existing squad templates within tier bracket");
             MatchVerify(owned.Members.Count==5 && owned.Members.Contains(game.Controlled!.Body) && owned.PlayerLed,"Player owns exactly their wing");
             MatchVerify(world.Brains.Count==world.Ships.Count-1 && world.BrainOf(game.Controlled!.Body) is null,"Other ships retain AI");
             MatchVerify(InputMap.ActionHasEvent(InputSetup.TeamRoster,new InputEventKey{PhysicalKeycode=Key.Tab}) &&
@@ -89,6 +89,7 @@ public partial class Main
             game._UnhandledInput(new InputEventKey{PhysicalKeycode=Key.Right,Pressed=true});
             MatchVerify(Screen==BattleScreen.Battle && game.SpectatedView!.Body!=watched && game.SpectatedView.Body.Faction==Faction.Blue,
                 "Spectator can cycle allies");
+            CheckSpectatorAudio(game);
             tick=world.Tick;MatchTicks(game,4);
             MatchVerify(world.Tick>tick && owned.Members.Contains(game.Controlled.Body),"Spectating does not take over another participant");
             game._UnhandledInput(new InputEventAction{Action=InputSetup.ReleaseMouse,Pressed=true});
@@ -97,7 +98,7 @@ public partial class Main
             game._Input(new InputEventKey{PhysicalKeycode=Key.Tab,Pressed=false});
             _previousMatchSeed=Seed;_overlay.ActivateButton(2);
             MatchVerify(Screen==BattleScreen.Title && Battle is null && PlayerHullId=="mars_interceptor","Leave returns to port retaining selected hull");
-            _overlay.ActivateButton(0);_overlay.ActivateButton(4);
+            _overlay.ActivateButton(0);BeginMatch();
         }
         if(frame==220)
         {
@@ -111,5 +112,42 @@ public partial class Main
             _overlay.ActivateButton(2);MatchVerify(Screen==BattleScreen.Title && Battle is null,"Result returns to port");
             GD.Print($"PASS: {_matchChecks} matchmaking/ownership/roster/spectator flow checks");GetTree().Quit();
         }
+    }
+    private void CheckSpectatorAudio(ScaleTest game)
+    {
+        var audio=game.Audio;var world=game.World;var watched=game.SpectatedView!.Body;
+        var owner=game.Controlled!.Body;int records=game.ControlSegments.Count;
+        MatchTicks(game,2);audio.AdvanceLoops(.5f);
+        MatchVerify(audio.FollowedShip==watched&&audio.EnginePlaying,"Spectator hears the followed ship's live engine");
+        int rails=audio.PlayCount(CombatSound.RailFire);
+        world.Log!.Ship(watched).Rails++;audio.Observe(world,game.AudioShip);
+        MatchVerify(audio.PlayCount(CombatSound.RailFire)==rails+1,"Followed ship firing feeds observer sound");
+        int hits=audio.PlayCount(CombatSound.Penetration);
+        var module=watched.Damage.Modules.First(m=>m.Health>10);
+        watched.Damage.Hurt(module,1,world.Time,0,0);audio.Observe(world,game.AudioShip);
+        MatchVerify(audio.PlayCount(CombatSound.Penetration)==hits+1,"Followed ship damage feeds observer impact sound");
+        var neighbor=world.Ships.First(s=>s!=watched&&s.Faction==Faction.Blue&&Squadron.Active(s));
+        neighbor.Place(watched.Position+new Vec3d(100,0,0),Quaternion.Identity);
+        audio.SyncListener(watched.Position,Basis.Identity);audio.AdvanceLoops(.5f);
+        // A busy fleet has four occupied voices; their release fades must finish
+        // before the newly nearby engine can take a slot. Keep simulation frozen.
+        bool immediate=audio.Fleet.HasEngine(neighbor);int fadeSteps=0;
+        while(!audio.Fleet.HasEngine(neighbor)&&fadeSteps<20){audio.AdvanceLoops(.1f);fadeSteps++;}
+        if(!immediate)GD.Print($"Spectator audio voice handoff: {fadeSteps} fade steps, nearby={audio.Fleet.HasEngine(neighbor)}, "
+            +$"watchedDuplicate={audio.Fleet.HasEngine(watched)}, generation={neighbor.Damage.GenerationFraction}, propulsion={neighbor.Damage.PropulsionFraction}");
+        MatchVerify(audio.Fleet.HasEngine(neighbor)&&!audio.Fleet.HasEngine(watched),"Nearby engines remain spatial after voice handoff without doubling the watched engine");
+        game.CycleSpectator(1);var next=game.SpectatedView!.Body;
+        MatchVerify(audio.FollowedShip==next&&!audio.EnginePlaying,"Switching observers clears the old loop immediately");
+        audio.Observe(world,game.AudioShip);audio.AdvanceLoops(.5f);
+        MatchVerify(audio.EnginePlaying&&audio.PlayCount(CombatSound.RailFire)==rails+1,"Observer handoff starts new propulsion without replaying earlier shots");
+        game.Paused=true;int pausedRails=audio.PlayCount(CombatSound.RailFire);
+        world.Log.Ship(next).Rails++;audio.Observe(world,game.AudioShip);
+        MatchVerify(audio.GetNode<AudioStreamPlayer>("engine_drive_loop").StreamPaused,"Pause also pauses spectator engine sound");
+        game.Paused=false;audio.Observe(world,game.AudioShip);
+        MatchVerify(audio.PlayCount(CombatSound.RailFire)==pausedRails,"Resume does not replay paused observer events");
+        next.Damage.Breakup(world.Time,"spectator audio check");MatchTicks(game,2);audio.AdvanceLoops(.5f);
+        MatchVerify(audio.FollowedShip==game.SpectatedView!.Body&&audio.FollowedShip!=next&&audio.EnginePlaying,"Destroyed observer target automatically hands sound to the next surviving ship");
+        MatchVerify(game.Controlled!.Body==owner&&game.ControlSegments.Count==records&&world.BrainOf(audio.FollowedShip!) is not null,
+            "Audio perspective never transfers ownership, control records or AI");
     }
 }

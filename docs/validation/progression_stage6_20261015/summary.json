@@ -1,0 +1,701 @@
+{
+  "trials": [
+    {
+      "Hull": "interceptor_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 52.05,
+      "FirstAssault": 0,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 401.2314726270413,
+      "Torpedoes": 11,
+      "TorpedoHits": 8,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Seconds": 150,
+      "Probes": 5,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 0,
+      "FirstAssault": null,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 26196.273343865658,
+      "Torpedoes": 0,
+      "TorpedoHits": 0,
+      "Survivors": 5,
+      "LastMission": "Recon"
+    },
+    {
+      "Hull": "mars_interceptor_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 46.2,
+      "FirstAssault": 0,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 693.2173496054312,
+      "Torpedoes": 13,
+      "TorpedoHits": 13,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 76.55,
+      "FirstAssault": 39,
+      "AssaultSpread": 0,
+      "RallySeconds": 38.99999999999907,
+      "MinimumRange": 714.3428863770796,
+      "Torpedoes": 5,
+      "TorpedoHits": 5,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "earth_recon_t5",
+      "Seconds": 150,
+      "Probes": 5,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 0,
+      "FirstAssault": null,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 26196.096039526936,
+      "Torpedoes": 0,
+      "TorpedoHits": 0,
+      "Survivors": 5,
+      "LastMission": "Recon"
+    },
+    {
+      "Hull": "mars_assault_t5",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 76.58333333333333,
+      "FirstAssault": 39,
+      "AssaultSpread": 0,
+      "RallySeconds": 38.99999999999907,
+      "MinimumRange": 760.8390796099478,
+      "Torpedoes": 5,
+      "TorpedoHits": 5,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    }
+  ],
+  "fleets": {
+    "branches": [
+      {
+        "seed": 1,
+        "mirror": 0,
+        "winner": "Red",
+        "reason": "전력 상실",
+        "seconds": 784.2,
+        "hulls": {
+          "battleship": {
+            "ships": 1,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 248.928
+          },
+          "earth_recon_t3": {
+            "ships": 5,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 20,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 784.2
+          },
+          "escort": {
+            "ships": 6,
+            "destroyed": 2,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 271.133,
+            "firstAssault": [],
+            "averageSurvival": 765.694
+          },
+          "mars_assault_t3": {
+            "ships": 5,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              613.0
+            ],
+            "averageSurvival": 784.2
+          },
+          "mars_battleship": {
+            "ships": 1,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 2095.73,
+            "firstAssault": [],
+            "averageSurvival": 784.2
+          },
+          "mars_escort": {
+            "ships": 6,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 2802.009,
+            "firstAssault": [],
+            "averageSurvival": 784.1999999999999
+          }
+        }
+      },
+      {
+        "seed": 1,
+        "mirror": 1,
+        "winner": "Red",
+        "reason": "전력 상실",
+        "seconds": 735.783,
+        "hulls": {
+          "battleship": {
+            "ships": 1,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 327.723
+          },
+          "earth_recon_t3": {
+            "ships": 5,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 20,
+            "probeContacts": 6,
+            "probeIdentifications": 1,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 735.783
+          },
+          "escort": {
+            "ships": 6,
+            "destroyed": 3,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 498.43600000000004,
+            "firstAssault": [],
+            "averageSurvival": 710.88
+          },
+          "mars_assault_t3": {
+            "ships": 5,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              652.0
+            ],
+            "averageSurvival": 735.783
+          },
+          "mars_battleship": {
+            "ships": 1,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 1482.627,
+            "firstAssault": [],
+            "averageSurvival": 567.283
+          },
+          "mars_escort": {
+            "ships": 6,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 3049.717,
+            "firstAssault": [],
+            "averageSurvival": 735.783
+          }
+        }
+      }
+    ],
+    "recon-symmetric": [
+      {
+        "seed": 1,
+        "mirror": 0,
+        "winner": "Blue",
+        "reason": "전력 상실",
+        "seconds": 754.55,
+        "hulls": {
+          "battleship": {
+            "ships": 2,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 3444.2110000000002,
+            "firstAssault": [],
+            "averageSurvival": 652.9195
+          },
+          "earth_recon_t3": {
+            "ships": 10,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 38,
+            "probeContacts": 5,
+            "probeIdentifications": 11,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 754.5500000000001
+          },
+          "escort": {
+            "ships": 12,
+            "destroyed": 6,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 8323.359999999999,
+            "firstAssault": [],
+            "averageSurvival": 704.8528333333334
+          }
+        }
+      },
+      {
+        "seed": 1,
+        "mirror": 1,
+        "winner": "Red",
+        "reason": "전력 상실",
+        "seconds": 783.267,
+        "hulls": {
+          "battleship": {
+            "ships": 2,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 6446.025000000001,
+            "firstAssault": [],
+            "averageSurvival": 691.9625000000001
+          },
+          "earth_recon_t3": {
+            "ships": 10,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 33,
+            "probeContacts": 10,
+            "probeIdentifications": 17,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 783.2669999999999
+          },
+          "escort": {
+            "ships": 12,
+            "destroyed": 7,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 6746.984000000001,
+            "firstAssault": [],
+            "averageSurvival": 729.3145833333333
+          }
+        }
+      }
+    ],
+    "assault-symmetric": [
+      {
+        "seed": 1,
+        "mirror": 0,
+        "winner": "Blue",
+        "reason": "시간 제한",
+        "seconds": 1500.0,
+        "hulls": {
+          "mars_assault_t3": {
+            "ships": 10,
+            "destroyed": 8,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 430.52,
+            "firstAssault": [
+              530.0,
+              553.5
+            ],
+            "averageSurvival": 989.4062
+          },
+          "mars_battleship": {
+            "ships": 2,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 1391.999,
+            "firstAssault": [],
+            "averageSurvival": 987.8585
+          },
+          "mars_escort": {
+            "ships": 12,
+            "destroyed": 6,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 4438.040999999999,
+            "firstAssault": [],
+            "averageSurvival": 1200.6998333333333
+          }
+        }
+      },
+      {
+        "seed": 1,
+        "mirror": 1,
+        "winner": "Blue",
+        "reason": "전력 상실",
+        "seconds": 695.433,
+        "hulls": {
+          "mars_assault_t3": {
+            "ships": 10,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 530.128,
+            "firstAssault": [
+              500.0,
+              536.0
+            ],
+            "averageSurvival": 695.433
+          },
+          "mars_battleship": {
+            "ships": 2,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 1471.568,
+            "firstAssault": [],
+            "averageSurvival": 584.3915
+          },
+          "mars_escort": {
+            "ships": 12,
+            "destroyed": 3,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 2678.0510000000004,
+            "firstAssault": [],
+            "averageSurvival": 683.5046666666667
+          }
+        }
+      }
+    ],
+    "tier5": [
+      {
+        "seed": 1,
+        "mirror": 0,
+        "winner": "Red",
+        "reason": "전력 상실",
+        "seconds": 874.8,
+        "hulls": {
+          "battleship": {
+            "ships": 2,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 3231.785,
+            "firstAssault": [],
+            "averageSurvival": 827.3865
+          },
+          "battleship_t5": {
+            "ships": 4,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 5599.5740000000005,
+            "firstAssault": [],
+            "averageSurvival": 852.1489999999999
+          },
+          "earth_air_defense_cruiser_t4": {
+            "ships": 10,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 176.4,
+            "firstAssault": [],
+            "averageSurvival": 871.1291000000001
+          },
+          "earth_air_defense_cruiser_t5": {
+            "ships": 5,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 845.8566000000001
+          },
+          "earth_gun_cruiser_t4": {
+            "ships": 9,
+            "destroyed": 9,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 2570.9139999999998,
+            "firstAssault": [],
+            "averageSurvival": 517.3667777777778
+          },
+          "earth_gun_cruiser_t5": {
+            "ships": 4,
+            "destroyed": 4,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 4734.079000000001,
+            "firstAssault": [],
+            "averageSurvival": 664.3615
+          },
+          "earth_recon_t4": {
+            "ships": 2,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 4,
+            "probeContacts": 0,
+            "probeIdentifications": 2,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 874.8
+          },
+          "earth_recon_t5": {
+            "ships": 6,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 15,
+            "probeContacts": 0,
+            "probeIdentifications": 1,
+            "moduleDamage": 0.0,
+            "firstAssault": [],
+            "averageSurvival": 874.8000000000001
+          },
+          "interceptor_t4": {
+            "ships": 4,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 117.408,
+            "firstAssault": [
+              593.0
+            ],
+            "averageSurvival": 874.8
+          },
+          "interceptor_t5": {
+            "ships": 8,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              593.0
+            ],
+            "averageSurvival": 874.8000000000001
+          },
+          "mars_assault_t4": {
+            "ships": 4,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              479.5,
+              480.0
+            ],
+            "averageSurvival": 874.7969999999999
+          },
+          "mars_assault_t5": {
+            "ships": 3,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              479.5,
+              480.0
+            ],
+            "averageSurvival": 874.7999999999998
+          },
+          "mars_battleship": {
+            "ships": 2,
+            "destroyed": 2,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 1021.165,
+            "firstAssault": [],
+            "averageSurvival": 214.30849999999998
+          },
+          "mars_gun_cruiser_t4": {
+            "ships": 4,
+            "destroyed": 2,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 5047.973,
+            "firstAssault": [],
+            "averageSurvival": 625.6845000000001
+          },
+          "mars_gun_cruiser_t5": {
+            "ships": 3,
+            "destroyed": 1,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 7406.975,
+            "firstAssault": [],
+            "averageSurvival": 767.815
+          },
+          "mars_interceptor_t4": {
+            "ships": 2,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 110.25,
+            "firstAssault": [
+              479.5
+            ],
+            "averageSurvival": 874.8
+          },
+          "mars_interceptor_t5": {
+            "ships": 1,
+            "destroyed": 0,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 0.0,
+            "firstAssault": [
+              480.0
+            ],
+            "averageSurvival": 874.8
+          },
+          "mars_missile_cruiser_t4": {
+            "ships": 5,
+            "destroyed": 5,
+            "torpedoes": 0,
+            "torpedoHits": 0,
+            "probes": 0,
+            "probeContacts": 0,
+            "probeIdentifications": 0,
+            "moduleDamage": 601.301,
+            "firstAssault": [],
+            "averageSurvival": 324.99179999999996
+          }
+        }
+      }
+    ]
+  }
+}

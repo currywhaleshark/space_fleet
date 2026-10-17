@@ -9,7 +9,7 @@ namespace SpaceFleet.Sim;
 /// 함선 AI와 함대 지휘. 매 외부 틱(60Hz) 하위 틱 전에 조종 입력을 쓴다.
 /// - 이동: 명령별 목표 속도 + 충돌 회피 → 비행보조(우주식) 입력으로 변환.
 /// - 기수: 레일건을 쓸 때는 사격 방향, 아니면 목표 속도 방향.
-/// - 사격: 잠금·사격통제 해·비행 시간 기준·사선의 아군 확인 후 레일건. 미사일은 함대 일제 사격 창에서 한 함선당 2발.
+/// - 사격: 잠금·사격통제 해·비행 시간 기준·사선의 아군 확인 후 레일건. 미사일 일제 사격 수는 함체 AI 데이터(기본 2발).
 /// - 방어: 나를 노리는 미사일이 가까우면 디코이, 근접방어 쪽으로 전력 재배분. 과열이면 ECM을 끈다.
 /// - 함대 지휘관(진영별 선택): 주 표적을 정하고 함종별 명령을 내린다.
 /// </summary>
@@ -21,7 +21,6 @@ public sealed partial class SimWorld
     /// <summary>자기 미사일 사거리의 이 배수 안에 있는 아군은 "곧 합류"로 보고 일제 사격을 기다린다.</summary>
     private const double SalvoJoinFactor = 1.5;
     private const double SalvoCooldown = 25.0;
-    private const int MissilesPerSalvo = 2;
     private const float DecoyThreatMeters = 6000f;
     private const float PointDefenseThreatMeters = 20000f;
 
@@ -116,6 +115,7 @@ public sealed partial class SimWorld
     {
         ShipBody ship = brain.Ship;
         float maxSpeed = ship.Class.MaxSpeed;
+        SelectCruiserDefenseTarget(brain);
         Vector3 desired;
         brain.WantBoost = false;
         if(Obstacles.Count>0)brain.NavigationGoal=null;
@@ -166,6 +166,15 @@ public sealed partial class SimWorld
         else if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is { Damage.Shield: <= 1 } exposed
             && Sensors.Track(ship.Faction, exposed).Level >= TrackLevel.Identified)
             brain.AimModule = PickGunneryModule(ship, exposed, brain.PrecisionOrder);
+        if (!brain.Profile.AttackRuns && brain.AimModule is { } aimModule && brain.Target is { } aimTarget)
+        {
+            // A hull lock does not resolve every small external module. Both designs
+            // fall back to the hull when the observed firing uncertainty is too large.
+            var aimTrack = Sensors.Track(ship.Faction, aimTarget);
+            var solution = FireControl.Solve(ship, aimTarget, Time, track: aimTrack, localAim: aimModule.Definition.Center);
+            var size = aimModule.Definition.HalfSize;
+            if (!solution.Valid || solution.ErrorMeters > Math.Min(size.X, Math.Min(size.Y, size.Z))) brain.AimModule = null;
+        }
         float limit = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
         brain.DesiredVelocity = desired.LimitLength(limit);
         if (ship.Power.HeatFraction > 0.85f) brain.WantBoost = false;
@@ -183,17 +192,23 @@ public sealed partial class SimWorld
         Vector3 rh = r / d;
         Vector3 targetVelocity = track.Level >= TrackLevel.Identified ? track.ObservedVelocity : Vector3.Zero;
         // 잠기지 않으면(방해·먼 거리) 대치 거리를 줄여 다가간다.
-        float standoff = brain.CommandStandoff ?? brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
+        float standoff = (brain.CommandStandoff ?? brain.Profile.StandoffMeters) * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
         if (ship.Definition.Design == DesignFamily.Mars)
             standoff = brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : .72f);
-        float radial = Mathf.Clamp((d - standoff) * 0.01f, -0.6f * maxSpeed, maxSpeed);
+        if (ship.Definition.Branch == ShipBranch.MissileCruiser && brain.SalvoLaunched >= ship.Definition.Ai.MissilesPerSalvo
+            && Time - ship.Ordnance.LastMissileLaunch < 15) standoff *= 1.3f;
+        if (ship.Definition.Branch == ShipBranch.MissileCruiser && ship.Ordnance.Missiles == 0 && ship.Railgun is { } fallbackGun)
+            standoff = Math.Min(standoff, fallbackGun.Definition.MuzzleSpeed * brain.Profile.RailFlightSeconds * .7f);
+        brain.WantBoost = d > standoff * 2.5f
+            || track.Level < TrackLevel.Locked && d > standoff * 1.2f + 2000;
+        float approachSpeed = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
+        float radial = Mathf.Clamp((d - standoff) * 0.01f, -0.6f * maxSpeed, approachSpeed);
         Vector3 desired = targetVelocity + rh * radial;
         if (d < standoff * 1.5f)
         {
             Vector3 up = Mathf.Abs(rh.Dot(Vector3.Up)) > 0.95f ? Vector3.Right : Vector3.Up;
             desired += rh.Cross(up).Normalized() * (0.35f * maxSpeed * brain._side);
         }
-        brain.WantBoost = d > standoff * 2.5f;
         brain.Activity = d > standoff * 1.2f ? "접근" : "포격";
         if(Obstacles.Count>0)
             brain.NavigationGoal=d>standoff*1.2f?track.EstimatedPosition-Vec3d.From(rh)*standoff:ship.Position+Vec3d.From(desired)*25;
@@ -341,15 +356,18 @@ public sealed partial class SimWorld
     {
         ShipBody ship = brain.Ship;
         bool threatened = IncomingMissileThreat(ship, PointDefenseThreatMeters);
-        // ECCM: 공격 중인 표적이 방해로 잠기지 않는데 레일건 거리 근처면 센서를 올린다.
-        bool jammedOut = brain.Target is ShipBody target && ship.Railgun is RailgunState gun
-            && Sensors.Track(ship.Faction, target) is { Jammed: true, Level: < TrackLevel.Locked and > TrackLevel.None } t
+        // Preserve weak locks even when the opponent switches off ECM. Releasing
+        // sensor power immediately on a lock/jammer transition loses the same track.
+        // The stronger release threshold provides headroom for normal sensor pips.
+        bool needsTrackPower = brain.Target is ShipBody target && ship.Railgun is RailgunState gun
+            && Sensors.Track(ship.Faction, target) is { Level: > TrackLevel.None } t
+            && (t.Level < TrackLevel.Locked || brain.Eccm && (t.Jammed || t.TrackSnr < SensorNet.LockSnr * 2))
             // t.Range는 가장 잘 보는 아군 관측함 기준이다. 판단은 내 위치에서 한다.
             && (t.EstimatedPosition - ship.Position).Length() < gun.Definition.MuzzleSpeed * brain.Profile.RailFlightSeconds * 1.3;
-        int[] pips = threatened ? new[] { 1, 2, 2, 3, 0 }   // 근접방어: 센서·무장
-            : jammedOut ? new[] { 2, 1, 1, 4, 0 }           // 방해 뚫기
+        int[] pips = threatened ? (needsTrackPower ? new[] { 1, 1, 2, 4, 0 } : new[] { 1, 2, 2, 3, 0 }) // 방공 중에도 필요한 ECCM 유지
+            : needsTrackPower ? new[] { 2, 1, 1, 4, 0 }     // 방해·약한 항적 대응
             : (int[])brain.DefaultPips.Clone();
-        brain.Eccm = jammedOut && !threatened;
+        brain.Eccm = needsTrackPower;
         if (ship.Power.HeatFraction > 0.85f && pips[4] > 0)
         {
             // 과열 직전: ECM을 끄고 그 핍을 실드로.
@@ -391,6 +409,11 @@ public sealed partial class SimWorld
         }
         if (aim is null && brain.DesiredVelocity.LengthSquared() > 25f)
             aim = brain.DesiredVelocity.Normalized();
+        // Turn toward a sensor-derived interception solution while retaining the escort station.
+        // LaunchCounterMissile still enforces the real launcher arc and finite turn rate.
+        if (ship.Definition.Branch == ShipBranch.AirDefenseCruiser && brain.SmallTarget is Missile incoming
+            && CounterMissileSolution(ship, incoming, out var defenseAim, out _, requireLaunchAlignment:false))
+            aim = defenseAim;
         if (Time>=brain.BreakUntil && ship.Ordnance.Antimatter.Mode is AntimatterMode.Arming or AntimatterMode.Armed
             && brain.Target is { } assaultTarget && Sensors.Track(ship.Faction,assaultTarget) is { Level: >= TrackLevel.Locked } assaultTrack)
             aim=AntimatterLaunchDirection(ship,assaultTarget,assaultTrack,brain.AimModule?.Definition.Center,out _);
@@ -412,7 +435,7 @@ public sealed partial class SimWorld
     {
         ShipBody ship = brain.Ship;
 
-        EngageSmallTarget(brain);
+        if (!EngageCruiserDefense(brain)) EngageSmallTarget(brain);
         // 디코이: 나를 노리는 미사일이 가까우면.
         if (ship.Ordnance.DecoyReady && IncomingMissileThreat(ship, DecoyThreatMeters))
             LaunchDecoys(ship);
@@ -430,6 +453,8 @@ public sealed partial class SimWorld
         }
 
         // 미사일: 일제 사격 창
+        // Air-defense cruisers reserve their limited fast missiles for observed missile threats.
+        if (ship.Definition.Branch == ShipBranch.AirDefenseCruiser) return;
         if (ship.Ordnance.MissileDefinition is null || track.Level < TrackLevel.Identified) return;
         double range = (track.EstimatedPosition - ship.Position).Length();
         if (range > brain.Profile.MissileRangeMeters) return;
@@ -441,9 +466,11 @@ public sealed partial class SimWorld
             // 일제 사격: 같은 표적을 공격 중이고 사거리 안에서 장전된 함선 수가, 곧 합류할 아군(사거리 1.5배 안,
             // 미사일 잔량 있음) 수에 이르면 연다. 혼자 남았으면 혼자 쏜다. 근접방어를 한꺼번에 포화시키려는 것이다.
             int ready = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && b.Target == target
+                && b.Ship.Definition.Branch != ShipBranch.AirDefenseCruiser
                 && Squadron.Active(b.Ship) && b.Ship.Ordnance.MissileReady
                 && (Sensors.Track(ship.Faction, target).EstimatedPosition - b.Ship.Position).Length() <= b.Profile.MissileRangeMeters);
             int capable = _brains.Values.Count(b => b.Enabled && b.Ship.Faction == ship.Faction && b.Target == target && Squadron.Active(b.Ship)
+                && b.Ship.Definition.Branch != ShipBranch.AirDefenseCruiser
                 && b.Ship.Ordnance.Missiles > 0 && !b.Profile.AttackRuns
                 && (Sensors.Track(ship.Faction, target).EstimatedPosition - b.Ship.Position).Length() <= b.Profile.MissileRangeMeters * SalvoJoinFactor);
             if (!_salvoWaiting.ContainsKey(key)) _salvoWaiting[key] = Time;
@@ -457,7 +484,7 @@ public sealed partial class SimWorld
             brain.SalvoId = salvo.Id;
             brain.SalvoLaunched = 0;
         }
-        if (brain.SalvoLaunched < MissilesPerSalvo && ship.Ordnance.MissileReady)
+        if (brain.SalvoLaunched < ship.Definition.Ai.MissilesPerSalvo && ship.Ordnance.MissileReady)
         {
             var launch=LaunchMissile(ship,target);
             if(launch.Fired)brain.SalvoLaunched++;
@@ -502,7 +529,7 @@ public sealed partial class SimWorld
                 main.Count == 0 ? double.PositiveInfinity : main.Min(s => (k.Track.EstimatedPosition - s.Position).Length())).DefaultIfEmpty(double.PositiveInfinity).Min();
             float? propulsion = identified.FirstOrDefault(k => k.Ship.Class.Kind == HullKind.Battleship).Ship?.Damage.PropulsionFraction;
             Fleet(faction).Update(Time, doctrine, new(mainRange, stock, BattleRules.Strength(_ships, faction),
-                identified.Where(k => !k.Ship.Damage.Disabled).Sum(k => BattleRules.Weight(k.Ship.Class.Kind)), propulsion));
+                identified.Where(k => !k.Ship.Damage.Disabled).Sum(k => BattleRules.Weight(k.Ship.Definition)), propulsion));
         }
         foreach (Squadron gone in _squadrons.Where(q => q.Faction == faction && q.Leader is null))
         {
@@ -547,6 +574,7 @@ public sealed partial class SimWorld
             Assign(brain.Ship, target is null ? ShipOrder.HoldAt(brain.Ship.Position) : ShipOrder.AttackOn(target), assigned);
         }
         CommandMars(faction, known, assigned);
+        CommandCruisers(faction, known, assigned);
         if (Rules?.Objective == BattleObjective.Flagship) CommandFlagshipObjective(faction);
     }
 
@@ -577,7 +605,7 @@ public sealed partial class SimWorld
             {
                 Vector3 offset = squadron.Role switch
                 { SquadronRole.InterceptorWing => new Vector3(0,1000+slot*250,-6000) + Wedge(slot++, 350),
-                    SquadronRole.EscortSquadron => new Vector3(-9000,slot*400,-2000) + Wedge(slot++,1800) * new Vector3(-1,0,1),
+                    var role when Squadron.IsSupportRole(role) => new Vector3(-9000,slot*400,-2000) + Wedge(slot++,1800) * new Vector3(-1,0,1),
                     _ => Wedge(slot++,1800) * new Vector3(-1,0,1) };
                 // Close: cover the BB's aft/bottom PD blind sector.
                 if (posture == FleetPosture.Close) offset += new Vector3(0,-1200,2000);
@@ -713,12 +741,7 @@ public sealed partial class SimWorld
         foreach (var (enemy, track) in known)
         {
             if (anyIdentified && track.Level < TrackLevel.Identified) continue;
-            int preference = !anyIdentified ? 0 : ship.Class.Kind switch
-            {
-                HullKind.Battleship => enemy.Class.Kind switch { HullKind.Battleship => 0, HullKind.Escort => 1, _ => 3 },
-                HullKind.Escort => enemy.Class.Kind switch { HullKind.Escort => 0, HullKind.Battleship => 1, _ => 2 },
-                _ => enemy.Class.Kind switch { HullKind.Interceptor => 0, HullKind.Escort => 1, _ => 2 },
-            };
+            int preference = !anyIdentified ? 0 : ship.Definition.Ai.TargetPreference[enemy.Class.Kind];
             // 무력화된 적은 위협이 아니므로 뒤로 미룬다(식별된 경우에만 알 수 있다).
             double score = preference + (track.EstimatedPosition - ship.Position).Length() / 100_000.0
                 + assigned.GetValueOrDefault(enemy) * 0.8

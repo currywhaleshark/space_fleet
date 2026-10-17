@@ -8,7 +8,7 @@ public sealed partial class SimWorld
 {
     private readonly List<Missile> _counterMissileScratch = new();
 
-    public bool CounterMissileSolution(ShipBody ship, Missile target, out Vector3 direction, out string reason)
+    public bool CounterMissileSolution(ShipBody ship, Missile target, out Vector3 direction, out string reason, bool requireLaunchAlignment = true)
     {
         direction = Vector3.Zero;
         reason = "요격 미사일 미탑재";
@@ -26,12 +26,12 @@ public sealed partial class SimWorld
         reason = "통과/이탈 중인 미사일";
         if (r.Dot(v) >= 0) return false;
         reason = "요격 방향으로 기수를 돌리세요";
-        if (ship.Forward.AngleTo(r) > Mathf.DegToRad(80)) return false;
+        if (requireLaunchAlignment && ship.Forward.AngleTo(r) > Mathf.DegToRad(80)) return false;
         reason = "요격 경로 없음";
         double closest = -r.Dot(v) / Math.Max(1, v.LengthSquared());
         if (!AssaultGuidance.Intercept(r, v, def.EjectSpeed, def.Accel, Math.Min(8, closest), out direction, out _)) return false;
         // Account conservatively for the forward launcher and finite motor/body turn, not instant launch vector snapping.
-        if (ship.Forward.AngleTo(direction) > Mathf.DegToRad(85)) return false;
+        if (requireLaunchAlignment && ship.Forward.AngleTo(direction) > Mathf.DegToRad(85)) return false;
         reason = "좌클릭 · 요격 미사일 발사";
         return true;
     }
@@ -110,7 +110,11 @@ public sealed partial class SimWorld
             }
             if(TerrainBlocked(Vec3d.Lerp(m.PrevPosition,m.Position,fraction),Vec3d.Lerp(target.PrevPosition,target.Position,fraction))) continue;
             target.Health -= m.Definition.InterceptDamage;
-            if (target.Health <= 0) DestroyMissile(m.Shooter, target, time);
+            if (target.Health <= 0)
+            {
+                DestroyMissile(m.Shooter, target, time);
+                if (Log is { } log) log.Ship(m.Shooter).CounterMissileKills++;
+            }
             _missiles.Remove(m); m.Health = 0;
             _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, Vec3d.Lerp(m.PrevPosition, m.Position, fraction), time, m.Faction));
         }

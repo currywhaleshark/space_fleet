@@ -1,0 +1,11 @@
+run mixed
+run swapped
+run earth
+run mars
+run duel-20000-Earth
+run duel-20000-Mars
+run duel-70000-Earth
+run duel-70000-Mars
+run duel-130000-Earth
+run duel-130000-Mars
+complete: 24 fleet battles and 24 battleship duels

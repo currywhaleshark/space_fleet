@@ -1,0 +1,304 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+11:05:09 | INFO: Starting glTF 2.0 export
+11:05:09 | INFO: Extracting primitive: hull.001
+11:05:10 | INFO: Primitives created: 10
+11:05:10 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+11:05:10 | INFO: Primitives created: 3
+11:05:10 | INFO: Extracting primitive: PD 0 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 0 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 1 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 1 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 2 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 2 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 3 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 3 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 4 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 4 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 5 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 5 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 6 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 6 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Extracting primitive: PD 7 receiver.001
+11:05:10 | INFO: Primitives created: 1
+11:05:10 | INFO: Extracting primitive: PD 7 barrel.002
+11:05:10 | INFO: Primitives created: 2
+11:05:10 | INFO: Finished glTF 2.0 export in 0.15854907035827637 s
+00:05.016  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_d1cccc4050f8ae02f2b68ac0b3c5b6ec.png.png"
+00:12.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\battleship_t5_hero.png'
+00:20.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\battleship_t5_underside.png'
+00:27.469  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\battleship_t5_top.png'
+00:34.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\battleship_t5_rear.png'
+
+Info: Saved as "battleship_t5.blend"
+BUILT battleship_t5 13960 triangles
+11:05:40 | INFO: Starting glTF 2.0 export
+11:05:40 | INFO: Extracting primitive: hull.001
+11:05:40 | INFO: Primitives created: 10
+11:05:40 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:05:40 | INFO: Primitives created: 3
+11:05:40 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:05:40 | INFO: Primitives created: 3
+11:05:40 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+11:05:40 | INFO: Primitives created: 3
+11:05:40 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+11:05:40 | INFO: Primitives created: 3
+11:05:40 | INFO: Extracting primitive: PD 0 receiver.001
+11:05:40 | INFO: Primitives created: 1
+11:05:40 | INFO: Extracting primitive: PD 0 barrel.002
+11:05:40 | INFO: Primitives created: 2
+11:05:40 | INFO: Extracting primitive: PD 1 receiver.001
+11:05:40 | INFO: Primitives created: 1
+11:05:40 | INFO: Extracting primitive: PD 1 barrel.002
+11:05:40 | INFO: Primitives created: 2
+11:05:40 | INFO: Extracting primitive: PD 2 receiver.001
+11:05:40 | INFO: Primitives created: 1
+11:05:40 | INFO: Extracting primitive: PD 2 barrel.002
+11:05:40 | INFO: Primitives created: 2
+11:05:40 | INFO: Extracting primitive: PD 3 receiver.001
+11:05:40 | INFO: Primitives created: 1
+11:05:40 | INFO: Extracting primitive: PD 3 barrel.002
+11:05:40 | INFO: Primitives created: 2
+11:05:40 | INFO: Finished glTF 2.0 export in 0.06636738777160645 s
+00:35.641  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_a20e171c3cf8ee23f25a32d98e4976a3.png.png"
+00:42.984  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_hero.png'
+00:50.750  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_underside.png'
+00:58.266  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_top.png'
+01:05.813  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_battleship_t5_rear.png'
+
+Info: Saved as "mars_battleship_t5.blend"
+BUILT mars_battleship_t5 11836 triangles
+11:06:11 | INFO: Starting glTF 2.0 export
+11:06:11 | INFO: Extracting primitive: hull.001
+11:06:11 | INFO: Primitives created: 10
+11:06:11 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:06:11 | INFO: Primitives created: 3
+11:06:11 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:06:11 | INFO: Primitives created: 3
+11:06:11 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:06:11 | INFO: Primitives created: 3
+11:06:11 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:06:11 | INFO: Primitives created: 3
+11:06:11 | INFO: Extracting primitive: PD 0 receiver.001
+11:06:11 | INFO: Primitives created: 1
+11:06:11 | INFO: Extracting primitive: PD 0 barrel.002
+11:06:11 | INFO: Primitives created: 2
+11:06:11 | INFO: Extracting primitive: PD 1 receiver.001
+11:06:11 | INFO: Primitives created: 1
+11:06:11 | INFO: Extracting primitive: PD 1 barrel.002
+11:06:11 | INFO: Primitives created: 2
+11:06:11 | INFO: Extracting primitive: PD 2 receiver.001
+11:06:11 | INFO: Primitives created: 1
+11:06:11 | INFO: Extracting primitive: PD 2 barrel.002
+11:06:11 | INFO: Primitives created: 2
+11:06:11 | INFO: Extracting primitive: PD 3 receiver.001
+11:06:11 | INFO: Primitives created: 1
+11:06:11 | INFO: Extracting primitive: PD 3 barrel.002
+11:06:11 | INFO: Primitives created: 2
+11:06:11 | INFO: Finished glTF 2.0 export in 0.07650399208068848 s
+01:06.813  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_a9b2e2ea73d21776e33405f12bf2f517.png.png"
+01:15.188  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_gun_cruiser_t5_hero.png'
+01:23.453  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_gun_cruiser_t5_underside.png'
+01:31.250  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_gun_cruiser_t5_top.png'
+01:39.141  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_gun_cruiser_t5_rear.png'
+
+Info: Saved as "earth_gun_cruiser_t5.blend"
+BUILT earth_gun_cruiser_t5 10068 triangles
+11:06:45 | INFO: Starting glTF 2.0 export
+11:06:45 | INFO: Extracting primitive: hull.001
+11:06:45 | INFO: Primitives created: 10
+11:06:45 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:06:45 | INFO: Primitives created: 3
+11:06:45 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:06:45 | INFO: Primitives created: 3
+11:06:45 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:06:45 | INFO: Primitives created: 3
+11:06:45 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:06:45 | INFO: Primitives created: 3
+11:06:45 | INFO: Extracting primitive: PD 0 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 0 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Extracting primitive: PD 1 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 1 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Extracting primitive: PD 2 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 2 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Extracting primitive: PD 3 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 3 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Extracting primitive: PD 4 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 4 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Extracting primitive: PD 5 receiver.001
+11:06:45 | INFO: Primitives created: 1
+11:06:45 | INFO: Extracting primitive: PD 5 barrel.002
+11:06:45 | INFO: Primitives created: 2
+11:06:45 | INFO: Finished glTF 2.0 export in 0.09513473510742188 s
+01:40.469  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_14024f40002d59b6524a524ca0d6dc2e.png.png"
+01:49.406  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_air_defense_cruiser_t5_hero.png'
+01:58.844  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_air_defense_cruiser_t5_underside.png'
+02:09.063  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_air_defense_cruiser_t5_top.png'
+02:17.969  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_air_defense_cruiser_t5_rear.png'
+
+Info: Saved as "earth_air_defense_cruiser_t5.blend"
+BUILT earth_air_defense_cruiser_t5 11652 triangles
+11:07:23 | INFO: Starting glTF 2.0 export
+11:07:23 | INFO: Extracting primitive: hull.001
+11:07:23 | INFO: Primitives created: 10
+11:07:23 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:07:23 | INFO: Primitives created: 3
+11:07:23 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:07:23 | INFO: Primitives created: 3
+11:07:23 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:07:23 | INFO: Primitives created: 3
+11:07:23 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:07:23 | INFO: Primitives created: 3
+11:07:23 | INFO: Extracting primitive: PD 0 receiver.001
+11:07:23 | INFO: Primitives created: 1
+11:07:23 | INFO: Extracting primitive: PD 0 barrel.002
+11:07:23 | INFO: Primitives created: 2
+11:07:23 | INFO: Extracting primitive: PD 1 receiver.001
+11:07:23 | INFO: Primitives created: 1
+11:07:23 | INFO: Extracting primitive: PD 1 barrel.002
+11:07:23 | INFO: Primitives created: 2
+11:07:24 | INFO: Finished glTF 2.0 export in 0.09759068489074707 s
+02:18.891  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_2420d61fbae0d75ad8ff0b5d1e019621.png.png"
+02:27.547  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_hero.png'
+02:35.953  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_underside.png'
+02:43.469  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_top.png'
+02:50.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_rear.png'
+
+Info: Saved as "mars_gun_cruiser_t5.blend"
+BUILT mars_gun_cruiser_t5 10080 triangles
+11:07:56 | INFO: Starting glTF 2.0 export
+11:07:56 | INFO: Extracting primitive: hull.001
+11:07:56 | INFO: Primitives created: 10
+11:07:56 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:07:56 | INFO: Primitives created: 3
+11:07:56 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:07:56 | INFO: Primitives created: 3
+11:07:56 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:07:56 | INFO: Primitives created: 3
+11:07:56 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:07:56 | INFO: Primitives created: 3
+11:07:56 | INFO: Extracting primitive: PD 0 receiver.001
+11:07:56 | INFO: Primitives created: 1
+11:07:56 | INFO: Extracting primitive: PD 0 barrel.002
+11:07:56 | INFO: Primitives created: 2
+11:07:56 | INFO: Extracting primitive: PD 1 receiver.001
+11:07:56 | INFO: Primitives created: 1
+11:07:56 | INFO: Extracting primitive: PD 1 barrel.002
+11:07:56 | INFO: Primitives created: 2
+11:07:56 | INFO: Finished glTF 2.0 export in 0.06618690490722656 s
+02:51.781  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_0d1b80e441ff371c8c69b993a237b907.png.png"
+03:00.313  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_missile_cruiser_t5_hero.png'
+03:09.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_missile_cruiser_t5_underside.png'
+03:16.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_missile_cruiser_t5_top.png'
+03:24.516  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_missile_cruiser_t5_rear.png'
+
+Info: Saved as "mars_missile_cruiser_t5.blend"
+BUILT mars_missile_cruiser_t5 11960 triangles
+11:08:30 | INFO: Starting glTF 2.0 export
+11:08:30 | INFO: Extracting primitive: Main pressure hull.001
+11:08:30 | INFO: Primitives created: 10
+11:08:30 | INFO: Extracting primitive: PD 0 receiver.001
+11:08:30 | INFO: Primitives created: 1
+11:08:30 | INFO: Extracting primitive: PD 0 barrel.002
+11:08:30 | INFO: Primitives created: 2
+11:08:30 | INFO: Extracting primitive: PD 1 receiver.001
+11:08:30 | INFO: Primitives created: 1
+11:08:30 | INFO: Extracting primitive: PD 1 barrel.002
+11:08:30 | INFO: Primitives created: 2
+11:08:30 | INFO: Finished glTF 2.0 export in 0.04625272750854492 s
+03:24.906  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_16b4cdc1029bc671705b2cbf34bac106.png.png"
+03:33.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\interceptor_t5_hero.png'
+03:41.875  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\interceptor_t5_underside.png'
+03:49.891  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\interceptor_t5_rear.png'
+03:58.500  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\interceptor_t5_top.png'
+
+Info: Saved as "interceptor_t5.blend"
+BUILT interceptor_t5 6496 triangles
+11:09:04 | INFO: Starting glTF 2.0 export
+11:09:04 | INFO: Extracting primitive: Main pressure hull.001
+11:09:04 | INFO: Primitives created: 10
+11:09:04 | INFO: Extracting primitive: PD 0 receiver.001
+11:09:04 | INFO: Primitives created: 1
+11:09:04 | INFO: Extracting primitive: PD 0 barrel.002
+11:09:04 | INFO: Primitives created: 2
+11:09:04 | INFO: Extracting primitive: PD 1 receiver.001
+11:09:04 | INFO: Primitives created: 1
+11:09:04 | INFO: Extracting primitive: PD 1 barrel.002
+11:09:04 | INFO: Primitives created: 2
+11:09:04 | INFO: Finished glTF 2.0 export in 0.05163288116455078 s
+03:59.063  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_7455f1240972ee43bbd2436b52a73046.png.png"
+04:08.141  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_recon_t5_hero.png'
+04:16.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_recon_t5_underside.png'
+04:24.984  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_recon_t5_rear.png'
+04:33.313  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\earth_recon_t5_top.png'
+
+Info: Saved as "earth_recon_t5.blend"
+BUILT earth_recon_t5 7740 triangles
+11:09:38 | INFO: Starting glTF 2.0 export
+11:09:38 | INFO: Extracting primitive: Main pressure hull.001
+11:09:38 | INFO: Primitives created: 10
+11:09:38 | INFO: Extracting primitive: PD 0 receiver.001
+11:09:38 | INFO: Primitives created: 1
+11:09:38 | INFO: Extracting primitive: PD 0 barrel.002
+11:09:38 | INFO: Primitives created: 2
+11:09:38 | INFO: Finished glTF 2.0 export in 0.045943498611450195 s
+04:33.688  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_c4918bd85531de90b0ce599468218617.png.png"
+04:41.875  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_hero.png'
+04:49.906  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_underside.png'
+04:57.922  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_rear.png'
+05:06.266  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_interceptor_t5_top.png'
+
+Info: Saved as "mars_interceptor_t5.blend"
+BUILT mars_interceptor_t5 6224 triangles
+11:10:11 | INFO: Starting glTF 2.0 export
+11:10:11 | INFO: Extracting primitive: Main pressure hull.001
+11:10:11 | INFO: Primitives created: 10
+11:10:11 | INFO: Extracting primitive: PD 0 receiver.001
+11:10:11 | INFO: Primitives created: 1
+11:10:11 | INFO: Extracting primitive: PD 0 barrel.002
+11:10:11 | INFO: Primitives created: 2
+11:10:11 | INFO: Finished glTF 2.0 export in 0.06378006935119629 s
+05:06.719  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_15096_000425fbed3247c3438ad3e2a9d36c48.png.png"
+05:17.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_assault_t5_hero.png'
+05:26.953  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_assault_t5_underside.png'
+05:36.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_assault_t5_rear.png'
+05:44.688  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_assault_t5_top.png'
+
+Info: Saved as "mars_assault_t5.blend"
+BUILT mars_assault_t5 6364 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

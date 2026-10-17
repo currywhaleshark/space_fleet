@@ -1,0 +1,17 @@
+{
+  "docs/validation/escort_synergy_20261016/artifact-checks.json": "cfa819fb20cbf16706ba7f4cc83a6df36c97fa43e75acbb95d5987abff75039d",
+  "docs/validation/escort_synergy_20261016/checks.txt": "06568e9cc8a71babfb2bbe63eaa594a46bf37e7380f1c997fd14f90e604985b2",
+  "docs/validation/escort_synergy_20261016/nofire-cases.json": "c31106a41316918e9c974f3eeaf728e06b679f730c5a045b8e8ef1ade0ca60d0",
+  "docs/validation/escort_synergy_20261016/pack-checks.json": "d613d2fb744bfe950ae2c0e4962d6cbbbd736000a8dbbd6240bcf364359993fa",
+  "docs/validation/escort_synergy_20261016/pilot.json.gz": "9bb8cd9a2f30199941149888e9a1a733ff685280748663baad09475feb555840",
+  "docs/validation/escort_synergy_20261016/pilot.traces.zip": "c03a1410e7b63f808ee84eeca072cba6c07b79f5c84ac21b1ddf376405e9965e",
+  "docs/validation/escort_synergy_20261016/production-before.json": "00adc028974beb4aed00d603be572abbec66bcd9cda8c380397163039b08303a",
+  "docs/validation/escort_synergy_20261016/README.md": "2556444b04857cb06854324f83d4c468a8474932916c71963c2264bbf45303f5",
+  "docs/validation/escort_synergy_20261016/results.json.gz": "2384462170cf25ecf4fede2d548ebca07e572310a66b69bc318c99fc8f2b25bb",
+  "docs/validation/escort_synergy_20261016/results.summary.json": "6044c6870c3aead6383c86ff0c58e4ccd3cef3d471118208e6bec030b9df0941",
+  "docs/validation/escort_synergy_20261016/results.traces.zip": "71ebdf31d875502d65d1ed44b931b5befdc75f99d9103af2ffe230d942e28dee",
+  "tools/analyze-escort-trials.py": "bebb67e2cc80610f85492e0565a5e31ed40bad6e3a9fae1427d3d238be4de3c7",
+  "tools/BattleBatch/bin/Release/net8.0/BattleBatch.dll": "516588ab14a4a6aec27bdaa8c5a90f042235ccfc1bad221ec98cc64c5dd8de43",
+  "tools/BattleBatch/EscortTrials.cs": "3793fd37c115907635b872e886f8492cd0b52099cec2ebe9349007cf084ae8b9",
+  "tools/BattleBatch/Program.cs": "cdda1b2d131a2def065cbb017da5442cccf5ab8eb081ffed5c631b41e6710694"
+}

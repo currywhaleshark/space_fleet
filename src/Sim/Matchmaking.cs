@@ -6,7 +6,8 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 /// <summary>A participant owns one immutable squad template, independently of team/design.</summary>
-public sealed record MatchParticipant(int Slot, Faction Team, string HullId, bool IsPlayer)
+public sealed record MatchParticipant(int Slot, Faction Team, string HullId, bool IsPlayer, ResolvedSquadron? Loadout = null,
+    double MatchPoints=0,int Tier=0,IReadOnlyList<int>? MemberTiers=null)
 {
     public ShipDefinition Hull => ShipDefinitions.ById(HullId);
     public HullKind Kind => Hull.Kind;
@@ -14,37 +15,60 @@ public sealed record MatchParticipant(int Slot, Faction Team, string HullId, boo
     public string Name => IsPlayer ? "나" : $"AI {Id}";
     public string SquadronName => $"{Id} 편대";
     public string Callsign(int member) => $"{Id}-{member + 1}";
-    public int ShipCount => Kind switch { HullKind.Battleship => 3, HullKind.Escort => 4, _ => 5 };
-    public SquadronRole Role => Kind switch
-    { HullKind.Battleship => SquadronRole.BattleGroup, HullKind.Escort => SquadronRole.EscortSquadron, _ => SquadronRole.InterceptorWing };
-    public string Composition => Kind switch
-    { HullKind.Battleship => "전함 1 + 호위함 2", HullKind.Escort => "호위함 4", _ => "요격함 5" };
+    public int ShipCount => Hull.Squadron.Members.Count;
+    public SquadronRole Role => Hull.Squadron.Role;
+    public string Composition => Loadout?.Composition ?? Hull.Squadron.Composition;
 }
 
 public sealed class MatchLineup
 {
+    public int? Tier { get; internal init; }
+    public int? LowTier { get; internal init; }
+    public int? HighTier { get; internal init; }
     public IReadOnlyList<MatchParticipant> Participants { get; }
     public MatchParticipant Player => Participants.Single(p => p.IsPlayer);
     public const int TeamSize = 10;
     internal MatchLineup(IEnumerable<MatchParticipant> participants) => Participants = Array.AsReadOnly(participants.ToArray());
 }
 
-public static class Matchmaking
+public static partial class Matchmaking
 {
+    /// <summary>Hangar matches freeze every member's validated loadout before the countdown.</summary>
+    public static MatchLineup Create(int seed,SquadronLoadout playerLoadout,IReadOnlySet<string>? owned=null)
+    {
+        var resolved=FleetLoadouts.Resolve(playerLoadout,owned);
+        var legacy=Create(seed,resolved.Leader.Id);
+        var random=new Random(seed^0x521A4);
+        var presets=new Dictionary<(string,int),ResolvedSquadron>();
+        var participants=legacy.Participants.Select(p=>
+        {
+            if(p.IsPlayer)return p with{Loadout=resolved};
+            var candidates=FleetLoadouts.Hulls.Where(h=>h.Design==p.Hull.Design&&h.MatchClass==p.Hull.MatchClass).ToArray();
+            var hull=candidates[random.Next(candidates.Length)];int preset=random.Next(3);
+            if(!presets.TryGetValue((hull.Id,preset),out var fit))
+                presets[(hull.Id,preset)]=fit=FleetLoadouts.Resolve(FleetLoadouts.AiPreset(hull.Id,preset));
+            return p with{HullId=hull.Id,Loadout=fit};
+        }).ToArray();
+        return new(participants);
+    }
+
     public static MatchLineup Create(int seed, string playerHullId)
     {
         var player = ShipDefinitions.ById(playerHullId);
         var random = new Random(seed);
         // Each class has 2..4 participants. Vary the mix between matches, while
         // matching class/design counts across teams so random fills cannot stack BBs.
-        int battleships, escorts, interceptors;
-        do { battleships = random.Next(2, 5); escorts = random.Next(2, 5); interceptors = 10 - battleships - escorts; }
-        while (interceptors is < 2 or > 4);
+        int large, medium, small;
+        do { large = random.Next(2, 5); medium = random.Next(2, 5); small = MatchLineup.TeamSize - large - medium; }
+        while (small is < 2 or > 4);
         var hulls = new List<string>();
-        foreach (var (kind, count) in new[] { (HullKind.Battleship, battleships), (HullKind.Escort, escorts), (HullKind.Interceptor, interceptors) })
+        foreach (var (size, count) in new[] { (MatchWeightClass.Large, large), (MatchWeightClass.Medium, medium), (MatchWeightClass.Small, small) })
             for (int i = 0; i < count; i++)
-                hulls.Add(ShipDefinitions.For(kind, random.Next(2) == 0 ? DesignFamily.Earth : DesignFamily.Mars).Id);
-        int chosen = hulls.FindIndex(id => ShipDefinitions.ById(id).Kind == player.Kind);
+            {
+                var design = random.Next(2) == 0 ? DesignFamily.Earth : DesignFamily.Mars;
+                hulls.Add(ShipDefinitions.All.Single(h => h.MatchClass == size && h.Design == design).Id);
+            }
+        int chosen = hulls.FindIndex(id => ShipDefinitions.ById(id).MatchClass == player.MatchClass);
         hulls[chosen] = player.Id;
         var blue = hulls.ToArray();
         (blue[0], blue[chosen]) = (blue[chosen], blue[0]);
@@ -77,20 +101,15 @@ public static class Matchmaking
             var members = new List<ShipBody>();
             for (int i = 0; i < entry.ShipCount; i++)
             {
-                HullKind kind = entry.Kind == HullKind.Battleship && i > 0 ? HullKind.Escort : entry.Kind;
-                var hull = i == 0 ? entry.Hull : ShipDefinitions.For(kind, entry.Hull.Design);
-                var offset = entry.Kind switch
-                {
-                    HullKind.Battleship => i == 0 ? Vec3d.Zero : new Vec3d(i == 1 ? -1500 : 1500, i == 1 ? 150 : -150, -600),
-                    HullKind.Escort => new Vec3d((i % 2 == 0 ? -1 : 1) * 1200 * (i / 2 + 1), 0, 900 * (i / 2)),
-                    _ => new Vec3d(60 * i, -25 * i, 50 * i),
-                };
-                var p = center + offset;
-                var ship = world.Add(new ShipBody(entry.Callsign(i), hull, entry.Team));
+                var member = entry.Hull.Squadron.Members[i];
+                var resolved=entry.Loadout?.Members[i];
+                var hull = resolved?.Definition ?? (member.HullId is { } id ? ShipDefinitions.ById(id) : entry.Hull);
+                var p = center + Vec3d.From(member.Offset);
+                var ship = world.Add(new ShipBody(entry.Callsign(i), hull, entry.Team) { LoadoutId=resolved?.LoadoutId });
                 ship.Place(origin + new Vec3d(p.X * dir, p.Y, p.Z * dir), pose);
                 world.AttachBrain(ship, ShipOrder.HoldAt(ship.Position));
                 members.Add(ship); ships.Add(ship);
-                if (kind == HullKind.Battleship && flagships[(int)entry.Team] is null) flagships[(int)entry.Team] = ship;
+                if (i == 0 && entry.Role == SquadronRole.BattleGroup && flagships[(int)entry.Team] is null) flagships[(int)entry.Team] = ship;
             }
             world.AddSquadron(entry.SquadronName, entry.Team, entry.Role, members);
         }
@@ -99,18 +118,20 @@ public static class Matchmaking
             if (squad.Role == SquadronRole.InterceptorWing) continue;
             squad.SupportGroup = squad.Role == SquadronRole.BattleGroup ? squad : world.Squadrons
                 .Where(q => q.Faction == squad.Faction && q.Role == SquadronRole.BattleGroup)
-                .OrderBy(q => (q.Leader!.Position - squad.Leader!.Position).LengthSquared()).First();
-            if (squad.Role == SquadronRole.EscortSquadron)
+                .OrderBy(q => (q.Leader!.Position - squad.Leader!.Position).LengthSquared()).FirstOrDefault() ?? squad;
+            if (Squadron.IsSupportRole(squad.Role))
             {
                 int lane = world.Squadrons.TakeWhile(q => q != squad)
-                    .Count(q => q.Role == SquadronRole.EscortSquadron && q.SupportGroup == squad.SupportGroup);
+                    .Count(q => Squadron.IsSupportRole(q.Role) && q.SupportGroup == squad.SupportGroup);
                 squad.SupportOffset = new Vector3(0, lane * 5000, 0);
             }
         }
         world.Doctrine = new FleetDoctrine();
+        foreach(Faction team in Enum.GetValues<Faction>())
+            flagships[(int)team]??=ships.Where(s=>s.Faction==team).OrderByDescending(s=>s.Definition.BattleValue.Weight).First();
         world.EnableCommander(Faction.Red); world.EnableCommander(Faction.Blue);
         world.Rules = new BattleRules(world, config.Objective,
-            config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null);
+            config.Objective == BattleObjective.Domination ? BattleRules.DefaultZones(config.StartDistance, Vec3d.From(config.RedOffset)) : null,flagships:flagships);
         world.PopulateBattlefield(config);
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);

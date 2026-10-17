@@ -1,0 +1,17 @@
+{
+  "id": "sensor-array",
+  "name": "고출력 센서",
+  "category": "Sensor",
+  "size": "Small",
+  "kind": "SensorBooster",
+  "hitPoints": 60,
+  "resistanceMm": 15,
+  "channel": "Sensors",
+  "powerMw": 5,
+  "heatMw": 2,
+  "massKg": 2000,
+  "effects": {
+    "sensorStrengthFraction": 0.35,
+    "signatureFraction": 0.2
+  }
+}

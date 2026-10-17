@@ -1,0 +1,35 @@
+{
+  "preservedFiles": 101,
+  "changedBaselineFiles": [
+    "data/variants/earth_starter_escort.json",
+    "data/variants/mars_starter_escort.json",
+    "art/blender/earth_starter_escort.blend",
+    "art/blender/mars_starter_escort.blend",
+    "assets/ships/earth_starter_escort.glb",
+    "assets/ships/manifest.json",
+    "assets/ships/mars_starter_escort.glb",
+    "assets/ui/ships/earth_starter_escort.png",
+    "assets/ui/ships/mars_starter_escort.png"
+  ],
+  "archivedOriginalFiles": 9,
+  "unchangedPerformanceHullIds": [
+    "earth_starter_escort",
+    "mars_starter_escort"
+  ],
+  "identicalRegeneratedHullCount": 34,
+  "identicalResearchTrees": true,
+  "modelCosts": [
+    {
+      "id": "earth_starter_escort",
+      "triangles": 9420,
+      "editableParts": 184,
+      "meshGroups": 11
+    },
+    {
+      "id": "mars_starter_escort",
+      "triangles": 9456,
+      "editableParts": 187,
+      "meshGroups": 7
+    }
+  ]
+}

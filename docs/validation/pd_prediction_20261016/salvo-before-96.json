@@ -1,0 +1,242 @@
+[
+  {
+    "pattern": 0,
+    "az": 0,
+    "launched": 6,
+    "shots": 126,
+    "hitShots": 9,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      63,
+      63,
+      0,
+      0
+    ]
+  },
+  {
+    "pattern": 0,
+    "az": 90,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 5,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      33,
+      0,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 0,
+    "az": 180,
+    "launched": 6,
+    "shots": 185,
+    "hitShots": 16,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      58,
+      58,
+      0,
+      69
+    ]
+  },
+  {
+    "pattern": 0,
+    "az": 270,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 5,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      0,
+      33,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 1,
+    "az": 0,
+    "launched": 6,
+    "shots": 125,
+    "hitShots": 13,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      63,
+      62,
+      0,
+      0
+    ]
+  },
+  {
+    "pattern": 1,
+    "az": 90,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 1,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      33,
+      0,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 1,
+    "az": 180,
+    "launched": 6,
+    "shots": 194,
+    "hitShots": 8,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      61,
+      61,
+      0,
+      72
+    ]
+  },
+  {
+    "pattern": 1,
+    "az": 270,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 1,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      0,
+      33,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 2,
+    "az": 0,
+    "launched": 6,
+    "shots": 126,
+    "hitShots": 6,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      63,
+      63,
+      0,
+      0
+    ]
+  },
+  {
+    "pattern": 2,
+    "az": 90,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 3,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      33,
+      0,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 2,
+    "az": 180,
+    "launched": 6,
+    "shots": 193,
+    "hitShots": 11,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      61,
+      61,
+      0,
+      71
+    ]
+  },
+  {
+    "pattern": 2,
+    "az": 270,
+    "launched": 6,
+    "shots": 63,
+    "hitShots": 3,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      0,
+      33,
+      0,
+      30
+    ]
+  },
+  {
+    "pattern": 3,
+    "az": 0,
+    "launched": 6,
+    "shots": 126,
+    "hitShots": 8,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      63,
+      63,
+      0,
+      0
+    ]
+  },
+  {
+    "pattern": 3,
+    "az": 90,
+    "launched": 6,
+    "shots": 86,
+    "hitShots": 7,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      44,
+      0,
+      0,
+      42
+    ]
+  },
+  {
+    "pattern": 3,
+    "az": 180,
+    "launched": 6,
+    "shots": 194,
+    "hitShots": 8,
+    "missileHits": 6,
+    "intercepted": 0,
+    "byMount": [
+      61,
+      61,
+      0,
+      72
+    ]
+  },
+  {
+    "pattern": 3,
+    "az": 270,
+    "launched": 6,
+    "shots": 86,
+    "hitShots": 7,
+    "missileHits": 5,
+    "intercepted": 1,
+    "byMount": [
+      0,
+      44,
+      0,
+      42
+    ]
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "earth_gun_cruiser_t4",
+    "markers": 31,
+    "maxMarkerError": 4.76837158203125e-07,
+    "meshParts": 194,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  },
+  {
+    "id": "earth_air_defense_cruiser_t4",
+    "markers": 33,
+    "maxMarkerError": 4.76837158203125e-07,
+    "meshParts": 234,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  },
+  {
+    "id": "mars_gun_cruiser_t4",
+    "markers": 28,
+    "maxMarkerError": 1.9405866379856713e-06,
+    "meshParts": 191,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  },
+  {
+    "id": "mars_missile_cruiser_t4",
+    "markers": 28,
+    "maxMarkerError": 1.9405866379856713e-06,
+    "meshParts": 255,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  }
+]

@@ -1,0 +1,52 @@
+{
+  "release": "SpaceFleet-20261017-t1-starters-v2-Windows-x64",
+  "exe": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261017-t1-starters-v2-Windows-x64\\SpaceFleet.exe",
+  "zip": "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\builds\\SpaceFleet-20261017-t1-starters-v2-Windows-x64.zip",
+  "zipBytes": 85647041,
+  "sha256": "500ccbb10db947a5597b9a726d55250a2e1592555df6416641b236d53d5d280e",
+  "zipEntries": 204,
+  "zipCrc": "pass",
+  "releaseCheckGroups": 15,
+  "releaseChecks": 7938,
+  "simChecks": {
+    "sim-progression": 558
+  },
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 40 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 59 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 6664 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.456",
+    "PASS: 120 fleet audio checks",
+    "PASS: 276 weapon selection/telescope/damage-control checks",
+    "PASS: 22 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ],
+  "portraitIds": [
+    "earth_starter_escort",
+    "mars_starter_escort"
+  ],
+  "selfContained": true,
+  "assemblySha256": "3864ebde3b621ef94bef554996502575b5d2f845bc5b61c152c9b748d871bd3c",
+  "matchesLatestExportAssembly": true,
+  "sourceCommit": "e4cdec2e0461771335c955ea5f5bad32f9ddf97a",
+  "localChanges": true,
+  "assetSha256": {
+    "art/blender/earth_starter_escort.blend": "305de5b3ffbb12a9dd4d982124d193386b21535f3b7cb484e978fb8308446143",
+    "assets/ships/earth_starter_escort.glb": "8228bef2e07ca3e561fd4bc273a8742c6562c71350fe5dee33bbb5aedc6bd53e",
+    "assets/ui/ships/earth_starter_escort.png": "6c91df36f55c9fdcd0e6b421c9460dfd53f2aba76370876b91028fbb436cb227",
+    "data/variants/earth_starter_escort.json": "ee0fc640b69a2d4fc284f7f204ed3cd41fdd4fb75ee60226e29d1f59fcb4c0b5",
+    "data/model_layouts/earth_starter_escort.json": "a00c811fa0e2ad8a977021cde83d49b3ec49cca2df1488056d7d09610a8af257",
+    "art/blender/mars_starter_escort.blend": "a9e6588203ff022314de3ec58cf9591fc6168987b4bfc573cea96f2a22fcd83d",
+    "assets/ships/mars_starter_escort.glb": "031ae89384fdf91145a8ed68bce1a2f1e68836897ffc8d38440191b94fa94b4b",
+    "assets/ui/ships/mars_starter_escort.png": "a081bcf33d74fd53171e3b8736aef9454073e75d3439a3e19310e1700b65ad03",
+    "data/variants/mars_starter_escort.json": "edb11a83ff3849f3931c968ceb92ffbaf59f85051472e8e4f5632407422f24c1",
+    "data/model_layouts/mars_starter_escort.json": "3f1d539d3537944049601f5ea16fc09dad343ca40678a04510eee6ec60556ad3"
+  }
+}

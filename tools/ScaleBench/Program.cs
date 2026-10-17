@@ -28,6 +28,8 @@ for (int repeat = 0; repeat < repeats; repeat++)
     var world = Create(count);
     SimProfiler.Enabled = false;
     for (int tick = 0; tick < warmup; tick++) world.Step();
+    long pdBefore = world.Ships.Sum(s => s.Ordnance.PointDefense.Sum(m => (long)m.ShotCount));
+    long pdSolvesBefore = world.Ships.Sum(s => s.Ordnance.PointDefense.Sum(m => (long)m.SolutionCount));
     var samples = new double[ticks];
     int rails = 0, missiles = 0, probes = 0;
     long allocation = 0;
@@ -51,6 +53,8 @@ for (int repeat = 0; repeat < repeats; repeat++)
     results.Add(new { groups = count, ships = world.Ships.Count, repeat, seed, warmupTicks = warmup, measuredTicks = ticks,
         distanceMeters = distance, battlefield = battlefield.ToString(), fieldSeed, meanMs, p95Ms = Percentile(.95), p99Ms, maxMs = samples[^1],
         allocatedBytesPerTick = allocation / (double)ticks, peakRails = rails, peakMissiles = missiles, peakProbes = probes,
+        pdShots = world.Ships.Sum(s => s.Ordnance.PointDefense.Sum(m => (long)m.ShotCount)) - pdBefore,
+        pdSolutions = world.Ships.Sum(s => s.Ordnance.PointDefense.Sum(m => (long)m.SolutionCount)) - pdSolvesBefore,
         navigation = new { completed=world.Log.Environment.PathPlans,pending=world.PendingNavigation,
             queuePeak=world.Log.Environment.PathQueuePeak,cancelled=world.Log.Environment.PathCancelled,
             workPeak=world.Log.Environment.PathWorkPeak,sliceMaxMs=world.Log.Environment.PathSliceMaxMs,

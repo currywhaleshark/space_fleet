@@ -13,6 +13,10 @@
   <ItemGroup>
     <PackageReference Include="GodotSharp" Version="4.7.2" />
     <EmbeddedResource Include="../../data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/tree/*.json" LogicalName="SpaceFleet.data.tree.%(Filename)%(Extension)" />
   </ItemGroup>
   <Target Name="HideSimulationBuildArtifacts" BeforeTargets="BeforeBuild">
     <MakeDir Directories="$(BaseOutputPath);$(BaseIntermediateOutputPath)" />

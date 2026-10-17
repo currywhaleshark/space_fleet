@@ -37,6 +37,7 @@ public struct ShipControl
 /// </summary>
 public sealed class ShipBody
 {
+    public string? LoadoutId { get; init; }
     public ShipBody(string callsign, ShipDefinition definition, Faction faction)
         : this(callsign, definition.Flight, faction, definition) { }
     public const float StandardGravity = 9.80665f;
@@ -50,9 +51,7 @@ public sealed class ShipBody
         Faction = faction;
         Definition = definition ?? ShipDefinitions.For(shipClass);
         Damage = new ShipDamage(Definition, callsign);
-        Railguns = Definition.Railgun is not { } gun ? System.Array.Empty<RailgunState>()
-            : gun.Mounts is { Length: > 0 } mounts ? System.Array.ConvertAll(mounts, mount => new RailgunState(this, mount))
-            : new[] { new RailgunState(this) };
+        Railguns = System.Array.ConvertAll(Definition.PrimaryMounts, mount => new RailgunState(this, mount));
         Power = new ShipPower(this);
         Ordnance = new OrdnanceState(this);
         DamageControl = new DamageControlState(this);

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "earth_recon_t4",
+    "markers": 26,
+    "maxMarkerError": 0.0,
+    "meshParts": 128,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 5,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  },
+  {
+    "id": "interceptor_t4",
+    "markers": 23,
+    "maxMarkerError": 0.0,
+    "meshParts": 114,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  },
+  {
+    "id": "mars_assault_t4",
+    "markers": 20,
+    "maxMarkerError": 0.0,
+    "meshParts": 100,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  },
+  {
+    "id": "mars_interceptor_t4",
+    "markers": 22,
+    "maxMarkerError": 0.0,
+    "meshParts": 108,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  }
+]

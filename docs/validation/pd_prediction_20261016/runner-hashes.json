@@ -1,0 +1,9 @@
+{
+  "before/ScaleBench.dll": "5aea2172cae1922af01fa0b9745bcfe18ce80222bdb571f1ad71c345bc0d6ab2",
+  "before/ScaleBench.deps.json": "81c1ea38f3d53c3180befa4a59ade028c35e5b5ce63dc4f95c02551bcb73dbdc",
+  "before/ScaleBench.runtimeconfig.json": "28329cf08f6505e73806b17558b187c02f0c1c516fe47ebfb7a013d082aaa306",
+  "after/ScaleBench.dll": "e6e3d88e4a20dcd8dd92d1f1651437af214e9679663848ea08c5d17d5b0fbeae",
+  "after/ScaleBench.deps.json": "81c1ea38f3d53c3180befa4a59ade028c35e5b5ce63dc4f95c02551bcb73dbdc",
+  "after/ScaleBench.runtimeconfig.json": "28329cf08f6505e73806b17558b187c02f0c1c516fe47ebfb7a013d082aaa306",
+  "GodotSharp.dll (external dependency)": "2afe2686aacfefac36da6601b59aeb05e560f06e4970cd5036100acd2ca4249d"
+}

@@ -1,0 +1,19 @@
+{
+  "simChecksExitCode": 0,
+  "checks": 5607904,
+  "passLines": 58,
+  "newLongRangeChecks": 78,
+  "failureText": false,
+  "modelsChecked": 22,
+  "changedModels": [],
+  "pairedGames": {
+    "before": 48,
+    "after": 48
+  },
+  "gameBuildExitCode": 0,
+  "batchBuildExitCode": 0,
+  "testsBuildExitCode": 0,
+  "telemetryGzipFiles": 37,
+  "telemetryRawBytes": 92587258,
+  "telemetryGzipBytes": 8787896
+}

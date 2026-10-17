@@ -1,0 +1,16 @@
+{
+  "id": "ecm-amplifier",
+  "name": "ECM 증폭기",
+  "category": "Ecm",
+  "size": "Small",
+  "kind": "EcmSuite",
+  "hitPoints": 60,
+  "resistanceMm": 20,
+  "channel": "Ecm",
+  "powerMw": 6,
+  "heatMw": 2,
+  "massKg": 2500,
+  "effects": {
+    "jammer": 1.5
+  }
+}

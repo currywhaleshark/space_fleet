@@ -32,7 +32,7 @@ public sealed partial class SimWorld
             int index = squad.Role switch
             {
                 SquadronRole.BattleGroup => 1,
-                SquadronRole.EscortSquadron => faction == Faction.Blue ? 0 : 2,
+                var role when Squadron.IsSupportRole(role) => faction == Faction.Blue ? 0 : 2,
                 _ => 1,
             };
             CaptureZone zone = rules.CaptureZones[Math.Min(index, rules.CaptureZones.Count - 1)];
@@ -63,7 +63,7 @@ public sealed partial class SimWorld
                 {
                     // 간격은 선체 길이(전함 1.2 km)보다 넉넉히: 경계 상자가 겹친 채 정지하면 매 틱 정밀 충돌 검사가 돈다.
                     SquadronRole.BattleGroup => new Vector3((slot % 2 == 0 ? 1 : -1) * (slot / 2 + 1) * 2_000, 0, 0),
-                    SquadronRole.EscortSquadron => new Vector3((slot % 2 == 0 ? 1 : -1) * (slot / 2 + 1) * 1_400, 400, 0),
+                    var role when Squadron.IsSupportRole(role) => new Vector3((slot % 2 == 0 ? 1 : -1) * (slot / 2 + 1) * 1_400, 400, 0),
                     _ => new Vector3((slot % 2 == 0 ? 1 : -1) * (slot / 2 + 1) * 500, -300, 0),
                 };
                 if (ship == leader) offset = Vector3.Zero;

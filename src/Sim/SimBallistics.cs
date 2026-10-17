@@ -137,7 +137,10 @@ public sealed partial class SimWorld
             Vector2 a = mount.Angles(local);
             return BarrelBlocked(shooter, gun, a.X, a.Y) ? FireFailure.HullBlocked : FireFailure.None;
         }
-        if (Vector3.Forward.AngleTo(local) > Mathf.DegToRad(gun.Definition.TraverseDegrees)) return FireFailure.Arc;
+        // A zero-cone axial gun still needs room for float quaternion roundoff
+        // when its own forward vector is transformed back into hull space.
+        float cone = Mathf.Max(Mathf.DegToRad(gun.Definition.TraverseDegrees), 1e-6f);
+        if (Vector3.Forward.AngleTo(local) > cone) return FireFailure.Arc;
         return DamageRay.FirstHitAtPose(shooter, Vec3d.From(gun.Definition.Muzzle), local, gun.Definition.MaxRange,
             Vec3d.Zero, Quaternion.Identity, out _) ? FireFailure.HullBlocked : FireFailure.None;
     }

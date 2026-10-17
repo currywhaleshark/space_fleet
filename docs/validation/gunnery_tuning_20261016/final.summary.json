@@ -1,0 +1,2750 @@
+{
+  "games": 768,
+  "independent_pose_seeds": 16,
+  "groups": [
+    {
+      "distance_km": 20.0,
+      "earth_escorts": 0,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Mars": 48,
+        "Earth": 16
+      },
+      "mean_duration_seconds": 88.42239583333333,
+      "min_duration_seconds": 2.0666666666666664,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Mars": 23,
+          "Earth": 9
+        },
+        "False": {
+          "Mars": 25,
+          "Earth": 7
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 4
+        },
+        "2": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "3": {
+          "Mars": 4
+        },
+        "4": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "5": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "6": {
+          "Mars": 4
+        },
+        "7": {
+          "Mars": 4
+        },
+        "8": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "11": {
+          "Mars": 4
+        },
+        "12": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "13": {
+          "Earth": 4
+        },
+        "14": {
+          "Mars": 4
+        },
+        "15": {
+          "Mars": 4
+        },
+        "16": {
+          "Mars": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.8916666666666666,
+          "first_fire_range_km": 20.350864591560004,
+          "rounds": 428,
+          "hits": 413,
+          "linked_rounds": 0,
+          "blind_rounds": 12,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 64,
+          "active_seconds": 5617.149999999978,
+          "lock_seconds": 462.8833333333225,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 5148.649999999981,
+          "blind_no_lock_seconds": 5141.383333333313,
+          "missile_launches": 101,
+          "missile_hits": 61,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 41110.19294291735,
+          "module_damage_share": 1.0,
+          "shield_damage": 63481.076745033264,
+          "destroyed": 48,
+          "disabled_at_end": 0,
+          "first_disable_count": 1,
+          "mean_first_disable_seconds": 41.337381146161825,
+          "mean_destroyed_seconds": 97.59205354499383,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.6213541666666667,
+          "first_fire_range_km": 20.351892521928995,
+          "rounds": 3308,
+          "hits": 3235,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5417.083333333314,
+          "lock_seconds": 5415.6499999999805,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 491,
+          "missile_hits": 416,
+          "missile_intercepts": 2,
+          "drone_kills": 0,
+          "module_damage": 89056.53998792171,
+          "module_damage_share": 1.0,
+          "shield_damage": 157607.8576912284,
+          "destroyed": 14,
+          "disabled_at_end": 2,
+          "first_disable_count": 5,
+          "mean_first_disable_seconds": 53.1233087784786,
+          "mean_destroyed_seconds": 51.20144579813817,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 20.0,
+      "earth_escorts": 2,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Earth": 61,
+        "Mars": 3
+      },
+      "mean_duration_seconds": 36.29765625,
+      "min_duration_seconds": 2.0666666666666664,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 31,
+          "Mars": 1
+        },
+        "False": {
+          "Earth": 30,
+          "Mars": 2
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Earth": 4
+        },
+        "2": {
+          "Earth": 4
+        },
+        "3": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "4": {
+          "Earth": 4
+        },
+        "5": {
+          "Earth": 4
+        },
+        "6": {
+          "Earth": 4
+        },
+        "7": {
+          "Earth": 4
+        },
+        "8": {
+          "Earth": 4
+        },
+        "9": {
+          "Earth": 4
+        },
+        "10": {
+          "Earth": 4
+        },
+        "11": {
+          "Earth": 4
+        },
+        "12": {
+          "Earth": 4
+        },
+        "13": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "14": {
+          "Earth": 4
+        },
+        "15": {
+          "Earth": 4
+        },
+        "16": {
+          "Earth": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.8916666666666666,
+          "first_fire_range_km": 20.350890231837386,
+          "rounds": 996,
+          "hits": 912,
+          "linked_rounds": 292,
+          "blind_rounds": 304,
+          "blind_linked_rounds": 292,
+          "blind_link_firing_ships": 39,
+          "lost_sensors": 62,
+          "active_seconds": 2323.0499999999593,
+          "lock_seconds": 981.3166666666569,
+          "linked_lock_seconds": 280.3999999999994,
+          "blind_seconds": 1524.7166666666599,
+          "blind_no_lock_seconds": 1238.2333333333318,
+          "missile_launches": 187,
+          "missile_hits": 58,
+          "missile_intercepts": 12,
+          "drone_kills": 0,
+          "module_damage": 52847.10351896286,
+          "module_damage_share": 0.6035822554270975,
+          "shield_damage": 46978.225217819214,
+          "destroyed": 3,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": 113.0819067387626,
+          "mean_escort_distance_km": 1.7660481337388385
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 128,
+          "first_fire_seconds": 0.2889322916666667,
+          "first_fire_range_km": 19.815518397732873,
+          "rounds": 1884,
+          "hits": 1488,
+          "linked_rounds": 1342,
+          "blind_rounds": 648,
+          "blind_linked_rounds": 634,
+          "blind_link_firing_ships": 64,
+          "lost_sensors": 106,
+          "active_seconds": 3951.3833333332223,
+          "lock_seconds": 1611.416666666662,
+          "linked_lock_seconds": 1331.0166666666646,
+          "blind_seconds": 3263.8166666665747,
+          "blind_no_lock_seconds": 2318.083333333287,
+          "missile_launches": 370,
+          "missile_hits": 109,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 34708.65718107298,
+          "module_damage_share": 0.39641774457290246,
+          "shield_damage": 26427.535041809082,
+          "destroyed": 13,
+          "disabled_at_end": 9,
+          "first_disable_count": 17,
+          "mean_first_disable_seconds": 46.31284145074302,
+          "mean_destroyed_seconds": 65.88070476611686,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.6213541666666667,
+          "first_fire_range_km": 20.351892521735323,
+          "rounds": 444,
+          "hits": 440,
+          "linked_rounds": 44,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 1707.1999999999807,
+          "lock_seconds": 1706.133333333314,
+          "linked_lock_seconds": 1049.3999999999785,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 154,
+          "missile_hits": 88,
+          "missile_intercepts": 11,
+          "drone_kills": 0,
+          "module_damage": 18256.189443588257,
+          "module_damage_share": 0.29518387820039793,
+          "shield_damage": 92139.46968507767,
+          "destroyed": 58,
+          "disabled_at_end": 3,
+          "first_disable_count": 19,
+          "mean_first_disable_seconds": 23.05354271735149,
+          "mean_destroyed_seconds": 29.070186592762354,
+          "mean_escort_distance_km": 2.8440689152502014
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 128,
+          "first_fire_seconds": 0.30234374999999997,
+          "first_fire_range_km": 19.21412318378805,
+          "rounds": 2932,
+          "hits": 2651,
+          "linked_rounds": 1530,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 4256.9666666665935,
+          "lock_seconds": 4254.716666666596,
+          "linked_lock_seconds": 2005.0666666666323,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 483,
+          "missile_hits": 211,
+          "missile_intercepts": 9,
+          "drone_kills": 0,
+          "module_damage": 43590.64838132262,
+          "module_damage_share": 0.7048161217996021,
+          "shield_damage": 110750.3972941637,
+          "destroyed": 13,
+          "disabled_at_end": 7,
+          "first_disable_count": 17,
+          "mean_first_disable_seconds": 43.14821985888028,
+          "mean_destroyed_seconds": 38.09693986675585,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 20.0,
+      "earth_escorts": 2,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Earth": 64
+      },
+      "mean_duration_seconds": 7.090104166666666,
+      "min_duration_seconds": 2.0166666666666666,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 32
+        },
+        "False": {
+          "Earth": 32
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Earth": 4
+        },
+        "2": {
+          "Earth": 4
+        },
+        "3": {
+          "Earth": 4
+        },
+        "4": {
+          "Earth": 4
+        },
+        "5": {
+          "Earth": 4
+        },
+        "6": {
+          "Earth": 4
+        },
+        "7": {
+          "Earth": 4
+        },
+        "8": {
+          "Earth": 4
+        },
+        "9": {
+          "Earth": 4
+        },
+        "10": {
+          "Earth": 4
+        },
+        "11": {
+          "Earth": 4
+        },
+        "12": {
+          "Earth": 4
+        },
+        "13": {
+          "Earth": 4
+        },
+        "14": {
+          "Earth": 4
+        },
+        "15": {
+          "Earth": 4
+        },
+        "16": {
+          "Earth": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.8916666666666666,
+          "first_fire_range_km": 20.350864591560004,
+          "rounds": 680,
+          "hits": 564,
+          "linked_rounds": 356,
+          "blind_rounds": 344,
+          "blind_linked_rounds": 332,
+          "blind_link_firing_ships": 37,
+          "lost_sensors": 62,
+          "active_seconds": 453.7666666666712,
+          "lock_seconds": 452.70000000000465,
+          "linked_lock_seconds": 331.76666666666915,
+          "blind_seconds": 319.2666666666692,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 94,
+          "missile_hits": 4,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 32010.0916929245,
+          "module_damage_share": 0.4981001663429028,
+          "shield_damage": 31008,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": 1.6170998775097476
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 128,
+          "first_fire_seconds": 0.2889322916666667,
+          "first_fire_range_km": 19.815487777727117,
+          "rounds": 1932,
+          "hits": 1301,
+          "linked_rounds": 1210,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 907.5333333333429,
+          "lock_seconds": 905.4000000000092,
+          "linked_lock_seconds": 573.6333333333382,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 196,
+          "missile_hits": 20,
+          "missile_intercepts": 3,
+          "drone_kills": 0,
+          "module_damage": 32254.274906158447,
+          "module_damage_share": 0.5018998336570972,
+          "shield_damage": 21216,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.6213541666666667,
+          "first_fire_range_km": 20.351892521928995,
+          "rounds": 264,
+          "hits": 264,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 419.216666666671,
+          "lock_seconds": 418.1500000000044,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 90,
+          "missile_hits": 5,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 6395.815776824951,
+          "module_damage_share": 1.0,
+          "shield_damage": 79958.75361633301,
+          "destroyed": 64,
+          "disabled_at_end": 0,
+          "first_disable_count": 16,
+          "mean_first_disable_seconds": 8.747109024991456,
+          "mean_destroyed_seconds": 7.081027860970571,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 20.0,
+      "earth_escorts": 0,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Mars": 47,
+        "Earth": 17
+      },
+      "mean_duration_seconds": 82.50937499999999,
+      "min_duration_seconds": 2.0666666666666664,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Mars": 24,
+          "Earth": 8
+        },
+        "False": {
+          "Mars": 23,
+          "Earth": 9
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "2": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "3": {
+          "Mars": 4
+        },
+        "4": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "5": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "6": {
+          "Mars": 4
+        },
+        "7": {
+          "Mars": 4
+        },
+        "8": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "11": {
+          "Mars": 4
+        },
+        "12": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "13": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "14": {
+          "Mars": 4
+        },
+        "15": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "16": {
+          "Earth": 3,
+          "Mars": 1
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.8916666666666666,
+          "first_fire_range_km": 20.35089023304422,
+          "rounds": 482,
+          "hits": 469,
+          "linked_rounds": 0,
+          "blind_rounds": 12,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 64,
+          "active_seconds": 5168.216666666555,
+          "lock_seconds": 472.5166666666597,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 4608.749999999813,
+          "blind_no_lock_seconds": 4600.716666666482,
+          "missile_launches": 120,
+          "missile_hits": 69,
+          "missile_intercepts": 7,
+          "drone_kills": 0,
+          "module_damage": 48159.67200088501,
+          "module_damage_share": 1.0,
+          "shield_damage": 70982.33705425262,
+          "destroyed": 47,
+          "disabled_at_end": 0,
+          "first_disable_count": 3,
+          "mean_first_disable_seconds": 44.31696598514365,
+          "mean_destroyed_seconds": 91.05327697858657,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.6213541666666667,
+          "first_fire_range_km": 20.351892521735323,
+          "rounds": 2894,
+          "hits": 2862,
+          "linked_rounds": 694,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5012.583333333158,
+          "lock_seconds": 5011.516666666491,
+          "linked_lock_seconds": 1864.999999999966,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 457,
+          "missile_hits": 359,
+          "missile_intercepts": 3,
+          "drone_kills": 0,
+          "module_damage": 72712.1387603879,
+          "module_damage_share": 0.7610234050287303,
+          "shield_damage": 76293.044552356,
+          "destroyed": 14,
+          "disabled_at_end": 5,
+          "first_disable_count": 5,
+          "mean_first_disable_seconds": 90.70414631089221,
+          "mean_destroyed_seconds": 39.510262325075104,
+          "mean_escort_distance_km": 6.166233222877542
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 128,
+          "first_fire_seconds": 0.3854166666666667,
+          "first_fire_range_km": 19.815522279410956,
+          "rounds": 4566,
+          "hits": 4318,
+          "linked_rounds": 3654,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 10561.199999999764,
+          "lock_seconds": 10559.066666666433,
+          "linked_lock_seconds": 8426.733333333064,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 948,
+          "missile_hits": 722,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 22833.06823313795,
+          "module_damage_share": 0.2389765949712697,
+          "shield_damage": 41593.222731530666,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 70.0,
+      "earth_escorts": 0,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Mars": 20,
+        "Earth": 44
+      },
+      "mean_duration_seconds": 48.387760416666666,
+      "min_duration_seconds": 5.616666666666666,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 25,
+          "Mars": 7
+        },
+        "False": {
+          "Mars": 13,
+          "Earth": 19
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "2": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "3": {
+          "Earth": 4
+        },
+        "4": {
+          "Mars": 4
+        },
+        "5": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "6": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "7": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "8": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "9": {
+          "Earth": 3,
+          "Mars": 1
+        },
+        "10": {
+          "Earth": 3,
+          "Mars": 1
+        },
+        "11": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "12": {
+          "Earth": 4
+        },
+        "13": {
+          "Earth": 3,
+          "Mars": 1
+        },
+        "14": {
+          "Earth": 3,
+          "Mars": 1
+        },
+        "15": {
+          "Earth": 4
+        },
+        "16": {
+          "Earth": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.5385416666666666,
+          "first_fire_range_km": 70.27076268924529,
+          "rounds": 450,
+          "hits": 363,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 59,
+          "active_seconds": 2985.6500000001997,
+          "lock_seconds": 768.6833333333152,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 2136.9833333334036,
+          "blind_no_lock_seconds": 2129.516666666738,
+          "missile_launches": 129,
+          "missile_hits": 24,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 35284.82984095812,
+          "module_damage_share": 1.0,
+          "shield_damage": 60102.148448467255,
+          "destroyed": 19,
+          "disabled_at_end": 1,
+          "first_disable_count": 3,
+          "mean_first_disable_seconds": 48.17137368964601,
+          "mean_destroyed_seconds": 94.08089572876644,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.36874999999999997,
+          "first_fire_range_km": 70.26516114603882,
+          "rounds": 1246,
+          "hits": 1068,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 2876.250000000154,
+          "lock_seconds": 2875.000000000155,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 301,
+          "missile_hits": 161,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 36648.80508494377,
+          "module_damage_share": 1.0,
+          "shield_damage": 147735.64276313782,
+          "destroyed": 43,
+          "disabled_at_end": 1,
+          "first_disable_count": 3,
+          "mean_first_disable_seconds": 41.01792370801947,
+          "mean_destroyed_seconds": 23.96900638550477,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 70.0,
+      "earth_escorts": 2,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Earth": 64
+      },
+      "mean_duration_seconds": 44.39270833333333,
+      "min_duration_seconds": 5.966666666666667,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 32
+        },
+        "False": {
+          "Earth": 32
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Earth": 4
+        },
+        "2": {
+          "Earth": 4
+        },
+        "3": {
+          "Earth": 4
+        },
+        "4": {
+          "Earth": 4
+        },
+        "5": {
+          "Earth": 4
+        },
+        "6": {
+          "Earth": 4
+        },
+        "7": {
+          "Earth": 4
+        },
+        "8": {
+          "Earth": 4
+        },
+        "9": {
+          "Earth": 4
+        },
+        "10": {
+          "Earth": 4
+        },
+        "11": {
+          "Earth": 4
+        },
+        "12": {
+          "Earth": 4
+        },
+        "13": {
+          "Earth": 4
+        },
+        "14": {
+          "Earth": 4
+        },
+        "15": {
+          "Earth": 4
+        },
+        "16": {
+          "Earth": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.5385416666666666,
+          "first_fire_range_km": 70.270762672975,
+          "rounds": 1234,
+          "hits": 1005,
+          "linked_rounds": 858,
+          "blind_rounds": 724,
+          "blind_linked_rounds": 724,
+          "blind_link_firing_ships": 62,
+          "lost_sensors": 62,
+          "active_seconds": 2841.1333333332827,
+          "lock_seconds": 1577.9666666666399,
+          "linked_lock_seconds": 1149.1999999999855,
+          "blind_seconds": 1414.6333333333073,
+          "blind_no_lock_seconds": 711.6166666666575,
+          "missile_launches": 331,
+          "missile_hits": 66,
+          "missile_intercepts": 5,
+          "drone_kills": 0,
+          "module_damage": 68843.89666953683,
+          "module_damage_share": 0.9846781971890488,
+          "shield_damage": 63009.08909711242,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": 1.884586167083603
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 9,
+          "active_seconds": 5262.916666666572,
+          "lock_seconds": 2961.3499999999535,
+          "linked_lock_seconds": 1812.5333333333265,
+          "blind_seconds": 164.28333333333222,
+          "blind_no_lock_seconds": 97.39999999999965,
+          "missile_launches": 630,
+          "missile_hits": 93,
+          "missile_intercepts": 3,
+          "drone_kills": 0,
+          "module_damage": 1071.2257187366486,
+          "module_damage_share": 0.015321802810951241,
+          "shield_damage": 2518.4239044189453,
+          "destroyed": 15,
+          "disabled_at_end": 2,
+          "first_disable_count": 4,
+          "mean_first_disable_seconds": 61.891943717066454,
+          "mean_destroyed_seconds": 44.124787461771724,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.36874999999999997,
+          "first_fire_range_km": 70.26200383913992,
+          "rounds": 706,
+          "hits": 604,
+          "linked_rounds": 640,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 1520.23333333331,
+          "lock_seconds": 1519.1666666666429,
+          "linked_lock_seconds": 1486.7333333333108,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 178,
+          "missile_hits": 42,
+          "missile_intercepts": 3,
+          "drone_kills": 0,
+          "module_damage": 11662.396208286285,
+          "module_damage_share": 0.3202099858078846,
+          "shield_damage": 113250.9338965416,
+          "destroyed": 61,
+          "disabled_at_end": 3,
+          "first_disable_count": 32,
+          "mean_first_disable_seconds": 18.510007179498864,
+          "mean_destroyed_seconds": 43.06908515111742,
+          "mean_escort_distance_km": 3.452825764565619
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 93,
+          "first_fire_seconds": 14.664695340501792,
+          "first_fire_range_km": 67.45416459165652,
+          "rounds": 3782,
+          "hits": 1193,
+          "linked_rounds": 1874,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5647.699999999872,
+          "lock_seconds": 3828.566666666542,
+          "linked_lock_seconds": 1915.9499999999446,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 692,
+          "missile_hits": 37,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 24758.692218616605,
+          "module_damage_share": 0.6797900141921154,
+          "shield_damage": 75490.78765821457,
+          "destroyed": 1,
+          "disabled_at_end": 0,
+          "first_disable_count": 1,
+          "mean_first_disable_seconds": 73.81666666666666,
+          "mean_destroyed_seconds": 154.3875,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 70.0,
+      "earth_escorts": 2,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Earth": 64
+      },
+      "mean_duration_seconds": 18.154166666666665,
+      "min_duration_seconds": 5.616666666666666,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 32
+        },
+        "False": {
+          "Earth": 32
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Earth": 4
+        },
+        "2": {
+          "Earth": 4
+        },
+        "3": {
+          "Earth": 4
+        },
+        "4": {
+          "Earth": 4
+        },
+        "5": {
+          "Earth": 4
+        },
+        "6": {
+          "Earth": 4
+        },
+        "7": {
+          "Earth": 4
+        },
+        "8": {
+          "Earth": 4
+        },
+        "9": {
+          "Earth": 4
+        },
+        "10": {
+          "Earth": 4
+        },
+        "11": {
+          "Earth": 4
+        },
+        "12": {
+          "Earth": 4
+        },
+        "13": {
+          "Earth": 4
+        },
+        "14": {
+          "Earth": 4
+        },
+        "15": {
+          "Earth": 4
+        },
+        "16": {
+          "Earth": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.5385416666666666,
+          "first_fire_range_km": 70.27076268924529,
+          "rounds": 1208,
+          "hits": 877,
+          "linked_rounds": 844,
+          "blind_rounds": 844,
+          "blind_linked_rounds": 844,
+          "blind_link_firing_ships": 57,
+          "lost_sensors": 57,
+          "active_seconds": 1161.8666666666584,
+          "lock_seconds": 1160.799999999992,
+          "linked_lock_seconds": 801.3499999999977,
+          "blind_seconds": 808.0999999999973,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 165,
+          "missile_hits": 33,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 54322.1480679512,
+          "module_damage_share": 0.9961818180165182,
+          "shield_damage": 52224,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": 1.6685973563874938
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 2323.733333333317,
+          "lock_seconds": 2321.5999999999813,
+          "linked_lock_seconds": 1520.2499999999957,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 352,
+          "missile_hits": 60,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 208.20681858062744,
+          "module_damage_share": 0.0038181819834818527,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.36874999999999997,
+          "first_fire_range_km": 70.26516114603882,
+          "rounds": 634,
+          "hits": 521,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 932.5000000000034,
+          "lock_seconds": 931.4333333333368,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 139,
+          "missile_hits": 17,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 6933.022107124329,
+          "module_damage_share": 1.0,
+          "shield_damage": 92731.97924137115,
+          "destroyed": 64,
+          "disabled_at_end": 0,
+          "first_disable_count": 24,
+          "mean_first_disable_seconds": 20.528373155777633,
+          "mean_destroyed_seconds": 18.144719727140895,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 70.0,
+      "earth_escorts": 0,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Mars": 40,
+        "Earth": 24
+      },
+      "mean_duration_seconds": 73.83255208333333,
+      "min_duration_seconds": 5.616666666666666,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 14,
+          "Mars": 18
+        },
+        "False": {
+          "Mars": 22,
+          "Earth": 10
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "2": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "3": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "4": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "5": {
+          "Earth": 4
+        },
+        "6": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "7": {
+          "Earth": 3,
+          "Mars": 1
+        },
+        "8": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "9": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "10": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "11": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "12": {
+          "Mars": 4
+        },
+        "13": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "14": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "15": {
+          "Mars": 4
+        },
+        "16": {
+          "Mars": 3,
+          "Earth": 1
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.5385416666666666,
+          "first_fire_range_km": 70.27220518339361,
+          "rounds": 386,
+          "hits": 308,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 59,
+          "active_seconds": 4281.75000000012,
+          "lock_seconds": 444.79999999999734,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 3769.433333333379,
+          "blind_no_lock_seconds": 3762.6000000000445,
+          "missile_launches": 96,
+          "missile_hits": 15,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 32086.732111394405,
+          "module_damage_share": 1.0,
+          "shield_damage": 56166.532653808594,
+          "destroyed": 39,
+          "disabled_at_end": 1,
+          "first_disable_count": 7,
+          "mean_first_disable_seconds": 41.75032942349132,
+          "mean_destroyed_seconds": 107.50864750055335,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 0.36874999999999997,
+          "first_fire_range_km": 70.26516113635154,
+          "rounds": 1612,
+          "hits": 1481,
+          "linked_rounds": 334,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 4567.60000000016,
+          "lock_seconds": 4566.533333333493,
+          "linked_lock_seconds": 1309.2333333333547,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 412,
+          "missile_hits": 284,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 32961.98986577988,
+          "module_damage_share": 0.47841323927762347,
+          "shield_damage": 132635.97865200043,
+          "destroyed": 23,
+          "disabled_at_end": 2,
+          "first_disable_count": 3,
+          "mean_first_disable_seconds": 34.955993199866995,
+          "mean_destroyed_seconds": 7.3970410916846365,
+          "mean_escort_distance_km": 4.551302737493677
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 74,
+          "first_fire_seconds": 6.1727477477477475,
+          "first_fire_range_km": 68.16137777364492,
+          "rounds": 1826,
+          "hits": 1579,
+          "linked_rounds": 1398,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 9450.566666667073,
+          "lock_seconds": 9448.433333333744,
+          "linked_lock_seconds": 7981.883333333658,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 846,
+          "missile_hits": 593,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 35936.58391857147,
+          "module_damage_share": 0.5215867607223765,
+          "shield_damage": 14274.587814360857,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 130.0,
+      "earth_escorts": 0,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Mars": 52,
+        "Draw": 1,
+        "Earth": 11
+      },
+      "mean_duration_seconds": 65.72578125,
+      "min_duration_seconds": 7.466666666666667,
+      "reasons": {
+        "전력 상실": 63,
+        "동시 전력 상실": 1
+      },
+      "by_team": {
+        "True": {
+          "Mars": 27,
+          "Earth": 5
+        },
+        "False": {
+          "Mars": 25,
+          "Draw": 1,
+          "Earth": 6
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 4
+        },
+        "2": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "3": {
+          "Mars": 4
+        },
+        "4": {
+          "Mars": 4
+        },
+        "5": {
+          "Mars": 4
+        },
+        "6": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "7": {
+          "Mars": 4
+        },
+        "8": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Mars": 2,
+          "Draw": 1,
+          "Earth": 1
+        },
+        "11": {
+          "Earth": 4
+        },
+        "12": {
+          "Mars": 4
+        },
+        "13": {
+          "Mars": 4
+        },
+        "14": {
+          "Mars": 4
+        },
+        "15": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "16": {
+          "Mars": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 29.909114583333334,
+          "first_fire_range_km": 127.48992189499826,
+          "rounds": 898,
+          "hits": 197,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 3952.433333333317,
+          "lock_seconds": 2550.68333333328,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 358,
+          "missile_hits": 91,
+          "missile_intercepts": 6,
+          "drone_kills": 0,
+          "module_damage": 13364.123286485672,
+          "module_damage_share": 1.0,
+          "shield_damage": 74929.3396038413,
+          "destroyed": 51,
+          "disabled_at_end": 3,
+          "first_disable_count": 9,
+          "mean_first_disable_seconds": 81.91717878818649,
+          "mean_destroyed_seconds": 61.597643307719984,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 31.920052083333335,
+          "first_fire_range_km": 127.26814325837178,
+          "rounds": 1292,
+          "hits": 1046,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 4086.4333333333384,
+          "lock_seconds": 4051.616666666645,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 373,
+          "missile_hits": 71,
+          "missile_intercepts": 0,
+          "drone_kills": 1,
+          "module_damage": 82751.31019175053,
+          "module_damage_share": 1.0,
+          "shield_damage": 80241.5096745491,
+          "destroyed": 10,
+          "disabled_at_end": 2,
+          "first_disable_count": 2,
+          "mean_first_disable_seconds": 83.45357569975204,
+          "mean_destroyed_seconds": 59.755178368409844,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 130.0,
+      "earth_escorts": 2,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Mars": 50,
+        "Earth": 14
+      },
+      "mean_duration_seconds": 91.03385416666667,
+      "min_duration_seconds": 15.083333333333334,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Mars": 23,
+          "Earth": 9
+        },
+        "False": {
+          "Mars": 27,
+          "Earth": 5
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "2": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "3": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "4": {
+          "Mars": 4
+        },
+        "5": {
+          "Mars": 4
+        },
+        "6": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "7": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "8": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "11": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "12": {
+          "Mars": 4
+        },
+        "13": {
+          "Mars": 4
+        },
+        "14": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "15": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "16": {
+          "Mars": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 56,
+          "first_fire_seconds": 48.33273809523809,
+          "first_fire_range_km": 125.41060481259976,
+          "rounds": 604,
+          "hits": 296,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5259.483333333353,
+          "lock_seconds": 1599.6999999999887,
+          "linked_lock_seconds": 6.749999999999991,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 297,
+          "missile_hits": 46,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 17185.48914718628,
+          "module_damage_share": 0.9951355006021917,
+          "shield_damage": 63988.801295802,
+          "destroyed": 46,
+          "disabled_at_end": 4,
+          "first_disable_count": 12,
+          "mean_first_disable_seconds": 69.1796105735294,
+          "mean_destroyed_seconds": 87.01766827268241,
+          "mean_escort_distance_km": 1.9983531022436134
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 11652.333333333585,
+          "lock_seconds": 3229.399999999976,
+          "linked_lock_seconds": 3207.816666666644,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 23,
+          "missile_hits": 4,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 84.00745582580566,
+          "module_damage_share": 0.004864499397808352,
+          "shield_damage": 408,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 32.08828125,
+          "first_fire_range_km": 127.25746364481981,
+          "rounds": 2570,
+          "hits": 2323,
+          "linked_rounds": 150,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5766.166666666756,
+          "lock_seconds": 5765.100000000089,
+          "linked_lock_seconds": 320.8999999999938,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 382,
+          "missile_hits": 75,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 97885.08637306094,
+          "module_damage_share": 0.9999071678317513,
+          "shield_damage": 82117.88421416283,
+          "destroyed": 13,
+          "disabled_at_end": 1,
+          "first_disable_count": 1,
+          "mean_first_disable_seconds": 118.92089967949896,
+          "mean_destroyed_seconds": 86.33210616393738,
+          "mean_escort_distance_km": 3.6582132146282174
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 11652.333333333585,
+          "lock_seconds": 10745.933333333294,
+          "linked_lock_seconds": 10423.649999999841,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 38,
+          "missile_hits": 9,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 9.087728440761566,
+          "module_damage_share": 9.283216824873503e-05,
+          "shield_damage": 18.07355499267578,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 130.0,
+      "earth_escorts": 2,
+      "mars_escorts": 0,
+      "games": 64,
+      "wins": {
+        "Mars": 51,
+        "Earth": 13
+      },
+      "mean_duration_seconds": 85.9640625,
+      "min_duration_seconds": 15.083333333333334,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Earth": 6,
+          "Mars": 26
+        },
+        "False": {
+          "Mars": 25,
+          "Earth": 7
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "2": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "3": {
+          "Mars": 4
+        },
+        "4": {
+          "Mars": 4
+        },
+        "5": {
+          "Mars": 4
+        },
+        "6": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "7": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "8": {
+          "Mars": 4
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "11": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "12": {
+          "Mars": 4
+        },
+        "13": {
+          "Mars": 4
+        },
+        "14": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "15": {
+          "Mars": 1,
+          "Earth": 3
+        },
+        "16": {
+          "Mars": 3,
+          "Earth": 1
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 33.209635416666664,
+          "first_fire_range_km": 127.11968395226148,
+          "rounds": 844,
+          "hits": 272,
+          "linked_rounds": 4,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 4967.216666666936,
+          "lock_seconds": 2518.083333333274,
+          "linked_lock_seconds": 61.49999999999885,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 279,
+          "missile_hits": 50,
+          "missile_intercepts": 3,
+          "drone_kills": 0,
+          "module_damage": 20373.124068260193,
+          "module_damage_share": 0.9982834552062161,
+          "shield_damage": 75720.30439972878,
+          "destroyed": 48,
+          "disabled_at_end": 3,
+          "first_disable_count": 13,
+          "mean_first_disable_seconds": 69.12616032267373,
+          "mean_destroyed_seconds": 79.87993275867215,
+          "mean_escort_distance_km": 1.94120923755877
+        },
+        "Earth_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 11003.400000000567,
+          "lock_seconds": 5042.66666666655,
+          "linked_lock_seconds": 4977.916666666552,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 23,
+          "missile_hits": 2,
+          "missile_intercepts": 1,
+          "drone_kills": 0,
+          "module_damage": 35.03151321411133,
+          "module_damage_share": 0.0017165447937838888,
+          "shield_damage": 408,
+          "destroyed": 1,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": 85.27916666666667,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 32.014322916666664,
+          "first_fire_range_km": 127.26473418872517,
+          "rounds": 2026,
+          "hits": 1802,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5413.100000000213,
+          "lock_seconds": 5385.683333333531,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 472,
+          "missile_hits": 121,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 94322.873203516,
+          "module_damage_share": 1.0,
+          "shield_damage": 84534.02588003874,
+          "destroyed": 12,
+          "disabled_at_end": 1,
+          "first_disable_count": 4,
+          "mean_first_disable_seconds": 148.42428858521478,
+          "mean_destroyed_seconds": 93.03963916345413,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    },
+    {
+      "distance_km": 130.0,
+      "earth_escorts": 0,
+      "mars_escorts": 2,
+      "games": 64,
+      "wins": {
+        "Mars": 53,
+        "Earth": 11
+      },
+      "mean_duration_seconds": 92.92447916666667,
+      "min_duration_seconds": 15.083333333333334,
+      "reasons": {
+        "전력 상실": 64
+      },
+      "by_team": {
+        "True": {
+          "Mars": 24,
+          "Earth": 8
+        },
+        "False": {
+          "Mars": 29,
+          "Earth": 3
+        }
+      },
+      "by_seed": {
+        "1": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "2": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "3": {
+          "Mars": 4
+        },
+        "4": {
+          "Mars": 2,
+          "Earth": 2
+        },
+        "5": {
+          "Mars": 4
+        },
+        "6": {
+          "Mars": 4
+        },
+        "7": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "8": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "9": {
+          "Mars": 4
+        },
+        "10": {
+          "Mars": 3,
+          "Earth": 1
+        },
+        "11": {
+          "Mars": 4
+        },
+        "12": {
+          "Mars": 4
+        },
+        "13": {
+          "Mars": 4
+        },
+        "14": {
+          "Earth": 1,
+          "Mars": 3
+        },
+        "15": {
+          "Earth": 2,
+          "Mars": 2
+        },
+        "16": {
+          "Mars": 4
+        }
+      },
+      "ships": {
+        "Earth_Battleship": {
+          "ships": 64,
+          "fired": 56,
+          "first_fire_seconds": 42.42470238095238,
+          "first_fire_range_km": 126.17202539678222,
+          "rounds": 678,
+          "hits": 246,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5178.783333333347,
+          "lock_seconds": 1753.916666666648,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 390,
+          "missile_hits": 51,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 15098.631633758545,
+          "module_damage_share": 1.0,
+          "shield_damage": 74677.23558855057,
+          "destroyed": 48,
+          "disabled_at_end": 5,
+          "first_disable_count": 18,
+          "mean_first_disable_seconds": 64.1597924789627,
+          "mean_destroyed_seconds": 83.18973703431477,
+          "mean_escort_distance_km": null
+        },
+        "Earth_Escort": {
+          "ships": 0,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 0,
+          "lock_seconds": 0,
+          "linked_lock_seconds": 0,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 0,
+          "missile_hits": 0,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 0,
+          "module_damage_share": 0.0,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        },
+        "Mars_Battleship": {
+          "ships": 64,
+          "fired": 64,
+          "first_fire_seconds": 31.989843750000002,
+          "first_fire_range_km": 127.26243661529912,
+          "rounds": 2364,
+          "hits": 2117,
+          "linked_rounds": 62,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 5844.400000000013,
+          "lock_seconds": 5843.333333333346,
+          "linked_lock_seconds": 380.13333333334134,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 330,
+          "missile_hits": 82,
+          "missile_intercepts": 2,
+          "drone_kills": 0,
+          "module_damage": 106170.13372337818,
+          "module_damage_share": 0.9958520843505992,
+          "shield_damage": 84355.3368678093,
+          "destroyed": 10,
+          "disabled_at_end": 1,
+          "first_disable_count": 2,
+          "mean_first_disable_seconds": 112.39465612352254,
+          "mean_destroyed_seconds": 115.326766242277,
+          "mean_escort_distance_km": 3.6840269904969873
+        },
+        "Mars_Escort": {
+          "ships": 128,
+          "fired": 0,
+          "first_fire_seconds": null,
+          "first_fire_range_km": null,
+          "rounds": 0,
+          "hits": 0,
+          "linked_rounds": 0,
+          "blind_rounds": 0,
+          "blind_linked_rounds": 0,
+          "blind_link_firing_ships": 0,
+          "lost_sensors": 0,
+          "active_seconds": 11894.333333333347,
+          "lock_seconds": 11892.200000000019,
+          "linked_lock_seconds": 11409.483333333364,
+          "blind_seconds": 0,
+          "blind_no_lock_seconds": 0,
+          "missile_launches": 56,
+          "missile_hits": 35,
+          "missile_intercepts": 0,
+          "drone_kills": 0,
+          "module_damage": 442.2190464735031,
+          "module_damage_share": 0.004147915649400768,
+          "shield_damage": 0,
+          "destroyed": 0,
+          "disabled_at_end": 0,
+          "first_disable_count": 0,
+          "mean_first_disable_seconds": null,
+          "mean_destroyed_seconds": null,
+          "mean_escort_distance_km": null
+        }
+      }
+    }
+  ],
+  "paired": [
+    {
+      "distance_km": 20.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 47,
+        "Earth->Earth": 14,
+        "Earth->Mars": 2,
+        "Mars->Mars": 1
+      },
+      "earth_score_change": 0.703125
+    },
+    {
+      "distance_km": 20.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        0
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 48,
+        "Earth->Earth": 16
+      },
+      "earth_score_change": 0.75
+    },
+    {
+      "distance_km": 20.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        0,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 40,
+        "Mars->Earth": 8,
+        "Earth->Earth": 9,
+        "Earth->Mars": 7
+      },
+      "earth_score_change": 0.015625
+    },
+    {
+      "distance_km": 20.0,
+      "before": [
+        0,
+        2
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 46,
+        "Earth->Earth": 15,
+        "Earth->Mars": 2,
+        "Mars->Mars": 1
+      },
+      "earth_score_change": 0.6875
+    },
+    {
+      "distance_km": 20.0,
+      "before": [
+        2,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Earth->Earth": 61,
+        "Earth->Mars": 3
+      },
+      "earth_score_change": -0.046875
+    },
+    {
+      "distance_km": 70.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 20,
+        "Earth->Earth": 44
+      },
+      "earth_score_change": 0.3125
+    },
+    {
+      "distance_km": 70.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        0
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 20,
+        "Earth->Earth": 44
+      },
+      "earth_score_change": 0.3125
+    },
+    {
+      "distance_km": 70.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        0,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 8,
+        "Earth->Earth": 12,
+        "Earth->Mars": 32,
+        "Mars->Earth": 12
+      },
+      "earth_score_change": -0.3125
+    },
+    {
+      "distance_km": 70.0,
+      "before": [
+        0,
+        2
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Earth": 40,
+        "Earth->Earth": 24
+      },
+      "earth_score_change": 0.625
+    },
+    {
+      "distance_km": 70.0,
+      "before": [
+        2,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Earth->Earth": 64
+      },
+      "earth_score_change": 0.0
+    },
+    {
+      "distance_km": 130.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 43,
+        "Mars->Earth": 9,
+        "Draw->Mars": 1,
+        "Earth->Earth": 5,
+        "Earth->Mars": 6
+      },
+      "earth_score_change": 0.046875
+    },
+    {
+      "distance_km": 130.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        2,
+        0
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 44,
+        "Mars->Earth": 8,
+        "Draw->Mars": 1,
+        "Earth->Mars": 6,
+        "Earth->Earth": 5
+      },
+      "earth_score_change": 0.03125
+    },
+    {
+      "distance_km": 130.0,
+      "before": [
+        0,
+        0
+      ],
+      "after": [
+        0,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 42,
+        "Mars->Earth": 10,
+        "Draw->Mars": 1,
+        "Earth->Mars": 10,
+        "Earth->Earth": 1
+      },
+      "earth_score_change": 0.0
+    },
+    {
+      "distance_km": 130.0,
+      "before": [
+        0,
+        2
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 41,
+        "Mars->Earth": 12,
+        "Earth->Mars": 9,
+        "Earth->Earth": 2
+      },
+      "earth_score_change": 0.046875
+    },
+    {
+      "distance_km": 130.0,
+      "before": [
+        2,
+        0
+      ],
+      "after": [
+        2,
+        2
+      ],
+      "outcome_transitions": {
+        "Mars->Mars": 40,
+        "Mars->Earth": 11,
+        "Earth->Mars": 10,
+        "Earth->Earth": 3
+      },
+      "earth_score_change": 0.015625
+    }
+  ],
+  "warning": "Team/mirror variants reuse the same seed; these are not fully independent trials. Ending at victory censors ship survival time."
+}

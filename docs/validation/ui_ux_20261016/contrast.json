@@ -1,0 +1,8 @@
+{
+  "scope": "Opaque menu text color pairs only; not a whole-product accessibility certification.",
+  "pairs": {
+    "secondary_on_screen": 8.75,
+    "disabled_on_button": 8.31,
+    "launch_text_on_fill": 9.56
+  }
+}

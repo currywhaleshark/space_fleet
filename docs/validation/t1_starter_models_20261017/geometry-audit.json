@@ -1,0 +1,22 @@
+[
+  {
+    "id": "earth_starter_escort",
+    "markers": 44,
+    "maxMarkerError": 1.9073486328125e-06,
+    "meshParts": 184,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  },
+  {
+    "id": "mars_starter_escort",
+    "markers": 41,
+    "maxMarkerError": 7.62939453125e-06,
+    "meshParts": 187,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency detects candidate gaps, not proof of mesh contact; visual review also required."
+  }
+]

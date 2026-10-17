@@ -28,7 +28,7 @@ public partial class ShipModelChecks : Node
 
     private void Run()
     {
-        foreach (ShipDefinition def in ShipDefinitions.All)
+        foreach (ShipDefinition def in FleetLoadouts.Hulls.GroupBy(d=>d.ModelId).Select(g=>g.First()))
         {
             HullKind kind = def.Kind;
             var colors = new List<Color>();
@@ -90,6 +90,9 @@ public partial class ShipModelChecks : Node
                     if (def.Antimatter is { } am)
                         Check(nodes["socket_antimatter_launch"].Position.DistanceTo(am.Flight.LaunchPoint)<.001f,
                             "AM pod launch socket matches simulation");
+                    if(def.ReconProbes?.LaunchPoints is { } ports)
+                        for(int i=0;i<ports.Length;i++)
+                            Check(nodes[$"socket_probe_{i}"].Position.DistanceTo(ports[i])<.001f,"Authored probe exits match simulation");
                     for (int i = 0; i < def.PointDefense!.Mounts.Length; i++)
                         Check(nodes[$"socket_point_defense_{i}"].Position.DistanceTo(def.PointDefense.Mounts[i]) < .001f,
                             $"{kind}: point defense socket {i}");
@@ -118,6 +121,107 @@ public partial class ShipModelChecks : Node
         }
         CheckDroneCombatVisuals(0);
         CheckDroneCombatVisuals(1);
+        CheckLoadoutModels();
+        CheckCruiserModels();
+        CheckReplacementModels();
+    }
+
+    private void CheckReplacementModels()
+    {
+        foreach(var original in FleetLoadouts.Hulls.DistinctBy(d=>d.ModelId))
+        {
+            foreach(var part in ShipComponents.All.Where(p=>p.Slot==ComponentSlot.MainGun&&ShipComponents.Available(original,p)))
+            {
+                var def=FleetLoadouts.ResolveFit(FleetLoadouts.Empty(original.Id) with{Components=new(MainGun:part.Id)}).Definition;
+                var model=ShipModels.Build(def,Faction.Blue,47);AddChild(model.Root);
+                try
+                {
+                    if(def.Railgun!.Mounts is { } mounts)
+                    {
+                        Check(model.Turrets.Count==mounts.Length,"Replacement preserves every hull hardpoint");
+                        foreach(var rig in model.Turrets)
+                        {
+                            var mount=mounts.Single(m=>m.ModuleId==rig.ModuleId);
+                            Check(rig.Muzzles.Count==mount.Muzzles.Length,"Replacement rig binds the selected barrel count");
+                            Check(rig.Recoil.GetChildren().OfType<MeshInstance3D>().Single().Name=="ReplacementPrimaryBarrels",
+                                "Original barrels are replaced, without duplicate floating guns");
+                            for(int i=0;i<rig.Muzzles.Count;i++)
+                                Check(rig.Muzzles[i].GlobalPosition.DistanceTo(mount.Muzzle(0,0,i))<.002f,
+                                    "Replacement mesh muzzle uses the projectile exit position");
+                        }
+                    }
+                    else Check(model.Root.FindChild("ReplacementFixedReceiver",true,false) is MeshInstance3D,
+                        "Fixed primary uses an acceleration pack while preserving its original muzzle");
+                }
+                finally{model.Root.Free();}
+                CheckLiveTurrets(def);
+            }
+            var systems=new ShipComponentSelection(Secondary:"pd-longrange",Engine:"engine-vector",Sensor:"sensor-lowprofile",
+                Generator:"generator-output",Shield:"shield-recharge");
+            var other=FleetLoadouts.ResolveFit(FleetLoadouts.Empty(original.Id) with{Components=systems}).Definition;
+            var stock=ShipModels.Build(original,Faction.Blue,47);var changed=ShipModels.Build(other,Faction.Blue,47);
+            try
+            {
+                string[] Shape(ShipModel m)=>Nodes(m.Root).OfType<MeshInstance3D>()
+                    .Select(n=>$"{n.Transform}:{n.Mesh.GetAabb()}").ToArray();
+                Check(Shape(stock).SequenceEqual(Shape(changed)),"Secondary, engine, sensor, generator and shield keep the original appearance");
+            }
+            finally{stock.Root.Free();changed.Root.Free();}
+        }
+    }
+
+    private void CheckLoadoutModels()
+    {
+        foreach (var original in ShipDefinitions.All)
+        {
+            var equipment = original.Bays.Select(b => new EquipmentMount(b.Id, b.Accepts.Contains(EquipmentCategory.Drone)
+                ? "drone-hangar" : b.Accepts.Contains(EquipmentCategory.Shield) ? "shield-capacity" : "sensor-array")).ToArray();
+            var def = ShipLoadouts.Resolve(new(original.Id, $"{{\"id\":\"test-{original.Id}\"}}", Equipment: equipment)).Definition;
+            var body = new ShipBody("LOADOUT", def, Faction.Blue);
+            var view = ShipView.Create(body, 47); AddChild(view);
+            try
+            {
+                view.Sync(Vec3d.Zero, 1, .016f);
+                Check(def.Id != def.ModelId && view.FindChild("BlenderHull", true, false) is Node3D,
+                    "Loadout variant resolves the existing model through modelId");
+                var nodes = Nodes(view).Where(n => n.Name.ToString().StartsWith("module_", StringComparison.Ordinal))
+                    .ToDictionary(n => n.Name.ToString(), n => n, StringComparer.Ordinal);
+                foreach (var module in def.Modules)
+                    Check(nodes["module_" + module.Id.Replace('-', '_')].Position.DistanceTo(module.Center) < .001f,
+                        "Variant model sockets remain aligned with its damage modules");
+                if (def.DefenseDrones is { } drones)
+                    Check(view.Drones!.Multimesh.InstanceCount == drones.Count,
+                        "Expanded hangar allocates a visible instance for every additional drone");
+            }
+            finally { view.Free(); }
+        }
+    }
+
+    private void CheckCruiserModels()
+    {
+        foreach(var variant in ShipVariants.All.Where(v=>v.Node.Tier>=3))
+        {
+            var def=variant.Definition;var body=new ShipBody("CRUISER",def,Faction.Blue);
+            var view=ShipView.Create(body,47);AddChild(view);
+            try
+            {
+                view.Sync(Vec3d.Zero,1,.016f);
+                Check(view.FindChild("BlenderHull",true,false) is not null,"Cruiser resolves its base model");
+                foreach(var module in def.Modules)
+                    Check(((Node3D)view.FindChild("module_"+module.Id.Replace('-','_'),true,false)).Position.DistanceTo(module.Center)<.001f,
+                        "Cruiser module socket matches damage geometry");
+                for(int i=0;i<def.PointDefense!.Mounts.Length;i++)
+                {
+                    var yaw=(Node3D)view.FindChild($"pd_yaw_{i}",true,false);
+                    Check(yaw.Position.DistanceTo(def.PointDefense.Mounts[i])<.001f,"Cruiser PD mounting position matches simulation");
+                    Check(view.FindChild($"pd_pitch_{i}",true,false) is not null && view.FindChild($"pd_muzzle_{i}_0",true,false) is not null,
+                        "Every cruiser PD has moving elevation and muzzle nodes");
+                }
+                if(def.DefenseDrones is { } drones)Check(view.Drones!.Multimesh.InstanceCount==drones.Count,"Cruiser defense drones render");
+            }
+            finally{view.Free();}
+            if(def.Branch==ShipBranch.AirDefenseCruiser&&variant.Node.Tier==3)CheckPointDefense(def);
+        }
     }
 
     private void CheckDroneCombatVisuals(int mountIndex)
@@ -168,7 +272,7 @@ public partial class ShipModelChecks : Node
     {
         if (def.Railgun?.Mounts is null) return;
         var world = new SimWorld();
-        var body = world.Add(new ShipBody("TURRET-CHECK", def.Flight, Faction.Blue));
+        var body = world.Add(new ShipBody("TURRET-CHECK", def, Faction.Blue));
         var origin = new Vec3d(1e9, -2e9, 3e9);
         body.Place(origin, new Quaternion(Vector3.Forward, .37f));
         body.Control = new ShipControl { FlightAssist = false };
@@ -198,10 +302,10 @@ public partial class ShipModelChecks : Node
                 }
             }
             var attempt = world.FireRailguns(body, aim);
-            Check(attempt.Shots == body.Railguns.Length * 2, $"{def.Kind}: visual broadside fires both barrels of every mount");
+            Check(attempt.Shots == body.Railguns.Sum(g=>g.BarrelCount), $"{def.Id}: visual broadside fires every installed barrel");
             view.Sync(origin, 1, .016f);
             var flashes = Nodes(view).Where(n => n.Name == "MuzzleFlash").ToArray();
-            Check(flashes.Count(n => n.Visible) == body.Railguns.Length * 2, $"{def.Kind}: both fired barrels flash together");
+            Check(flashes.Count(n => n.Visible) == body.Railguns.Sum(g=>g.BarrelCount), $"{def.Id}: all fired barrels flash together");
             for (int i = 0; i < 3; i++) world.Step();
             view.Sync(origin, 1, .05f);
             Check(Nodes(view).Where(n => n.Name.ToString().StartsWith("recoil_gun_")).All(n => n.Position.Z > 0),
@@ -218,7 +322,7 @@ public partial class ShipModelChecks : Node
     private void CheckAutomaticElevation(ShipDefinition def)
     {
         if(def.Railgun?.Mounts is null) return;
-        var world=new SimWorld(); var body=world.Add(new ShipBody("AUTO",def.Flight,Faction.Blue));
+        var world=new SimWorld(); var body=world.Add(new ShipBody("AUTO",def,Faction.Blue));
         var enemy=world.Add(new ShipBody("TARGET",ShipClass.Battleship,Faction.Red));
         body.Control=enemy.Control=new ShipControl { FlightAssist=false };
         body.Gunnery=new GunneryOrder { Doctrine=FireDoctrine.Focus,Target=enemy };
@@ -251,7 +355,7 @@ public partial class ShipModelChecks : Node
 
     private void CheckPointDefense(ShipDefinition def)
     {
-        var world=new SimWorld(); var body=world.Add(new ShipBody("PD",def.Flight,Faction.Blue));
+        var world=new SimWorld(); var body=world.Add(new ShipBody("PD",def,Faction.Blue));
         var enemy=world.Add(new ShipBody("RAIDER",ShipClass.Interceptor,Faction.Red));
         Vec3d origin=new(1e9,-2e9,3e9); body.Place(origin,new Quaternion(Vector3.Forward,.37f));
         body.Control=enemy.Control=new ShipControl { FlightAssist=false };
@@ -295,7 +399,7 @@ public partial class ShipModelChecks : Node
 
     private void CheckLiveFx(ShipDefinition def)
     {
-        var body = new ShipBody("MODEL-CHECK", def.Flight, Faction.Blue);
+        var body = new ShipBody("MODEL-CHECK", def, Faction.Blue);
         body.Control = new ShipControl { Thrust = new Vector3(1, 0, 1) };
         ShipView view = ShipView.Create(body, 47);
         AddChild(view);

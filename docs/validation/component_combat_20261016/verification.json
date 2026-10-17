@@ -1,0 +1,41 @@
+{
+  "bench": 72,
+  "armor_rays": 1905,
+  "ai_duels": 144,
+  "mixed_fleet_smoke": 6,
+  "pd_trials_per_version": 432,
+  "pd_changed_trials": 90,
+  "stock_pd_and_missile_pd_unchanged": true,
+  "stock_hulls_identical": 34,
+  "existing_regression_output_identical": true,
+  "simulation_groups": 61,
+  "simulation_checks": 5677061,
+  "build_warnings": {
+    "game-build": 4,
+    "scale-build": 0,
+    "batch-build": 0
+  },
+  "source_sha256": {
+    "src/Sim/Missiles.cs": "8b8f0a5a216abaca700b88cc56a948e86804d6c8de15c6d6837c4c2d5ed2dfcc",
+    "src/Sim/ShipComponents.cs": "3a8270525735dc3454e1f971a7d38bd37c6d1720aea65fb31c10671ee42cc403",
+    "src/Sim/ShipDefinition.cs": "1f47fd7597d1e5ad60f40d641c9b2f757aa1f734c81c734c3d1c192913b6f0db",
+    "src/Sim/SimPointDefense.cs": "cae00eecec54d771c84e2ef1e4bb530c0eb374cd95a396530114ad8c114dfa6e",
+    "src/Sim/SimMissiles.cs": "847f288075440e95f37fd90c3fd98c2f6501475370ef1aa33821d1ad95f01cc9",
+    "tests/SimChecks/ComponentChecks.cs": "9abf38f5f0d452cfc35c740580b3643a26824a1a45e75f5f3085704017124562",
+    "tools/BattleBatch/ComponentTrials.cs": "bdb735dd2192b98e1e9a695cb271a68c958ddeea8f74d8c818c7cc8fc2e6507e",
+    "tools/BattleBatch/Program.cs": "c9e557ff28b39ca6a24f337681574e1f56ee40e62b00886e88d084e7503bed73",
+    "data/components/catalog.json": "3e13d8597de1db9aabc88cc45e9ee1edf94be773afcf1ad21a8b47ce53e5ce18"
+  },
+  "evidence_sha256": {
+    "batch-build.log": "628d1185997a45f5d7f41f5c37545c90e337e922bd05b0ae4e01572dbbb3412e",
+    "bench.json": "2a3361afbbf1891b570c7d228f26e6526ed497c93f30fdc5f030eb4ad9ce72e6",
+    "duels.json": "72f08b8c18287a0fdff302389ed38f3fc6a514030d0353c820657326cbd974c5",
+    "fleet.json": "f54e369145607055908e7a1926f9d137ca0ca39e3b89aaaf70d5b93be1d453cc",
+    "game-build.log": "bd3700a16ab9e9cc1242030b23a655c216c2ef9eb5d9896bfc4278b74eb36c19",
+    "pd-fixed.json": "b2af17111f49636a8ef811814a26a63d173734280e2274aa26ec9d3a361f674e",
+    "pd-legacy.json": "49790927218cd4c120edc1e33aa9f49d3f15a02e4de576c560919d379af6c3a0",
+    "scale-build.log": "02bec0347724e8b590b5b2772c7eeecd031fc523f12a0c6cc91ca09216e8ba2c",
+    "sim-checks.log": "4df4230870e521b8e8c742796c4bb936267a35342289ed7fd5787e4028dc5d3e",
+    "stock-definitions.json": "8abae7240489a231d87f8fb996c0b656eeda5be0a127249887f2a02ec9694bed"
+  }
+}

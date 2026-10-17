@@ -1,0 +1,9 @@
+{
+  "battleship": {
+    "ReloadSeconds": 3.3
+  },
+  "mars_battleship": {
+    "ReloadSeconds": 5.46,
+    "AimErrorScale": 1.1
+  }
+}

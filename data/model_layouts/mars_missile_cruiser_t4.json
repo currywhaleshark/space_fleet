@@ -1,0 +1,371 @@
+{
+  "id": "mars_missile_cruiser_t4",
+  "sections": [
+    {
+      "id": "hull",
+      "name": "주선체",
+      "center": [
+        0.0,
+        0.0,
+        7.56
+      ],
+      "halfSize": [
+        19.71,
+        14.82,
+        108.36
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bow-1",
+      "name": "함수 1",
+      "center": [
+        0.0,
+        -0.78,
+        -113.4
+      ],
+      "halfSize": [
+        16.06,
+        11.7,
+        21.0
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-2",
+      "name": "함수 2",
+      "center": [
+        0.0,
+        -2.34,
+        -144.9
+      ],
+      "halfSize": [
+        8.76,
+        7.8,
+        10.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bridge",
+      "name": "함교",
+      "center": [
+        0,
+        27,
+        62
+      ],
+      "halfSize": [
+        12,
+        13,
+        16
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "radiator-port",
+      "name": "좌현 방열판",
+      "center": [
+        -31,
+        -4,
+        77
+      ],
+      "halfSize": [
+        0.45,
+        13.5,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "우현 방열판",
+      "center": [
+        31,
+        -4,
+        77
+      ],
+      "halfSize": [
+        0.45,
+        13.5,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "sensor-head",
+      "name": "외부 센서 헤드",
+      "center": [
+        0,
+        48,
+        62
+      ],
+      "halfSize": [
+        6.424,
+        8.58,
+        8.316
+      ],
+      "armorFrom": "sensor-head"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        16.78,
+        -50.4
+      ],
+      "halfSize": [
+        7,
+        3.8500000000000005,
+        7
+      ],
+      "armorFrom": "turret-base-gun-1"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "주포 바베트",
+      "center": [
+        0.0,
+        -16.78,
+        -25.2
+      ],
+      "halfSize": [
+        7,
+        3.8500000000000005,
+        7
+      ],
+      "armorFrom": "turret-base-gun-2"
+    },
+    {
+      "id": "missile-pontoon--1-0",
+      "name": "missile-pontoon--1-0",
+      "center": [
+        -42,
+        0,
+        -64
+      ],
+      "halfSize": [
+        12,
+        12,
+        30
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root--1-0-0",
+      "name": "pontoon-root--1-0-0",
+      "center": [
+        -25,
+        0,
+        -84
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root--1-0-1",
+      "name": "pontoon-root--1-0-1",
+      "center": [
+        -25,
+        0,
+        -44
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "missile-pontoon--1-1",
+      "name": "missile-pontoon--1-1",
+      "center": [
+        -42,
+        0,
+        10
+      ],
+      "halfSize": [
+        12,
+        12,
+        30
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root--1-1-0",
+      "name": "pontoon-root--1-1-0",
+      "center": [
+        -25,
+        0,
+        -10
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root--1-1-1",
+      "name": "pontoon-root--1-1-1",
+      "center": [
+        -25,
+        0,
+        30
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "missile-pontoon-1-0",
+      "name": "missile-pontoon-1-0",
+      "center": [
+        42,
+        0,
+        -64
+      ],
+      "halfSize": [
+        12,
+        12,
+        30
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root-1-0-0",
+      "name": "pontoon-root-1-0-0",
+      "center": [
+        25,
+        0,
+        -84
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root-1-0-1",
+      "name": "pontoon-root-1-0-1",
+      "center": [
+        25,
+        0,
+        -44
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "missile-pontoon-1-1",
+      "name": "missile-pontoon-1-1",
+      "center": [
+        42,
+        0,
+        10
+      ],
+      "halfSize": [
+        12,
+        12,
+        30
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root-1-1-0",
+      "name": "pontoon-root-1-1-0",
+      "center": [
+        25,
+        0,
+        -10
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "pontoon-root-1-1-1",
+      "name": "pontoon-root-1-1-1",
+      "center": [
+        25,
+        0,
+        30
+      ],
+      "halfSize": [
+        6,
+        4,
+        5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mast-stem",
+      "name": "mast-stem",
+      "center": [
+        0,
+        40,
+        62
+      ],
+      "halfSize": [
+        3,
+        2,
+        4
+      ],
+      "armorFrom": "bridge"
+    }
+  ],
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        48,
+        62
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -31,
+        -4,
+        77
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        31,
+        -4,
+        77
+      ]
+    }
+  },
+  "bays": {},
+  "pdMounts": [
+    [
+      0.0,
+      -15.6,
+      33.6
+    ],
+    [
+      0.0,
+      18.72,
+      -33.6
+    ]
+  ]
+}

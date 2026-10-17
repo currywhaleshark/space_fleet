@@ -1,0 +1,32 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+11:12:08 | INFO: Starting glTF 2.0 export
+11:12:08 | INFO: Extracting primitive: hull.001
+11:12:08 | INFO: Primitives created: 10
+11:12:08 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+11:12:08 | INFO: Primitives created: 3
+11:12:08 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+11:12:08 | INFO: Primitives created: 3
+11:12:08 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+11:12:08 | INFO: Primitives created: 3
+11:12:08 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+11:12:08 | INFO: Primitives created: 3
+11:12:08 | INFO: Extracting primitive: PD 0 receiver.001
+11:12:08 | INFO: Primitives created: 1
+11:12:08 | INFO: Extracting primitive: PD 0 barrel.002
+11:12:08 | INFO: Primitives created: 2
+11:12:08 | INFO: Extracting primitive: PD 1 receiver.001
+11:12:08 | INFO: Primitives created: 1
+11:12:08 | INFO: Extracting primitive: PD 1 barrel.002
+11:12:08 | INFO: Primitives created: 2
+11:12:08 | INFO: Finished glTF 2.0 export in 0.14959955215454102 s
+00:04.672  image.write      | ERROR OpenImageIO write failed: Could not open file "C:\Users\yurib\.thumbnails\large\blender_26620_2420d61fbae0d75ad8ff0b5d1e019621.png.png"
+00:13.109  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_hero.png'
+00:21.593  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_underside.png'
+00:29.547  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_top.png'
+00:37.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\t5_models_20261017\mars_gun_cruiser_t5_rear.png'
+
+Info: Saved as "mars_gun_cruiser_t5.blend"
+BUILT mars_gun_cruiser_t5 10080 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

@@ -37,7 +37,7 @@ public sealed partial class SensorNet
                 || support.Class.Kind!=HullKind.Escort || !Squadron.Active(support) || !support.Power.EcmActive
                 || Occluded(support.Position,observer)) continue;
             float falloff=Mathf.Clamp(1f-(float)(support.Position-target.Position).Length()/12000f,0,1);
-            screen=Mathf.Max(screen,support.Definition.Sensors.Jammer*support.Power.EcmEffect*.6f*falloff);
+            screen=Mathf.Max(screen,Jammer(support)*support.Power.EcmEffect*.6f*falloff);
         }
         return screen;
     }

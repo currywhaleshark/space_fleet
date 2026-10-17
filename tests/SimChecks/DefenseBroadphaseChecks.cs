@@ -34,8 +34,11 @@ static class DefenseBroadphaseChecks
                     for (int m = 0; m < a.Ordnance.PointDefense.Length; m++)
                     {
                         var x = a.Ordnance.PointDefense[m]; var y = b.Ordnance.PointDefense[m];
-                        Check((x.Yaw, x.Elevation, x.LocalAim, x.TargetKind, x.FireAccumulator, x.ShotCount)
-                            == (y.Yaw, y.Elevation, y.LocalAim, y.TargetKind, y.FireAccumulator, y.ShotCount), "PD selection/tracking changed");
+                        bool same=(x.Yaw, x.Elevation, x.LocalAim, x.TargetKind, x.FireAccumulator, x.ShotCount)
+                            == (y.Yaw, y.Elevation, y.LocalAim, y.TargetKind, y.FireAccumulator, y.ShotCount);
+                        Check(same,same ? "" :
+                            $"PD selection/tracking changed: count={count}, offset={offset:R}, step={step}, ship={i}, mount={m}; " +
+                            $"indexed={(x.Yaw,x.Elevation,x.LocalAim,x.TargetKind,x.FireAccumulator,x.ShotCount)}, reference={(y.Yaw,y.Elevation,y.LocalAim,y.TargetKind,y.FireAccumulator,y.ShotCount)}");
                     }
                     for (int d = 0; d < a.Ordnance.Drones.Rounds.Length; d++)
                     {

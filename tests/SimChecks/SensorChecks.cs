@@ -85,16 +85,17 @@ static class SensorChecks
         }
         var ecm = (2, 2, 1, 1, 2);
         var eccm = (2, 2, 0, 4, 0);
-        Require(At(90, null, null) == TrackLevel.Locked, "Without ECM a battleship locks at 90 km");
-        Require(At(90, ecm, null) == TrackLevel.Identified, "ECM must deny a 90 km lock");
-        Require(At(90, ecm, eccm) == TrackLevel.Locked, "Sensor pips (ECCM) must burn through ECM at 90 km");
+        Require(At(100, null, null) == TrackLevel.Locked, "Without ECM a battleship locks at 100 km");
+        Require(At(100, ecm, null) == TrackLevel.Identified, "ECM must deny a 100 km lock");
+        Require(At(100, ecm, eccm) == TrackLevel.Locked, "Sensor pips (ECCM) must burn through ECM at 100 km");
         Require(At(500, null, null) == TrackLevel.None && At(500, ecm, null) == TrackLevel.Contact,
             "Jamming must give the jammer away as a long-range contact");
 
         ShipBody me2 = Ship(HullKind.Battleship, Faction.Blue, 0, "B"), them2 = Ship(HullKind.Battleship, Faction.Red, 90, "R");
         them2.Power.SetPips(2, 2, 1, 1, 2);
         var (_, _, jam) = SensorNet.Measure(me2, them2);
-        Require(Math.Abs(jam - ShipDefinitions.For(HullKind.Battleship).Sensors.Jammer) < 0.01f, "Two ECM pips against balanced sensors jam at the data value");
+        float raw = ShipDefinitions.For(HullKind.Battleship).Sensors.Jammer;
+        Require(Math.Abs(jam - raw / (1 + raw / 2)) < 0.01f, "Two ECM pips apply diminishing returns to the data value");
     }
 
     private static void CheckSignature()

@@ -1,0 +1,29 @@
+{
+  "FullSimExitCode": 0,
+  "Assertions": 5607966,
+  "PassGroups": 59,
+  "PlanningChecks": 47,
+  "FixtureChecks": 330,
+  "GameBuildWarnings": 0,
+  "GameBuildErrors": 0,
+  "BatchBuildWarnings": 0,
+  "BatchBuildErrors": 0,
+  "TestBuildWarnings": 0,
+  "TestBuildErrors": 0,
+  "ActualCandidateExactMatches": 192,
+  "BaselineReplayExactMatches": 8,
+  "ModelHashesPreserved": 23,
+  "MeasuredBattles": 1434,
+  "FullSuiteBeforeStarterPreservation": true,
+  "StarterRestoredToOriginalHash": true,
+  "FinalTargetedChecks": {
+    "Research": 478,
+    "TierBranches": 255,
+    "ExitCode": 0
+  },
+  "Limitations": [
+    "20/70 km Earth escort combinations remain overpowered",
+    "24-ship asymmetric fleet worsened from Earth 5 / Mars 10 / draw 1 to Earth 2 / Mars 14",
+    "No new executable export; no 10v10/asteroid/manual pilot validation"
+  ]
+}

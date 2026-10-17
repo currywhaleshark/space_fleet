@@ -1,0 +1,576 @@
+{
+  "simChecks": 5607605,
+  "modelChecks": 2484,
+  "priorFilesChanged": [
+    "data/variants/earth_recon_t3.json",
+    "data/variants/mars_assault_t3.json"
+  ],
+  "allOtherPriorAssetsAndDefinitionsPreserved": true,
+  "generatorIdempotent": true,
+  "modulesDoNotOverlap": true,
+  "regressionOutputEqualExcludingExpandedBranchChecks": true,
+  "roleTrials": [
+    {
+      "Hull": "interceptor_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 52.05,
+      "FirstAssault": 0,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 401.2314726270413,
+      "Torpedoes": 11,
+      "TorpedoHits": 8,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "earth_recon_t3",
+      "Seconds": 150,
+      "Probes": 5,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 0,
+      "FirstAssault": null,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 26196.280387580362,
+      "Torpedoes": 0,
+      "TorpedoHits": 0,
+      "Survivors": 5,
+      "LastMission": "Recon"
+    },
+    {
+      "Hull": "mars_interceptor_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 46.2,
+      "FirstAssault": 0,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 693.2173496054312,
+      "Torpedoes": 13,
+      "TorpedoHits": 13,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "mars_assault_t3",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 76.56666666666666,
+      "FirstAssault": 39,
+      "AssaultSpread": 0,
+      "RallySeconds": 38.99999999999907,
+      "MinimumRange": 766.9702111811602,
+      "Torpedoes": 5,
+      "TorpedoHits": 5,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    },
+    {
+      "Hull": "earth_recon_t5",
+      "Seconds": 150,
+      "Probes": 5,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 0,
+      "FirstAssault": null,
+      "AssaultSpread": 0,
+      "RallySeconds": 0,
+      "MinimumRange": 26196.096039526936,
+      "Torpedoes": 0,
+      "TorpedoHits": 0,
+      "Survivors": 5,
+      "LastMission": "Recon"
+    },
+    {
+      "Hull": "mars_assault_t5",
+      "Seconds": 150,
+      "Probes": 0,
+      "Contacts": 0,
+      "Identifications": 0,
+      "FirstAction": 76.58333333333333,
+      "FirstAssault": 39,
+      "AssaultSpread": 0,
+      "RallySeconds": 38.99999999999907,
+      "MinimumRange": 760.8390796099478,
+      "Torpedoes": 5,
+      "TorpedoHits": 5,
+      "Survivors": 5,
+      "LastMission": "Assault"
+    }
+  ],
+  "models": [
+    {
+      "id": "earth_recon_t3",
+      "source": "art/blender/earth_recon_t3.blend",
+      "model": "assets/ships/earth_recon_t3.glb",
+      "modules": 16,
+      "triangles": 7516,
+      "materials": 11,
+      "editableParts": 139,
+      "meshGroups": 5,
+      "turrets": 0,
+      "pointDefenseTurrets": 2,
+      "engines": [
+        {
+          "position": [
+            -4,
+            0,
+            14.925
+          ],
+          "radius": 0.87,
+          "plume": 8,
+          "index": 0
+        },
+        {
+          "position": [
+            4,
+            0,
+            14.925
+          ],
+          "radius": 0.87,
+          "plume": 8,
+          "index": 1
+        }
+      ],
+      "rcs": [
+        {
+          "position": [
+            -1.149999976158142,
+            0.0,
+            -10.0
+          ],
+          "exhaust": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -0.6899999976158142,
+            -1.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -0.6899999976158142,
+            1.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            1.149999976158142,
+            0.0,
+            -10.0
+          ],
+          "exhaust": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            0.6899999976158142,
+            -1.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            0.6899999976158142,
+            1.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -5.300000190734863,
+            0.0,
+            10.0
+          ],
+          "exhaust": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -3.180000066757202,
+            -1.399999976158142,
+            10.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -3.180000066757202,
+            1.399999976158142,
+            10.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            5.300000190734863,
+            0.0,
+            10.0
+          ],
+          "exhaust": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            3.180000066757202,
+            -1.399999976158142,
+            10.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            3.180000066757202,
+            1.399999976158142,
+            10.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -1.3250000476837158,
+            0.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            1.3250000476837158,
+            0.0,
+            -10.0
+          ],
+          "exhaust": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        }
+      ]
+    },
+    {
+      "id": "mars_assault_t3",
+      "source": "art/blender/mars_assault_t3.blend",
+      "model": "assets/ships/mars_assault_t3.glb",
+      "modules": 16,
+      "triangles": 7136,
+      "materials": 9,
+      "editableParts": 134,
+      "meshGroups": 3,
+      "turrets": 0,
+      "pointDefenseTurrets": 1,
+      "engines": [
+        {
+          "position": [
+            -4.1,
+            0,
+            13.225000000000001
+          ],
+          "radius": 1.04,
+          "plume": 10,
+          "index": 0
+        },
+        {
+          "position": [
+            4.1,
+            0,
+            13.225000000000001
+          ],
+          "radius": 1.04,
+          "plume": 10,
+          "index": 1
+        }
+      ],
+      "rcs": [
+        {
+          "position": [
+            -1.149999976158142,
+            0.0,
+            -9.0
+          ],
+          "exhaust": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -0.6899999976158142,
+            -1.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -0.6899999976158142,
+            1.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            1.149999976158142,
+            0.0,
+            -9.0
+          ],
+          "exhaust": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            0.6899999976158142,
+            -1.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            0.6899999976158142,
+            1.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -5.550000190734863,
+            0.0,
+            9.0
+          ],
+          "exhaust": [
+            -1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -3.3299999237060547,
+            -1.600000023841858,
+            9.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -3.3299999237060547,
+            1.600000023841858,
+            9.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            5.550000190734863,
+            0.0,
+            9.0
+          ],
+          "exhaust": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            3.3299999237060547,
+            -1.600000023841858,
+            9.0
+          ],
+          "exhaust": [
+            0.0,
+            -1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            3.3299999237060547,
+            1.600000023841858,
+            9.0
+          ],
+          "exhaust": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            -1.3250000476837158,
+            0.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        },
+        {
+          "position": [
+            1.3250000476837158,
+            0.0,
+            -9.0
+          ],
+          "exhaust": [
+            0.0,
+            0.0,
+            -1.0
+          ],
+          "size": 0.35,
+          "plume": 4
+        }
+      ]
+    }
+  ]
+}

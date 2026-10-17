@@ -1,0 +1,52 @@
+{
+  "preservedFiles": 60,
+  "changedBaselineFiles": [
+    "data/variants/earth_air_defense_cruiser.json",
+    "data/variants/earth_gun_cruiser.json",
+    "data/variants/mars_gun_cruiser.json",
+    "data/variants/mars_missile_cruiser.json",
+    "assets/ships/manifest.json"
+  ],
+  "unchangedBalanceHullIds": [
+    "earth_gun_cruiser",
+    "earth_air_defense_cruiser",
+    "mars_gun_cruiser",
+    "mars_missile_cruiser"
+  ],
+  "unchangedRegeneratedUpperTiers": [
+    "earth_air_defense_cruiser_t4",
+    "earth_air_defense_cruiser_t5",
+    "earth_gun_cruiser_t4",
+    "earth_gun_cruiser_t5",
+    "mars_gun_cruiser_t4",
+    "mars_gun_cruiser_t5",
+    "mars_missile_cruiser_t4",
+    "mars_missile_cruiser_t5"
+  ],
+  "modelCosts": [
+    {
+      "id": "earth_gun_cruiser",
+      "triangles": 12240,
+      "editableParts": 261,
+      "meshGroups": 13
+    },
+    {
+      "id": "earth_air_defense_cruiser",
+      "triangles": 13680,
+      "editableParts": 293,
+      "meshGroups": 17
+    },
+    {
+      "id": "mars_gun_cruiser",
+      "triangles": 10780,
+      "editableParts": 238,
+      "meshGroups": 9
+    },
+    {
+      "id": "mars_missile_cruiser",
+      "triangles": 14076,
+      "editableParts": 310,
+      "meshGroups": 9
+    }
+  ]
+}

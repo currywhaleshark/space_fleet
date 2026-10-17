@@ -18,6 +18,27 @@ bool mirror = argsMap.ContainsKey("mirror"), profile = argsMap.ContainsKey("prof
 bool tickProfile = profile || argsMap.ContainsKey("tick-profile");
 bool telemetry = argsMap.ContainsKey("telemetry");
 string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batch/battle.csv"));
+if(argsMap.ContainsKey("component-trials"))
+{ ComponentTrials.Save(output,argsMap.GetValueOrDefault("phase","all"),seeds,jobs,minutes*60,argsMap.ContainsKey("legacy-pd"));return; }
+if(argsMap.ContainsKey("cruiser-trials")){CruiserTrials.Save(output);return;}
+if(argsMap.ContainsKey("branch-trials")){BranchTrials.Save(output);return;}
+if(argsMap.ContainsKey("long-range-trials")){LongRangeTrials.Save(output);return;}
+if(argsMap.ContainsKey("escort-trials-check")){EscortTrials.Check();return;}
+if(argsMap.ContainsKey("wing-trials-check")){WingTrials.Check();return;}
+if(argsMap.ContainsKey("wing-trials"))
+{
+    WingTrials.Save(output, seeds, argsMap.GetValueOrDefault("distances", "20000,70000,130000").Split(',').Select(double.Parse).ToArray(),
+        jobs, minutes, telemetry, argsMap.ContainsKey("primary-only"), argsMap.GetValueOrDefault("timing-tuning"),
+        argsMap.GetValueOrDefault("definition-baseline"));
+    return;
+}
+if(argsMap.ContainsKey("escort-trials"))
+{
+    EscortTrials.Save(output, seeds, argsMap.GetValueOrDefault("distances", "20000,70000,130000").Split(',').Select(double.Parse).ToArray(),
+        jobs, minutes, telemetry, argsMap.GetValueOrDefault("gunnery-tuning"), argsMap.ContainsKey("primary-only"));
+    return;
+}
+if(argsMap.ContainsKey("small-hull-trials")){SmallHullTrials.Save(output,argsMap.ContainsKey("geometry-only"));return;}
 var battlefield=Enum.Parse<Battlefield>(argsMap.GetValueOrDefault("battlefield","DeepSpace"),true);
 int[] fieldSeeds=argsMap.GetValueOrDefault("field-seeds",argsMap.GetValueOrDefault("field-seed","1")).Split(',').Select(int.Parse).Distinct().ToArray();
 if(fieldSeeds.Length>1)
@@ -49,7 +70,41 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
         var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0] };
         if (argsMap.TryGetValue("match-hull", out var matchHull))
             config = config with { Match = Matchmaking.Create(task.Seed, matchHull) };
-        if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
+        if(argsMap.TryGetValue("tier-hull",out var tierHull))
+            config=config with{Match=Matchmaking.CreateTiered(task.Seed,FleetLoadouts.Default(tierHull),
+                FleetLoadouts.Hulls.Select(h=>h.Id).ToHashSet(),new Dictionary<string,IReadOnlySet<string>>())};
+        var overrides=new Dictionary<string,string>();
+        foreach(var (key,side) in new[]{("blue-escort",true),("red-escort",false)})
+            if(argsMap.TryGetValue(key,out var hull))
+            {
+                if(ShipDefinitions.ById(hull).Kind!=HullKind.Escort)throw new ArgumentException(key+" requires an escort/cruiser hull");
+                if(config.Match is not null)throw new ArgumentException("Escort overrides use the canonical fleet, not matchmaking");
+                if(duel is not null)overrides[side?"DUEL-B":"DUEL-R"]=hull;
+                else foreach(var call in side?new[]{"DD-11","DD-12","DD-31","DD-32","DD-33","DD-34"}:new[]{"DD-X1","DD-X2","DD-X3","DD-X4","DD-X5","DD-X6"})overrides[call]=hull;
+            }
+        if(overrides.Count>0)config=config with{HullOverrides=overrides};
+        foreach(var (key,side) in new[]{("blue-wing",true),("red-wing",false)})
+            if(argsMap.TryGetValue(key,out var hull))
+            {
+                if(ShipDefinitions.ById(hull).Kind!=HullKind.Interceptor||config.Match is not null||duel is not null)
+                    throw new ArgumentException(key+" requires a small hull in the canonical fleet");
+                for(int i=1;i<=5;i++)overrides[side?$"IC-2{i}":$"IC-X{i}"]=hull;
+            }
+        if(overrides.Count>0)config=config with{HullOverrides=overrides};
+        if(argsMap.TryGetValue("specialist-reach-scale",out var reachScale))
+        {
+            if(duel is not null || argsMap.ContainsKey("small-geometry"))
+                throw new ArgumentException("Specialist timing requires the canonical fleet and current geometry");
+            world=SmallHullTrials.Fleet(config,false,float.Parse(reachScale));
+            world.CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false";
+        }
+        else if(argsMap.TryGetValue("small-geometry",out var geometry))
+        {
+            if(duel is not null || geometry is not ("legacy" or "current"))throw new ArgumentException("--small-geometry requires legacy/current and the canonical fleet");
+            world=SmallHullTrials.Fleet(config,geometry=="legacy");
+            world.CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false";
+        }
+        else if (duel is { } kind) BattleSetup.SpawnDuel(world, config, kind); else BattleSetup.Spawn(world, config);
         var run = Stopwatch.StartNew();
         var ticks = tickProfile ? new List<double>() : null;
         var sections = profile ? new SectionProfile() : null;
@@ -78,7 +133,7 @@ Directory.CreateDirectory(Path.GetDirectoryName(output)!);
 File.WriteAllText(Path.ChangeExtension(output,".field.json"),JsonSerializer.Serialize(new {battlefield=battlefield.ToString(),fieldSeed=fieldSeeds[0],
     obstacleCount=rows.First().World.Obstacles.Count,rocks=rows.First().World.Asteroids?.Rocks.Count??0,regenerations=rows.First().World.Asteroids?.Regenerations??0},new JsonSerializerOptions{WriteIndented=true}));
 var ordered = rows.OrderBy(r => r.Seed).ThenBy(r => r.Mirror).ToArray();
-if (argsMap.ContainsKey("match-hull"))
+if (argsMap.ContainsKey("match-hull")||argsMap.ContainsKey("tier-hull"))
     File.WriteAllText(Path.ChangeExtension(output,".losses.json"),JsonSerializer.Serialize(ordered.Select(r => new {
         r.Seed, r.Mirror, Ships=r.World.Ships.Count, Outcome=r.World.Rules!.Outcome,
         Destroyed=r.World.Ships.Count(s=>s.Damage.Destroyed), Disabled=r.World.Ships.Count(s=>s.Damage.Disabled),

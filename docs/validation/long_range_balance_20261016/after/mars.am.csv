@@ -1,0 +1,2 @@
+seed,mirror,faction,shooter,target,targetKind,launchTime,range,flightSeconds,path,seekerSeconds,closestHull,outcome,hitShip
+2,1,Red,IC-X1,DD-34,Escort,535.496,5103.9,7.004,5889.2,0.000,31.9,Expired,

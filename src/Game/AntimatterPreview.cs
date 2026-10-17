@@ -20,7 +20,7 @@ public partial class ScaleTest
         Throttle=0; InspectTarget=target; AimPart=AimSubsystem.Engines;
         World.Sensors.Update(World.Ships,World.Time,force:true);
         Camera.ResetAim(ic.Orientation); _amPreview=preview;
-        if(preview is not null) SelectWeapon(PlayerWeapon.Antimatter);
+        if(preview is not null && preview!="risk-safe") SelectWeapon(PlayerWeapon.Antimatter);
     }
 
     private void StepAntimatterPreview()
@@ -28,7 +28,7 @@ public partial class ScaleTest
         if(_amPreview is null || _amPreviewAction || Controlled?.Body is not { } ship) return;
         var am=ship.Ordnance.Antimatter;
         if(_amPreview=="arming") return;
-        if(_amPreview=="risk" && World.Time>=1)
+        if(_amPreview is "risk" or "risk-safe" && World.Time>=1)
         { ship.Damage.Hurt(ship.Damage.Module(am.Definition!.ModuleId),8,World.Time,10,1); _amPreviewAction=true; }
         if(!am.Ready) return;
         if(_amPreview=="launch") FireSelectedWeapon();

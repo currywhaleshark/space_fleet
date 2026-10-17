@@ -7,7 +7,7 @@ sealed class BalanceTelemetry(int seed, bool mirror)
 {
     private double next;
     public List<string> Rows { get; } = new();
-    public const string Header = "seed,mirror,time,faction,design,kind,callsign,active,activity,posture,order,target,targetDisabled,track,rangeKm,minFlightSeconds,flightEligibleGuns,arcEligibleGuns,clearLineGuns,armorEligibleGuns,alignedGuns,readyGuns,rails,railHits,railRounds,missiles,torpedoes,amRounds,amMode,containment,amFailures,amJettisons,shieldFraction,moduleFraction,propulsion,weapons,sensors,heat,supply,pips,speed,nearestEscortKm,nearestEnemyKm,shieldDamageInflicted,moduleDamageInflicted,missilesIntercepted,torpedoesIntercepted,dronesDestroyed,repairs,repairKits,repairModule,repairProgress,wingMission,wingChanges,probesLaunched,probesActive,probeContacts,probeIdentifications,probeKills,smallTarget";
+    public const string Header = "seed,mirror,time,faction,design,kind,callsign,active,activity,posture,order,target,targetDisabled,track,rangeKm,minFlightSeconds,flightEligibleGuns,arcEligibleGuns,clearLineGuns,armorEligibleGuns,alignedGuns,readyGuns,rails,railHits,railRounds,missiles,torpedoes,amRounds,amMode,containment,amFailures,amJettisons,shieldFraction,moduleFraction,propulsion,weapons,sensors,heat,supply,pips,speed,nearestEscortKm,nearestEnemyKm,shieldDamageInflicted,moduleDamageInflicted,missilesIntercepted,torpedoesIntercepted,dronesDestroyed,repairs,repairKits,repairModule,repairProgress,wingMission,wingChanges,probesLaunched,probesActive,probeContacts,probeIdentifications,probeKills,smallTarget,trackSnr,observer,observerRangeKm,eccm,boost,desiredSpeed";
     public void Capture(SimWorld world)
     {
         if (world.Time < next) return;
@@ -50,7 +50,7 @@ sealed class BalanceTelemetry(int seed, bool mirror)
                 ship.Squadron?.Mission.ToString() ?? "", ship.Squadron?.MissionChanges.ToString() ?? "",
                 ship.Ordnance.Interceptor.Launched.ToString(), world.Probes.Count(p => p.Owner == ship).ToString(),
                 ship.Ordnance.Interceptor.NewContacts.ToString(), ship.Ordnance.Interceptor.NewIdentifications.ToString(),
-                ship.Ordnance.Interceptor.ProbeKills.ToString(), brain?.SmallTarget?.GetType().Name ?? ""
+                ship.Ordnance.Interceptor.ProbeKills.ToString(), brain?.SmallTarget?.GetType().Name ?? "", F(track.TrackSnr), track.Observation?.Observer.Callsign ?? "", F(track.Range/1000), B(brain?.Eccm == true), B(brain?.WantBoost == true), F(brain?.DesiredVelocity.Length())
             }));
         }
     }

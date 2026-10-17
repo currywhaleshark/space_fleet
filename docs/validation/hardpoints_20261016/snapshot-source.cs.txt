@@ -1,0 +1,5 @@
+using SpaceFleet.Sim;
+using System.Text.Json;
+var rows=ShipDefinitions.All.Concat(ShipVariants.All.Select(v=>v.Definition)).OrderBy(d=>d.Id).ToDictionary(d=>d.Id,d=>new {definition=d.ToJson(),loadout=(ShipDefinitions.All.Any(b=>b.Id==d.Id)?ShipLoadouts.Resolve(new(d.Id)):ShipVariants.Resolve(d.Id)).LoadoutId});
+File.WriteAllText(args[0],JsonSerializer.Serialize(rows,new JsonSerializerOptions{WriteIndented=true}));
+Console.WriteLine($"Saved {rows.Count} hulls");

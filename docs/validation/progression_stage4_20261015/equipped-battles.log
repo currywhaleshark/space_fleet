@@ -1,0 +1,3 @@
+Equipped match: seed=1; field=DeepSpace; ships=80; outcome=BattleOutcome { Winner = Red, Reason = 전력 상실, Time = 783.85 }; destroyed=16; Blue rails/missiles=522/303; Red rails/missiles=1586/438
+Equipped match: seed=2; field=AsteroidCluster; ships=78; outcome=BattleOutcome { Winner = Red, Reason = 전력 상실, Time = 888.4 }; destroyed=25; Blue rails/missiles=538/438; Red rails/missiles=904/395
+PASS: 8 equipped full battle smoke checks

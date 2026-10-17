@@ -1,0 +1,92 @@
+{
+  "preservedFiles": 99,
+  "changedBaselineFiles": [
+    "data/variants/battleship_t5.json",
+    "data/variants/earth_air_defense_cruiser_t5.json",
+    "data/variants/earth_gun_cruiser_t5.json",
+    "data/variants/earth_recon_t5.json",
+    "data/variants/interceptor_t5.json",
+    "data/variants/mars_assault_t5.json",
+    "data/variants/mars_battleship_t5.json",
+    "data/variants/mars_gun_cruiser_t5.json",
+    "data/variants/mars_interceptor_t5.json",
+    "data/variants/mars_missile_cruiser_t5.json",
+    "assets/ships/manifest.json"
+  ],
+  "unchangedPerformanceHullIds": [
+    "battleship_t5",
+    "earth_air_defense_cruiser_t5",
+    "earth_gun_cruiser_t5",
+    "earth_recon_t5",
+    "interceptor_t5",
+    "mars_assault_t5",
+    "mars_battleship_t5",
+    "mars_gun_cruiser_t5",
+    "mars_interceptor_t5",
+    "mars_missile_cruiser_t5"
+  ],
+  "identicalRegeneratedHullCount": 34,
+  "identicalResearchTrees": true,
+  "modelCosts": [
+    {
+      "id": "earth_gun_cruiser_t5",
+      "triangles": 10068,
+      "editableParts": 204,
+      "meshGroups": 13
+    },
+    {
+      "id": "earth_air_defense_cruiser_t5",
+      "triangles": 11652,
+      "editableParts": 240,
+      "meshGroups": 17
+    },
+    {
+      "id": "mars_missile_cruiser_t5",
+      "triangles": 11960,
+      "editableParts": 247,
+      "meshGroups": 9
+    },
+    {
+      "id": "earth_recon_t5",
+      "triangles": 7740,
+      "editableParts": 131,
+      "meshGroups": 5
+    },
+    {
+      "id": "mars_gun_cruiser_t5",
+      "triangles": 10080,
+      "editableParts": 209,
+      "meshGroups": 9
+    },
+    {
+      "id": "battleship_t5",
+      "triangles": 13960,
+      "editableParts": 287,
+      "meshGroups": 23
+    },
+    {
+      "id": "mars_battleship_t5",
+      "triangles": 11896,
+      "editableParts": 249,
+      "meshGroups": 13
+    },
+    {
+      "id": "interceptor_t5",
+      "triangles": 6496,
+      "editableParts": 114,
+      "meshGroups": 5
+    },
+    {
+      "id": "mars_interceptor_t5",
+      "triangles": 6224,
+      "editableParts": 108,
+      "meshGroups": 3
+    },
+    {
+      "id": "mars_assault_t5",
+      "triangles": 6364,
+      "editableParts": 109,
+      "meshGroups": 3
+    }
+  ]
+}

@@ -1,0 +1,197 @@
+[
+  {
+    "id": "main-single",
+    "slot": "MainGun",
+    "name": "고관통 단장포",
+    "description": "일제 에너지 -20% · 발당 관통 강화 · 일제 열 -35% · 무장 전력 -5%",
+    "cost": 100,
+    "turretOnly": true,
+    "effects": {
+      "barrels": 1,
+      "salvoEnergy": 0.8,
+      "power": 0.95,
+      "shotHeat": 1.3
+    }
+  },
+  {
+    "id": "main-triple",
+    "slot": "MainGun",
+    "name": "제압형 3연장포",
+    "description": "일제 에너지 +15% · 발당 관통 감소 · 선회 -20% · 일제 열 +35% · 질량 +1.5% · 전력 +12%",
+    "cost": 120,
+    "turretOnly": true,
+    "effects": {
+      "barrels": 3,
+      "salvoEnergy": 1.15,
+      "traverse": 0.8,
+      "massFraction": 0.015,
+      "power": 1.12,
+      "shotHeat": 0.9
+    }
+  },
+  {
+    "id": "main-precision",
+    "slot": "MainGun",
+    "name": "고출력 전방포",
+    "description": "발당 에너지 +30% · 장전 +35% · 오차 -20% · 발열 +25% · 질량 +0.5% · 전력 +8%",
+    "cost": 100,
+    "fixedOnly": true,
+    "effects": {
+      "salvoEnergy": 1.3,
+      "reload": 1.35,
+      "accuracy": 0.8,
+      "shotHeat": 1.25,
+      "massFraction": 0.005,
+      "power": 1.08
+    }
+  },
+  {
+    "id": "main-rapid",
+    "slot": "MainGun",
+    "name": "속사형 전방포",
+    "description": "장전 -25% · 발당 에너지 -20% · 오차 +10% · 발열 -15% · 질량 +0.3% · 전력 +5%",
+    "cost": 100,
+    "fixedOnly": true,
+    "effects": {
+      "salvoEnergy": 0.8,
+      "reload": 0.75,
+      "accuracy": 1.1,
+      "shotHeat": 0.85,
+      "massFraction": 0.003,
+      "power": 1.05
+    }
+  },
+  {
+    "id": "pd-barrage",
+    "slot": "Secondary",
+    "name": "탄막형 부포",
+    "description": "연사 +20% · 미사일/어뢰 피해 유지 · 기타 피해 -10% · 사거리 -15% · 전력 +3%",
+    "cost": 80,
+    "effects": {
+      "rate": 1.2,
+      "damage": 0.9,
+      "missileDamage": 1,
+      "range": 0.85,
+      "power": 1.03
+    }
+  },
+  {
+    "id": "pd-longrange",
+    "slot": "Secondary",
+    "name": "원거리 요격 부포",
+    "description": "사거리·피해 +15% · 연사 -20% · 선회 -15% · 무장 전력 +3%",
+    "cost": 80,
+    "effects": {
+      "range": 1.15,
+      "damage": 1.15,
+      "rate": 0.8,
+      "tracking": 0.85,
+      "power": 1.03
+    }
+  },
+  {
+    "id": "engine-cruise",
+    "slot": "Engine",
+    "name": "고추력 엔진",
+    "description": "전진 가속 +15% · 횡이동·제동 -10% · 엔진 전력 +10% · 질량 +1%",
+    "cost": 90,
+    "effects": {
+      "forward": 1.15,
+      "strafe": 0.9,
+      "brake": 0.9,
+      "power": 1.1,
+      "massFraction": 0.01
+    }
+  },
+  {
+    "id": "engine-vector",
+    "slot": "Engine",
+    "name": "기동형 엔진",
+    "description": "횡이동 +20% · 제동 +10% · 전진 -10% · 엔진 전력 +5% · 질량 +0.6%",
+    "cost": 90,
+    "effects": {
+      "forward": 0.9,
+      "strafe": 1.2,
+      "brake": 1.1,
+      "power": 1.05,
+      "massFraction": 0.006
+    }
+  },
+  {
+    "id": "sensor-longrange",
+    "slot": "Sensor",
+    "name": "장거리 센서",
+    "description": "센서 강도 +25% · 노출 신호 +20% · 센서 전력 +15%",
+    "cost": 80,
+    "effects": {
+      "strength": 1.25,
+      "signature": 1.2,
+      "power": 1.15
+    }
+  },
+  {
+    "id": "sensor-lowprofile",
+    "slot": "Sensor",
+    "name": "저피탐 센서",
+    "description": "노출 신호 -25% · 센서 강도 -10% · 센서 전력 -10%",
+    "cost": 80,
+    "effects": {
+      "strength": 0.9,
+      "signature": 0.75,
+      "power": 0.9
+    }
+  },
+  {
+    "id": "generator-output",
+    "slot": "Generator",
+    "name": "고출력 발전기",
+    "description": "발전량 +12% · 냉각 -10% · 질량 +2%",
+    "cost": 100,
+    "effects": {
+      "output": 1.12,
+      "cooling": 0.9,
+      "massFraction": 0.02
+    }
+  },
+  {
+    "id": "generator-cooled",
+    "slot": "Generator",
+    "name": "열관리 발전기",
+    "description": "냉각 +20% · 열용량 +15% · 발전량 -6% · 질량 +1.5%",
+    "cost": 100,
+    "effects": {
+      "output": 0.94,
+      "cooling": 1.2,
+      "heatCapacity": 1.15,
+      "massFraction": 0.015
+    }
+  },
+  {
+    "id": "shield-capacity",
+    "slot": "Shield",
+    "name": "고용량 실드 발생기",
+    "description": "용량 +25% · 충전 -20% · 재생 지연 +15% · 실드 전력 +10% · 질량 +1%",
+    "cost": 90,
+    "effects": {
+      "capacity": 1.25,
+      "recharge": 0.8,
+      "delay": 1.15,
+      "power": 1.1,
+      "massFraction": 0.01
+    }
+  },
+  {
+    "id": "shield-recharge",
+    "slot": "Shield",
+    "name": "고속재생 실드 발생기",
+    "description": "충전 +30% · 재생 지연 -20% · 용량 -15% · 실드 전력 +8% · 질량 +0.7%",
+    "cost": 90,
+    "effects": {
+      "capacity": 0.85,
+      "recharge": 1.3,
+      "delay": 0.8,
+      "power": 1.08,
+      "massFraction": 0.007
+    }
+  }
+]

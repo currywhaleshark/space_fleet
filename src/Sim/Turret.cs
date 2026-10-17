@@ -2,7 +2,8 @@ using Godot;
 
 namespace SpaceFleet.Sim;
 
-/// <summary>Local mount frame: -Z forward, +Y away from the deck; inverted for ventral turrets.</summary>
+/// <summary>Legacy/compiled mount adapter. Author new sockets and weapons through MainBatteryDefinition.
+/// Local frame: -Z forward, +Y away from the deck; inverted for ventral turrets.</summary>
 public sealed record TurretDefinition(string ModuleId, Vector3 Pivot, Vector3 Trunnion, Vector3[] Muzzles,
     bool Ventral, float YawDegrees, float MinElevation, float MaxElevation,
     float YawRate, float ElevationRate, int Rounds, float ToleranceDegrees = .03f,

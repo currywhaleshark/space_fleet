@@ -1,0 +1,9 @@
+{
+  "tierMultiplier": 1.18,
+  "completionPoints": 100,
+  "victoryPoints": 60,
+  "contributionLimit": 140,
+  "damagePerPoint": 100,
+  "interceptionPoints": 3,
+  "minimumRewardSeconds": 30
+}

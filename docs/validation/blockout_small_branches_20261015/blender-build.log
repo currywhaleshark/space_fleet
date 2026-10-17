@@ -1,0 +1,45 @@
+22:41:40 - tripo_addon - [task.py:21] - INFO - WebSocket server started on port 60600
+22:41:40 - tripo_addon - [ws_server.py:142] - INFO - WebSocket server running on ws://127.0.0.1:60600
+22:41:40 - tripo_addon - [ws_server.py:151] - INFO - Heartbeat monitoring started (timeout: 120s)
+22:41:40 - tripo_addon - [ws_server.py:101] - INFO - Stopping WebSocket server...
+22:41:40 - tripo_addon - [task.py:27] - INFO - WebSocket server stop requested
+22:41:40 - tripo_addon - [ws_server.py:88] - INFO - Event loop closed
+[Tripo3D] Log file: C:\Users\yurib\AppData\Local\Temp\tripo3d_blender_bridge.log
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+22:41:41 | INFO: Starting glTF 2.0 export
+22:41:41 | INFO: Extracting primitive: Main pressure hull.001
+22:41:41 | INFO: Primitives created: 11
+22:41:41 | INFO: Extracting primitive: PD 0 receiver.001
+22:41:41 | INFO: Primitives created: 1
+22:41:41 | INFO: Extracting primitive: PD 0 barrel.002
+22:41:41 | INFO: Primitives created: 2
+22:41:41 | INFO: Extracting primitive: PD 1 receiver.001
+22:41:41 | INFO: Primitives created: 1
+22:41:41 | INFO: Extracting primitive: PD 1 barrel.002
+22:41:41 | INFO: Primitives created: 2
+22:41:41 | INFO: Finished glTF 2.0 export in 0.1402420997619629 s
+00:16.859  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_hero.png'
+00:28.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_underside.png'
+00:39.484  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_aft.png'
+00:51.047  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_top.png'
+
+Info: Saved as "earth_recon_t3.blend"
+BUILT earth_recon_t3 7516 triangles
+22:42:28 | INFO: Starting glTF 2.0 export
+22:42:28 | INFO: Extracting primitive: Main pressure hull.001
+22:42:28 | INFO: Primitives created: 9
+22:42:28 | INFO: Extracting primitive: PD 0 receiver.001
+22:42:28 | INFO: Primitives created: 1
+22:42:28 | INFO: Extracting primitive: PD 0 barrel.002
+22:42:28 | INFO: Primitives created: 2
+22:42:28 | INFO: Finished glTF 2.0 export in 0.05083656311035156 s
+01:03.844  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_hero.png'
+01:15.766  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_underside.png'
+01:27.891  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_aft.png'
+01:40.563  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_top.png'
+
+Info: Saved as "mars_assault_t3.blend"
+BUILT mars_assault_t3 7136 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

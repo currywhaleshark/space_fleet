@@ -1,0 +1,24 @@
+[
+  {
+    "id": "interceptor_t3",
+    "markers": 23,
+    "maxMarkerError": 0.0,
+    "meshParts": 103,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  },
+  {
+    "id": "mars_interceptor_t3",
+    "markers": 22,
+    "maxMarkerError": 0.0,
+    "meshParts": 99,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "symmetricFins": true,
+    "visibleEngineThroats": 2,
+    "note": "AABB adjacency finds candidate gaps; visual review still required."
+  }
+]

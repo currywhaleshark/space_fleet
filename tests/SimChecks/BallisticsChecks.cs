@@ -29,6 +29,7 @@ static class BallisticsChecks
         using var reader = new StreamReader(stream);
         var data = JsonNode.Parse(reader.ReadToEnd())!.AsObject();
         data["shield"] = JsonNode.Parse("""{"capacity":0,"rechargePerSecond":0,"rechargeDelay":1}""");
+        data["bays"] = new JsonArray();
         data["hullSections"] = JsonNode.Parse("""
             [{"id":"hull","name":"시험 선체","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":0}}]
             """);

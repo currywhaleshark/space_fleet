@@ -1,5 +1,112 @@
 {
   "id": "escort",
+  "branch": "Escort",
+  "modelId": "escort",
+  "matchClass": "Medium",
+  "squadron": {
+    "role": "EscortSquadron",
+    "composition": "호위함 4",
+    "members": [
+      {
+        "hullId": null,
+        "offset": [
+          -1200,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          1200,
+          0,
+          0
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          -2400,
+          0,
+          900
+        ]
+      },
+      {
+        "hullId": null,
+        "offset": [
+          2400,
+          0,
+          900
+        ]
+      }
+    ]
+  },
+  "ai": {
+    "profile": {
+      "standoffMeters": 30000,
+      "railFlightSeconds": 5,
+      "missileRangeMeters": 110000,
+      "attackRuns": false
+    },
+    "defaultPips": [
+      2,
+      2,
+      1,
+      2,
+      1
+    ],
+    "targetPreference": {
+      "Battleship": 1,
+      "Escort": 0,
+      "Interceptor": 2
+    }
+  },
+  "battleValue": {
+    "weight": 2,
+    "captureStrength": 1.5,
+    "hudMarkerRadius": 4
+  },
+  "bays": [
+    {
+      "id": "utility-port",
+      "size": "Medium",
+      "center": [
+        -22.95,
+        0,
+        -55.5
+      ],
+      "halfSize": [
+        1.5,
+        1.5,
+        3
+      ],
+      "grid": "Port",
+      "accepts": [
+        "Shield",
+        "Sensor",
+        "Ecm"
+      ]
+    },
+    {
+      "id": "utility-starboard",
+      "size": "Small",
+      "center": [
+        18.9,
+        0,
+        -42.6
+      ],
+      "halfSize": [
+        1,
+        1,
+        2
+      ],
+      "grid": "Starboard",
+      "accepts": [
+        "Sensor",
+        "Ecm"
+      ]
+    }
+  ],
   "structureHitPoints": 2700,
   "damageControl": { "kits": 5, "repairSeconds": 14, "restoreFraction": 0.35, "quietSeconds": 5 },
   "kind": "Escort",
@@ -19,7 +126,7 @@
   },
   "flight": {
     "kind": "Escort",
-    "displayName": "호위함",
+    "displayName": "미스트랄급 호위함",
     "length": 300,
     "massKg": 150000000,
     "forwardAccel": 14,
@@ -41,7 +148,7 @@
     "rechargeDelay": 5
   },
   "power": { "outputMw": 500, "engines": 160, "shields": 120, "weapons": 100, "sensors": 20, "ecm": 80, "heatCapacityMj": 4500, "coolingMw": 330 },
-  "sensors": { "strength": 800, "signature": 20, "jammer": 3 },
+  "sensors": { "strength": 1000, "signature": 20, "jammer": 3 },
   "missiles": { "rounds": 16, "reloadSeconds": 3, "launchPoint": [0, 30, -20], "ejectSpeed": 50, "accelG": 30, "burnSeconds": 60, "maxFlightSeconds": 150,
     "seekerRangeMeters": 15000, "seekerFovDegrees": 40, "seekerStrength": 3, "fuzeMeters": 25,
     "turnRateDegrees": 120, "maxSteeringAngleDegrees": 90, "thrustGimbalDegrees": 10,

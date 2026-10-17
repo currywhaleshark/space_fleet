@@ -13,6 +13,8 @@ public partial class BattleOverlay : Control
     private readonly List<(Button Button, Rect2 Bounds)> _buttons = new();
     private HSlider? _volume;
     private HSlider? _shake;
+    internal HangarView? HangarView;
+    internal ResearchView? ResearchView;
     private static readonly Color Blue = new(.4f,.72f,1), Red = new(1,.38f,.29f), Orange = new(1,.73f,.32f), Ink = new(.8f,.89f,1);
     private static readonly Color[] Phases = {new(.23f,.3f,.4f),new(.3f,.65f,.8f),new(.95f,.68f,.27f),new(.7f,.48f,.9f),new(.94f,.35f,.32f)};
     public override void _Ready()
@@ -34,22 +36,29 @@ public partial class BattleOverlay : Control
         foreach(var item in _buttons) {RemoveChild(item.Button);item.Button.QueueFree();} _buttons.Clear();
         if (_volume is not null) { RemoveChild(_volume); _volume.QueueFree(); _volume = null; }
         if (_shake is not null) { RemoveChild(_shake); _shake.QueueFree(); _shake = null; }
+        if (HangarView is not null) { RemoveChild(HangarView); HangarView.QueueFree(); HangarView=null; }
+        if (ResearchView is not null) { RemoveChild(ResearchView); ResearchView.QueueFree(); ResearchView=null; }
         MouseFilter = Host.Screen == BattleScreen.Battle ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
         switch(Host.Screen)
         {
             case BattleScreen.Title:
-                Button("출항",new(620,590,360,56),()=>Host.ChangeScreen(BattleScreen.Select));
+                Button("격납고로",new(620,590,360,56),Host.OpenHangar);
                 Button("종료",new(620,662,360,48),Host.Quit); break;
             case BattleScreen.Select:
                 for(int i=0;i<3;i++)
-                {var kind=(HullKind)i;Button(Host.SelectedKind==kind?"선택됨":"이 편대 선택",new(260+i*380,552,320,52),()=>Host.ChooseHull(kind));}
+                {var kind=(HullKind)i;bool owned=Host.Hangar.Owned.Contains(ShipDefinitions.For(kind,Host.PlayerDesign).Id);Button(Host.SelectedKind==kind?"선택됨":owned?"이 편대 선택":"연구 필요",new(260+i*380,552,320,52),()=>{if(Host.SelectedKind!=kind)Host.ChooseHull(kind);});}
                 Button($"내 함선 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(610,230,380,42),()=>Host.ToggleDesign(false));
                 Button("출격 · 10 대 10 AI 매칭",new(620,785,500,56),()=>Host.BeginMatch());
                 Button("메인으로",new(310,785,260,56),Host.ReturnToPort);
                 Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(310,706,460,52),Host.CycleObjective);
-                Button($"전장 · {AsteroidField.Name(Host.SelectedBattlefield)}  ↔",new(830,706,460,52),Host.CycleBattlefield); break;
+                Button($"전장 · {AsteroidField.Name(Host.SelectedBattlefield)}  ↔",new(830,706,460,52),Host.CycleBattlefield);
+                Button("격납고 · 함선/편대 세팅",new(1040,230,320,42),Host.OpenHangar); break;
+            case BattleScreen.Research:
+                ResearchView=new ResearchView {Host=Host};AddChild(ResearchView);break;
+            case BattleScreen.Hangar:
+                HangarView=new HangarView {Host=Host};AddChild(HangarView);break;
             case BattleScreen.Matching:
-                Button("취소 · 편대로 돌아가기",new(620,800,360,48),Host.SelectRole); break;
+                Button("취소 · 격납고로",new(620,800,360,48),Host.ReturnToHangar); break;
             case BattleScreen.Eliminated:
                 Button("계속 관전",new(420,520,360,56),Host.ContinueSpectating);
                 Button("메인으로 나가기",new(820,520,360,56),Host.ReturnToPort); break;
@@ -71,7 +80,7 @@ public partial class BattleOverlay : Control
                     () => { SoundSettings.ToggleMute(); Rebuild(); }); break;
             case BattleScreen.Result:
                 Button("다시 매칭",new(260,730,320,56),()=>Host.BeginMatch());
-                Button("함선 바꾸기",new(640,730,320,56),Host.SelectRole);
+                Button("격납고로",new(640,730,320,56),Host.ReturnToHangar);
                 Button("메인으로",new(1020,730,320,56),Host.ReturnToPort); break;
         }
         LayoutButtons(); QueueRedraw();
@@ -94,6 +103,7 @@ public partial class BattleOverlay : Control
     private void Center(float y,string text,int size=24,Color? color=null) => Text(new(800-_font.GetStringSize(text,fontSize:size).X*.5f,y),text,size,color);
     public override void _Draw()
     {
+        if(Host.Screen is BattleScreen.Hangar or BattleScreen.Research)return;
         float k=Mathf.Min(Size.X/1600,Size.Y/900); DrawSetTransform((Size-new Vector2(1600,900)*k)*.5f,0,Vector2.One*k);
         if(Host.Screen==BattleScreen.Battle)
         {
@@ -143,9 +153,11 @@ public partial class BattleOverlay : Control
                 float x=260+i*380;DrawRect(new(x,295,320,350),new(.025f,.06f,.095f));
                 if(Host.SelectedKind==(HullKind)i)DrawRect(new(x,295,320,350),accent,false,2);
                 Ship(new(x+160,395),(HullKind)i,accent,i==0?1.1f:1.35f);
-                Text(new(x+22,325),ShipDefinitions.For((HullKind)i, Host.PlayerDesign).Flight.DisplayName,21,accent);
-                Text(new(x+22,492),descriptions[i],16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
-                Text(new(x+30,630),i==0?"전함 1 + 호위함 2":i==1?"호위함 4":"요격함 5",17,accent);
+                var def=Host.SelectedKind==(HullKind)i?ShipDefinitions.ById(Host.PlayerHullId):ShipDefinitions.For((HullKind)i,Host.PlayerDesign);
+                Text(new(x+22,325),def.Flight.DisplayName,21,accent);
+                string description=def.Branch switch {ShipBranch.GunCruiser=>"측면 대치 · 집중 주포 사격",ShipBranch.AirDefenseCruiser=>"주력함 방공 · 미사일 조기 요격",ShipBranch.MissileCruiser=>"장거리 일제 사격 · 발사 후 이탈",ShipBranch.Recon=>"외곽 정찰 · 프로브 · 잠금 공유",ShipBranch.Assault=>"편대 집결 · 반물질 강습",_=>descriptions[i]};
+                Text(new(x+22,492),description,16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
+                Text(new(x+30,630),Host.SelectedKind==(HullKind)i?$"편대 {Host.Hangar.Hulls[Host.PlayerHullId].Squadron.Length}척 · 격납고 세팅 적용":def.Squadron.Composition,17,accent);
             }
             Center(668,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
             Center(691,Host.SelectedObjective switch
@@ -202,6 +214,7 @@ public partial class BattleOverlay : Control
         for(int i=0;i<6;i++){float x=260+i*180;Text(new(x,592),values[i],32,Blue);Text(new(x,627),labels[i],16);}
         Text(new(260,653),$"반물질 강습어뢰 · 명중 {record.TorpedoHits} / 발사 {record.Torpedoes}",16,Blue);
         Text(new(260,677),"정상 · 진영색    손상 · 주황    무력화 · 빨강    격침 · ×",16,new Color(Ink,.6f));
+        if(Host.LastResearchReward is { } reward)Center(706,$"연구 점수 +{reward} · 출격 진영에 지급",18,Blue);
         Text(new(1100,843),$"SEED {Host.Seed}",14,new Color(Ink,.45f));
     }
 }

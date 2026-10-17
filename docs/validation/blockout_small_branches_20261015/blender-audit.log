@@ -1,0 +1,11 @@
+00:03.234  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_recon_t3.blend"
+00:14.390  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_top.png'
+00:24.109  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\earth_recon_t3_modules.png'
+00:24.125  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_assault_t3.blend"
+00:35.343  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_top.png'
+00:45.203  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet\docs\validation\blockout_small_branches_20261015\mars_assault_t3_modules.png'
+earth_recon_t3 25 markers; 1 attachment components
+mars_assault_t3 20 markers; 1 attachment components
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

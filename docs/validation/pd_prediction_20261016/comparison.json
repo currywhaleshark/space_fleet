@@ -1,0 +1,78 @@
+{
+  "DeepSpace": {
+    "before": {
+      "meanMs": 12.357020000000002,
+      "p95Ms": 18.9695,
+      "p99Ms": 23.2911,
+      "maxMs": 34.9701,
+      "allocatedBytesPerTick": 303541.17333333334,
+      "pdShots": 8994,
+      "peakRails": 1767,
+      "peakMissiles": 434,
+      "activeAtEnd": 216,
+      "pdMeanMs": 2.6318669999999997,
+      "summarySha256": "1348FD31940F74E44B49E907BB8C0CB57171FB31C53D6ABD5114250898954098"
+    },
+    "after": {
+      "meanMs": 12.55975250000002,
+      "p95Ms": 19.246,
+      "p99Ms": 22.6358,
+      "maxMs": 33.9838,
+      "allocatedBytesPerTick": 307957.84444444446,
+      "pdShots": 4396,
+      "peakRails": 1767,
+      "peakMissiles": 469,
+      "activeAtEnd": 214,
+      "pdMeanMs": 2.710082833333333,
+      "summarySha256": "A80785D66A6901EA651F33423B897D1C1ACB778A997B150AAB8AC0ED188CD757",
+      "pdSolutions": 67691
+    },
+    "changePercent": {
+      "meanMs": 1.6406261380172316,
+      "p95Ms": 1.4576029942802826,
+      "p99Ms": -2.8135210445191516,
+      "pdMeanMs": 2.9718763650797397,
+      "allocatedBytesPerTick": 1.455048441240936
+    }
+  },
+  "AsteroidCluster": {
+    "before": {
+      "meanMs": 14.835449944444454,
+      "p95Ms": 23.0965,
+      "p99Ms": 29.1012,
+      "maxMs": 42.0415,
+      "allocatedBytesPerTick": 304378.13333333336,
+      "pdShots": 7461,
+      "peakRails": 1498,
+      "peakMissiles": 393,
+      "activeAtEnd": 215,
+      "pdMeanMs": 2.6924268888888894,
+      "summarySha256": "CDC9814D69D11E1B11D5E7AE518DA8573CD29D9BBD5B4782E8B2C27A654ACCA7"
+    },
+    "after": {
+      "meanMs": 14.964290888888867,
+      "p95Ms": 23.6852,
+      "p99Ms": 30.1032,
+      "maxMs": 44.2001,
+      "allocatedBytesPerTick": 304865.1511111111,
+      "pdShots": 3783,
+      "peakRails": 1498,
+      "peakMissiles": 400,
+      "activeAtEnd": 214,
+      "pdMeanMs": 2.7645643333333334,
+      "summarySha256": "1F54C055EAA8B658BD19172CBC2E4CD0DBACEC098A93E542540C1BBF318084C5",
+      "pdSolutions": 55761
+    },
+    "changePercent": {
+      "meanMs": 0.8684667126841017,
+      "p95Ms": 2.5488710410668247,
+      "p99Ms": 3.4431569832171993,
+      "pdMeanMs": 2.679272174191283,
+      "allocatedBytesPerTick": 0.1600041936141272
+    }
+  },
+  "checks": {
+    "groups": 59,
+    "assertions": 5608041
+  }
+}

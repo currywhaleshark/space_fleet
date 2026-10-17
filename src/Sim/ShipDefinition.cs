@@ -5,12 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Text.Json.Serialization.Metadata;
 using Godot;
 
 namespace SpaceFleet.Sim;
 
 public enum ArmorSide { Fore, Aft, Port, Starboard, Dorsal, Ventral }
-public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter, AntimatterContainment }
+public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter, AntimatterContainment, ShieldBooster, SensorBooster, EcmSuite, DroneBay }
 public enum PowerGrid { Port, Starboard, Shared }
 
 public sealed record ShieldDefinition(float Capacity, float RechargePerSecond, float RechargeDelay);
@@ -35,14 +36,28 @@ public sealed class ShipDefinition
     public required string Id { get; init; }
     public DesignFamily Design { get; init; } = DesignFamily.Earth;
     public required HullKind Kind { get; init; }
+    public required ShipBranch Branch { get; init; }
+    public required string ModelId { get; init; }
+    public required MatchWeightClass MatchClass { get; init; }
+    public required SquadronDefinition Squadron { get; init; }
+    public required ShipAiDefinition Ai { get; init; }
+    public required BattleValueDefinition BattleValue { get; init; }
     public required ShipClass Flight { get; init; }
     public required ShieldDefinition Shield { get; init; }
     public required PowerDefinition Power { get; init; }
     public required SensorDefinition Sensors { get; init; }
     public required HullSection[] HullSections { get; init; }
     public required ModuleDefinition[] Modules { get; init; }
+    public EquipmentBay[] Bays { get; init; } = Array.Empty<EquipmentBay>();
+    public InstalledEquipment[] InstalledEquipment { get; init; } = Array.Empty<InstalledEquipment>();
     public float StructureHitPoints { get; init; } = 1000f;
-    public RailgunDefinition? Railgun { get; init; }
+    private RailgunDefinition? _legacyRailgun, _compiledRailgun;
+    /// <summary>Legacy input and compiled compatibility view for firing, AI, HUD and model rigs.</summary>
+    public RailgunDefinition? Railgun { get => _compiledRailgun ?? _legacyRailgun; init => _legacyRailgun = value; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public MainBatteryDefinition? MainBattery { get; init; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public ShipComponentSelection? Components { get; init; }
     public MissileDefinition? Missiles { get; init; }
     public AntimatterDefinition? Antimatter { get; init; }
     public DefenseDroneDefinition? DefenseDrones { get; init; }
@@ -50,20 +65,64 @@ public sealed class ShipDefinition
     public ReconProbeDefinition? ReconProbes { get; init; }
     public DecoyDefinition? Decoys { get; init; }
     public DamageControlDefinition DamageControl { get; init; } = new();
-    public CollisionHull Hull { get; private set; } = null!;
-    public ShieldEnvelope ShieldEnvelope { get; private set; } = null!;
+    [JsonIgnore] public CollisionHull Hull { get; private set; } = null!;
+    [JsonIgnore] public ShieldEnvelope ShieldEnvelope { get; private set; } = null!;
+    [JsonIgnore] public MainBatteryDefinition? Battery { get; private set; }
+    [JsonIgnore] public ResolvedWeaponMount[] PrimaryMounts { get; private set; } = Array.Empty<ResolvedWeaponMount>();
 
     private static readonly JsonSerializerOptions Options = new()
     {
         PropertyNameCaseInsensitive = true,
+        IgnoreReadOnlyProperties = true,
+        TypeInfoResolver = CreateResolver(strict: false),
         Converters = { new JsonStringEnumConverter(allowIntegerValues: false), new VectorConverter() },
     };
 
-    public static ShipDefinition Parse(string json)
+    private static readonly JsonSerializerOptions StrictOptions = CreateStrictOptions();
+
+    private static JsonSerializerOptions CreateStrictOptions()
     {
-        ShipDefinition definition = JsonSerializer.Deserialize<ShipDefinition>(json, Options)
+        return new(Options) { UnmappedMemberHandling = JsonUnmappedMemberHandling.Disallow, TypeInfoResolver = CreateResolver(strict: true) };
+    }
+
+    private static DefaultJsonTypeInfoResolver CreateResolver(bool strict)
+    {
+        var resolver = new DefaultJsonTypeInfoResolver();
+        resolver.Modifiers.Add(info =>
+        {
+            if (info.Kind != JsonTypeInfoKind.Object) return;
+            if (info.Type == typeof(ShipDefinition))
+                info.Properties.Single(p => p.Name == nameof(Railgun)).ShouldSerialize =
+                    (owner, _) => ((ShipDefinition)owner).MainBattery is null;
+            // Computed packets, transforms and collision caches are not editable fields.
+            if (!strict) return;
+            for (int i = info.Properties.Count - 1; i >= 0; i--)
+                if (info.Properties[i].Set is null) info.Properties.RemoveAt(i);
+        });
+        return resolver;
+    }
+
+    public string ToJson() => JsonSerializer.Serialize(this, Options);
+    internal static string SerializeData<T>(T value) => JsonSerializer.Serialize(value, Options);
+    internal static T ParseData<T>(string json) => JsonSerializer.Deserialize<T>(json, StrictOptions)
+        ?? throw new InvalidDataException("Empty data definition");
+
+    public static ShipDefinition Parse(string json) => Parse(json, strict: false);
+
+    internal static ShipDefinition Parse(string json, bool strict)
+    {
+        ShipDefinition definition = JsonSerializer.Deserialize<ShipDefinition>(json, strict ? StrictOptions : Options)
             ?? throw new InvalidDataException("Empty ship definition");
+        if (definition.MainBattery is { } battery)
+        {
+            if (definition._legacyRailgun is not null)
+                throw new InvalidDataException("Author mainBattery or railgun, not both");
+            MainBatteries.Validate(battery, definition);
+            definition._compiledRailgun = MainBatteries.Compile(battery);
+        }
         definition.Validate();
+        definition.Battery = definition.MainBattery ?? MainBatteries.FromLegacy(definition);
+        definition.PrimaryMounts = MainBatteries.Bind(definition.Battery, definition.Railgun);
         definition.Hull = new CollisionHull(definition.HullSections.Select(s => new HullBox(s.Center, s.HalfSize)).ToArray());
         definition.ShieldEnvelope = new ShieldEnvelope(definition.HullSections, definition.Flight.Length);
         return definition;
@@ -79,6 +138,7 @@ public sealed class ShipDefinition
         bool Size(Vector3 value) => value.IsFinite() && value.X > 0 && value.Y > 0 && value.Z > 0;
         bool Plate(ArmorPlate? p) => p is not null && float.IsFinite(p.ThicknessMm) && p.ThicknessMm >= 0
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
+        ShipRoleValidation.Validate(this);
         Require(Positive(StructureHitPoints), "invalid structure hit points");
         Require(DamageControl is not null && DamageControl.Kits >= 0 && DamageControl.Kits <= 32
             && Positive(DamageControl.RepairSeconds) && Positive(DamageControl.RestoreFraction)
@@ -110,7 +170,7 @@ public sealed class ShipDefinition
                 && Positive(m.Capacity) && float.IsFinite(m.CriticalChance) && m.CriticalChance >= 0 && m.CriticalChance <= 1
                 && float.IsFinite(m.CriticalEnergy) && m.CriticalEnergy >= 0
                 && (m.VisualEngineIndex == -1 || m.VisualEngineIndex >= 0 && m.Kind == ModuleKind.Thruster)
-                && (m.CriticalChance == 0 || m.Kind is ModuleKind.Magazine or ModuleKind.Reactor)
+                && (m.CriticalChance == 0 || m.Kind is ModuleKind.Magazine or ModuleKind.Reactor or ModuleKind.DroneBay)
                 && (m.Feeds is null || m.Feeds.All(g => Enum.IsDefined(g)))
                 && HullSections.Any(s => Contains(s, m.Center, m.HalfSize)), $"invalid/outside module {m.Id}");
         }
@@ -120,11 +180,12 @@ public sealed class ShipDefinition
         {
             Require(Modules.Any(m => m.Id == gun.ModuleId && m.Kind == ModuleKind.Gun), "railgun must reference a gun module");
             Require(gun.Muzzle.IsFinite() && Positive(gun.MuzzleSpeed) && Positive(gun.ReloadSeconds)
-                && Positive(gun.MaxRange) && gun.Rounds > 0 && Positive(gun.TraverseDegrees) && gun.TraverseDegrees <= 180
+                && Positive(gun.MaxRange) && gun.Rounds > 0 && float.IsFinite(gun.TraverseDegrees) && gun.TraverseDegrees >= 0 && gun.TraverseDegrees <= 180
                 && float.IsFinite(gun.SensorErrorMeters) && gun.SensorErrorMeters >= 0
                 && float.IsFinite(gun.SensorErrorPerKm) && gun.SensorErrorPerKm >= 0
                 && float.IsFinite(gun.VelocityError) && gun.VelocityError >= 0
-                && float.IsFinite(gun.ShotHeatMj) && gun.ShotHeatMj >= 0, "invalid railgun parameters");
+                && float.IsFinite(gun.ShotHeatMj) && gun.ShotHeatMj >= 0
+                && Positive(gun.AimErrorScale), "invalid railgun parameters");
             gun.Packet.Validate();
             if (gun.Mounts is { } mounts)
             {
@@ -167,7 +228,8 @@ public sealed class ShipDefinition
             Require(Kind == HullKind.Interceptor && Enum.IsDefined(probe.Kind) && probe.Count > 0 && probe.Count <= 8
                 && Positive(probe.LifetimeSeconds) && Positive(probe.DeploymentMeters) && Positive(probe.Acceleration)
                 && Positive(probe.BurnSeconds) && Positive(probe.SensorStrength) && Positive(probe.Signature)
-                && Positive(probe.HitPoints) && Positive(probe.Radius) && Positive(probe.CooldownSeconds), "invalid recon probe");
+                && Positive(probe.HitPoints) && Positive(probe.Radius) && Positive(probe.CooldownSeconds)
+                && (probe.LaunchPoints is null || probe.LaunchPoints.Length > 0 && probe.LaunchPoints.All(p => p.IsFinite())), "invalid recon probe");
         if (Missiles is MissileDefinition ms) ValidateMissile(ms);
         void ValidateMissile(MissileDefinition ms)
         {
@@ -180,20 +242,30 @@ public sealed class ShipDefinition
                 && float.IsFinite(ms.ThrustGimbalDegrees) && ms.ThrustGimbalDegrees>=0 && ms.ThrustGimbalDegrees<=45, "invalid missiles");
             ms.Packet.Validate();
             Require(Positive(ms.BodyScale) && ms.BodyScale <= 2, "invalid missile scale");
+            Require(float.IsFinite(ms.LaunchSignatureFraction) && ms.LaunchSignatureFraction >= 0 && ms.LaunchSignatureFraction <= 10
+                && float.IsFinite(ms.LaunchSignatureSeconds) && ms.LaunchSignatureSeconds >= 0
+                && (ms.LaunchSignatureFraction == 0 || ms.LaunchSignatureSeconds > 0), "invalid missile launch signature");
             if (ms.CanInterceptMissiles)
-                Require(Kind == HullKind.Interceptor && Positive(ms.InterceptRangeMeters)
+                Require((Kind == HullKind.Interceptor || Branch == ShipBranch.AirDefenseCruiser) && Positive(ms.InterceptRangeMeters)
                     && Positive(ms.InterceptFuzeMeters) && ms.InterceptFuzeMeters <= 100 && Positive(ms.InterceptDamage), "invalid counter-missile equipment");
         }
         if (PointDefense is PointDefenseDefinition pd)
             Require(pd.Mounts is { Length: > 0 } && pd.Mounts.All(v => v.IsFinite()) && Positive(pd.RangeMeters) && Positive(pd.ShotsPerSecond)
                 && pd.HitChance > 0 && pd.HitChance <= 1 && Positive(pd.DamagePerHit)
+                && (pd.MissileDamagePerHit is null || Positive(pd.MissileDamagePerHit.Value))
                 && (pd.Normals is null || pd.Normals.Length == pd.Mounts.Length && pd.Normals.All(n => n.IsFinite() && n.LengthSquared() > 1e-6f))
                 && Positive(pd.ArcDegrees) && pd.ArcDegrees <= 180
                 && Positive(pd.YawDegrees) && pd.YawDegrees <= 180
                 && float.IsFinite(pd.MinElevation) && pd.MinElevation >= -90 && pd.MinElevation <= 0
                 && Positive(pd.MaxElevation) && pd.MaxElevation <= 90
                 && Positive(pd.YawRate) && Positive(pd.ElevationRate)
-                && Positive(pd.ToleranceDegrees) && pd.ToleranceDegrees <= 5, "invalid point defense");
+                && Positive(pd.ToleranceDegrees) && pd.ToleranceDegrees <= 5
+                && Positive(pd.MuzzleSpeed) && Positive(pd.TrackingErrorMeters), "invalid point defense");
+        if (PointDefense?.ShipPacket is { } shipPacket)
+        {
+            try{shipPacket.Validate();}catch(ArgumentException e){throw new InvalidDataException("invalid PD ship packet",e);}
+            Require(shipPacket.Range>=PointDefense.RangeMeters,"PD ship packet must reach its engagement range");
+        }
         if (Decoys is DecoyDefinition dc)
             Require(dc.Count > 0 && dc.PerLaunch > 0 && Positive(dc.CooldownSeconds) && Positive(dc.SignatureFactor)
                 && Positive(dc.LifetimeSeconds) && float.IsFinite(dc.EjectSpeed) && dc.EjectSpeed >= 0, "invalid decoys");
@@ -203,6 +275,8 @@ public sealed class ShipDefinition
                 && Positive(drones.DamagePerHit) && drones.RoundsPerDrone > 0 && Positive(drones.RepositionSpeed)
                 && Positive(drones.HitPoints) && Positive(drones.RadiusMeters) && Positive(drones.ShipEnergy)
                 && Positive(drones.ShipPenetrationMm) && Positive(drones.ShipModuleDamage), "invalid defense drones");
+        EquipmentRules.Validate(this);
+        ShipComponents.ValidateSelection(this, Components);
     }
 
     private static bool Contains(HullSection section, Vector3 center, Vector3 half) =>
@@ -230,10 +304,14 @@ public sealed class ShipDefinition
 
 public static class ShipDefinitions
 {
+    private static readonly Dictionary<string, string> Sources = new(StringComparer.Ordinal);
     private static readonly Dictionary<string, ShipDefinition> Definitions = Load();
     public static IReadOnlyCollection<ShipDefinition> All => Definitions.Values;
     public static ShipDefinition ById(string id) => Definitions.TryGetValue(id, out var definition)
-        ? definition : throw new ArgumentException($"Unknown ship ID: {id}", nameof(id));
+        ? definition : ShipVariants.TryGet(id, out var variant) ? variant.Definition
+        : throw new ArgumentException($"Unknown ship ID: {id}", nameof(id));
+    public static string SourceJson(string id) => Sources.TryGetValue(id, out var json)
+        ? json : throw new ArgumentException($"Unknown ship ID: {id}", nameof(id));
     public static ShipDefinition For(HullKind kind, DesignFamily design = DesignFamily.Earth) =>
         Definitions.Values.Single(d => d.Kind == kind && d.Design == design);
     public static ShipDefinition For(ShipClass flight) => Definitions.Values.FirstOrDefault(d => ReferenceEquals(d.Flight, flight))
@@ -249,10 +327,15 @@ public static class ShipDefinitions
             using Stream stream = typeof(ShipDefinitions).Assembly.GetManifestResourceStream(resource)
                 ?? throw new InvalidDataException($"Missing ship definition: {resource}");
             using var reader = new StreamReader(stream);
-            ShipDefinition definition = ShipDefinition.Parse(reader.ReadToEnd());
+            string json = reader.ReadToEnd();
+            ShipDefinition definition = ShipDefinition.Parse(json);
             if (resource != prefix + definition.Id + ".json") throw new InvalidDataException($"Ship ID/file mismatch: {resource}");
             result.Add(definition.Id, definition);
+            Sources.Add(definition.Id, json);
         }
+        foreach (var definition in result.Values)
+            ShipRoleValidation.ValidateReferences(definition, id => result.TryGetValue(id, out var member)
+                ? member : throw new ArgumentException($"Unknown ship ID: {id}"));
         return result;
     }
 }

@@ -52,6 +52,7 @@ static class DamageChecks
         data.Remove("antimatter");
         data["shield"] = JsonNode.Parse("""{"capacity":0,"rechargePerSecond":20,"rechargeDelay":2}""");
         data["shield"]!["capacity"] = shield;
+        data["bays"] = new JsonArray();
         data["hullSections"] = JsonNode.Parse("""
             [{"id":"hull","name":"시험 선체","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":0}}]
             """);
@@ -156,6 +157,7 @@ static class DamageChecks
         data.Remove("antimatter");
         // Keep fixture geometry and change only the authored armor/face data.
         data["shield"]!["capacity"] = 0;
+        data["bays"] = new JsonArray();
         data["hullSections"] = JsonNode.Parse("""
             [{"id":"hull","name":"시험 선체","center":[0,0,0],"halfSize":[10,10,10],
               "armor":{"thicknessMm":50,"slopeDegrees":60},"faces":{"Fore":{"thicknessMm":200},"Aft":{"thicknessMm":20}}}]
@@ -197,6 +199,7 @@ static class DamageChecks
         overlapData.Remove("railgun");
         overlapData.Remove("antimatter");
         overlapData["shield"]!["capacity"] = 0;
+        overlapData["bays"] = new JsonArray();
         overlapData["hullSections"] = JsonNode.Parse("""
             [{"id":"a","name":"A","center":[0,0,0],"halfSize":[10,10,10],"armor":{"thicknessMm":100}},
              {"id":"b","name":"B","center":[0,0,2],"halfSize":[10,10,10],"armor":{"thicknessMm":100}}]

@@ -12,6 +12,9 @@ public enum SquadronRole
     EscortSquadron,
     /// <summary>요격함 5. 전투단 앞 경계 → 적 요격함 요격 → 집결 후 한 표적에 동시 돌격.</summary>
     InterceptorWing,
+    GunCruiserSquadron,
+    AirDefenseSquadron,
+    MissileSquadron,
 }
 
 /// <summary>
@@ -56,6 +59,15 @@ public sealed class Squadron
     public int MissionChanges { get; internal set; }
     public double MissionSince { get; internal set; } = double.NegativeInfinity;
     internal Vector3? ReconDirection;
+    public bool Rallying { get; internal set; }
+    public int RallyReady { get; internal set; }
+    public int RallyRequired { get; internal set; }
+    internal ShipBody? RallyTarget;
+    internal bool AssaultReleased;
+    // Once a wing leaves its rally, home-fleet alerts cannot repeatedly recall it mid-run.
+    internal ShipBody? AssaultCommittedTarget;
 
     public static bool Active(ShipBody ship) => !ship.Damage.Destroyed && !ship.Damage.Disabled;
+    public static bool IsSupportRole(SquadronRole role) => role is SquadronRole.EscortSquadron
+        or SquadronRole.GunCruiserSquadron or SquadronRole.AirDefenseSquadron or SquadronRole.MissileSquadron;
 }

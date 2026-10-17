@@ -1,0 +1,17 @@
+{
+  "id": "shield-capacity",
+  "name": "고용량 실드",
+  "category": "Shield",
+  "size": "Medium",
+  "kind": "ShieldBooster",
+  "hitPoints": 120,
+  "resistanceMm": 20,
+  "channel": "Shields",
+  "powerMw": 50,
+  "heatMw": 15,
+  "massKg": 3000000,
+  "effects": {
+    "shieldCapacityFraction": 0.4,
+    "shieldDelaySeconds": 2
+  }
+}

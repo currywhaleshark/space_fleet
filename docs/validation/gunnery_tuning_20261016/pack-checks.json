@@ -1,0 +1,121 @@
+{
+  "final.json": {
+    "rawSha256": "59348126619b5abaf6e9f1e65a8fe91312245bf316da0d62943f18ef515280d3",
+    "games": 768,
+    "bytes": 8808456,
+    "packedBytes": 355520,
+    "roundtrip": true
+  },
+  "holdout-earth5_mars_spread10.json": {
+    "rawSha256": "8a93faa8637af0aa04eaa93bd48d578da93e67befa741003c727a70c6cd00af3",
+    "games": 288,
+    "bytes": 3430525,
+    "packedBytes": 149282,
+    "roundtrip": true
+  },
+  "holdout-mars_spread_10.json": {
+    "rawSha256": "c13ca738df8a032bf552bc7f0b31899a5422e36b6d32418832e3a5cf4576678c",
+    "games": 288,
+    "bytes": 3415002,
+    "packedBytes": 148844,
+    "roundtrip": true
+  },
+  "pilot-baseline.json": {
+    "rawSha256": "d48c4ff3af52523ff1504a9cdda134777004d9ee226b47aae2060fc4ca8e2831",
+    "games": 96,
+    "bytes": 1135408,
+    "packedBytes": 47082,
+    "roundtrip": true
+  },
+  "pilot-earth10_mars_spread10.json": {
+    "rawSha256": "97586ade376dd8b8f006a624e8deadcf8cd8a69d9c06652aec93ffbfe1651e28",
+    "games": 96,
+    "bytes": 1136292,
+    "packedBytes": 49825,
+    "roundtrip": true
+  },
+  "pilot-earth5_mars_spread10.json": {
+    "rawSha256": "e6bbb7ef1e360ad8006c941bae02b978e166089f465c58c8d91e988294b1a486",
+    "games": 96,
+    "bytes": 1118220,
+    "packedBytes": 48123,
+    "roundtrip": true
+  },
+  "pilot-earth_reload_10.json": {
+    "rawSha256": "5bc5a4be8ed7017be77e760661007d8900338ef84d69f4d26b777b03fe4cd05b",
+    "games": 96,
+    "bytes": 1148774,
+    "packedBytes": 49992,
+    "roundtrip": true
+  },
+  "pilot-earth_reload_5.json": {
+    "rawSha256": "6b06a494bd7279ed5db1f8c788507ff81dfa580c1823b0070dc163ed6c6b47ab",
+    "games": 96,
+    "bytes": 1117533,
+    "packedBytes": 48425,
+    "roundtrip": true
+  },
+  "pilot-mars_reload_5.json": {
+    "rawSha256": "0ef0a0bbda56e920c1120cd221562746c4726654d9a35c563a86c426f53702d1",
+    "games": 96,
+    "bytes": 1130759,
+    "packedBytes": 48750,
+    "roundtrip": true
+  },
+  "pilot-mars_spread_10.json": {
+    "rawSha256": "a8c47623d37c6c9a2ed35300333b99d102c8df10d437f8be2159cd7c63e4d394",
+    "games": 96,
+    "bytes": 1136351,
+    "packedBytes": 47619,
+    "roundtrip": true
+  },
+  "pilot-mix_10.json": {
+    "rawSha256": "b9af2db44f6b49062fc8310da46657cd3800e4d1cb9d4f369fd27bda4c640b95",
+    "games": 96,
+    "bytes": 1148017,
+    "packedBytes": 50655,
+    "roundtrip": true
+  },
+  "pilot-mix_5.json": {
+    "rawSha256": "8f0afdb826a2cbcb68a1b45ef534ba9835c6f351a5f6ad6279356bffb5018b80",
+    "games": 96,
+    "bytes": 1132941,
+    "packedBytes": 49911,
+    "roundtrip": true
+  },
+  "pilot-mix_spread.json": {
+    "rawSha256": "fb9751cfffb5325b69bbc37b553fdf88cc362e5713a08f4ed90bdff3a60388e4",
+    "games": 96,
+    "bytes": 1136801,
+    "packedBytes": 49517,
+    "roundtrip": true
+  },
+  "final.traces.zip": {
+    "entries": 768,
+    "roundtrip": true
+  },
+  "fleet/earth.telemetry.csv": {
+    "rawSha256": "c77b79a62cef77fd73aa61a41e3084c3f2c8c88e5aa24b9b6f72e950f36d6a67",
+    "bytes": 4018067,
+    "packedBytes": 371116,
+    "roundtrip": true
+  },
+  "fleet/mars.telemetry.csv": {
+    "rawSha256": "594a47cd6048ee004f95dba6c8309e89c0e7ee4b3c759bde5fe1d2102070b670",
+    "bytes": 3117020,
+    "packedBytes": 323723,
+    "roundtrip": true
+  },
+  "fleet/mixed.telemetry.csv": {
+    "rawSha256": "e66d4aa7329d2c45521890c34fb7a60524d4e9b9ca4c9ad32f923ccf772a16ab",
+    "bytes": 8150992,
+    "packedBytes": 773253,
+    "roundtrip": true
+  },
+  "fleet/swapped.telemetry.csv": {
+    "rawSha256": "32d721e6efdfd29e09636f1e144b4df084ac3106154decb8853f4fa3c624ce24",
+    "bytes": 8756787,
+    "packedBytes": 801576,
+    "roundtrip": true
+  }
+}

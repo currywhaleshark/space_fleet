@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace SpaceFleet.Sim;
@@ -9,9 +10,21 @@ public sealed class PointDefenseMountState
 {
     private readonly Basis _inverseMountBasis;
     private readonly float _arcCos, _yawLimit, _minElevation, _maxElevation, _tolerance;
-    public PointDefenseMountState(PointDefenseDefinition definition, int index)
+    private readonly int _solutionPhase;
+    public const double SolutionInterval = 1.0 / 15;
+    private object? _observedTarget;
+    private int _observedPart;
+    private Vec3d _observedPosition, _relativeVelocity;
+    private Vector3 _observedVelocity, _observedAcceleration;
+    private double _observedAt, _nextSolution, _sampleFlight, _flightRate;
+    private bool _solutionValid;
+    public double FlightSeconds { get; private set; }
+    public uint SolutionCount { get; private set; }
+
+    public PointDefenseMountState(PointDefenseDefinition definition, int index, uint phaseSeed = 0)
     {
         Definition = definition;
+        _solutionPhase = (int)((phaseSeed + (uint)index * 7) % 16);
         MountBasis = definition.Mounts[index].Y < 0 ? new Basis(Vector3.Forward, Mathf.Pi) : Basis.Identity;
         _inverseMountBasis = MountBasis.Inverse();
         _arcCos = Mathf.Cos(Mathf.DegToRad(definition.ArcDegrees));
@@ -46,6 +59,58 @@ public sealed class PointDefenseMountState
     public PointDefenseTarget TargetKind { get; internal set; }
     internal float FireAccumulator;
 
+    // Called only for a locally visible candidate: existing range, sensor power,
+    // mechanical sector and occlusion gates establish the PD director observation.
+    // Between samples, aiming never reads fresh target motion. Each gun retains
+    // one sample/solution; there are no simulated PD projectiles or per-shot jobs.
+    internal bool PredictAim(object target, int part, Vec3d position, Vector3 velocity,
+        Vec3d muzzle, Vector3 shooterVelocity, double time, out Vec3d aim, out Vec3d contact)
+    {
+        bool same = ReferenceEquals(target, _observedTarget) && part == _observedPart;
+        if (!same || time + 1e-9 >= _nextSolution)
+        {
+            double elapsed = time - _observedAt;
+            _observedAcceleration = same && elapsed >= 1.0 / 240 && elapsed <= SolutionInterval * 2
+                ? ((velocity - _observedVelocity) / (float)elapsed).LimitLength(2000) : Vector3.Zero;
+            _observedTarget = target; _observedPart = part;
+            _observedPosition = position; _observedVelocity = velocity; _observedAt = time;
+            _relativeVelocity = Vec3d.From(velocity - shooterVelocity);
+            _solutionValid = FireControl.Intercept(position - muzzle, _relativeVelocity, Definition.MuzzleSpeed,
+                Definition.RangeMeters * 2 / Definition.MuzzleSpeed, out double flight);
+            _sampleFlight = _solutionValid ? flight : 0;
+            Vec3d intercept = position - muzzle + _relativeVelocity * _sampleFlight;
+            double closing = _relativeVelocity.Dot(intercept) / Math.Max(1, intercept.Length());
+            // Linear time-of-flight interpolation keeps a constant-velocity lead
+            // moving smoothly between solves; no fresh enemy state is required.
+            _flightRate = _solutionValid ? Math.Clamp(closing / Math.Max(1, Definition.MuzzleSpeed - closing), -1, 4) : 0;
+            // 16 collision substeps = 15 Hz. Stable phases distribute recurring
+            // solves across ships and mounts, independently of render frame rate.
+            long step = (long)Math.Floor(time * 240 + 1e-7);
+            _nextSolution = (Math.Floor((step - _solutionPhase) / 16.0) * 16 + 16 + _solutionPhase) / 240.0;
+            SolutionCount++;
+            // Keep the gun's fractional cycle when changing between aligned
+            // targets. Track/range/visibility gates clear it if fire is interrupted.
+        }
+        double age = Math.Clamp(time - _observedAt, 0, SolutionInterval * 2);
+        FlightSeconds = Math.Max(0, _sampleFlight + _flightRate * age);
+        contact = _observedPosition + Vec3d.From(_observedVelocity) * age;
+        aim = contact + _relativeVelocity * FlightSeconds;
+        return _solutionValid;
+    }
+
+    // Existing distance/size terms describe baseline dispersion. This factor
+    // describes observed maneuver uncertainty, not constant crossing speed
+    // (already compensated by lead and limited by physical turret slew).
+    internal float PredictionFactor(Vector3 direction, double time, float sizeFactor)
+    {
+        float horizon = (float)(FlightSeconds + Math.Clamp(time - _observedAt, 0, SolutionInterval * 2));
+        Vector3 lateral = _observedAcceleration - direction * _observedAcceleration.Dot(direction);
+        float error = .5f * lateral.Length() * horizon * horizon;
+        float tolerance = Definition.TrackingErrorMeters * sizeFactor;
+        float ratio = error / tolerance;
+        return 1 / (1 + ratio * ratio);
+    }
+
     private Vector2 Angles(Vector3 local)
     {
         Vector3 direction = _inverseMountBasis * local;
@@ -79,10 +144,15 @@ public sealed class PointDefenseMountState
         if (!Aligned) FireAccumulator = 0;
     }
 
-    internal void ClearTracking() { LocalAim = null; FireAccumulator = 0; TargetKind=PointDefenseTarget.None; }
+    internal void ClearTracking()
+    {
+        LocalAim = null; FireAccumulator = 0; TargetKind=PointDefenseTarget.None;
+        _observedTarget = null; _solutionValid = false; _observedAcceleration = Vector3.Zero;
+        FlightSeconds = 0; _nextSolution = 0;
+    }
     internal void Reset()
     {
         Traverse = Elevation = PreviousElevation = 0; PreviousYaw = Yaw;
-        LastFiredAt = double.NegativeInfinity; ShotCount = 0; ClearTracking();
+        LastFiredAt = double.NegativeInfinity; ShotCount = SolutionCount = 0; ClearTracking();
     }
 }

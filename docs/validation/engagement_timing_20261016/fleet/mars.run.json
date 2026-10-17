@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\tools\\BattleBatch\\bin\\Release\\net8.0\\BattleBatch.dll",
+    "--mirror",
+    "--jobs",
+    "2",
+    "--seeds",
+    "1,2",
+    "--blue-design",
+    "Mars",
+    "--red-design",
+    "Mars",
+    "--blue-wing",
+    "mars_assault_t3",
+    "--red-wing",
+    "mars_assault_t3",
+    "--output",
+    "C:\\Users\\yurib\\Documents\\New project\\space_fleet\\docs\\validation\\engagement_timing_20261016\\fleet\\mars.csv"
+  ],
+  "baseline": "docs\\validation\\gunnery_tuning_20261016\\fleet\\mars.csv",
+  "binarySha256": "616d1a0ff0d8efbf21ec3577ca9cd0de1b9fa6d29b0b072bb230e7b301e9a172"
+}

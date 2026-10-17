@@ -1,0 +1,51 @@
+done 1/normal: Blue:0.000/0.000/263.250/160.000/416.838/-/-/156.649/713.778/348.679/-;M=104/33;R=0/0;AM=0/0|Red:0.000/0.000/0.500/96.000/166.188/128.450/135.892/536.283/-/-/-;M=132/23;R=503/253;AM=0/0|Approach:90.000,Missile:150.000,Gunnery:210.000,Sniping:268.967,Brawl:0.000|collisions=0|events=106|winner=Red;time=718.967 wall=14.2s
+done 1/mirror: Blue:0.000/0.000/384.500/154.000/384.204/680.000/697.990/181.314/-/343.855/-;M=97/41;R=342/15;AM=0/0|Red:0.000/0.000/0.500/100.050/234.042/132.367/139.773/483.425/-/720.775/-;M=132/9;R=638/289;AM=0/0|Approach:180.000,Missile:180.000,Gunnery:240.000,Sniping:216.333,Brawl:60.000|collisions=1|events=123|winner=Red;time=876.333 wall=14.6s
+PASS: 2/2 battle summaries match docs/validation/small_hull_combat_20261015/before/mixed.summaries.json byte for byte
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=2/2
+Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=2/2
+Locked: median=0.50 min=0.50 max=0.50 occurred=2/2
+Blue Locked: median=323.88 min=263.25 max=384.50 occurred=2/2
+Red Locked: median=0.50 min=0.50 max=0.50 occurred=2/2
+MissileLaunch: median=98.03 min=96.00 max=100.05 occurred=2/2
+Blue MissileLaunch: median=157.00 min=154.00 max=160.00 occurred=2/2
+Red MissileLaunch: median=98.03 min=96.00 max=100.05 occurred=2/2
+MissileHit: median=200.11 min=166.19 max=234.04 occurred=2/2
+Blue MissileHit: median=400.52 min=384.20 max=416.84 occurred=2/2
+Red MissileHit: median=200.11 min=166.19 max=234.04 occurred=2/2
+RailLaunch: median=130.41 min=128.45 max=132.37 occurred=2/2
+Blue RailLaunch: median=680.00 min=680.00 max=680.00 occurred=1/2
+Red RailLaunch: median=130.41 min=128.45 max=132.37 occurred=2/2
+RailHit: median=137.83 min=135.89 max=139.77 occurred=2/2
+Blue RailHit: median=697.99 min=697.99 max=697.99 occurred=1/2
+Red RailHit: median=137.83 min=135.89 max=139.77 occurred=2/2
+ModuleDestroyed: median=168.98 min=156.65 max=181.31 occurred=2/2
+Blue ModuleDestroyed: median=168.98 min=156.65 max=181.31 occurred=2/2
+Red ModuleDestroyed: median=509.85 min=483.43 max=536.28 occurred=2/2
+Disabled: median=713.78 min=713.78 max=713.78 occurred=1/2
+Blue Disabled: median=713.78 min=713.78 max=713.78 occurred=1/2
+Red Disabled: no events
+Destroyed: median=346.27 min=343.85 max=348.68 occurred=2/2
+Blue Destroyed: median=346.27 min=343.85 max=348.68 occurred=2/2
+Red Destroyed: median=720.78 min=720.78 max=720.78 occurred=1/2
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=797.65 min=718.97 max=876.33 occurred=2/2
+Wall: median=14.39 min=14.21 max=14.57 occurred=2/2
+wins Blue: 0/2
+wins Red: 2/2
+draws: 0/2; unresolved: 0
+position normal: Blue 0/1, Red 1/1
+position mirror: Blue 0/1, Red 1/1
+phase Approach >=60s: 2/2
+phase Missile >=60s: 2/2
+phase Gunnery >=60s: 2/2
+phase Sniping >=60s: 2/2
+phase Brawl >=60s: 1/2
+friendly collisions: mean=0.50
+batch wall=29.5s jobs=1 csv=C:\Users\yurib\Documents\New project\space_fleet\shots\small-hull-clone-check.csv

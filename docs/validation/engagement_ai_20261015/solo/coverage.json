@@ -1,0 +1,174 @@
+[
+  {
+    "Hull": "earth_recon_t3",
+    "Legacy": true,
+    "Directions": 2048,
+    "Mechanical": 1125,
+    "Clear": 1125,
+    "Blocked": 0,
+    "BuriedMounts": 0,
+    "Cardinal": {
+      "fore": [
+        0,
+        0
+      ],
+      "aft": [
+        2,
+        2
+      ],
+      "port": [
+        2,
+        2
+      ],
+      "starboard": [
+        2,
+        2
+      ],
+      "dorsal": [
+        0,
+        0
+      ],
+      "ventral": [
+        0,
+        0
+      ],
+      "rear_upper": [
+        1,
+        1
+      ],
+      "rear_lower": [
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "Hull": "earth_recon_t3",
+    "Legacy": false,
+    "Directions": 2048,
+    "Mechanical": 1123,
+    "Clear": 1027,
+    "Blocked": 96,
+    "BuriedMounts": 0,
+    "Cardinal": {
+      "fore": [
+        0,
+        0
+      ],
+      "aft": [
+        2,
+        2
+      ],
+      "port": [
+        2,
+        2
+      ],
+      "starboard": [
+        2,
+        2
+      ],
+      "dorsal": [
+        0,
+        0
+      ],
+      "ventral": [
+        0,
+        0
+      ],
+      "rear_upper": [
+        1,
+        1
+      ],
+      "rear_lower": [
+        1,
+        1
+      ]
+    }
+  },
+  {
+    "Hull": "mars_assault_t3",
+    "Legacy": true,
+    "Directions": 2048,
+    "Mechanical": 610,
+    "Clear": 575,
+    "Blocked": 35,
+    "BuriedMounts": 0,
+    "Cardinal": {
+      "fore": [
+        0,
+        0
+      ],
+      "aft": [
+        1,
+        1
+      ],
+      "port": [
+        1,
+        1
+      ],
+      "starboard": [
+        1,
+        1
+      ],
+      "dorsal": [
+        0,
+        0
+      ],
+      "ventral": [
+        0,
+        0
+      ],
+      "rear_upper": [
+        1,
+        1
+      ],
+      "rear_lower": [
+        0,
+        0
+      ]
+    }
+  },
+  {
+    "Hull": "mars_assault_t3",
+    "Legacy": false,
+    "Directions": 2048,
+    "Mechanical": 610,
+    "Clear": 489,
+    "Blocked": 121,
+    "BuriedMounts": 0,
+    "Cardinal": {
+      "fore": [
+        0,
+        0
+      ],
+      "aft": [
+        1,
+        1
+      ],
+      "port": [
+        1,
+        1
+      ],
+      "starboard": [
+        1,
+        1
+      ],
+      "dorsal": [
+        0,
+        0
+      ],
+      "ventral": [
+        0,
+        0
+      ],
+      "rear_upper": [
+        1,
+        1
+      ],
+      "rear_lower": [
+        0,
+        0
+      ]
+    }
+  }
+]
