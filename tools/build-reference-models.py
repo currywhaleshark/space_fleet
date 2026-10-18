@@ -80,6 +80,11 @@ class Body:
             (r0, r1), (t0, t1) = p['root'], p['tip']; w = p.get('thickness', .24) / 2
             quad = [r0, t0, t1, r1]; vs = [(x + s * w, y, z) for s in (-1, 1) for x, y, z in quad]
             objs = [self.mesh(name, vs, [(0, 1, 2, 3), (7, 6, 5, 4), (0, 4, 5, 1), (1, 5, 6, 2), (2, 6, 7, 3), (3, 7, 4, 0)], mat)]
+        elif k == 'plate':
+            pts = [Vector(v) for v in p['points']]; n = (pts[1] - pts[0]).cross(pts[2] - pts[0]).normalized() * p.get('thickness', .3) / 2
+            vs = [tuple(v - n) for v in pts] + [tuple(v + n) for v in pts]; m = len(pts)
+            fs = [tuple(reversed(range(m))), tuple(range(m, 2 * m))] + [(i, (i + 1) % m, (i + 1) % m + m, i + m) for i in range(m)]
+            objs = [self.mesh(name, vs, fs, mat)]
         elif k == 'truss':
             c = Vector(p['center']); h = Vector(p['size']) / 2; r = p.get('rod', .6); objs = []
             ax = p.get('axis', 'z')  # chords run along the long axis; posts and diagonals close the open frame

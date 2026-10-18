@@ -8,6 +8,7 @@ Piece kinds (game axes: +X right, +Y up, -Z forward, metres):
   prism points [[x, z], ...] at y with thickness (flat plate: wings, decks)
   fin   root [[x, y, z] x2] / tip [[x, y, z] x2] quad with thickness
   truss center, size  (open rod frame; its section is the frame's box)
+  plate points [[x, y, z], ...] planar polygon with thickness (sloped wings, anhedral panels)
 "mirror": true creates a port (-X) and starboard (+X) copy; ids/sections get "-port" / "-starboard" (or the given
 "suffix" pair) appended and the authored coordinates are the starboard (+X) side.
 """
@@ -29,6 +30,7 @@ def mirrored(piece):
         elif k == 'prism': p['points'] = [[sign * abs(x), z] for x, z in p['points']]
         elif k == 'fin':
             for key in ('root', 'tip'): p[key] = [[sign * abs(v[0]), v[1], v[2]] for v in p[key]]
+        elif k == 'plate': p['points'] = [[sign * abs(v[0]), v[1], v[2]] for v in p['points']]
         out.append(p)
     return out
 
@@ -53,6 +55,9 @@ def bounds(p):
         vs = p['root'] + p['tip']; t = p.get('thickness', .24) / 2
         lo = [min(v[0] for v in vs) - t, min(v[1] for v in vs), min(v[2] for v in vs)]
         hi = [max(v[0] for v in vs) + t, max(v[1] for v in vs), max(v[2] for v in vs)]
+    elif k == 'plate':
+        vs = p['points']; t = p.get('thickness', .3) / 2
+        lo = [min(v[a] for v in vs) - t for a in range(3)]; hi = [max(v[a] for v in vs) + t for a in range(3)]
     else:
         raise ValueError(k)
     return lo, hi

@@ -1,0 +1,43 @@
+{
+  "_note": "Orthographic views on the concept boards. box = [x0, y0, x1, y1] board pixels; nose = side of the view the bow points to.",
+  "earth_starter_escort": [{"board": "art/reference/20261017_t1_starters/t1-starters.png", "view": "top", "box": [1000, 130, 1510, 405], "nose": "left"}],
+  "mars_starter_escort": [{"board": "art/reference/20261017_t1_starters/t1-starters.png", "view": "top", "box": [965, 650, 1500, 875], "nose": "left"}],
+  "earth_gun_cruiser": [
+    {"board": "art/reference/20261017_t3_cruisers/earth_gun_cruiser.png", "view": "top", "box": [1000, 45, 1528, 270], "nose": "left"},
+    {"board": "art/reference/20261017_t3_cruisers/earth_gun_cruiser.png", "view": "side", "box": [1000, 305, 1528, 490], "nose": "left"}],
+  "earth_air_defense_cruiser": [
+    {"board": "art/reference/20261017_t3_cruisers/earth_air_defense_cruiser.png", "view": "top", "box": [1010, 50, 1525, 280], "nose": "left"},
+    {"board": "art/reference/20261017_t3_cruisers/earth_air_defense_cruiser.png", "view": "side", "box": [1010, 315, 1525, 440], "nose": "left"}],
+  "mars_gun_cruiser": [
+    {"board": "art/reference/20261017_t3_cruisers/mars_gun_cruiser.png", "view": "top", "box": [745, 512, 1500, 622], "nose": "left"},
+    {"board": "art/reference/20261017_t3_cruisers/mars_gun_cruiser.png", "view": "side", "box": [685, 618, 1500, 788], "nose": "left"}],
+  "mars_missile_cruiser": [
+    {"board": "art/reference/20261017_t3_cruisers/mars_missile_cruiser.png", "view": "top", "box": [890, 370, 1515, 528], "nose": "left"},
+    {"board": "art/reference/20261017_t3_cruisers/mars_missile_cruiser.png", "view": "side", "box": [600, 593, 1515, 748], "nose": "left"}],
+  "interceptor_t3": [{"board": "art/reference/20261017_t3_interceptors/falke-herschel.png", "view": "top", "box": [250, 475, 700, 968], "nose": "down"}],
+  "mars_interceptor_t3": [{"board": "art/reference/20261017_t3_interceptors/falke-herschel.png", "view": "top", "box": [1000, 468, 1448, 938], "nose": "up"}],
+  "earth_recon_t3": [
+    {"board": "art/reference/20261015_small_branches/earth_recon_t3_v2.png", "view": "top", "box": [1010, 35, 1520, 205], "nose": "left"},
+    {"board": "art/reference/20261015_small_branches/earth_recon_t3_v2.png", "view": "side", "box": [1010, 225, 1520, 358], "nose": "left"}],
+  "mars_assault_t3": [
+    {"board": "art/reference/20261015_small_branches/mars_assault_t3_v2.png", "view": "top", "box": [1070, 22, 1520, 248], "nose": "left"},
+    {"board": "art/reference/20261015_small_branches/mars_assault_t3_v2.png", "view": "side", "box": [1070, 262, 1520, 418], "nose": "left"}],
+  "battleship_t5": [
+    {"board": "art/reference/20261017_t5_fleet/battleships.png", "view": "top", "box": [1050, 25, 1520, 300], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/battleships.png", "view": "side", "box": [1045, 335, 1520, 462], "nose": "left"}],
+  "mars_battleship_t5": [
+    {"board": "art/reference/20261017_t5_fleet/battleships.png", "view": "top", "box": [1055, 538, 1525, 707], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/battleships.png", "view": "side", "box": [1055, 762, 1525, 928], "nose": "left"}],
+  "interceptor_t5": [
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "side", "box": [195, 370, 460, 472], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "top", "box": [460, 305, 602, 482], "nose": "up"}],
+  "earth_recon_t5": [
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "side", "box": [985, 395, 1222, 472], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "top", "box": [1188, 318, 1428, 482], "nose": "up"}],
+  "mars_interceptor_t5": [
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "side", "box": [185, 878, 487, 958], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "top", "box": [495, 783, 602, 988], "nose": "up"}],
+  "mars_assault_t5": [
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "side", "box": [965, 868, 1228, 952], "nose": "left"},
+    {"board": "art/reference/20261017_t5_fleet/small.png", "view": "top", "box": [1235, 788, 1388, 992], "nose": "up"}]
+}

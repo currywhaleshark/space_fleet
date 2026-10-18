@@ -31,7 +31,11 @@ static class TierBranchChecks
             {
                 var am=d.Modules.Single(m=>m.Kind==ModuleKind.AntimatterContainment);var reactor=d.Modules.Single(m=>m.Kind==ModuleKind.Reactor);
                 Check(Math.Abs(am.Center.Z-reactor.Center.Z)>am.HalfSize.Z+reactor.HalfSize.Z,"Authored AM bay is separated from the reactor");
-                Check(d.Modules.Where(m=>m.VisualEngineIndex>=0).All(m=>Math.Abs(m.Center.X)>3),"Engine damage follows the new outboard pods");
+                // Engines may hug the fuselage or sit far outboard (reference silhouettes); either way the
+                // damage volume must lie inside the authored engine nacelle section, off the centreline.
+                Check(d.Modules.Where(m=>m.VisualEngineIndex>=0).All(m=>Math.Abs(m.Center.X)>1&&d.HullSections.Any(s=>s.Id.StartsWith("engine")
+                    &&Math.Abs(m.Center.X-s.Center.X)+m.HalfSize.X<=s.HalfSize.X+.001f&&Math.Abs(m.Center.Y-s.Center.Y)+m.HalfSize.Y<=s.HalfSize.Y+.001f
+                    &&Math.Abs(m.Center.Z-s.Center.Z)+m.HalfSize.Z<=s.HalfSize.Z+.001f)),"Engine damage lies inside its authored nacelle");
             }
             Check((d.Railgun!.Mounts??Array.Empty<TurretDefinition>()).Select(m=>m.Pivot).SequenceEqual((original.Railgun!.Mounts??Array.Empty<TurretDefinition>()).Select(m=>m.Pivot)),"Tier growth preserves gun pivots");
             Check(tree.ByHull(d.Id).Tier==v.Node.Tier,"Variant and progression tiers agree");

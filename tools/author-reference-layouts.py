@@ -216,79 +216,112 @@ def small_common(cockpit, nozzle, stations, **kw):
 
 @layout('earth_recon_t5')
 def polaris():
-    """Long straight transverse sensor wing with big pods at the tips, dorsal six-probe cassette, low canopy,
-    compact lower engine pods and tall twin fins."""
+    """Long straight transverse sensor wing (span ~1.45 hull lengths) with big tip pods, underslung pods,
+    dorsal six-tube probe cassette, separate rear engines with tall fins (traced from the T5 small board)."""
     return dict(
-        modules={'engine-0': {'center': [-3.4, -0.5, 9.6]}, 'engine-1': {'center': [3.4, -0.5, 9.6]},
-                 'cooling-port': {'center': [-3.4, -0.5, 7.2]}, 'cooling-starboard': {'center': [3.4, -0.5, 7.2]},
+        modules={'engine-0': {'center': [-3.05, 0, 9.6]}, 'engine-1': {'center': [3.05, 0, 9.6]},
+                 'cooling-port': {'center': [-3.05, 0, 7.2]}, 'cooling-starboard': {'center': [3.05, 0, 7.2]},
                  'sensor': {'center': [0, 0.5, -11]}, 'gun': {'center': [0, -0.6, -12.3]}, 'am-containment': {'center': [0, -1.5, -3.3]}},
         gunMuzzle=[0, -0.6, -16.7], missileLaunch=[-2.65, -0.65, -3.8], amLaunch=[0, -1.5, -5.28],
-        pdMounts=[[0, -1.75, 7], [0, 1.75, 8.9]],
-        probeLaunchPoints=[[x, 2.25, 3.2] for x in (-1.65, -0.99, -0.33, 0.33, 0.99, 1.65)],
+        pdMounts=[[0, -1.75, 6.0], [0, 1.75, 6.5]],
+        probeLaunchPoints=[[x, 2.4, -0.4] for x in (-1.35, -0.81, -0.27, 0.27, 0.81, 1.35)],
         blockout=dict(role='recon', reference='art/reference/20261017_t5_fleet/small.png', palette='earth', surface=SMALL_EARTH_SURFACE,
-            **small_common(dict(z=-5.6, w=.8, y=1.25), .85, [-12.5, 9.5]),
+            **small_common(dict(z=-5.6, w=.9, y=1.5), 1.15, [-12.5, 7.0]),
             pieces=[
-                loft('Tapered prow', [[-15.2, .3, .35, -.35], [-12.5, .75, .65, -.2], [-9, 1.1, .9, -.05], [-6, 1.35, 1.05, 0]], 'nose', 'nose'),
-                loft('Main pressure hull', [[-6, 1.35, 1.05, 0], [-3, 1.9, 1.4, .05], [5, 1.9, 1.45, 0], [11.2, 1.45, 1.2, 0]], 'hull', 'hull'),
-                box('Probe cassette', [0, 1.85, 4.6], [4.1, .9, 2.6], 'probe-carrier', 'hull'),
+                loft('Sensor prow', [[-15.2, .5, .4, -.35], [-13, 1.2, .7, -.2], [-10, 1.6, .9, -.1], [-5, 2.0, 1.3, .1]], 'nose', 'nose'),
+                loft('Main pressure hull', [[-5, 2.0, 1.3, .1], [-2, 2.5, 1.6, .2], [4, 2.5, 1.6, .2], [7.5, 1.4, 1.1, 0]], 'hull', 'hull'),
                 box('AM keel', [0, -1.5, -3.3], [1.9, 2, 3.6], 'am-keel', 'hull', hidden=True),
-                prism('Transverse sensor wing', [[1.7, -1.7], [11.6, -1.3], [11.6, .3], [1.7, .7]], 0, .5, 'wing-0', 'wing-back', mirror=True, core=False),
-                box('Wing tip sensor pod', [12.4, 0, -0.6], [1.8, 1.7, 3.4], 'sensor-ear', 'nose', mirror=True),
-                box('Pod sensor aperture', [12.4, 0, -2.33], [1.4, 1.2, .08], mirror=True, mat='glass', decor=True),
-                loft('Engine pod', [[5.0, .75, .75, -.5], [6.0, 1.0, 1.0, -.5], [11.0, 1.0, 1.0, -.5], [11.5, .85, .85, -.5]], 'engine', 'engine-block', x=3.4, mirror=True),
-                prism('Tail plane', [[1.6, 7.6], [4.4, 8.6], [4.4, 10.4], [1.6, 10.6]], -.3, .35, 'wing-1', 'wing-back', mirror=True, core=False),
-                fin('Attached fin', [[3.4, .4, 7.2], [3.4, .4, 11.0]], [[3.55, 4.3, 9.6], [3.55, 4.3, 11.2]], 'fin', mirror=True, core=False, mat='plate'),
-                prism('Wing navy panel', [[4, -1.55], [10.8, -1.25], [10.8, .2], [4, .55]], 0, .56, mirror=True, mat='plate', decor=True),
-            ],
-            bands=[dict(piece='Tapered prow', z=[-9.6, -8.8]), dict(piece='Main pressure hull', z=[1.2, 2.2])]))
+                box('Probe cassette', [0, 2.4, 1.0], [3.2, 1.2, 2.6], 'probe-carrier', 'hull'),
+                *[box(f'Probe tube {i}', [x, 3.25, 1.4], [.36, 1.4, .36], mat='edge', decor=True) for i, x in enumerate((-1.35, -.81, -.27, .27, .81, 1.35))],
+                prism('Transverse sensor wing', [[1.6, -9.1], [17.8, -8.6], [17.8, -5.4], [1.6, -4.8]], 0, .5, 'wing-0', 'wing-back', mirror=True, core=False),
+                box('Wing tip sensor pod', [19.85, 0, -7.2], [4.3, 2.4, 3.8], 'sensor-ear', 'nose', mirror=True),
+                box('Pod sensor aperture', [19.85, 0, -9.13], [3.0, 1.6, .08], mirror=True, mat='glass', decor=True),
+                loft('Underslung pod', [[-4.5, .7, .9, -2.5], [-3.5, 1.0, 1.3, -2.5], [7.0, 1.0, 1.3, -2.5], [8.0, .8, 1.0, -2.5]], 'lower-pod', 'engine-block', x=1.4, mirror=True),
+                loft('Rear engine', [[2.5, 1.0, 1.0, 0], [3.5, 1.55, 1.35, 0], [11.6, 1.45, 1.35, 0], [12.3, 1.2, 1.1, 0]], 'engine', 'engine-block', x=3.05, mirror=True),
+                fin('Attached fin', [[3.05, 1.0, 8.5], [3.05, 1.0, 11.5]], [[3.2, 4.4, 10.4], [3.2, 4.4, 11.8]], 'fin', mirror=True, core=False, mat='plate'),
+                prism('Wing navy panel', [[5, -8.95], [16.5, -8.6], [16.5, -5.5], [5, -5.0]], 0, .56, mirror=True, mat='plate', decor=True)],
+            bands=[dict(piece='Sensor prow', z=[-9.6, -8.8]), dict(piece='Main pressure hull', z=[3.0, 4.0])]))
 
 
 @layout('mars_interceptor_t5')
 def schiaparelli():
-    """Very narrow dart fuselage, close twin engines, steeply swept thin wings, forward canards, low outward canted fins."""
+    """Needle dart, forward canards, sharply swept main wing ending at a straight trailing edge mid-body,
+    two engines hugging the fuselage, tall outward-canted rear fins (traced from the T5 small board)."""
     return dict(
-        modules={'engine-0': {'center': [-3.15, 0, 7.9]}, 'engine-1': {'center': [3.15, 0, 7.9]},
-                 'cooling-port': {'center': [-3.15, 0, 5.8]}, 'cooling-starboard': {'center': [3.15, 0, 5.8]}},
+        modules={'engine-0': {'center': [-1.5, 0, 7.4]}, 'engine-1': {'center': [1.5, 0, 7.4]},
+                 'cooling-port': {'center': [-1.5, 0, 5.3]}, 'cooling-starboard': {'center': [1.5, 0, 5.3]}},
         gunMuzzle=[0, -0.48, -15.1], missileLaunch=[-1.8, -0.65, -3.8], amLaunch=[0, -1.2, -4.58],
-        pdMounts=[[0, 1.5, 7.2]], probeLaunchPoints=[[-1.9, 0.8, -0.2], [1.9, 0.8, -0.2]],
+        pdMounts=[[0, 2.0, 7.2]], probeLaunchPoints=[[-1.9, 0.8, -0.2], [1.9, 0.8, -0.2]],
         blockout=dict(role='agile', reference='art/reference/20261017_t5_fleet/small.png', palette='mars-light', surface=SMALL_MARS_SURFACE,
-            **small_common(dict(z=-5.2, w=.62, y=1.12), .72, [-11, 8]),
+            **small_common(dict(z=-5.2, w=.62, y=1.25), .72, [-11, 7.0]),
             pieces=[
-                loft('Dart prow', [[-13.6, .2, .3, -.3], [-10.5, .55, .6, -.15], [-7, .85, .85, 0], [-4.8, .95, .9, 0]], 'nose', 'nose'),
-                loft('Dart fuselage', [[-4.8, .95, .9, 0], [-2, 1.55, 1.2, 0], [6, 1.65, 1.25, 0], [9.4, 1.15, 1.05, 0]], 'hull', 'hull'),
-                loft('Engine nacelle', [[3.4, .7, .7, 0], [4.4, 1.0, 1.0, 0], [9.6, 1.0, 1.0, 0], [10.1, .85, .85, 0]], 'engine', 'engine-block', x=3.15, mirror=True),
+                loft('Dart prow', [[-13.6, .2, .3, -.3], [-11, .5, .55, -.2], [-8, .85, .85, 0], [-5.5, 1.1, 1.0, .1]], 'nose', 'nose'),
+                loft('Dart fuselage', [[-5.5, 1.1, 1.0, .1], [-3, 1.55, 1.45, .3], [4, 1.55, 1.5, .4], [7.5, 1.2, 1.2, .2], [9.4, .7, .8, .1]], 'hull', 'hull'),
                 box('AM keel', [0, -1.2, -2.8], [1.6, 1.7, 3.2], 'am-keel', 'hull', hidden=True),
-                prism('Steep swept wing', [[1.5, -3.5], [7.4, 7.0], [7.0, 8.0], [1.5, 6.0]], 0, .35, 'wing-1', 'wing-back', mirror=True, core=False),
-                prism('Canard', [[.85, -8.6], [2.9, -7.1], [2.9, -6.5], [.9, -6.3]], .1, .28, 'wing-0', 'wing-front', mirror=True, core=False),
-                fin('Attached fin', [[3.7, .65, 6.2], [3.7, .65, 9.4]], [[5.3, 2.1, 8.4], [5.3, 2.1, 9.7]], 'fin', mirror=True, core=False, mat='plate'),
-                prism('Wing rust panel', [[3.2, 1.6], [6.6, 6.9], [6.3, 7.6], [3.2, 5.7]], 0, .4, mirror=True, mat='plate', decor=True),
-            ],
+                loft('Hugging engine', [[3.8, .7, .7, 0], [4.8, 1.0, 1.0, 0], [8.2, 1.0, 1.0, 0], [8.7, .85, .85, 0]], 'engine', 'engine-block', x=1.5, mirror=True),
+                prism('Swept main wing', [[1.5, -4.4], [6.7, .8], [6.7, 2.4], [2.5, 2.8], [1.5, 2.8]], 0, .35, 'wing-1', 'wing-back', mirror=True, core=False),
+                prism('Canard', [[.8, -8.8], [4.0, -7.3], [4.0, -6.7], [.9, -6.3]], .1, .28, 'wing-0', 'wing-front', mirror=True, core=False),
+                fin('Attached fin', [[2.0, .9, 7.0], [2.0, .9, 9.0]], [[3.6, 4.2, 9.0], [3.6, 4.2, 9.9]], 'fin', mirror=True, core=False, mat='plate'),
+                prism('Wing rust panel', [[3.0, -1.6], [6.3, 1.0], [6.3, 2.2], [3.0, 2.5]], 0, .4, mirror=True, mat='plate', decor=True)],
             bands=[dict(piece='Dart prow', z=[-8.4, -7.6]), dict(piece='Dart fuselage', z=[2.6, 3.4])]))
 
 
 @layout('mars_assault_t5')
 def enyo():
-    """Thick keel with a six-cell torpedo block, heavy clipped angular wings, deep outboard nacelles, tall fins."""
+    """Heavy clipped wings spanning ~0.75 hull length, deep nacelles far outboard, thick keel with the
+    torpedo block, twin tall rear fins on the fuselage (traced from the T5 small board)."""
     return dict(
-        modules={'am-containment': {'center': [0, -1.9, -2.2]}},
-        gunMuzzle=[0, -0.48, -15.2], missileLaunch=[-2.45, -0.65, -3.8], amLaunch=[0, -1.9, -5.65],
-        pdMounts=[[0, 1.85, 6.5]],
+        modules={'am-containment': {'center': [0, -1.6, -2.2]}, 'engine-0': {'center': [-7.9, 0, 6.4]}, 'engine-1': {'center': [7.9, 0, 6.4]},
+                 'cooling-port': {'center': [-7.9, 0, 4.5]}, 'cooling-starboard': {'center': [7.9, 0, 4.5]}},
+        gunMuzzle=[0, -0.48, -15.2], missileLaunch=[-2.45, -0.65, -3.8], amLaunch=[0, -1.6, -5.65],
+        pdMounts=[[0, 2.9, 5.5]],
         blockout=dict(role='assault', reference='art/reference/20261017_t5_fleet/small.png', palette='mars-light', surface=SMALL_MARS_SURFACE,
-            keelPiece=True, **small_common(dict(z=-4.6, w=.85, y=1.55), 1.05, [-10.5, 6.9]),
+            keelPiece=True, **small_common(dict(z=-4.6, w=.85, y=2.0), 1.3, [-10.5, 6.4]),
             pieces=[
-                loft('Armoured prow', [[-13.4, .4, .5, -.25], [-9, 1.1, .95, -.1], [-4, 1.45, 1.15, 0]], 'nose', 'nose'),
-                loft('Armoured fuselage', [[-4, 1.45, 1.15, 0], [-2, 2.35, 1.6, 0], [6, 2.35, 1.6, 0], [10, 1.6, 1.3, 0]], 'hull', 'hull'),
-                box('Torpedo storage keel', [0, -1.9, -2.2], [2.8, 1.6, 6.6], 'am-keel', 'hull'),
-                loft('Deep engine nacelle', [[3.0, 1.0, 1.2, 0], [4.0, 1.35, 1.55, 0], [10.0, 1.35, 1.55, 0], [10.6, 1.15, 1.35, 0]], 'engine', 'engine-block', x=5.2, mirror=True),
-                prism('Clipped heavy wing', [[1.8, -3.5], [6.6, -0.5], [6.6, 7.2], [1.8, 7.6]], 0, 1.0, 'wing-0', 'wing-back', mirror=True, core=False),
-                fin('Attached fin', [[5.2, 1.0, 5.2], [5.2, 1.0, 9.6]], [[5.45, 4.6, 8.0], [5.45, 4.6, 10.0]], 'fin', mirror=True, core=False, mat='plate'),
-                box('Wing armour band', [4.2, 0, 2.0], [4.6, 1.06, 1.6], mirror=True, mat='plate', decor=True),
-                box('Torpedo cell cap', [-.7, -2.25, -5.53], [.6, .5, .1], mat='edge', decor=True),
-                box('Torpedo cell cap 3', [.7, -2.25, -5.53], [.6, .5, .1], mat='edge', decor=True),
-                box('Torpedo cell cap 4', [-.7, -1.55, -5.53], [.6, .5, .1], mat='edge', decor=True),
-                box('Torpedo cell cap 5', [.7, -1.55, -5.53], [.6, .5, .1], mat='edge', decor=True),
-            ],
-            bands=[dict(piece='Armoured prow', z=[-7.6, -6.8]), dict(piece='Armoured fuselage', z=[3, 4]), dict(piece='Deep engine nacelle', z=[5.2, 6.0])]))
+                loft('Armoured prow', [[-13.4, .4, .5, -.25], [-9.5, 1.0, .9, -.1], [-6.5, 1.3, 1.1, 0], [-4, 1.6, 1.3, .2]], 'nose', 'nose'),
+                loft('Armoured fuselage', [[-4, 1.6, 1.3, .2], [-2, 2.35, 1.9, .6], [6, 2.35, 2.0, .6], [9.5, 1.6, 1.4, .3]], 'hull', 'hull'),
+                box('Torpedo storage keel', [0, -1.6, -2.2], [2.8, 1.4, 6.6], 'am-keel', 'hull'),
+                prism('Clipped heavy wing', [[2.0, -5.6], [7.0, -4.2], [9.4, -.5], [9.7, 3.5], [6.0, 3.8], [2.3, 7.6]], 0, .9, 'wing-0', 'wing-back', mirror=True, core=False),
+                loft('Outboard nacelle', [[3.0, 1.4, 1.2, 0], [4.0, 1.9, 1.5, 0], [7.6, 1.9, 1.5, 0], [8.2, 1.6, 1.3, 0]], 'engine', 'engine-block', x=7.9, mirror=True),
+                fin('Attached fin', [[1.4, 1.3, 7.0], [1.4, 1.3, 10.0]], [[1.7, 5.0, 9.4], [1.7, 5.0, 10.6]], 'fin', mirror=True, core=False, mat='plate'),
+                box('Wing armour band', [5.0, 0, -1.5], [5.0, .96, 1.6], mirror=True, mat='plate', decor=True),
+                box('Torpedo cell cap', [-.7, -1.95, -5.53], [.6, .5, .1], mat='edge', decor=True),
+                box('Torpedo cell cap 3', [.7, -1.95, -5.53], [.6, .5, .1], mat='edge', decor=True),
+                box('Torpedo cell cap 4', [-.7, -1.25, -5.53], [.6, .5, .1], mat='edge', decor=True),
+                box('Torpedo cell cap 5', [.7, -1.25, -5.53], [.6, .5, .1], mat='edge', decor=True)],
+            bands=[dict(piece='Armoured prow', z=[-7.6, -6.8]), dict(piece='Armoured fuselage', z=[3, 4]), dict(piece='Outboard nacelle', z=[5.0, 5.8])]))
+
+
+def plate(name, points, thickness=.3, section=None, armor='wing-back', **kw):
+    p = dict(kind='plate', name=name, points=points, thickness=thickness, **kw)
+    if section: p['section'] = section; p['armorFrom'] = armor
+    return p
+
+
+@layout('interceptor_t5')
+def haedongcheong():
+    """Kite-shaped cranked delta from a forward chine to clipped anhedral tips, raised spine, close twin
+    nacelles with tall upright fins (traced from the T5 small board top/side views)."""
+    return dict(
+        modules={'engine-0': {'center': [-3.1, 0, 9.6]}, 'engine-1': {'center': [3.1, 0, 9.6]},
+                 'cooling-port': {'center': [-3.1, 0, 7.2]}, 'cooling-starboard': {'center': [3.1, 0, 7.2]},
+                 'gun': {'center': [0, -0.6, -12.3]}, 'sensor': {'center': [0, 0.75, -7]}, 'shield': {'center': [0, 0.6, 1.7]},
+                 'am-containment': {'center': [0, -1.55, -3.1]}},
+        gunMuzzle=[0, -0.6, -16.7], missileLaunch=[-2.95, -0.65, -3.8], amLaunch=[0, -1.55, -5.08],
+        pdMounts=[[0, -1.9, 6.7], [0, 2.55, 7.2]], probeLaunchPoints=[[-2.3, 0.9, -0.5], [2.3, 0.9, -0.5]],
+        blockout=dict(role='defense', reference='art/reference/20261017_t5_fleet/small.png', palette='earth', surface=SMALL_EARTH_SURFACE,
+            **small_common(dict(z=-4.4, w=.85, y=1.9), 1.2, [-12.5, 9.5]),
+            pieces=[
+                loft('Tapered prow', [[-15.2, .3, .35, -.35], [-12.5, .75, .65, -.2], [-9, 1.1, .95, 0], [-6, 1.4, 1.2, .2]], 'nose', 'nose'),
+                loft('Raised spine fuselage', [[-6, 1.4, 1.2, .2], [-3, 1.95, 1.75, .45], [5, 1.95, 1.8, .45], [11.2, 1.5, 1.3, .2]], 'hull', 'hull'),
+                box('AM keel', [0, -1.55, -3.1], [2, 2, 3.6], 'am-keel', 'hull', hidden=True),
+                prism('Forward chine', [[1.0, -14.0], [2.6, -12.0], [4.0, -9.2], [4.5, -8.0], [1.0, -8.5]], -.3, .4, 'wing-0', 'wing-front', mirror=True, core=False),
+                prism('Cranked delta', [[1.0, -8.5], [4.5, -8.0], [7.5, -5.7], [7.5, 3.6], [6.2, 5.1], [4.5, 6.6], [1.6, 7.5]], -.3, .45, 'wing-1', 'wing-back', mirror=True, core=False),
+                plate('Anhedral wing tip', [[7.5, -.3, -5.7], [11.3, -2.8, -3.8], [11.3, -2.8, -1.5], [7.5, -.3, 3.6]], .4, 'wing-2', mirror=True, core=False),
+                prism('Wing navy panel', [[4.6, -5.2], [7.3, -5.0], [7.3, 2.4], [5.2, 3.6]], -.3, .5, mirror=True, mat='plate', decor=True),
+                loft('Engine nacelle', [[5.0, 1.05, 1.05, 0], [6.0, 1.45, 1.4, 0], [11.6, 1.45, 1.4, 0], [12.3, 1.25, 1.2, 0]], 'engine', 'engine-block', x=3.1, mirror=True),
+                fin('Attached fin', [[3.1, 1.2, 7.6], [3.1, 1.2, 11.6]], [[3.3, 5.4, 10.2], [3.3, 5.4, 11.9]], 'fin', mirror=True, core=False, mat='plate')],
+            bands=[dict(piece='Tapered prow', z=[-9.6, -8.8]), dict(piece='Raised spine fuselage', z=[1.2, 2.2])]))
 
 
 # ---------------------------------------------------------------- T4 (art/reference/20261017_t4_*)
