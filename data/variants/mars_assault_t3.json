@@ -98,9 +98,9 @@
     },
     "missiles": {
       "launchPoint": [
-        -2.0,
-        -0.45,
-        -5.1
+        -2.4,
+        -2.95,
+        -4.6
       ],
       "energy": 218.4,
       "moduleDamage": 98.8
@@ -111,8 +111,8 @@
         "rounds": 4,
         "launchPoint": [
           0,
-          -2.3,
-          -2.8
+          -2.75,
+          -2.4
         ],
         "energy": 1144.0,
         "moduleDamage": 1248.0
@@ -122,8 +122,8 @@
       "mounts": [
         [
           0,
-          1.85,
-          7
+          2.9,
+          7.0
         ]
       ],
       "damagePerHit": 3.12
@@ -140,16 +140,16 @@
           }
         },
         "id": "nose",
-        "name": "Narrow prow",
+        "name": "Wedge prow",
         "center": [
           0.0,
-          0.0,
-          -9.5
+          -0.2,
+          -8.15
         ],
         "halfSize": [
-          1.0,
-          0.95,
-          3.5
+          3.2,
+          2.4,
+          4.95
         ]
       },
       {
@@ -162,16 +162,34 @@
           }
         },
         "id": "hull",
-        "name": "Reinforced centre",
+        "name": "Armoured shoulders",
         "center": [
           0.0,
-          0.0,
-          2.0
+          0.1,
+          2.9
         ],
         "halfSize": [
-          2.3,
-          1.6,
-          8.0
+          3.9,
+          2.7,
+          6.1
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {},
+        "id": "aft-block",
+        "name": "Aft engine block",
+        "center": [
+          0.0,
+          0.4,
+          10.2
+        ],
+        "halfSize": [
+          3.8,
+          2.4,
+          1.2
         ]
       },
       {
@@ -187,13 +205,13 @@
         "name": "Containment keel",
         "center": [
           0.0,
-          -1.55,
-          -0.8
+          -1.75,
+          0.0
         ],
         "halfSize": [
           1.3,
-          1.25,
-          1.95
+          1.45,
+          2.3
         ]
       },
       {
@@ -204,14 +222,14 @@
         "id": "engine-port",
         "name": "Boost engine port",
         "center": [
-          -4.1,
+          -1.9,
           0.0,
-          9.15
+          9.6
         ],
         "halfSize": [
-          1.3,
-          1.2,
-          2.65
+          1.25,
+          1.25,
+          2.2
         ]
       },
       {
@@ -222,14 +240,14 @@
         "id": "engine-starboard",
         "name": "Boost engine starboard",
         "center": [
-          4.1,
+          1.9,
           0.0,
-          9.15
+          9.6
         ],
         "halfSize": [
-          1.3,
-          1.2,
-          2.65
+          1.25,
+          1.25,
+          2.2
         ]
       },
       {
@@ -238,16 +256,16 @@
         },
         "faces": {},
         "id": "wing-0-port",
-        "name": "Short swept wing port",
+        "name": "Mid winglet port",
         "center": [
-          -4.1,
+          -5.3,
           0.0,
-          3.0
+          -1.1
         ],
         "halfSize": [
-          1.9,
-          0.225,
-          4.0
+          1.7,
+          0.15,
+          1.5
         ]
       },
       {
@@ -256,16 +274,16 @@
         },
         "faces": {},
         "id": "wing-0-starboard",
-        "name": "Short swept wing starboard",
+        "name": "Mid winglet starboard",
         "center": [
-          4.1,
+          5.3,
           0.0,
-          3.0
+          -1.1
         ],
         "halfSize": [
-          1.9,
-          0.225,
-          4.0
+          1.7,
+          0.15,
+          1.5
         ]
       },
       {
@@ -276,14 +294,14 @@
         "id": "fin-port",
         "name": "Attached fin port",
         "center": [
-          -4.25,
-          2.25,
-          9.65
+          -3.6,
+          3.3,
+          8.95
         ],
         "halfSize": [
-          0.27,
-          1.15,
-          1.65
+          1.72,
+          1.5,
+          2.45
         ]
       },
       {
@@ -294,14 +312,50 @@
         "id": "fin-starboard",
         "name": "Attached fin starboard",
         "center": [
-          4.25,
-          2.25,
-          9.65
+          3.6,
+          3.3,
+          8.95
         ],
         "halfSize": [
-          0.27,
-          1.15,
-          1.65
+          1.72,
+          1.5,
+          2.45
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.1
+        },
+        "faces": {},
+        "id": "fin-low-port",
+        "name": "Ventral fin port",
+        "center": [
+          -3.4,
+          -2.5,
+          9.6
+        ],
+        "halfSize": [
+          1.52,
+          1.1,
+          1.8
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 2.1
+        },
+        "faces": {},
+        "id": "fin-low-starboard",
+        "name": "Ventral fin starboard",
+        "center": [
+          3.4,
+          -2.5,
+          9.6
+        ],
+        "halfSize": [
+          1.52,
+          1.1,
+          1.8
         ]
       }
     ],
@@ -467,9 +521,9 @@
         "name": "좌현 추진기",
         "kind": "Thruster",
         "center": [
-          -4.1,
+          -1.9,
           0,
-          9.5
+          9.7
         ],
         "halfSize": [
           0.9,
@@ -562,9 +616,9 @@
         "name": "우현 추진기",
         "kind": "Thruster",
         "center": [
-          4.1,
+          1.9,
           0,
-          9.5
+          9.7
         ],
         "halfSize": [
           0.9,

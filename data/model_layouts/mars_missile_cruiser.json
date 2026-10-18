@@ -3,13 +3,48 @@
     "sensor": {
       "center": [
         0,
-        63.9,
-        33.6
+        18,
+        52
+      ]
+    },
+    "bus-port": {
+      "center": [
+        -10,
+        0,
+        -16.8
+      ]
+    },
+    "bus-starboard": {
+      "center": [
+        10,
+        0,
+        -16.8
+      ]
+    },
+    "maneuver-port": {
+      "center": [
+        -9.3,
+        0,
+        -71.4
+      ]
+    },
+    "maneuver-starboard": {
+      "center": [
+        9.3,
+        0,
+        -71.4
+      ]
+    },
+    "magazine": {
+      "center": [
+        -7,
+        0,
+        -50.4
       ]
     },
     "radiator-port": {
       "center": [
-        -22.5,
+        -19.6,
         0,
         59
       ],
@@ -21,7 +56,7 @@
     },
     "radiator-starboard": {
       "center": [
-        22.5,
+        19.6,
         0,
         59
       ],
@@ -80,13 +115,13 @@
             -158,
             1,
             1.5,
-            -2
+            -1
           ],
           [
-            -120,
-            6,
-            7,
-            -1
+            -140,
+            5.8,
+            5,
+            0
           ]
         ],
         "section": "bow-2",
@@ -97,15 +132,21 @@
         "name": "Spear bow",
         "rings": [
           [
-            -120,
-            6,
-            7,
-            -1
+            -140,
+            5.8,
+            5,
+            0
+          ],
+          [
+            -126,
+            9.8,
+            9,
+            0
           ],
           [
             -95,
-            13,
-            11,
+            12.5,
+            14,
             0
           ]
         ],
@@ -118,19 +159,31 @@
         "rings": [
           [
             -95,
-            15,
             12.5,
+            14,
             0
           ],
           [
-            -80,
-            19.7,
+            -10,
+            12.5,
+            14,
+            0
+          ],
+          [
+            20,
+            15,
+            14.4,
+            0
+          ],
+          [
+            40,
+            19,
             14.8,
             0
           ],
           [
             116,
-            19.7,
+            19,
             14.8,
             0
           ],
@@ -181,31 +234,15 @@
         "name": "Command block",
         "center": [
           0,
-          20,
-          33.6
+          14,
+          52
         ],
         "size": [
           16,
-          12,
-          22
+          6,
+          24
         ],
         "section": "bridge",
-        "armorFrom": "bridge"
-      },
-      {
-        "kind": "box",
-        "name": "Sensor mast",
-        "center": [
-          0,
-          41,
-          33.6
-        ],
-        "size": [
-          5,
-          30,
-          6
-        ],
-        "section": "mast-stem",
         "armorFrom": "bridge"
       },
       {
@@ -213,8 +250,8 @@
         "name": "Sensor head",
         "center": [
           0,
-          63.9,
-          33.6
+          18,
+          52
         ],
         "size": [
           12.68,
@@ -230,31 +267,31 @@
         "name": "Missile cassette",
         "rings": [
           [
-            -82,
-            5,
-            9,
+            -112,
+            6,
+            10,
             0
           ],
           [
-            -78,
-            7,
-            11,
+            -108,
+            8,
+            13,
             0
           ],
           [
-            88,
-            7,
-            11,
+            18,
+            8,
+            13,
             0
           ],
           [
-            92,
-            5,
-            9,
+            22,
+            6,
+            10,
             0
           ]
         ],
-        "x": 31,
+        "x": 24,
         "mirror": true,
         "section": "missile-cassette",
         "armorFrom": "hull"
@@ -263,12 +300,12 @@
         "kind": "box",
         "name": "Cassette strut",
         "center": [
-          22,
+          18,
           0,
           -40
         ],
         "size": [
-          5,
+          8,
           6,
           8
         ],
@@ -278,12 +315,12 @@
         "kind": "box",
         "name": "Cassette strut aft",
         "center": [
-          22,
+          18,
           0,
-          88
+          0
         ],
         "size": [
-          5,
+          8,
           6,
           6
         ],
@@ -293,13 +330,13 @@
         "kind": "box",
         "name": "Cassette collar 0",
         "center": [
-          31,
+          24,
           0,
-          -50
+          -80
         ],
         "size": [
-          14.6,
-          22.6,
+          17.6,
+          27,
           2
         ],
         "mirror": true,
@@ -310,13 +347,13 @@
         "kind": "box",
         "name": "Cassette collar 1",
         "center": [
-          31,
+          24,
           0,
-          -15
+          -45
         ],
         "size": [
-          14.6,
-          22.6,
+          17.6,
+          27,
           2
         ],
         "mirror": true,
@@ -327,13 +364,13 @@
         "kind": "box",
         "name": "Cassette collar 2",
         "center": [
-          31,
+          24,
           0,
-          20
+          -10
         ],
         "size": [
-          14.6,
-          22.6,
+          17.6,
+          27,
           2
         ],
         "mirror": true,
@@ -342,19 +379,34 @@
       },
       {
         "kind": "box",
-        "name": "Cassette collar 3",
+        "name": "Aft radiator cross",
         "center": [
-          31,
           0,
-          55
+          0,
+          99
         ],
         "size": [
-          14.6,
-          22.6,
-          2
+          68,
+          4,
+          12
         ],
-        "mirror": true,
-        "mat": "plate",
+        "mat": "radiator",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Aft radiator cross fin",
+        "center": [
+          0,
+          2,
+          99
+        ],
+        "size": [
+          4,
+          42,
+          12
+        ],
+        "mat": "radiator",
         "decor": true
       }
     ],
@@ -377,9 +429,9 @@
     "hatches": [
       {
         "start": [
-          38.05,
+          32.05,
           -5,
-          -70
+          -100
         ],
         "grid": [
           2,
@@ -387,18 +439,18 @@
         ],
         "pitch": [
           10,
-          15.5
+          11
         ],
         "size": [
           0.6,
           4,
-          11
+          8
         ]
       }
     ],
     "rcs": {
       "stations": [
-        -88,
+        -118,
         108
       ],
       "size": 1.3,
@@ -409,7 +461,7 @@
         "id": "radiator-port",
         "name": "radiator-port",
         "center": [
-          -22.5,
+          -19.6,
           0,
           59
         ],
@@ -424,7 +476,7 @@
         "id": "radiator-starboard",
         "name": "radiator-starboard",
         "center": [
-          22.5,
+          19.6,
           0,
           59
         ],
@@ -444,7 +496,7 @@
       "id": "radiator-port",
       "name": "radiator-port",
       "center": [
-        -22.5,
+        -19.6,
         0,
         59
       ],
@@ -459,7 +511,7 @@
       "id": "radiator-starboard",
       "name": "radiator-starboard",
       "center": [
-        22.5,
+        19.6,
         0,
         59
       ],
@@ -475,13 +527,13 @@
       "name": "Spear point",
       "center": [
         0.0,
-        -1.0,
-        -139.0
+        0.0,
+        -149.0
       ],
       "halfSize": [
-        6.0,
-        7.0,
-        19.0
+        5.8,
+        5.0,
+        9.0
       ],
       "armorFrom": "bow-2"
     },
@@ -491,12 +543,12 @@
       "center": [
         0.0,
         0.0,
-        -107.5
+        -117.5
       ],
       "halfSize": [
-        13.0,
-        11.0,
-        12.5
+        12.5,
+        14.0,
+        22.5
       ],
       "armorFrom": "bow-1"
     },
@@ -509,7 +561,7 @@
         13.5
       ],
       "halfSize": [
-        19.7,
+        19.0,
         14.8,
         108.5
       ],
@@ -550,28 +602,13 @@
       "name": "Command block",
       "center": [
         0.0,
-        20.0,
-        33.6
+        14.0,
+        52.0
       ],
       "halfSize": [
         8.0,
-        6.0,
-        11.0
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "mast-stem",
-      "name": "Sensor mast",
-      "center": [
-        0.0,
-        41.0,
-        33.6
-      ],
-      "halfSize": [
-        2.5,
-        15.0,
-        3.0
+        3.0,
+        12.0
       ],
       "armorFrom": "bridge"
     },
@@ -580,8 +617,8 @@
       "name": "Sensor head",
       "center": [
         0.0,
-        63.9,
-        33.6
+        18.0,
+        52.0
       ],
       "halfSize": [
         6.34,
@@ -594,14 +631,14 @@
       "id": "missile-cassette-port",
       "name": "Missile cassette port",
       "center": [
-        -31.0,
+        -24.0,
         0.0,
-        5.0
+        -45.0
       ],
       "halfSize": [
-        7.0,
-        11.0,
-        87.0
+        8.0,
+        13.0,
+        67.0
       ],
       "armorFrom": "hull"
     },
@@ -609,14 +646,14 @@
       "id": "missile-cassette-starboard",
       "name": "Missile cassette starboard",
       "center": [
-        31.0,
+        24.0,
         0.0,
-        5.0
+        -45.0
       ],
       "halfSize": [
-        7.0,
-        11.0,
-        87.0
+        8.0,
+        13.0,
+        67.0
       ],
       "armorFrom": "hull"
     }

@@ -9,14 +9,14 @@
     "reconProbes": {
       "launchPoints": [
         [
-          -2.5,
-          0.5,
-          -1.3
+          -3.4,
+          0.45,
+          2.0
         ],
         [
-          2.5,
-          0.5,
-          -1.3
+          3.4,
+          0.45,
+          2.0
         ]
       ]
     },
@@ -51,7 +51,7 @@
     },
     "missiles": {
       "launchPoint": [
-        -2.3,
+        -3.4,
         -0.65,
         -4.1
       ],
@@ -99,13 +99,13 @@
         "name": "Tapered prow",
         "center": [
           0.0,
-          0.0,
-          -10.7
+          0.02,
+          -10.45
         ],
         "halfSize": [
-          1.35,
-          1.05,
-          4.7
+          2.9,
+          1.42,
+          4.55
         ]
       },
       {
@@ -121,13 +121,13 @@
         "name": "Wide fuselage",
         "center": [
           0.0,
-          0.0,
-          2.5
+          0.05,
+          3.05
         ],
         "halfSize": [
-          1.9,
+          2.9,
           1.45,
-          8.5
+          8.95
         ]
       },
       {
@@ -160,14 +160,14 @@
         "id": "engine-port",
         "name": "Engine pod port",
         "center": [
-          -4.9,
+          -10.0,
           0.0,
-          8.85
+          -7.25
         ],
         "halfSize": [
-          1.15,
-          1.15,
-          2.85
+          1.6,
+          1.35,
+          7.55
         ]
       },
       {
@@ -178,14 +178,14 @@
         "id": "engine-starboard",
         "name": "Engine pod starboard",
         "center": [
-          4.9,
+          10.0,
           0.0,
-          8.85
+          -7.25
         ],
         "halfSize": [
-          1.15,
-          1.15,
-          2.85
+          1.6,
+          1.35,
+          7.55
         ]
       },
       {
@@ -194,16 +194,16 @@
         },
         "faces": {},
         "id": "wing-0-port",
-        "name": "Swept wing port",
+        "name": "Kite wing port",
         "center": [
-          -4.95,
+          -5.7,
           0.0,
-          2.3
+          -2.55
         ],
         "halfSize": [
-          3.05,
+          2.9,
           0.2,
-          5.3
+          8.75
         ]
       },
       {
@@ -212,16 +212,16 @@
         },
         "faces": {},
         "id": "wing-0-starboard",
-        "name": "Swept wing starboard",
+        "name": "Kite wing starboard",
         "center": [
-          4.95,
+          5.7,
           0.0,
-          2.3
+          -2.55
         ],
         "halfSize": [
-          3.05,
+          2.9,
           0.2,
-          5.3
+          8.75
         ]
       },
       {
@@ -232,14 +232,14 @@
         "id": "fin-port",
         "name": "Attached fin port",
         "center": [
-          -4.95,
-          1.7,
-          9.95
+          -4.65,
+          1.4,
+          6.0
         ],
         "halfSize": [
-          0.17,
-          0.7,
-          1.45
+          0.87,
+          1.2,
+          2.6
         ]
       },
       {
@@ -250,14 +250,14 @@
         "id": "fin-starboard",
         "name": "Attached fin starboard",
         "center": [
-          4.95,
-          1.7,
-          9.95
+          4.65,
+          1.4,
+          6.0
         ],
         "halfSize": [
-          0.17,
-          0.7,
-          1.45
+          0.87,
+          1.2,
+          2.6
         ]
       }
     ],
@@ -405,9 +405,9 @@
         "name": "좌현 냉각 장치",
         "kind": "Cooling",
         "center": [
-          -4.9,
+          -10.0,
           0,
-          7.1
+          -4.2
         ],
         "halfSize": [
           0.3,
@@ -423,9 +423,9 @@
         "name": "좌현 추진기",
         "kind": "Thruster",
         "center": [
-          -4.9,
+          -10.0,
           0,
-          10
+          -1.4
         ],
         "halfSize": [
           0.6,
@@ -500,9 +500,9 @@
         "name": "우현 냉각 장치",
         "kind": "Cooling",
         "center": [
-          4.9,
+          10.0,
           0,
-          7.1
+          -4.2
         ],
         "halfSize": [
           0.3,
@@ -518,9 +518,9 @@
         "name": "우현 추진기",
         "kind": "Thruster",
         "center": [
-          4.9,
+          10.0,
           0,
-          10
+          -1.4
         ],
         "halfSize": [
           0.6,

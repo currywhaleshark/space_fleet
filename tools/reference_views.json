@@ -14,7 +14,7 @@
   "mars_missile_cruiser": [
     {"board": "art/reference/20261017_t3_cruisers/mars_missile_cruiser.png", "view": "top", "box": [890, 370, 1515, 528], "nose": "left"},
     {"board": "art/reference/20261017_t3_cruisers/mars_missile_cruiser.png", "view": "side", "box": [600, 593, 1515, 748], "nose": "left"}],
-  "interceptor_t3": [{"board": "art/reference/20261017_t3_interceptors/falke-herschel.png", "view": "top", "box": [250, 475, 700, 968], "nose": "down"}],
+  "interceptor_t3": [{"board": "art/reference/20261017_t3_interceptors/falke-herschel.png", "view": "top", "box": [250, 475, 700, 968], "nose": "up"}],
   "mars_interceptor_t3": [{"board": "art/reference/20261017_t3_interceptors/falke-herschel.png", "view": "top", "box": [1000, 468, 1448, 938], "nose": "up"}],
   "earth_recon_t3": [
     {"board": "art/reference/20261015_small_branches/earth_recon_t3_v2.png", "view": "top", "box": [1010, 35, 1520, 205], "nose": "left"},

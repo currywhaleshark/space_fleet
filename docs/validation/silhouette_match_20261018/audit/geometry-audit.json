@@ -1,0 +1,178 @@
+[
+  {
+    "id": "interceptor_t3",
+    "markers": 41,
+    "maxMarkerError": 0.0,
+    "meshParts": 108,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "symmetricFins": true
+  },
+  {
+    "id": "mars_interceptor_t3",
+    "markers": 40,
+    "maxMarkerError": 0.0,
+    "meshParts": 101,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "symmetricFins": true
+  },
+  {
+    "id": "earth_recon_t3",
+    "markers": 43,
+    "maxMarkerError": 0.0,
+    "meshParts": 115,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 4,
+    "symmetricFins": true
+  },
+  {
+    "id": "mars_assault_t3",
+    "markers": 38,
+    "maxMarkerError": 0.0,
+    "meshParts": 98,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": true
+  },
+  {
+    "id": "earth_gun_cruiser",
+    "markers": 49,
+    "maxMarkerError": 4.76837158203125e-07,
+    "meshParts": 202,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "earth_air_defense_cruiser",
+    "markers": 51,
+    "maxMarkerError": 4.76837158203125e-07,
+    "meshParts": 201,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "mars_gun_cruiser",
+    "markers": 46,
+    "maxMarkerError": 1.9405866379856713e-06,
+    "meshParts": 274,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "mars_missile_cruiser",
+    "markers": 46,
+    "maxMarkerError": 1.9405866379856713e-06,
+    "meshParts": 246,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "battleship_t5",
+    "markers": 65,
+    "maxMarkerError": 1.9073486328125e-06,
+    "meshParts": 270,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 4,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "mars_battleship_t5",
+    "markers": 55,
+    "maxMarkerError": 9.5367431640625e-07,
+    "meshParts": 320,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 4,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "earth_starter_escort",
+    "markers": 44,
+    "maxMarkerError": 1.9073486328125e-06,
+    "meshParts": 157,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "mars_starter_escort",
+    "markers": 41,
+    "maxMarkerError": 7.62939453125e-06,
+    "meshParts": 216,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": false
+  },
+  {
+    "id": "interceptor_t5",
+    "markers": 41,
+    "maxMarkerError": 0.0,
+    "meshParts": 112,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "symmetricFins": true
+  },
+  {
+    "id": "earth_recon_t5",
+    "markers": 45,
+    "maxMarkerError": 0.0,
+    "meshParts": 131,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 6,
+    "symmetricFins": true
+  },
+  {
+    "id": "mars_interceptor_t5",
+    "markers": 40,
+    "maxMarkerError": 0.0,
+    "meshParts": 104,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 2,
+    "symmetricFins": true
+  },
+  {
+    "id": "mars_assault_t5",
+    "markers": 38,
+    "maxMarkerError": 0.0,
+    "meshParts": 103,
+    "attachmentComponentCount": 1,
+    "detachedCandidates": [],
+    "visibleEngineThroats": 2,
+    "visibleProbeHeads": 0,
+    "symmetricFins": true
+  }
+]

@@ -6,6 +6,7 @@ compared by IoU. Per-station width/height (in % of length) shows where the hull 
 import json, sys
 from pathlib import Path
 import numpy as np
+from scipy import ndimage
 from PIL import Image, ImageDraw, ImageFont
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from reference_views import silhouette
@@ -39,7 +40,7 @@ def model(tris):
     size = (LENGTH + 1, int((hi[1] - lo[1]) * scale) + 1)
     image = Image.new('L', size, 0); d = ImageDraw.Draw(image)
     for t in tris: d.polygon([tuple(((p - lo) * scale)) for p in t], fill=255)
-    return crop(np.asarray(image) > 127)
+    return crop(ndimage.binary_fill_holes(np.asarray(image) > 127))  # outlines, as for the reference mask
 
 
 def best_overlap(ref, mod):

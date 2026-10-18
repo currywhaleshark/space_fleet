@@ -3,8 +3,57 @@
     "sensor": {
       "center": [
         0,
-        63.9,
-        33.6
+        15.5,
+        2
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -19.4,
+        0,
+        59
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        19.4,
+        0,
+        59
+      ]
+    },
+    "bus-port": {
+      "center": [
+        -10,
+        0,
+        -16.8
+      ]
+    },
+    "bus-starboard": {
+      "center": [
+        10,
+        0,
+        -16.8
+      ]
+    },
+    "maneuver-port": {
+      "center": [
+        -9.3,
+        0,
+        -71.4
+      ]
+    },
+    "maneuver-starboard": {
+      "center": [
+        9.3,
+        0,
+        -71.4
+      ]
+    },
+    "magazine": {
+      "center": [
+        -7,
+        0,
+        -50.4
       ]
     }
   },
@@ -54,15 +103,21 @@
         "rings": [
           [
             -158,
-            1,
+            0.8,
             1.5,
-            -2
+            2
           ],
           [
-            -120,
-            6,
-            7,
-            -1
+            -140,
+            2.6,
+            3,
+            2
+          ],
+          [
+            -126,
+            3.8,
+            5,
+            1.5
           ]
         ],
         "section": "bow-2",
@@ -73,16 +128,22 @@
         "name": "Spear bow",
         "rings": [
           [
-            -120,
-            6,
-            7,
-            -1
+            -126,
+            3.8,
+            5,
+            1.5
+          ],
+          [
+            -112,
+            7.7,
+            8,
+            1
           ],
           [
             -95,
-            13,
-            11,
-            0
+            9.5,
+            10.5,
+            0.5
           ]
         ],
         "section": "bow-1",
@@ -94,26 +155,44 @@
         "rings": [
           [
             -95,
-            15,
+            9.5,
+            10.5,
+            0.5
+          ],
+          [
+            -83,
+            11,
             12.5,
             0
           ],
           [
-            -80,
-            19.7,
+            -55,
+            12.3,
+            14,
+            0
+          ],
+          [
+            -26,
+            15,
+            14,
+            0
+          ],
+          [
+            17,
+            17,
             14.8,
             0
           ],
           [
-            116,
-            19.7,
+            45,
+            18.6,
             14.8,
             0
           ],
           [
-            122,
-            16,
-            12,
+            80,
+            18.6,
+            14.8,
             0
           ]
         ],
@@ -157,12 +236,12 @@
         "name": "Command block",
         "center": [
           0,
-          20,
-          33.6
+          14,
+          2
         ],
         "size": [
-          16,
-          12,
+          14,
+          6,
           22
         ],
         "section": "bridge",
@@ -170,27 +249,11 @@
       },
       {
         "kind": "box",
-        "name": "Sensor mast",
-        "center": [
-          0,
-          41,
-          33.6
-        ],
-        "size": [
-          5,
-          30,
-          6
-        ],
-        "section": "mast-stem",
-        "armorFrom": "bridge"
-      },
-      {
-        "kind": "box",
         "name": "Sensor head",
         "center": [
           0,
-          63.9,
-          33.6
+          15.5,
+          2
         ],
         "size": [
           12.68,
@@ -202,10 +265,42 @@
         "armorFrom": "bridge"
       },
       {
+        "kind": "loft",
+        "name": "Aft engine block",
+        "rings": [
+          [
+            80,
+            18.6,
+            14.8,
+            0
+          ],
+          [
+            88,
+            18.6,
+            17.5,
+            1.5
+          ],
+          [
+            116,
+            18.6,
+            17.5,
+            1.5
+          ],
+          [
+            122,
+            16,
+            13,
+            1
+          ]
+        ],
+        "section": "aft-block",
+        "armorFrom": "hull"
+      },
+      {
         "kind": "truss",
         "name": "Side truss panel",
         "center": [
-          21,
+          13.0,
           0,
           -45
         ],
@@ -222,7 +317,7 @@
         "kind": "truss",
         "name": "Side truss panel aft",
         "center": [
-          21,
+          16.2,
           0,
           10
         ],
@@ -272,7 +367,7 @@
         "id": "radiator-port",
         "name": "radiator-port",
         "center": [
-          -22.5,
+          -19.4,
           0,
           59
         ],
@@ -287,7 +382,7 @@
         "id": "radiator-starboard",
         "name": "radiator-starboard",
         "center": [
-          22.5,
+          19.4,
           0,
           59
         ],
@@ -307,7 +402,7 @@
       "id": "radiator-port",
       "name": "radiator-port",
       "center": [
-        -22.5,
+        -19.4,
         0,
         59
       ],
@@ -322,7 +417,7 @@
       "id": "radiator-starboard",
       "name": "radiator-starboard",
       "center": [
-        22.5,
+        19.4,
         0,
         59
       ],
@@ -338,13 +433,13 @@
       "name": "Spear point",
       "center": [
         0.0,
-        -1.0,
-        -139.0
+        1.5,
+        -142.0
       ],
       "halfSize": [
-        6.0,
-        7.0,
-        19.0
+        3.8,
+        5.0,
+        16.0
       ],
       "armorFrom": "bow-2"
     },
@@ -353,13 +448,13 @@
       "name": "Spear bow",
       "center": [
         0.0,
-        0.0,
-        -107.5
+        0.5,
+        -110.5
       ],
       "halfSize": [
-        13.0,
-        11.0,
-        12.5
+        9.5,
+        10.5,
+        15.5
       ],
       "armorFrom": "bow-1"
     },
@@ -369,12 +464,12 @@
       "center": [
         0.0,
         0.0,
-        13.5
+        -7.5
       ],
       "halfSize": [
-        19.7,
+        18.6,
         14.8,
-        108.5
+        87.5
       ],
       "armorFrom": "hull"
     },
@@ -413,28 +508,13 @@
       "name": "Command block",
       "center": [
         0.0,
-        20.0,
-        33.6
+        14.0,
+        2.0
       ],
       "halfSize": [
-        8.0,
-        6.0,
+        7.0,
+        3.0,
         11.0
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "mast-stem",
-      "name": "Sensor mast",
-      "center": [
-        0.0,
-        41.0,
-        33.6
-      ],
-      "halfSize": [
-        2.5,
-        15.0,
-        3.0
       ],
       "armorFrom": "bridge"
     },
@@ -443,8 +523,8 @@
       "name": "Sensor head",
       "center": [
         0.0,
-        63.9,
-        33.6
+        15.5,
+        2.0
       ],
       "halfSize": [
         6.34,
@@ -452,6 +532,21 @@
         8.06
       ],
       "armorFrom": "bridge"
+    },
+    {
+      "id": "aft-block",
+      "name": "Aft engine block",
+      "center": [
+        0.0,
+        1.5,
+        101.0
+      ],
+      "halfSize": [
+        18.6,
+        17.5,
+        21.0
+      ],
+      "armorFrom": "hull"
     }
   ]
 }

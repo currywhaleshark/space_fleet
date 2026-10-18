@@ -1,25 +1,40 @@
 {
-  "modules": {},
+  "modules": {
+    "engine-0": {
+      "center": [
+        -1.9,
+        0,
+        9.7
+      ]
+    },
+    "engine-1": {
+      "center": [
+        1.9,
+        0,
+        9.7
+      ]
+    }
+  },
   "gunMuzzle": [
     0,
     -0.3,
     -13.8
   ],
   "missileLaunch": [
-    -2.0,
-    -0.45,
-    -5.1
+    -2.4,
+    -2.95,
+    -4.6
   ],
   "amLaunch": [
     0,
-    -2.3,
-    -2.8
+    -2.75,
+    -2.4
   ],
   "pdMounts": [
     [
       0,
-      1.85,
-      7
+      2.9,
+      7.0
     ]
   ],
   "blockout": {
@@ -48,9 +63,9 @@
     "cockpit": {
       "z": -5.5,
       "w": 0.8,
-      "y": 1.5
+      "y": 1.95
     },
-    "nozzleRadius": 1.1,
+    "nozzleRadius": 1.0,
     "rcs": {
       "stations": [
         -11,
@@ -62,25 +77,55 @@
     "pieces": [
       {
         "kind": "loft",
-        "name": "Narrow prow",
+        "name": "Wedge prow",
         "rings": [
           [
-            -13.0,
+            -13.1,
             0.3,
-            0.4,
-            -0.25
+            0.25,
+            -0.85
           ],
           [
-            -10,
-            0.8,
-            0.8,
-            -0.1
+            -12.2,
+            0.65,
+            0.7,
+            -0.9
           ],
           [
-            -6,
-            1.0,
-            0.95,
-            0
+            -10.2,
+            1.1,
+            0.9,
+            -0.5
+          ],
+          [
+            -8.9,
+            1.35,
+            1.3,
+            -0.4
+          ],
+          [
+            -7.6,
+            1.85,
+            1.75,
+            -0.35
+          ],
+          [
+            -6.2,
+            2.3,
+            1.95,
+            -0.05
+          ],
+          [
+            -5.0,
+            3.0,
+            2.3,
+            -0.2
+          ],
+          [
+            -3.2,
+            3.2,
+            2.4,
+            -0.2
           ]
         ],
         "section": "nose",
@@ -88,48 +133,92 @@
       },
       {
         "kind": "loft",
-        "name": "Reinforced centre",
+        "name": "Armoured shoulders",
         "rings": [
           [
-            -6,
-            1.0,
-            0.95,
+            -3.2,
+            3.2,
+            2.4,
+            -0.2
+          ],
+          [
+            -1.5,
+            3.9,
+            2.4,
+            -0.1
+          ],
+          [
+            0.5,
+            3.7,
+            2.4,
             0
           ],
           [
-            -3,
+            2.5,
+            3.0,
             2.3,
-            1.6,
             0
           ],
           [
-            6,
+            4.3,
+            2.6,
+            2.1,
+            0.2
+          ],
+          [
+            5.2,
+            3.6,
             2.3,
-            1.6,
-            0
+            0.4
           ],
           [
-            10,
-            1.7,
-            1.3,
-            0
+            9.0,
+            3.8,
+            2.4,
+            0.4
           ]
         ],
         "section": "hull",
         "armorFrom": "hull"
       },
       {
+        "kind": "loft",
+        "name": "Aft engine block",
+        "rings": [
+          [
+            9.0,
+            3.8,
+            2.4,
+            0.4
+          ],
+          [
+            10.8,
+            3.4,
+            2.0,
+            0.2
+          ],
+          [
+            11.4,
+            2.6,
+            1.4,
+            0.2
+          ]
+        ],
+        "section": "aft-block",
+        "armorFrom": "engine-block"
+      },
+      {
         "kind": "box",
         "name": "Containment keel",
         "center": [
           0,
-          -1.55,
-          -0.8
+          -1.75,
+          0
         ],
         "size": [
           2.6,
-          2.5,
-          3.9
+          2.9,
+          4.6
         ],
         "section": "am-keel",
         "armorFrom": "hull"
@@ -139,73 +228,58 @@
         "name": "Boost engine",
         "rings": [
           [
-            6.5,
+            7.4,
             1.0,
             1.0,
             0
           ],
           [
-            7.5,
-            1.3,
-            1.2,
+            8.2,
+            1.25,
+            1.25,
             0
           ],
           [
             11.2,
-            1.3,
-            1.2,
+            1.25,
+            1.25,
             0
           ],
           [
             11.8,
-            1.1,
-            1.0,
+            1.05,
+            1.05,
             0
           ]
         ],
-        "x": 4.1,
+        "x": 1.9,
         "mirror": true,
         "section": "engine",
         "armorFrom": "engine-block"
       },
       {
-        "kind": "box",
-        "name": "Engine pylon",
-        "center": [
-          2.55,
-          0,
-          9
-        ],
-        "size": [
-          1.2,
-          0.8,
-          2.5
-        ],
-        "mirror": true
-      },
-      {
         "kind": "prism",
-        "name": "Short swept wing",
+        "name": "Mid winglet",
         "points": [
           [
-            2.2,
-            -1.0
+            3.6,
+            -2.6
           ],
           [
-            6.0,
-            5.5
+            7.0,
+            -1.3
           ],
           [
-            6.0,
-            7.0
+            7.0,
+            -0.9
           ],
           [
-            2.2,
-            6.5
+            3.6,
+            0.4
           ]
         ],
         "y": 0,
-        "thickness": 0.45,
+        "thickness": 0.3,
         "mirror": true,
         "core": false,
         "section": "wing-0",
@@ -216,26 +290,26 @@
         "name": "Attached fin",
         "root": [
           [
-            4.1,
-            1.1,
-            8.0
+            2.0,
+            1.8,
+            6.5
           ],
           [
-            4.1,
-            1.1,
-            11.0
+            2.0,
+            1.8,
+            10.6
           ]
         ],
         "tip": [
           [
-            4.4,
-            3.4,
+            5.0,
+            4.8,
             10.0
           ],
           [
-            4.4,
-            3.4,
-            11.3
+            5.2,
+            4.8,
+            11.4
           ]
         ],
         "thickness": 0.24,
@@ -244,18 +318,52 @@
         "mat": "plate",
         "section": "fin",
         "armorFrom": "fins"
+      },
+      {
+        "kind": "fin",
+        "name": "Ventral fin",
+        "root": [
+          [
+            2.0,
+            -1.4,
+            7.8
+          ],
+          [
+            2.0,
+            -1.4,
+            10.6
+          ]
+        ],
+        "tip": [
+          [
+            4.6,
+            -3.6,
+            10.2
+          ],
+          [
+            4.8,
+            -3.6,
+            11.4
+          ]
+        ],
+        "thickness": 0.24,
+        "mirror": true,
+        "core": false,
+        "mat": "plate",
+        "section": "fin-low",
+        "armorFrom": "fins"
       }
     ],
     "bands": [
       {
-        "piece": "Narrow prow",
+        "piece": "Wedge prow",
         "z": [
           -9,
           -8.2
         ]
       },
       {
-        "piece": "Reinforced centre",
+        "piece": "Armoured shoulders",
         "z": [
           2.5,
           3.5
@@ -264,8 +372,8 @@
       {
         "piece": "Boost engine",
         "z": [
-          8.0,
-          8.8
+          8.6,
+          9.4
         ]
       }
     ],
@@ -276,46 +384,61 @@
   "sections": [
     {
       "id": "nose",
-      "name": "Narrow prow",
+      "name": "Wedge prow",
       "center": [
         0.0,
-        0.0,
-        -9.5
+        -0.2,
+        -8.15
       ],
       "halfSize": [
-        1.0,
-        0.95,
-        3.5
+        3.2,
+        2.4,
+        4.95
       ],
       "armorFrom": "nose"
     },
     {
       "id": "hull",
-      "name": "Reinforced centre",
+      "name": "Armoured shoulders",
       "center": [
         0.0,
-        0.0,
-        2.0
+        0.1,
+        2.9
       ],
       "halfSize": [
-        2.3,
-        1.6,
-        8.0
+        3.9,
+        2.7,
+        6.1
       ],
       "armorFrom": "hull"
+    },
+    {
+      "id": "aft-block",
+      "name": "Aft engine block",
+      "center": [
+        0.0,
+        0.4,
+        10.2
+      ],
+      "halfSize": [
+        3.8,
+        2.4,
+        1.2
+      ],
+      "armorFrom": "engine-block"
     },
     {
       "id": "am-keel",
       "name": "Containment keel",
       "center": [
         0.0,
-        -1.55,
-        -0.8
+        -1.75,
+        0.0
       ],
       "halfSize": [
         1.3,
-        1.25,
-        1.95
+        1.45,
+        2.3
       ],
       "armorFrom": "hull"
     },
@@ -323,14 +446,14 @@
       "id": "engine-port",
       "name": "Boost engine port",
       "center": [
-        -4.1,
+        -1.9,
         0.0,
-        9.15
+        9.6
       ],
       "halfSize": [
-        1.3,
-        1.2,
-        2.65
+        1.25,
+        1.25,
+        2.2
       ],
       "armorFrom": "engine-block"
     },
@@ -338,44 +461,44 @@
       "id": "engine-starboard",
       "name": "Boost engine starboard",
       "center": [
-        4.1,
+        1.9,
         0.0,
-        9.15
+        9.6
       ],
       "halfSize": [
-        1.3,
-        1.2,
-        2.65
+        1.25,
+        1.25,
+        2.2
       ],
       "armorFrom": "engine-block"
     },
     {
       "id": "wing-0-port",
-      "name": "Short swept wing port",
+      "name": "Mid winglet port",
       "center": [
-        -4.1,
+        -5.3,
         0.0,
-        3.0
+        -1.1
       ],
       "halfSize": [
-        1.9,
-        0.225,
-        4.0
+        1.7,
+        0.15,
+        1.5
       ],
       "armorFrom": "wing-back"
     },
     {
       "id": "wing-0-starboard",
-      "name": "Short swept wing starboard",
+      "name": "Mid winglet starboard",
       "center": [
-        4.1,
+        5.3,
         0.0,
-        3.0
+        -1.1
       ],
       "halfSize": [
-        1.9,
-        0.225,
-        4.0
+        1.7,
+        0.15,
+        1.5
       ],
       "armorFrom": "wing-back"
     },
@@ -383,14 +506,14 @@
       "id": "fin-port",
       "name": "Attached fin port",
       "center": [
-        -4.25,
-        2.25,
-        9.65
+        -3.6,
+        3.3,
+        8.95
       ],
       "halfSize": [
-        0.27,
-        1.15,
-        1.65
+        1.72,
+        1.5,
+        2.45
       ],
       "armorFrom": "fins"
     },
@@ -398,14 +521,44 @@
       "id": "fin-starboard",
       "name": "Attached fin starboard",
       "center": [
-        4.25,
-        2.25,
-        9.65
+        3.6,
+        3.3,
+        8.95
       ],
       "halfSize": [
-        0.27,
-        1.15,
-        1.65
+        1.72,
+        1.5,
+        2.45
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "fin-low-port",
+      "name": "Ventral fin port",
+      "center": [
+        -3.4,
+        -2.5,
+        9.6
+      ],
+      "halfSize": [
+        1.52,
+        1.1,
+        1.8
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "fin-low-starboard",
+      "name": "Ventral fin starboard",
+      "center": [
+        3.4,
+        -2.5,
+        9.6
+      ],
+      "halfSize": [
+        1.52,
+        1.1,
+        1.8
       ],
       "armorFrom": "fins"
     }

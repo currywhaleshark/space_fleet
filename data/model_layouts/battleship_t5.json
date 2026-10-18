@@ -6,53 +6,95 @@
         136,
         294
       ]
+    },
+    "radiator-port": {
+      "center": [
+        -265,
+        4.4,
+        410
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        265,
+        4.4,
+        410
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -60,
+        -47,
+        550
+      ]
+    },
+    "engine-1": {
+      "center": [
+        60,
+        -47,
+        550
+      ]
+    },
+    "engine-2": {
+      "center": [
+        -60,
+        47,
+        550
+      ]
+    },
+    "engine-3": {
+      "center": [
+        60,
+        47,
+        550
+      ]
     }
   },
   "pdMounts": [
     [
       66,
-      62,
+      75,
       -260
     ],
     [
       -66,
-      62,
+      75,
       -260
     ],
     [
       66,
-      62,
+      75,
       -100
     ],
     [
       -66,
-      62,
+      75,
       -100
     ],
     [
       66,
-      62,
+      75,
       60
     ],
     [
       -66,
-      62,
+      75,
       60
     ],
     [
       66,
-      62,
+      75,
       220
     ],
     [
       -66,
-      62,
+      75,
       220
     ]
   ],
   "missileLaunch": [
     -55,
-    66,
+    80,
     -180
   ],
   "blockout": {
@@ -72,6 +114,7 @@
     },
     "bandGrow": 1.2,
     "plume": 100,
+    "engineScale": 2.2,
     "pieces": [
       {
         "kind": "loft",
@@ -79,15 +122,15 @@
         "rings": [
           [
             -680,
-            40,
-            18,
-            -10
+            55,
+            22,
+            -5
           ],
           [
-            -596,
-            58,
-            27,
-            -10
+            -600,
+            92,
+            40,
+            -5
           ]
         ],
         "section": "bow-3",
@@ -98,16 +141,16 @@
         "name": "Stepped prow terrace",
         "rings": [
           [
-            -596,
-            58,
-            27,
-            -10
+            -600,
+            92,
+            40,
+            -5
           ],
           [
-            -522,
-            74,
-            38,
-            -7
+            -530,
+            122,
+            55,
+            -3
           ]
         ],
         "section": "bow-2",
@@ -118,16 +161,16 @@
         "name": "Stepped prow shoulder",
         "rings": [
           [
-            -522,
-            74,
-            38,
-            -7
+            -530,
+            122,
+            55,
+            -3
           ],
           [
             -450,
-            87,
-            50,
-            -3
+            150,
+            68,
+            0
           ]
         ],
         "section": "bow-1",
@@ -138,11 +181,11 @@
         "name": "Prow upper terrace",
         "center": [
           0,
-          26,
+          36,
           -560
         ],
         "size": [
-          96,
+          120,
           8,
           70
         ],
@@ -154,11 +197,11 @@
         "name": "Prow upper terrace aft",
         "center": [
           0,
-          41,
+          52,
           -490
         ],
         "size": [
-          124,
+          170,
           8,
           70
         ],
@@ -171,26 +214,26 @@
         "rings": [
           [
             -450,
-            87,
-            52,
+            150,
+            70,
             0
           ],
           [
             -300,
-            90,
-            58,
+            152,
+            72,
             0
           ],
           [
             380,
-            90,
-            58,
+            152,
+            72,
             0
           ],
           [
             520,
-            80,
-            52,
+            120,
+            62,
             0
           ]
         ],
@@ -261,30 +304,30 @@
         "rings": [
           [
             -420,
-            10,
-            30,
+            12,
+            40,
             -2
           ],
           [
             -380,
-            22,
-            48,
+            26,
+            60,
             -2
           ],
           [
             300,
-            22,
-            48,
+            26,
+            60,
             -2
           ],
           [
             340,
-            12,
-            30,
+            14,
+            40,
             -2
           ]
         ],
-        "x": 95,
+        "x": 160,
         "mirror": true,
         "section": "armor-shoulder",
         "armorFrom": "hull"
@@ -395,18 +438,77 @@
           550
         ],
         "size": [
-          180,
-          130,
+          200,
+          150,
           60
         ],
         "section": "engine-block",
         "armorFrom": "engine-block"
       },
       {
+        "kind": "prism",
+        "name": "Aft cooling wing",
+        "points": [
+          [
+            150,
+            226
+          ],
+          [
+            230,
+            280
+          ],
+          [
+            371,
+            354
+          ],
+          [
+            371,
+            481
+          ],
+          [
+            150,
+            481
+          ]
+        ],
+        "y": 0,
+        "thickness": 6,
+        "mirror": true,
+        "core": false,
+        "section": "cooling-wing",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "prism",
+        "name": "Cooling wing navy panel",
+        "points": [
+          [
+            240,
+            300
+          ],
+          [
+            360,
+            368
+          ],
+          [
+            360,
+            470
+          ],
+          [
+            240,
+            470
+          ]
+        ],
+        "y": 0,
+        "thickness": 6.6,
+        "mirror": true,
+        "mat": "plate",
+        "decor": true
+      },
+      {
         "kind": "box",
         "name": "Drone cradle",
         "center": [
-          117.5,
+          186.5,
           10,
           120
         ],
@@ -423,7 +525,7 @@
         "kind": "box",
         "name": "Drone cradle aft",
         "center": [
-          117.5,
+          186.5,
           10,
           200
         ],
@@ -494,9 +596,9 @@
         "id": "radiator-port",
         "name": "radiator-port",
         "center": [
-          -170,
-          0,
-          330
+          -265,
+          4.4,
+          410
         ],
         "halfSize": [
           81,
@@ -509,9 +611,9 @@
         "id": "radiator-starboard",
         "name": "radiator-starboard",
         "center": [
-          170,
-          0,
-          330
+          265,
+          4.4,
+          410
         ],
         "halfSize": [
           81,
@@ -529,9 +631,9 @@
       "id": "radiator-port",
       "name": "radiator-port",
       "center": [
-        -170,
-        0,
-        330
+        -265,
+        4.4,
+        410
       ],
       "halfSize": [
         81,
@@ -544,9 +646,9 @@
       "id": "radiator-starboard",
       "name": "radiator-starboard",
       "center": [
-        170,
-        0,
-        330
+        265,
+        4.4,
+        410
       ],
       "halfSize": [
         81,
@@ -560,13 +662,13 @@
       "name": "Stepped ram prow",
       "center": [
         0.0,
-        -10.0,
-        -638.0
+        -5.0,
+        -640.0
       ],
       "halfSize": [
-        58.0,
-        27.0,
-        42.0
+        92.0,
+        40.0,
+        40.0
       ],
       "armorFrom": "bow-3"
     },
@@ -575,13 +677,13 @@
       "name": "Stepped prow terrace",
       "center": [
         0.0,
-        -7.0,
-        -559.0
+        -3.0,
+        -565.0
       ],
       "halfSize": [
-        74.0,
-        38.0,
-        37.0
+        122.0,
+        55.0,
+        35.0
       ],
       "armorFrom": "bow-2"
     },
@@ -590,13 +692,13 @@
       "name": "Stepped prow shoulder",
       "center": [
         0.0,
-        -3.0,
-        -486.0
+        0.0,
+        -490.0
       ],
       "halfSize": [
-        87.0,
-        50.0,
-        36.0
+        150.0,
+        68.0,
+        40.0
       ],
       "armorFrom": "bow-1"
     },
@@ -609,8 +711,8 @@
         35.0
       ],
       "halfSize": [
-        90.0,
-        58.0,
+        152.0,
+        72.0,
         485.0
       ],
       "armorFrom": "hull"
@@ -649,13 +751,13 @@
       "id": "armor-shoulder-port",
       "name": "Lateral armour shoulder port",
       "center": [
-        -95.0,
+        -160.0,
         -2.0,
         -40.0
       ],
       "halfSize": [
-        22.0,
-        48.0,
+        26.0,
+        60.0,
         380.0
       ],
       "armorFrom": "hull"
@@ -664,13 +766,13 @@
       "id": "armor-shoulder-starboard",
       "name": "Lateral armour shoulder starboard",
       "center": [
-        95.0,
+        160.0,
         -2.0,
         -40.0
       ],
       "halfSize": [
-        22.0,
-        48.0,
+        26.0,
+        60.0,
         380.0
       ],
       "armorFrom": "hull"
@@ -774,11 +876,41 @@
         550.0
       ],
       "halfSize": [
-        90.0,
-        65.0,
+        100.0,
+        75.0,
         30.0
       ],
       "armorFrom": "engine-block"
+    },
+    {
+      "id": "cooling-wing-port",
+      "name": "Aft cooling wing port",
+      "center": [
+        -260.5,
+        0.0,
+        353.5
+      ],
+      "halfSize": [
+        110.5,
+        3.0,
+        127.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "cooling-wing-starboard",
+      "name": "Aft cooling wing starboard",
+      "center": [
+        260.5,
+        0.0,
+        353.5
+      ],
+      "halfSize": [
+        110.5,
+        3.0,
+        127.5
+      ],
+      "armorFrom": "hull"
     }
   ]
 }

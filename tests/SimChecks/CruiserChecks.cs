@@ -23,7 +23,9 @@ static class CruiserChecks
             var def=v.Definition;var source=ShipDefinitions.ById(v.Node.BaseHullId);
             Check(v.Node.Tier==3&&v.Definition.Kind==HullKind.Escort&&def.Kind==HullKind.Escort&&def.MatchClass==MatchWeightClass.Medium,"T3 cruiser retains medium physical class");
             Check(ShipDefinitions.ById(def.Id)==def&&def.ModelId==def.Id&&def.Design==source.Design,"Stable ID selects the independent cruiser model and inherited design faction");
-            Check(!def.Hull.Boxes.SequenceEqual(source.Hull.Boxes)&&ShipDefinition.SerializeData(def.Modules)==ShipDefinition.SerializeData(source.Modules),"Authored cruiser hull preserves core module geometry and statistics");
+            // Modules may be relocated to fit the traced silhouette; ids, sizes and statistics stay those of the base hull.
+            static ModuleDefinition[] Unplaced(IEnumerable<ModuleDefinition> modules)=>modules.Select(m=>m with{Center=default}).ToArray();
+            Check(!def.Hull.Boxes.SequenceEqual(source.Hull.Boxes)&&ShipDefinition.SerializeData(Unplaced(def.Modules))==ShipDefinition.SerializeData(Unplaced(source.Modules)),"Authored cruiser hull preserves core module sizes and statistics");
             Check(Squadron.IsSupportRole(def.Squadron.Role)&&def.Squadron.Members.Count==4,"Cruiser squads retain four medium ships");
             Check(JsonNode.DeepEquals(JsonNode.Parse(ShipDefinition.Parse(v.Loadout.DefinitionJson,true).ToJson()),JsonNode.Parse(def.ToJson())),"Resolved branch snapshot round trips");
             var fit=ShipVariants.Resolve(def.Id,equipment:new[]{new EquipmentMount("utility-port","shield-capacity")});

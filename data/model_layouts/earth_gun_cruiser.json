@@ -4,29 +4,57 @@
       "center": [
         0,
         44,
-        40
+        30
+      ]
+    },
+    "engine-0": {
+      "center": [
+        -19,
+        0,
+        125
+      ]
+    },
+    "engine-1": {
+      "center": [
+        19,
+        0,
+        125
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -40,
+        0,
+        62
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        40,
+        0,
+        62
       ]
     }
   },
   "pdMounts": [
     [
       18,
-      22,
-      60
+      30,
+      70
     ],
     [
       -18,
-      22,
-      60
+      30,
+      70
     ],
     [
       0,
-      -20,
+      -30.5,
       40
     ],
     [
       0,
-      24,
+      25.5,
       -40
     ]
   ],
@@ -62,6 +90,7 @@
       "wear": 0.25,
       "streaks": 0.35
     },
+    "engineScale": 1.35,
     "pieces": [
       {
         "kind": "loft",
@@ -69,21 +98,33 @@
         "rings": [
           [
             -185,
-            14,
-            8,
-            -3
-          ],
-          [
-            -160,
-            20,
             13,
+            9,
             -2
           ],
           [
-            -130,
-            26,
-            17,
+            -170,
+            18,
+            14,
             -1
+          ],
+          [
+            -150,
+            24.6,
+            18,
+            0
+          ],
+          [
+            -140,
+            25.5,
+            19,
+            0
+          ],
+          [
+            -130,
+            31,
+            20,
+            0
           ]
         ],
         "section": "bow-1",
@@ -94,12 +135,12 @@
         "name": "Bow armour plate",
         "center": [
           0,
-          -3,
+          -2,
           -185.4
         ],
         "size": [
-          22,
-          12,
+          24,
+          14,
           0.8
         ],
         "mat": "plate",
@@ -111,20 +152,44 @@
         "rings": [
           [
             -130,
-            26,
-            17,
-            -1
+            31,
+            20,
+            0
           ],
           [
-            -110,
-            27,
-            18.5,
+            -92,
+            32,
+            21,
+            0
+          ],
+          [
+            -72,
+            37,
+            21,
+            0
+          ],
+          [
+            -64,
+            42,
+            22,
+            0
+          ],
+          [
+            -42,
+            42,
+            22,
+            0
+          ],
+          [
+            -38,
+            41,
+            22,
             0
           ],
           [
             50,
-            27,
-            18.5,
+            41,
+            22,
             0
           ]
         ],
@@ -137,26 +202,38 @@
         "rings": [
           [
             50,
-            29,
+            41,
+            23,
+            0
+          ],
+          [
+            96,
+            41,
+            23,
+            0
+          ],
+          [
+            104,
+            38,
+            22,
+            0
+          ],
+          [
+            118,
+            38,
+            21,
+            0
+          ],
+          [
+            126,
+            32,
             20,
             0
           ],
           [
-            60,
+            133,
             30,
-            21,
-            0
-          ],
-          [
-            132,
-            30,
-            21,
-            0
-          ],
-          [
-            138,
-            26,
-            18,
+            19,
             0
           ]
         ],
@@ -213,11 +290,59 @@
       },
       {
         "kind": "box",
+        "name": "Fore keel",
+        "center": [
+          0,
+          -22,
+          -105
+        ],
+        "size": [
+          40,
+          8,
+          50
+        ],
+        "section": "keel-fore",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Aft keel",
+        "center": [
+          0,
+          -24.5,
+          62
+        ],
+        "size": [
+          44,
+          9,
+          86
+        ],
+        "section": "keel-aft",
+        "armorFrom": "engine-block"
+      },
+      {
+        "kind": "box",
+        "name": "Aft upper deck",
+        "center": [
+          0,
+          25.5,
+          78
+        ],
+        "size": [
+          56,
+          7,
+          62
+        ],
+        "section": "deck-aft",
+        "armorFrom": "engine-block"
+      },
+      {
+        "kind": "box",
         "name": "Command block",
         "center": [
           0,
           30,
-          40
+          30
         ],
         "size": [
           22,
@@ -233,7 +358,7 @@
         "center": [
           0,
           44,
-          40
+          30
         ],
         "size": [
           17,
@@ -271,9 +396,9 @@
     "hatches": [
       {
         "start": [
-          27.1,
+          42.1,
           -5,
-          -72
+          -60
         ],
         "grid": [
           2,
@@ -303,9 +428,9 @@
         "id": "radiator-port",
         "name": "radiator-port",
         "center": [
-          -44,
+          -40,
           0,
-          70
+          62
         ],
         "halfSize": [
           18,
@@ -318,9 +443,9 @@
         "id": "radiator-starboard",
         "name": "radiator-starboard",
         "center": [
-          44,
+          40,
           0,
-          70
+          62
         ],
         "halfSize": [
           18,
@@ -338,9 +463,9 @@
       "id": "radiator-port",
       "name": "radiator-port",
       "center": [
-        -44,
+        -40,
         0,
-        70
+        62
       ],
       "halfSize": [
         18,
@@ -353,9 +478,9 @@
       "id": "radiator-starboard",
       "name": "radiator-starboard",
       "center": [
-        44,
+        40,
         0,
-        70
+        62
       ],
       "halfSize": [
         18,
@@ -369,12 +494,12 @@
       "name": "Chisel bow",
       "center": [
         0.0,
-        -1.0,
+        0.0,
         -157.5
       ],
       "halfSize": [
-        26.0,
-        17.0,
+        31.0,
+        20.0,
         27.5
       ],
       "armorFrom": "bow-1"
@@ -388,8 +513,8 @@
         -40.0
       ],
       "halfSize": [
-        27.0,
-        18.5,
+        42.0,
+        22.0,
         90.0
       ],
       "armorFrom": "hull"
@@ -400,12 +525,12 @@
       "center": [
         0.0,
         0.0,
-        94.0
+        91.5
       ],
       "halfSize": [
-        30.0,
-        21.0,
-        44.0
+        41.0,
+        23.0,
+        41.5
       ],
       "armorFrom": "hull"
     },
@@ -455,12 +580,57 @@
       "armorFrom": "hull"
     },
     {
+      "id": "keel-fore",
+      "name": "Fore keel",
+      "center": [
+        0.0,
+        -22.0,
+        -105.0
+      ],
+      "halfSize": [
+        20.0,
+        4.0,
+        25.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "keel-aft",
+      "name": "Aft keel",
+      "center": [
+        0.0,
+        -24.5,
+        62.0
+      ],
+      "halfSize": [
+        22.0,
+        4.5,
+        43.0
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "deck-aft",
+      "name": "Aft upper deck",
+      "center": [
+        0.0,
+        25.5,
+        78.0
+      ],
+      "halfSize": [
+        28.0,
+        3.5,
+        31.0
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
       "id": "bridge",
       "name": "Command block",
       "center": [
         0.0,
         30.0,
-        40.0
+        30.0
       ],
       "halfSize": [
         11.0,
@@ -475,7 +645,7 @@
       "center": [
         0.0,
         44.0,
-        40.0
+        30.0
       ],
       "halfSize": [
         8.5,

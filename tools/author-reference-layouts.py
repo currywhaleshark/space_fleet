@@ -140,33 +140,38 @@ def hellas():
 
 @layout('battleship_t5')
 def himalaya():
-    """Monumental stepped armoured bow, thick lateral shoulders, raised gun deck, low citadel and command tower,
-    broad aft cooling wings, 2x2 engine cluster."""
+    """Broad rounded stepped bow, slab hull about 0.3 lengths wide with lateral armour shoulders, raised gun
+    deck, low citadel and command tower, huge swept aft cooling wings, oversized 2x2 engine cluster (traced)."""
     return dict(
-        modules={'sensor': {'center': [0, 136, 294]}},
-        pdMounts=[[66, 62, -260], [-66, 62, -260], [66, 62, -100], [-66, 62, -100], [66, 62, 60], [-66, 62, 60], [66, 62, 220], [-66, 62, 220]],
-        missileLaunch=[-55, 66, -180],
+        modules={'sensor': {'center': [0, 136, 294]},
+                 'radiator-port': {'center': [-265, 4.4, 410]}, 'radiator-starboard': {'center': [265, 4.4, 410]},
+                 'engine-0': {'center': [-60, -47, 550]}, 'engine-1': {'center': [60, -47, 550]},
+                 'engine-2': {'center': [-60, 47, 550]}, 'engine-3': {'center': [60, 47, 550]}},
+        pdMounts=[[66, 75, -260], [-66, 75, -260], [66, 75, -100], [-66, 75, -100], [66, 75, 60], [-66, 75, 60], [66, 75, 220], [-66, 75, 220]],
+        missileLaunch=[-55, 80, -180],
         blockout=dict(role='battleship', reference='art/reference/20261017_t5_fleet/battleships.png', palette='earth', surface=EARTH_SURFACE,
-            bandGrow=1.2, plume=100,
+            bandGrow=1.2, plume=100, engineScale=2.2,
             pieces=[
-                loft('Stepped ram prow', [[-680, 40, 18, -10], [-596, 58, 27, -10]], 'bow-3'),
-                loft('Stepped prow terrace', [[-596, 58, 27, -10], [-522, 74, 38, -7]], 'bow-2'),
-                loft('Stepped prow shoulder', [[-522, 74, 38, -7], [-450, 87, 50, -3]], 'bow-1'),
-                box('Prow upper terrace', [0, 26, -560], [96, 8, 70], mat='plate', decor=True),
-                box('Prow upper terrace aft', [0, 41, -490], [124, 8, 70], mat='plate', decor=True),
-                loft('Battleship hull', [[-450, 87, 52, 0], [-300, 90, 58, 0], [380, 90, 58, 0], [520, 80, 52, 0]], 'hull'),
+                loft('Stepped ram prow', [[-680, 55, 22, -5], [-600, 92, 40, -5]], 'bow-3'),
+                loft('Stepped prow terrace', [[-600, 92, 40, -5], [-530, 122, 55, -3]], 'bow-2'),
+                loft('Stepped prow shoulder', [[-530, 122, 55, -3], [-450, 150, 68, 0]], 'bow-1'),
+                box('Prow upper terrace', [0, 36, -560], [120, 8, 70], mat='plate', decor=True),
+                box('Prow upper terrace aft', [0, 52, -490], [170, 8, 70], mat='plate', decor=True),
+                loft('Battleship hull', [[-450, 150, 70, 0], [-300, 152, 72, 0], [380, 152, 72, 0], [520, 120, 62, 0]], 'hull'),
                 loft('Raised gun deck', [[-460, 34, 12, 70], [-400, 50, 16, 72], [380, 50, 16, 72]], 'deck'),
                 loft('Armoured keel', [[-300, 44, 12, -72], [-260, 58, 15, -72], [360, 58, 15, -72], [380, 44, 12, -72]], 'keel'),
-                loft('Lateral armour shoulder', [[-420, 10, 30, -2], [-380, 22, 48, -2], [300, 22, 48, -2], [340, 12, 30, -2]], 'armor-shoulder', 'hull', x=95, mirror=True),
+                loft('Lateral armour shoulder', [[-420, 12, 40, -2], [-380, 26, 60, -2], [300, 26, 60, -2], [340, 14, 40, -2]], 'armor-shoulder', 'hull', x=160, mirror=True),
                 box('Low citadel', [0, 97, 305], [110, 26, 190], 'citadel', 'deck'),
                 box('Command tower', [0, 125, 294], [44, 32, 64], 'bridge'),
                 box('Sensor head', [0, 136, 294], [29, 31, 41], 'sensor-head', 'bridge', hidden=True),
                 box('Forward battery barbette', [0, 83, -320], [60, 10, 57], 'turret-base-gun-1', 'hull'),
                 box('Midship battery barbette', [0, 83, 160], [60, 10, 57], 'turret-base-gun-2', 'hull'),
                 box('Ventral battery barbette', [0, -83, -120], [60, 10, 57], 'turret-base-gun-3', 'hull'),
-                box('Engine cluster block', [0, 0, 550], [180, 130, 60], 'engine-block'),
-                box('Drone cradle', [117.5, 10, 120], [3, 20, 50], mirror=True, mat='edge', decor=True),
-                box('Drone cradle aft', [117.5, 10, 200], [3, 20, 50], mirror=True, mat='edge', decor=True),
+                box('Engine cluster block', [0, 0, 550], [200, 150, 60], 'engine-block'),
+                prism('Aft cooling wing', [[150, 226], [230, 280], [371, 354], [371, 481], [150, 481]], 0, 6, 'cooling-wing', 'hull', mirror=True, core=False),
+                prism('Cooling wing navy panel', [[240, 300], [360, 368], [360, 470], [240, 470]], 0, 6.6, mirror=True, mat='plate', decor=True),
+                box('Drone cradle', [186.5, 10, 120], [3, 20, 50], mirror=True, mat='edge', decor=True),
+                box('Drone cradle aft', [186.5, 10, 200], [3, 20, 50], mirror=True, mat='edge', decor=True),
             ],
             bands=[dict(piece='Battleship hull', z=[-380, -340]), dict(piece='Battleship hull', z=[-140, -100]), dict(piece='Battleship hull', z=[200, 240]),
                    dict(piece='Lateral armour shoulder', z=[-200, -150]), dict(piece='Lateral armour shoulder', z=[60, 110]),
@@ -176,32 +181,37 @@ def himalaya():
 
 @layout('mars_battleship_t5')
 def nergal():
-    """Long spear bow, raised dorsal battery spine, open aft truss frame carrying engineering pods and
-    exposed copper radiators, tall aft sensor mast."""
+    """Long dagger hull widening steadily to ~0.2 lengths, raised dorsal battery spine, broad copper radiator
+    blocks along the flanks, open aft truss frame with engineering pods, big 2x2 engines, tall aft mast (traced)."""
     return dict(
-        modules={'sensor': {'center': [0, 153, 335]}},
+        modules={'sensor': {'center': [0, 153, 335]},
+                 'radiator-port': {'center': [-125.6, 0, 40]}, 'radiator-starboard': {'center': [125.6, 0, 40]},
+                 'engine-0': {'center': [-62, -42, 467.5]}, 'engine-1': {'center': [62, -42, 467.5]},
+                 'engine-2': {'center': [-62, 42, 467.5]}, 'engine-3': {'center': [62, 42, 467.5]}},
         pdMounts=[[46.2, 49.6, -221], [-46.2, 49.6, -221], [61, 44, 370], [-61, 44, 370]], missileLaunch=[-35, 52, -160],
         bays={'hangar': {'center': [-41.65, 0, 160]}},
         blockout=dict(role='battleship', reference='art/reference/20261017_t5_fleet/battleships.png', palette='mars-dark', surface=MARS_SURFACE,
-            bandGrow=1.2, plume=100,
+            bandGrow=1.2, plume=100, engineScale=3.4,
             pieces=[
-                loft('Spear point', [[-578, 6, 6, -8], [-506, 26, 21, -8]], 'bow-3'),
-                loft('Spear bow', [[-506, 26, 21, -8], [-454, 38, 30, -5]], 'bow-2'),
+                loft('Spear point', [[-578, 8, 8, -8], [-506, 14, 18, -8]], 'bow-3'),
+                loft('Spear bow', [[-506, 14, 18, -8], [-454, 38, 30, -5]], 'bow-2'),
                 loft('Spear shoulder', [[-454, 38, 30, -5], [-382, 52, 40, -2]], 'bow-1'),
-                loft('Battle hull', [[-382, 52, 40, -2], [-250, 59.5, 48, 0], [150, 59.5, 48, 0], [183, 52, 40, 0]], 'hull'),
+                loft('Battle hull', [[-382, 52, 40, -2], [-300, 75, 48, 0], [-200, 95, 48, 0], [-133, 102, 48, 0], [150, 102, 48, 0], [183, 90, 44, 0]], 'hull'),
                 loft('Dorsal battery spine', [[-370, 18, 10, 57.6], [-330, 33.6, 12.8, 57.6], [110, 33.6, 12.8, 57.6]], 'deck'),
                 loft('Ventral keel', [[-310, 26, 10, -57.6], [-270, 40.6, 12, -57.6], [150, 40.6, 12, -57.6]], 'keel'),
+                box('Copper radiator block', [112, -15, 45], [26, 170, 290], 'radiator-block', 'hull', mirror=True),
                 box('Forward battery barbette', [0, 59.4, -272], [44, 24.2, 44], 'turret-base-gun-1', 'hull'),
                 box('Ventral battery barbette', [0, -59.4, -102], [44, 24.2, 44], 'turret-base-gun-3', 'hull'),
                 loft('Aft spine', [[171, 25, 27, 0], [441, 25, 27, 0]], 'aft-spine', 'hull'),
                 loft('Engineering pod', [[213, 12, 18, 0], [230, 17, 25, 0], [310, 17, 25, 0], [327, 12, 18, 0]], 'engineering-pod', 'hull', x=47, mirror=True),
-                truss('Aft truss frame', [61, 0, 330], [6, 84, 224], 2.2, 'aft-truss', 'hull', mirror=True),
-                box('Engine drive block', [0, 0, 464], [148, 102, 58], 'engine-block'),
+                truss('Aft truss frame', [0, 0, 320], [200, 80, 240], 3, 'aft-truss', 'hull'),
+                truss('Aft side truss', [61, 0, 330], [6, 84, 224], 2.2, mirror=True, decor=True),
+                box('Engine drive block', [0, 0, 464], [200, 130, 58], 'engine-block'),
                 box('Bridge foundation', [0, 37, 335], [46, 22, 60], 'bridge-foundation', 'bridge'),
                 box('Command tower', [0, 86, 335], [48, 78, 66], 'bridge'),
                 box('Sensor mast', [0, 132, 335], [10, 18, 14], 'mast-stem', 'bridge'),
                 box('Sensor head', [0, 153, 335], [21.6, 26.4, 37.4], 'sensor-head', 'bridge', hidden=True),
-                truss('Aft spine strut', [41.5, 0, 400], [33, 6, 10], 1.6, axis='x', mirror=True),
+                truss('Aft spine strut', [44.5, 0, 400], [39, 6, 10], 1.6, axis='x', mirror=True),
                 box('PD gallery', [61, 42.5, 370], [8, 1.5, 30], mirror=True, mat='edge'),
             ],
             bands=[dict(piece='Battle hull', z=[-300, -270]), dict(piece='Battle hull', z=[0, 30]), dict(piece='Spear shoulder', z=[-430, -410]),
@@ -223,7 +233,7 @@ def polaris():
                  'cooling-port': {'center': [-3.05, 0, 7.2]}, 'cooling-starboard': {'center': [3.05, 0, 7.2]},
                  'sensor': {'center': [0, 0.5, -11]}, 'gun': {'center': [0, -0.6, -12.3]}, 'am-containment': {'center': [0, -1.5, -3.3]}},
         gunMuzzle=[0, -0.6, -16.7], missileLaunch=[-2.65, -0.65, -3.8], amLaunch=[0, -1.5, -5.28],
-        pdMounts=[[0, -1.75, 6.0], [0, 1.75, 6.5]],
+        pdMounts=[[0, -1.5, 7.3], [0, 1.9, 6.5]],
         probeLaunchPoints=[[x, 2.4, -0.4] for x in (-1.35, -0.81, -0.27, 0.27, 0.81, 1.35)],
         blockout=dict(role='recon', reference='art/reference/20261017_t5_fleet/small.png', palette='earth', surface=SMALL_EARTH_SURFACE,
             **small_common(dict(z=-5.6, w=.9, y=1.5), 1.15, [-12.5, 7.0]),
@@ -534,161 +544,194 @@ def sensor_tower(sensor, half, bridge_center, bridge_size, mast=None):
 
 @layout('earth_gun_cruiser')
 def danube():
-    """Broad blocky hull with a chamfered chisel bow, raised gun deck, mid sensor tower, stepped aft engineering."""
+    """Broad slab hull (about a quarter of its length wide) with a chisel bow and shoulder step, raised gun
+    deck, midships tower, deep keels fore and aft, aft radiator shelves and big twin engines (traced)."""
     return dict(
-        modules={'sensor': {'center': [0, 44, 40]}}, pdMounts=[[18, 22, 60], [-18, 22, 60], [0, -20, 40], [0, 24, -40]], missileLaunch=[0, 30, -20],
-        blockout=dict(role='gun', reference='art/reference/20261017_t3_cruisers/earth_gun_cruiser.png', palette=EARTH_DARK, surface=EARTH_SURFACE,
+        modules={'sensor': {'center': [0, 44, 30]}, 'engine-0': {'center': [-19, 0, 125]}, 'engine-1': {'center': [19, 0, 125]},
+                 'radiator-port': {'center': [-40, 0, 62]}, 'radiator-starboard': {'center': [40, 0, 62]}},
+        pdMounts=[[18, 30, 70], [-18, 30, 70], [0, -30.5, 40], [0, 25.5, -40]], missileLaunch=[0, 30, -20],
+        blockout=dict(role='gun', reference='art/reference/20261017_t3_cruisers/earth_gun_cruiser.png', palette=EARTH_DARK, surface=EARTH_SURFACE, engineScale=1.35,
             pieces=earth_cruiser_core(
-                [loft('Chisel bow', [[-185, 14, 8, -3], [-160, 20, 13, -2], [-130, 26, 17, -1]], 'bow-1'),
-                 box('Bow armour plate', [0, -3, -185.4], [22, 12, .8], mat='plate', decor=True)],
-                [[-130, 26, 17, -1], [-110, 27, 18.5, 0], [50, 27, 18.5, 0]],
-                [[50, 29, 20, 0], [60, 30, 21, 0], [132, 30, 21, 0], [138, 26, 18, 0]]) + [
+                [loft('Chisel bow', [[-185, 13, 9, -2], [-170, 18, 14, -1], [-150, 24.6, 18, 0], [-140, 25.5, 19, 0], [-130, 31, 20, 0]], 'bow-1'),
+                 box('Bow armour plate', [0, -2, -185.4], [24, 14, .8], mat='plate', decor=True)],
+                [[-130, 31, 20, 0], [-92, 32, 21, 0], [-72, 37, 21, 0], [-64, 42, 22, 0], [-42, 42, 22, 0], [-38, 41, 22, 0], [50, 41, 22, 0]],
+                [[50, 41, 23, 0], [96, 41, 23, 0], [104, 38, 22, 0], [118, 38, 21, 0], [126, 32, 20, 0], [133, 30, 19, 0]]) + [
                 box('Raised gun deck', [0, 21, -5], [34, 6, 80], 'deck', 'hull'),
-                *sensor_tower([0, 44, 40], [8, 10, 9], [0, 30, 40], [22, 14, 30])],
+                box('Fore keel', [0, -22, -105], [40, 8, 50], 'keel-fore', 'hull'),
+                box('Aft keel', [0, -24.5, 62], [44, 9, 86], 'keel-aft', 'engine-block'),
+                box('Aft upper deck', [0, 25.5, 78], [56, 7, 62], 'deck-aft', 'engine-block'),
+                *sensor_tower([0, 44, 30], [8, 10, 9], [0, 30, 30], [22, 14, 30])],
             bands=[dict(piece='Chisel bow', z=[-150, -142]), dict(piece='Main hull', z=[-60, -52]), dict(piece='Aft engineering hull', z=[90, 100])],
-            hatches=[dict(start=[27.1, -5, -72], grid=[2, 4], pitch=[10, 6], size=[.6, 3.5, 4])],
+            hatches=[dict(start=[42.1, -5, -60], grid=[2, 4], pitch=[10, 6], size=[.6, 3.5, 4])],
             rcs=dict(stations=[-100, 120], size=1.5, plume=12)))
 
 
 @layout('earth_air_defense_cruiser')
 def cirrus():
-    """Central hull with separated broad fore and aft defence deck lobes carrying PD, mid sensor tower."""
+    """Flat central hull with two pairs of very broad defence lobes (fore and aft, out to ~0.45 length span),
+    radiator grilles on the aft lobes, midships tower (traced from the board top/side)."""
     return dict(
-        modules={'sensor': {'center': [0, 44, 40]},  # radiators stay at the base escort position (T3 module contract)
-                 'radiator-port': {'center': [-44, 0, 70], 'halfSize': [17, 0.9, 22]}, 'radiator-starboard': {'center': [44, 0, 70], 'halfSize': [17, 0.9, 22]}},
+        modules={'sensor': {'center': [0, 44, 0]},
+                 'radiator-port': {'center': [-46, 5, 95], 'halfSize': [17, 0.9, 22]}, 'radiator-starboard': {'center': [46, 5, 95], 'halfSize': [17, 0.9, 22]}},
         pdMounts=[[39, 12, 35], [-39, 12, 35], [0, -20, 40], [0, 24, -40], [39, 12, -70], [-39, 12, -70]], missileLaunch=[0, 30, -20],
-        blockout=dict(role='defense', reference='art/reference/20261017_t3_cruisers/earth_air_defense_cruiser.png', palette=EARTH_DARK, surface=EARTH_SURFACE,
+        blockout=dict(role='defense', reference='art/reference/20261017_t3_cruisers/earth_air_defense_cruiser.png', palette=EARTH_DARK, surface=EARTH_SURFACE, engineScale=1.2,
             pieces=earth_cruiser_core(
-                [loft('Chisel bow', [[-185, 12, 8, -3], [-160, 18, 13, -2], [-130, 26, 17, -1]], 'bow-1')],
+                [loft('Chisel bow', [[-185, 12, 8, -3], [-165, 16, 12, -2], [-148, 21, 15, -1], [-130, 26, 17, -1]], 'bow-1')],
                 [[-130, 26, 17, -1], [-110, 27, 18.5, 0], [50, 27, 18.5, 0]],
                 [[50, 29, 20, 0], [60, 30, 21, 0], [132, 30, 21, 0], [138, 26, 18, 0]]) + [
-                prism('Fore defence deck', [[26, -112], [44, -98], [50, -74], [50, -46], [40, -35], [26, -35]], 0, 8, 'deck-fore', 'hull', mirror=True, core=False),
-                prism('Aft defence deck', [[26, 4], [42, 8], [50, 22], [50, 38], [42, 46], [26, 46]], 0, 8, 'deck-aft', 'hull', mirror=True, core=False),
-                prism('Deck navy panel', [[32, -95], [44, -85], [46, -60], [32, -55]], 4.2, .4, mirror=True, mat='plate', decor=True),
-                box('Drone cradle', [50.6, 0, 30], [1.2, 5, 12], mirror=True, mat='edge', decor=True),
-                *sensor_tower([0, 44, 40], [8, 10, 9], [0, 27.75, 40], [22, 18.5, 30])],
-            bands=[dict(piece='Chisel bow', z=[-150, -142]), dict(piece='Main hull', z=[-20, -12]), dict(piece='Aft engineering hull', z=[90, 100])],
+                prism('Fore defence deck', [[26, -132], [50, -128], [62, -112], [68, -96], [70, -80], [70, -50], [60, -40], [45, -36], [26, -36]], 0, 8, 'deck-fore', 'hull', mirror=True, core=False),
+                prism('Aft defence deck', [[26, -24], [55, -24], [68, -10], [73, 5], [73, 35], [68, 50], [63, 60], [63, 100], [60, 118], [50, 133], [26, 133]], 0, 8, 'deck-aft', 'hull', mirror=True, core=False),
+                prism('Deck navy panel', [[34, -110], [60, -100], [64, -60], [34, -50]], 4.2, .4, mirror=True, mat='plate', decor=True),
+                box('Drone cradle', [73.6, 0, 20], [1.2, 5, 12], mirror=True, mat='edge', decor=True),
+                *sensor_tower([0, 44, 0], [8, 10, 9], [0, 27.75, 0], [22, 18.5, 30])],
+            bands=[dict(piece='Chisel bow', z=[-150, -142]), dict(piece='Main hull', z=[-30, -22]), dict(piece='Aft engineering hull', z=[90, 100])],
             rcs=dict(stations=[-100, 120], size=1.5, plume=12)))
 
 
-def mars_cruiser_core(sensor, bridge_center, bridge_size, mast):
-    return [loft('Spear point', [[-158, 1, 1.5, -2], [-120, 6, 7, -1]], 'bow-2'),
-            loft('Spear bow', [[-120, 6, 7, -1], [-95, 13, 11, 0]], 'bow-1'),
-            loft('Long hull', [[-95, 15, 12.5, 0], [-80, 19.7, 14.8, 0], [116, 19.7, 14.8, 0], [122, 16, 12, 0]], 'hull'),
+def mars_cruiser_core(sensor, bridge_center, bridge_size, spear, bow, hull, mast=None):
+    return [loft('Spear point', spear, 'bow-2'), loft('Spear bow', bow, 'bow-1'), loft('Long hull', hull, 'hull'),
             box('Forward battery base', [0, 17, -50.4], [14, 6, 14], 'turret-base-gun-1', 'hull'),
             box('Ventral battery base', [0, -17, -25.2], [14, 6, 14], 'turret-base-gun-2', 'hull'),
             *sensor_tower(sensor, [5.84, 7.8, 7.56], bridge_center, bridge_size, mast)]
 
 
+# Narrow forward hull: the side modules move inboard (sizes and statistics unchanged).
+MARS_CRUISER_INBOARD = {'bus-port': {'center': [-10, 0, -16.8]}, 'bus-starboard': {'center': [10, 0, -16.8]},
+                        'maneuver-port': {'center': [-9.3, 0, -71.4]}, 'maneuver-starboard': {'center': [9.3, 0, -71.4]},
+                        'magazine': {'center': [-7, 0, -50.4]}}
+
+
 @layout('mars_gun_cruiser')
 def candor():
-    """Very long slender hull with exposed X-braced truss panels, tall midships mast, aft vertical radiators."""
+    """Needle spear bow opening into a slender hull that widens aft, X-braced side truss panels, low
+    midships tower, striped vertical radiators beside the aft hull (traced from the board top/side)."""
     return dict(
-        modules={'sensor': {'center': [0, 63.9, 33.6]}}, pdMounts=[[0, -15.6, 33.6], [0, 18.72, -33.6]], missileLaunch=[0, 23.4, -16.8],
+        modules={'sensor': {'center': [0, 15.5, 2]}, 'radiator-port': {'center': [-19.4, 0, 59]}, 'radiator-starboard': {'center': [19.4, 0, 59]}, **MARS_CRUISER_INBOARD},
+        pdMounts=[[0, -15.6, 33.6], [0, 18.72, -33.6]], missileLaunch=[0, 23.4, -16.8],
         blockout=dict(role='gun', reference='art/reference/20261017_t3_cruisers/mars_gun_cruiser.png', palette=MARS_ORANGE, surface=MARS_ORANGE_SURFACE,
-            pieces=mars_cruiser_core([0, 63.9, 33.6], [0, 20, 33.6], [16, 12, 22], ([0, 41, 33.6], [5, 30, 6])) + [
-                truss('Side truss panel', [21, 0, -45], [3, 22, 50], .6, mirror=True, decor=True),
-                truss('Side truss panel aft', [21, 0, 10], [3, 22, 40], .6, mirror=True, decor=True)],
+            pieces=mars_cruiser_core([0, 15.5, 2], [0, 14, 2], [14, 6, 22],
+                [[-158, .8, 1.5, 2], [-140, 2.6, 3, 2], [-126, 3.8, 5, 1.5]],
+                [[-126, 3.8, 5, 1.5], [-112, 7.7, 8, 1], [-95, 9.5, 10.5, .5]],
+                [[-95, 9.5, 10.5, .5], [-83, 11, 12.5, 0], [-55, 12.3, 14, 0], [-26, 15, 14, 0], [17, 17, 14.8, 0], [45, 18.6, 14.8, 0], [80, 18.6, 14.8, 0]]) + [
+                loft('Aft engine block', [[80, 18.6, 14.8, 0], [88, 18.6, 17.5, 1.5], [116, 18.6, 17.5, 1.5], [122, 16, 13, 1]], 'aft-block', 'hull'),
+                truss('Side truss panel', [13.0, 0, -45], [3, 22, 50], .6, mirror=True, decor=True),
+                truss('Side truss panel aft', [16.2, 0, 10], [3, 22, 40], .6, mirror=True, decor=True)],
             bands=[dict(piece='Long hull', z=[-80, -72]), dict(piece='Long hull', z=[45, 53]), dict(piece='Spear bow', z=[-112, -104])],
             rcs=dict(stations=[-88, 108], size=1.3, plume=10)))
 
 
 @layout('mars_missile_cruiser')
 def chryse():
-    """Central hull flanked by long segmented missile cassettes with side hatches, midships mast."""
+    """Narrow spear hull flanked by two deep missile cassettes on struts over the forward 60 %, broad aft
+    block with a low tower and a cross-shaped radiator array ahead of the engines (traced)."""
     return dict(
-        modules={'sensor': {'center': [0, 63.9, 33.6]},  # radiators stay at the base position (T3 module contract)
-                 'radiator-port': {'center': [-22.5, 0, 59], 'halfSize': [0.4275, 12.825, 21.849999999999998]},
-                 'radiator-starboard': {'center': [22.5, 0, 59], 'halfSize': [0.4275, 12.825, 21.849999999999998]}},
+        modules={'sensor': {'center': [0, 18, 52]}, **MARS_CRUISER_INBOARD,  # radiator halfSize stays at the base value
+                 'radiator-port': {'center': [-19.6, 0, 59], 'halfSize': [0.4275, 12.825, 21.849999999999998]},
+                 'radiator-starboard': {'center': [19.6, 0, 59], 'halfSize': [0.4275, 12.825, 21.849999999999998]}},
         pdMounts=[[0, -15.6, 33.6], [0, 18.72, -33.6]], missileLaunch=[0, 23.4, -16.8],
         blockout=dict(role='missile', reference='art/reference/20261017_t3_cruisers/mars_missile_cruiser.png', palette=MARS_ORANGE, surface=MARS_ORANGE_SURFACE,
-            pieces=mars_cruiser_core([0, 63.9, 33.6], [0, 20, 33.6], [16, 12, 22], ([0, 41, 33.6], [5, 30, 6])) + [
-                loft('Missile cassette', [[-82, 5, 9, 0], [-78, 7, 11, 0], [88, 7, 11, 0], [92, 5, 9, 0]], 'missile-cassette', 'hull', x=31, mirror=True),
-                box('Cassette strut', [22, 0, -40], [5, 6, 8], mirror=True),
-                box('Cassette strut aft', [22, 0, 88], [5, 6, 6], mirror=True),
-                *[box(f'Cassette collar {i}', [31, 0, z], [14.6, 22.6, 2], mirror=True, mat='plate', decor=True) for i, z in enumerate((-50, -15, 20, 55))]],
+            pieces=mars_cruiser_core([0, 18, 52], [0, 14, 52], [16, 6, 24],
+                [[-158, 1, 1.5, -1], [-140, 5.8, 5, 0]],
+                [[-140, 5.8, 5, 0], [-126, 9.8, 9, 0], [-95, 12.5, 14, 0]],
+                [[-95, 12.5, 14, 0], [-10, 12.5, 14, 0], [20, 15, 14.4, 0], [40, 19, 14.8, 0], [116, 19, 14.8, 0], [122, 16, 12, 0]]) + [
+                loft('Missile cassette', [[-112, 6, 10, 0], [-108, 8, 13, 0], [18, 8, 13, 0], [22, 6, 10, 0]], 'missile-cassette', 'hull', x=24, mirror=True),
+                box('Cassette strut', [18, 0, -40], [8, 6, 8], mirror=True),
+                box('Cassette strut aft', [18, 0, 0], [8, 6, 6], mirror=True),
+                *[box(f'Cassette collar {i}', [24, 0, z], [17.6, 27, 2], mirror=True, mat='plate', decor=True) for i, z in enumerate((-80, -45, -10))],
+                box('Aft radiator cross', [0, 0, 99], [68, 4, 12], mat='radiator', decor=True),
+                box('Aft radiator cross fin', [0, 2, 99], [4, 42, 12], mat='radiator', decor=True)],
             bands=[dict(piece='Long hull', z=[-80, -72]), dict(piece='Spear bow', z=[-112, -104])],
-            hatches=[dict(start=[38.05, -5, -70], grid=[2, 10], pitch=[10, 15.5], size=[.6, 4, 11])],
-            rcs=dict(stations=[-88, 108], size=1.3, plume=10)))
+            hatches=[dict(start=[32.05, -5, -100], grid=[2, 10], pitch=[10, 11], size=[.6, 4, 8])],
+            rcs=dict(stations=[-118, 108], size=1.3, plume=10)))
 
 
 @layout('interceptor_t3')
 def falke():
-    """Wide-shouldered fuselage, swept wings carrying engine pods with forward intakes, small twin fins."""
+    """Broad flat fuselage, kite wings out to long forward-mounted engine pods whose exhausts end
+    mid-ship, aft fins at the wing roots (traced from the T3 interceptor board top view, nose up)."""
     return dict(
-        modules={}, gunMuzzle=[0, -0.6, -16.3], missileLaunch=[-2.3, -0.65, -4.1], amLaunch=[0, -1.55, -3.9],
-        pdMounts=[[0, -1.8, 6], [0, 1.85, 8.2]], probeLaunchPoints=[[-2.5, 0.5, -1.3], [2.5, 0.5, -1.3]],
+        modules={'engine-0': {'center': [-10.0, 0, -1.4]}, 'engine-1': {'center': [10.0, 0, -1.4]},
+                 'cooling-port': {'center': [-10.0, 0, -4.2]}, 'cooling-starboard': {'center': [10.0, 0, -4.2]}},
+        gunMuzzle=[0, -0.6, -16.3], missileLaunch=[-3.4, -0.65, -4.1], amLaunch=[0, -1.55, -3.9],
+        pdMounts=[[0, -1.8, 6], [0, 1.85, 8.2]], probeLaunchPoints=[[-3.4, 0.45, 2.0], [3.4, 0.45, 2.0]],
         blockout=dict(role='defense', reference='art/reference/20261017_t3_interceptors/falke-herschel.png', palette='earth', surface=SMALL_EARTH_SURFACE,
-            **small_common(dict(z=-6.2, w=.85, y=1.35), 1.0, [-12, 10]),
+            **small_common(dict(z=-5.0, w=1.0, y=1.45), 1.0, [-12, 10]),
             pieces=[
-                loft('Tapered prow', [[-15.4, .3, .35, -.35], [-12.5, .8, .65, -.2], [-9, 1.15, .95, -.05], [-6, 1.35, 1.05, 0]], 'nose', 'nose'),
-                loft('Wide fuselage', [[-6, 1.35, 1.05, 0], [-3, 1.9, 1.4, .05], [6, 1.9, 1.45, 0], [11, 1.5, 1.2, 0]], 'hull', 'hull'),
+                loft('Tapered prow', [[-15.0, .6, .45, -.3], [-14.4, 1.35, .75, -.15], [-13.1, 2.3, 1.0, 0], [-11.6, 2.65, 1.2, 0], [-10.2, 2.9, 1.3, 0], [-5.9, 2.9, 1.42, .02]], 'nose', 'nose'),
+                loft('Wide fuselage', [[-5.9, 2.9, 1.42, .02], [-4, 2.9, 1.45, .05], [6.4, 2.8, 1.4, 0], [8.5, 2.05, 1.2, 0], [10.7, 1.15, .9, 0], [12.0, .55, .55, 0]], 'hull', 'hull'),
                 box('AM keel', [0, -1.55, -2], [1.9, 2, 4.2], 'am-keel', 'hull', hidden=True),
-                loft('Engine pod', [[6.0, .85, .85, 0], [7.0, 1.15, 1.15, 0], [11.2, 1.15, 1.15, 0], [11.7, .95, .95, 0]], 'engine', 'engine-block', x=4.9, mirror=True),
-                box('Pod intake', [4.9, 0, 5.97], [1.3, 1.3, .06], mirror=True, mat='dark', decor=True),
-                prism('Swept wing', [[1.9, -3.0], [8.0, 6.2], [7.8, 7.6], [1.9, 7.0]], 0, .4, 'wing-0', 'wing-back', mirror=True, core=False),
-                prism('Wing navy panel', [[3.5, 1.4], [6.8, 5.6], [6.7, 6.6], [3.5, 5.9]], 0, .46, mirror=True, mat='plate', decor=True),
-                fin('Attached fin', [[4.9, 1.0, 8.5], [4.9, 1.0, 11.2]], [[5.0, 2.4, 10.2], [5.0, 2.4, 11.4]], 'fin', mirror=True, core=False, mat='plate')],
-            bands=[dict(piece='Tapered prow', z=[-9.6, -8.8]), dict(piece='Wide fuselage', z=[2.0, 3.0])]))
+                loft('Engine pod', [[-14.8, .9, .9, 0], [-14.0, 1.55, 1.3, 0], [-.4, 1.6, 1.35, 0], [.3, 1.35, 1.15, 0]], 'engine', 'engine-block', x=10.0, mirror=True),
+                prism('Kite wing', [[2.8, -11.3], [8.6, -10.0], [8.6, -3.0], [4.6, 3.6], [4.4, 6.0], [2.8, 6.2]], 0, .4, 'wing-0', 'wing-back', mirror=True, core=False),
+                prism('Wing navy panel', [[4.0, -9.0], [8.4, -8.2], [8.4, -4.4], [4.0, -4.0]], 0, .46, mirror=True, mat='plate', decor=True),
+                fin('Attached fin', [[3.9, .2, 3.4], [3.9, .2, 6.0]], [[5.4, 2.6, 6.6], [5.4, 2.6, 8.6]], 'fin', mirror=True, core=False, mat='plate')],
+            bands=[dict(piece='Tapered prow', z=[-13.0, -12.2]), dict(piece='Wide fuselage', z=[2.0, 3.0]), dict(piece='Engine pod', z=[-8.6, -7.6])]))
 
 
 @layout('mars_interceptor_t3')
 def herschel():
-    """Thin central fuselage, canards, swept wings with mid-span engine nacelles and small fins."""
+    """Needle-nosed diamond fuselage, swept wings to long mid-span engine nacelles with outward-canted
+    tail fins (traced from the T3 interceptor board top view)."""
     return dict(
-        modules={}, gunMuzzle=[0, -0.48, -14.3], missileLaunch=[-1.8, -0.65, -3.8], amLaunch=[0, -1.25, -4.1],
-        pdMounts=[[0, 1.52, 7.5]], probeLaunchPoints=[[-1.75, 0.45, -1.3], [1.75, 0.45, -1.3]],
+        modules={'engine-0': {'center': [-8.8, 0, 5.3]}, 'engine-1': {'center': [8.8, 0, 5.3]},
+                 'cooling-port': {'center': [-8.8, 0, 2.6]}, 'cooling-starboard': {'center': [8.8, 0, 2.6]}},
+        gunMuzzle=[0, -0.48, -14.3], missileLaunch=[-2.8, -0.5, -3.0], amLaunch=[0, -1.25, -4.1],
+        pdMounts=[[0, 1.52, 7.5]], probeLaunchPoints=[[-10.2, 0.3, -2.0], [10.2, 0.3, -2.0]],
         blockout=dict(role='agile', reference='art/reference/20261017_t3_interceptors/falke-herschel.png', palette=MARS_ORANGE, surface=MARS_ORANGE_SURFACE,
-            **small_common(dict(z=-5.0, w=.6, y=1.0), .8, [-10.5, 8.8]),
+            **small_common(dict(z=-5.0, w=.6, y=1.0), .9, [-10.5, 8.8]),
             pieces=[
-                loft('Thin prow', [[-13.6, .2, .3, -.3], [-10.5, .5, .55, -.15], [-7, .75, .75, 0], [-4.8, .85, .8, 0]], 'nose', 'nose'),
-                loft('Thin fuselage', [[-4.8, .85, .8, 0], [-2, 1.4, 1.1, 0], [6, 1.4, 1.1, 0], [9.4, 1.0, .9, 0]], 'hull', 'hull'),
+                loft('Thin prow', [[-13.5, .4, .35, -.25], [-12.1, .8, .6, -.15], [-9.6, 1.3, .8, 0], [-7.1, 1.7, .9, 0], [-4.6, 2.15, 1.05, 0]], 'nose', 'nose'),
+                loft('Diamond fuselage', [[-4.6, 2.15, 1.05, 0], [-1.0, 2.2, 1.1, 0], [1.0, 1.7, 1.0, 0], [3.5, 1.25, .95, 0], [7.2, .9, .8, 0], [9.1, .6, .6, 0], [10.2, .25, .3, 0]], 'hull', 'hull'),
                 box('AM keel', [0, -1.25, -2.4], [1.2, 1.5, 3.4], 'am-keel', 'hull', hidden=True),
-                loft('Wing nacelle', [[4.0, .7, .75, 0], [5.0, .95, 1.0, 0], [9.4, .95, 1.0, 0], [9.9, .8, .85, 0]], 'engine', 'engine-block', x=3.65, mirror=True),
-                prism('Swept wing', [[1.3, -2.5], [6.6, 5.0], [6.3, 6.0], [1.3, 4.0]], 0, .34, 'wing-1', 'wing-back', mirror=True, core=False),
-                prism('Canard', [[.75, -8.2], [2.4, -6.9], [2.4, -6.4], [.8, -6.2]], .1, .26, 'wing-0', 'wing-front', mirror=True, core=False),
-                fin('Attached fin', [[3.65, .8, 6.8], [3.65, .8, 9.4]], [[3.9, 2.6, 8.6], [3.9, 2.6, 9.7]], 'fin', mirror=True, core=False, mat='plate')],
-            bands=[dict(piece='Thin prow', z=[-8.2, -7.4]), dict(piece='Wing nacelle', z=[6.0, 6.8])]))
+                loft('Wing nacelle', [[-7.9, .8, .8, 0], [-7.0, 1.3, 1.1, 0], [6.6, 1.3, 1.1, 0], [7.3, 1.1, .95, 0]], 'engine', 'engine-block', x=8.8, mirror=True),
+                prism('Swept wing', [[1.6, -4.9], [7.6, -1.2], [7.6, 2.1], [6.9, 2.1], [3.3, -.3], [1.6, -.3]], 0, .34, 'wing-0', 'wing-back', mirror=True, core=False),
+                prism('Wing rust panel', [[3.4, -3.5], [7.5, -.9], [7.5, .2], [3.4, -2.6]], 0, .4, mirror=True, mat='plate', decor=True),
+                fin('Attached fin', [[9.9, .5, 3.8], [9.9, .5, 6.8]], [[10.9, 2.6, 6.0], [10.9, 2.6, 7.4]], 'fin', mirror=True, core=False, mat='plate')],
+            bands=[dict(piece='Thin prow', z=[-8.2, -7.4]), dict(piece='Wing nacelle', z=[-4.0, -3.2]), dict(piece='Wing nacelle', z=[3.0, 3.8])]))
 
 
 @layout('earth_recon_t3')
 def altair():
-    """Long sensor-nosed fuselage, side observation pods with forward probe ports, outboard engine pods, aft radiator fins."""
+    """Deep slab-sided hull with a chin keel, long observation pods on pylons beside the cockpit section,
+    twin close engines in the aft block and canted X tail fins (traced from the recon board top/side)."""
     return dict(
-        modules={}, gunMuzzle=[0, 0.6, -15.8], missileLaunch=[-2.0, -0.45, -6.5], amLaunch=[0, -1.9, -3.1],
-        pdMounts=[[0, -1.7, 7], [0, 1.7, 8.5]], probeLaunchPoints=[[-3.95, 0.45, 0], [3.95, 0.45, 0], [-3.95, -0.45, 0], [3.95, -0.45, 0]],
+        modules={'engine-0': {'center': [-1.75, 0, 11.0]}, 'engine-1': {'center': [1.75, 0, 11.0]}},
+        gunMuzzle=[0, 0.6, -15.8], missileLaunch=[-2.0, -2.55, -6.5], amLaunch=[0, -3.0, -2.95],
+        pdMounts=[[0, -2.6, 6.0], [0, 2.6, 8.5]], probeLaunchPoints=[[-3.95, 0.45, -7.25], [3.95, 0.45, -7.25], [-3.95, -0.45, -7.25], [3.95, -0.45, -7.25]],
         blockout=dict(role='recon', reference='art/reference/20261015_small_branches/earth_recon_t3_v2.png', palette=EARTH_DARK, surface=SMALL_EARTH_SURFACE,
-            keelPiece=True, **small_common(dict(z=-6.8, w=.8, y=1.35), 1.2, [-12.5, 10]),
+            keelPiece=True, **small_common(dict(z=-7.0, w=.9, y=2.15), 1.0, [-12.5, 10]),
             pieces=[
-                loft('Sensor prow', [[-15.0, .45, .6, -.35], [-13.5, 1.0, .95, -.25], [-10, 1.3, 1.1, 0], [-8, 1.45, 1.15, 0]], 'nose', 'nose'),
-                loft('Long fuselage', [[-8, 1.45, 1.15, 0], [-5, 2.2, 1.5, 0], [6, 2.2, 1.5, 0], [10.5, 1.6, 1.2, 0]], 'hull', 'hull'),
-                box('Containment keel', [0, -1.4, -.95], [1.8, 1.9, 4.2], 'am-keel', 'hull'),
-                box('Observation pod', [3.95, 0, 1.3], [1.3, 1.8, 2.6], 'sensor-ear', 'nose', mirror=True),
-                box('Observation pylon', [2.65, 0, 1.3], [1.5, .6, 1.8], mirror=True),
-                loft('Engine pod', [[8.5, .8, .8, 0], [9.3, 1.05, 1.05, 0], [12.6, 1.05, 1.05, 0], [13.0, .9, .9, 0]], 'engine', 'engine-block', x=4, mirror=True),
-                box('Engine pylon', [3.0, 0, 10.5], [2.2, .5, 2], mirror=True),
-                prism('Stub wing', [[1.9, 2.5], [5.5, 7.0], [5.5, 8.0], [1.9, 7.5]], 0, .35, 'wing-0', 'wing-back', mirror=True, core=False),
-                fin('Attached fin', [[1.6, 1.2, 7.5], [1.6, 1.2, 10.0]], [[2.2, 3.0, 9.0], [2.2, 3.0, 10.4]], 'fin', mirror=True, core=False, mat='plate')],
-            bands=[dict(piece='Sensor prow', z=[-11, -10.2]), dict(piece='Long fuselage', z=[3.0, 4.0])]))
+                loft('Sensor prow', [[-15.4, .5, .45, -.35], [-14.0, 1.1, .95, -.3], [-12.5, 1.4, 1.2, -.2], [-10.3, 1.7, 1.35, 0], [-8.0, 2.0, 2.0, 0]], 'nose', 'nose'),
+                loft('Deep fuselage', [[-8.0, 2.0, 2.0, 0], [-5.0, 2.55, 2.5, .1], [-2.0, 2.9, 2.6, .1], [1.5, 3.2, 2.7, .3], [3.5, 3.4, 2.6, .3], [8.0, 3.4, 2.4, .1]], 'hull', 'hull'),
+                loft('Aft engine block', [[8.0, 3.4, 2.4, .1], [11.0, 3.0, 2.2, .1], [11.9, 2.4, 1.6, .2]], 'aft-block', 'engine-block'),
+                box('Containment keel', [0, -2.2, -.6], [2.2, 3.4, 4.4], 'am-keel', 'hull'),
+                box('Observation pod', [3.95, 0, -3.0], [1.4, 1.8, 8.4], 'sensor-ear', 'nose', mirror=True),
+                box('Observation pylon', [3.0, 0, -3.0], [1.3, .6, 5.0], mirror=True),
+                loft('Engine nacelle', [[8.8, 1.0, 1.0, 0], [9.5, 1.25, 1.25, 0], [12.5, 1.25, 1.25, 0], [13.0, 1.05, 1.05, 0]], 'engine', 'engine-block', x=1.75, mirror=True),
+                fin('Attached fin', [[2.2, 1.5, 8.4], [2.2, 1.5, 11.2]], [[4.7, 3.6, 10.6], [4.7, 3.6, 11.9]], 'fin', mirror=True, core=False, mat='plate'),
+                fin('Ventral fin', [[2.2, -1.5, 8.4], [2.2, -1.5, 11.2]], [[4.4, -3.8, 10.6], [4.4, -3.8, 11.9]], 'fin-low', mirror=True, core=False, mat='plate')],
+            bands=[dict(piece='Sensor prow', z=[-11, -10.2]), dict(piece='Deep fuselage', z=[3.0, 4.0])]))
 
 
 @layout('mars_assault_t3')
 def deimos():
-    """Narrow prow, reinforced wide central section, big aft boost engines on pylons, twin fins, containment keel."""
+    """Long wedge prow opening into broad armoured shoulders with small mid winglets, a pinched waist,
+    a wide aft block with twin close engines and big canted X fins (traced from the assault board top/side)."""
     return dict(
-        modules={}, gunMuzzle=[0, -0.3, -13.8], missileLaunch=[-2.0, -0.45, -5.1], amLaunch=[0, -2.3, -2.8],
-        pdMounts=[[0, 1.85, 7]],
+        modules={'engine-0': {'center': [-1.9, 0, 9.7]}, 'engine-1': {'center': [1.9, 0, 9.7]}},
+        gunMuzzle=[0, -0.3, -13.8], missileLaunch=[-2.4, -2.95, -4.6], amLaunch=[0, -2.75, -2.4],
+        pdMounts=[[0, 2.9, 7.0]],
         blockout=dict(role='assault', reference='art/reference/20261015_small_branches/mars_assault_t3_v2.png', palette=MARS_ORANGE, surface=MARS_ORANGE_SURFACE,
-            keelPiece=True, **small_common(dict(z=-5.5, w=.8, y=1.5), 1.1, [-11, 9.5]),
+            keelPiece=True, **small_common(dict(z=-5.5, w=.8, y=1.95), 1.0, [-11, 9.5]),
             pieces=[
-                loft('Narrow prow', [[-13.0, .3, .4, -.25], [-10, .8, .8, -.1], [-6, 1.0, .95, 0]], 'nose', 'nose'),
-                loft('Reinforced centre', [[-6, 1.0, .95, 0], [-3, 2.3, 1.6, 0], [6, 2.3, 1.6, 0], [10, 1.7, 1.3, 0]], 'hull', 'hull'),
-                box('Containment keel', [0, -1.55, -.8], [2.6, 2.5, 3.9], 'am-keel', 'hull'),
-                loft('Boost engine', [[6.5, 1.0, 1.0, 0], [7.5, 1.3, 1.2, 0], [11.2, 1.3, 1.2, 0], [11.8, 1.1, 1.0, 0]], 'engine', 'engine-block', x=4.1, mirror=True),
-                box('Engine pylon', [2.55, 0, 9], [1.2, .8, 2.5], mirror=True),
-                prism('Short swept wing', [[2.2, -1.0], [6.0, 5.5], [6.0, 7.0], [2.2, 6.5]], 0, .45, 'wing-0', 'wing-back', mirror=True, core=False),
-                fin('Attached fin', [[4.1, 1.1, 8.0], [4.1, 1.1, 11.0]], [[4.4, 3.4, 10.0], [4.4, 3.4, 11.3]], 'fin', mirror=True, core=False, mat='plate')],
-            bands=[dict(piece='Narrow prow', z=[-9, -8.2]), dict(piece='Reinforced centre', z=[2.5, 3.5]), dict(piece='Boost engine', z=[8.0, 8.8])]))
+                loft('Wedge prow', [[-13.1, .3, .25, -.85], [-12.2, .65, .7, -.9], [-10.2, 1.1, .9, -.5], [-8.9, 1.35, 1.3, -.4], [-7.6, 1.85, 1.75, -.35], [-6.2, 2.3, 1.95, -.05], [-5.0, 3.0, 2.3, -.2], [-3.2, 3.2, 2.4, -.2]], 'nose', 'nose'),
+                loft('Armoured shoulders', [[-3.2, 3.2, 2.4, -.2], [-1.5, 3.9, 2.4, -.1], [0.5, 3.7, 2.4, 0], [2.5, 3.0, 2.3, 0], [4.3, 2.6, 2.1, .2], [5.2, 3.6, 2.3, .4], [9.0, 3.8, 2.4, .4]], 'hull', 'hull'),
+                loft('Aft engine block', [[9.0, 3.8, 2.4, .4], [10.8, 3.4, 2.0, .2], [11.4, 2.6, 1.4, .2]], 'aft-block', 'engine-block'),
+                box('Containment keel', [0, -1.75, 0], [2.6, 2.9, 4.6], 'am-keel', 'hull'),
+                loft('Boost engine', [[7.4, 1.0, 1.0, 0], [8.2, 1.25, 1.25, 0], [11.2, 1.25, 1.25, 0], [11.8, 1.05, 1.05, 0]], 'engine', 'engine-block', x=1.9, mirror=True),
+                prism('Mid winglet', [[3.6, -2.6], [7.0, -1.3], [7.0, -.9], [3.6, .4]], 0, .3, 'wing-0', 'wing-back', mirror=True, core=False),
+                fin('Attached fin', [[2.0, 1.8, 6.5], [2.0, 1.8, 10.6]], [[5.0, 4.8, 10.0], [5.2, 4.8, 11.4]], 'fin', mirror=True, core=False, mat='plate'),
+                fin('Ventral fin', [[2.0, -1.4, 7.8], [2.0, -1.4, 10.6]], [[4.6, -3.6, 10.2], [4.8, -3.6, 11.4]], 'fin-low', mirror=True, core=False, mat='plate')],
+            bands=[dict(piece='Wedge prow', z=[-9, -8.2]), dict(piece='Armoured shoulders', z=[2.5, 3.5]), dict(piece='Boost engine', z=[8.6, 9.4])]))
 
 
 # ---------------------------------------------------------------- T1 (art/reference/20261017_t1_starters)
@@ -696,15 +739,15 @@ def deimos():
 def zephyr():
     """Blunt armoured bow, low bridge, single dorsal battery, horizontal radiators."""
     return dict(
-        modules={'sensor': {'center': [0, 28, 41]}}, pdMounts=[[16.8, 17.6, 65], [-16.8, 17.6, 65], [0, -16, 32], [0, 19.2, -32]], missileLaunch=[0, 24, -16],
+        modules={'sensor': {'center': [0, 28, 41]}, 'radiator-port': {'center': [-54, 0, 80]}, 'radiator-starboard': {'center': [54, 0, 80]}}, pdMounts=[[16.8, 17.6, 65], [-16.8, 17.6, 65], [0, -16, 32], [0, 19.2, -32]], missileLaunch=[0, 24, -16],
         blockout=dict(role='starter', reference='art/reference/20261017_t1_starters/t1-starters.png', palette='earth', surface=EARTH_SURFACE,
             pieces=[
-                loft('Blunt armoured bow', [[-148, 12, 7, -2], [-128, 17, 11, -1], [-100, 21.6, 15.2, 0]], 'bow-1'),
+                loft('Blunt armoured bow', [[-148, 12, 7, -2], [-132, 17.3, 10, -1], [-119, 23, 13, 0], [-106, 27.6, 14.5, 0], [-92, 33, 15.2, 0]], 'bow-1'),
                 box('Bow armour plate', [0, -2, -148.4], [18, 10, .8], mat='plate', decor=True),
-                loft('Escort hull', [[-100, 21.6, 15.2, 0], [100, 21.6, 15.2, 0], [112, 19, 13, 0]], 'hull'),
+                loft('Escort hull', [[-92, 33, 15.2, 0], [-75, 31, 15.2, 0], [-40, 30, 15.2, 0], [-28, 36, 15.2, 0], [100, 36, 15.2, 0], [112, 30, 13, 0]], 'hull'),
                 box('Forward battery base', [0, 17.5, -48], [16, 6.6, 16], 'turret-base-gun-1', 'hull'),
                 *sensor_tower([0, 28, 41], [6.4, 8, 7.2], [0, 19, 41], [18, 8, 22])],
-            bands=[dict(piece='Blunt armoured bow', z=[-120, -112]), dict(piece='Escort hull', z=[-10, -2]), dict(piece='Escort hull', z=[80, 88])],
+            bands=[dict(piece='Blunt armoured bow', z=[-120, -112]), dict(piece='Escort hull', z=[-10, -2]), dict(piece='Escort hull', z=[60, 68])],
             rcs=dict(stations=[-80, 100], size=1.2, plume=10)))
 
 
@@ -717,7 +760,7 @@ def lunae():
             pieces=[
                 loft('Thin bow point', [[-124.3, 1, 1.5, -2], [-107.5, 7, 6.2, -1.9]], 'bow-2'),
                 loft('Thin bow', [[-107.5, 7, 6.2, -1.9], [-73.9, 12.8, 9.4, -.6]], 'bow-1'),
-                loft('Forward hull', [[-73.9, 14, 10.5, 0], [-60, 15.77, 11.86, 0], [38, 15.77, 11.86, 0]], 'hull'),
+                loft('Forward hull', [[-73.9, 13, 10.5, 0], [-55, 15.5, 11.86, 0], [-33, 15.5, 11.86, 0], [0, 20, 11.86, 0], [22, 23, 11.86, 0], [38, 20, 11.86, 0]], 'hull'),
                 box('Engineering keel', [0, -7, 57.7], [10, 8, 40.4], 'engineering-keel', 'hull'),
                 box('Service generator block', [-7.59, 0, 47.04], [7.6, 15.6, 20.8], 'service-generator-port', 'hull'),
                 box('Service cooling block', [11.68, 0, 53.76], [6.44, 13.1, 16.8], 'service-cooling', 'hull', mirror=True),
