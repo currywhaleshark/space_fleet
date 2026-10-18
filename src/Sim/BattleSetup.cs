@@ -13,6 +13,10 @@ public sealed record BattleConfig
     public BattleObjective Objective { get; init; } = BattleObjective.Annihilation;
     public double StartDistance { get; init; } = 150_000;
     public Vector3 RedOffset { get; init; } = Vector3.Zero;
+    // Opening geometry (Deployment). Auto: head-on for the canonical fixture, a seeded draw for matches.
+    public Engagement Engagement { get; init; } = Engagement.Auto;
+    // Set by Deployment.Apply once StartDistance/RedOffset describe the resolved opening.
+    public bool DeploymentApplied { get; init; }
     public bool Mirror { get; init; }
     public double PositionJitter { get; init; } = 2_000;
     public float HeadingJitterDegrees { get; init; } = 5;
@@ -24,7 +28,7 @@ public sealed record BattleConfig
     public MatchLineup? Match { get; init; }
 }
 
-public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship);
+public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship, Engagement Engagement = Engagement.HeadOn);
 
 /// <summary>Canonical game/test fleet placement. Jitter belongs to a spatial squad slot, so mirrors swap the same poses.</summary>
 public static class BattleSetup
@@ -62,7 +66,9 @@ public static class BattleSetup
         if (config.StartDistance <= 0 || !double.IsFinite(config.StartDistance) || !config.RedOffset.IsFinite()
             || config.PositionJitter < 0 || !double.IsFinite(config.PositionJitter) || !float.IsFinite(config.HeadingJitterDegrees))
             throw new ArgumentException("Invalid battle config");
+        config = Deployment.Apply(config);
         if (config.Match is not null) return Matchmaking.Spawn(world, config);
+        bool headOn = config.Engagement == Engagement.HeadOn;
         var random = new Random(config.Seed);
         var offsets = new Vec3d[2, 3];
         var headings = new float[2, 3];
@@ -81,15 +87,16 @@ public static class BattleSetup
             bool blue = faction == Faction.Blue;
             int side = (blue ? 0 : 1) ^ (config.Mirror ? 1 : 0);
             double dir = side == 0 ? 1 : -1;
-            Vec3d origin = side == 0 ? Vec3d.Zero : Vec3d.From(config.RedOffset) + new Vec3d(0, 0, -config.StartDistance);
+            Vec3d origin = Deployment.Origin(config, side);
             ShipBody Make(string call, ShipClass cls, int squad, double x, double y, double z)
             {
                 ShipDefinition definition = config.HullOverrides?.TryGetValue(call, out string? id) == true
                     ? ShipDefinitions.ById(id) : ShipDefinitions.For(cls.Kind, blue ? config.BlueDesign : config.RedDesign);
                 if (definition.Kind != cls.Kind) throw new ArgumentException($"{call}: hull override must be {cls.Kind}");
                 var ship = world.Add(new ShipBody(call, definition, faction));
-                ship.Place(origin + offsets[side, squad] + new Vec3d(x * dir, y, z * dir),
+                if (headOn) ship.Place(origin + offsets[side, squad] + new Vec3d(x * dir, y, z * dir),
                     new Quaternion(Vector3.Up, (side == 0 ? 0 : Mathf.Pi) + headings[side, squad]));
+                else ship.Place(origin + offsets[side, squad] + Deployment.Place(config, side, new Vec3d(x, y, z)), Deployment.Facing(config, side, headings[side, squad]));
                 ship.Control = ShipControl.Idle;
                 world.AttachBrain(ship, ShipOrder.HoldAt(ship.Position));
                 ships.Add(ship);
@@ -124,6 +131,6 @@ public static class BattleSetup
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
         world.Log.Environment.NavigationBuildMs=world.NavigationBuildMilliseconds;
-        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1]);
+        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement);
     }
 }

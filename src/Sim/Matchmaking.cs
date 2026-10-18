@@ -85,28 +85,40 @@ public static partial class Matchmaking
 
     internal static BattleRoster Spawn(SimWorld world, BattleConfig config)
     {
+        config = Deployment.Apply(config);
         var match = config.Match!;
         var random = new Random(config.Seed);
         var ships = new List<ShipBody>();
         var flagships = new ShipBody[2];
+        bool headOn = config.Engagement == Engagement.HeadOn;
+        // Opening squad centres by role (battleships rear, wings ahead, air-defence screens beside their battleship).
+        var roleSlots = new Dictionary<MatchParticipant, Vec3d>();
+        foreach (var team in match.Participants.GroupBy(p => p.Team))
+        {
+            var members = team.ToArray(); var slots = Deployment.RoleSlots(members);
+            for (int i = 0; i < members.Length; i++) roleSlots[members[i]] = slots[i];
+        }
         foreach (var entry in match.Participants)
         {
             int side = (entry.Team == Faction.Blue ? 0 : 1) ^ (config.Mirror ? 1 : 0);
             double dir = side == 0 ? 1 : -1;
-            Vec3d origin = side == 0 ? Vec3d.Zero : Vec3d.From(config.RedOffset) + new Vec3d(0, 0, -config.StartDistance);
-            int slot = entry.Slot - 1;
-            Vec3d center = new((slot % 5 - 2) * 12000, slot / 5 * 6000 - 3000, slot / 5 * 8000);
+            Vec3d origin = Deployment.Origin(config, side);
+            Vec3d center = roleSlots[entry];
             center += new Vec3d(random.NextDouble() - .5, random.NextDouble() - .5, random.NextDouble() - .5) * config.PositionJitter;
-            var pose = new Quaternion(Vector3.Up, (side == 0 ? 0 : Mathf.Pi) + Mathf.DegToRad((float)(random.NextDouble() - .5) * config.HeadingJitterDegrees));
+            float yaw = Mathf.DegToRad((float)(random.NextDouble() - .5) * config.HeadingJitterDegrees);
+            var pose = headOn ? new Quaternion(Vector3.Up, (side == 0 ? 0 : Mathf.Pi) + yaw) : Deployment.Facing(config, side, yaw);
             var members = new List<ShipBody>();
             for (int i = 0; i < entry.ShipCount; i++)
             {
                 var member = entry.Hull.Squadron.Members[i];
                 var resolved=entry.Loadout?.Members[i];
                 var hull = resolved?.Definition ?? (member.HullId is { } id ? ShipDefinitions.ById(id) : entry.Hull);
-                var p = center + Vec3d.From(member.Offset);
                 var ship = world.Add(new ShipBody(entry.Callsign(i), hull, entry.Team) { LoadoutId=resolved?.LoadoutId });
-                ship.Place(origin + new Vec3d(p.X * dir, p.Y, p.Z * dir), pose);
+                // Member offsets follow the squad's course; the squad centre follows the threat axis.
+                Vec3d memberOffset = headOn ? Vec3d.From(member.Offset) : Vec3d.From(pose * member.Offset);
+                Vec3d at = headOn ? new Vec3d(center.X * dir, center.Y, center.Z * dir) + new Vec3d(member.Offset.X * dir, member.Offset.Y, member.Offset.Z * dir)
+                    : Deployment.Place(config, side, center) + memberOffset;
+                ship.Place(origin + at, pose);
                 world.AttachBrain(ship, ShipOrder.HoldAt(ship.Position));
                 members.Add(ship); ships.Add(ship);
                 if (i == 0 && entry.Role == SquadronRole.BattleGroup && flagships[(int)entry.Team] is null) flagships[(int)entry.Team] = ship;
@@ -136,6 +148,6 @@ public static partial class Matchmaking
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
         world.Log.Environment.NavigationBuildMs = world.NavigationBuildMilliseconds;
-        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1]);
+        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement);
     }
 }

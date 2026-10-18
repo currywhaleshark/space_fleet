@@ -28,7 +28,9 @@ public sealed partial class SimWorld
         if(Obstacles.Count==0)return;
         long start=Stopwatch.GetTimestamp();
         Vec3d center=(Vec3d.From(config.RedOffset)+new Vec3d(0,0,-config.StartDistance))*.5;
-        Navigation=new(Obstacles,center,new(90000,40000,Math.Max(90000,config.StartDistance*.5+15000)));
+        // Opposite/vertical openings offset the second team across or above the approach axis (Deployment).
+        Navigation=new(Obstacles,center,new(Math.Max(90000,Math.Abs(config.RedOffset.X)*.5+20000),Math.Max(40000,Math.Abs(config.RedOffset.Y)*.5+20000),
+            Math.Max(90000,config.StartDistance*.5+15000)));
         foreach(var kind in Enum.GetValues<HullKind>())
         {
             double radius=_ships.Where(s=>s.Class.Kind==kind).Select(s=>(double)s.Hull.BoundingRadius).DefaultIfEmpty(kind==HullKind.Battleship?700:kind==HullKind.Escort?180:40).Max();

@@ -1,3 +1,4 @@
+using Godot;
 using SpaceFleet.Sim;
 
 static class MatchmakingChecks
@@ -70,6 +71,65 @@ static class MatchmakingChecks
         }
         var legacy=new SimWorld();BattleSetup.Spawn(legacy,new BattleConfig{Seed=1});
         Require(legacy.Ships.Count==24 && legacy.Ships.Any(s=>s.Callsign=="BB-01"),"Canonical balance fixture preserved");
+        Deployments();
         Console.WriteLine($"PASS: {_checks} random matchmaking checks");
+    }
+    // Opening geometry (Deployment): seeded mode for matches, role ranks, screens beside battleships, courses.
+    private static void Deployments()
+    {
+        Require(Deployment.Resolve(new BattleConfig{Seed=3})==Engagement.HeadOn,"Canonical fixture stays head-on");
+        var drawn=Enumerable.Range(1,60).Select(seed=>Deployment.Resolve(new BattleConfig{Seed=seed,Match=Matchmaking.Create(seed,"escort")})).ToArray();
+        Require(Deployment.Modes.All(m=>drawn.Count(d=>d==m)>=6),"Matches draw all four openings");
+        Require(Deployment.Resolve(new BattleConfig{Seed=9,Mirror=true,Match=Matchmaking.Create(9,"escort")})==drawn[8],"Mirror keeps the seed's opening");
+        var owned=FleetLoadouts.Hulls.Select(h=>h.Id).ToHashSet();var research=new Dictionary<string,IReadOnlySet<string>>();
+        foreach(string anchor in new[]{"earth_gun_cruiser","battleship_t5","earth_starter_escort"})
+        foreach(Engagement mode in Deployment.Modes)
+        foreach(bool mirror in new[]{false,true})
+        {
+            var match=Matchmaking.CreateTiered(5,FleetLoadouts.Default(anchor),owned,research);
+            var config=new BattleConfig{Seed=5,Mirror=mirror,Match=match,Engagement=mode};
+            var world=new SimWorld();var roster=BattleSetup.Spawn(world,config);
+            string label=$"{anchor}/{mode}/{(mirror?"mirror":"normal")}";
+            Require(roster.Engagement==mode,label+": roster reports its opening");
+            Vec3d Centroid(Faction f)=>world.Ships.Where(s=>s.Faction==f).Aggregate(Vec3d.Zero,(a,s)=>a+s.Position)*(1.0/world.Ships.Count(s=>s.Faction==f));
+            Vec3d blue=Centroid(Faction.Blue),red=Centroid(Faction.Red);
+            Vec3d Line(Faction f)=>world.Ships.Where(s=>s.Faction==f&&s.Class.Kind==HullKind.Battleship).Aggregate(Vec3d.Zero,(a,s)=>a+s.Position)
+                *(1.0/world.Ships.Count(s=>s.Faction==f&&s.Class.Kind==HullKind.Battleship));
+            bool lines=world.Ships.Any(s=>s.Class.Kind==HullKind.Battleship);
+            double range=lines?(Line(Faction.Red)-Line(Faction.Blue)).Length():(red-blue).Length(),slack=lines?.1:.25;
+            Require(range>150_000*(1-slack)&&range<150_000*(1+slack),label+": battle lines open at the requested distance");
+            foreach(Faction team in Enum.GetValues<Faction>())
+            {
+                Vec3d enemy=team==Faction.Blue?red:blue;
+                double Depth(SquadronRole role)=>world.Squadrons.Where(q=>q.Faction==team&&q.Role==role).SelectMany(q=>q.Members)
+                    .Select(s=>(s.Position-enemy).Length()).DefaultIfEmpty(double.NaN).Average();
+                double bb=Depth(SquadronRole.BattleGroup),wing=Depth(SquadronRole.InterceptorWing),gun=Depth(SquadronRole.GunCruiserSquadron);
+                if(!double.IsNaN(bb)&&!double.IsNaN(wing))Require(bb>wing+15_000,label+": battleships open behind the interceptor wings");
+                if(!double.IsNaN(bb)&&!double.IsNaN(gun))Require(bb>gun+8_000,label+": battleships open behind the gun cruisers");
+                foreach(var screen in world.Squadrons.Where(q=>q.Faction==team&&q.Role==SquadronRole.AirDefenseSquadron))
+                    Require(world.Squadrons.Where(q=>q.Faction==team&&q.Role==SquadronRole.BattleGroup)
+                        .Any(g=>(g.Leader!.Position-screen.Leader!.Position).Length()<12_000),label+": air-defence screen opens beside a battleship");
+            }
+            Vector3 Forward(Faction f)=>world.Ships.First(s=>s.Faction==f).Orientation*Vector3.Forward;
+            Vector3 toRed=(red-blue).ToVector3().Normalized();
+            switch(mode)
+            {
+                case Engagement.HeadOn: case Engagement.Vertical:
+                    Require(Forward(Faction.Blue).Dot(toRed)>.98f&&Forward(Faction.Red).Dot(-toRed)>.98f,label+": fleets face each other");break;
+                case Engagement.Parallel:
+                    Require(Forward(Faction.Blue).Dot(Forward(Faction.Red))>.99f&&Math.Abs(Forward(Faction.Blue).Dot(toRed))<.15f,label+": same course, abeam");break;
+                case Engagement.Opposite:
+                    Require(Forward(Faction.Blue).Dot(Forward(Faction.Red))<-.99f&&Forward(Faction.Blue).Dot(toRed)>.7f,label+": opposite courses closing to pass");break;
+            }
+            if(mode==Engagement.Vertical)Require(Math.Abs(red.Y-blue.Y)>150_000*.35,label+": one fleet opens well above the other");
+            else Require(Math.Abs(red.Y-blue.Y)<10_000,label+": level opening");
+            for(int i=0;i<world.Ships.Count;i++)for(int j=i+1;j<world.Ships.Count;j++)
+                Require((world.Ships[i].Position-world.Ships[j].Position).Length()>60,label+": spawn slots do not overlap");
+            for(int i=0;i<240;i++)world.Step();
+            Require(world.Ships.All(s=>!s.Damage.Destroyed&&s.Velocity.IsFinite()),label+": opening seconds stay stable");
+        }
+        var fixture=new SimWorld();BattleSetup.Spawn(fixture,new BattleConfig{Seed=1,Engagement=Engagement.Opposite});
+        Require(fixture.Ships.Count==24&&Vector3.Right.Dot(fixture.Ships.First(s=>s.Faction==Faction.Blue).Orientation*Vector3.Forward)>.98f,
+            "Explicit opening also applies to the canonical fixture");
     }
 }

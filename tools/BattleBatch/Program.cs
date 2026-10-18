@@ -67,7 +67,8 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     try
     {
         var world = new SimWorld {CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false"};
-        var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0] };
+        var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0],
+            Engagement=Enum.Parse<Engagement>(argsMap.GetValueOrDefault("engagement","Auto"),true) };
         if (argsMap.TryGetValue("match-hull", out var matchHull))
             config = config with { Match = Matchmaking.Create(task.Seed, matchHull) };
         if(argsMap.TryGetValue("tier-hull",out var tierHull))
@@ -124,7 +125,7 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
         slowTicks?.Save(Path.ChangeExtension(output,$".{task.Seed}-{task.Mirror}.slow-ticks.csv"),world);
         var row = new Row(task.Seed, task.Mirror, world, run.Elapsed.TotalSeconds, ticks, sections, snapshots);
         rows.Add(row);
-        Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")}: {world.Log.Summary()} wall={row.Wall:F1}s");
+        Console.WriteLine($"done {task.Seed}/{(task.Mirror ? "mirror" : "normal")} {Deployment.Resolve(config)}: {world.Log.Summary()} wall={row.Wall:F1}s");
         if (argsMap.ContainsKey("trace")) foreach(var e in world.Log.Events) Console.WriteLine(e);
     }
     finally { SimProfiler.Enabled = false; SimProfiler.Reset(); }

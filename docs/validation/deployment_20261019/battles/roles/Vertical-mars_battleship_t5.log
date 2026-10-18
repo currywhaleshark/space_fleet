@@ -1,0 +1,60 @@
+done 4/normal Vertical: Blue:0.000/0.000/0.000/32.500/124.571/102.600/120.415/131.614/131.614/136.243/-;M=343/87;R=2151/794;AM=0/0|Red:0.000/0.000/0.000/60.000/88.000/84.883/119.852/121.958/157.471/162.376/-;M=420/106;R=2541/709;AM=2/0|Approach:30.000,Missile:30.000,Gunnery:60.000,Sniping:60.000,Brawl:138.383|collisions=0|events=550|winner=Blue;time=318.383 wall=39.3s
+done 3/normal Vertical: Blue:0.000/0.000/0.000/46.883/73.404/99.033/107.225/98.321/139.540/98.554/-;M=268/79;R=1190/805;AM=10/2|Red:0.000/0.000/0.000/38.000/88.233/71.183/96.528/78.088/136.152/94.533/-;M=364/170;R=1792/768;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:30.000,Sniping:131.250,Brawl:120.000|collisions=0|events=725|winner=Red;time=311.250 wall=41.3s
+done 1/normal Vertical: Blue:0.000/0.000/0.000/60.000/100.633/69.200/139.607/107.133/107.817/118.862/-;M=547/248;R=789/297;AM=0/0|Red:0.000/0.000/0.000/42.000/70.992/90.367/93.901/103.367/177.683/183.043/-;M=468/170;R=4312/1679;AM=0/0|Approach:30.000,Missile:30.000,Gunnery:32.100,Sniping:180.000,Brawl:60.000|collisions=0|events=421|winner=Red;time=332.100 wall=43.6s
+done 2/normal Vertical: Blue:0.000/0.000/0.000/48.000/102.754/84.917/119.681/99.225/115.696/122.461/-;M=370/95;R=5245/2433;AM=0/0|Red:0.000/0.000/0.000/54.850/81.138/78.017/113.293/117.371/123.483/131.833/-;M=342/102;R=925/500;AM=0/0|Approach:0.000,Missile:30.000,Gunnery:60.000,Sniping:462.383,Brawl:60.000|collisions=0|events=1003|winner=Blue;time=612.383 wall=65.7s
+done 4/mirror Vertical: Blue:0.000/0.000/0.000/50.000/90.200/93.250/102.832/105.564/170.978/112.726/-;M=348/113;R=2259/899;AM=2/2|Red:0.000/0.000/0.000/59.750/90.088/86.433/98.318/102.832/124.304/130.900/-;M=382/119;R=2235/737;AM=2/1|Approach:30.000,Missile:30.000,Gunnery:30.000,Sniping:90.000,Brawl:130.767|collisions=0|events=556|winner=Blue;time=310.767 wall=35.1s
+done 3/mirror Vertical: Blue:0.000/0.000/0.000/43.500/78.296/85.617/111.224/78.363/148.254/101.809/-;M=263/57;R=1197/506;AM=2/1|Red:0.000/0.000/0.000/44.000/78.363/76.133/89.139/91.400/152.333/107.400/-;M=400/163;R=2264/876;AM=0/0|Approach:0.000,Missile:0.000,Gunnery:90.000,Sniping:147.100,Brawl:90.000|collisions=0|events=638|winner=Red;time=327.100 wall=41.1s
+done 1/mirror Vertical: Blue:0.000/0.000/0.000/60.000/97.746/72.617/135.840/108.050/146.128/117.672/-;M=546/238;R=1205/392;AM=0/0|Red:0.000/0.000/0.000/46.000/75.013/89.033/117.672/148.896/175.454/148.958/-;M=451/152;R=4624/1884;AM=0/0|Approach:30.000,Missile:30.000,Gunnery:30.000,Sniping:272.983,Brawl:0.000|collisions=0|events=605|winner=Red;time=362.983 wall=43.9s
+done 2/mirror Vertical: Blue:0.000/0.000/0.000/44.000/84.392/88.417/138.749/90.708/118.886/120.533/-;M=366/90;R=3109/1576;AM=0/0|Red:0.000/0.000/0.000/56.000/84.117/82.100/117.455/104.767/123.508/151.468/-;M=343/95;R=479/249;AM=3/0|Approach:0.000,Missile:30.000,Gunnery:101.233,Sniping:150.000,Brawl:120.000|collisions=0|events=735|winner=Blue;time=401.233 wall=39.5s
+AM PointDefense: 8 (mean launch 3890m, closest hull 1962.9m)
+AM Drone: 5 (mean launch 3205m, closest hull 582.7m)
+AM Hit: 6 (mean launch 4129m, closest hull 3.2m)
+AM Expired: 2 (mean launch 4966m, closest hull 14.7m)
+AM InFlight at outcome: 0
+Contact: median=0.00 min=0.00 max=0.00 occurred=8/8
+Blue Contact: median=0.00 min=0.00 max=0.00 occurred=8/8
+Red Contact: median=0.00 min=0.00 max=0.00 occurred=8/8
+Identified: median=0.00 min=0.00 max=0.00 occurred=8/8
+Blue Identified: median=0.00 min=0.00 max=0.00 occurred=8/8
+Red Identified: median=0.00 min=0.00 max=0.00 occurred=8/8
+Locked: median=0.00 min=0.00 max=0.00 occurred=8/8
+Blue Locked: median=0.00 min=0.00 max=0.00 occurred=8/8
+Red Locked: median=0.00 min=0.00 max=0.00 occurred=8/8
+MissileLaunch: median=43.75 min=32.50 max=50.00 occurred=8/8
+Blue MissileLaunch: median=47.44 min=32.50 max=60.00 occurred=8/8
+Red MissileLaunch: median=50.42 min=38.00 max=60.00 occurred=8/8
+MissileHit: median=79.72 min=70.99 max=90.09 occurred=8/8
+Blue MissileHit: median=93.97 min=73.40 max=124.57 occurred=8/8
+Red MissileHit: median=82.63 min=70.99 max=90.09 occurred=8/8
+RailLaunch: median=77.07 min=69.20 max=86.43 occurred=8/8
+Blue RailLaunch: median=87.02 min=69.20 max=102.60 occurred=8/8
+Red RailLaunch: median=83.49 min=71.18 max=90.37 occurred=8/8
+RailHit: median=105.81 min=89.14 max=119.85 occurred=8/8
+Blue RailHit: median=120.05 min=102.83 max=139.61 occurred=8/8
+Red RailHit: median=105.81 min=89.14 max=119.85 occurred=8/8
+ModuleDestroyed: median=101.03 min=78.09 max=121.96 occurred=8/8
+Blue ModuleDestroyed: median=102.39 min=78.36 max=131.61 occurred=8/8
+Red ModuleDestroyed: median=104.07 min=78.09 max=148.90 occurred=8/8
+Disabled: median=127.96 min=107.82 max=148.25 occurred=8/8
+Blue Disabled: median=135.58 min=107.82 max=170.98 occurred=8/8
+Red Disabled: median=144.24 min=123.48 max=177.68 occurred=8/8
+Destroyed: median=118.27 min=94.53 max=136.24 occurred=8/8
+Blue Destroyed: median=118.27 min=98.55 max=136.24 occurred=8/8
+Red Destroyed: median=140.40 min=94.53 max=183.04 occurred=8/8
+Close: no events
+Blue Close: no events
+Red Close: no events
+Outcome: median=329.60 min=310.77 max=612.38 occurred=8/8
+Wall: median=41.23 min=35.10 max=65.74 occurred=8/8
+wins Blue: 4/8
+wins Red: 4/8
+draws: 0/8; unresolved: 0
+position normal: Blue 2/4, Red 2/4
+position mirror: Blue 2/4, Red 2/4
+phase Approach >=60s: 0/8
+phase Missile >=60s: 0/8
+phase Gunnery >=60s: 4/8
+phase Sniping >=60s: 8/8
+phase Brawl >=60s: 7/8
+friendly collisions: mean=0.00
+batch wall=110.3s jobs=4 csv=C:\Users\yurib\AppData\Local\Temp\claude\C--Users-yurib-Documents-New-project-space-fleet\6831b0f4-b6b9-45f4-ad1d-0f4e6fffbdca\scratchpad\deploy\anchored\Vertical-mars_battleship_t5.csv
