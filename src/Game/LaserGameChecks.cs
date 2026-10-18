@@ -31,7 +31,10 @@ public partial class LaserGameChecks : Node3D
             _source.DamageControl.Priority=_target.DamageControl.Priority=RepairPriority.Hold;
             _world.Log=new BattleLog(_world);
             _sourceView=ShipView.Create(_source,1);_targetView=ShipView.Create(_target,2);AddChild(_sourceView);AddChild(_targetView);
-            _camera=new Camera3D{Position=new(2100,1400,800),Near=.1f,Far=1e6f,Fov=48};AddChild(_camera);_camera.LookAt(new Vector3(0,0,-1400));_camera.MakeCurrent();
+            // --laser-view=chase: behind and above the shooter, the beam receding toward the target (gameplay view).
+            bool chase=OS.GetCmdlineUserArgs().Contains("--laser-view=chase");
+            _camera=new Camera3D{Position=chase?new(45,75,330):new(2100,1400,800),Near=.1f,Far=1e6f,Fov=chase?60:48};AddChild(_camera);
+            _camera.LookAt(chase?new Vector3(0,0,-900):new Vector3(0,0,-1400));_camera.MakeCurrent();
             AddChild(new WorldEnvironment{Environment=BattleLook.Environment()});foreach(var light in BattleLook.Lights())AddChild(light);
             _effects=new BallisticsView();AddChild(_effects);_audio=new CombatAudio();AddChild(_audio);_audio.Prime(_world,_source);
             Check(_audio.AssetsReady,"Laser and existing audio assets load");

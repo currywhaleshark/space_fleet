@@ -9,10 +9,10 @@ namespace SpaceFleet.View;
 /// <summary>Readable rail cores/tails, electrical muzzle pulses and damage-scaled metal ejecta.</summary>
 public partial class BallisticsView : Node3D
 {
-    private readonly List<MeshInstance3D> _streaks=new(), _flares=new(), _shards=new();
+    private readonly List<MeshInstance3D> _streaks=new(), _flares=new(), _shards=new(), _beams=new();
     private CombatBurstBatch _bursts=null!;
     private readonly Dictionary<ProjectileImpact,(Vector3 Point,Vector3 Normal)> _surfaceHits=new();
-    private ShaderMaterial _tail=null!, _halo=null!, _enemyTail=null!, _enemyHalo=null!, _head=null!, _shield=null!, _impact=null!;
+    private ShaderMaterial _tail=null!, _halo=null!, _enemyTail=null!, _enemyHalo=null!, _head=null!, _shield=null!, _impact=null!, _beam=null!, _enemyBeam=null!;
     private readonly BoxMesh _chip=new() { Size=Vector3.One };
     private readonly StandardMaterial3D _metal=new() { AlbedoColor=new Color(.24f,.28f,.32f),Metallic=.75f,Roughness=.65f };
     private readonly StandardMaterial3D _hotMetal=new() { AlbedoColor=new Color(.4f,.25f,.12f),Metallic=.6f,
@@ -29,6 +29,7 @@ public partial class BallisticsView : Node3D
         _enemyTail=CombatFx.Glow(new Color(1,.85f,.65f),true); _enemyHalo=CombatFx.Glow(new Color(1,.3f,.08f,.32f),true);
         _head=CombatFx.Glow(new Color(.85f,.95f,1));
         _shield=CombatFx.Glow(new Color(.25f,.65f,1)); _impact=CombatFx.Glow(new Color(1,.68f,.32f));
+        _beam=CombatFx.Beam(new Color(.25f,.6f,1)); _enemyBeam=CombatFx.Beam(new Color(1,.38f,.1f));
     }
     private MeshInstance3D Next(List<MeshInstance3D> pool,int index,Mesh mesh,Material material)
     {
@@ -46,7 +47,7 @@ public partial class BallisticsView : Node3D
     public void Sync(SimWorld world,Vec3d origin,double alpha,Camera3D camera,IReadOnlyList<ShipView>? ships=null)
     {
         _bursts.Begin();
-        int t=0,f=0,s=0;
+        int t=0,f=0,s=0,b=0;
         VisibleLaserBeams=0;
         foreach(var ship in world.Ships)
         foreach(var gun in ship.Railguns)
@@ -57,11 +58,9 @@ public partial class BallisticsView : Node3D
             Vector3 end=laser.HitShip is { } target
                 ? (target.InterpolatedPosition(alpha)-origin).ToVector3()+target.InterpolatedOrientation((float)alpha)*laser.HitLocal
                 : (laser.End-origin).ToVector3();
-            // Screen-facing core with restrained halo. No projectile streak, recoil, smoke or muzzle blast.
-            Vector3 midpoint=(start+end)*.5f;
-            float width=Mathf.Max(.07f,CombatFx.PixelSize(camera,midpoint,1.25f));
-            CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,ship.Definition.Design==DesignFamily.Mars?_enemyHalo:_halo),camera,start,end,width*3);
-            CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,_head),camera,start,end,width);
+            // One constant-width beam: sharp white core, faction halo; widens slightly as the focus builds.
+            // No projectile streak, recoil, smoke or muzzle blast.
+            CombatFx.Beam(Next(_beams,b++,CombatFx.Quad,ship.Definition.Design==DesignFamily.Mars?_enemyBeam:_beam),camera,start,end,laser.FocusFraction);
             CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,start,Mathf.Max(.3f,ship.Class.Length*.003f),6);
             if(laser.HitShip is not null)
                 CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,laser.ShieldHit?_shield:_impact),camera,end,
@@ -165,7 +164,7 @@ public partial class BallisticsView : Node3D
             }
         }
         VisibleTrails=t; VisibleFragments=s;
-        HideAfter(_streaks,t); HideAfter(_flares,f); HideAfter(_shards,s);
+        HideAfter(_streaks,t); HideAfter(_flares,f); HideAfter(_shards,s); HideAfter(_beams,b);
         _bursts.End();
         foreach(var key in _surfaceHits.Keys.Where(k=>!world.Impacts.Contains(k)).ToArray()) _surfaceHits.Remove(key);
     }
