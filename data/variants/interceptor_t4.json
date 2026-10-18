@@ -10,12 +10,12 @@
       "launchPoints": [
         [
           -2.7,
-          0.4,
+          0.5,
           0
         ],
         [
           2.7,
-          0.4,
+          0.5,
           0
         ]
       ]
@@ -87,28 +87,6 @@
     "hullSections": [
       {
         "armor": {
-          "thicknessMm": 18
-        },
-        "faces": {
-          "Aft": {
-            "thicknessMm": 8
-          }
-        },
-        "id": "hull",
-        "name": "hull",
-        "center": [
-          0,
-          0,
-          1.75
-        ],
-        "halfSize": [
-          2.4,
-          1.6,
-          8.75
-        ]
-      },
-      {
-        "armor": {
           "thicknessMm": 12
         },
         "faces": {
@@ -118,16 +96,38 @@
           }
         },
         "id": "nose",
-        "name": "nose",
+        "name": "Tapered prow",
         "center": [
-          0,
-          0,
-          -9.75
+          0.0,
+          0.0,
+          -10.6
         ],
         "halfSize": [
-          1.4,
-          1,
-          4.75
+          1.25,
+          1.0,
+          4.6
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 18
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 8
+          }
+        },
+        "id": "hull",
+        "name": "Main pressure hull",
+        "center": [
+          0.0,
+          0.0,
+          2.5
+        ],
+        "halfSize": [
+          1.9,
+          1.45,
+          8.5
         ]
       },
       {
@@ -140,15 +140,15 @@
           }
         },
         "id": "am-keel",
-        "name": "am-keel",
+        "name": "AM keel",
         "center": [
-          0,
+          0.0,
           -1.5,
           -3.1
         ],
         "halfSize": [
-          1,
-          1,
+          0.95,
+          1.0,
           1.8
         ]
       },
@@ -158,70 +158,16 @@
         },
         "faces": {},
         "id": "engine-port",
-        "name": "engine-port",
+        "name": "Engine pod port",
         "center": [
           -5.4,
-          0,
-          9
+          0.0,
+          9.05
         ],
         "halfSize": [
-          1.4,
-          1.35,
-          3.5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "wing-port-0",
-        "name": "wing-port-0",
-        "center": [
-          -4.95,
-          0,
-          0.25
-        ],
-        "halfSize": [
-          3.05,
-          0.35,
-          6.75
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "wing-port-1",
-        "name": "wing-port-1",
-        "center": [
-          -3.75,
-          0,
-          7.5
-        ],
-        "halfSize": [
-          2.05,
-          0.35,
-          2.5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "fin-port",
-        "name": "fin-port",
-        "center": [
-          -5.75,
-          2.48875,
-          9.4
-        ],
-        "halfSize": [
-          0.49,
-          1.6112499999999998,
-          2.1
+          1.2,
+          1.2,
+          3.05
         ]
       },
       {
@@ -230,16 +176,16 @@
         },
         "faces": {},
         "id": "engine-starboard",
-        "name": "engine-starboard",
+        "name": "Engine pod starboard",
         "center": [
           5.4,
-          0,
-          9
+          0.0,
+          9.05
         ],
         "halfSize": [
-          1.4,
-          1.35,
-          3.5
+          1.2,
+          1.2,
+          3.05
         ]
       },
       {
@@ -247,17 +193,17 @@
           "thicknessMm": 3
         },
         "faces": {},
-        "id": "wing-starboard-0",
-        "name": "wing-starboard-0",
+        "id": "wing-0-port",
+        "name": "Forward swept wing port",
         "center": [
-          4.95,
-          0,
-          0.25
+          -5.75,
+          0.0,
+          0.65
         ],
         "halfSize": [
-          3.05,
-          0.35,
-          6.75
+          3.85,
+          0.2,
+          4.85
         ]
       },
       {
@@ -265,17 +211,35 @@
           "thicknessMm": 3
         },
         "faces": {},
-        "id": "wing-starboard-1",
-        "name": "wing-starboard-1",
+        "id": "wing-0-starboard",
+        "name": "Forward swept wing starboard",
         "center": [
-          3.75,
-          0,
-          7.5
+          5.75,
+          0.0,
+          0.65
         ],
         "halfSize": [
-          2.05,
-          0.35,
-          2.5
+          3.85,
+          0.2,
+          4.85
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "fin-port",
+        "name": "Attached fin port",
+        "center": [
+          -5.475,
+          2.65,
+          9.9
+        ],
+        "halfSize": [
+          0.195,
+          1.55,
+          1.9
         ]
       },
       {
@@ -284,16 +248,16 @@
         },
         "faces": {},
         "id": "fin-starboard",
-        "name": "fin-starboard",
+        "name": "Attached fin starboard",
         "center": [
-          5.75,
-          2.48875,
-          9.4
+          5.475,
+          2.65,
+          9.9
         ],
         "halfSize": [
-          0.49,
-          1.6112499999999998,
-          2.1
+          0.195,
+          1.55,
+          1.9
         ]
       }
     ],

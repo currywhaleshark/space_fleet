@@ -1,0 +1,89 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:44:36 | INFO: Starting glTF 2.0 export
+18:44:36 | INFO: Extracting primitive: Chisel bow.001
+18:44:36 | INFO: Primitives created: 9
+18:44:36 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+18:44:36 | INFO: Primitives created: 3
+18:44:36 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+18:44:36 | INFO: Primitives created: 3
+18:44:36 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+18:44:36 | INFO: Primitives created: 3
+18:44:36 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+18:44:36 | INFO: Primitives created: 3
+18:44:36 | INFO: Extracting primitive: PD 0 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 0 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Extracting primitive: PD 1 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 1 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Extracting primitive: PD 2 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 2 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Extracting primitive: PD 3 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 3 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Extracting primitive: PD 4 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 4 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Extracting primitive: PD 5 receiver.001
+18:44:36 | INFO: Primitives created: 1
+18:44:36 | INFO: Extracting primitive: PD 5 barrel.002
+18:44:36 | INFO: Primitives created: 2
+18:44:36 | INFO: Finished glTF 2.0 export in 0.11656522750854492 s
+00:11.219  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_hero.png'
+00:19.360  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_underside.png'
+00:26.578  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_top.png'
+00:34.141  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_rear.png'
+
+Info: Saved as "earth_air_defense_cruiser.blend"
+BUILT earth_air_defense_cruiser 9864 triangles
+18:45:07 | INFO: Starting glTF 2.0 export
+18:45:07 | INFO: Extracting primitive: Tapered prow.001
+18:45:07 | INFO: Primitives created: 9
+18:45:07 | INFO: Extracting primitive: PD 0 receiver.001
+18:45:07 | INFO: Primitives created: 1
+18:45:07 | INFO: Extracting primitive: PD 0 barrel.002
+18:45:07 | INFO: Primitives created: 2
+18:45:07 | INFO: Extracting primitive: PD 1 receiver.001
+18:45:07 | INFO: Primitives created: 1
+18:45:07 | INFO: Extracting primitive: PD 1 barrel.002
+18:45:07 | INFO: Primitives created: 2
+18:45:07 | INFO: Finished glTF 2.0 export in 0.04918265342712402 s
+00:42.360  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_hero.png'
+00:50.094  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_underside.png'
+00:57.578  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_rear.png'
+01:05.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_top.png'
+
+Info: Saved as "interceptor_t3.blend"
+BUILT interceptor_t3 6288 triangles
+18:45:39 | INFO: Starting glTF 2.0 export
+18:45:39 | INFO: Extracting primitive: Thin bow point.001
+18:45:39 | INFO: Primitives created: 9
+18:45:39 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+18:45:39 | INFO: Primitives created: 3
+18:45:39 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+18:45:39 | INFO: Primitives created: 3
+18:45:39 | INFO: Extracting primitive: PD 0 receiver.001
+18:45:39 | INFO: Primitives created: 1
+18:45:39 | INFO: Extracting primitive: PD 0 barrel.002
+18:45:39 | INFO: Primitives created: 2
+18:45:39 | INFO: Extracting primitive: PD 1 receiver.001
+18:45:39 | INFO: Primitives created: 1
+18:45:39 | INFO: Extracting primitive: PD 1 barrel.002
+18:45:39 | INFO: Primitives created: 2
+18:45:39 | INFO: Finished glTF 2.0 export in 0.06748700141906738 s
+01:14.000  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_hero.png'
+01:21.688  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_underside.png'
+01:28.672  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_top.png'
+01:35.688  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_rear.png'
+
+Info: Saved as "mars_starter_escort.blend"
+BUILT mars_starter_escort 8740 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

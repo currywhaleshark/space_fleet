@@ -1,349 +1,12 @@
 {
-  "id": "earth_recon_t3",
-  "sections": [
-    {
-      "id": "nose",
-      "name": "nose",
-      "center": [
-        0,
-        0,
-        -11
-      ],
-      "halfSize": [
-        1.25,
-        1.2,
-        4
-      ],
-      "armorFrom": "nose"
-    },
-    {
-      "id": "hull",
-      "name": "hull",
-      "center": [
-        0,
-        0,
-        1
-      ],
-      "halfSize": [
-        2.55,
-        1.55,
-        9
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "am-keel",
-      "name": "am-keel",
-      "center": [
-        0,
-        -1.3,
-        -0.8
-      ],
-      "halfSize": [
-        1.2,
-        1.1,
-        2.1
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "engine-port",
-      "name": "engine-port",
-      "center": [
-        -4,
-        0,
-        10.8
-      ],
-      "halfSize": [
-        1.35,
-        1.4,
-        3.7
-      ],
-      "armorFrom": "engine-block"
-    },
-    {
-      "id": "pylon-port",
-      "name": "pylon-port",
-      "center": [
-        -2.8,
-        0,
-        8
-      ],
-      "halfSize": [
-        1.7,
-        0.65,
-        2
-      ],
-      "armorFrom": "wing-back"
-    },
-    {
-      "id": "fin-port",
-      "name": "fin-port",
-      "center": [
-        -4.35,
-        2.6,
-        11
-      ],
-      "halfSize": [
-        0.65,
-        1.3,
-        2
-      ],
-      "armorFrom": "fins"
-    },
-    {
-      "id": "stores-port",
-      "name": "stores-port",
-      "center": [
-        -2.75,
-        0,
-        -2.2
-      ],
-      "halfSize": [
-        0.8,
-        1.0,
-        4
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "engine-starboard",
-      "name": "engine-starboard",
-      "center": [
-        4,
-        0,
-        10.8
-      ],
-      "halfSize": [
-        1.35,
-        1.4,
-        3.7
-      ],
-      "armorFrom": "engine-block"
-    },
-    {
-      "id": "pylon-starboard",
-      "name": "pylon-starboard",
-      "center": [
-        2.8,
-        0,
-        8
-      ],
-      "halfSize": [
-        1.7,
-        0.65,
-        2
-      ],
-      "armorFrom": "wing-back"
-    },
-    {
-      "id": "fin-starboard",
-      "name": "fin-starboard",
-      "center": [
-        4.35,
-        2.6,
-        11
-      ],
-      "halfSize": [
-        0.65,
-        1.3,
-        2
-      ],
-      "armorFrom": "fins"
-    },
-    {
-      "id": "stores-starboard",
-      "name": "stores-starboard",
-      "center": [
-        2.75,
-        0,
-        -2.2
-      ],
-      "halfSize": [
-        0.8,
-        1.0,
-        4
-      ],
-      "armorFrom": "hull"
-    }
-  ],
-  "modules": {
-    "sensor": {
-      "center": [
-        0,
-        -0.2,
-        -13.5
-      ],
-      "halfSize": [
-        0.65,
-        0.45,
-        0.8
-      ]
-    },
-    "gun": {
-      "center": [
-        0,
-        0.6,
-        -11
-      ],
-      "halfSize": [
-        0.38,
-        0.3,
-        1.8
-      ]
-    },
-    "magazine": {
-      "center": [
-        0,
-        -0.1,
-        -6.5
-      ],
-      "halfSize": [
-        0.7,
-        0.55,
-        1
-      ]
-    },
-    "am-containment": {
-      "center": [
-        0,
-        -1.3,
-        -0.8
-      ],
-      "halfSize": [
-        0.7,
-        0.75,
-        1.6
-      ]
-    },
-    "reactor": {
-      "center": [
-        0,
-        0,
-        4
-      ],
-      "halfSize": [
-        0.7,
-        0.8,
-        1
-      ]
-    },
-    "shield": {
-      "center": [
-        0,
-        1,
-        7
-      ],
-      "halfSize": [
-        0.4,
-        0.4,
-        0.7
-      ]
-    },
-    "generator-port": {
-      "center": [
-        -1.4,
-        0,
-        4.3
-      ]
-    },
-    "bus-port": {
-      "center": [
-        -1.5,
-        0,
-        1.3
-      ]
-    },
-    "cooling-port": {
-      "center": [
-        -1.8,
-        0,
-        7
-      ]
-    },
-    "maneuver-port": {
-      "center": [
-        -1.6,
-        0,
-        -5
-      ]
-    },
-    "engine-0": {
-      "center": [
-        -4,
-        0,
-        11
-      ],
-      "halfSize": [
-        0.8,
-        0.8,
-        1.6
-      ]
-    },
-    "generator-starboard": {
-      "center": [
-        1.4,
-        0,
-        4.3
-      ]
-    },
-    "bus-starboard": {
-      "center": [
-        1.5,
-        0,
-        1.3
-      ]
-    },
-    "cooling-starboard": {
-      "center": [
-        1.8,
-        0,
-        7
-      ]
-    },
-    "maneuver-starboard": {
-      "center": [
-        1.6,
-        0,
-        -5
-      ]
-    },
-    "engine-1": {
-      "center": [
-        4,
-        0,
-        11
-      ],
-      "halfSize": [
-        0.8,
-        0.8,
-        1.6
-      ]
-    }
-  },
-  "bays": {
-    "utility-port": {
-      "center": [
-        -1.9,
-        0,
-        -2.5
-      ]
-    },
-    "utility-starboard": {
-      "center": [
-        1.9,
-        0,
-        -2.5
-      ]
-    }
-  },
+  "modules": {},
   "gunMuzzle": [
     0,
     0.6,
     -15.8
   ],
   "missileLaunch": [
-    -2.9,
+    -2.0,
     -0.45,
     -6.5
   ],
@@ -385,5 +48,459 @@
       -0.45,
       0
     ]
+  ],
+  "blockout": {
+    "role": "recon",
+    "reference": "art/reference/20261015_small_branches/earth_recon_t3_v2.png",
+    "palette": {
+      "base": "earth",
+      "armor": [
+        0.3,
+        0.31,
+        0.33
+      ],
+      "plate": [
+        0.08,
+        0.12,
+        0.24
+      ]
+    },
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.28,
+      "accentScale": 4,
+      "wear": 0.2,
+      "streaks": 0.2
+    },
+    "keelPiece": true,
+    "cockpit": {
+      "z": -6.8,
+      "w": 0.8,
+      "y": 1.35
+    },
+    "nozzleRadius": 1.2,
+    "rcs": {
+      "stations": [
+        -12.5,
+        10
+      ],
+      "size": 0.26,
+      "plume": 4
+    },
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Sensor prow",
+        "rings": [
+          [
+            -15.0,
+            0.45,
+            0.6,
+            -0.35
+          ],
+          [
+            -13.5,
+            1.0,
+            0.95,
+            -0.25
+          ],
+          [
+            -10,
+            1.3,
+            1.1,
+            0
+          ],
+          [
+            -8,
+            1.45,
+            1.15,
+            0
+          ]
+        ],
+        "section": "nose",
+        "armorFrom": "nose"
+      },
+      {
+        "kind": "loft",
+        "name": "Long fuselage",
+        "rings": [
+          [
+            -8,
+            1.45,
+            1.15,
+            0
+          ],
+          [
+            -5,
+            2.2,
+            1.5,
+            0
+          ],
+          [
+            6,
+            2.2,
+            1.5,
+            0
+          ],
+          [
+            10.5,
+            1.6,
+            1.2,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Containment keel",
+        "center": [
+          0,
+          -1.4,
+          -0.95
+        ],
+        "size": [
+          1.8,
+          1.9,
+          4.2
+        ],
+        "section": "am-keel",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Observation pod",
+        "center": [
+          3.95,
+          0,
+          1.3
+        ],
+        "size": [
+          1.3,
+          1.8,
+          2.6
+        ],
+        "mirror": true,
+        "section": "sensor-ear",
+        "armorFrom": "nose"
+      },
+      {
+        "kind": "box",
+        "name": "Observation pylon",
+        "center": [
+          2.65,
+          0,
+          1.3
+        ],
+        "size": [
+          1.5,
+          0.6,
+          1.8
+        ],
+        "mirror": true
+      },
+      {
+        "kind": "loft",
+        "name": "Engine pod",
+        "rings": [
+          [
+            8.5,
+            0.8,
+            0.8,
+            0
+          ],
+          [
+            9.3,
+            1.05,
+            1.05,
+            0
+          ],
+          [
+            12.6,
+            1.05,
+            1.05,
+            0
+          ],
+          [
+            13.0,
+            0.9,
+            0.9,
+            0
+          ]
+        ],
+        "x": 4,
+        "mirror": true,
+        "section": "engine",
+        "armorFrom": "engine-block"
+      },
+      {
+        "kind": "box",
+        "name": "Engine pylon",
+        "center": [
+          3.0,
+          0,
+          10.5
+        ],
+        "size": [
+          2.2,
+          0.5,
+          2
+        ],
+        "mirror": true
+      },
+      {
+        "kind": "prism",
+        "name": "Stub wing",
+        "points": [
+          [
+            1.9,
+            2.5
+          ],
+          [
+            5.5,
+            7.0
+          ],
+          [
+            5.5,
+            8.0
+          ],
+          [
+            1.9,
+            7.5
+          ]
+        ],
+        "y": 0,
+        "thickness": 0.35,
+        "mirror": true,
+        "core": false,
+        "section": "wing-0",
+        "armorFrom": "wing-back"
+      },
+      {
+        "kind": "fin",
+        "name": "Attached fin",
+        "root": [
+          [
+            1.6,
+            1.2,
+            7.5
+          ],
+          [
+            1.6,
+            1.2,
+            10.0
+          ]
+        ],
+        "tip": [
+          [
+            2.2,
+            3.0,
+            9.0
+          ],
+          [
+            2.2,
+            3.0,
+            10.4
+          ]
+        ],
+        "thickness": 0.24,
+        "mirror": true,
+        "core": false,
+        "mat": "plate",
+        "section": "fin",
+        "armorFrom": "fins"
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Sensor prow",
+        "z": [
+          -11,
+          -10.2
+        ]
+      },
+      {
+        "piece": "Long fuselage",
+        "z": [
+          3.0,
+          4.0
+        ]
+      }
+    ],
+    "fixedSections": []
+  },
+  "id": "earth_recon_t3",
+  "bays": {},
+  "sections": [
+    {
+      "id": "nose",
+      "name": "Sensor prow",
+      "center": [
+        0.0,
+        -0.025,
+        -11.5
+      ],
+      "halfSize": [
+        1.45,
+        1.175,
+        3.5
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "hull",
+      "name": "Long fuselage",
+      "center": [
+        0.0,
+        0.0,
+        1.25
+      ],
+      "halfSize": [
+        2.2,
+        1.5,
+        9.25
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "am-keel",
+      "name": "Containment keel",
+      "center": [
+        0.0,
+        -1.4,
+        -0.95
+      ],
+      "halfSize": [
+        0.9,
+        0.95,
+        2.1
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "sensor-ear-port",
+      "name": "Observation pod port",
+      "center": [
+        -3.95,
+        0.0,
+        1.3
+      ],
+      "halfSize": [
+        0.65,
+        0.9,
+        1.3
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "sensor-ear-starboard",
+      "name": "Observation pod starboard",
+      "center": [
+        3.95,
+        0.0,
+        1.3
+      ],
+      "halfSize": [
+        0.65,
+        0.9,
+        1.3
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "engine-port",
+      "name": "Engine pod port",
+      "center": [
+        -4.0,
+        0.0,
+        10.75
+      ],
+      "halfSize": [
+        1.05,
+        1.05,
+        2.25
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "engine-starboard",
+      "name": "Engine pod starboard",
+      "center": [
+        4.0,
+        0.0,
+        10.75
+      ],
+      "halfSize": [
+        1.05,
+        1.05,
+        2.25
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-0-port",
+      "name": "Stub wing port",
+      "center": [
+        -3.7,
+        0.0,
+        5.25
+      ],
+      "halfSize": [
+        1.8,
+        0.175,
+        2.75
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-0-starboard",
+      "name": "Stub wing starboard",
+      "center": [
+        3.7,
+        0.0,
+        5.25
+      ],
+      "halfSize": [
+        1.8,
+        0.175,
+        2.75
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-port",
+      "name": "Attached fin port",
+      "center": [
+        -1.9,
+        2.1,
+        8.95
+      ],
+      "halfSize": [
+        0.42,
+        0.9,
+        1.45
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "fin-starboard",
+      "name": "Attached fin starboard",
+      "center": [
+        1.9,
+        2.1,
+        8.95
+      ],
+      "halfSize": [
+        0.42,
+        0.9,
+        1.45
+      ],
+      "armorFrom": "fins"
+    }
   ]
 }

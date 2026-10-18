@@ -5,7 +5,6 @@
   "patch": {
     "id": "earth_air_defense_cruiser_t5",
     "branch": "AirDefenseCruiser",
-    "defaultMainGun": "main-laser",
     "modelId": "earth_air_defense_cruiser_t5",
     "squadron": {
       "role": "AirDefenseSquadron",
@@ -89,13 +88,13 @@
     "pointDefense": {
       "mounts": [
         [
-          44,
-          11,
+          48,
+          8,
           65
         ],
         [
-          -44,
-          11,
+          -48,
+          8,
           65
         ],
         [
@@ -109,13 +108,13 @@
           -38
         ],
         [
-          44,
-          11,
+          48,
+          8,
           -65
         ],
         [
-          -44,
-          11,
+          -48,
+          8,
           -65
         ]
       ],
@@ -158,50 +157,38 @@
     "hullSections": [
       {
         "armor": {
-          "thicknessMm": 100
+          "thicknessMm": 4
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "hull",
-        "name": "주선체",
+        "faces": {},
+        "id": "radiator-port",
+        "name": "radiator-port",
         "center": [
+          -56,
           0,
-          0,
-          9
+          116
         ],
         "halfSize": [
-          27,
-          19,
-          129
+          21,
+          1.0,
+          19
         ]
       },
       {
         "armor": {
-          "thicknessMm": 130
+          "thicknessMm": 4
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180,
-            "slopeDegrees": 25
-          }
-        },
-        "id": "bow-1",
-        "name": "함수 1",
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
         "center": [
+          56,
           0,
-          -1,
-          -135
+          116
         ],
         "halfSize": [
-          19,
-          14,
-          25
+          21,
+          1.0,
+          19
         ]
       },
       {
@@ -215,16 +202,64 @@
           }
         },
         "id": "bow-2",
-        "name": "함수 2",
+        "name": "Needle bow tip",
         "center": [
-          0,
-          -3,
-          -172.5
+          0.0,
+          -1.0,
+          -167.5
         ],
         "halfSize": [
-          8,
-          9,
-          12.5
+          12.0,
+          9.0,
+          17.5
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "Needle bow",
+        "center": [
+          0.0,
+          0.0,
+          -130.0
+        ],
+        "halfSize": [
+          20.0,
+          15.0,
+          20.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "hull",
+        "name": "Central keel hull",
+        "center": [
+          0.0,
+          0.0,
+          14.0
+        ],
+        "halfSize": [
+          26.0,
+          18.0,
+          124.0
         ]
       },
       {
@@ -233,52 +268,16 @@
         },
         "faces": {},
         "id": "bridge",
-        "name": "함교",
+        "name": "Low bridge",
         "center": [
-          0,
-          29,
-          46
+          0.0,
+          26.0,
+          55.0
         ],
         "halfSize": [
-          18,
-          12,
-          22
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 4
-        },
-        "faces": {},
-        "id": "radiator-port",
-        "name": "좌현 방열판",
-        "center": [
-          -61,
-          -3,
-          70
-        ],
-        "halfSize": [
-          18,
-          1,
-          23
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 4
-        },
-        "faces": {},
-        "id": "radiator-starboard",
-        "name": "우현 방열판",
-        "center": [
-          61,
-          -3,
-          70
-        ],
-        "halfSize": [
-          18,
-          1,
-          23
+          12.0,
+          10.0,
+          25.0
         ]
       },
       {
@@ -294,16 +293,16 @@
           }
         },
         "id": "turret-base-gun-1",
-        "name": "turret-base-gun-1",
+        "name": "Forward battery base",
         "center": [
-          0,
-          22.5,
-          -60
+          0.0,
+          22.0,
+          -60.0
         ],
         "halfSize": [
-          10,
-          3.5,
-          10
+          10.0,
+          4.0,
+          10.0
         ]
       },
       {
@@ -319,34 +318,41 @@
           }
         },
         "id": "turret-base-gun-2",
-        "name": "turret-base-gun-2",
+        "name": "Ventral battery base",
         "center": [
-          0,
-          -22.5,
-          -30
+          0.0,
+          -22.0,
+          -30.0
         ],
         "halfSize": [
-          10,
+          10.0,
+          4.0,
+          10.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "defense-deck-port",
+        "name": "Swept defence deck port",
+        "center": [
+          -47.5,
+          0.0,
+          -19.0
+        ],
+        "halfSize": [
+          22.5,
           3.5,
-          10
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 35
-        },
-        "faces": {},
-        "id": "sensor-head",
-        "name": "sensor-head",
-        "center": [
-          0,
-          38,
-          46
-        ],
-        "halfSize": [
-          8.5,
-          10.5,
-          9.5
+          111.0
         ]
       },
       {
@@ -361,192 +367,17 @@
             "thicknessMm": 50
           }
         },
-        "id": "defense-deck--1",
-        "name": "defense-deck--1",
+        "id": "defense-deck-starboard",
+        "name": "Swept defence deck starboard",
         "center": [
-          -44,
-          0,
-          -5
+          47.5,
+          0.0,
+          -19.0
         ],
         "halfSize": [
-          14,
-          9,
-          100
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root--1-0",
-        "name": "deck-root--1-0",
-        "center": [
-          -29,
-          0,
-          -65
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root--1-1",
-        "name": "deck-root--1-1",
-        "center": [
-          -29,
-          0,
-          0
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root--1-2",
-        "name": "deck-root--1-2",
-        "center": [
-          -29,
-          0,
-          65
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "defense-deck-1",
-        "name": "defense-deck-1",
-        "center": [
-          44,
-          0,
-          -5
-        ],
-        "halfSize": [
-          14,
-          9,
-          100
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root-1-0",
-        "name": "deck-root-1-0",
-        "center": [
-          29,
-          0,
-          -65
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root-1-1",
-        "name": "deck-root-1-1",
-        "center": [
-          29,
-          0,
-          0
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "deck-root-1-2",
-        "name": "deck-root-1-2",
-        "center": [
-          29,
-          0,
-          65
-        ],
-        "halfSize": [
-          8,
-          4,
-          9
+          22.5,
+          3.5,
+          111.0
         ]
       }
     ],
@@ -556,14 +387,14 @@
         "name": "좌현 방열판",
         "kind": "Cooling",
         "center": [
-          -61,
-          -3,
-          70
+          -56,
+          0,
+          116
         ],
         "halfSize": [
-          17,
+          20,
           0.9,
-          22
+          18
         ],
         "hitPoints": 55.125,
         "resistanceMm": 3,
@@ -574,14 +405,14 @@
         "name": "우현 방열판",
         "kind": "Cooling",
         "center": [
-          61,
-          -3,
-          70
+          56,
+          0,
+          116
         ],
         "halfSize": [
-          17,
+          20,
           0.9,
-          22
+          18
         ],
         "hitPoints": 55.125,
         "resistanceMm": 3,
@@ -593,8 +424,8 @@
         "kind": "Sensor",
         "center": [
           0,
-          38,
-          46
+          26,
+          52
         ],
         "halfSize": [
           8,
@@ -912,6 +743,7 @@
         "grid": "Starboard"
       }
     ],
+    "defaultMainGun": "main-laser",
     "defenseDrones": {
       "count": 4,
       "orbitMeters": 600,

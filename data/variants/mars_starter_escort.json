@@ -4,72 +4,7 @@
   "tier": 1,
   "patch": {
     "id": "mars_starter_escort",
-    "branch": "Escort",
     "modelId": "mars_starter_escort",
-    "matchClass": "Medium",
-    "squadron": {
-      "role": "EscortSquadron",
-      "composition": "호위함 4",
-      "members": [
-        {
-          "hullId": null,
-          "offset": [
-            -1200,
-            0,
-            0
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            1200,
-            0,
-            0
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            -2400,
-            0,
-            900
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            2400,
-            0,
-            900
-          ]
-        }
-      ]
-    },
-    "ai": {
-      "profile": {
-        "standoffMeters": 52000,
-        "railFlightSeconds": 6.5,
-        "missileRangeMeters": 110000,
-        "attackRuns": false
-      },
-      "defaultPips": [
-        2,
-        1,
-        1,
-        2,
-        2
-      ],
-      "targetPreference": {
-        "Battleship": 1,
-        "Escort": 0,
-        "Interceptor": 2
-      }
-    },
-    "battleValue": {
-      "weight": 2,
-      "captureStrength": 1.5,
-      "hudMarkerRadius": 4
-    },
     "bays": [
       {
         "id": "utility-port",
@@ -92,32 +27,14 @@
       }
     ],
     "structureHitPoints": 1785.0,
-    "damageControl": {
-      "kits": 4,
-      "repairSeconds": 14,
-      "restoreFraction": 0.35,
-      "quietSeconds": 5
-    },
-    "kind": "Escort",
     "railgun": {
-      "moduleId": "gun-1",
       "muzzle": [
         0.0,
         19.304000000000002,
         -89.12
       ],
-      "muzzleSpeed": 10500,
       "reloadSeconds": 1.1764705882352942,
-      "energy": 660,
-      "penetrationMm": 1000,
-      "moduleDamage": 195,
-      "maxRange": 150000,
       "rounds": 480,
-      "traverseDegrees": 100,
-      "sensorErrorMeters": 0.385,
-      "sensorErrorPerKm": 0.05500000000000001,
-      "velocityError": 0.11000000000000001,
-      "shotHeatMj": 70,
       "mounts": [
         {
           "moduleId": "gun-1",
@@ -164,160 +81,73 @@
       ]
     },
     "flight": {
-      "kind": "Escort",
       "displayName": "루나에급 호위함",
       "length": 224.0,
       "massKg": 76500000.0,
-      "forwardAccel": 18.9,
-      "strafeAccel": 8.1,
-      "brakeAccel": 16.2,
-      "maxAccelG": 2.4,
-      "maxSpeed": 268.4,
-      "boostMultiplier": 1.6,
-      "pitchYawRateDeg": 28.6,
-      "pitchYawAccelDeg": 18.2,
-      "rollRateDeg": 45.5,
-      "rollAccelDeg": 32.5,
       "cameraDistance": 416.64,
       "cameraHeight": 74.88000000000001
     },
     "shield": {
       "capacity": 231.2,
-      "rechargePerSecond": 20.825,
-      "rechargeDelay": 5
-    },
-    "power": {
-      "outputMw": 500,
-      "engines": 160,
-      "shields": 120,
-      "weapons": 100,
-      "sensors": 20,
-      "ecm": 80,
-      "heatCapacityMj": 4500,
-      "coolingMw": 330
-    },
-    "sensors": {
-      "strength": 1480.0,
-      "signature": 16.4,
-      "jammer": 4.65
+      "rechargePerSecond": 20.825
     },
     "missiles": {
       "rounds": 12,
-      "reloadSeconds": 3,
       "launchPoint": [
-        0.0,
+        0,
         18.72,
-        -13.440000000000001
-      ],
-      "ejectSpeed": 50,
-      "accelG": 30,
-      "burnSeconds": 60,
-      "maxFlightSeconds": 150,
-      "seekerRangeMeters": 15000,
-      "seekerFovDegrees": 40,
-      "seekerStrength": 3,
-      "fuzeMeters": 25,
-      "turnRateDegrees": 120,
-      "maxSteeringAngleDegrees": 90,
-      "thrustGimbalDegrees": 10,
-      "energy": 500,
-      "penetrationMm": 600,
-      "moduleDamage": 160,
-      "hitPoints": 12,
-      "launchHeatMj": 8
+        -13.44
+      ]
     },
     "pointDefense": {
       "mounts": [
         [
-          0.0,
+          0,
           -12.48,
-          26.880000000000003
-        ],
-        [
-          0.0,
-          14.975999999999999,
-          -26.880000000000003
-        ]
-      ],
-      "rangeMeters": 4500,
-      "shotsPerSecond": 12,
-      "hitChance": 0.09,
-      "damagePerHit": 4,
-      "normals": [
-        [
-          0,
-          -1,
-          0
+          26.88
         ],
         [
           0,
-          0.8,
-          -0.6
+          14.976,
+          -26.88
         ]
-      ],
-      "arcDegrees": 100,
-      "yawDegrees": 110,
-      "minElevation": -5,
-      "maxElevation": 85,
-      "yawRate": 90,
-      "elevationRate": 60,
-      "toleranceDegrees": 1.5
-    },
-    "decoys": {
-      "count": 10,
-      "perLaunch": 2,
-      "cooldownSeconds": 3,
-      "signatureFactor": 2.5,
-      "lifetimeSeconds": 5,
-      "ejectSpeed": 60
+      ]
     },
     "hullSections": [
       {
         "armor": {
-          "thicknessMm": 70.0
+          "thicknessMm": 2.8
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "hull",
-        "name": "hull",
+        "faces": {},
+        "id": "radiator-port",
+        "name": "radiator-port",
         "center": [
+          -20,
           0,
-          0,
-          -21.32
+          58
         ],
         "halfSize": [
-          15.768,
-          11.856,
-          59.32
+          0.44200000000000006,
+          11.26,
+          18.48
         ]
       },
       {
         "armor": {
-          "thicknessMm": 91.0
+          "thicknessMm": 2.8
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0,
-            "slopeDegrees": 25
-          }
-        },
-        "id": "bow-1",
-        "name": "bow-1",
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
         "center": [
+          20,
           0,
-          -0.624,
-          -90.72
+          58
         ],
         "halfSize": [
-          12.848,
-          9.36,
-          16.8
+          0.44200000000000006,
+          11.26,
+          18.48
         ]
       },
       {
@@ -331,86 +161,39 @@
           }
         },
         "id": "bow-2",
-        "name": "bow-2",
+        "name": "Thin bow point",
         "center": [
-          0,
-          -1.872,
-          -115.92
+          0.0,
+          -1.9,
+          -115.9
         ],
         "halfSize": [
-          7.008,
-          6.24,
+          7.0,
+          6.2,
           8.4
         ]
       },
       {
         "armor": {
-          "thicknessMm": 24.5
+          "thicknessMm": 91.0
         },
-        "faces": {},
-        "id": "bridge",
-        "name": "bridge",
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "Thin bow",
         "center": [
-          0,
-          20,
-          20
+          0.0,
+          -0.6,
+          -90.7
         ],
         "halfSize": [
-          8,
-          8.5,
-          12
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 6
-        },
-        "id": "sensor-head",
-        "name": "sensor-head",
-        "center": [
-          0,
-          40,
-          20
-        ],
-        "halfSize": [
-          5.1392,
-          6.864,
-          6.6528
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 24.5
-        },
-        "faces": {},
-        "id": "mast-stem",
-        "name": "mast-stem",
-        "center": [
-          0,
-          31,
-          20
-        ],
-        "halfSize": [
-          2.8,
-          5,
-          3.8
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 38
-        },
-        "id": "turret-base-gun-1",
-        "name": "turret-base-gun-1",
-        "center": [
-          0,
-          13.424,
-          -40.32
-        ],
-        "halfSize": [
-          5.6,
-          3.08,
-          5.6
+          12.8,
+          9.4,
+          16.8
         ]
       },
       {
@@ -425,17 +208,17 @@
             "thicknessMm": 35.0
           }
         },
-        "id": "aft-block",
-        "name": "aft-block",
+        "id": "hull",
+        "name": "Forward hull",
         "center": [
-          0,
-          0,
-          85
+          0.0,
+          0.0,
+          -17.95
         ],
         "halfSize": [
-          15.768,
-          11.856,
-          7.736
+          15.77,
+          11.86,
+          55.95
         ]
       },
       {
@@ -451,15 +234,15 @@
           }
         },
         "id": "engineering-keel",
-        "name": "engineering-keel",
+        "name": "Engineering keel",
         "center": [
-          0,
-          -7,
+          0.0,
+          -7.0,
           57.7
         ],
         "halfSize": [
-          5,
-          4,
+          5.0,
+          4.0,
           20.2
         ]
       },
@@ -476,16 +259,16 @@
           }
         },
         "id": "service-generator-port",
-        "name": "service-generator-port",
+        "name": "Service generator block",
         "center": [
-          -7.5920000000000005,
+          -7.59,
           0.0,
           47.04
         ],
         "halfSize": [
-          3.804,
-          7.787999999999999,
-          10.38
+          3.8,
+          7.8,
+          10.4
         ]
       },
       {
@@ -501,16 +284,16 @@
           }
         },
         "id": "service-cooling-port",
-        "name": "service-cooling-port",
+        "name": "Service cooling block port",
         "center": [
           -11.68,
           0.0,
-          53.760000000000005
+          53.76
         ],
         "halfSize": [
-          3.2199999999999998,
-          6.54,
-          8.364
+          3.22,
+          6.55,
+          8.4
         ]
       },
       {
@@ -526,16 +309,16 @@
           }
         },
         "id": "service-cooling-starboard",
-        "name": "service-cooling-starboard",
+        "name": "Service cooling block starboard",
         "center": [
           11.68,
           0.0,
-          53.760000000000005
+          53.76
         ],
         "halfSize": [
-          3.2199999999999998,
-          6.54,
-          8.364
+          3.22,
+          6.55,
+          8.4
         ]
       },
       {
@@ -551,16 +334,16 @@
           }
         },
         "id": "starboard-feed",
-        "name": "starboard-feed",
+        "name": "Starboard feed",
         "center": [
           11.68,
-          0,
+          0.0,
           41.8
         ],
         "halfSize": [
           2.92,
-          3,
-          4
+          3.0,
+          4.0
         ]
       },
       {
@@ -575,22 +358,22 @@
             "thicknessMm": 35.0
           }
         },
-        "id": "truss-chord-port--1",
-        "name": "truss-chord-port--1",
+        "id": "aft-block",
+        "name": "Aft engine block",
         "center": [
-          -15.4,
-          -10,
-          57.7
+          0.0,
+          0.0,
+          84.85
         ],
         "halfSize": [
-          1,
-          1,
-          20.2
+          15.77,
+          11.86,
+          7.85
         ]
       },
       {
         "armor": {
-          "thicknessMm": 70.0
+          "thicknessMm": 38
         },
         "faces": {
           "Fore": {
@@ -600,103 +383,71 @@
             "thicknessMm": 35.0
           }
         },
-        "id": "truss-chord-port-1",
-        "name": "truss-chord-port-1",
+        "id": "turret-base-gun-1",
+        "name": "Forward battery base",
         "center": [
-          -15.4,
-          10,
-          57.7
+          0.0,
+          13.4,
+          -40.32
         ],
         "halfSize": [
-          1,
-          1,
-          20.2
+          5.6,
+          3.1,
+          5.6
         ]
       },
       {
         "armor": {
-          "thicknessMm": 2.8
+          "thicknessMm": 24.5
         },
         "faces": {},
-        "id": "radiator-port",
-        "name": "radiator-port",
+        "id": "bridge",
+        "name": "Command block",
         "center": [
-          -20,
-          0,
-          58
+          0.0,
+          17.9,
+          20.0
         ],
         "halfSize": [
-          0.36,
-          10.8,
-          18.4
+          8.0,
+          6.1,
+          12.0
         ]
       },
       {
         "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "truss-chord-starboard--1",
-        "name": "truss-chord-starboard--1",
-        "center": [
-          15.4,
-          -10,
-          57.7
-        ],
-        "halfSize": [
-          1,
-          1,
-          20.2
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "truss-chord-starboard-1",
-        "name": "truss-chord-starboard-1",
-        "center": [
-          15.4,
-          10,
-          57.7
-        ],
-        "halfSize": [
-          1,
-          1,
-          20.2
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 2.8
+          "thicknessMm": 24.5
         },
         "faces": {},
-        "id": "radiator-starboard",
-        "name": "radiator-starboard",
+        "id": "mast-stem",
+        "name": "Sensor mast",
         "center": [
-          20,
-          0,
-          58
+          0.0,
+          29.5,
+          20.0
         ],
         "halfSize": [
-          0.36,
-          10.8,
-          18.4
+          2.8,
+          5.5,
+          3.8
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 6
+        },
+        "faces": {},
+        "id": "sensor-head",
+        "name": "Sensor head",
+        "center": [
+          0.0,
+          40.0,
+          20.0
+        ],
+        "halfSize": [
+          5.17,
+          6.74,
+          6.55
         ]
       }
     ],
@@ -1021,7 +772,6 @@
         "resistanceMm": 24.0,
         "grid": "Starboard"
       }
-    ],
-    "design": "Mars"
+    ]
   }
 }

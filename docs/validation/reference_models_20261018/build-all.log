@@ -1,0 +1,694 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+19:02:28 | INFO: Starting glTF 2.0 export
+19:02:28 | INFO: Extracting primitive: Blunt armoured bow.001
+19:02:28 | INFO: Primitives created: 10
+19:02:28 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:02:28 | INFO: Primitives created: 3
+19:02:28 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:02:28 | INFO: Primitives created: 3
+19:02:28 | INFO: Extracting primitive: PD 0 receiver.001
+19:02:28 | INFO: Primitives created: 1
+19:02:28 | INFO: Extracting primitive: PD 0 barrel.002
+19:02:28 | INFO: Primitives created: 2
+19:02:28 | INFO: Extracting primitive: PD 1 receiver.001
+19:02:28 | INFO: Primitives created: 1
+19:02:28 | INFO: Extracting primitive: PD 1 barrel.002
+19:02:28 | INFO: Primitives created: 2
+19:02:28 | INFO: Extracting primitive: PD 2 receiver.001
+19:02:28 | INFO: Primitives created: 1
+19:02:28 | INFO: Extracting primitive: PD 2 barrel.002
+19:02:28 | INFO: Primitives created: 2
+19:02:28 | INFO: Extracting primitive: PD 3 receiver.001
+19:02:28 | INFO: Primitives created: 1
+19:02:28 | INFO: Extracting primitive: PD 3 barrel.002
+19:02:28 | INFO: Primitives created: 2
+19:02:28 | INFO: Finished glTF 2.0 export in 0.14374256134033203 s
+00:13.062  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_starter_escort_hero.png'
+00:22.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_starter_escort_underside.png'
+00:32.422  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_starter_escort_top.png'
+00:42.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_starter_escort_rear.png'
+
+Info: Saved as "earth_starter_escort.blend"
+BUILT earth_starter_escort 7672 triangles
+19:03:07 | INFO: Starting glTF 2.0 export
+19:03:07 | INFO: Extracting primitive: Thin bow point.001
+19:03:07 | INFO: Primitives created: 10
+19:03:07 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:03:07 | INFO: Primitives created: 3
+19:03:07 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:03:07 | INFO: Primitives created: 3
+19:03:07 | INFO: Extracting primitive: PD 0 receiver.001
+19:03:07 | INFO: Primitives created: 1
+19:03:07 | INFO: Extracting primitive: PD 0 barrel.002
+19:03:07 | INFO: Primitives created: 2
+19:03:07 | INFO: Extracting primitive: PD 1 receiver.001
+19:03:07 | INFO: Primitives created: 1
+19:03:07 | INFO: Extracting primitive: PD 1 barrel.002
+19:03:07 | INFO: Primitives created: 2
+19:03:07 | INFO: Finished glTF 2.0 export in 0.08357787132263184 s
+00:52.859  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_hero.png'
+01:01.890  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_underside.png'
+01:10.047  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_top.png'
+01:18.609  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_starter_escort_rear.png'
+
+Info: Saved as "mars_starter_escort.blend"
+BUILT mars_starter_escort 8828 triangles
+19:03:44 | INFO: Starting glTF 2.0 export
+19:03:44 | INFO: Extracting primitive: Chisel bow.001
+19:03:44 | INFO: Primitives created: 10
+19:03:44 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:03:44 | INFO: Primitives created: 3
+19:03:44 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:03:44 | INFO: Primitives created: 3
+19:03:44 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:03:44 | INFO: Primitives created: 3
+19:03:44 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:03:44 | INFO: Primitives created: 3
+19:03:44 | INFO: Extracting primitive: PD 0 receiver.001
+19:03:44 | INFO: Primitives created: 1
+19:03:44 | INFO: Extracting primitive: PD 0 barrel.002
+19:03:44 | INFO: Primitives created: 2
+19:03:44 | INFO: Extracting primitive: PD 1 receiver.001
+19:03:44 | INFO: Primitives created: 1
+19:03:44 | INFO: Extracting primitive: PD 1 barrel.002
+19:03:44 | INFO: Primitives created: 2
+19:03:44 | INFO: Extracting primitive: PD 2 receiver.001
+19:03:44 | INFO: Primitives created: 1
+19:03:44 | INFO: Extracting primitive: PD 2 barrel.002
+19:03:44 | INFO: Primitives created: 2
+19:03:44 | INFO: Extracting primitive: PD 3 receiver.001
+19:03:44 | INFO: Primitives created: 1
+19:03:44 | INFO: Extracting primitive: PD 3 barrel.002
+19:03:44 | INFO: Primitives created: 2
+19:03:44 | INFO: Finished glTF 2.0 export in 0.0886220932006836 s
+01:28.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_hero.png'
+01:37.359  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_underside.png'
+01:46.078  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_top.png'
+01:54.953  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_rear.png'
+
+Info: Saved as "earth_gun_cruiser.blend"
+BUILT earth_gun_cruiser 9736 triangles
+19:04:21 | INFO: Starting glTF 2.0 export
+19:04:21 | INFO: Extracting primitive: Chisel bow.001
+19:04:21 | INFO: Primitives created: 10
+19:04:21 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:04:21 | INFO: Primitives created: 3
+19:04:21 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:04:21 | INFO: Primitives created: 3
+19:04:21 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:04:21 | INFO: Primitives created: 3
+19:04:21 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:04:21 | INFO: Primitives created: 3
+19:04:21 | INFO: Extracting primitive: PD 0 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 0 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Extracting primitive: PD 1 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 1 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Extracting primitive: PD 2 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 2 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Extracting primitive: PD 3 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 3 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Extracting primitive: PD 4 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 4 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Extracting primitive: PD 5 receiver.001
+19:04:21 | INFO: Primitives created: 1
+19:04:21 | INFO: Extracting primitive: PD 5 barrel.002
+19:04:21 | INFO: Primitives created: 2
+19:04:21 | INFO: Finished glTF 2.0 export in 0.10418224334716797 s
+02:07.703  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_hero.png'
+02:18.031  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_underside.png'
+02:26.265  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_top.png'
+02:34.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_rear.png'
+
+Info: Saved as "earth_air_defense_cruiser.blend"
+BUILT earth_air_defense_cruiser 9952 triangles
+19:04:59 | INFO: Starting glTF 2.0 export
+19:04:59 | INFO: Extracting primitive: Spear point.001
+19:04:59 | INFO: Primitives created: 10
+19:04:59 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:04:59 | INFO: Primitives created: 3
+19:04:59 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:04:59 | INFO: Primitives created: 3
+19:04:59 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:04:59 | INFO: Primitives created: 3
+19:04:59 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:04:59 | INFO: Primitives created: 3
+19:04:59 | INFO: Extracting primitive: PD 0 receiver.001
+19:04:59 | INFO: Primitives created: 1
+19:04:59 | INFO: Extracting primitive: PD 0 barrel.002
+19:04:59 | INFO: Primitives created: 2
+19:04:59 | INFO: Extracting primitive: PD 1 receiver.001
+19:04:59 | INFO: Primitives created: 1
+19:04:59 | INFO: Extracting primitive: PD 1 barrel.002
+19:04:59 | INFO: Primitives created: 2
+19:04:59 | INFO: Finished glTF 2.0 export in 0.08750486373901367 s
+02:43.406  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_hero.png'
+02:51.906  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_underside.png'
+03:00.359  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_top.png'
+03:08.328  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_rear.png'
+
+Info: Saved as "mars_gun_cruiser.blend"
+BUILT mars_gun_cruiser 10956 triangles
+19:05:33 | INFO: Starting glTF 2.0 export
+19:05:33 | INFO: Extracting primitive: Spear point.001
+19:05:33 | INFO: Primitives created: 10
+19:05:33 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:05:33 | INFO: Primitives created: 3
+19:05:33 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:05:33 | INFO: Primitives created: 3
+19:05:33 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:05:33 | INFO: Primitives created: 3
+19:05:33 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:05:33 | INFO: Primitives created: 3
+19:05:33 | INFO: Extracting primitive: PD 0 receiver.001
+19:05:33 | INFO: Primitives created: 1
+19:05:33 | INFO: Extracting primitive: PD 0 barrel.002
+19:05:33 | INFO: Primitives created: 2
+19:05:33 | INFO: Extracting primitive: PD 1 receiver.001
+19:05:33 | INFO: Primitives created: 1
+19:05:33 | INFO: Extracting primitive: PD 1 barrel.002
+19:05:33 | INFO: Primitives created: 2
+19:05:34 | INFO: Finished glTF 2.0 export in 0.1074228286743164 s
+03:17.922  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_hero.png'
+03:26.468  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_underside.png'
+03:35.406  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_top.png'
+03:44.734  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_rear.png'
+
+Info: Saved as "mars_missile_cruiser.blend"
+BUILT mars_missile_cruiser 10920 triangles
+19:06:09 | INFO: Starting glTF 2.0 export
+19:06:09 | INFO: Extracting primitive: Tapered prow.001
+19:06:09 | INFO: Primitives created: 10
+19:06:09 | INFO: Extracting primitive: PD 0 receiver.001
+19:06:09 | INFO: Primitives created: 1
+19:06:09 | INFO: Extracting primitive: PD 0 barrel.002
+19:06:09 | INFO: Primitives created: 2
+19:06:09 | INFO: Extracting primitive: PD 1 receiver.001
+19:06:09 | INFO: Primitives created: 1
+19:06:09 | INFO: Extracting primitive: PD 1 barrel.002
+19:06:09 | INFO: Primitives created: 2
+19:06:10 | INFO: Finished glTF 2.0 export in 0.06995654106140137 s
+03:53.765  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_hero.png'
+04:02.156  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_underside.png'
+04:10.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_rear.png'
+04:18.453  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t3_top.png'
+
+Info: Saved as "interceptor_t3.blend"
+BUILT interceptor_t3 6376 triangles
+19:06:43 | INFO: Starting glTF 2.0 export
+19:06:43 | INFO: Extracting primitive: Thin prow.001
+19:06:43 | INFO: Primitives created: 10
+19:06:43 | INFO: Extracting primitive: PD 0 receiver.001
+19:06:43 | INFO: Primitives created: 1
+19:06:43 | INFO: Extracting primitive: PD 0 barrel.002
+19:06:43 | INFO: Primitives created: 2
+19:06:43 | INFO: Finished glTF 2.0 export in 0.054940223693847656 s
+04:27.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_hero.png'
+04:35.500  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_underside.png'
+04:43.625  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_rear.png'
+04:51.718  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_top.png'
+
+Info: Saved as "mars_interceptor_t3.blend"
+BUILT mars_interceptor_t3 5980 triangles
+19:07:16 | INFO: Starting glTF 2.0 export
+19:07:16 | INFO: Extracting primitive: Sensor prow.001
+19:07:16 | INFO: Primitives created: 10
+19:07:16 | INFO: Extracting primitive: PD 0 receiver.001
+19:07:16 | INFO: Primitives created: 1
+19:07:16 | INFO: Extracting primitive: PD 0 barrel.002
+19:07:16 | INFO: Primitives created: 2
+19:07:16 | INFO: Extracting primitive: PD 1 receiver.001
+19:07:16 | INFO: Primitives created: 1
+19:07:16 | INFO: Extracting primitive: PD 1 barrel.002
+19:07:16 | INFO: Primitives created: 2
+19:07:16 | INFO: Finished glTF 2.0 export in 0.04738879203796387 s
+05:00.390  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t3_hero.png'
+05:08.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t3_underside.png'
+05:16.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t3_rear.png'
+05:24.750  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t3_top.png'
+
+Info: Saved as "earth_recon_t3.blend"
+BUILT earth_recon_t3 7024 triangles
+19:07:49 | INFO: Starting glTF 2.0 export
+19:07:49 | INFO: Extracting primitive: Narrow prow.001
+19:07:49 | INFO: Primitives created: 10
+19:07:49 | INFO: Extracting primitive: PD 0 receiver.001
+19:07:49 | INFO: Primitives created: 1
+19:07:49 | INFO: Extracting primitive: PD 0 barrel.002
+19:07:49 | INFO: Primitives created: 2
+19:07:49 | INFO: Finished glTF 2.0 export in 0.04849505424499512 s
+05:33.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t3_hero.png'
+05:42.203  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t3_underside.png'
+05:50.578  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t3_rear.png'
+06:00.875  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t3_top.png'
+
+Info: Saved as "mars_assault_t3.blend"
+BUILT mars_assault_t3 5836 triangles
+19:08:26 | INFO: Starting glTF 2.0 export
+19:08:26 | INFO: Extracting primitive: Twin prow lobe port.001
+19:08:26 | INFO: Primitives created: 10
+19:08:26 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:08:26 | INFO: Primitives created: 3
+19:08:26 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:08:26 | INFO: Primitives created: 3
+19:08:26 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:08:26 | INFO: Primitives created: 3
+19:08:26 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:08:26 | INFO: Primitives created: 3
+19:08:26 | INFO: Extracting primitive: PD 0 receiver.001
+19:08:26 | INFO: Primitives created: 1
+19:08:26 | INFO: Extracting primitive: PD 0 barrel.002
+19:08:26 | INFO: Primitives created: 2
+19:08:26 | INFO: Extracting primitive: PD 1 receiver.001
+19:08:26 | INFO: Primitives created: 1
+19:08:26 | INFO: Extracting primitive: PD 1 barrel.002
+19:08:26 | INFO: Primitives created: 2
+19:08:26 | INFO: Extracting primitive: PD 2 receiver.001
+19:08:26 | INFO: Primitives created: 1
+19:08:26 | INFO: Extracting primitive: PD 2 barrel.002
+19:08:26 | INFO: Primitives created: 2
+19:08:26 | INFO: Extracting primitive: PD 3 receiver.001
+19:08:26 | INFO: Primitives created: 1
+19:08:26 | INFO: Extracting primitive: PD 3 barrel.002
+19:08:26 | INFO: Primitives created: 2
+19:08:26 | INFO: Finished glTF 2.0 export in 0.11105036735534668 s
+06:13.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_t4_hero.png'
+06:25.109  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_t4_underside.png'
+06:34.093  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_t4_top.png'
+06:41.906  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_gun_cruiser_t4_rear.png'
+
+Info: Saved as "earth_gun_cruiser_t4.blend"
+BUILT earth_gun_cruiser_t4 10128 triangles
+19:09:07 | INFO: Starting glTF 2.0 export
+19:09:07 | INFO: Extracting primitive: Twin prow lobe port.001
+19:09:07 | INFO: Primitives created: 10
+19:09:07 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:09:07 | INFO: Primitives created: 3
+19:09:07 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:09:07 | INFO: Primitives created: 3
+19:09:07 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:09:07 | INFO: Primitives created: 3
+19:09:07 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:09:07 | INFO: Primitives created: 3
+19:09:07 | INFO: Extracting primitive: PD 0 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 0 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Extracting primitive: PD 1 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 1 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Extracting primitive: PD 2 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 2 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Extracting primitive: PD 3 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 3 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Extracting primitive: PD 4 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 4 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Extracting primitive: PD 5 receiver.001
+19:09:07 | INFO: Primitives created: 1
+19:09:07 | INFO: Extracting primitive: PD 5 barrel.002
+19:09:07 | INFO: Primitives created: 2
+19:09:07 | INFO: Finished glTF 2.0 export in 0.09904742240905762 s
+06:52.609  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t4_hero.png'
+07:02.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t4_underside.png'
+07:10.500  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t4_top.png'
+07:18.578  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t4_rear.png'
+
+Info: Saved as "earth_air_defense_cruiser_t4.blend"
+BUILT earth_air_defense_cruiser_t4 10352 triangles
+19:09:44 | INFO: Starting glTF 2.0 export
+19:09:44 | INFO: Extracting primitive: Spear point.001
+19:09:44 | INFO: Primitives created: 10
+19:09:44 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:09:44 | INFO: Primitives created: 3
+19:09:44 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:09:44 | INFO: Primitives created: 3
+19:09:44 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:09:44 | INFO: Primitives created: 3
+19:09:44 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:09:44 | INFO: Primitives created: 3
+19:09:44 | INFO: Extracting primitive: PD 0 receiver.001
+19:09:44 | INFO: Primitives created: 1
+19:09:44 | INFO: Extracting primitive: PD 0 barrel.002
+19:09:44 | INFO: Primitives created: 2
+19:09:44 | INFO: Extracting primitive: PD 1 receiver.001
+19:09:44 | INFO: Primitives created: 1
+19:09:44 | INFO: Extracting primitive: PD 1 barrel.002
+19:09:44 | INFO: Primitives created: 2
+19:09:44 | INFO: Finished glTF 2.0 export in 0.07611703872680664 s
+07:27.843  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t4_hero.png'
+07:36.406  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t4_underside.png'
+07:44.140  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t4_top.png'
+07:52.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t4_rear.png'
+
+Info: Saved as "mars_gun_cruiser_t4.blend"
+BUILT mars_gun_cruiser_t4 10304 triangles
+19:10:17 | INFO: Starting glTF 2.0 export
+19:10:17 | INFO: Extracting primitive: Spear point.001
+19:10:17 | INFO: Primitives created: 10
+19:10:17 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:10:17 | INFO: Primitives created: 3
+19:10:17 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:10:17 | INFO: Primitives created: 3
+19:10:17 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:10:17 | INFO: Primitives created: 3
+19:10:17 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:10:17 | INFO: Primitives created: 3
+19:10:17 | INFO: Extracting primitive: PD 0 receiver.001
+19:10:17 | INFO: Primitives created: 1
+19:10:17 | INFO: Extracting primitive: PD 0 barrel.002
+19:10:17 | INFO: Primitives created: 2
+19:10:17 | INFO: Extracting primitive: PD 1 receiver.001
+19:10:17 | INFO: Primitives created: 1
+19:10:17 | INFO: Extracting primitive: PD 1 barrel.002
+19:10:17 | INFO: Primitives created: 2
+19:10:17 | INFO: Finished glTF 2.0 export in 0.06369638442993164 s
+08:01.406  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t4_hero.png'
+08:09.781  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t4_underside.png'
+08:17.234  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t4_top.png'
+08:25.109  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t4_rear.png'
+
+Info: Saved as "mars_missile_cruiser_t4.blend"
+BUILT mars_missile_cruiser_t4 11188 triangles
+19:10:50 | INFO: Starting glTF 2.0 export
+19:10:50 | INFO: Extracting primitive: Blunt prow.001
+19:10:50 | INFO: Primitives created: 10
+19:10:50 | INFO: Extracting primitive: PD 0 receiver.001
+19:10:50 | INFO: Primitives created: 1
+19:10:50 | INFO: Extracting primitive: PD 0 barrel.002
+19:10:50 | INFO: Primitives created: 2
+19:10:50 | INFO: Extracting primitive: PD 1 receiver.001
+19:10:50 | INFO: Primitives created: 1
+19:10:50 | INFO: Extracting primitive: PD 1 barrel.002
+19:10:50 | INFO: Primitives created: 2
+19:10:50 | INFO: Finished glTF 2.0 export in 0.04299187660217285 s
+08:33.468  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t4_hero.png'
+08:41.922  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t4_underside.png'
+08:50.140  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t4_rear.png'
+08:58.328  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t4_top.png'
+
+Info: Saved as "earth_recon_t4.blend"
+BUILT earth_recon_t4 7388 triangles
+19:11:23 | INFO: Starting glTF 2.0 export
+19:11:23 | INFO: Extracting primitive: Tapered prow.001
+19:11:23 | INFO: Primitives created: 10
+19:11:23 | INFO: Extracting primitive: PD 0 receiver.001
+19:11:23 | INFO: Primitives created: 1
+19:11:23 | INFO: Extracting primitive: PD 0 barrel.002
+19:11:23 | INFO: Primitives created: 2
+19:11:23 | INFO: Extracting primitive: PD 1 receiver.001
+19:11:23 | INFO: Primitives created: 1
+19:11:23 | INFO: Extracting primitive: PD 1 barrel.002
+19:11:23 | INFO: Primitives created: 2
+19:11:23 | INFO: Finished glTF 2.0 export in 0.09443426132202148 s
+09:08.468  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_hero.png'
+09:17.640  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_underside.png'
+09:26.297  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_rear.png'
+09:35.078  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_top.png'
+
+Info: Saved as "interceptor_t4.blend"
+BUILT interceptor_t4 6640 triangles
+19:12:00 | INFO: Starting glTF 2.0 export
+19:12:00 | INFO: Extracting primitive: Armoured prow.001
+19:12:00 | INFO: Primitives created: 10
+19:12:00 | INFO: Extracting primitive: PD 0 receiver.001
+19:12:00 | INFO: Primitives created: 1
+19:12:00 | INFO: Extracting primitive: PD 0 barrel.002
+19:12:00 | INFO: Primitives created: 2
+19:12:00 | INFO: Finished glTF 2.0 export in 0.05693459510803223 s
+09:44.562  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t4_hero.png'
+09:53.593  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t4_underside.png'
+10:02.453  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t4_rear.png'
+10:11.265  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t4_top.png'
+
+Info: Saved as "mars_assault_t4.blend"
+BUILT mars_assault_t4 5796 triangles
+19:12:36 | INFO: Starting glTF 2.0 export
+19:12:36 | INFO: Extracting primitive: Dart prow.001
+19:12:36 | INFO: Primitives created: 11
+19:12:36 | INFO: Extracting primitive: PD 0 receiver.001
+19:12:36 | INFO: Primitives created: 1
+19:12:36 | INFO: Extracting primitive: PD 0 barrel.002
+19:12:36 | INFO: Primitives created: 2
+19:12:36 | INFO: Finished glTF 2.0 export in 0.04443025588989258 s
+10:20.156  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t4_hero.png'
+10:28.375  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t4_underside.png'
+10:36.547  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t4_rear.png'
+10:44.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t4_top.png'
+
+Info: Saved as "mars_interceptor_t4.blend"
+BUILT mars_interceptor_t4 6156 triangles
+19:13:11 | INFO: Starting glTF 2.0 export
+19:13:11 | INFO: Extracting primitive: Stepped ram prow.001
+19:13:11 | INFO: Primitives created: 10
+19:13:11 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+19:13:11 | INFO: Primitives created: 3
+19:13:11 | INFO: Extracting primitive: PD 0 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 0 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 1 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 1 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 2 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 2 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 3 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 3 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 4 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 4 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 5 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 5 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 6 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 6 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Extracting primitive: PD 7 receiver.001
+19:13:11 | INFO: Primitives created: 1
+19:13:11 | INFO: Extracting primitive: PD 7 barrel.002
+19:13:11 | INFO: Primitives created: 2
+19:13:11 | INFO: Finished glTF 2.0 export in 0.13602733612060547 s
+10:55.687  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_hero.png'
+11:04.343  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_underside.png'
+11:12.593  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_top.png'
+11:20.843  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_rear.png'
+
+Info: Saved as "battleship_t5.blend"
+BUILT battleship_t5 12844 triangles
+19:13:46 | INFO: Starting glTF 2.0 export
+19:13:46 | INFO: Extracting primitive: Spear point.001
+19:13:46 | INFO: Primitives created: 10
+19:13:46 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:13:46 | INFO: Primitives created: 3
+19:13:46 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:13:46 | INFO: Primitives created: 3
+19:13:46 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+19:13:46 | INFO: Primitives created: 3
+19:13:46 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+19:13:46 | INFO: Primitives created: 3
+19:13:46 | INFO: Extracting primitive: PD 0 receiver.001
+19:13:46 | INFO: Primitives created: 1
+19:13:46 | INFO: Extracting primitive: PD 0 barrel.002
+19:13:46 | INFO: Primitives created: 2
+19:13:46 | INFO: Extracting primitive: PD 1 receiver.001
+19:13:46 | INFO: Primitives created: 1
+19:13:46 | INFO: Extracting primitive: PD 1 barrel.002
+19:13:46 | INFO: Primitives created: 2
+19:13:46 | INFO: Extracting primitive: PD 2 receiver.001
+19:13:46 | INFO: Primitives created: 1
+19:13:46 | INFO: Extracting primitive: PD 2 barrel.002
+19:13:46 | INFO: Primitives created: 2
+19:13:46 | INFO: Extracting primitive: PD 3 receiver.001
+19:13:46 | INFO: Primitives created: 1
+19:13:46 | INFO: Extracting primitive: PD 3 barrel.002
+19:13:46 | INFO: Primitives created: 2
+19:13:47 | INFO: Finished glTF 2.0 export in 0.09287285804748535 s
+11:30.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_battleship_t5_hero.png'
+11:39.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_battleship_t5_underside.png'
+11:46.875  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_battleship_t5_top.png'
+11:54.328  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_battleship_t5_rear.png'
+
+Info: Saved as "mars_battleship_t5.blend"
+BUILT mars_battleship_t5 12508 triangles
+19:14:20 | INFO: Starting glTF 2.0 export
+19:14:20 | INFO: Extracting primitive: Needle bow tip.001
+19:14:20 | INFO: Primitives created: 10
+19:14:20 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:14:20 | INFO: Primitives created: 3
+19:14:20 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:14:20 | INFO: Primitives created: 3
+19:14:20 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:14:20 | INFO: Primitives created: 3
+19:14:20 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:14:20 | INFO: Primitives created: 3
+19:14:20 | INFO: Extracting primitive: PD 0 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 0 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Extracting primitive: PD 1 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 1 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Extracting primitive: PD 2 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 2 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Extracting primitive: PD 3 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 3 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Extracting primitive: PD 4 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 4 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Extracting primitive: PD 5 receiver.001
+19:14:20 | INFO: Primitives created: 1
+19:14:20 | INFO: Extracting primitive: PD 5 barrel.002
+19:14:20 | INFO: Primitives created: 2
+19:14:20 | INFO: Finished glTF 2.0 export in 0.08968496322631836 s
+12:05.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t5_hero.png'
+12:14.797  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t5_underside.png'
+12:23.781  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t5_top.png'
+12:31.859  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_air_defense_cruiser_t5_rear.png'
+
+Info: Saved as "earth_air_defense_cruiser_t5.blend"
+BUILT earth_air_defense_cruiser_t5 10356 triangles
+19:14:57 | INFO: Starting glTF 2.0 export
+19:14:57 | INFO: Extracting primitive: Needle prow.001
+19:14:57 | INFO: Primitives created: 10
+19:14:57 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:14:57 | INFO: Primitives created: 3
+19:14:57 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:14:57 | INFO: Primitives created: 3
+19:14:57 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:14:57 | INFO: Primitives created: 3
+19:14:57 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:14:57 | INFO: Primitives created: 3
+19:14:57 | INFO: Extracting primitive: PD 0 receiver.001
+19:14:57 | INFO: Primitives created: 1
+19:14:57 | INFO: Extracting primitive: PD 0 barrel.002
+19:14:57 | INFO: Primitives created: 2
+19:14:57 | INFO: Extracting primitive: PD 1 receiver.001
+19:14:57 | INFO: Primitives created: 1
+19:14:57 | INFO: Extracting primitive: PD 1 barrel.002
+19:14:57 | INFO: Primitives created: 2
+19:14:57 | INFO: Finished glTF 2.0 export in 0.08346986770629883 s
+12:41.375  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_hero.png'
+12:49.828  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_underside.png'
+12:57.453  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_top.png'
+13:05.156  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_rear.png'
+
+Info: Saved as "mars_gun_cruiser_t5.blend"
+BUILT mars_gun_cruiser_t5 10304 triangles
+19:15:30 | INFO: Starting glTF 2.0 export
+19:15:30 | INFO: Extracting primitive: Spear bow.001
+19:15:30 | INFO: Primitives created: 10
+19:15:30 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+19:15:30 | INFO: Primitives created: 3
+19:15:30 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+19:15:30 | INFO: Primitives created: 3
+19:15:30 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+19:15:30 | INFO: Primitives created: 3
+19:15:30 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+19:15:30 | INFO: Primitives created: 3
+19:15:30 | INFO: Extracting primitive: PD 0 receiver.001
+19:15:30 | INFO: Primitives created: 1
+19:15:30 | INFO: Extracting primitive: PD 0 barrel.002
+19:15:30 | INFO: Primitives created: 2
+19:15:30 | INFO: Extracting primitive: PD 1 receiver.001
+19:15:30 | INFO: Primitives created: 1
+19:15:30 | INFO: Extracting primitive: PD 1 barrel.002
+19:15:30 | INFO: Primitives created: 2
+19:15:30 | INFO: Finished glTF 2.0 export in 0.0893247127532959 s
+13:14.734  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t5_hero.png'
+13:23.531  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t5_underside.png'
+13:32.187  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t5_top.png'
+13:41.953  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_missile_cruiser_t5_rear.png'
+
+Info: Saved as "mars_missile_cruiser_t5.blend"
+BUILT mars_missile_cruiser_t5 11844 triangles
+19:16:07 | INFO: Starting glTF 2.0 export
+19:16:07 | INFO: Extracting primitive: Tapered prow.001
+19:16:07 | INFO: Primitives created: 10
+19:16:07 | INFO: Extracting primitive: PD 0 receiver.001
+19:16:07 | INFO: Primitives created: 1
+19:16:07 | INFO: Extracting primitive: PD 0 barrel.002
+19:16:07 | INFO: Primitives created: 2
+19:16:07 | INFO: Extracting primitive: PD 1 receiver.001
+19:16:07 | INFO: Primitives created: 1
+19:16:07 | INFO: Extracting primitive: PD 1 barrel.002
+19:16:07 | INFO: Primitives created: 2
+19:16:07 | INFO: Finished glTF 2.0 export in 0.07769036293029785 s
+13:51.656  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t5_hero.png'
+14:00.234  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t5_underside.png'
+14:08.672  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t5_rear.png'
+14:16.765  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\earth_recon_t5_top.png'
+
+Info: Saved as "earth_recon_t5.blend"
+BUILT earth_recon_t5 7476 triangles
+19:16:41 | INFO: Starting glTF 2.0 export
+19:16:41 | INFO: Extracting primitive: Dart prow.001
+19:16:41 | INFO: Primitives created: 10
+19:16:41 | INFO: Extracting primitive: PD 0 receiver.001
+19:16:41 | INFO: Primitives created: 1
+19:16:41 | INFO: Extracting primitive: PD 0 barrel.002
+19:16:41 | INFO: Primitives created: 2
+19:16:41 | INFO: Finished glTF 2.0 export in 0.0788111686706543 s
+14:25.625  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t5_hero.png'
+14:34.047  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t5_underside.png'
+14:42.359  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t5_rear.png'
+14:50.718  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t5_top.png'
+
+Info: Saved as "mars_interceptor_t5.blend"
+BUILT mars_interceptor_t5 6032 triangles
+19:17:15 | INFO: Starting glTF 2.0 export
+19:17:15 | INFO: Extracting primitive: Armoured prow.001
+19:17:15 | INFO: Primitives created: 10
+19:17:15 | INFO: Extracting primitive: PD 0 receiver.001
+19:17:15 | INFO: Primitives created: 1
+19:17:15 | INFO: Extracting primitive: PD 0 barrel.002
+19:17:15 | INFO: Primitives created: 2
+19:17:15 | INFO: Finished glTF 2.0 export in 0.04041790962219238 s
+15:00.203  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_hero.png'
+15:09.172  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_underside.png'
+15:17.937  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_rear.png'
+15:26.531  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_top.png'
+
+Info: Saved as "mars_assault_t5.blend"
+BUILT mars_assault_t5 6100 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

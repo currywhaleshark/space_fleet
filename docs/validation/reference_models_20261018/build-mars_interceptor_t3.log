@@ -1,0 +1,19 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:41:17 | INFO: Starting glTF 2.0 export
+18:41:17 | INFO: Extracting primitive: Thin prow.001
+18:41:17 | INFO: Primitives created: 9
+18:41:17 | INFO: Extracting primitive: PD 0 receiver.001
+18:41:17 | INFO: Primitives created: 1
+18:41:17 | INFO: Extracting primitive: PD 0 barrel.002
+18:41:17 | INFO: Primitives created: 2
+18:41:17 | INFO: Finished glTF 2.0 export in 0.08495783805847168 s
+00:10.344  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_hero.png'
+00:17.703  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_underside.png'
+00:24.906  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_rear.png'
+00:32.250  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_interceptor_t3_top.png'
+
+Info: Saved as "mars_interceptor_t3.blend"
+BUILT mars_interceptor_t3 5892 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

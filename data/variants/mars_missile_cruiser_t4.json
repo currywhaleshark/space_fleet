@@ -74,50 +74,38 @@
     "hullSections": [
       {
         "armor": {
-          "thicknessMm": 70.0
+          "thicknessMm": 2.8
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "hull",
-        "name": "주선체",
+        "faces": {},
+        "id": "radiator-port",
+        "name": "radiator-port",
         "center": [
-          0.0,
-          0.0,
-          7.56
+          -31,
+          -2,
+          104
         ],
         "halfSize": [
-          19.71,
-          14.82,
-          108.36
+          0.5275,
+          13.825,
+          22.849999999999998
         ]
       },
       {
         "armor": {
-          "thicknessMm": 91.0
+          "thicknessMm": 2.8
         },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0,
-            "slopeDegrees": 25
-          }
-        },
-        "id": "bow-1",
-        "name": "함수 1",
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
         "center": [
-          0.0,
-          -0.78,
-          -113.4
+          31,
+          -2,
+          104
         ],
         "halfSize": [
-          16.06,
-          11.7,
-          21.0
+          0.5275,
+          13.825,
+          22.849999999999998
         ]
       },
       {
@@ -131,16 +119,214 @@
           }
         },
         "id": "bow-2",
-        "name": "함수 2",
+        "name": "Spear point",
         "center": [
           0.0,
-          -2.34,
-          -144.9
+          -1.0,
+          -134.0
         ],
         "halfSize": [
-          8.76,
-          7.8,
-          10.5
+          7.0,
+          8.0,
+          16.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 91.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "Spear bow",
+        "center": [
+          0.0,
+          0.0,
+          -107.0
+        ],
+        "halfSize": [
+          14.0,
+          12.0,
+          11.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "hull",
+        "name": "Central hull",
+        "center": [
+          0.0,
+          0.0,
+          13.0
+        ],
+        "halfSize": [
+          19.7,
+          14.8,
+          109.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-bank-upper-port",
+        "name": "Upper missile pod port",
+        "center": [
+          -30.0,
+          12.0,
+          -5.0
+        ],
+        "halfSize": [
+          9.0,
+          9.0,
+          85.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-bank-upper-starboard",
+        "name": "Upper missile pod starboard",
+        "center": [
+          30.0,
+          12.0,
+          -5.0
+        ],
+        "halfSize": [
+          9.0,
+          9.0,
+          85.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-bank-lower-port",
+        "name": "Lower missile pod port",
+        "center": [
+          -30.0,
+          -11.0,
+          -5.0
+        ],
+        "halfSize": [
+          9.0,
+          9.0,
+          85.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 70.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "missile-bank-lower-starboard",
+        "name": "Lower missile pod starboard",
+        "center": [
+          30.0,
+          -11.0,
+          -5.0
+        ],
+        "halfSize": [
+          9.0,
+          9.0,
+          85.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "turret-base-gun-1",
+        "name": "Forward battery base",
+        "center": [
+          0.0,
+          17.0,
+          -50.4
+        ],
+        "halfSize": [
+          7.0,
+          3.0,
+          7.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 38
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 126.0
+          },
+          "Aft": {
+            "thicknessMm": 35.0
+          }
+        },
+        "id": "turret-base-gun-2",
+        "name": "Ventral battery base",
+        "center": [
+          0.0,
+          -17.0,
+          -25.2
+        ],
+        "halfSize": [
+          7.0,
+          3.0,
+          7.0
         ]
       },
       {
@@ -149,403 +335,16 @@
         },
         "faces": {},
         "id": "bridge",
-        "name": "함교",
-        "center": [
-          0,
-          27,
-          62
-        ],
-        "halfSize": [
-          12,
-          13,
-          16
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 2.8
-        },
-        "faces": {},
-        "id": "radiator-port",
-        "name": "좌현 방열판",
-        "center": [
-          -31,
-          -4,
-          77
-        ],
-        "halfSize": [
-          0.45,
-          13.5,
-          23
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 2.8
-        },
-        "faces": {},
-        "id": "radiator-starboard",
-        "name": "우현 방열판",
-        "center": [
-          31,
-          -4,
-          77
-        ],
-        "halfSize": [
-          0.45,
-          13.5,
-          23
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 6
-        },
-        "id": "sensor-head",
-        "name": "외부 센서 헤드",
-        "center": [
-          0,
-          48,
-          62
-        ],
-        "halfSize": [
-          6.424,
-          8.58,
-          8.316
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 38
-        },
-        "id": "turret-base-gun-1",
-        "name": "주포 바베트",
+        "name": "Command block",
         "center": [
           0.0,
-          16.78,
-          -50.4
+          23.5,
+          62.0
         ],
         "halfSize": [
-          7,
-          3.8500000000000005,
-          7
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 38
-        },
-        "id": "turret-base-gun-2",
-        "name": "주포 바베트",
-        "center": [
-          0.0,
-          -16.78,
-          -25.2
-        ],
-        "halfSize": [
-          7,
-          3.8500000000000005,
-          7
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "missile-pontoon--1-0",
-        "name": "missile-pontoon--1-0",
-        "center": [
-          -42,
-          0,
-          -64
-        ],
-        "halfSize": [
-          12,
-          12,
-          30
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root--1-0-0",
-        "name": "pontoon-root--1-0-0",
-        "center": [
-          -25,
-          0,
-          -84
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root--1-0-1",
-        "name": "pontoon-root--1-0-1",
-        "center": [
-          -25,
-          0,
-          -44
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "missile-pontoon--1-1",
-        "name": "missile-pontoon--1-1",
-        "center": [
-          -42,
-          0,
-          10
-        ],
-        "halfSize": [
-          12,
-          12,
-          30
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root--1-1-0",
-        "name": "pontoon-root--1-1-0",
-        "center": [
-          -25,
-          0,
-          -10
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root--1-1-1",
-        "name": "pontoon-root--1-1-1",
-        "center": [
-          -25,
-          0,
-          30
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "missile-pontoon-1-0",
-        "name": "missile-pontoon-1-0",
-        "center": [
-          42,
-          0,
-          -64
-        ],
-        "halfSize": [
-          12,
-          12,
-          30
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root-1-0-0",
-        "name": "pontoon-root-1-0-0",
-        "center": [
-          25,
-          0,
-          -84
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root-1-0-1",
-        "name": "pontoon-root-1-0-1",
-        "center": [
-          25,
-          0,
-          -44
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "missile-pontoon-1-1",
-        "name": "missile-pontoon-1-1",
-        "center": [
-          42,
-          0,
-          10
-        ],
-        "halfSize": [
-          12,
-          12,
-          30
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root-1-1-0",
-        "name": "pontoon-root-1-1-0",
-        "center": [
-          25,
-          0,
-          -10
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 70.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 126.0
-          },
-          "Aft": {
-            "thicknessMm": 35.0
-          }
-        },
-        "id": "pontoon-root-1-1-1",
-        "name": "pontoon-root-1-1-1",
-        "center": [
-          25,
-          0,
-          30
-        ],
-        "halfSize": [
-          6,
-          4,
-          5
+          9.0,
+          9.0,
+          12.0
         ]
       },
       {
@@ -554,16 +353,34 @@
         },
         "faces": {},
         "id": "mast-stem",
-        "name": "mast-stem",
+        "name": "Sensor mast",
         "center": [
-          0,
-          40,
-          62
+          0.0,
+          36.5,
+          62.0
         ],
         "halfSize": [
-          3,
-          2,
-          4
+          3.0,
+          4.0,
+          4.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 6
+        },
+        "faces": {},
+        "id": "sensor-head",
+        "name": "Sensor head",
+        "center": [
+          0.0,
+          48.0,
+          62.0
+        ],
+        "halfSize": [
+          6.5,
+          8.5,
+          8.0
         ]
       }
     ],
@@ -574,8 +391,8 @@
         "kind": "Cooling",
         "center": [
           -31,
-          -4,
-          77
+          -2,
+          104
         ],
         "halfSize": [
           0.4275,
@@ -592,8 +409,8 @@
         "kind": "Cooling",
         "center": [
           31,
-          -4,
-          77
+          -2,
+          104
         ],
         "halfSize": [
           0.4275,

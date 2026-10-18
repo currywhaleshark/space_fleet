@@ -1,0 +1,31 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:14:42 | INFO: Starting glTF 2.0 export
+18:14:42 | INFO: Extracting primitive: Needle prow.001
+18:14:42 | INFO: Primitives created: 9
+18:14:42 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+18:14:42 | INFO: Primitives created: 3
+18:14:42 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+18:14:42 | INFO: Primitives created: 3
+18:14:42 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+18:14:42 | INFO: Primitives created: 3
+18:14:42 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+18:14:42 | INFO: Primitives created: 3
+18:14:42 | INFO: Extracting primitive: PD 0 receiver.001
+18:14:42 | INFO: Primitives created: 1
+18:14:42 | INFO: Extracting primitive: PD 0 barrel.002
+18:14:42 | INFO: Primitives created: 2
+18:14:42 | INFO: Extracting primitive: PD 1 receiver.001
+18:14:42 | INFO: Primitives created: 1
+18:14:42 | INFO: Extracting primitive: PD 1 barrel.002
+18:14:42 | INFO: Primitives created: 2
+18:14:42 | INFO: Finished glTF 2.0 export in 0.1127939224243164 s
+00:10.438  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_hero.png'
+00:17.766  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_underside.png'
+00:24.485  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_top.png'
+00:31.188  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_gun_cruiser_t5_rear.png'
+
+Info: Saved as "mars_gun_cruiser_t5.blend"
+BUILT mars_gun_cruiser_t5 9880 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

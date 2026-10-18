@@ -1,0 +1,23 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:27:57 | INFO: Starting glTF 2.0 export
+18:27:57 | INFO: Extracting primitive: Tapered prow.001
+18:27:57 | INFO: Primitives created: 9
+18:27:57 | INFO: Extracting primitive: PD 0 receiver.001
+18:27:57 | INFO: Primitives created: 1
+18:27:57 | INFO: Extracting primitive: PD 0 barrel.002
+18:27:57 | INFO: Primitives created: 2
+18:27:57 | INFO: Extracting primitive: PD 1 receiver.001
+18:27:57 | INFO: Primitives created: 1
+18:27:57 | INFO: Extracting primitive: PD 1 barrel.002
+18:27:57 | INFO: Primitives created: 2
+18:27:57 | INFO: Finished glTF 2.0 export in 0.09429121017456055 s
+00:10.938  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_hero.png'
+00:18.766  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_underside.png'
+00:26.375  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_rear.png'
+00:33.953  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\interceptor_t4_top.png'
+
+Info: Saved as "interceptor_t4.blend"
+BUILT interceptor_t4 6552 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

@@ -1,247 +1,4 @@
 {
-  "id": "battleship_t5",
-  "sections": [
-    {
-      "id": "hull",
-      "name": "주선체",
-      "center": [
-        0,
-        0,
-        35
-      ],
-      "halfSize": [
-        85,
-        60,
-        485
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "bow-1",
-      "name": "함수 1",
-      "center": [
-        0,
-        -3,
-        -492
-      ],
-      "halfSize": [
-        87,
-        50,
-        42
-      ],
-      "armorFrom": "bow-1"
-    },
-    {
-      "id": "bow-2",
-      "name": "함수 2",
-      "center": [
-        0,
-        -7,
-        -565
-      ],
-      "halfSize": [
-        74,
-        38,
-        43
-      ],
-      "armorFrom": "bow-2"
-    },
-    {
-      "id": "bow-3",
-      "name": "함수 3",
-      "center": [
-        0,
-        -10,
-        -638
-      ],
-      "halfSize": [
-        58,
-        27,
-        42
-      ],
-      "armorFrom": "bow-3"
-    },
-    {
-      "id": "deck",
-      "name": "상부 갑판",
-      "center": [
-        0,
-        72,
-        0
-      ],
-      "halfSize": [
-        48,
-        16,
-        420
-      ],
-      "armorFrom": "deck"
-    },
-    {
-      "id": "keel",
-      "name": "하부 용골",
-      "center": [
-        0,
-        -72,
-        40
-      ],
-      "halfSize": [
-        58,
-        15,
-        340
-      ],
-      "armorFrom": "keel"
-    },
-    {
-      "id": "bridge",
-      "name": "함교",
-      "center": [
-        0,
-        102,
-        294
-      ],
-      "halfSize": [
-        38,
-        43,
-        60
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "radiator-port",
-      "name": "좌현 방열판",
-      "center": [
-        -170,
-        0,
-        330
-      ],
-      "halfSize": [
-        85,
-        1.5,
-        75
-      ],
-      "armorFrom": "radiator-port"
-    },
-    {
-      "id": "radiator-starboard",
-      "name": "우현 방열판",
-      "center": [
-        170,
-        0,
-        330
-      ],
-      "halfSize": [
-        85,
-        1.5,
-        75
-      ],
-      "armorFrom": "radiator-starboard"
-    },
-    {
-      "id": "engine-block",
-      "name": "추진 구획",
-      "center": [
-        0,
-        0,
-        550
-      ],
-      "halfSize": [
-        90,
-        65,
-        30
-      ],
-      "armorFrom": "engine-block"
-    },
-    {
-      "id": "sensor-head",
-      "name": "sensor-head",
-      "center": [
-        0,
-        136,
-        294
-      ],
-      "halfSize": [
-        14.5,
-        15.5,
-        20.5
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "armor-shoulder--1",
-      "name": "armor-shoulder--1",
-      "center": [
-        -91,
-        -2,
-        -35
-      ],
-      "halfSize": [
-        22,
-        48,
-        380
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "armor-shoulder-1",
-      "name": "armor-shoulder-1",
-      "center": [
-        91,
-        -2,
-        -35
-      ],
-      "halfSize": [
-        22,
-        48,
-        380
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "turret-base-gun-1",
-      "name": "turret-base-gun-1",
-      "center": [
-        0,
-        83,
-        -320
-      ],
-      "halfSize": [
-        30,
-        5,
-        28.5
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "turret-base-gun-2",
-      "name": "turret-base-gun-2",
-      "center": [
-        0,
-        83,
-        160
-      ],
-      "halfSize": [
-        30,
-        5,
-        28.5
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "turret-base-gun-3",
-      "name": "turret-base-gun-3",
-      "center": [
-        0,
-        -83,
-        -120
-      ],
-      "halfSize": [
-        30,
-        5,
-        28.5
-      ],
-      "armorFrom": "hull"
-    }
-  ],
   "modules": {
     "sensor": {
       "center": [
@@ -251,7 +8,6 @@
       ]
     }
   },
-  "bays": {},
   "pdMounts": [
     [
       66,
@@ -300,6 +56,729 @@
     -180
   ],
   "blockout": {
-    "role": "battleship"
-  }
+    "role": "battleship",
+    "reference": "art/reference/20261017_t5_fleet/battleships.png",
+    "palette": "earth",
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.3,
+      "accentScale": 5,
+      "wear": 0.25,
+      "streaks": 0.35
+    },
+    "bandGrow": 1.2,
+    "plume": 100,
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Stepped ram prow",
+        "rings": [
+          [
+            -680,
+            40,
+            18,
+            -10
+          ],
+          [
+            -596,
+            58,
+            27,
+            -10
+          ]
+        ],
+        "section": "bow-3",
+        "armorFrom": "bow-3"
+      },
+      {
+        "kind": "loft",
+        "name": "Stepped prow terrace",
+        "rings": [
+          [
+            -596,
+            58,
+            27,
+            -10
+          ],
+          [
+            -522,
+            74,
+            38,
+            -7
+          ]
+        ],
+        "section": "bow-2",
+        "armorFrom": "bow-2"
+      },
+      {
+        "kind": "loft",
+        "name": "Stepped prow shoulder",
+        "rings": [
+          [
+            -522,
+            74,
+            38,
+            -7
+          ],
+          [
+            -450,
+            87,
+            50,
+            -3
+          ]
+        ],
+        "section": "bow-1",
+        "armorFrom": "bow-1"
+      },
+      {
+        "kind": "box",
+        "name": "Prow upper terrace",
+        "center": [
+          0,
+          26,
+          -560
+        ],
+        "size": [
+          96,
+          8,
+          70
+        ],
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Prow upper terrace aft",
+        "center": [
+          0,
+          41,
+          -490
+        ],
+        "size": [
+          124,
+          8,
+          70
+        ],
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "loft",
+        "name": "Battleship hull",
+        "rings": [
+          [
+            -450,
+            87,
+            52,
+            0
+          ],
+          [
+            -300,
+            90,
+            58,
+            0
+          ],
+          [
+            380,
+            90,
+            58,
+            0
+          ],
+          [
+            520,
+            80,
+            52,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Raised gun deck",
+        "rings": [
+          [
+            -460,
+            34,
+            12,
+            70
+          ],
+          [
+            -400,
+            50,
+            16,
+            72
+          ],
+          [
+            380,
+            50,
+            16,
+            72
+          ]
+        ],
+        "section": "deck",
+        "armorFrom": "deck"
+      },
+      {
+        "kind": "loft",
+        "name": "Armoured keel",
+        "rings": [
+          [
+            -300,
+            44,
+            12,
+            -72
+          ],
+          [
+            -260,
+            58,
+            15,
+            -72
+          ],
+          [
+            360,
+            58,
+            15,
+            -72
+          ],
+          [
+            380,
+            44,
+            12,
+            -72
+          ]
+        ],
+        "section": "keel",
+        "armorFrom": "keel"
+      },
+      {
+        "kind": "loft",
+        "name": "Lateral armour shoulder",
+        "rings": [
+          [
+            -420,
+            10,
+            30,
+            -2
+          ],
+          [
+            -380,
+            22,
+            48,
+            -2
+          ],
+          [
+            300,
+            22,
+            48,
+            -2
+          ],
+          [
+            340,
+            12,
+            30,
+            -2
+          ]
+        ],
+        "x": 95,
+        "mirror": true,
+        "section": "armor-shoulder",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Low citadel",
+        "center": [
+          0,
+          97,
+          305
+        ],
+        "size": [
+          110,
+          26,
+          190
+        ],
+        "section": "citadel",
+        "armorFrom": "deck"
+      },
+      {
+        "kind": "box",
+        "name": "Command tower",
+        "center": [
+          0,
+          125,
+          294
+        ],
+        "size": [
+          44,
+          32,
+          64
+        ],
+        "section": "bridge",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Sensor head",
+        "center": [
+          0,
+          136,
+          294
+        ],
+        "size": [
+          29,
+          31,
+          41
+        ],
+        "hidden": true,
+        "section": "sensor-head",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Forward battery barbette",
+        "center": [
+          0,
+          83,
+          -320
+        ],
+        "size": [
+          60,
+          10,
+          57
+        ],
+        "section": "turret-base-gun-1",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Midship battery barbette",
+        "center": [
+          0,
+          83,
+          160
+        ],
+        "size": [
+          60,
+          10,
+          57
+        ],
+        "section": "turret-base-gun-2",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Ventral battery barbette",
+        "center": [
+          0,
+          -83,
+          -120
+        ],
+        "size": [
+          60,
+          10,
+          57
+        ],
+        "section": "turret-base-gun-3",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Engine cluster block",
+        "center": [
+          0,
+          0,
+          550
+        ],
+        "size": [
+          180,
+          130,
+          60
+        ],
+        "section": "engine-block",
+        "armorFrom": "engine-block"
+      },
+      {
+        "kind": "box",
+        "name": "Drone cradle",
+        "center": [
+          117.5,
+          10,
+          120
+        ],
+        "size": [
+          3,
+          20,
+          50
+        ],
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Drone cradle aft",
+        "center": [
+          117.5,
+          10,
+          200
+        ],
+        "size": [
+          3,
+          20,
+          50
+        ],
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Battleship hull",
+        "z": [
+          -380,
+          -340
+        ]
+      },
+      {
+        "piece": "Battleship hull",
+        "z": [
+          -140,
+          -100
+        ]
+      },
+      {
+        "piece": "Battleship hull",
+        "z": [
+          200,
+          240
+        ]
+      },
+      {
+        "piece": "Lateral armour shoulder",
+        "z": [
+          -200,
+          -150
+        ]
+      },
+      {
+        "piece": "Lateral armour shoulder",
+        "z": [
+          60,
+          110
+        ]
+      },
+      {
+        "piece": "Stepped prow shoulder",
+        "z": [
+          -500,
+          -476
+        ]
+      }
+    ],
+    "rcs": {
+      "stations": [
+        -400,
+        470
+      ],
+      "size": 5.4,
+      "plume": 43
+    },
+    "fixedSections": [
+      {
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -170,
+          0,
+          330
+        ],
+        "halfSize": [
+          81,
+          1.5,
+          71
+        ],
+        "armorFrom": "radiator-port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
+        "center": [
+          170,
+          0,
+          330
+        ],
+        "halfSize": [
+          81,
+          1.5,
+          71
+        ],
+        "armorFrom": "radiator-starboard"
+      }
+    ]
+  },
+  "id": "battleship_t5",
+  "bays": {},
+  "sections": [
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -170,
+        0,
+        330
+      ],
+      "halfSize": [
+        81,
+        1.5,
+        71
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        170,
+        0,
+        330
+      ],
+      "halfSize": [
+        81,
+        1.5,
+        71
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "bow-3",
+      "name": "Stepped ram prow",
+      "center": [
+        0.0,
+        -10.0,
+        -638.0
+      ],
+      "halfSize": [
+        58.0,
+        27.0,
+        42.0
+      ],
+      "armorFrom": "bow-3"
+    },
+    {
+      "id": "bow-2",
+      "name": "Stepped prow terrace",
+      "center": [
+        0.0,
+        -7.0,
+        -559.0
+      ],
+      "halfSize": [
+        74.0,
+        38.0,
+        37.0
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bow-1",
+      "name": "Stepped prow shoulder",
+      "center": [
+        0.0,
+        -3.0,
+        -486.0
+      ],
+      "halfSize": [
+        87.0,
+        50.0,
+        36.0
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "hull",
+      "name": "Battleship hull",
+      "center": [
+        0.0,
+        0.0,
+        35.0
+      ],
+      "halfSize": [
+        90.0,
+        58.0,
+        485.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck",
+      "name": "Raised gun deck",
+      "center": [
+        0.0,
+        72.0,
+        -40.0
+      ],
+      "halfSize": [
+        50.0,
+        16.0,
+        420.0
+      ],
+      "armorFrom": "deck"
+    },
+    {
+      "id": "keel",
+      "name": "Armoured keel",
+      "center": [
+        0.0,
+        -72.0,
+        40.0
+      ],
+      "halfSize": [
+        58.0,
+        15.0,
+        340.0
+      ],
+      "armorFrom": "keel"
+    },
+    {
+      "id": "armor-shoulder-port",
+      "name": "Lateral armour shoulder port",
+      "center": [
+        -95.0,
+        -2.0,
+        -40.0
+      ],
+      "halfSize": [
+        22.0,
+        48.0,
+        380.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "armor-shoulder-starboard",
+      "name": "Lateral armour shoulder starboard",
+      "center": [
+        95.0,
+        -2.0,
+        -40.0
+      ],
+      "halfSize": [
+        22.0,
+        48.0,
+        380.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "citadel",
+      "name": "Low citadel",
+      "center": [
+        0.0,
+        97.0,
+        305.0
+      ],
+      "halfSize": [
+        55.0,
+        13.0,
+        95.0
+      ],
+      "armorFrom": "deck"
+    },
+    {
+      "id": "bridge",
+      "name": "Command tower",
+      "center": [
+        0.0,
+        125.0,
+        294.0
+      ],
+      "halfSize": [
+        22.0,
+        16.0,
+        32.0
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "Sensor head",
+      "center": [
+        0.0,
+        136.0,
+        294.0
+      ],
+      "halfSize": [
+        14.5,
+        15.5,
+        20.5
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "Forward battery barbette",
+      "center": [
+        0.0,
+        83.0,
+        -320.0
+      ],
+      "halfSize": [
+        30.0,
+        5.0,
+        28.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "Midship battery barbette",
+      "center": [
+        0.0,
+        83.0,
+        160.0
+      ],
+      "halfSize": [
+        30.0,
+        5.0,
+        28.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-3",
+      "name": "Ventral battery barbette",
+      "center": [
+        0.0,
+        -83.0,
+        -120.0
+      ],
+      "halfSize": [
+        30.0,
+        5.0,
+        28.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-block",
+      "name": "Engine cluster block",
+      "center": [
+        0.0,
+        0.0,
+        550.0
+      ],
+      "halfSize": [
+        90.0,
+        65.0,
+        30.0
+      ],
+      "armorFrom": "engine-block"
+    }
+  ]
 }

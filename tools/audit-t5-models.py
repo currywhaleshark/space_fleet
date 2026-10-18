@@ -9,9 +9,7 @@ from fleet_model_primitives import g
 OUT=ROOT/(sys.argv[sys.argv.index('--out')+1] if '--out' in sys.argv else 'docs/validation/t5_models_20261017')
 ONLY=sys.argv[sys.argv.index('--only')+1].split(',') if '--only' in sys.argv else None
 manifest=json.loads((ROOT/'assets/ships/manifest.json').read_text(encoding='utf-8'));reports=[];issues=[]
-for path in sorted((ROOT/'data/variants').glob('*_t5.json')):
-    key=path.stem
-    if ONLY and key not in ONLY:continue
+for key in (ONLY or sorted(p.stem for p in (ROOT/'data/variants').glob('*_t5.json'))):
     d=resolve(ROOT,key);entry=next(v for v in manifest['ships'] if v['id']==key)
     bpy.ops.wm.open_mainfile(filepath=str(ROOT/f'art/blender/{key}.blend'));bpy.context.view_layer.update()
     objects={o.name:o for o in bpy.data.collections[key+' | editable parts'].all_objects}

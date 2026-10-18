@@ -1,0 +1,61 @@
+00:02.046  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_starter_escort.blend"
+earth_starter_escort candidate gaps: []
+00:02.093  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_starter_escort.blend"
+mars_starter_escort candidate gaps: []
+00:02.140  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_gun_cruiser.blend"
+earth_gun_cruiser candidate gaps: []
+00:02.203  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_air_defense_cruiser.blend"
+earth_air_defense_cruiser candidate gaps: []
+00:02.265  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_gun_cruiser.blend"
+mars_gun_cruiser candidate gaps: []
+00:02.343  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_missile_cruiser.blend"
+mars_missile_cruiser candidate gaps: []
+00:02.406  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\interceptor_t3.blend"
+interceptor_t3 candidate gaps: []
+00:02.453  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_interceptor_t3.blend"
+mars_interceptor_t3 candidate gaps: []
+00:02.484  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_recon_t3.blend"
+earth_recon_t3 candidate gaps: []
+00:02.515  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_assault_t3.blend"
+mars_assault_t3 candidate gaps: []
+00:02.546  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_gun_cruiser_t4.blend"
+earth_gun_cruiser_t4 candidate gaps: []
+00:02.593  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_air_defense_cruiser_t4.blend"
+earth_air_defense_cruiser_t4 candidate gaps: []
+00:02.671  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_gun_cruiser_t4.blend"
+mars_gun_cruiser_t4 candidate gaps: []
+00:02.734  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_missile_cruiser_t4.blend"
+mars_missile_cruiser_t4 candidate gaps: []
+00:02.812  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_recon_t4.blend"
+earth_recon_t4 candidate gaps: []
+00:02.843  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\interceptor_t4.blend"
+interceptor_t4 candidate gaps: []
+00:02.890  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_assault_t4.blend"
+mars_assault_t4 candidate gaps: []
+00:02.921  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_interceptor_t4.blend"
+mars_interceptor_t4 candidate gaps: []
+00:02.953  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\battleship_t5.blend"
+battleship_t5 candidate gaps: []
+00:03.062  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_battleship_t5.blend"
+mars_battleship_t5 candidate gaps: []
+00:03.156  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_air_defense_cruiser_t5.blend"
+earth_air_defense_cruiser_t5 candidate gaps: []
+00:03.234  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_gun_cruiser_t5.blend"
+mars_gun_cruiser_t5 candidate gaps: []
+00:03.296  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_missile_cruiser_t5.blend"
+mars_missile_cruiser_t5 candidate gaps: []
+00:03.375  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_recon_t5.blend"
+earth_recon_t5 candidate gaps: []
+00:03.421  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_interceptor_t5.blend"
+mars_interceptor_t5 candidate gaps: []
+00:03.453  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\mars_assault_t5.blend"
+mars_assault_t5 candidate gaps: []
+00:03.500  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\earth_gun_cruiser_t5.blend"
+earth_gun_cruiser_t5 candidate gaps: []
+00:03.562  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet-models\art\blender\interceptor_t5.blend"
+interceptor_t5 candidate gaps: []
+Visibility issues: []
+PASS: 28 T5 source audits; AABB adjacency is a candidate check, complemented by rendered visual review.
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

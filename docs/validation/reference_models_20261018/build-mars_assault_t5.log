@@ -1,0 +1,19 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:17:59 | INFO: Starting glTF 2.0 export
+18:17:59 | INFO: Extracting primitive: Armoured prow.001
+18:17:59 | INFO: Primitives created: 9
+18:17:59 | INFO: Extracting primitive: PD 0 receiver.001
+18:17:59 | INFO: Primitives created: 1
+18:17:59 | INFO: Extracting primitive: PD 0 barrel.002
+18:17:59 | INFO: Primitives created: 2
+18:17:59 | INFO: Finished glTF 2.0 export in 0.08490705490112305 s
+00:11.156  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_hero.png'
+00:19.312  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_underside.png'
+00:27.125  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_rear.png'
+00:34.922  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\mars_assault_t5_top.png'
+
+Info: Saved as "mars_assault_t5.blend"
+BUILT mars_assault_t5 6012 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

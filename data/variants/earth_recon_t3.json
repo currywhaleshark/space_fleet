@@ -120,7 +120,7 @@
     },
     "missiles": {
       "launchPoint": [
-        -2.9,
+        -2.0,
         -0.45,
         -6.5
       ],
@@ -167,16 +167,16 @@
           }
         },
         "id": "nose",
-        "name": "nose",
+        "name": "Sensor prow",
         "center": [
-          0,
-          0,
-          -11
+          0.0,
+          -0.025,
+          -11.5
         ],
         "halfSize": [
-          1.25,
-          1.2,
-          4
+          1.45,
+          1.175,
+          3.5
         ]
       },
       {
@@ -189,16 +189,16 @@
           }
         },
         "id": "hull",
-        "name": "hull",
+        "name": "Long fuselage",
         "center": [
-          0,
-          0,
-          1
+          0.0,
+          0.0,
+          1.25
         ],
         "halfSize": [
-          2.55,
-          1.55,
-          9
+          2.2,
+          1.5,
+          9.25
         ]
       },
       {
@@ -211,16 +211,62 @@
           }
         },
         "id": "am-keel",
-        "name": "am-keel",
+        "name": "Containment keel",
         "center": [
-          0,
-          -1.3,
-          -0.8
+          0.0,
+          -1.4,
+          -0.95
         ],
         "halfSize": [
-          1.2,
-          1.1,
+          0.9,
+          0.95,
           2.1
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 12
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 20,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "sensor-ear-port",
+        "name": "Observation pod port",
+        "center": [
+          -3.95,
+          0.0,
+          1.3
+        ],
+        "halfSize": [
+          0.65,
+          0.9,
+          1.3
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 12
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 20,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "sensor-ear-starboard",
+        "name": "Observation pod starboard",
+        "center": [
+          3.95,
+          0.0,
+          1.3
+        ],
+        "halfSize": [
+          0.65,
+          0.9,
+          1.3
         ]
       },
       {
@@ -229,74 +275,16 @@
         },
         "faces": {},
         "id": "engine-port",
-        "name": "engine-port",
+        "name": "Engine pod port",
         "center": [
-          -4,
-          0,
-          10.8
+          -4.0,
+          0.0,
+          10.75
         ],
         "halfSize": [
-          1.35,
-          1.4,
-          3.7
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "pylon-port",
-        "name": "pylon-port",
-        "center": [
-          -2.8,
-          0,
-          8
-        ],
-        "halfSize": [
-          1.7,
-          0.65,
-          2
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 3
-        },
-        "faces": {},
-        "id": "fin-port",
-        "name": "fin-port",
-        "center": [
-          -4.35,
-          2.6,
-          11
-        ],
-        "halfSize": [
-          0.65,
-          1.3,
-          2
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 18
-        },
-        "faces": {
-          "Aft": {
-            "thicknessMm": 8
-          }
-        },
-        "id": "stores-port",
-        "name": "stores-port",
-        "center": [
-          -2.75,
-          0,
-          -2.2
-        ],
-        "halfSize": [
-          0.8,
-          1.0,
-          4
+          1.05,
+          1.05,
+          2.25
         ]
       },
       {
@@ -305,16 +293,16 @@
         },
         "faces": {},
         "id": "engine-starboard",
-        "name": "engine-starboard",
+        "name": "Engine pod starboard",
         "center": [
-          4,
-          0,
-          10.8
+          4.0,
+          0.0,
+          10.75
         ],
         "halfSize": [
-          1.35,
-          1.4,
-          3.7
+          1.05,
+          1.05,
+          2.25
         ]
       },
       {
@@ -322,17 +310,53 @@
           "thicknessMm": 3
         },
         "faces": {},
-        "id": "pylon-starboard",
-        "name": "pylon-starboard",
+        "id": "wing-0-port",
+        "name": "Stub wing port",
         "center": [
-          2.8,
-          0,
-          8
+          -3.7,
+          0.0,
+          5.25
         ],
         "halfSize": [
-          1.7,
-          0.65,
-          2
+          1.8,
+          0.175,
+          2.75
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "wing-0-starboard",
+        "name": "Stub wing starboard",
+        "center": [
+          3.7,
+          0.0,
+          5.25
+        ],
+        "halfSize": [
+          1.8,
+          0.175,
+          2.75
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 3
+        },
+        "faces": {},
+        "id": "fin-port",
+        "name": "Attached fin port",
+        "center": [
+          -1.9,
+          2.1,
+          8.95
+        ],
+        "halfSize": [
+          0.42,
+          0.9,
+          1.45
         ]
       },
       {
@@ -341,38 +365,16 @@
         },
         "faces": {},
         "id": "fin-starboard",
-        "name": "fin-starboard",
+        "name": "Attached fin starboard",
         "center": [
-          4.35,
-          2.6,
-          11
+          1.9,
+          2.1,
+          8.95
         ],
         "halfSize": [
-          0.65,
-          1.3,
-          2
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 18
-        },
-        "faces": {
-          "Aft": {
-            "thicknessMm": 8
-          }
-        },
-        "id": "stores-starboard",
-        "name": "stores-starboard",
-        "center": [
-          2.75,
-          0,
-          -2.2
-        ],
-        "halfSize": [
-          0.8,
-          1.0,
-          4
+          0.42,
+          0.9,
+          1.45
         ]
       }
     ],

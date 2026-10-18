@@ -1,127 +1,4 @@
 {
-  "id": "earth_starter_escort",
-  "sections": [
-    {
-      "id": "hull",
-      "name": "hull",
-      "center": [
-        0,
-        0,
-        8
-      ],
-      "halfSize": [
-        21.6,
-        15.2,
-        102.4
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "bow-1",
-      "name": "bow-1",
-      "center": [
-        0,
-        -0.8,
-        -109
-      ],
-      "halfSize": [
-        19,
-        12.5,
-        20.5
-      ],
-      "armorFrom": "bow-1"
-    },
-    {
-      "id": "bow-2",
-      "name": "bow-2",
-      "center": [
-        0,
-        -1.5,
-        -138
-      ],
-      "halfSize": [
-        14,
-        9.5,
-        10
-      ],
-      "armorFrom": "bow-2"
-    },
-    {
-      "id": "bridge",
-      "name": "bridge",
-      "center": [
-        0,
-        24,
-        41
-      ],
-      "halfSize": [
-        10,
-        9,
-        16
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "sensor-head",
-      "name": "sensor-head",
-      "center": [
-        0,
-        28,
-        41
-      ],
-      "halfSize": [
-        6.9,
-        8.5,
-        7.7
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "turret-base-gun-1",
-      "name": "turret-base-gun-1",
-      "center": [
-        0,
-        17.5,
-        -48
-      ],
-      "halfSize": [
-        8,
-        3.3,
-        8
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "radiator-port",
-      "name": "radiator-port",
-      "center": [
-        -35.2,
-        0,
-        64
-      ],
-      "halfSize": [
-        14.4,
-        0.8,
-        18.4
-      ],
-      "armorFrom": "radiator-port"
-    },
-    {
-      "id": "radiator-starboard",
-      "name": "radiator-starboard",
-      "center": [
-        35.2,
-        0,
-        64
-      ],
-      "halfSize": [
-        14.4,
-        0.8,
-        18.4
-      ],
-      "armorFrom": "radiator-starboard"
-    }
-  ],
   "modules": {
     "sensor": {
       "center": [
@@ -129,23 +6,8 @@
         28,
         41
       ]
-    },
-    "radiator-port": {
-      "center": [
-        -35.2,
-        0,
-        64
-      ]
-    },
-    "radiator-starboard": {
-      "center": [
-        35.2,
-        0,
-        64
-      ]
     }
   },
-  "bays": {},
   "pdMounts": [
     [
       16.8,
@@ -168,5 +30,316 @@
       -32
     ]
   ],
-  "stage": "Independent T1 role blockout; surface finish pending"
+  "missileLaunch": [
+    0,
+    24,
+    -16
+  ],
+  "blockout": {
+    "role": "starter",
+    "reference": "art/reference/20261017_t1_starters/t1-starters.png",
+    "palette": "earth",
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.3,
+      "accentScale": 5,
+      "wear": 0.25,
+      "streaks": 0.35
+    },
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Blunt armoured bow",
+        "rings": [
+          [
+            -148,
+            12,
+            7,
+            -2
+          ],
+          [
+            -128,
+            17,
+            11,
+            -1
+          ],
+          [
+            -100,
+            21.6,
+            15.2,
+            0
+          ]
+        ],
+        "section": "bow-1",
+        "armorFrom": "bow-1"
+      },
+      {
+        "kind": "box",
+        "name": "Bow armour plate",
+        "center": [
+          0,
+          -2,
+          -148.4
+        ],
+        "size": [
+          18,
+          10,
+          0.8
+        ],
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "loft",
+        "name": "Escort hull",
+        "rings": [
+          [
+            -100,
+            21.6,
+            15.2,
+            0
+          ],
+          [
+            100,
+            21.6,
+            15.2,
+            0
+          ],
+          [
+            112,
+            19,
+            13,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Forward battery base",
+        "center": [
+          0,
+          17.5,
+          -48
+        ],
+        "size": [
+          16,
+          6.6,
+          16
+        ],
+        "section": "turret-base-gun-1",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Command block",
+        "center": [
+          0,
+          19,
+          41
+        ],
+        "size": [
+          18,
+          8,
+          22
+        ],
+        "section": "bridge",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Sensor head",
+        "center": [
+          0,
+          28,
+          41
+        ],
+        "size": [
+          13.8,
+          17,
+          15.4
+        ],
+        "hidden": true,
+        "section": "sensor-head",
+        "armorFrom": "bridge"
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Blunt armoured bow",
+        "z": [
+          -120,
+          -112
+        ]
+      },
+      {
+        "piece": "Escort hull",
+        "z": [
+          -10,
+          -2
+        ]
+      },
+      {
+        "piece": "Escort hull",
+        "z": [
+          80,
+          88
+        ]
+      }
+    ],
+    "rcs": {
+      "stations": [
+        -80,
+        100
+      ],
+      "size": 1.2,
+      "plume": 10
+    },
+    "fixedSections": [
+      {
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -35.2,
+          0,
+          64
+        ],
+        "halfSize": [
+          14.600000000000001,
+          0.8200000000000001,
+          18.6
+        ],
+        "armorFrom": "radiator-port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
+        "center": [
+          35.2,
+          0,
+          64
+        ],
+        "halfSize": [
+          14.600000000000001,
+          0.8200000000000001,
+          18.6
+        ],
+        "armorFrom": "radiator-starboard"
+      }
+    ]
+  },
+  "id": "earth_starter_escort",
+  "bays": {},
+  "sections": [
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -35.2,
+        0,
+        64
+      ],
+      "halfSize": [
+        14.600000000000001,
+        0.8200000000000001,
+        18.6
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        35.2,
+        0,
+        64
+      ],
+      "halfSize": [
+        14.600000000000001,
+        0.8200000000000001,
+        18.6
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "bow-1",
+      "name": "Blunt armoured bow",
+      "center": [
+        0.0,
+        0.0,
+        -124.0
+      ],
+      "halfSize": [
+        21.6,
+        15.2,
+        24.0
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "hull",
+      "name": "Escort hull",
+      "center": [
+        0.0,
+        0.0,
+        6.0
+      ],
+      "halfSize": [
+        21.6,
+        15.2,
+        106.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "Forward battery base",
+      "center": [
+        0.0,
+        17.5,
+        -48.0
+      ],
+      "halfSize": [
+        8.0,
+        3.3,
+        8.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bridge",
+      "name": "Command block",
+      "center": [
+        0.0,
+        19.0,
+        41.0
+      ],
+      "halfSize": [
+        9.0,
+        4.0,
+        11.0
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "Sensor head",
+      "center": [
+        0.0,
+        28.0,
+        41.0
+      ],
+      "halfSize": [
+        6.9,
+        8.5,
+        7.7
+      ],
+      "armorFrom": "bridge"
+    }
+  ]
 }

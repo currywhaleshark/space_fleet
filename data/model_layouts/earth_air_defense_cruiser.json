@@ -1,8 +1,37 @@
 {
-  "id": "earth_air_defense_cruiser",
-  "kind": "cruiser",
-  "modules": {},
-  "bays": {},
+  "modules": {
+    "sensor": {
+      "center": [
+        0,
+        44,
+        40
+      ]
+    },
+    "radiator-port": {
+      "center": [
+        -44,
+        0,
+        70
+      ],
+      "halfSize": [
+        17,
+        0.9,
+        22
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        44,
+        0,
+        70
+      ],
+      "halfSize": [
+        17,
+        0.9,
+        22
+      ]
+    }
+  },
   "pdMounts": [
     [
       39,
@@ -35,488 +64,375 @@
       -70
     ]
   ],
-  "inheritedGeometry": {
-    "modelId": "escort",
-    "hullSections": [
+  "missileLaunch": [
+    0,
+    30,
+    -20
+  ],
+  "blockout": {
+    "role": "defense",
+    "reference": "art/reference/20261017_t3_cruisers/earth_air_defense_cruiser.png",
+    "palette": {
+      "base": "earth",
+      "armor": [
+        0.3,
+        0.31,
+        0.33
+      ],
+      "plate": [
+        0.08,
+        0.12,
+        0.24
+      ]
+    },
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.3,
+      "accentScale": 5,
+      "wear": 0.25,
+      "streaks": 0.35
+    },
+    "pieces": [
       {
-        "id": "hull",
-        "name": "주선체",
-        "center": [
-          0,
-          0,
-          9
+        "kind": "loft",
+        "name": "Chisel bow",
+        "rings": [
+          [
+            -185,
+            12,
+            8,
+            -3
+          ],
+          [
+            -160,
+            18,
+            13,
+            -2
+          ],
+          [
+            -130,
+            26,
+            17,
+            -1
+          ]
         ],
-        "halfSize": [
-          27,
-          19,
-          129
-        ],
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        }
+        "section": "bow-1",
+        "armorFrom": "bow-1"
       },
       {
-        "id": "bow-1",
-        "name": "함수 1",
+        "kind": "loft",
+        "name": "Main hull",
+        "rings": [
+          [
+            -130,
+            26,
+            17,
+            -1
+          ],
+          [
+            -110,
+            27,
+            18.5,
+            0
+          ],
+          [
+            50,
+            27,
+            18.5,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Aft engineering hull",
+        "rings": [
+          [
+            50,
+            29,
+            20,
+            0
+          ],
+          [
+            60,
+            30,
+            21,
+            0
+          ],
+          [
+            132,
+            30,
+            21,
+            0
+          ],
+          [
+            138,
+            26,
+            18,
+            0
+          ]
+        ],
+        "section": "engine-block",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Forward battery base",
         "center": [
           0,
-          -1,
-          -135
-        ],
-        "halfSize": [
           22,
-          15,
-          25
-        ],
-        "armor": {
-          "thicknessMm": 130
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180,
-            "slopeDegrees": 25
-          }
-        }
-      },
-      {
-        "id": "bow-2",
-        "name": "함수 2",
-        "center": [
-          0,
-          -3,
-          -172.5
-        ],
-        "halfSize": [
-          12,
-          10,
-          12.5
-        ],
-        "armor": {
-          "thicknessMm": 130
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180,
-            "slopeDegrees": 35
-          }
-        }
-      },
-      {
-        "id": "bridge",
-        "name": "함교",
-        "center": [
-          0,
-          44,
-          40
-        ],
-        "halfSize": [
-          16,
-          26,
-          18
-        ],
-        "armor": {
-          "thicknessMm": 35
-        },
-        "faces": {}
-      },
-      {
-        "id": "radiator-port",
-        "name": "좌현 방열판",
-        "center": [
-          -44,
-          0,
-          70
-        ],
-        "halfSize": [
-          18,
-          1,
-          23
-        ],
-        "armor": {
-          "thicknessMm": 4
-        },
-        "faces": {}
-      },
-      {
-        "id": "radiator-starboard",
-        "name": "우현 방열판",
-        "center": [
-          44,
-          0,
-          70
-        ],
-        "halfSize": [
-          18,
-          1,
-          23
-        ],
-        "armor": {
-          "thicknessMm": 4
-        },
-        "faces": {}
-      }
-    ],
-    "modules": {
-      "radiator-port": {
-        "center": [
-          -44,
-          0,
-          70
-        ],
-        "halfSize": [
-          17,
-          0.9,
-          22
-        ]
-      },
-      "radiator-starboard": {
-        "center": [
-          44,
-          0,
-          70
-        ],
-        "halfSize": [
-          17,
-          0.9,
-          22
-        ]
-      },
-      "sensor": {
-        "center": [
-          0,
-          44,
-          40
-        ],
-        "halfSize": [
-          8,
-          10,
-          9
-        ]
-      },
-      "gun-1": {
-        "center": [
-          0,
-          12,
           -60
         ],
-        "halfSize": [
+        "size": [
+          20,
           8,
-          6,
-          18
-        ]
+          20
+        ],
+        "section": "turret-base-gun-1",
+        "armorFrom": "hull"
       },
-      "gun-2": {
+      {
+        "kind": "box",
+        "name": "Ventral battery base",
         "center": [
           0,
-          -12,
+          -22,
           -30
         ],
-        "halfSize": [
+        "size": [
+          20,
           8,
-          5,
-          18
-        ]
-      },
-      "magazine": {
-        "center": [
-          -12,
-          0,
-          -60
-        ],
-        "halfSize": [
-          8,
-          10,
           20
-        ]
+        ],
+        "section": "turret-base-gun-2",
+        "armorFrom": "hull"
       },
-      "reactor": {
+      {
+        "kind": "prism",
+        "name": "Fore defence deck",
+        "points": [
+          [
+            26,
+            -112
+          ],
+          [
+            44,
+            -98
+          ],
+          [
+            50,
+            -74
+          ],
+          [
+            50,
+            -46
+          ],
+          [
+            40,
+            -35
+          ],
+          [
+            26,
+            -35
+          ]
+        ],
+        "y": 0,
+        "thickness": 8,
+        "mirror": true,
+        "core": false,
+        "section": "deck-fore",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "prism",
+        "name": "Aft defence deck",
+        "points": [
+          [
+            26,
+            4
+          ],
+          [
+            42,
+            8
+          ],
+          [
+            50,
+            22
+          ],
+          [
+            50,
+            38
+          ],
+          [
+            42,
+            46
+          ],
+          [
+            26,
+            46
+          ]
+        ],
+        "y": 0,
+        "thickness": 8,
+        "mirror": true,
+        "core": false,
+        "section": "deck-aft",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "prism",
+        "name": "Deck navy panel",
+        "points": [
+          [
+            32,
+            -95
+          ],
+          [
+            44,
+            -85
+          ],
+          [
+            46,
+            -60
+          ],
+          [
+            32,
+            -55
+          ]
+        ],
+        "y": 4.2,
+        "thickness": 0.4,
+        "mirror": true,
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Drone cradle",
         "center": [
-          0,
+          50.6,
           0,
           30
         ],
-        "halfSize": [
-          10,
-          12,
-          16
-        ]
-      },
-      "generator-port": {
-        "center": [
-          -13,
-          0,
-          70
-        ],
-        "halfSize": [
-          6,
-          12,
-          15
-        ]
-      },
-      "generator-starboard": {
-        "center": [
-          13,
-          0,
-          70
-        ],
-        "halfSize": [
-          6,
-          12,
-          15
-        ]
-      },
-      "bus-port": {
-        "center": [
-          -18,
-          0,
-          -20
-        ],
-        "halfSize": [
-          7,
-          10,
-          20
-        ]
-      },
-      "cooling-port": {
-        "center": [
-          -20,
-          0,
-          80
-        ],
-        "halfSize": [
+        "size": [
+          1.2,
           5,
-          10,
           12
-        ]
-      },
-      "engine-0": {
-        "center": [
-          -14,
-          0,
-          125
         ],
-        "halfSize": [
-          10,
-          12,
-          8
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Command block",
+        "center": [
+          0,
+          27.75,
+          40
+        ],
+        "size": [
+          22,
+          18.5,
+          30
+        ],
+        "section": "bridge",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Sensor head",
+        "center": [
+          0,
+          44,
+          40
+        ],
+        "size": [
+          17,
+          21,
+          19
+        ],
+        "hidden": true,
+        "section": "sensor-head",
+        "armorFrom": "bridge"
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Chisel bow",
+        "z": [
+          -150,
+          -142
         ]
       },
-      "maneuver-port": {
-        "center": [
+      {
+        "piece": "Main hull",
+        "z": [
           -20,
+          -12
+        ]
+      },
+      {
+        "piece": "Aft engineering hull",
+        "z": [
+          90,
+          100
+        ]
+      }
+    ],
+    "rcs": {
+      "stations": [
+        -100,
+        120
+      ],
+      "size": 1.5,
+      "plume": 12
+    },
+    "fixedSections": [
+      {
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -44,
           0,
-          -85
+          70
         ],
         "halfSize": [
-          4,
-          8,
-          10
-        ]
-      },
-      "shield-port": {
-        "center": [
-          -10,
-          10,
-          0
-        ],
-        "halfSize": [
-          6,
-          6,
-          10
-        ]
-      },
-      "bus-starboard": {
-        "center": [
           18,
-          0,
-          -20
+          1.0,
+          23
         ],
-        "halfSize": [
-          7,
-          10,
-          20
-        ]
+        "armorFrom": "radiator-port"
       },
-      "cooling-starboard": {
+      {
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
         "center": [
-          20,
+          44,
           0,
-          80
+          70
         ],
         "halfSize": [
-          5,
-          10,
-          12
-        ]
-      },
-      "engine-1": {
-        "center": [
-          14,
-          0,
-          125
+          18,
+          1.0,
+          23
         ],
-        "halfSize": [
-          10,
-          12,
-          8
-        ]
-      },
-      "maneuver-starboard": {
-        "center": [
-          20,
-          0,
-          -85
-        ],
-        "halfSize": [
-          4,
-          8,
-          10
-        ]
-      },
-      "shield-starboard": {
-        "center": [
-          10,
-          10,
-          0
-        ],
-        "halfSize": [
-          6,
-          6,
-          10
-        ]
+        "armorFrom": "radiator-starboard"
       }
-    },
-    "bays": {
-      "utility-port": {
-        "center": [
-          -22.95,
-          0,
-          -55.5
-        ],
-        "halfSize": [
-          1.5,
-          1.5,
-          3
-        ]
-      },
-      "utility-starboard": {
-        "center": [
-          18.9,
-          0,
-          -42.6
-        ],
-        "halfSize": [
-          1,
-          1,
-          2
-        ]
-      }
-    },
-    "pdMounts": [
-      [
-        18,
-        22,
-        60
-      ],
-      [
-        -18,
-        22,
-        60
-      ],
-      [
-        0,
-        -20,
-        40
-      ],
-      [
-        0,
-        24,
-        -40
-      ],
-      [
-        15,
-        22,
-        -60
-      ],
-      [
-        -15,
-        22,
-        -60
-      ]
     ]
   },
+  "id": "earth_air_defense_cruiser",
+  "bays": {},
   "sections": [
     {
-      "id": "hull",
-      "name": "주선체",
-      "center": [
-        0,
-        0,
-        9
-      ],
-      "halfSize": [
-        27,
-        19,
-        129
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "bow-1",
-      "name": "함수 1",
-      "center": [
-        0,
-        -1,
-        -135
-      ],
-      "halfSize": [
-        22,
-        15,
-        25
-      ],
-      "armorFrom": "bow-1"
-    },
-    {
-      "id": "bow-2",
-      "name": "함수 2",
-      "center": [
-        0,
-        -3,
-        -172.5
-      ],
-      "halfSize": [
-        12,
-        10,
-        12.5
-      ],
-      "armorFrom": "bow-2"
-    },
-    {
-      "id": "bridge",
-      "name": "함교",
-      "center": [
-        0,
-        36,
-        40
-      ],
-      "halfSize": [
-        16,
-        18,
-        18
-      ],
-      "armorFrom": "bridge"
-    },
-    {
       "id": "radiator-port",
-      "name": "좌현 방열판",
+      "name": "radiator-port",
       "center": [
         -44,
         0,
@@ -524,14 +440,14 @@
       ],
       "halfSize": [
         18,
-        1,
+        1.0,
         23
       ],
       "armorFrom": "radiator-port"
     },
     {
       "id": "radiator-starboard",
-      "name": "우현 방열판",
+      "name": "radiator-starboard",
       "center": [
         44,
         0,
@@ -539,100 +455,175 @@
       ],
       "halfSize": [
         18,
-        1,
+        1.0,
         23
       ],
       "armorFrom": "radiator-starboard"
     },
     {
-      "id": "pd-deck-forward--1",
-      "name": "pd-deck-forward--1",
+      "id": "bow-1",
+      "name": "Chisel bow",
       "center": [
-        -36,
-        0,
-        -70
+        0.0,
+        -1.0,
+        -157.5
       ],
       "halfSize": [
-        17,
-        11,
-        43
+        26.0,
+        17.0,
+        27.5
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "hull",
+      "name": "Main hull",
+      "center": [
+        0.0,
+        0.0,
+        -40.0
+      ],
+      "halfSize": [
+        27.0,
+        18.5,
+        90.0
       ],
       "armorFrom": "hull"
     },
     {
-      "id": "pd-deck-aft--1",
-      "name": "pd-deck-aft--1",
+      "id": "engine-block",
+      "name": "Aft engineering hull",
       "center": [
-        -36,
-        0,
-        34
+        0.0,
+        0.0,
+        94.0
       ],
       "halfSize": [
-        17,
-        11,
-        38
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "pd-deck-forward-1",
-      "name": "pd-deck-forward-1",
-      "center": [
-        36,
-        0,
-        -70
-      ],
-      "halfSize": [
-        17,
-        11,
-        43
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "pd-deck-aft-1",
-      "name": "pd-deck-aft-1",
-      "center": [
-        36,
-        0,
-        34
-      ],
-      "halfSize": [
-        17,
-        11,
-        38
+        30.0,
+        21.0,
+        44.0
       ],
       "armorFrom": "hull"
     },
     {
       "id": "turret-base-gun-1",
-      "name": "turret-base-gun-1",
+      "name": "Forward battery base",
       "center": [
-        0,
-        22.5,
-        -60
+        0.0,
+        22.0,
+        -60.0
       ],
       "halfSize": [
-        10,
-        3.5,
-        10
+        10.0,
+        4.0,
+        10.0
       ],
       "armorFrom": "hull"
     },
     {
       "id": "turret-base-gun-2",
-      "name": "turret-base-gun-2",
+      "name": "Ventral battery base",
       "center": [
-        0,
-        -22.5,
-        -30
+        0.0,
+        -22.0,
+        -30.0
       ],
       "halfSize": [
-        10,
-        3.5,
-        10
+        10.0,
+        4.0,
+        10.0
       ],
       "armorFrom": "hull"
+    },
+    {
+      "id": "deck-fore-port",
+      "name": "Fore defence deck port",
+      "center": [
+        -38.0,
+        0.0,
+        -73.5
+      ],
+      "halfSize": [
+        12.0,
+        4.0,
+        38.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-fore-starboard",
+      "name": "Fore defence deck starboard",
+      "center": [
+        38.0,
+        0.0,
+        -73.5
+      ],
+      "halfSize": [
+        12.0,
+        4.0,
+        38.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-aft-port",
+      "name": "Aft defence deck port",
+      "center": [
+        -38.0,
+        0.0,
+        25.0
+      ],
+      "halfSize": [
+        12.0,
+        4.0,
+        21.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "deck-aft-starboard",
+      "name": "Aft defence deck starboard",
+      "center": [
+        38.0,
+        0.0,
+        25.0
+      ],
+      "halfSize": [
+        12.0,
+        4.0,
+        21.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bridge",
+      "name": "Command block",
+      "center": [
+        0.0,
+        27.75,
+        40.0
+      ],
+      "halfSize": [
+        11.0,
+        9.25,
+        15.0
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "Sensor head",
+      "center": [
+        0.0,
+        44.0,
+        40.0
+      ],
+      "halfSize": [
+        8.5,
+        10.5,
+        9.5
+      ],
+      "armorFrom": "bridge"
     }
   ]
 }

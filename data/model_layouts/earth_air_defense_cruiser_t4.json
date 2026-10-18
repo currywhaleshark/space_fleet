@@ -1,332 +1,37 @@
 {
-  "id": "earth_air_defense_cruiser_t4",
-  "sections": [
-    {
-      "id": "hull",
-      "name": "주선체",
-      "center": [
-        0,
-        0,
-        9
-      ],
-      "halfSize": [
-        27,
-        19,
-        129
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "bow-1",
-      "name": "함수 1",
-      "center": [
-        0,
-        -1,
-        -135
-      ],
-      "halfSize": [
-        22,
-        15,
-        25
-      ],
-      "armorFrom": "bow-1"
-    },
-    {
-      "id": "bow-2",
-      "name": "함수 2",
-      "center": [
-        0,
-        -3,
-        -172.5
-      ],
-      "halfSize": [
-        20,
-        13,
-        12.5
-      ],
-      "armorFrom": "bow-2"
-    },
-    {
-      "id": "bridge",
-      "name": "함교",
-      "center": [
-        0,
-        28,
-        30
-      ],
-      "halfSize": [
-        22,
-        11,
-        16
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "radiator-port",
-      "name": "좌현 방열판",
-      "center": [
-        -44,
-        0,
-        70
-      ],
-      "halfSize": [
-        18,
-        1,
-        23
-      ],
-      "armorFrom": "radiator-port"
-    },
-    {
-      "id": "radiator-starboard",
-      "name": "우현 방열판",
-      "center": [
-        44,
-        0,
-        70
-      ],
-      "halfSize": [
-        18,
-        1,
-        23
-      ],
-      "armorFrom": "radiator-starboard"
-    },
-    {
-      "id": "turret-base-gun-1",
-      "name": "turret-base-gun-1",
-      "center": [
-        0,
-        22.5,
-        -60
-      ],
-      "halfSize": [
-        10,
-        3.5,
-        10
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "turret-base-gun-2",
-      "name": "turret-base-gun-2",
-      "center": [
-        0,
-        -22.5,
-        -30
-      ],
-      "halfSize": [
-        10,
-        3.5,
-        10
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "sensor-head",
-      "name": "sensor-head",
-      "center": [
-        0,
-        38,
-        30
-      ],
-      "halfSize": [
-        8.5,
-        10.5,
-        9.5
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "defense-forward--1",
-      "name": "defense-forward--1",
-      "center": [
-        -48,
-        0,
-        -75
-      ],
-      "halfSize": [
-        12,
-        10,
-        45
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-aft--1",
-      "name": "defense-aft--1",
-      "center": [
-        -48,
-        0,
-        27
-      ],
-      "halfSize": [
-        12,
-        10,
-        25
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-forward-1",
-      "name": "defense-forward-1",
-      "center": [
-        48,
-        0,
-        -75
-      ],
-      "halfSize": [
-        12,
-        10,
-        45
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-aft-1",
-      "name": "defense-aft-1",
-      "center": [
-        48,
-        0,
-        27
-      ],
-      "halfSize": [
-        12,
-        10,
-        25
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root--1-0",
-      "name": "defense-root--1-0",
-      "center": [
-        -31,
-        0,
-        -95
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root--1-1",
-      "name": "defense-root--1-1",
-      "center": [
-        -31,
-        0,
-        -55
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root--1-2",
-      "name": "defense-root--1-2",
-      "center": [
-        -31,
-        0,
-        15
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root--1-3",
-      "name": "defense-root--1-3",
-      "center": [
-        -31,
-        0,
-        39
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root-1-0",
-      "name": "defense-root-1-0",
-      "center": [
-        31,
-        0,
-        -95
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root-1-1",
-      "name": "defense-root-1-1",
-      "center": [
-        31,
-        0,
-        -55
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root-1-2",
-      "name": "defense-root-1-2",
-      "center": [
-        31,
-        0,
-        15
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "defense-root-1-3",
-      "name": "defense-root-1-3",
-      "center": [
-        31,
-        0,
-        39
-      ],
-      "halfSize": [
-        7,
-        4,
-        6
-      ],
-      "armorFrom": "hull"
-    }
-  ],
   "modules": {
+    "radiator-port": {
+      "center": [
+        -40,
+        6,
+        100
+      ],
+      "halfSize": [
+        0.9,
+        14,
+        22
+      ]
+    },
+    "radiator-starboard": {
+      "center": [
+        40,
+        6,
+        100
+      ],
+      "halfSize": [
+        0.9,
+        14,
+        22
+      ]
+    },
     "sensor": {
       "center": [
         0,
-        38,
+        37,
         30
       ]
     }
   },
-  "bays": {},
   "pdMounts": [
     [
       48,
@@ -358,5 +63,541 @@
       12,
       -75
     ]
+  ],
+  "missileLaunch": [
+    0,
+    30,
+    -20
+  ],
+  "blockout": {
+    "role": "defense",
+    "reference": "art/reference/20261017_t4_cruisers/t4-cruisers.png",
+    "palette": "earth",
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.3,
+      "accentScale": 5,
+      "wear": 0.25,
+      "streaks": 0.35
+    },
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Twin prow lobe",
+        "rings": [
+          [
+            -185,
+            6,
+            9,
+            -2
+          ],
+          [
+            -150,
+            11,
+            14,
+            -1
+          ],
+          [
+            -115,
+            13,
+            16,
+            0
+          ]
+        ],
+        "x": 12,
+        "mirror": true,
+        "section": "bow-1",
+        "armorFrom": "bow-1"
+      },
+      {
+        "kind": "box",
+        "name": "Prow centre slot",
+        "center": [
+          0,
+          2,
+          -150
+        ],
+        "size": [
+          6,
+          18,
+          72
+        ],
+        "mat": "dark",
+        "decor": true
+      },
+      {
+        "kind": "loft",
+        "name": "Main hull",
+        "rings": [
+          [
+            -115,
+            25,
+            17,
+            0
+          ],
+          [
+            -90,
+            27,
+            18.5,
+            0
+          ],
+          [
+            50,
+            27,
+            18.5,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Aft engineering hull",
+        "rings": [
+          [
+            50,
+            30,
+            21,
+            0
+          ],
+          [
+            60,
+            31,
+            22,
+            0
+          ],
+          [
+            132,
+            31,
+            22,
+            0
+          ],
+          [
+            138,
+            27,
+            19,
+            0
+          ]
+        ],
+        "section": "engine-block",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Forward battery base",
+        "center": [
+          0,
+          22,
+          -60
+        ],
+        "size": [
+          20,
+          8,
+          20
+        ],
+        "section": "turret-base-gun-1",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Ventral battery base",
+        "center": [
+          0,
+          -22,
+          -30
+        ],
+        "size": [
+          20,
+          8,
+          20
+        ],
+        "section": "turret-base-gun-2",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Outrigger hull",
+        "rings": [
+          [
+            -125,
+            5,
+            7,
+            0
+          ],
+          [
+            -105,
+            9,
+            10,
+            0
+          ],
+          [
+            60,
+            9,
+            10,
+            0
+          ],
+          [
+            75,
+            7,
+            8,
+            0
+          ]
+        ],
+        "x": 48,
+        "mirror": true,
+        "core": false,
+        "section": "outrigger",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Cross beam",
+        "center": [
+          33,
+          0,
+          -50
+        ],
+        "size": [
+          26,
+          6,
+          10
+        ],
+        "mirror": true
+      },
+      {
+        "kind": "box",
+        "name": "Cross beam aft",
+        "center": [
+          33,
+          0,
+          40
+        ],
+        "size": [
+          26,
+          6,
+          10
+        ],
+        "mirror": true
+      },
+      {
+        "kind": "box",
+        "name": "Command block",
+        "center": [
+          0,
+          33,
+          30
+        ],
+        "size": [
+          20,
+          30,
+          24
+        ],
+        "section": "bridge",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Bridge bar",
+        "center": [
+          0,
+          45.5,
+          42
+        ],
+        "size": [
+          62,
+          5,
+          8
+        ],
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Bridge bar glazing",
+        "center": [
+          0,
+          45.5,
+          37.9
+        ],
+        "size": [
+          56,
+          2,
+          0.4
+        ],
+        "mat": "glass",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Outrigger navy panel",
+        "center": [
+          57.1,
+          0,
+          -100
+        ],
+        "size": [
+          0.5,
+          12,
+          22
+        ],
+        "mirror": true,
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Drone cradle",
+        "center": [
+          57.4,
+          0,
+          -20
+        ],
+        "size": [
+          1,
+          5,
+          12
+        ],
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Twin prow lobe",
+        "z": [
+          -140,
+          -132
+        ]
+      },
+      {
+        "piece": "Outrigger hull",
+        "z": [
+          -20,
+          -12
+        ]
+      },
+      {
+        "piece": "Aft engineering hull",
+        "z": [
+          80,
+          90
+        ]
+      }
+    ],
+    "rcs": {
+      "stations": [
+        -100,
+        120
+      ],
+      "size": 1.5,
+      "plume": 12
+    },
+    "fixedSections": [
+      {
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -40,
+          6,
+          100
+        ],
+        "halfSize": [
+          1.0,
+          15,
+          23
+        ],
+        "armorFrom": "radiator-port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
+        "center": [
+          40,
+          6,
+          100
+        ],
+        "halfSize": [
+          1.0,
+          15,
+          23
+        ],
+        "armorFrom": "radiator-starboard"
+      }
+    ]
+  },
+  "id": "earth_air_defense_cruiser_t4",
+  "bays": {},
+  "sections": [
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -40,
+        6,
+        100
+      ],
+      "halfSize": [
+        1.0,
+        15,
+        23
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        40,
+        6,
+        100
+      ],
+      "halfSize": [
+        1.0,
+        15,
+        23
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "bow-1-port",
+      "name": "Twin prow lobe port",
+      "center": [
+        -12.0,
+        0.0,
+        -150.0
+      ],
+      "halfSize": [
+        13.0,
+        16.0,
+        35.0
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "bow-1-starboard",
+      "name": "Twin prow lobe starboard",
+      "center": [
+        12.0,
+        0.0,
+        -150.0
+      ],
+      "halfSize": [
+        13.0,
+        16.0,
+        35.0
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "hull",
+      "name": "Main hull",
+      "center": [
+        0.0,
+        0.0,
+        -32.5
+      ],
+      "halfSize": [
+        27.0,
+        18.5,
+        82.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-block",
+      "name": "Aft engineering hull",
+      "center": [
+        0.0,
+        0.0,
+        94.0
+      ],
+      "halfSize": [
+        31.0,
+        22.0,
+        44.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "Forward battery base",
+      "center": [
+        0.0,
+        22.0,
+        -60.0
+      ],
+      "halfSize": [
+        10.0,
+        4.0,
+        10.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "Ventral battery base",
+      "center": [
+        0.0,
+        -22.0,
+        -30.0
+      ],
+      "halfSize": [
+        10.0,
+        4.0,
+        10.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "outrigger-port",
+      "name": "Outrigger hull port",
+      "center": [
+        -48.0,
+        0.0,
+        -25.0
+      ],
+      "halfSize": [
+        9.0,
+        10.0,
+        100.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "outrigger-starboard",
+      "name": "Outrigger hull starboard",
+      "center": [
+        48.0,
+        0.0,
+        -25.0
+      ],
+      "halfSize": [
+        9.0,
+        10.0,
+        100.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bridge",
+      "name": "Command block",
+      "center": [
+        0.0,
+        33.0,
+        30.0
+      ],
+      "halfSize": [
+        10.0,
+        15.0,
+        12.0
+      ],
+      "armorFrom": "bridge"
+    }
   ]
 }

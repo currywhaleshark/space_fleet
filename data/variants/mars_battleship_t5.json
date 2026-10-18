@@ -176,6 +176,111 @@
     "hullSections": [
       {
         "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {},
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -78,
+          0,
+          240
+        ],
+        "halfSize": [
+          1.24,
+          38.05,
+          107.39999999999999
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 5.6
+        },
+        "faces": {},
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
+        "center": [
+          78,
+          0,
+          240
+        ],
+        "halfSize": [
+          1.24,
+          38.05,
+          107.39999999999999
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 45
+          }
+        },
+        "id": "bow-3",
+        "name": "Spear point",
+        "center": [
+          0.0,
+          -8.0,
+          -542.0
+        ],
+        "halfSize": [
+          26.0,
+          21.0,
+          36.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 35
+          }
+        },
+        "id": "bow-2",
+        "name": "Spear bow",
+        "center": [
+          0.0,
+          -5.0,
+          -480.0
+        ],
+        "halfSize": [
+          38.0,
+          30.0,
+          26.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 245.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "Spear shoulder",
+        "center": [
+          0.0,
+          -2.0,
+          -418.0
+        ],
+        "halfSize": [
+          52.0,
+          40.0,
+          36.0
+        ]
+      },
+      {
+        "armor": {
           "thicknessMm": 210.0
         },
         "faces": {
@@ -193,85 +298,16 @@
           }
         },
         "id": "hull",
-        "name": "주선체",
+        "name": "Battle hull",
         "center": [
-          0,
-          0,
-          -100
+          0.0,
+          0.0,
+          -99.5
         ],
         "halfSize": [
           59.5,
-          48,
+          48.0,
           282.5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 245.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 350.0,
-            "slopeDegrees": 25
-          }
-        },
-        "id": "bow-1",
-        "name": "함수 1",
-        "center": [
-          0.0,
-          -2.4,
-          -418.2
-        ],
-        "halfSize": [
-          52.5,
-          40.0,
-          35.7
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 245.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 350.0,
-            "slopeDegrees": 35
-          }
-        },
-        "id": "bow-2",
-        "name": "함수 2",
-        "center": [
-          0.0,
-          -5.6,
-          -480.25
-        ],
-        "halfSize": [
-          38.5,
-          30.4,
-          26.35
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 245.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 350.0,
-            "slopeDegrees": 45
-          }
-        },
-        "id": "bow-3",
-        "name": "함수 3",
-        "center": [
-          0.0,
-          -8.0,
-          -542.3
-        ],
-        "halfSize": [
-          26.6,
-          21.6,
-          35.7
         ]
       },
       {
@@ -280,16 +316,16 @@
         },
         "faces": {},
         "id": "deck",
-        "name": "상부 갑판",
+        "name": "Dorsal battery spine",
         "center": [
-          0,
+          0.0,
           57.6,
-          -130
+          -130.0
         ],
         "halfSize": [
           33.6,
           12.8,
-          240
+          240.0
         ]
       },
       {
@@ -298,143 +334,78 @@
         },
         "faces": {},
         "id": "keel",
-        "name": "하부 용골",
+        "name": "Ventral keel",
         "center": [
-          0,
+          0.0,
           -57.6,
-          -80
+          -80.0
         ],
         "halfSize": [
           40.6,
-          12,
-          230
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 63.0
-        },
-        "faces": {},
-        "id": "bridge",
-        "name": "함교",
-        "center": [
-          0,
-          86,
-          335
-        ],
-        "halfSize": [
-          24,
-          39,
-          35
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 5.6
-        },
-        "faces": {},
-        "id": "radiator-port",
-        "name": "좌현 방열판",
-        "center": [
-          -78,
-          0,
-          240
-        ],
-        "halfSize": [
-          1.2,
-          39,
-          112
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 5.6
-        },
-        "faces": {},
-        "id": "radiator-starboard",
-        "name": "우현 방열판",
-        "center": [
-          78,
-          0,
-          240
-        ],
-        "halfSize": [
-          1.2,
-          39,
-          112
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 84.0
-        },
-        "faces": {
-          "Aft": {
-            "thicknessMm": 56.0
-          }
-        },
-        "id": "engine-block",
-        "name": "추진 구획",
-        "center": [
-          0,
-          0,
-          464
-        ],
-        "halfSize": [
-          74,
-          51,
-          29
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 12
-        },
-        "id": "sensor-head",
-        "name": "외부 센서 헤드",
-        "center": [
-          0,
-          153,
-          335
-        ],
-        "halfSize": [
-          10.78,
-          13.2,
-          18.7
+          12.0,
+          230.0
         ]
       },
       {
         "armor": {
           "thicknessMm": 100
         },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0
+          },
+          "Aft": {
+            "thicknessMm": 105.0
+          },
+          "Dorsal": {
+            "thicknessMm": 126.0
+          },
+          "Ventral": {
+            "thicknessMm": 154.0
+          }
+        },
         "id": "turret-base-gun-1",
-        "name": "주포 바베트",
+        "name": "Forward battery barbette",
         "center": [
           0.0,
-          59.400000000000006,
+          59.4,
           -272.0
         ],
         "halfSize": [
-          22,
-          12.100000000000001,
-          22
+          22.0,
+          12.1,
+          22.0
         ]
       },
       {
         "armor": {
           "thicknessMm": 100
         },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0
+          },
+          "Aft": {
+            "thicknessMm": 105.0
+          },
+          "Dorsal": {
+            "thicknessMm": 126.0
+          },
+          "Ventral": {
+            "thicknessMm": 154.0
+          }
+        },
         "id": "turret-base-gun-3",
-        "name": "주포 바베트",
+        "name": "Ventral battery barbette",
         "center": [
           0.0,
-          -59.400000000000006,
+          -59.4,
           -102.0
         ],
         "halfSize": [
-          22,
-          12.100000000000001,
-          22
+          22.0,
+          12.1,
+          22.0
         ]
       },
       {
@@ -456,34 +427,16 @@
           }
         },
         "id": "aft-spine",
-        "name": "aft-spine",
+        "name": "Aft spine",
         "center": [
-          0,
-          0,
-          306
+          0.0,
+          0.0,
+          306.0
         ],
         "halfSize": [
-          25,
-          27,
-          135
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 63.0
-        },
-        "faces": {},
-        "id": "mast-stem",
-        "name": "mast-stem",
-        "center": [
-          0,
-          132,
-          335
-        ],
-        "halfSize": [
-          5,
-          9,
-          7
+          25.0,
+          27.0,
+          135.0
         ]
       },
       {
@@ -505,47 +458,16 @@
           }
         },
         "id": "engineering-pod-port",
-        "name": "engineering-pod-port",
+        "name": "Engineering pod port",
         "center": [
-          -47,
-          0,
-          270
+          -47.0,
+          0.0,
+          270.0
         ],
         "halfSize": [
-          17,
-          25,
-          57
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 210.0
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 350.0
-          },
-          "Aft": {
-            "thicknessMm": 105.0
-          },
-          "Dorsal": {
-            "thicknessMm": 126.0
-          },
-          "Ventral": {
-            "thicknessMm": 154.0
-          }
-        },
-        "id": "aft-truss-port",
-        "name": "aft-truss-port",
-        "center": [
-          -61,
-          0,
-          330
-        ],
-        "halfSize": [
-          3,
-          42,
-          112
+          17.0,
+          25.0,
+          57.0
         ]
       },
       {
@@ -567,16 +489,47 @@
           }
         },
         "id": "engineering-pod-starboard",
-        "name": "engineering-pod-starboard",
+        "name": "Engineering pod starboard",
         "center": [
-          47,
-          0,
-          270
+          47.0,
+          0.0,
+          270.0
         ],
         "halfSize": [
-          17,
-          25,
-          57
+          17.0,
+          25.0,
+          57.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 210.0
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 350.0
+          },
+          "Aft": {
+            "thicknessMm": 105.0
+          },
+          "Dorsal": {
+            "thicknessMm": 126.0
+          },
+          "Ventral": {
+            "thicknessMm": 154.0
+          }
+        },
+        "id": "aft-truss-port",
+        "name": "Aft truss frame port",
+        "center": [
+          -61.0,
+          0.0,
+          330.0
+        ],
+        "halfSize": [
+          3.0,
+          42.0,
+          112.0
         ]
       },
       {
@@ -598,16 +551,38 @@
           }
         },
         "id": "aft-truss-starboard",
-        "name": "aft-truss-starboard",
+        "name": "Aft truss frame starboard",
         "center": [
-          61,
-          0,
-          330
+          61.0,
+          0.0,
+          330.0
         ],
         "halfSize": [
-          3,
-          42,
-          112
+          3.0,
+          42.0,
+          112.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 84.0
+        },
+        "faces": {
+          "Aft": {
+            "thicknessMm": 56.0
+          }
+        },
+        "id": "engine-block",
+        "name": "Engine drive block",
+        "center": [
+          0.0,
+          0.0,
+          464.0
+        ],
+        "halfSize": [
+          74.0,
+          51.0,
+          29.0
         ]
       },
       {
@@ -616,16 +591,70 @@
         },
         "faces": {},
         "id": "bridge-foundation",
-        "name": "bridge-foundation",
+        "name": "Bridge foundation",
         "center": [
-          0,
-          37,
-          335
+          0.0,
+          37.0,
+          335.0
         ],
         "halfSize": [
-          23,
-          11,
-          30
+          23.0,
+          11.0,
+          30.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 63.0
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "Command tower",
+        "center": [
+          0.0,
+          86.0,
+          335.0
+        ],
+        "halfSize": [
+          24.0,
+          39.0,
+          33.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 63.0
+        },
+        "faces": {},
+        "id": "mast-stem",
+        "name": "Sensor mast",
+        "center": [
+          0.0,
+          132.0,
+          335.0
+        ],
+        "halfSize": [
+          5.0,
+          9.0,
+          7.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 12
+        },
+        "faces": {},
+        "id": "sensor-head",
+        "name": "Sensor head",
+        "center": [
+          0.0,
+          153.0,
+          335.0
+        ],
+        "halfSize": [
+          10.8,
+          13.2,
+          18.7
         ]
       }
     ],

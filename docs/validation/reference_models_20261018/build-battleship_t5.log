@@ -1,0 +1,59 @@
+INFO Draco mesh compression is available, use library at C:\Program Files\Blender Foundation\Blender 5.1\5.1\scripts\addons_core\io_scene_gltf2\extern_draco.dll
+18:15:47 | INFO: Starting glTF 2.0 export
+18:15:47 | INFO: Extracting primitive: Stepped ram prow.001
+18:15:47 | INFO: Primitives created: 9
+18:15:47 | INFO: Extracting primitive: Rail battery gun-1 rail shroud.002
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: Rail battery gun-1 turntable.001
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: Rail battery gun-2 rail shroud.002
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: Rail battery gun-2 turntable.001
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: Rail battery gun-3 rail shroud.002
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: Rail battery gun-3 turntable.001
+18:15:47 | INFO: Primitives created: 3
+18:15:47 | INFO: Extracting primitive: PD 0 receiver.001
+18:15:47 | INFO: Primitives created: 1
+18:15:47 | INFO: Extracting primitive: PD 0 barrel.002
+18:15:47 | INFO: Primitives created: 2
+18:15:47 | INFO: Extracting primitive: PD 1 receiver.001
+18:15:47 | INFO: Primitives created: 1
+18:15:47 | INFO: Extracting primitive: PD 1 barrel.002
+18:15:47 | INFO: Primitives created: 2
+18:15:47 | INFO: Extracting primitive: PD 2 receiver.001
+18:15:47 | INFO: Primitives created: 1
+18:15:47 | INFO: Extracting primitive: PD 2 barrel.002
+18:15:47 | INFO: Primitives created: 2
+18:15:48 | INFO: Extracting primitive: PD 3 receiver.001
+18:15:48 | INFO: Primitives created: 1
+18:15:48 | INFO: Extracting primitive: PD 3 barrel.002
+18:15:48 | INFO: Primitives created: 2
+18:15:48 | INFO: Extracting primitive: PD 4 receiver.001
+18:15:48 | INFO: Primitives created: 1
+18:15:48 | INFO: Extracting primitive: PD 4 barrel.002
+18:15:48 | INFO: Primitives created: 2
+18:15:48 | INFO: Extracting primitive: PD 5 receiver.001
+18:15:48 | INFO: Primitives created: 1
+18:15:48 | INFO: Extracting primitive: PD 5 barrel.002
+18:15:48 | INFO: Primitives created: 2
+18:15:48 | INFO: Extracting primitive: PD 6 receiver.001
+18:15:48 | INFO: Primitives created: 1
+18:15:48 | INFO: Extracting primitive: PD 6 barrel.002
+18:15:48 | INFO: Primitives created: 2
+18:15:48 | INFO: Extracting primitive: PD 7 receiver.001
+18:15:48 | INFO: Primitives created: 1
+18:15:48 | INFO: Extracting primitive: PD 7 barrel.002
+18:15:48 | INFO: Primitives created: 2
+18:15:48 | INFO: Finished glTF 2.0 export in 0.13910341262817383 s
+00:11.578  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_hero.png'
+00:19.203  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_underside.png'
+00:26.532  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_top.png'
+00:33.422  render           | Saved: 'C:\Users\yurib\Documents\New project\space_fleet-models\docs\validation\reference_models_20261018\battleship_t5_rear.png'
+
+Info: Saved as "battleship_t5.blend"
+BUILT battleship_t5 12756 triangles
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

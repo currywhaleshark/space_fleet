@@ -4,71 +4,15 @@
   "tier": 1,
   "patch": {
     "id": "earth_starter_escort",
-    "branch": "Escort",
     "modelId": "earth_starter_escort",
-    "matchClass": "Medium",
-    "squadron": {
-      "role": "EscortSquadron",
-      "composition": "호위함 4",
-      "members": [
-        {
-          "hullId": null,
-          "offset": [
-            -1200,
-            0,
-            0
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            1200,
-            0,
-            0
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            -2400,
-            0,
-            900
-          ]
-        },
-        {
-          "hullId": null,
-          "offset": [
-            2400,
-            0,
-            900
-          ]
-        }
-      ]
-    },
     "ai": {
-      "profile": {
-        "standoffMeters": 30000,
-        "railFlightSeconds": 5,
-        "missileRangeMeters": 110000,
-        "attackRuns": false
-      },
       "defaultPips": [
         2,
         2,
         1,
         1,
         2
-      ],
-      "targetPreference": {
-        "Battleship": 1,
-        "Escort": 0,
-        "Interceptor": 2
-      }
-    },
-    "battleValue": {
-      "weight": 2,
-      "captureStrength": 1.5,
-      "hudMarkerRadius": 4
+      ]
     },
     "bays": [
       {
@@ -92,32 +36,14 @@
       }
     ],
     "structureHitPoints": 2295.0,
-    "damageControl": {
-      "kits": 5,
-      "repairSeconds": 14,
-      "restoreFraction": 0.35,
-      "quietSeconds": 5
-    },
-    "kind": "Escort",
     "railgun": {
-      "moduleId": "gun-1",
       "muzzle": [
         0.0,
         25.6,
         -76.80000000000001
       ],
-      "muzzleSpeed": 8000,
       "reloadSeconds": 0.8823529411764706,
-      "energy": 600,
-      "penetrationMm": 900,
-      "moduleDamage": 180,
-      "maxRange": 150000,
       "rounds": 480,
-      "traverseDegrees": 100,
-      "sensorErrorMeters": 0.7,
-      "sensorErrorPerKm": 0.1,
-      "velocityError": 0.2,
-      "shotHeatMj": 60,
       "mounts": [
         {
           "moduleId": "gun-1",
@@ -164,67 +90,26 @@
       ]
     },
     "flight": {
-      "kind": "Escort",
       "displayName": "제피르급 호위함",
       "length": 240.0,
       "massKg": 112500000.0,
-      "forwardAccel": 14,
-      "strafeAccel": 6,
-      "brakeAccel": 12,
-      "maxAccelG": 2,
-      "maxSpeed": 220,
-      "boostMultiplier": 1.6,
-      "pitchYawRateDeg": 22,
-      "pitchYawAccelDeg": 14,
-      "rollRateDeg": 35,
-      "rollAccelDeg": 25,
       "cameraDistance": 496.0,
       "cameraHeight": 96.0
     },
     "shield": {
       "capacity": 340.0,
-      "rechargePerSecond": 29.75,
-      "rechargeDelay": 5
-    },
-    "power": {
-      "outputMw": 500,
-      "engines": 160,
-      "shields": 120,
-      "weapons": 100,
-      "sensors": 20,
-      "ecm": 80,
-      "heatCapacityMj": 4500,
-      "coolingMw": 330
+      "rechargePerSecond": 29.75
     },
     "sensors": {
-      "strength": 800,
-      "signature": 20,
-      "jammer": 3
+      "strength": 800
     },
     "missiles": {
       "rounds": 12,
-      "reloadSeconds": 3,
       "launchPoint": [
-        0.0,
-        24.0,
-        -16.0
-      ],
-      "ejectSpeed": 50,
-      "accelG": 30,
-      "burnSeconds": 60,
-      "maxFlightSeconds": 150,
-      "seekerRangeMeters": 15000,
-      "seekerFovDegrees": 40,
-      "seekerStrength": 3,
-      "fuzeMeters": 25,
-      "turnRateDegrees": 120,
-      "maxSteeringAngleDegrees": 90,
-      "thrustGimbalDegrees": 10,
-      "energy": 500,
-      "penetrationMm": 600,
-      "moduleDamage": 160,
-      "hitPoints": 12,
-      "launchHeatMj": 8
+        0,
+        24,
+        -16
+      ]
     },
     "pointDefense": {
       "mounts": [
@@ -248,182 +133,9 @@
           19.2,
           -32
         ]
-      ],
-      "rangeMeters": 4500,
-      "shotsPerSecond": 12,
-      "hitChance": 0.09,
-      "damagePerHit": 4,
-      "normals": [
-        [
-          0.6,
-          0.8,
-          0
-        ],
-        [
-          -0.6,
-          0.8,
-          0
-        ],
-        [
-          0,
-          -1,
-          0
-        ],
-        [
-          0,
-          0.8,
-          -0.6
-        ]
-      ],
-      "arcDegrees": 100,
-      "yawDegrees": 110,
-      "minElevation": -5,
-      "maxElevation": 85,
-      "yawRate": 90,
-      "elevationRate": 60,
-      "toleranceDegrees": 1.5
-    },
-    "decoys": {
-      "count": 10,
-      "perLaunch": 2,
-      "cooldownSeconds": 3,
-      "signatureFactor": 2.5,
-      "lifetimeSeconds": 5,
-      "ejectSpeed": 60
+      ]
     },
     "hullSections": [
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "hull",
-        "name": "hull",
-        "center": [
-          0,
-          0,
-          8
-        ],
-        "halfSize": [
-          21.6,
-          15.2,
-          102.4
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 130
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180,
-            "slopeDegrees": 25
-          }
-        },
-        "id": "bow-1",
-        "name": "bow-1",
-        "center": [
-          0,
-          -0.8,
-          -109
-        ],
-        "halfSize": [
-          19,
-          12.5,
-          20.5
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 130
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180,
-            "slopeDegrees": 35
-          }
-        },
-        "id": "bow-2",
-        "name": "bow-2",
-        "center": [
-          0,
-          -1.5,
-          -138
-        ],
-        "halfSize": [
-          14,
-          9.5,
-          10
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 35
-        },
-        "faces": {},
-        "id": "bridge",
-        "name": "bridge",
-        "center": [
-          0,
-          24,
-          41
-        ],
-        "halfSize": [
-          10,
-          9,
-          16
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 35
-        },
-        "faces": {},
-        "id": "sensor-head",
-        "name": "sensor-head",
-        "center": [
-          0,
-          28,
-          41
-        ],
-        "halfSize": [
-          6.9,
-          8.5,
-          7.7
-        ]
-      },
-      {
-        "armor": {
-          "thicknessMm": 100
-        },
-        "faces": {
-          "Fore": {
-            "thicknessMm": 180
-          },
-          "Aft": {
-            "thicknessMm": 50
-          }
-        },
-        "id": "turret-base-gun-1",
-        "name": "turret-base-gun-1",
-        "center": [
-          0,
-          17.5,
-          -48
-        ],
-        "halfSize": [
-          8,
-          3.3,
-          8
-        ]
-      },
       {
         "armor": {
           "thicknessMm": 4
@@ -437,9 +149,9 @@
           64
         ],
         "halfSize": [
-          14.4,
-          0.8,
-          18.4
+          14.600000000000001,
+          0.8200000000000001,
+          18.6
         ]
       },
       {
@@ -455,9 +167,118 @@
           64
         ],
         "halfSize": [
-          14.4,
-          0.8,
-          18.4
+          14.600000000000001,
+          0.8200000000000001,
+          18.6
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 130
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180,
+            "slopeDegrees": 25
+          }
+        },
+        "id": "bow-1",
+        "name": "Blunt armoured bow",
+        "center": [
+          0.0,
+          0.0,
+          -124.0
+        ],
+        "halfSize": [
+          21.6,
+          15.2,
+          24.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "hull",
+        "name": "Escort hull",
+        "center": [
+          0.0,
+          0.0,
+          6.0
+        ],
+        "halfSize": [
+          21.6,
+          15.2,
+          106.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 100
+        },
+        "faces": {
+          "Fore": {
+            "thicknessMm": 180
+          },
+          "Aft": {
+            "thicknessMm": 50
+          }
+        },
+        "id": "turret-base-gun-1",
+        "name": "Forward battery base",
+        "center": [
+          0.0,
+          17.5,
+          -48.0
+        ],
+        "halfSize": [
+          8.0,
+          3.3,
+          8.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {},
+        "id": "bridge",
+        "name": "Command block",
+        "center": [
+          0.0,
+          19.0,
+          41.0
+        ],
+        "halfSize": [
+          9.0,
+          4.0,
+          11.0
+        ]
+      },
+      {
+        "armor": {
+          "thicknessMm": 35
+        },
+        "faces": {},
+        "id": "sensor-head",
+        "name": "Sensor head",
+        "center": [
+          0.0,
+          28.0,
+          41.0
+        ],
+        "halfSize": [
+          6.9,
+          8.5,
+          7.7
         ]
       }
     ],

@@ -1,194 +1,12 @@
 {
-  "id": "interceptor_t3",
-  "sections": [
-    {
-      "id": "nose",
-      "name": "nose",
-      "center": [
-        0,
-        0,
-        -9.5
-      ],
-      "halfSize": [
-        1.4,
-        1,
-        4.5
-      ],
-      "armorFrom": "nose"
-    },
-    {
-      "id": "hull",
-      "name": "hull",
-      "center": [
-        0,
-        0,
-        1
-      ],
-      "halfSize": [
-        2.4,
-        1.6,
-        9
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "am-keel",
-      "name": "am-keel",
-      "center": [
-        0,
-        -1.45,
-        -2
-      ],
-      "halfSize": [
-        1.05,
-        1.05,
-        1.8
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "engine-port",
-      "name": "engine-port",
-      "center": [
-        -4.9,
-        0,
-        9
-      ],
-      "halfSize": [
-        1.35,
-        1.35,
-        3.7
-      ],
-      "armorFrom": "engine-block"
-    },
-    {
-      "id": "wing-port",
-      "name": "wing-port",
-      "center": [
-        -4.45,
-        0,
-        2
-      ],
-      "halfSize": [
-        2.75,
-        0.45,
-        6
-      ],
-      "armorFrom": "wing-back"
-    },
-    {
-      "id": "fin-port",
-      "name": "fin-port",
-      "center": [
-        -5.2,
-        2.05,
-        9.5
-      ],
-      "halfSize": [
-        0.55,
-        1.25,
-        2
-      ],
-      "armorFrom": "fins"
-    },
-    {
-      "id": "engine-starboard",
-      "name": "engine-starboard",
-      "center": [
-        4.9,
-        0,
-        9
-      ],
-      "halfSize": [
-        1.35,
-        1.35,
-        3.7
-      ],
-      "armorFrom": "engine-block"
-    },
-    {
-      "id": "wing-starboard",
-      "name": "wing-starboard",
-      "center": [
-        4.45,
-        0,
-        2
-      ],
-      "halfSize": [
-        2.75,
-        0.45,
-        6
-      ],
-      "armorFrom": "wing-back"
-    },
-    {
-      "id": "fin-starboard",
-      "name": "fin-starboard",
-      "center": [
-        5.2,
-        2.05,
-        9.5
-      ],
-      "halfSize": [
-        0.55,
-        1.25,
-        2
-      ],
-      "armorFrom": "fins"
-    }
-  ],
-  "modules": {
-    "am-containment": {
-      "center": [
-        0,
-        -1.55,
-        -2
-      ]
-    },
-    "gun": {
-      "center": [
-        0,
-        -0.6,
-        -11.5
-      ]
-    },
-    "engine-0": {
-      "center": [
-        -4.9,
-        0,
-        10
-      ]
-    },
-    "cooling-port": {
-      "center": [
-        -4.9,
-        0,
-        7.1
-      ]
-    },
-    "engine-1": {
-      "center": [
-        4.9,
-        0,
-        10
-      ]
-    },
-    "cooling-starboard": {
-      "center": [
-        4.9,
-        0,
-        7.1
-      ]
-    }
-  },
-  "bays": {},
+  "modules": {},
   "gunMuzzle": [
     0,
     -0.6,
     -16.3
   ],
   "missileLaunch": [
-    -2.55,
+    -2.3,
     -0.65,
     -4.1
   ],
@@ -211,14 +29,423 @@
   ],
   "probeLaunchPoints": [
     [
-      -2.55,
-      0.15,
+      -2.5,
+      0.5,
       -1.3
     ],
     [
-      2.55,
-      0.15,
+      2.5,
+      0.5,
       -1.3
     ]
+  ],
+  "blockout": {
+    "role": "defense",
+    "reference": "art/reference/20261017_t3_interceptors/falke-herschel.png",
+    "palette": "earth",
+    "surface": {
+      "accent": [
+        0.1,
+        0.14,
+        0.25
+      ],
+      "accentRatio": 0.28,
+      "accentScale": 4,
+      "wear": 0.2,
+      "streaks": 0.2
+    },
+    "cockpit": {
+      "z": -6.2,
+      "w": 0.85,
+      "y": 1.35
+    },
+    "nozzleRadius": 1.0,
+    "rcs": {
+      "stations": [
+        -12,
+        10
+      ],
+      "size": 0.26,
+      "plume": 4
+    },
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Tapered prow",
+        "rings": [
+          [
+            -15.4,
+            0.3,
+            0.35,
+            -0.35
+          ],
+          [
+            -12.5,
+            0.8,
+            0.65,
+            -0.2
+          ],
+          [
+            -9,
+            1.15,
+            0.95,
+            -0.05
+          ],
+          [
+            -6,
+            1.35,
+            1.05,
+            0
+          ]
+        ],
+        "section": "nose",
+        "armorFrom": "nose"
+      },
+      {
+        "kind": "loft",
+        "name": "Wide fuselage",
+        "rings": [
+          [
+            -6,
+            1.35,
+            1.05,
+            0
+          ],
+          [
+            -3,
+            1.9,
+            1.4,
+            0.05
+          ],
+          [
+            6,
+            1.9,
+            1.45,
+            0
+          ],
+          [
+            11,
+            1.5,
+            1.2,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "AM keel",
+        "center": [
+          0,
+          -1.55,
+          -2
+        ],
+        "size": [
+          1.9,
+          2,
+          4.2
+        ],
+        "hidden": true,
+        "section": "am-keel",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Engine pod",
+        "rings": [
+          [
+            6.0,
+            0.85,
+            0.85,
+            0
+          ],
+          [
+            7.0,
+            1.15,
+            1.15,
+            0
+          ],
+          [
+            11.2,
+            1.15,
+            1.15,
+            0
+          ],
+          [
+            11.7,
+            0.95,
+            0.95,
+            0
+          ]
+        ],
+        "x": 4.9,
+        "mirror": true,
+        "section": "engine",
+        "armorFrom": "engine-block"
+      },
+      {
+        "kind": "box",
+        "name": "Pod intake",
+        "center": [
+          4.9,
+          0,
+          5.97
+        ],
+        "size": [
+          1.3,
+          1.3,
+          0.06
+        ],
+        "mirror": true,
+        "mat": "dark",
+        "decor": true
+      },
+      {
+        "kind": "prism",
+        "name": "Swept wing",
+        "points": [
+          [
+            1.9,
+            -3.0
+          ],
+          [
+            8.0,
+            6.2
+          ],
+          [
+            7.8,
+            7.6
+          ],
+          [
+            1.9,
+            7.0
+          ]
+        ],
+        "y": 0,
+        "thickness": 0.4,
+        "mirror": true,
+        "core": false,
+        "section": "wing-0",
+        "armorFrom": "wing-back"
+      },
+      {
+        "kind": "prism",
+        "name": "Wing navy panel",
+        "points": [
+          [
+            3.5,
+            1.4
+          ],
+          [
+            6.8,
+            5.6
+          ],
+          [
+            6.7,
+            6.6
+          ],
+          [
+            3.5,
+            5.9
+          ]
+        ],
+        "y": 0,
+        "thickness": 0.46,
+        "mirror": true,
+        "mat": "plate",
+        "decor": true
+      },
+      {
+        "kind": "fin",
+        "name": "Attached fin",
+        "root": [
+          [
+            4.9,
+            1.0,
+            8.5
+          ],
+          [
+            4.9,
+            1.0,
+            11.2
+          ]
+        ],
+        "tip": [
+          [
+            5.0,
+            2.4,
+            10.2
+          ],
+          [
+            5.0,
+            2.4,
+            11.4
+          ]
+        ],
+        "thickness": 0.24,
+        "mirror": true,
+        "core": false,
+        "mat": "plate",
+        "section": "fin",
+        "armorFrom": "fins"
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Tapered prow",
+        "z": [
+          -9.6,
+          -8.8
+        ]
+      },
+      {
+        "piece": "Wide fuselage",
+        "z": [
+          2.0,
+          3.0
+        ]
+      }
+    ],
+    "fixedSections": []
+  },
+  "id": "interceptor_t3",
+  "bays": {},
+  "sections": [
+    {
+      "id": "nose",
+      "name": "Tapered prow",
+      "center": [
+        0.0,
+        0.0,
+        -10.7
+      ],
+      "halfSize": [
+        1.35,
+        1.05,
+        4.7
+      ],
+      "armorFrom": "nose"
+    },
+    {
+      "id": "hull",
+      "name": "Wide fuselage",
+      "center": [
+        0.0,
+        0.0,
+        2.5
+      ],
+      "halfSize": [
+        1.9,
+        1.45,
+        8.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "am-keel",
+      "name": "AM keel",
+      "center": [
+        0.0,
+        -1.55,
+        -2.0
+      ],
+      "halfSize": [
+        0.95,
+        1.0,
+        2.1
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "engine-port",
+      "name": "Engine pod port",
+      "center": [
+        -4.9,
+        0.0,
+        8.85
+      ],
+      "halfSize": [
+        1.15,
+        1.15,
+        2.85
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "engine-starboard",
+      "name": "Engine pod starboard",
+      "center": [
+        4.9,
+        0.0,
+        8.85
+      ],
+      "halfSize": [
+        1.15,
+        1.15,
+        2.85
+      ],
+      "armorFrom": "engine-block"
+    },
+    {
+      "id": "wing-0-port",
+      "name": "Swept wing port",
+      "center": [
+        -4.95,
+        0.0,
+        2.3
+      ],
+      "halfSize": [
+        3.05,
+        0.2,
+        5.3
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "wing-0-starboard",
+      "name": "Swept wing starboard",
+      "center": [
+        4.95,
+        0.0,
+        2.3
+      ],
+      "halfSize": [
+        3.05,
+        0.2,
+        5.3
+      ],
+      "armorFrom": "wing-back"
+    },
+    {
+      "id": "fin-port",
+      "name": "Attached fin port",
+      "center": [
+        -4.95,
+        1.7,
+        9.95
+      ],
+      "halfSize": [
+        0.17,
+        0.7,
+        1.45
+      ],
+      "armorFrom": "fins"
+    },
+    {
+      "id": "fin-starboard",
+      "name": "Attached fin starboard",
+      "center": [
+        4.95,
+        1.7,
+        9.95
+      ],
+      "halfSize": [
+        0.17,
+        0.7,
+        1.45
+      ],
+      "armorFrom": "fins"
+    }
   ]
 }

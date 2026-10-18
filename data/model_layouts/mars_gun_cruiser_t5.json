@@ -1,255 +1,5 @@
 {
-  "id": "mars_gun_cruiser_t5",
-  "sections": [
-    {
-      "id": "hull",
-      "name": "주선체",
-      "center": [
-        0,
-        0,
-        -44
-      ],
-      "halfSize": [
-        19.71,
-        14.82,
-        56.8
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "bow-1",
-      "name": "함수 1",
-      "center": [
-        0.0,
-        -0.78,
-        -113.4
-      ],
-      "halfSize": [
-        13,
-        11.7,
-        21
-      ],
-      "armorFrom": "bow-1"
-    },
-    {
-      "id": "bow-2",
-      "name": "함수 2",
-      "center": [
-        0.0,
-        -2.34,
-        -144.9
-      ],
-      "halfSize": [
-        3.8,
-        7.8,
-        10.5
-      ],
-      "armorFrom": "bow-2"
-    },
-    {
-      "id": "bridge",
-      "name": "함교",
-      "center": [
-        0,
-        26,
-        75
-      ],
-      "halfSize": [
-        9,
-        12,
-        14
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "radiator-port",
-      "name": "좌현 방열판",
-      "center": [
-        -34,
-        0,
-        83
-      ],
-      "halfSize": [
-        0.45,
-        13.5,
-        23
-      ],
-      "armorFrom": "radiator-port"
-    },
-    {
-      "id": "radiator-starboard",
-      "name": "우현 방열판",
-      "center": [
-        34,
-        0,
-        83
-      ],
-      "halfSize": [
-        0.45,
-        13.5,
-        23
-      ],
-      "armorFrom": "radiator-starboard"
-    },
-    {
-      "id": "sensor-head",
-      "name": "외부 센서 헤드",
-      "center": [
-        0,
-        60,
-        75
-      ],
-      "halfSize": [
-        6.424,
-        8.58,
-        8.316
-      ],
-      "armorFrom": "sensor-head"
-    },
-    {
-      "id": "turret-base-gun-1",
-      "name": "주포 바베트",
-      "center": [
-        0.0,
-        16.78,
-        -50.4
-      ],
-      "halfSize": [
-        7,
-        3.8500000000000005,
-        7
-      ],
-      "armorFrom": "turret-base-gun-1"
-    },
-    {
-      "id": "turret-base-gun-2",
-      "name": "주포 바베트",
-      "center": [
-        0.0,
-        -16.78,
-        -25.2
-      ],
-      "halfSize": [
-        7,
-        3.8500000000000005,
-        7
-      ],
-      "armorFrom": "turret-base-gun-2"
-    },
-    {
-      "id": "aft-core",
-      "name": "aft-core",
-      "center": [
-        0,
-        0,
-        75
-      ],
-      "halfSize": [
-        19.71,
-        14.82,
-        40.92
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "mid-spine",
-      "name": "mid-spine",
-      "center": [
-        0,
-        0,
-        25.2
-      ],
-      "halfSize": [
-        10,
-        10,
-        15
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "mast-stem",
-      "name": "mast-stem",
-      "center": [
-        0,
-        46,
-        75
-      ],
-      "halfSize": [
-        3,
-        9,
-        4
-      ],
-      "armorFrom": "bridge"
-    },
-    {
-      "id": "mid-truss-port",
-      "name": "mid-truss-port",
-      "center": [
-        -18.5,
-        0,
-        23.5
-      ],
-      "halfSize": [
-        1.2,
-        12,
-        14
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "forward-rail-port",
-      "name": "forward-rail-port",
-      "center": [
-        -20.5,
-        -7,
-        -73
-      ],
-      "halfSize": [
-        3.5,
-        3.5,
-        43
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "mid-truss-starboard",
-      "name": "mid-truss-starboard",
-      "center": [
-        18.5,
-        0,
-        23.5
-      ],
-      "halfSize": [
-        1.2,
-        12,
-        14
-      ],
-      "armorFrom": "hull"
-    },
-    {
-      "id": "forward-rail-starboard",
-      "name": "forward-rail-starboard",
-      "center": [
-        20.5,
-        -7,
-        -73
-      ],
-      "halfSize": [
-        3.5,
-        3.5,
-        43
-      ],
-      "armorFrom": "hull"
-    }
-  ],
   "modules": {
-    "sensor": {
-      "center": [
-        0,
-        60,
-        75
-      ]
-    },
     "radiator-port": {
       "center": [
         -34,
@@ -263,17 +13,23 @@
         0,
         83
       ]
+    },
+    "sensor": {
+      "center": [
+        0,
+        60,
+        75
+      ]
     }
   },
-  "bays": {},
   "pdMounts": [
     [
-      0.0,
+      0,
       -15.6,
       33.6
     ],
     [
-      0.0,
+      0,
       18.72,
       -33.6
     ]
@@ -284,6 +40,614 @@
     -86
   ],
   "blockout": {
-    "role": "gun"
-  }
+    "role": "gun",
+    "reference": "art/reference/20261017_t5_fleet/cruisers.png",
+    "palette": "mars-light",
+    "surface": {
+      "accent": [
+        0.36,
+        0.09,
+        0.05
+      ],
+      "accentRatio": 0.24,
+      "accentScale": 4,
+      "wear": 0.3,
+      "streaks": 0.4
+    },
+    "pieces": [
+      {
+        "kind": "loft",
+        "name": "Needle prow",
+        "rings": [
+          [
+            -158,
+            1,
+            1.5,
+            -2
+          ],
+          [
+            -125,
+            6,
+            8,
+            -1
+          ]
+        ],
+        "section": "bow-2",
+        "armorFrom": "bow-2"
+      },
+      {
+        "kind": "loft",
+        "name": "Prow shoulder",
+        "rings": [
+          [
+            -125,
+            6,
+            8,
+            -1
+          ],
+          [
+            -100,
+            14,
+            12.5,
+            0
+          ]
+        ],
+        "section": "bow-1",
+        "armorFrom": "bow-1"
+      },
+      {
+        "kind": "loft",
+        "name": "Forward gun hull",
+        "rings": [
+          [
+            -100,
+            14,
+            12.5,
+            0
+          ],
+          [
+            -80,
+            19.7,
+            14.8,
+            0
+          ],
+          [
+            9,
+            19.7,
+            14.8,
+            0
+          ]
+        ],
+        "section": "hull",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Midship spine",
+        "rings": [
+          [
+            9,
+            10,
+            10,
+            0
+          ],
+          [
+            45,
+            10,
+            10,
+            0
+          ]
+        ],
+        "section": "mid-spine",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "truss",
+        "name": "Open midship truss",
+        "center": [
+          16,
+          0,
+          27
+        ],
+        "size": [
+          5,
+          24,
+          36
+        ],
+        "rod": 0.7,
+        "mirror": true
+      },
+      {
+        "kind": "loft",
+        "name": "Aft engineering hull",
+        "rings": [
+          [
+            45,
+            19.7,
+            14.8,
+            0
+          ],
+          [
+            100,
+            19.7,
+            14.8,
+            0
+          ],
+          [
+            118,
+            16,
+            12,
+            0
+          ]
+        ],
+        "section": "aft-core",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "loft",
+        "name": "Forward armour rail",
+        "rings": [
+          [
+            -122,
+            1.4,
+            1.8,
+            -5
+          ],
+          [
+            -96,
+            3.5,
+            3.5,
+            -6
+          ],
+          [
+            -28,
+            3.5,
+            3.5,
+            -6
+          ],
+          [
+            -20,
+            2.4,
+            2.4,
+            -6
+          ]
+        ],
+        "x": 21.5,
+        "mirror": true,
+        "section": "forward-rail",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Rail strut",
+        "center": [
+          20,
+          -5,
+          -70
+        ],
+        "size": [
+          4,
+          3,
+          3
+        ],
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Rail strut aft",
+        "center": [
+          20,
+          -5,
+          -36
+        ],
+        "size": [
+          4,
+          3,
+          3
+        ],
+        "mirror": true,
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Forward battery base",
+        "center": [
+          0,
+          17,
+          -50.4
+        ],
+        "size": [
+          14,
+          6,
+          14
+        ],
+        "section": "turret-base-gun-1",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Ventral battery base",
+        "center": [
+          0,
+          -17,
+          -25.2
+        ],
+        "size": [
+          14,
+          6,
+          14
+        ],
+        "section": "turret-base-gun-2",
+        "armorFrom": "hull"
+      },
+      {
+        "kind": "box",
+        "name": "Command block",
+        "center": [
+          0,
+          22,
+          75
+        ],
+        "size": [
+          18,
+          16,
+          26
+        ],
+        "section": "bridge",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Sensor mast",
+        "center": [
+          0,
+          44,
+          75
+        ],
+        "size": [
+          6,
+          28,
+          8
+        ],
+        "section": "mast-stem",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Sensor head",
+        "center": [
+          0,
+          60,
+          75
+        ],
+        "size": [
+          14,
+          18,
+          17
+        ],
+        "hidden": true,
+        "section": "sensor-head",
+        "armorFrom": "bridge"
+      },
+      {
+        "kind": "box",
+        "name": "Mast dish support",
+        "center": [
+          5.5,
+          50,
+          75
+        ],
+        "size": [
+          8,
+          2,
+          2
+        ],
+        "mat": "edge",
+        "decor": true
+      },
+      {
+        "kind": "box",
+        "name": "Mast dish",
+        "center": [
+          9,
+          50,
+          75
+        ],
+        "size": [
+          1,
+          9,
+          9
+        ],
+        "mat": "edge",
+        "decor": true
+      }
+    ],
+    "bands": [
+      {
+        "piece": "Forward gun hull",
+        "z": [
+          -62,
+          -54
+        ]
+      },
+      {
+        "piece": "Forward gun hull",
+        "z": [
+          -14,
+          -6
+        ]
+      },
+      {
+        "piece": "Aft engineering hull",
+        "z": [
+          58,
+          66
+        ]
+      },
+      {
+        "piece": "Prow shoulder",
+        "z": [
+          -116,
+          -108
+        ]
+      }
+    ],
+    "rcs": {
+      "stations": [
+        -90,
+        108
+      ],
+      "size": 1.3,
+      "plume": 10
+    },
+    "fixedSections": [
+      {
+        "id": "radiator-port",
+        "name": "radiator-port",
+        "center": [
+          -34,
+          0,
+          83
+        ],
+        "halfSize": [
+          0.5275,
+          13.825,
+          22.849999999999998
+        ],
+        "armorFrom": "radiator-port"
+      },
+      {
+        "id": "radiator-starboard",
+        "name": "radiator-starboard",
+        "center": [
+          34,
+          0,
+          83
+        ],
+        "halfSize": [
+          0.5275,
+          13.825,
+          22.849999999999998
+        ],
+        "armorFrom": "radiator-starboard"
+      }
+    ]
+  },
+  "id": "mars_gun_cruiser_t5",
+  "bays": {},
+  "sections": [
+    {
+      "id": "radiator-port",
+      "name": "radiator-port",
+      "center": [
+        -34,
+        0,
+        83
+      ],
+      "halfSize": [
+        0.5275,
+        13.825,
+        22.849999999999998
+      ],
+      "armorFrom": "radiator-port"
+    },
+    {
+      "id": "radiator-starboard",
+      "name": "radiator-starboard",
+      "center": [
+        34,
+        0,
+        83
+      ],
+      "halfSize": [
+        0.5275,
+        13.825,
+        22.849999999999998
+      ],
+      "armorFrom": "radiator-starboard"
+    },
+    {
+      "id": "bow-2",
+      "name": "Needle prow",
+      "center": [
+        0.0,
+        -1.0,
+        -141.5
+      ],
+      "halfSize": [
+        6.0,
+        8.0,
+        16.5
+      ],
+      "armorFrom": "bow-2"
+    },
+    {
+      "id": "bow-1",
+      "name": "Prow shoulder",
+      "center": [
+        0.0,
+        0.0,
+        -112.5
+      ],
+      "halfSize": [
+        14.0,
+        12.5,
+        12.5
+      ],
+      "armorFrom": "bow-1"
+    },
+    {
+      "id": "hull",
+      "name": "Forward gun hull",
+      "center": [
+        0.0,
+        0.0,
+        -45.5
+      ],
+      "halfSize": [
+        19.7,
+        14.8,
+        54.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "mid-spine",
+      "name": "Midship spine",
+      "center": [
+        0.0,
+        0.0,
+        27.0
+      ],
+      "halfSize": [
+        10.0,
+        10.0,
+        18.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "aft-core",
+      "name": "Aft engineering hull",
+      "center": [
+        0.0,
+        0.0,
+        81.5
+      ],
+      "halfSize": [
+        19.7,
+        14.8,
+        36.5
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "forward-rail-port",
+      "name": "Forward armour rail port",
+      "center": [
+        -21.5,
+        -6.0,
+        -71.0
+      ],
+      "halfSize": [
+        3.5,
+        3.5,
+        51.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "forward-rail-starboard",
+      "name": "Forward armour rail starboard",
+      "center": [
+        21.5,
+        -6.0,
+        -71.0
+      ],
+      "halfSize": [
+        3.5,
+        3.5,
+        51.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-1",
+      "name": "Forward battery base",
+      "center": [
+        0.0,
+        17.0,
+        -50.4
+      ],
+      "halfSize": [
+        7.0,
+        3.0,
+        7.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "turret-base-gun-2",
+      "name": "Ventral battery base",
+      "center": [
+        0.0,
+        -17.0,
+        -25.2
+      ],
+      "halfSize": [
+        7.0,
+        3.0,
+        7.0
+      ],
+      "armorFrom": "hull"
+    },
+    {
+      "id": "bridge",
+      "name": "Command block",
+      "center": [
+        0.0,
+        22.0,
+        75.0
+      ],
+      "halfSize": [
+        9.0,
+        8.0,
+        13.0
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "mast-stem",
+      "name": "Sensor mast",
+      "center": [
+        0.0,
+        44.0,
+        75.0
+      ],
+      "halfSize": [
+        3.0,
+        14.0,
+        4.0
+      ],
+      "armorFrom": "bridge"
+    },
+    {
+      "id": "sensor-head",
+      "name": "Sensor head",
+      "center": [
+        0.0,
+        60.0,
+        75.0
+      ],
+      "halfSize": [
+        7.0,
+        9.0,
+        8.5
+      ],
+      "armorFrom": "bridge"
+    }
+  ]
 }
