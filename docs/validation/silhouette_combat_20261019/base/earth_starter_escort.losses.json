@@ -1,0 +1,410 @@
+[
+  {
+    "Seed": 1,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 368.6
+    },
+    "Destroyed": 30,
+    "Disabled": 1,
+    "Repairs": 53,
+    "Causes": {
+      "Structural": 21,
+      "Magazine": 7,
+      "Reactor": 2
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 40,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 40,
+        "Destroyed": 25,
+        "Disabled": 1,
+        "Repairs": 52
+      }
+    ]
+  },
+  {
+    "Seed": 1,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 450.1333333333333
+    },
+    "Destroyed": 32,
+    "Disabled": 1,
+    "Repairs": 57,
+    "Causes": {
+      "Structural": 22,
+      "Magazine": 7,
+      "Reactor": 3
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 40,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 13
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 40,
+        "Destroyed": 27,
+        "Disabled": 1,
+        "Repairs": 44
+      }
+    ]
+  },
+  {
+    "Seed": 2,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 485.05
+    },
+    "Destroyed": 43,
+    "Disabled": 3,
+    "Repairs": 91,
+    "Causes": {
+      "Magazine": 10,
+      "Structural": 22,
+      "Reactor": 11
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 24,
+        "Destroyed": 3,
+        "Disabled": 2,
+        "Repairs": 3
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 56,
+        "Destroyed": 40,
+        "Disabled": 1,
+        "Repairs": 88
+      }
+    ]
+  },
+  {
+    "Seed": 2,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 493.43333333333334
+    },
+    "Destroyed": 44,
+    "Disabled": 0,
+    "Repairs": 81,
+    "Causes": {
+      "Structural": 27,
+      "Reactor": 7,
+      "Magazine": 10
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 24,
+        "Destroyed": 7,
+        "Disabled": 0,
+        "Repairs": 8
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 56,
+        "Destroyed": 37,
+        "Disabled": 0,
+        "Repairs": 73
+      }
+    ]
+  },
+  {
+    "Seed": 3,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 0,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 600.8
+    },
+    "Destroyed": 36,
+    "Disabled": 2,
+    "Repairs": 56,
+    "Causes": {
+      "Reactor": 12,
+      "Magazine": 10,
+      "Structural": 14
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 44,
+        "Destroyed": 14,
+        "Disabled": 1,
+        "Repairs": 7
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 36,
+        "Destroyed": 22,
+        "Disabled": 1,
+        "Repairs": 49
+      }
+    ]
+  },
+  {
+    "Seed": 3,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 0,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 531.7
+    },
+    "Destroyed": 31,
+    "Disabled": 1,
+    "Repairs": 57,
+    "Causes": {
+      "Reactor": 5,
+      "Structural": 16,
+      "Magazine": 10
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 44,
+        "Destroyed": 12,
+        "Disabled": 0,
+        "Repairs": 17
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 36,
+        "Destroyed": 19,
+        "Disabled": 1,
+        "Repairs": 40
+      }
+    ]
+  },
+  {
+    "Seed": 4,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 451.4166666666667
+    },
+    "Destroyed": 34,
+    "Disabled": 0,
+    "Repairs": 24,
+    "Causes": {
+      "Reactor": 6,
+      "Structural": 20,
+      "Magazine": 8
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 56,
+        "Destroyed": 23,
+        "Disabled": 0,
+        "Repairs": 7
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 24,
+        "Destroyed": 11,
+        "Disabled": 0,
+        "Repairs": 17
+      }
+    ]
+  },
+  {
+    "Seed": 4,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 491.4
+    },
+    "Destroyed": 37,
+    "Disabled": 2,
+    "Repairs": 44,
+    "Causes": {
+      "Reactor": 3,
+      "Magazine": 11,
+      "Structural": 23
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 56,
+        "Destroyed": 24,
+        "Disabled": 1,
+        "Repairs": 19
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 24,
+        "Destroyed": 13,
+        "Disabled": 1,
+        "Repairs": 25
+      }
+    ]
+  },
+  {
+    "Seed": 5,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 459.45
+    },
+    "Destroyed": 26,
+    "Disabled": 0,
+    "Repairs": 37,
+    "Causes": {
+      "Structural": 14,
+      "Magazine": 10,
+      "Reactor": 2
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 40,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 5
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 40,
+        "Destroyed": 24,
+        "Disabled": 0,
+        "Repairs": 32
+      }
+    ]
+  },
+  {
+    "Seed": 5,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 0,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 580.4833333333333
+    },
+    "Destroyed": 34,
+    "Disabled": 1,
+    "Repairs": 90,
+    "Causes": {
+      "Structural": 21,
+      "Reactor": 9,
+      "Magazine": 4
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 40,
+        "Destroyed": 8,
+        "Disabled": 1,
+        "Repairs": 14
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 40,
+        "Destroyed": 26,
+        "Disabled": 0,
+        "Repairs": 76
+      }
+    ]
+  },
+  {
+    "Seed": 6,
+    "Mirror": false,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 640.3
+    },
+    "Destroyed": 49,
+    "Disabled": 4,
+    "Repairs": 76,
+    "Causes": {
+      "Structural": 28,
+      "Magazine": 13,
+      "Reactor": 8
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 44,
+        "Destroyed": 22,
+        "Disabled": 3,
+        "Repairs": 24
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 36,
+        "Destroyed": 27,
+        "Disabled": 1,
+        "Repairs": 52
+      }
+    ]
+  },
+  {
+    "Seed": 6,
+    "Mirror": true,
+    "Ships": 80,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 505.51666666666665
+    },
+    "Destroyed": 26,
+    "Disabled": 3,
+    "Repairs": 41,
+    "Causes": {
+      "Structural": 15,
+      "Magazine": 8,
+      "Reactor": 3
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_starter_escort",
+        "Ships": 44,
+        "Destroyed": 3,
+        "Disabled": 3,
+        "Repairs": 7
+      },
+      {
+        "Hull": "mars_starter_escort",
+        "Ships": 36,
+        "Destroyed": 23,
+        "Disabled": 0,
+        "Repairs": 34
+      }
+    ]
+  }
+]
