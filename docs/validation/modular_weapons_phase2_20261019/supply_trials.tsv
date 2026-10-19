@@ -1,0 +1,6 @@
+case	supply	energy	speed	reload_s	heat_per_salvo
+earth-escort-stock	1	600	8000	1.5	120
+earth-escort-under	0.87	520	8000	1.85	150
+mars-escort-rated	1	1000	12500	2	70
+earth-escort-over	1.429	1170	11700	1.5	93
+earth-bb-over	1.147	1433.2	13759	3.417	1025.4

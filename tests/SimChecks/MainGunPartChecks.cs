@@ -16,7 +16,7 @@ static class MainGunPartChecks
         =>ShipLoadouts.Resolve((patch is null?ShipVariants.Loadout(id):new ShipLoadout(id,patch)) with{MainGuns=guns});
     private static string?[] Stock(ShipDefinition d)=>new string?[d.Battery!.Hardpoints.Length];
 
-    public static void Run(){Catalog();StockIdentity();Replacements();Rejections();MixedCalibers();CrossSystem();
+    public static void Run(){Catalog();StockIdentity();Replacements();Rejections();MixedCalibers();CrossSystem();Supply();
         Console.WriteLine($"PASS: {checks} main gun part checks");}
 
     private static void Catalog()
@@ -99,15 +99,20 @@ static class MainGunPartChecks
                 var body=new ShipBody("PART",r,Faction.Blue);var g=body.Railguns[0];
                 Check(g.Weapon.Id==p.Id&&g.BarrelCount==p.Barrels&&g.Installation.Muzzles.Length==p.Barrels,$"Socket carries the part: {source.Id}/{p.Id}");
                 for(int i=1;i<body.Railguns.Length;i++)
-                    Check(ShipDefinition.SerializeData(body.Railguns[i].Definition with{Mounts=null})==ShipDefinition.SerializeData(stockBody.Railguns[i].Definition with{Mounts=null})
+                    Check(ShipDefinition.SerializeData(body.Railguns[i].Definition with{Mounts=null})
+                        ==ShipDefinition.SerializeData((body.Railguns[i].IsLaser?stockBody.Railguns[i].Definition:MainBatteries.Supplied(stockBody.Railguns[i].Definition,body.SupplyRatio())) with{Mounts=null})
                         &&ShipDefinition.SerializeData(body.Railguns[i].Mount)==ShipDefinition.SerializeData(stockBody.Railguns[i].Mount),
-                        $"Untouched sockets keep stock values: {source.Id}/{i}");
+                        $"Untouched sockets keep stock values at the fit's supply: {source.Id}/{i}");
+                Check(body.Railguns.All(x=>x.SupplyRatio==r.Battery!.SupplyRatio)&&Near(r.Battery!.SupplyRatio,
+                    MainGunParts.Supply(d)/(p.RatedMw+stock.RatedMw*(d.Battery!.Hardpoints.Length-1))),"Supply ratio = stock rated / installed rated");
                 // Hull carry-over: (actual ÷ stock part) is the same factor for the new part.
                 if(p.Railgun is { } pr&&stock.Railgun is { } sr)
                 {
-                    var a=d.Battery!.Weapon.Railgun!;
-                    Check(Near(g.Definition.Energy,pr.Energy*a.Energy/sr.Energy)&&Near(g.Definition.ReloadSeconds,pr.ReloadSeconds*a.ReloadSeconds/sr.ReloadSeconds)
-                        &&Near(g.Definition.MaxRange,pr.MaxRange*a.MaxRange/sr.MaxRange),$"Tier/research ratios carry to the part: {source.Id}/{p.Id}");
+                    var a=d.Battery!.Weapon.Railgun!;var rated=g.Weapon.Railgun!;
+                    Check(Near(rated.Energy,pr.Energy*a.Energy/sr.Energy)&&Near(rated.ReloadSeconds,pr.ReloadSeconds*a.ReloadSeconds/sr.ReloadSeconds)
+                        &&Near(rated.MaxRange,pr.MaxRange*a.MaxRange/sr.MaxRange),$"Tier/research ratios carry to the part: {source.Id}/{p.Id}");
+                    Check(Near(g.Definition.Energy,rated.Energy*g.Overcharge)&&Near(g.Definition.MaxRange,rated.MaxRange)
+                        &&Near(g.Definition.ReloadSeconds,rated.ReloadSeconds/MathF.Min(1,g.SupplyRatio)),$"Runtime = rated at supply: {source.Id}/{p.Id}");
                     Check(g.Definition.Rounds==Math.Max(1,(int)MathF.Round(d.Battery.Installations[0].Rounds*(float)p.Rounds/stock.Rounds)),
                         $"Magazine scales with the part: {source.Id}/{p.Id}");
                 }
@@ -125,10 +130,12 @@ static class MainGunPartChecks
         const string power="{\"power\":{\"weapons\":200}}";
         Check(Resolve("escort",null,power).Definition.Power.Weapons==200,"Test hull patch applies");
         Reject(()=>Resolve("escort",new[]{"earth-rail-m3","earth-rail-m3"},power),"용적 초과","Hull weapon volume");
-        // Volume 4 + 3 = 7 fits, rated 70 + 45 = 115 MW exceeds the 100 MW channel.
-        Check(MainGunParts.Reject(escort,new[]{"earth-rail-m3","earth-rail-m1-hp"})!.Contains("전력 초과"),"Rated power over the weapons channel");
-        Reject(()=>Resolve("escort",new[]{"earth-rail-m3","earth-rail-m1-hp"}),"전력 초과","Rated power over the weapons channel");
-        Check(Resolve("escort",new[]{"earth-rail-m3","earth-rail-m1-hp"},power).Definition.Battery!.SocketWeapons!.Length==2,"Same fit passes with a larger channel");
+        // Volume 4 + 3 = 7 fits; rated 70 + 45 = 115 MW over the 100 MW supply is allowed and reloads slower.
+        Check(MainGunParts.Reject(escort,new[]{"earth-rail-m3","earth-rail-m1-hp"}) is null
+            &&Near(Resolve("escort",new[]{"earth-rail-m3","earth-rail-m1-hp"}).Definition.Battery!.SupplyRatio,100/115f),"Under-supplied fit installs");
+        // Rated draw is capped at 1.5x supply.
+        var m3=MainGunParts.ById("earth-rail-m3");
+        Check(MainGunParts.Totals(new[]{m3,m3},100,100) is null&&MainGunParts.Totals(new[]{m3,m3},100,90)!.Contains("전력 과다"),"Rated draw limited to 1.5x supply");
         Reject(()=>Resolve("mars_escort",new[]{"earth-rail-m2",null}),"다른 진영","No cross-faction parts");
         Reject(()=>Resolve("escort",new[]{"earth-laser-m",null}),"연구할 수 없는","Branch-locked part");
         Reject(()=>Resolve("earth_air_defense_cruiser",new[]{null,"earth-rail-s2"}),"계통","One weapon system per ship");
@@ -157,10 +164,12 @@ static class MainGunPartChecks
         Check(d.Railgun!.Rounds==300+240+300&&b.Installations.Select(m=>m.Muzzles.Length).SequenceEqual(new[]{3,2,2}),"Barrels and magazines per socket");
         var world=new SimWorld();var body=world.Add(new ShipBody("MIX",d,Faction.Blue));body.Control=new ShipControl{FlightAssist=false};
         var s=body.Railguns;var st=new ShipBody("REF",stock,Faction.Blue).Railguns[1];
-        Check(ShipDefinition.SerializeData(s[1].Definition with{Mounts=null})==ShipDefinition.SerializeData(st.Definition with{Mounts=null})
-            &&ShipDefinition.SerializeData(s[1].Mount)==ShipDefinition.SerializeData(st.Mount),"Stock socket keeps exact stock values");
-        Check(s[0].Definition.Energy==1250&&s[0].Definition.ReloadSeconds==3.4f&&s[2].Definition.Energy==300&&s[2].Definition.MuzzleSpeed==7000
-            &&s[2].Definition.MaxRange==100000,"Each socket compiles its own ballistics");
+        float ratio=399f/(190+133+25);
+        Check(Near(b.SupplyRatio,ratio)&&s.All(g=>Near(g.Overcharge,ratio)),"Lighter fit overcharges every socket");
+        Check(ShipDefinition.SerializeData(s[1].Definition with{Mounts=null})==ShipDefinition.SerializeData(MainBatteries.Supplied(st.Definition,b.SupplyRatio) with{Mounts=null})
+            &&ShipDefinition.SerializeData(s[1].Mount)==ShipDefinition.SerializeData(st.Mount),"Stock socket keeps stock values at the fit's supply");
+        Check(s[0].Weapon.Railgun!.Energy==1250&&s[0].Weapon.Railgun.ReloadSeconds==3.4f&&s[2].Weapon.Railgun!.Energy==300
+            &&s[2].Weapon.Railgun.MuzzleSpeed==7000&&s[2].Definition.MaxRange==100000,"Each socket compiles its own ballistics");
         Check(s[0].Mount!.YawRate==st.Mount!.YawRate*.8f&&s[2].Mount!.YawRate==st.Mount.YawRate,"Traverse follows the socket's part");
         // Broadside aim clears the forward housings, as in the component firing checks.
         var aim=new Vector3(1,.035f,-.4f).Normalized();
@@ -177,7 +186,8 @@ static class MainGunPartChecks
                 &&Near((float)(p.Velocity-body.Velocity).Length(),g.Definition.MuzzleSpeed)),"Rounds carry their own caliber's packet and speed");
             Check(Near(g.ReloadRemaining,g.Definition.ReloadSeconds),"Reload follows the socket's part");
         }
-        Check(body.Power.HeatMj-heat>=3*260+2*300+2*25-1,"Shot heat sums each part's own heat");
+        Check(MathF.Abs(body.Power.HeatMj-heat-s.Sum(g=>g.Definition.ShotHeatMj*g.BarrelCount))<1&&s[0].Definition.ShotHeatMj>260*ratio*ratio-.01f,
+            "Shot heat sums each part's own heat at overcharge squared");
     }
 
     private static void CrossSystem()
@@ -191,7 +201,55 @@ static class MainGunPartChecks
             Check(Near(r.Railgun!.Energy,p.Energy*a.EnergyPerSecond/s.EnergyPerSecond)&&Near(r.Railgun.ReloadSeconds,p.ReloadSeconds),
                 "Laser hull factor carries to rail energy, not cadence");
             var world=new SimWorld();var body=world.Add(new ShipBody("RAIL",r,Faction.Blue));
-            Check(body.Railguns.All(g=>!g.IsLaser&&g.BarrelCount==2&&g.Rounds==300),"Rail sockets armed");
+            Check(body.Railguns.All(g=>!g.IsLaser&&g.BarrelCount==2&&g.Rounds==300&&g.Overcharge==MainBatteries.MaxOvercharge),"Rail sockets armed, light fit overcharged to the cap");
         }
+    }
+
+    private static float SupplyRatio(this ShipBody ship)=>ship.Definition.Battery?.SupplyRatio??1;
+
+    /// <summary>Controlled fire at under-rated, rated and overcharged supply: per-shot energy and speed, reload, heat.</summary>
+    private static void Supply()
+    {
+        var rows=new List<string>{"case\tsupply\tenergy\tspeed\treload_s\theat_per_salvo"};
+        void Trial(string name,string hull,string?[]? guns,float ratio)
+        {
+            var d=Resolve(hull,guns).Definition;
+            Check(Near(d.Battery!.SupplyRatio,ratio),$"{name}: supply ratio {d.Battery.SupplyRatio}");
+            var world=new SimWorld();var body=world.Add(new ShipBody(name,d,Faction.Blue));body.Control=new ShipControl{FlightAssist=false};
+            var g=body.Railguns[0];var rated=g.Weapon.Railgun!;
+            var aim=new Vector3(1,.035f,-.4f).Normalized();
+            int ticks=(int)Math.Ceiling((90/Math.Min(g.Mount!.YawRate,g.Mount.ElevationRate)+1)*SimWorld.TickRate);
+            for(int t=0;t<ticks;t++){g.Aim(aim);world.Step();}
+            float heat=body.Power.HeatMj;
+            var shot=world.FireRailgun(body,g,aim);
+            Check(shot.Fired&&shot.Shots==g.BarrelCount,$"{name}: salvo fires {shot}");
+            float over=Math.Clamp(ratio,1,1.3f),under=Math.Min(ratio,1);
+            var rounds=world.Projectiles.Where(p=>p.ModuleId==g.Definition.ModuleId).ToArray();
+            float speed=(float)(rounds[0].Velocity-body.Velocity).Length();
+            Check(rounds.All(p=>Near(p.Packet.Energy,rated.Energy*over)&&p.Packet.PenetrationMm==rated.PenetrationMm&&p.Packet.ModuleDamage==rated.ModuleDamage)
+                &&Near(speed,rated.MuzzleSpeed*over),$"{name}: energy and speed x overcharge only");
+            float salvoHeat=body.Power.HeatMj-heat;
+            Check(MathF.Abs(salvoHeat-rated.ShotHeatMj*over*over*g.BarrelCount)<.5f,$"{name}: heat x overcharge^2 ({salvoHeat})");
+            int reload=0;while(!g.Ready&&reload<60*SimWorld.TickRate){foreach(var x in body.Railguns)x.Aim(aim);world.Step();reload++;}
+            float seconds=reload*(float)SimWorld.TickDelta;
+            Check(MathF.Abs(seconds-rated.ReloadSeconds/under)<=2*(float)SimWorld.TickDelta,$"{name}: reload {seconds}s vs {rated.ReloadSeconds/under}s");
+            rows.Add($"{name}\t{ratio:0.###}\t{rounds[0].Packet.Energy:0.#}\t{speed:0}\t{seconds:0.###}\t{salvoHeat:0.#}");
+        }
+        Trial("earth-escort-stock","escort",null,1);
+        Trial("earth-escort-under","escort",new[]{"earth-rail-m3","earth-rail-m1-hp"},100/115f);
+        Trial("mars-escort-rated","mars_escort",new[]{"mars-rail-m1-long",null},1);
+        Trial("earth-escort-over","escort",new[]{"earth-rail-m1-hp","earth-rail-s2"},100/70f);
+        Trial("earth-bb-over","battleship",new[]{"earth-rail-l3",null,"earth-rail-s2"},399f/348);
+        // Lasers: damage rate follows supply to 130%, heat follows the square above rated.
+        var laserHull=Resolve("earth_air_defense_cruiser",null).Definition;var stockLaser=laserHull.Battery!.Weapon.Laser!;
+        var dim=MainBatteries.Supplied(stockLaser,.8f);var hot=MainBatteries.Supplied(stockLaser,1.5f);
+        Check(Near(dim.EnergyPerSecond,stockLaser.EnergyPerSecond*.8f)&&Near(dim.HeatMw,stockLaser.HeatMw*.8f)
+            &&Near(hot.ModuleDamagePerSecond,stockLaser.ModuleDamagePerSecond*1.3f)&&Near(hot.HeatMw,stockLaser.HeatMw*1.69f)
+            &&MainBatteries.Supplied(stockLaser,1)==stockLaser,"Laser supply scaling");
+        var stockBody=new ShipBody("AA",laserHull,Faction.Blue);
+        Check(stockBody.Railguns.All(g=>g.SupplyRatio==1&&g.Laser!.Definition==g.Weapon.Laser),"Stock emitters run at rated");
+        string dir=Path.Combine("docs","validation","modular_weapons_phase2_20261019");
+        if(Directory.Exists(dir))File.WriteAllLines(Path.Combine(dir,"supply_trials.tsv"),rows);
+        foreach(var row in rows)Console.WriteLine("  "+row);
     }
 }

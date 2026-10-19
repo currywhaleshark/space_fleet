@@ -69,6 +69,8 @@ public partial class BallisticsView : Node3D
         }
         foreach(var p in world.Projectiles)
         {
+            float caliber=p.Shooter.Definition.Battery?.SocketWeapons is null?1
+                :Array.Find(p.Shooter.Railguns,g=>g.Definition.ModuleId==p.ModuleId) is { } shooterGun?WeaponLooks.Scale(shooterGun):1;
             Vector3 head=(Vec3d.Lerp(p.PrevPosition,p.Position,alpha)-origin).ToVector3();
             if(head.DistanceTo(camera.Position)>camera.Far*.95f) continue;
             float length=(float)(p.Velocity.Length()*Math.Min(.095,p.Age));
@@ -77,10 +79,10 @@ public partial class BallisticsView : Node3D
             // 화면 크기 하한은 가까울 때만 넉넉하게: 1.5 km 밖부터 거리에 반비례해 줄여 먼 탄이 크게 빛나지 않게 한다.
             float near=Mathf.Clamp(1500f/Mathf.Max(1f,head.DistanceTo(camera.GlobalPosition)),.25f,1f);
             if(near>.3f)
-                CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,hostile?_enemyHalo:_halo),camera,head,tail,Mathf.Max(.5f,CombatFx.PixelSize(camera,head,4*near)));
+                CombatFx.Streak(Next(_streaks,t++,CombatFx.Quad,hostile?_enemyHalo:_halo),camera,head,tail,Mathf.Max(.5f,CombatFx.PixelSize(camera,head,4*near*caliber)));
             var trail=Next(_streaks,t++,CombatFx.Quad,hostile?_enemyTail:_tail);
-            CombatFx.Streak(trail,camera,head,tail,Mathf.Max(.18f,CombatFx.PixelSize(camera,head,Mathf.Max(1.1f,2f*near))));
-            CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,head,.65f,Mathf.Max(2.5f,9*near));
+            CombatFx.Streak(trail,camera,head,tail,Mathf.Max(.18f,CombatFx.PixelSize(camera,head,Mathf.Max(1.1f,2f*near)*caliber)));
+            CombatFx.Flare(Next(_flares,f++,CombatFx.Quad,_head),camera,head,.65f*caliber,Mathf.Max(2.5f,9*near)*caliber);
         }
         foreach(var ship in world.Ships)
         foreach(var gun in ship.Railguns)
@@ -93,7 +95,7 @@ public partial class BallisticsView : Node3D
                 var q=ship.InterpolatedOrientation((float)alpha);
                 Vector3 local=gun.Mount?.Muzzle(gun.Yaw,gun.Elevation,barrel)??gun.Definition.Muzzle;
                 Vector3 at=(ship.InterpolatedPosition(alpha)-origin).ToVector3()+q*local;
-                float size=Mathf.Clamp(ship.Class.Length*.028f,1.5f,40);
+                float size=Mathf.Clamp(ship.Class.Length*.028f,1.5f,40)*WeaponLooks.Scale(gun);
                 Vector3 dir=q*gun.LocalDirection;
                 _bursts.Draw(camera,at,at,dir,muzzleAge,size,gun.ShotCount+(uint)barrel*31,7,true,duration:.18f);
             }

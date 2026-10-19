@@ -1,3 +1,4 @@
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,6 +20,8 @@ public partial class ModelGallery : Node3D
     public string View { get; init; } = "hero";
     public Faction Faction { get; init; } = Faction.Blue;
     public string? Output { get; init; }
+    /// <summary>--gallery-guns=part,part,... (one per socket, "-" = stock) shows a modular main gun fit.</summary>
+    public string[]? Guns { get; init; }
     private ShipView _view = null!;
     private int _frame;
 
@@ -29,7 +32,9 @@ public partial class ModelGallery : Node3D
         if (ShipId.StartsWith("zone-")) { BuildZone(ShipId[5..]); return; }
         if (ShipId is "asteroids" or "asteroid-variants" or "asteroid") { BuildAsteroids(); return; }
 
-        var body = new ShipBody("GALLERY", ShipDefinitions.ById(ShipId), Faction);
+        var definition = Guns is null ? ShipDefinitions.ById(ShipId)
+            : ShipLoadouts.Resolve(ShipVariants.Loadout(ShipId) with { MainGuns = Guns.Select(g => g == "-" ? null : g).ToArray() }).Definition;
+        var body = new ShipBody("GALLERY", definition, Faction);
         body.Place(Vec3d.Zero, Quaternion.Identity);
         body.Control = new ShipControl { Thrust = Vector3.Forward * 0.6f, FlightAssist = false };
         for (int i = 0; i < 20; i++) body.Step(SimWorld.TickDelta);
@@ -54,11 +59,12 @@ public partial class ModelGallery : Node3D
         AddChild(camera);
         float distance = l * (View is "side" or "top" ? 1.55f : 1.25f);
         Vector3 focus = Vector3.Zero;
-        if (View == "turret" && body.Definition.Railgun?.Mounts is { Length: > 0 } mounts)
+        if (View.StartsWith("turret") && body.Definition.Railgun?.Mounts is { Length: > 0 } mounts)
         {
-            // 첫 주포탑 근접: 포탑 몸체와 포신 비례 확인용.
-            focus = mounts[0].Pivot + new Vector3(0, 0, -l * 0.08f);
-            dir = new Vector3(-0.8f, 0.45f, -0.55f);
+            // 주포탑 근접(turret = 첫 포탑, turret2 = 세 번째): 포탑 몸체와 포신 비례 확인용. 함저 포탑은 아래에서 본다.
+            var mount = mounts[Math.Clamp(View.Length > 6 && int.TryParse(View[6..], out int n) ? n : 0, 0, mounts.Length - 1)];
+            focus = mount.Pivot + new Vector3(0, 0, -l * 0.08f);
+            dir = new Vector3(-0.8f, mount.Ventral ? -0.45f : 0.45f, -0.55f);
             distance = l * 0.32f;
         }
         camera.LookAtFromPosition(focus + dir.Normalized() * distance, focus, View == "top" ? Vector3.Forward : Vector3.Up);
@@ -157,5 +163,6 @@ public partial class ModelGallery : Node3D
         Faction = string.Equals(args.GetValueOrDefault("gallery-faction", "Blue"), "Red", StringComparison.OrdinalIgnoreCase) ? Faction.Red : Faction.Blue,
         Output = args.GetValueOrDefault("shot"),
         Studio = args.GetValueOrDefault("gallery-light") == "studio",
+        Guns = args.TryGetValue("gallery-guns", out var guns) ? guns.Split(',') : null,
     };
 }

@@ -13,13 +13,15 @@ namespace SpaceFleet.Sim;
 /// </summary>
 public sealed record MainGunPart(string Id, string Name, PrimaryWeaponSystem System, WeaponSize Size, int Barrels,
     float Volume, float RatedMw, int Rounds, DesignFamily Design, ShipBranch[] Branches, int MinTier, int Cost,
-    RailgunBallistics? Railgun = null, LaserDefinition? Laser = null, HullKind[]? StockKinds = null, float TraverseScale = 1);
+    RailgunBallistics? Railgun = null, LaserDefinition? Laser = null, HullKind[]? StockKinds = null, float TraverseScale = 1,
+    float CaliberMm = 0);
 
 public static class MainGunParts
 {
     public static IReadOnlyList<MainGunPart> All { get; } = Load();
     public static MainGunPart ById(string id) => All.FirstOrDefault(p => p.Id == id)
         ?? throw new InvalidDataException("알 수 없는 주포 부품입니다: " + id);
+    public static MainGunPart? Find(string id) => All.FirstOrDefault(p => p.Id == id);
 
     /// <summary>Volume a socket of this size can hold.</summary>
     public static float SocketVolume(WeaponSize size) => size switch
@@ -29,12 +31,19 @@ public static class MainGunParts
     public static MainGunPart StockFor(ShipDefinition hull)
     {
         var w = hull.Battery?.Weapon ?? throw new InvalidDataException("주포 소켓이 없는 함선입니다.");
+        // A fit that switched system (e.g. lasers on a rail battleship) keeps the hull's own stock part as reference.
         return All.SingleOrDefault(p => p.StockKinds?.Contains(hull.Kind) == true && p.Design == hull.Design && p.System == w.System)
+            ?? All.FirstOrDefault(p => p.StockKinds?.Contains(hull.Kind) == true && p.Design == hull.Design && p.System == PrimaryWeaponSystem.Railgun)
             ?? throw new InvalidDataException("기본 주포 부품이 없습니다: " + hull.Id);
     }
 
     /// <summary>Phase 1 hull total = what the stock fit uses. Tier budgets (§3) replace this later.</summary>
     public static float VolumeBudget(ShipDefinition hull) => StockFor(hull).Volume * hull.Battery!.Hardpoints.Length;
+    /// <summary>
+    /// Main gun share of the weapons channel (MW): the stock fit's rated draw, so the stock fit runs at exactly
+    /// rated. Lighter parts overcharge, heavier parts reload slower. Hull upgrades (§7) raise it later.
+    /// </summary>
+    public static float Supply(ShipDefinition hull) => StockFor(hull).RatedMw * hull.Battery!.Hardpoints.Length;
 
     public static bool Fits(ShipDefinition hull, MainGunPart part)
         => hull.Battery is { } b && part.Design == hull.Design && part.Branches.Contains(hull.Branch)
@@ -55,10 +64,16 @@ public static class MainGunParts
             if (Socket(b.Hardpoints[i], p) is { } why) return $"{p.Name}: {why}";
         }
         if (parts.Select(p => p.System).Distinct().Count() > 1) return "한 함선에는 한 가지 주포 계통만 달 수 있습니다.";
-        float volume = parts.Sum(p => p.Volume), budget = VolumeBudget(hull);
-        if (volume > budget + 1e-4f) return $"무장 용적 초과: {volume:0.#} / {budget:0.#}";
-        float power = parts.Sum(p => p.RatedMw);
-        if (power > hull.Power.Weapons + 1e-4f) return $"무장 정격 전력 초과: {power:0.#} / {hull.Power.Weapons:0.#} MW";
+        return Totals(parts, VolumeBudget(hull), Supply(hull));
+    }
+
+    /// <summary>Hull totals: weapon volume, and rated draw at most 1.5× the main gun supply.</summary>
+    internal static string? Totals(IReadOnlyList<MainGunPart> parts, float volumeBudget, float supplyMw)
+    {
+        float volume = parts.Sum(p => p.Volume);
+        if (volume > volumeBudget + 1e-4f) return $"무장 용적 초과: {volume:0.#} / {volumeBudget:0.#}";
+        float power = parts.Sum(p => p.RatedMw), limit = supplyMw / MainBatteries.MinSupplyRatio;
+        if (power > limit + 1e-4f) return $"무장 정격 전력 과다: {power:0.#} MW, 공급 {supplyMw:0.#} MW의 1.5배까지";
         return null;
     }
 
@@ -97,7 +112,7 @@ public static class MainGunParts
         }
         // The longest-reaching socket supplies the ship-level view (AI range, HUD); turrets fire their own.
         int primary = Enumerable.Range(0, parts.Length).MaxBy(i => (Reach(weapons[i]), -i));
-        var battery = new MainBatteryDefinition(b.Hardpoints, weapons[primary], installs) { SocketWeapons = weapons };
+        var battery = new MainBatteryDefinition(b.Hardpoints, weapons[primary], installs) { SocketWeapons = weapons, SupplyMw = Supply(hull) };
         var json = JsonNode.Parse(hull.ToJson())!.AsObject();
         json.Remove(nameof(ShipDefinition.Railgun));
         json[nameof(ShipDefinition.MainBattery)] = JsonNode.Parse(ShipDefinition.SerializeData(battery));
@@ -160,7 +175,8 @@ public static class MainGunParts
                 || (p.Cost == 0) != (p.StockKinds is { Length: > 0 })
                 || p.Branches is not { Length: > 0 } || p.Branches.Any(x => !Enum.IsDefined(x))
                 || !float.IsFinite(p.TraverseScale) || p.TraverseScale <= 0 || p.TraverseScale > 1
-                || (laser ? p.Laser is null || p.Railgun is not null || p.Rounds != 0 : p.Railgun is null || p.Laser is not null || p.Rounds <= 0))
+                || (laser ? p.Laser is null || p.Railgun is not null || p.Rounds != 0 || p.CaliberMm != 0
+                    : p.Railgun is null || p.Laser is not null || p.Rounds <= 0 || !float.IsFinite(p.CaliberMm) || p.CaliberMm is < 50 or > 500))
                 throw new InvalidDataException("Invalid main gun part: " + p.Id);
             p.Laser?.Validate();
             if (p.Railgun is { } r && !new[] { r.MuzzleSpeed, r.ReloadSeconds, r.Energy, r.PenetrationMm, r.ModuleDamage, r.MaxRange, r.AimErrorScale }

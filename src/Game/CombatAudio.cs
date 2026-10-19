@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
+using SpaceFleet.View;
 
 namespace SpaceFleet.Game;
 
@@ -146,8 +147,14 @@ public partial class CombatAudio : Node
                 { HullKind.Battleship => .82f, HullKind.Interceptor => 1.18f, _ => 1f });
             if(am.Mode==AntimatterMode.Armed && _amMode!=am.Mode) Play(CombatSound.HitConfirm,-19,.72f);
             if(am.Jettisons>_amJettisons) Play(CombatSound.ArmorImpact,-18,1.5f);
-            if (rails > _rails) Play(CombatSound.RailFire, -8 + Mathf.Min(3, (rails - _rails - 1) * 1.2f), ship.Class.Kind switch
-                { HullKind.Battleship => .85f, HullKind.Interceptor => 1.15f, _ => 1f });
+            if (rails > _rails)
+            {
+                // The heaviest gun that just fired sets the report: bigger calibers are lower and louder (stock scale 1).
+                float caliber = ship.Railguns.Where(g => g.LastFiredAt > _worldTime - 1e-9 && g.LastFiredAt <= world.Time)
+                    .Select(WeaponLooks.Scale).DefaultIfEmpty(1).Max();
+                Play(CombatSound.RailFire, -8 + Mathf.Min(3, (rails - _rails - 1) * 1.2f) + (caliber == 1 ? 0 : Mathf.Clamp(4 * Mathf.Log(caliber) / Mathf.Log(2), -4, 4)),
+                    ship.Class.Kind switch { HullKind.Battleship => .85f, HullKind.Interceptor => 1.15f, _ => 1f } / (caliber == 1 ? 1 : Mathf.Sqrt(caliber)));
+            }
             if (pdShots > _pdShots) Play(CombatSound.PointDefense,
                 -19 + Mathf.Min(3, (float)(pdShots - _pdShots - 1) * .6f),
                 ship.Class.Kind switch { HullKind.Battleship => .87f, HullKind.Interceptor => 1.16f, _ => 1f });

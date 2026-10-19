@@ -125,6 +125,58 @@ public partial class ShipModelChecks : Node
         CheckLoadoutModels();
         CheckCruiserModels();
         CheckReplacementModels();
+        CheckPartModels();
+    }
+
+    /// <summary>Modular main gun parts: procedural barrels only on changed sockets, at the data muzzles, sized by caliber.</summary>
+    private void CheckPartModels()
+    {
+        (string Hull,string?[] Guns)[] fits={("battleship",new[]{"earth-rail-l3",null,"earth-rail-s2"}),("escort",new[]{"earth-rail-m1-hp","earth-rail-s2"}),
+            ("mars_escort",new[]{"mars-rail-m1-long",null}),("earth_air_defense_cruiser",new[]{"earth-rail-s2","earth-rail-s2"}),
+            ("battleship",new[]{"earth-laser-l","earth-laser-l","earth-laser-l"})};
+        foreach(var (hull,guns) in fits)
+        {
+            var def=ShipLoadouts.Resolve(ShipVariants.Loadout(hull) with{MainGuns=guns}).Definition;
+            var stock=MainGunParts.StockFor(def);
+            var model=ShipModels.Build(def,Faction.Blue,47);AddChild(model.Root);
+            try
+            {
+                var heights=new Dictionary<string,float>();
+                Check(model.Turrets.Count==def.PrimaryMounts.Length,$"{hull}: part fit keeps every hardpoint");
+                foreach(var binding in def.PrimaryMounts)
+                {
+                    var mount=binding.Turret!;var rig=model.Turrets.Single(r=>r.ModuleId==mount.ModuleId);
+                    Check(rig.Muzzles.Count==mount.Muzzles.Length,$"{hull}/{mount.ModuleId}: rig binds the part's barrel count");
+                    for(int i=0;i<rig.Muzzles.Count;i++)
+                        Check(rig.Muzzles[i].GlobalPosition.DistanceTo(mount.Muzzle(0,0,i))<.002f,$"{hull}/{mount.ModuleId}: render muzzle is the projectile exit");
+                    var meshes=rig.Recoil.GetChildren().OfType<MeshInstance3D>().ToArray();
+                    if(binding.Weapon.Laser is not null)
+                        Check(meshes.Any(m=>m.Name=="ReplacementLaserEmitter"),$"{hull}: laser part shows an emitter");
+                    else if(binding.Weapon.Id==stock.Id)
+                        Check(meshes.All(m=>m.Name!="PartPrimaryBarrels"),$"{hull}/{mount.ModuleId}: stock socket keeps its imported barrels");
+                    else
+                    {
+                        var barrels=meshes.Single(m=>m.Name=="PartPrimaryBarrels");
+                        Check(meshes.Length==1,$"{hull}/{mount.ModuleId}: original barrels replaced without duplicates");
+                        Check(barrels.Mesh.GetSurfaceCount()==(def.Design==DesignFamily.Mars?3:2),$"{hull}: faction style (Mars glowing heat sinks)");
+                        heights[binding.Weapon.Id]=barrels.Mesh.GetAabb().Size.Y/(-mount.Muzzles.Average(m=>m.Z));
+                    }
+                }
+                if(heights.TryGetValue("earth-rail-l3",out float big)&&heights.TryGetValue("earth-rail-s2",out float small))
+                    Check(big>small*1.3f,$"Caliber reads in barrel thickness: 240 mm {big:0.000} vs 100 mm {small:0.000}");
+            }
+            finally{model.Root.Free();}
+            CheckLiveTurrets(def);
+            CheckAutomaticElevation(def);
+            // Effects follow caliber and overcharge; stock guns stay exactly 1.
+            var body=new ShipBody("FX",def,Faction.Blue);
+            foreach(var g in body.Railguns)
+                Check(g.Weapon.Id==stock.Id&&g.SupplyRatio==1?WeaponLooks.Scale(g)==1:WeaponLooks.Scale(g)>0,$"{hull}: effect scale defined");
+        }
+        var stockBody=new ShipBody("STOCKFX",ShipLoadouts.Resolve(new("battleship")).Definition,Faction.Blue);
+        Check(stockBody.Railguns.All(g=>WeaponLooks.Scale(g)==1),"Stock effects unchanged");
+        var mix=new ShipBody("MIXFX",ShipLoadouts.Resolve(new ShipLoadout("battleship"){MainGuns=new[]{"earth-rail-l3",null,"earth-rail-s2"}}).Definition,Faction.Blue);
+        Check(WeaponLooks.Scale(mix.Railguns[0])>1&&WeaponLooks.Scale(mix.Railguns[2])<.6f,"240 mm flashes larger than 100 mm on the same hull");
     }
 
     private static ShipDefinition CruiserModelSource(ShipDefinition def)=>ShipVariants.Resolve(def.Id,new[]{"{\"defaultMainGun\":null}"}).Definition;

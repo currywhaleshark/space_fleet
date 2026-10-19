@@ -48,6 +48,14 @@ public sealed record MainBatteryDefinition(WeaponHardpointDefinition[] Hardpoint
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public PrimaryWeaponDefinition[]? SocketWeapons { get; init; }
     public PrimaryWeaponDefinition WeaponAt(int socket) => SocketWeapons?[socket] ?? Weapon;
+    /// <summary>
+    /// Weapons-channel power the hull supplies to its main guns (MW). Socket parts' PowerMw are their
+    /// rated draw; supply ÷ rated sets reload (under) or overcharge (over). Null = stock, ratio 1.
+    /// </summary>
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public float? SupplyMw { get; init; }
+    /// <summary>Supply ÷ total rated power of the installed parts (1 for stock batteries).</summary>
+    public float SupplyRatio => SupplyMw is float supply && SocketWeapons is { } parts ? supply / parts.Sum(p => p.PowerMw) : 1;
 }
 
 /// <summary>Optional loadout choice. Null installations retain the authored barrel layout and magazine.</summary>
@@ -60,6 +68,33 @@ public sealed record ResolvedWeaponMount(WeaponHardpointDefinition Hardpoint, Pr
 
 public static class MainBatteries
 {
+    /// <summary>Rated draw may exceed supply by half at most: reload then takes 1.5× as long.</summary>
+    public const float MinSupplyRatio = 1 / 1.5f;
+    /// <summary>Surplus supply raises per-shot energy and muzzle speed by up to 30%.</summary>
+    public const float MaxOvercharge = 1.3f;
+    public static float Overcharge(float supplyRatio) => Mathf.Clamp(supplyRatio, 1, MaxOvercharge);
+
+    /// <summary>
+    /// Runtime values at a supply ratio. Under rated: reload stretches by rated ÷ supply, the shot is unchanged.
+    /// Over rated: energy and speed × overcharge (≤1.3), shot heat × overcharge².
+    /// </summary>
+    public static RailgunDefinition Supplied(RailgunDefinition gun, float supplyRatio)
+    {
+        if (supplyRatio == 1) return gun;
+        float over = Overcharge(supplyRatio), under = Mathf.Min(supplyRatio, 1);
+        return gun with { MuzzleSpeed = gun.MuzzleSpeed * over, Energy = gun.Energy * over,
+            ShotHeatMj = gun.ShotHeatMj * over * over, ReloadSeconds = gun.ReloadSeconds / under };
+    }
+
+    /// <summary>A laser's damage rate follows supply directly up to 130%; heat follows the square above rated.</summary>
+    public static LaserDefinition Supplied(LaserDefinition laser, float supplyRatio)
+    {
+        if (supplyRatio == 1) return laser;
+        float rate = Mathf.Min(supplyRatio, MaxOvercharge);
+        return laser with { EnergyPerSecond = laser.EnergyPerSecond * rate, ModuleDamagePerSecond = laser.ModuleDamagePerSecond * rate,
+            HeatMw = laser.HeatMw * (rate > 1 ? rate * rate : rate) };
+    }
+
     private static void Require([DoesNotReturnIf(false)] bool valid, string message)
     { if (!valid) throw new InvalidDataException("Main battery: " + message); }
     private static bool Positive(float v) => float.IsFinite(v) && v > 0;
@@ -100,6 +135,8 @@ public static class MainBatteries
         if (b.SocketWeapons is { } parts)
             Require(parts.Any(s => ShipDefinition.SerializeData(s) == ShipDefinition.SerializeData(b.Weapon)),
                 "primary weapon must be one of the socket parts");
+        Require(b.SupplyMw is null || b.SocketWeapons is not null && b.SocketWeapons.All(p => Positive(p.PowerMw))
+            && Positive(b.SupplyMw.Value) && b.SupplyRatio >= MinSupplyRatio - 1e-4f, "invalid main gun supply");
         var weapons = Enumerable.Range(0, b.Hardpoints.Length).Select(b.WeaponAt).Prepend(b.Weapon).ToArray();
         foreach (var w in weapons.Distinct())
         {
@@ -123,7 +160,8 @@ public static class MainBatteries
         }
         Require(ship.Modules is not null && ship.Flight is not null && ship.Power is not null, "missing hull data");
         Require(weapons.Skip(1).Sum(w => (double)w.MassKg) < ship.Flight.MassKg
-            && weapons.Skip(1).Sum(w => (double)w.PowerMw) <= ship.Power.Weapons, "weapon costs exceed authored hull totals");
+            // Socket parts draw against SupplyMw (checked above); replacement costs come out of the authored channel.
+            && (b.SupplyMw is not null || weapons.Skip(1).Sum(w => (double)w.PowerMw) <= ship.Power.Weapons), "weapon costs exceed authored hull totals");
         long rounds = 0;
         for (int i = 0; i < b.Hardpoints.Length; i++)
         {

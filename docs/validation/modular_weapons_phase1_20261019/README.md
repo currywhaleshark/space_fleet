@@ -28,7 +28,7 @@ dotnet run --project tests/SimChecks/SimChecks.csproj -c Release -- --main-gun-p
 dotnet run --project tests/SimChecks/SimChecks.csproj -c Release
 ```
 
-정의 스냅샷은 `snapshot/`의 콘솔 프로젝트를 `-p:Root=<트리> -p:Tag=<이름>`으로 변경 전(7c8c771)·후 트리에 각각 빌드해 실행하고 두 TSV를 비교했다. `GodotSharp.dll`은 각 트리의 `.godot/mono/temp/bin/Debug/`에 있어야 한다.
+정의 스냅샷은 `tools/DefSnap` 콘솔 프로젝트를 `-p:Root=<트리> -p:Tag=<이름>`으로 변경 전(7c8c771)·후 트리에 각각 빌드해 실행하고 두 TSV를 비교했다. `GodotSharp.dll`은 각 트리의 `.godot/mono/temp/bin/Debug/`에 있어야 한다.
 
 ## 남은 것
 

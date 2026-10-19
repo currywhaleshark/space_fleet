@@ -32,10 +32,17 @@ public sealed class RailgunState
                 PenetrationMm = own.PenetrationMm, ModuleDamage = own.ModuleDamage, MaxRange = own.MaxRange,
                 SensorErrorMeters = own.SensorErrorMeters, SensorErrorPerKm = own.SensorErrorPerKm,
                 VelocityError = own.VelocityError, ShotHeatMj = own.ShotHeatMj, AimErrorScale = own.AimErrorScale };
-        Laser = Weapon.Laser is { } laser ? new LaserState(laser) : null;
+        SupplyRatio = ship.Definition.Battery?.SupplyRatio ?? 1;
+        if (Weapon.Laser is null) Definition = MainBatteries.Supplied(Definition, SupplyRatio);
+        Laser = Weapon.Laser is { } laser ? new LaserState(MainBatteries.Supplied(laser, SupplyRatio)) : null;
         Reset();
     }
+    /// <summary>Runtime values: the part at this hull's supply (see MainBatteries.Supplied).</summary>
     public RailgunDefinition Definition { get; }
+    /// <summary>Main gun supply ÷ rated draw; 1 for stock batteries.</summary>
+    public float SupplyRatio { get; }
+    public float Overcharge => MainBatteries.Overcharge(SupplyRatio);
+    public ShipBody Ship => _ship;
     public WeaponHardpointDefinition Hardpoint { get; }
     public PrimaryWeaponDefinition Weapon { get; }
     public LaserState? Laser { get; }

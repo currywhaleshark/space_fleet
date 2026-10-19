@@ -99,7 +99,7 @@ public partial class ShipView : Node3D
             RailgunState gun = body.Railguns.Single(g => g.Definition.ModuleId == rig.ModuleId);
             var flashes = rig.Muzzles.Select(socket =>
             {
-                float radius = body.Class.Length * .003f;
+                float radius = body.Class.Length * .003f * WeaponLooks.Scale(gun);
                 var flash = new MeshInstance3D { Name = "MuzzleFlash", Visible = false,
                     Mesh = new SphereMesh { Radius = radius, Height = radius * 2, RadialSegments = 8, Rings = 4 },
                     MaterialOverride = model.Palette.Glow, CastShadow = GeometryInstance3D.ShadowCastingSetting.Off };
@@ -186,9 +186,11 @@ public partial class ShipView : Node3D
         {
             rig.Yaw.Basis = rig.RestBasis * new Basis(Vector3.Up, Mathf.Lerp(gun.PreviousYaw, gun.Yaw, alpha));
             rig.Elevation.Basis = new Basis(Vector3.Right, Mathf.Lerp(gun.PreviousElevation, gun.Elevation, alpha));
-            double age = Body.SimTime - gun.LastFiredAt;
-            float kick = age >= 0 && age < .45 ? (float)(age < .05 ? age / .05 : (.45 - age) / .4) : 0;
-            rig.Recoil.Position = Vector3.Back * kick * Body.Class.Length * .002f;
+            // Bigger calibers kick further and run out slower (stock scale 1 keeps the old timing exactly).
+            float scale = WeaponLooks.Scale(gun);
+            double age = Body.SimTime - gun.LastFiredAt, time = scale == 1 ? 1 : Mathf.Sqrt(scale);
+            float kick = age >= 0 && age < .45 * time ? (float)(age < .05 * time ? age / (.05 * time) : (.45 * time - age) / (.4 * time)) : 0;
+            rig.Recoil.Position = Vector3.Back * kick * Body.Class.Length * .002f * scale;
             for (int i = 0; i < flashes.Length; i++) {
                 float muzzleAge=CarbonCombatFx.MuzzleAge(Body.SimTime,gun.LastFiredAt,i,0,gun.LastSalvoRounds);
                 flashes[i].Visible = !Body.Damage.Destroyed && muzzleAge >= 0 && muzzleAge < .075;
