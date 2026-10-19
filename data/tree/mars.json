@@ -23,26 +23,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 60,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 1.1058823529411765
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 60,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 525.0,
-              "coolingMw": 346.5
+              "coolingMw": 379.49999999999994
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -96,26 +101,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 1.88
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 525.0,
-              "coolingMw": 346.5
+              "coolingMw": 379.49999999999994
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -169,26 +179,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6579999999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 63.0,
-              "coolingMw": 44.1
+              "coolingMw": 48.3
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -242,26 +257,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 1.5415999999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 525.0,
-              "coolingMw": 346.5
+              "coolingMw": 379.49999999999994
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -315,26 +335,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 2.6319999999999997
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 525.0,
-              "coolingMw": 346.5
+              "coolingMw": 379.49999999999994
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -388,26 +413,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 4.888
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 2100.0,
-              "coolingMw": 1575.0
+              "coolingMw": 1724.9999999999998
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -461,26 +491,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 1.4953519999999998
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 551.25,
-              "coolingMw": 363.825
+              "coolingMw": 398.47499999999997
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -534,26 +569,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 1.4504914399999997
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 578.8125,
-              "coolingMw": 382.01625
+              "coolingMw": 418.39874999999995
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -607,26 +647,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 2.5530399999999998
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 551.25,
-              "coolingMw": 363.825
+              "coolingMw": 398.47499999999997
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -680,26 +725,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 2.4764487999999996
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 578.8125,
-              "coolingMw": 382.01625
+              "coolingMw": 418.39874999999995
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -753,26 +803,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 4.741359999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun-1"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 2205.0,
-              "coolingMw": 1653.75
+              "coolingMw": 1811.2499999999998
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -826,26 +881,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6382599999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 66.15,
-              "coolingMw": 46.30500000000001
+              "coolingMw": 50.714999999999996
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -899,26 +959,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6191121999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 69.45750000000001,
-              "coolingMw": 48.62025
+              "coolingMw": 53.25075
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -972,26 +1037,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6005388339999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 72.93037500000001,
-              "coolingMw": 51.05126250000001
+              "coolingMw": 55.9132875
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -1045,26 +1115,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6382599999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 66.15,
-              "coolingMw": 46.30500000000001
+              "coolingMw": 50.714999999999996
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -1118,26 +1193,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6191121999999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 69.45750000000001,
-              "coolingMw": 48.62025
+              "coolingMw": 53.25075
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },
@@ -1191,26 +1271,31 @@
         },
         {
           "id": "fire-control",
-          "name": "사격통제 개량",
-          "description": "주포 재장전 시간 -6%",
+          "name": "포좌 확장",
+          "description": "첫 주포 소켓 한 단계 확대 · 무장 용적 +2",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
-            "railgun": {
-              "reloadSeconds": 0.6005388339999999
+            "weaponBudget": {
+              "volumeBonus": 2,
+              "enlargedSockets": [
+                "gun"
+              ]
             }
           }
         },
         {
           "id": "reactor",
-          "name": "반응로 개량",
-          "description": "발전·냉각 +5%",
+          "name": "주포 전원 개량",
+          "description": "주포 공급 +8% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
             "power": {
-              "outputMw": 72.93037500000001,
-              "coolingMw": 51.05126250000001
+              "coolingMw": 55.9132875
+            },
+            "weaponBudget": {
+              "supplyScale": 1.08
             }
           }
         },

@@ -18,6 +18,9 @@ public static partial class Matchmaking
                 throw new InvalidDataException("연구하지 않은 부품입니다.");
             if(fit.Components?.Ids.Any(id=>!upgrades.TryGetValue(fit.HullId,out var unlocked)||!unlocked.Contains(ShipComponents.UnlockKey(id)))==true)
                 throw new InvalidDataException("연구하지 않은 교체 부품입니다.");
+            if(fit.Components?.MainGuns?.OfType<string>().Any(id=>!MainGunParts.IsStock(MainGunParts.ById(id))
+                &&(!upgrades.TryGetValue(fit.HullId,out var unlocked)||!unlocked.Contains(MainGunParts.UnlockKey(id))))==true)
+                throw new InvalidDataException("연구하지 않은 주포 부품입니다.");
             if(resolved.Leader.MatchClass==MatchWeightClass.Large&&node.Tier>tree.ByHull(resolved.Leader.Id).Tier)
                 throw new InvalidDataException("호위 함선의 티어는 기함 이하여야 합니다.");
         }

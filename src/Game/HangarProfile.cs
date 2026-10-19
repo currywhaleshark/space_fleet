@@ -30,7 +30,7 @@ public sealed class HangarHull
 /// <summary>Local editable choices. Combat receives a resolved snapshot, never this mutable save model.</summary>
 public sealed class HangarProfile
 {
-    public int Version { get; set; } = 4;
+    public int Version { get; set; } = 5;
     public ResearchProgress? Research { get; set; }
     public string SelectedHullId { get; set; } = "interceptor";
     public Dictionary<string,HangarHull> Hulls { get; set; } = new(StringComparer.Ordinal);
@@ -117,7 +117,8 @@ public sealed class HangarProfile
         var next=EditableSquad(index,leaderAllowed:true);var slot=next[index];
         if(slot is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
         var parts=(own.Components??new()).With(system,id);
-        var fit=own with{Components=parts.Ids.Any()?parts:null};
+        if(system==ComponentSlot.MainGun&&id is not null)parts=parts with{MainGuns=null}; // catalog primary replaces socket parts
+        var fit=own with{Components=parts.IsEmpty?null:parts};
         FleetLoadouts.ResolveFit(Fit(slot with{Own=fit})); // Validate the complete budget before charging RP.
         if(id is not null&&!Research.HasComponent(slot.HullId,id))
         {
@@ -172,7 +173,8 @@ public sealed class HangarProfile
         if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
             throw new InvalidDataException("잘못된 프리셋입니다.");
         var next=(state.SystemPresets[preset]??new()).With(slot,id);
-        var fit=Fit(new(hull,preset)) with{Components=next.Ids.Any()?next:null};
+        if(slot==ComponentSlot.MainGun&&id is not null)next=next with{MainGuns=null}; // catalog primary replaces socket parts
+        var fit=Fit(new(hull,preset)) with{Components=next.IsEmpty?null:next};
         FleetLoadouts.ResolveFit(fit); // Validate the complete budget before charging RP or changing the preset.
         if(id is not null&&!Research.HasComponent(hull,id))
         {
@@ -181,9 +183,51 @@ public sealed class HangarProfile
         }
         state.SystemPresets[preset]=fit.Components;
     }
+    /// <summary>Main gun part at one socket of a shared preset (null = stock). Researches it first when asked.</summary>
+    public void SetMainGun(string hull,int preset,int socket,string? part,bool research=false)
+    {
+        if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
+            throw new InvalidDataException("잘못된 프리셋입니다.");
+        var next=WithMainGun(hull,state.SystemPresets[preset],socket,part);
+        var fit=Fit(new(hull,preset)) with{Components=next};
+        FleetLoadouts.ResolveFit(fit); // Validate sockets, volume and supply before charging RP.
+        BuyIfNeeded(hull,part,research);
+        state.SystemPresets[preset]=next;
+    }
+    /// <summary>Main gun part at one socket of an individually fitted squad slot.</summary>
+    public void SetSlotMainGun(int index,int socket,string? part,bool research=false)
+    {
+        var next=EditableSquad(index,leaderAllowed:true);var slot=next[index];
+        if(slot is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
+        var fit=own with{Components=WithMainGun(slot.HullId,own.Components,socket,part)};
+        FleetLoadouts.ResolveFit(Fit(slot with{Own=fit}));
+        BuyIfNeeded(slot.HullId,part,research);
+        next[index]=slot with{Own=fit};Commit(next);
+    }
+    internal static ShipComponentSelection? WithMainGun(string hull,ShipComponentSelection? current,int socket,string? part)
+    {
+        int sockets=ShipDefinitions.ById(hull).Battery?.Hardpoints.Length??0;
+        if(socket<0||socket>=sockets)throw new InvalidDataException("없는 주포 소켓입니다.");
+        var guns=(current?.MainGuns?.ToArray()??new string?[sockets]);
+        if(guns.Length!=sockets)throw new InvalidDataException("잘못된 주포 소켓 수입니다.");
+        if(part is not null&&MainGunParts.IsStock(MainGunParts.ById(part)))part=null;
+        guns[socket]=part;
+        // Socket parts replace a catalog primary; all-stock sockets drop back to no selection.
+        var next=(current??new()).With(ComponentSlot.MainGun,null) with{MainGuns=guns.All(g=>g is null)?null:guns};
+        return next.IsEmpty?null:next;
+    }
+    private void BuyIfNeeded(string hull,string? part,bool research)
+    {
+        var design=ShipDefinitions.ById(hull).Design;
+        if(part is null||Research!.HasPart(design,part))return;
+        if(!research)throw new InvalidDataException("부품을 먼저 연구해야 합니다.");
+        Research.BuyPart(design,part);
+    }
+    private bool Unresearched(string hull,ShipComponentSelection? parts)=>parts?.Ids.Any(part=>Research?.HasComponent(hull,part)!=true)==true
+        ||parts?.MainGuns?.OfType<string>().Any(part=>Research?.HasPart(ShipDefinitions.ById(hull).Design,part)!=true)==true;
     public void Validate()
     {
-        if(Version is not (1 or 2 or 3 or 4)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))
+        if(Version is not (1 or 2 or 3 or 4 or 5)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))
             throw new InvalidDataException("지원하지 않거나 손상된 격납고 저장입니다.");
         if(Version>=2){if(Research is null)throw new InvalidDataException("연구 진행이 없습니다.");Research.Validate();if(!Owned.Contains(SelectedHullId))throw new InvalidDataException("선택한 함급이 잠겨 있습니다.");}
         foreach(var (id,hull) in Hulls)
@@ -195,7 +239,7 @@ public sealed class HangarProfile
             {
                 var mounts=hull.Presets[index];
                 if(mounts is null||mounts.Length>16)throw new InvalidDataException("잘못된 장착 목록입니다.");
-                if(hull.SystemPresets[index]?.Ids.Any(part=>Research?.HasComponent(id,part)!=true)==true)
+                if(Unresearched(id,hull.SystemPresets[index]))
                     throw new InvalidDataException("연구하지 않은 교체 부품이 장착되어 있습니다.");
                 FleetLoadouts.ResolveFit(Fit(new(id,index)));
             }
@@ -204,7 +248,7 @@ public sealed class HangarProfile
                 if(slot is null)continue; // An empty member slot (the leader slot is checked above).
                 if(slot.Preset<0||slot.Preset>HangarSlot.Individual||!Hulls.ContainsKey(slot.HullId)||slot.UsesOwn&&slot.Own is null
                     ||slot.Own is {Equipment:null or {Length:>16}})throw new InvalidDataException("잘못된 편대원 프리셋 참조입니다.");
-                if(slot.Own?.Components?.Ids.Any(part=>Research?.HasComponent(slot.HullId,part)!=true)==true)
+                if(Unresearched(slot.HullId,slot.Own?.Components))
                     throw new InvalidDataException("연구하지 않은 교체 부품이 장착되어 있습니다.");
             }
         }
@@ -256,13 +300,20 @@ public static class HangarStorage
                 foreach(string id in oldHulls)profile.Research.GrantPath(id);
                 foreach(var hull in FleetLoadouts.Hulls)if(!profile.Hulls.ContainsKey(hull.Id))
                     profile.Hulls.Add(hull.Id,new HangarHull{Squadron=FleetLoadouts.Default(hull.Id).Members.Select(m=>new HangarSlot(m.HullId,0)).ToArray()});
-                profile.Version=4;profile.Validate();return new(profile,true,"이전 격납고를 이관했습니다. 기존 함급과 세팅은 유지됩니다.");
+                profile.Version=5;profile.Validate();return new(profile,true,"이전 격납고를 이관했습니다. 기존 함급과 세팅은 유지됩니다.");
             }
             // Catalog expansion adds empty presets, never ownership or research points.
             foreach(var hull in FleetLoadouts.Hulls)if(!profile.Hulls.ContainsKey(hull.Id))
                 profile.Hulls.Add(hull.Id,new HangarHull{Squadron=FleetLoadouts.Default(hull.Id).Members.Select(m=>new HangarSlot(m.HullId,0)).ToArray()});
-            profile.Version=4;profile.Validate();
-            return new(profile,true,null);
+            // v5: per-hull component unlocks become design-wide; research IDs and spent RP carry over unchanged.
+            string? note=null;
+            if(profile.Version<5&&profile.Research is { } research)
+            {
+                if(research.Components.Count>0)note="교체 부품 해금을 진영 공유로 옮겼습니다. 사격통제·반응로 연구는 포좌 확장·주포 전원 개량으로 바뀌었습니다.";
+                research.ShareLegacyUnlocks();
+            }
+            profile.Version=5;profile.Validate();
+            return new(profile,true,note);
         }
         catch(Exception e)when(e is IOException or InvalidDataException or UnauthorizedAccessException or JsonException or ArgumentException)
         {return new(Legacy(),false,"저장 파일을 읽지 못했습니다. 원본을 보존하며 이번 세팅은 저장하지 않습니다.");}

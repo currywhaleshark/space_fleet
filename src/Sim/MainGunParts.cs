@@ -16,12 +16,23 @@ public sealed record MainGunPart(string Id, string Name, PrimaryWeaponSystem Sys
     RailgunBallistics? Railgun = null, LaserDefinition? Laser = null, HullKind[]? StockKinds = null, float TraverseScale = 1,
     float CaliberMm = 0);
 
+/// <summary>Main gun container upgrades: extra weapon volume, more main gun supply, sockets one size larger.</summary>
+public sealed record WeaponBudgetDefinition(float VolumeBonus = 0, float SupplyScale = 1, string[]? EnlargedSockets = null);
+
 public static class MainGunParts
 {
+    /// <summary>Each tier above a branch's entry tier adds this share of the stock fit's volume (§3).</summary>
+    public const float TierVolumeStep = .15f;
     public static IReadOnlyList<MainGunPart> All { get; } = Load();
     public static MainGunPart ById(string id) => All.FirstOrDefault(p => p.Id == id)
         ?? throw new InvalidDataException("알 수 없는 주포 부품입니다: " + id);
     public static MainGunPart? Find(string id) => All.FirstOrDefault(p => p.Id == id);
+    public static string UnlockKey(string id) => "part:" + id;
+    /// <summary>Stock parts are always fitted; others are researched once per design (§6).</summary>
+    public static bool IsStock(MainGunPart part) => part.StockKinds is { Length: > 0 };
+    /// <summary>A hull that can research this part: same design, a listed branch and at least the part's tier.</summary>
+    public static bool CanResearch(ShipDefinition hull, int tier, MainGunPart part)
+        => !IsStock(part) && part.Design == hull.Design && part.Branches.Contains(hull.Branch) && tier >= part.MinTier;
 
     /// <summary>Volume a socket of this size can hold.</summary>
     public static float SocketVolume(WeaponSize size) => size switch
@@ -37,17 +48,35 @@ public static class MainGunParts
             ?? throw new InvalidDataException("기본 주포 부품이 없습니다: " + hull.Id);
     }
 
-    /// <summary>Phase 1 hull total = what the stock fit uses. Tier budgets (§3) replace this later.</summary>
-    public static float VolumeBudget(ShipDefinition hull) => StockFor(hull).Volume * hull.Battery!.Hardpoints.Length;
+    /// <summary>Volume the stock fit uses.</summary>
+    public static float StockVolume(ShipDefinition hull) => StockFor(hull).Volume * hull.Battery!.Hardpoints.Length;
+    /// <summary>Hull total: stock use, plus 15% of it per tier above the branch's entry tier (to 0.5), plus upgrades.</summary>
+    public static float VolumeBudget(ShipDefinition hull)
+    {
+        float stock = StockVolume(hull);
+        return stock + MathF.Round(stock * TierVolumeStep * TierSteps(hull) * 2, MidpointRounding.AwayFromZero) / 2 + (hull.WeaponBudget?.VolumeBonus ?? 0);
+    }
+    /// <summary>Tiers above the first tier of this hull's design and branch in the research tree (0 outside it).</summary>
+    public static int TierSteps(ShipDefinition hull)
+    {
+        // The research catalog validates by resolving hulls; during that, it is not yet available.
+        if (ResearchTree.CatalogOrNull is not { } tree || tree.Playable.FirstOrDefault(n => n.HullId == hull.Id) is not { } node) return 0;
+        return node.Tier - tree.Playable.Where(n => n.Branch == node.Branch && tree.Design(n) == hull.Design).Min(n => n.Tier);
+    }
     /// <summary>
     /// Main gun share of the weapons channel (MW): the stock fit's rated draw, so the stock fit runs at exactly
-    /// rated. Lighter parts overcharge, heavier parts reload slower. Hull upgrades (§7) raise it later.
+    /// rated. Lighter parts overcharge, heavier parts reload slower. Reactor upgrades scale it (§7).
     /// </summary>
-    public static float Supply(ShipDefinition hull) => StockFor(hull).RatedMw * hull.Battery!.Hardpoints.Length;
+    public static float Supply(ShipDefinition hull) => StockFor(hull).RatedMw * hull.Battery!.Hardpoints.Length * (hull.WeaponBudget?.SupplyScale ?? 1);
+    /// <summary>A socket's size after container upgrades.</summary>
+    /// <remarks>A fitted battery (socket parts) already carries the enlarged sizes.</remarks>
+    public static WeaponSize SocketSize(ShipDefinition hull, WeaponHardpointDefinition h)
+        => hull.Battery?.SocketWeapons is null && hull.WeaponBudget?.EnlargedSockets?.Contains(h.Id) == true
+            && h.Size < WeaponSize.ExtraLarge ? h.Size + 1 : h.Size;
 
     public static bool Fits(ShipDefinition hull, MainGunPart part)
         => hull.Battery is { } b && part.Design == hull.Design && part.Branches.Contains(hull.Branch)
-            && b.Hardpoints.Any(h => Socket(h, part) is null);
+            && b.Hardpoints.Any(h => Socket(h, part, SocketSize(hull, h)) is null);
 
     /// <summary>Why this per-socket choice cannot be installed, or null. Null entries mean the stock part.</summary>
     public static string? Reject(ShipDefinition hull, IReadOnlyList<string?> choice)
@@ -60,8 +89,9 @@ public static class MainGunParts
         {
             var p = parts[i];
             if (p.Design != hull.Design) return $"{p.Name}: 다른 진영의 부품입니다.";
-            if (!p.Branches.Contains(hull.Branch)) return $"{p.Name}: 이 함종에서 연구할 수 없는 부품입니다.";
-            if (Socket(b.Hardpoints[i], p) is { } why) return $"{p.Name}: {why}";
+            // The hull's own stock part is always allowed (e.g. a catalog laser on an escort keeps its emitter reference).
+            if (p != StockFor(hull) && !p.Branches.Contains(hull.Branch)) return $"{p.Name}: 이 함종에서 연구할 수 없는 부품입니다.";
+            if (Socket(b.Hardpoints[i], p, SocketSize(hull, b.Hardpoints[i])) is { } why) return $"{p.Name}: {why}";
         }
         if (parts.Select(p => p.System).Distinct().Count() > 1) return "한 함선에는 한 가지 주포 계통만 달 수 있습니다.";
         return Totals(parts, VolumeBudget(hull), Supply(hull));
@@ -77,10 +107,11 @@ public static class MainGunParts
         return null;
     }
 
-    internal static string? Socket(WeaponHardpointDefinition h, MainGunPart p)
+    internal static string? Socket(WeaponHardpointDefinition h, MainGunPart p, WeaponSize? enlarged = null)
     {
-        if (p.Size > h.Size) return "소켓보다 큰 부품입니다.";
-        if (p.Volume > SocketVolume(h.Size) + 1e-4f) return "소켓 용적을 넘습니다.";
+        var size = enlarged ?? h.Size;
+        if (p.Size > size) return "소켓보다 큰 부품입니다.";
+        if (p.Volume > SocketVolume(size) + 1e-4f) return "소켓 용적을 넘습니다.";
         if (h.Fixed && p.Barrels != 1) return "고정 축선에는 단장 부품만 들어갑니다.";
         return null;
     }
@@ -94,10 +125,16 @@ public static class MainGunParts
     /// <summary>Applied after research and catalog systems. Choosing only stock parts keeps the hull (and its content ID) unchanged.</summary>
     internal static ShipDefinition Apply(ShipDefinition hull, IReadOnlyList<string?>? choice)
     {
-        if (choice is null) return hull;
+        float scale = hull.WeaponBudget?.SupplyScale ?? 1;
+        if (choice is null)
+        {
+            // A reactor upgrade overcharges even the stock fit, which then needs explicit socket parts.
+            if (scale == 1 || hull.Battery is null) return hull;
+            choice = new string?[hull.Battery.Hardpoints.Length];
+        }
         if (Reject(hull, choice) is { } why) throw new InvalidDataException(why);
         var b = hull.Battery!; var stock = StockFor(hull); var parts = Parts(hull, choice);
-        if (parts.All(p => p == stock)) return hull;
+        if (parts.All(p => p == stock) && scale == 1) return hull;
         var a = b.Weapon;
         var weapons = new PrimaryWeaponDefinition[parts.Length];
         var installs = new WeaponInstallationDefinition[parts.Length];
@@ -112,11 +149,37 @@ public static class MainGunParts
         }
         // The longest-reaching socket supplies the ship-level view (AI range, HUD); turrets fire their own.
         int primary = Enumerable.Range(0, parts.Length).MaxBy(i => (Reach(weapons[i]), -i));
-        var battery = new MainBatteryDefinition(b.Hardpoints, weapons[primary], installs) { SocketWeapons = weapons, SupplyMw = Supply(hull) };
+        var hardpoints = b.Hardpoints.Select(h => h with { Size = SocketSize(hull, h) }).ToArray();
+        var battery = new MainBatteryDefinition(hardpoints, weapons[primary], installs) { SocketWeapons = weapons, SupplyMw = Supply(hull) };
         var json = JsonNode.Parse(hull.ToJson())!.AsObject();
         json.Remove(nameof(ShipDefinition.Railgun));
         json[nameof(ShipDefinition.MainBattery)] = JsonNode.Parse(ShipDefinition.SerializeData(battery));
         return ShipDefinition.Parse(json.ToJsonString(), strict: true);
+    }
+
+    /// <summary>
+    /// Sustained main gun output at the fit's supply, energy per second: Σ shot energy × barrels ÷ reload
+    /// (lasers: energy per second). Heat and accuracy are not included.
+    /// </summary>
+    public static float SustainedEnergy(ShipDefinition def)
+    {
+        if (def.Battery is not { } b) return 0;
+        float ratio = b.SupplyRatio, total = 0;
+        for (int i = 0; i < b.Hardpoints.Length; i++)
+        {
+            var w = b.WeaponAt(i);
+            if (w.Laser is { } laser) total += MainBatteries.Supplied(laser, ratio).EnergyPerSecond;
+            else if (w.Railgun is { } r) total += r.Energy * MainBatteries.Overcharge(ratio) * w.BarrelCount * MathF.Min(ratio, 1) / r.ReloadSeconds;
+        }
+        return total;
+    }
+
+    /// <summary>Parts a hull could carry at a socket (own design and branch, socket size after upgrades), stock first.</summary>
+    public static IEnumerable<MainGunPart> Candidates(ShipDefinition hull, int socket)
+    {
+        var h = hull.Battery!.Hardpoints[socket]; var stock = StockFor(hull);
+        return All.Where(p => p == stock || p.Design == hull.Design && p.Branches.Contains(hull.Branch)
+            && Socket(h, p, SocketSize(hull, h)) is null).OrderBy(p => p == stock ? 0 : 1);
     }
 
     private static float Reach(PrimaryWeaponDefinition w) => w.Railgun?.MaxRange ?? w.Laser!.FalloffMeters;

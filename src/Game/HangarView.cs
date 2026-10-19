@@ -22,6 +22,9 @@ public partial class HangarView : Control
     private string? _bay;
     private bool _cutaway;
     private ComponentSlot _system=ComponentSlot.MainGun;
+    // Main gun popover: catalog systems, or absolute parts per socket (modular weapons §16–17).
+    private bool _partsTab;
+    private int _socket;
     private enum Popover { None, System, Bay }
     private Popover _popover;
     private int? _picker;
@@ -42,6 +45,7 @@ public partial class HangarView : Control
         if(OS.GetCmdlineUserArgs().Contains("--hangar-exterior"))_cutaway=false;
         var args=BattleArgs.Parse(OS.GetCmdlineUserArgs());
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-system",out var system)){_system=Enum.Parse<ComponentSlot>(system);_popover=Popover.System;}
+        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-parts",out var socket)){_partsTab=true;_socket=int.Parse(socket);}
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-bay",out var bay)){_bay=bay;_cutaway=true;_popover=Popover.Bay;}
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-picker",out var picker))_picker=int.Parse(picker);
         Size=new(1600,900);Rebuild();
@@ -375,9 +379,11 @@ public partial class HangarView : Control
         catcher.GuiInput+=e=>{if(e is InputEventMouseButton{Pressed:true}){_popover=Popover.None;_cutaway=false;Rebuild();}};
         AddChild(catcher);
         bool system=_popover==Popover.System;
-        int count=system?1+ShipComponents.All.Count(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun)
+        bool parts=system&&_system==ComponentSlot.MainGun&&_partsTab&&def.Battery is not null;
+        int count=parts?1+PartRows(def).Length
+            :system?1+ShipComponents.All.Count(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun)
             :1+ShipEquipment.All.Count();
-        float height=48+count*66+30;
+        float height=48+count*66+30+(system&&_system==ComponentSlot.MainGun?36:0)+(parts?40:0);
         float x=system?404+(int)_system*58:810+Array.FindIndex(def.Bays,b=>b.Id==_bay)*58;
         x=Mathf.Min(x,1180-400);
         var panel=new Panel{Position=new(x,522-height),Size=new(400,height)};
@@ -390,14 +396,26 @@ public partial class HangarView : Control
     private void BuildSystems(ShipDefinition def,Control panel)
     {
         var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);
+        float top=46;
+        if(_system==ComponentSlot.MainGun&&def.Battery is not null)
+        {
+            top=82;
+            foreach(var (label,tab,x) in new[]{("교체 계통",false,10f),("소켓 부품",true,104f)})
+            {
+                var b=Button(label,new(x,44,90,30),()=>{_partsTab=tab;Rebuild();},_partsTab==tab,size:15,parent:panel);
+                b.TooltipText=tab?"소켓마다 구경·포신 수가 다른 주포 부품을 고릅니다":"주포 전체에 적용하는 교체 계통";
+                b.SetMeta("focus_key","maingun-tab-"+(tab?"parts":"systems"));
+            }
+        }
+        Label(ShipComponents.Name(_system)+(_partsTab&&top>46?" 부품":" 교체"),new(14,10,220,28),18,Blue,panel);
+        Label(Current.UsesOwn?"이 슬롯만":ModeName(Current),new(230,14,156,22),14,Current.UsesOwn?Orange:Muted,panel).HorizontalAlignment=HorizontalAlignment.Right;
+        if(_partsTab&&top>46){BuildParts(def,panel,top);return;}
         string? installed=fit.Components?.Get(_system);
         if(_system==ComponentSlot.MainGun&&installed==def.DefaultMainGun)installed=null;
-        Label(ShipComponents.Name(_system)+" 교체",new(14,10,220,28),18,Blue,panel);
-        Label(Current.UsesOwn?"이 슬롯만":ModeName(Current),new(230,14,156,22),14,Current.UsesOwn?Orange:Muted,panel).HorizontalAlignment=HorizontalAlignment.Right;
         var stockProblem=SystemProblem(fit,null);
         var stockHull=ShipDefinitions.ById(def.Id);
         string stockName=_system==ComponentSlot.MainGun&&stockHull.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(_system);
-        var stock=Item(stockName,MenuArt.Component(_system,hull:stockHull),new(10,46,380,62),()=>InstallSystem(null),
+        var stock=Item(stockName,MenuArt.Component(_system,hull:stockHull),new(10,top,380,62),()=>InstallSystem(null),
             "연구 비용 없이 기본형으로 복귀",installed is null,status:stockProblem is not null?"장착 불가":installed is null?"장착 중":"",parent:panel);
         stock.SetMeta("focus_key","component-stock");
         stock.TooltipText=stockProblem??"연구 비용 없이 기본형으로 복귀";
@@ -412,7 +430,7 @@ public partial class HangarView : Control
             if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
             string action=installed==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 연구 및 장착";
             string state=problem is not null?(unlocked?"장착 불가":$"{cost:N0} RP · 연구 불가"):action;
-            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(10,46+row++*66,380,62),()=>InstallSystem(part.Id,true),"",
+            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(10,top+row++*66,380,62),()=>InstallSystem(part.Id,true),"",
                 installed==part.Id,status:state,parent:panel);
             button.SetMeta("focus_key","component-"+part.Id);
             button.Disabled=problem is not null;
@@ -423,7 +441,102 @@ public partial class HangarView : Control
             button.TooltipText=part.Name+"\n"+(problem??action)+"\n현재 → 교체 후\n"+comparison+"\n"+costs+"\n기본형 대비: "+part.Description;
             button.AccessibilityDescription=button.TooltipText;
         }
-        Label($"보유 {research.Points[def.Design]:N0} RP · 연구 후 교체 무료",new(14,46+row*66,370,24),14,Muted,panel);
+        Label($"보유 {research.Points[def.Design]:N0} RP · 연구 후 교체 무료",new(14,top+row*66,370,24),14,Muted,panel);
+    }
+    /// <summary>Parts that could go in the selected socket other than its stock part (fit rules shown per row).</summary>
+    private MainGunPart[] PartRows(ShipDefinition def)
+    {
+        _socket=Math.Clamp(_socket,0,def.Battery!.Hardpoints.Length-1);
+        var stock=MainGunParts.StockFor(def);
+        return MainGunParts.All.Where(p=>p!=stock&&p.Design==def.Design&&p.Branches.Contains(def.Branch)
+            &&p.Size<=MainGunParts.SocketSize(def,def.Battery.Hardpoints[_socket])).ToArray();
+    }
+    private static string SizeLabel(WeaponSize size)=>size switch{WeaponSize.Small=>"소형",WeaponSize.Medium=>"중형",WeaponSize.Large=>"대형",_=>"특대"};
+    private static string PartSummary(MainGunPart p)
+    {
+        string body=p.Railgun is { } r?$"발당 {r.Energy:0} · 관통 {r.PenetrationMm:0} mm · 장전 {r.ReloadSeconds:0.##}초 · 사거리 {r.MaxRange/1000:0} km"
+            :$"초당 {p.Laser!.EnergyPerSecond:0} · 관통 {p.Laser.PenetrationMm:0} mm · 감쇠 {p.Laser.FalloffMeters/1000:0} km";
+        return $"{(p.CaliberMm>0?$"{p.CaliberMm:0} mm · ":"")}{p.Barrels}포신 · 용적 {p.Volume:0.#} · 정격 {p.RatedMw:0} MW\n부품 기준 {body}";
+    }
+    /// <summary>Supply ÷ rated after a change, as the player reads it: slower reload or overcharge.</summary>
+    private static string SupplyLine(ShipDefinition d)
+    {
+        if(d.Battery is not { } b)return "";
+        float ratio=b.SupplyRatio;
+        string effect=ratio<.999f?$"장전 ×{1/ratio:0.00}":ratio>1.001f?$"과충전 ×{MainBatteries.Overcharge(ratio):0.00} · 발열 ×{MathF.Pow(MainBatteries.Overcharge(ratio),2):0.00}":"정격";
+        float used=b.SocketWeapons?.Sum(w=>MainGunParts.Find(w.Id)?.Volume??0)??MainGunParts.StockVolume(d);
+        return $"공급 ÷ 정격 {ratio:0.00} · {effect}\n무장 용적 {used:0.#} / {MainGunParts.VolumeBudget(d):0.#}";
+    }
+    private void BuildParts(ShipDefinition def,Control panel,float top)
+    {
+        var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);var b=def.Battery!;
+        var rows=PartRows(def);var stock=MainGunParts.StockFor(def);
+        for(int i=0;i<b.Hardpoints.Length;i++)
+        {
+            int socket=i;var h=b.Hardpoints[i];
+            var tab=Button($"{i+1} · {SizeLabel(MainGunParts.SocketSize(def,h))}",new(10+i*94,top,90,32),()=>{_socket=socket;Rebuild();},_socket==i,size:15,parent:panel);
+            tab.TooltipText=$"소켓 {i+1} · {SizeLabel(MainGunParts.SocketSize(def,h))} · 용적 {MainGunParts.SocketVolume(MainGunParts.SocketSize(def,h)):0}\n장착: {MainGunParts.Find(b.WeaponAt(i).Id)?.Name??stock.Name}";
+            tab.SetMeta("focus_key","maingun-socket-"+i);
+        }
+        top+=40;
+        string current=fit.Components?.MainGuns?[_socket]??stock.Id;
+        string? Problem(string? id)
+        {
+            try{FleetLoadouts.ResolveFit(fit with{Components=HangarProfile.WithMainGun(def.Id,fit.Components,_socket,id)});return null;}
+            catch(InvalidDataException e){return e.Message;}
+        }
+        string Tooltip(MainGunPart p,string? problem)
+        {
+            string after="";
+            try{after=SupplyLine(FleetLoadouts.ResolveFit(fit with{Components=HangarProfile.WithMainGun(def.Id,fit.Components,_socket,p==stock?null:p.Id)}).Definition);}
+            catch(InvalidDataException){}
+            return p.Name+"\n"+(problem??"")+"\n"+PartSummary(p)+(after.Length>0?"\n장착 후 "+after:"");
+        }
+        var stockButton=Item(stock.Name+" (기본)",MenuArt.Component(ComponentSlot.MainGun,hull:def),new(10,top,380,62),()=>InstallPart(_socket,null),
+            "",current==stock.Id,status:current==stock.Id?"장착 중":"",parent:panel);
+        stockButton.SetMeta("focus_key","part-stock");stockButton.TooltipText=Tooltip(stock,null);
+        int row=1;
+        foreach(var part in rows)
+        {
+            bool unlocked=research.HasPart(def.Design,part.Id);int cost=research.PartCost(part.Id);
+            string? problem=Problem(part.Id);
+            if(problem is null&&!unlocked&&research.PartSponsor(def.Design,part.Id) is null)problem=$"T{part.MinTier} 이상 연구 가능 함급 필요";
+            if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
+            string action=current==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 진영 공유 연구 및 장착";
+            var button=Item(part.Name,MenuArt.Component(ComponentSlot.MainGun,hull:def),new(10,top+row++*66,380,62),()=>InstallPart(_socket,part.Id,true),"",
+                current==part.Id,status:problem is not null?(unlocked?"장착 불가":"연구 불가"):action,parent:panel);
+            button.SetMeta("focus_key","part-"+part.Id);button.Disabled=problem is not null;
+            button.TooltipText=Tooltip(part,problem??action);button.AccessibilityDescription=button.TooltipText;
+        }
+        Label($"보유 {research.Points[def.Design]:N0} RP · 부품 연구는 진영 전체 공유",new(14,top+row*66,370,24),14,Muted,panel);
+    }
+    internal void InstallPart(int socket,string? id,bool research=false)
+    {
+        if(MenuConfirmation.Pending(this) is not null)return;
+        var target=Current;int index=SlotIndex(target);var fit=Host.Hangar.Fit(target);
+        try
+        {
+            var before=FleetLoadouts.ResolveFit(fit).Definition;var stock=MainGunParts.StockFor(before);
+            string old=fit.Components?.MainGuns?[socket]??stock.Id;
+            if(old==(id??stock.Id))return;
+            var after=FleetLoadouts.ResolveFit(fit with{Components=HangarProfile.WithMainGun(target.HullId,fit.Components,socket,id)}).Definition;
+            var progress=Host.Hangar.Research!;
+            long cost=id is not null&&!progress.HasPart(before.Design,id)?progress.PartCost(id):0;
+            if(cost>0&&!research)throw new InvalidDataException("부품을 먼저 연구해야 합니다.");
+            if(progress.Points[before.Design]<cost)throw new InvalidDataException("연구 점수가 부족합니다.");
+            string scope=target.UsesOwn?"이 슬롯에만 적용됩니다.":"같은 프리셋을 사용하는 함선에 함께 적용됩니다.";
+            MenuConfirmation.Show(this,_font,cost>0?"주포 부품 연구 및 장착 확인":"주포 부품 교체 확인",
+                FitScope(target)+$"\n소켓 {socket+1} · {MainGunParts.ById(old).Name} → {MainGunParts.ById(id??stock.Id).Name}\n\n"+
+                SupplyLine(before)+"\n→ "+SupplyLine(after)+"\n\n"+ComponentComparison.Fitting(ComponentSlot.MainGun,before,after),
+                MenuConfirmation.Price(before.Design,progress.Points[before.Design],cost),
+                cost>0?scope+" 부품 연구는 같은 진영 함급 모두에 열리며 환불되지 않습니다.":scope+" 연구 점수 소모 없이 다시 변경할 수 있습니다.",
+                cost>0?"연구하고 장착":"교체 적용",()=>Action(()=>
+                {
+                    if(target.UsesOwn)Host.Hangar.SetSlotMainGun(index,socket,id,research);
+                    else Host.Hangar.SetMainGun(target.HullId,target.Preset,socket,id,research);
+                }));
+        }
+        catch(Exception e)when(e is InvalidDataException or ArgumentException){Error(e);}
     }
     private void BuildBay(ShipDefinition def,Control panel)
     {

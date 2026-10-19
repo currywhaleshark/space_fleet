@@ -28,7 +28,7 @@ public static class FleetLoadouts
     public static ResolvedLoadout ResolveFit(ShipFit fit)
     {
         if(fit is null||fit.Equipment is null)throw new InvalidDataException("잘못된 함선 세팅입니다.");
-        if(fit.Upgrades is {Count:>0}||fit.Components?.Ids.Any()==true)
+        if(fit.Upgrades is {Count:>0}||fit.Components is {IsEmpty:false})
             return ResearchTree.Catalog.Resolve(fit.HullId,fit.Upgrades,fit.Equipment,fit.Components);
         return ShipVariants.All.Any(v=>v.Node.Id==fit.HullId)
             ? ShipVariants.Resolve(fit.HullId,equipment:fit.Equipment)

@@ -45,8 +45,11 @@ static class ComponentChecks
                     if(source.DefaultMainGun is not null)
                         permanent=CruiserTrials.Resolve(source.Id,ResearchTree.Catalog.ByHull(source.Id).Upgrades.Select(u=>u.Patch.ToJsonString())
                             .Append("{\"defaultMainGun\":null}").ToArray()).Definition;
-                    Check(upgraded.Battery!.Weapon.Laser is { } l ? l.EnergyPerSecond > d.Battery!.Weapon.Laser!.EnergyPerSecond : Math.Abs(upgraded.Railgun!.ReloadSeconds-permanent.Railgun!.ReloadSeconds*part.Effects.Reload)<.0001,
-                        "Permanent fire-control research does not erase selected reload tradeoff");
+                    // Permanent research now grows the container (supply 1.08 → overcharge), not the reload.
+                    var researched=new ShipBody("RES",upgraded,Faction.Blue).Railguns[0];var fitted=new ShipBody("FIT",d,Faction.Blue).Railguns[0];
+                    Check(upgraded.Battery!.Weapon.Laser is not null ? researched.Laser!.Definition.EnergyPerSecond > fitted.Laser!.Definition.EnergyPerSecond
+                        : Math.Abs(upgraded.Railgun!.ReloadSeconds-permanent.Railgun!.ReloadSeconds*part.Effects.Reload)<.0001&&researched.Definition.Energy>fitted.Definition.Energy,
+                        "Permanent container research keeps the selected reload tradeoff and adds supply");
                 }
             }
             Check(source.ToJson()==before,"Catalog hull is never modified");
@@ -182,7 +185,7 @@ static class ComponentChecks
         Check(p.Hulls["escort"].SystemPresets[0]!.Sensor is null,"Preset selections stay independent");
         var snapshot=FleetLoadouts.Resolve(p.Squadron());string saved=HangarStorage.Serialize(p);
         var restored=HangarStorage.Parse(saved);
-        Check(restored.Version==4&&FleetLoadouts.Resolve(restored.Squadron()).LoadoutId==snapshot.LoadoutId,"Current save (v4) stores exact fit and research across reload");
+        Check(restored.Version==5&&FleetLoadouts.Resolve(restored.Squadron()).LoadoutId==snapshot.LoadoutId,"Current save (v5) stores exact fit and research across reload");
         p.SetComponent("escort",0,ComponentSlot.MainGun,null);
         Check(snapshot.Leader.Railgun!.Mounts!.All(m=>m.Muzzles.Length==3),"Resolved queued snapshot cannot be edited by later preset changes");
         Check(FleetLoadouts.Resolve(p.Squadron()).Leader.MainBattery is null,"Returning to stock restores stock primary schema");
@@ -195,8 +198,8 @@ static class ComponentChecks
         try
         {
             string path=Path.Combine(folder,"hangar.json");File.WriteAllText(path,old.ToJsonString());
-            var migrated=HangarStorage.Load(path,null);Check(migrated.CanSave&&migrated.Profile.Version==4,"Old v2 save migrates to the current v4");
-            Check(migrated.Profile.Research!.Components.Count==0&&migrated.Profile.Hulls.Values.All(h=>h.SystemPresets.All(s=>s is null)),"Migration grants no parts and keeps stock choices");
+            var migrated=HangarStorage.Load(path,null);Check(migrated.CanSave&&migrated.Profile.Version==5,"Old v2 save migrates to the current v5");
+            Check(migrated.Profile.Research!.Components.Count==0&&migrated.Profile.Research.SharedComponents.Values.All(v=>v.Length==0)&&migrated.Profile.Hulls.Values.All(h=>h.SystemPresets.All(s=>s is null)),"Migration grants no parts and keeps stock choices");
             HangarStorage.Save(path,migrated.Profile);Check(File.ReadAllText(path+".bak")==old.ToJsonString(),"Migration backup preserves old bytes");
         }
         finally{if(!Path.GetFullPath(folder).StartsWith(Path.GetFullPath(AppContext.BaseDirectory),StringComparison.OrdinalIgnoreCase))throw new IOException("Invalid test folder");Directory.Delete(folder,true);}

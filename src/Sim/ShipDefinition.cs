@@ -61,6 +61,9 @@ public sealed class ShipDefinition
     // Applied after research by ShipLoadouts; null selections mean the hull's factory weapon.
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string? DefaultMainGun { get; init; }
+    /// <summary>Hull upgrades to the main gun container (§7); null = none.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public WeaponBudgetDefinition? WeaponBudget { get; init; }
     public MissileDefinition? Missiles { get; init; }
     public AntimatterDefinition? Antimatter { get; init; }
     public DefenseDroneDefinition? DefenseDrones { get; init; }
@@ -143,6 +146,11 @@ public sealed class ShipDefinition
             && float.IsFinite(p.SlopeDegrees) && p.SlopeDegrees >= 0 && p.SlopeDegrees < 85;
         ShipRoleValidation.Validate(this);
         Require(DefaultMainGun is null or "main-laser", "invalid factory primary");
+        Require(WeaponBudget is null || float.IsFinite(WeaponBudget.VolumeBonus) && WeaponBudget.VolumeBonus is >= 0 and <= 20
+            && float.IsFinite(WeaponBudget.SupplyScale) && WeaponBudget.SupplyScale is >= 1 and <= 1.5f
+            && (WeaponBudget.EnlargedSockets ?? Array.Empty<string>()).All(id => !string.IsNullOrWhiteSpace(id))
+            && (WeaponBudget.EnlargedSockets ?? Array.Empty<string>()).Distinct().Count() == (WeaponBudget.EnlargedSockets?.Length ?? 0),
+            "invalid weapon budget");
         Require(Positive(StructureHitPoints), "invalid structure hit points");
         Require(DamageControl is not null && DamageControl.Kits >= 0 && DamageControl.Kits <= 32
             && Positive(DamageControl.RepairSeconds) && Positive(DamageControl.RestoreFraction)

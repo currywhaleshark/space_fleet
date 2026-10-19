@@ -65,11 +65,14 @@ internal static class ComponentComparison
         Row("추가 폐열",a.InstalledEquipment.Sum(m=>m.Equipment.HeatMw),b.InstalledEquipment.Sum(m=>m.Equipment.HeatMw)," MW");
         rows.Add(Costs(a,b));return string.Join("\n",rows);
     }
+    private static string SocketName(WeaponSize size)=>size switch{WeaponSize.Small=>"소형",WeaponSize.Medium=>"중형",WeaponSize.Large=>"대형",_=>"특대"};
     internal static string Upgrade(string id,ShipDefinition a,ShipDefinition b)=>id switch
     {
         "hull"=>$"구조 내구도 {Change(a.StructureHitPoints,b.StructureHitPoints)}",
-        "fire-control"=>$"주포 장전 {Change(a.Railgun?.ReloadSeconds??0,b.Railgun?.ReloadSeconds??0)}초",
-        "reactor"=>$"발전 {Change(a.Power.OutputMw,b.Power.OutputMw)} MW · 냉각 {Change(a.Power.CoolingMw,b.Power.CoolingMw)} MW",
+        "fire-control"=>a.Battery is { } battery
+            ?$"주포 소켓 1 {SocketName(battery.Hardpoints[0].Size)} → {SocketName(MainGunParts.SocketSize(b,b.Battery!.Hardpoints[0]))} · 무장 용적 {Change(MainGunParts.VolumeBudget(a),MainGunParts.VolumeBudget(b))}":"",
+        "reactor"=>a.Battery is null?$"냉각 {Change(a.Power.CoolingMw,b.Power.CoolingMw)} MW"
+            :$"주포 공급 {Change(MainGunParts.Supply(a),MainGunParts.Supply(b))} MW (과충전 ×{MainBatteries.Overcharge(b.Battery!.SupplyRatio):0.00}) · 냉각 {Change(a.Power.CoolingMw,b.Power.CoolingMw)} MW",
         "drive"=>$"전진 / 횡이동 / 제동 (m/s²)\n{Change(a.Flight.ForwardAccel,b.Flight.ForwardAccel)} / {Change(a.Flight.StrafeAccel,b.Flight.StrafeAccel)} / {Change(a.Flight.BrakeAccel,b.Flight.BrakeAccel)}",
         "repair"=>$"응급복구 {Change(a.DamageControl.RepairSeconds,b.DamageControl.RepairSeconds)}초",
         _=>""

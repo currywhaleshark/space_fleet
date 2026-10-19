@@ -17,7 +17,8 @@ static class MainGunPartChecks
     private static string?[] Stock(ShipDefinition d)=>new string?[d.Battery!.Hardpoints.Length];
 
     public static void Run(){Catalog();StockIdentity();Replacements();Rejections();MixedCalibers();CrossSystem();Supply();
-        Console.WriteLine($"PASS: {checks} main gun part checks");}
+        Ceiling();Console.WriteLine($"PASS: {checks} main gun part checks");}
+    public static void RunCeiling(){Ceiling();Console.WriteLine($"PASS: {checks} main gun ceiling checks");}
 
     private static void Catalog()
     {
@@ -129,7 +130,8 @@ static class MainGunPartChecks
         // Raise the weapons channel so only volume binds: 4 + 4 > 3.5 × 2.
         const string power="{\"power\":{\"weapons\":200}}";
         Check(Resolve("escort",null,power).Definition.Power.Weapons==200,"Test hull patch applies");
-        Reject(()=>Resolve("escort",new[]{"earth-rail-m3","earth-rail-m3"},power),"용적 초과","Hull weapon volume");
+        // The T3 gun cruiser holds 7: two triples (4 + 4) exceed it while their 140 MW stays within 1.5x supply.
+        Reject(()=>Resolve("earth_gun_cruiser",new[]{"earth-rail-m3","earth-rail-m3"}),"용적 초과","Hull weapon volume");
         // Volume 4 + 3 = 7 fits; rated 70 + 45 = 115 MW over the 100 MW supply is allowed and reloads slower.
         Check(MainGunParts.Reject(escort,new[]{"earth-rail-m3","earth-rail-m1-hp"}) is null
             &&Near(Resolve("escort",new[]{"earth-rail-m3","earth-rail-m1-hp"}).Definition.Battery!.SupplyRatio,100/115f),"Under-supplied fit installs");
@@ -164,7 +166,7 @@ static class MainGunPartChecks
         Check(d.Railgun!.Rounds==300+240+300&&b.Installations.Select(m=>m.Muzzles.Length).SequenceEqual(new[]{3,2,2}),"Barrels and magazines per socket");
         var world=new SimWorld();var body=world.Add(new ShipBody("MIX",d,Faction.Blue));body.Control=new ShipControl{FlightAssist=false};
         var s=body.Railguns;var st=new ShipBody("REF",stock,Faction.Blue).Railguns[1];
-        float ratio=399f/(190+133+25);
+        float ratio=MainGunParts.Supply(stock)/new[]{"earth-rail-l3","earth-rail-l2","earth-rail-s2"}.Sum(id=>MainGunParts.ById(id).RatedMw);
         Check(Near(b.SupplyRatio,ratio)&&s.All(g=>Near(g.Overcharge,ratio)),"Lighter fit overcharges every socket");
         Check(ShipDefinition.SerializeData(s[1].Definition with{Mounts=null})==ShipDefinition.SerializeData(MainBatteries.Supplied(st.Definition,b.SupplyRatio) with{Mounts=null})
             &&ShipDefinition.SerializeData(s[1].Mount)==ShipDefinition.SerializeData(st.Mount),"Stock socket keeps stock values at the fit's supply");
@@ -239,7 +241,7 @@ static class MainGunPartChecks
         Trial("earth-escort-under","escort",new[]{"earth-rail-m3","earth-rail-m1-hp"},100/115f);
         Trial("mars-escort-rated","mars_escort",new[]{"mars-rail-m1-long",null},1);
         Trial("earth-escort-over","escort",new[]{"earth-rail-m1-hp","earth-rail-s2"},100/70f);
-        Trial("earth-bb-over","battleship",new[]{"earth-rail-l3",null,"earth-rail-s2"},399f/348);
+        Trial("earth-bb-over","battleship",new[]{"earth-rail-l3",null,"earth-rail-s2"},168f/(76+56+25));
         // Lasers: damage rate follows supply to 130%, heat follows the square above rated.
         var laserHull=Resolve("earth_air_defense_cruiser",null).Definition;var stockLaser=laserHull.Battery!.Weapon.Laser!;
         var dim=MainBatteries.Supplied(stockLaser,.8f);var hot=MainBatteries.Supplied(stockLaser,1.5f);
@@ -252,4 +254,65 @@ static class MainGunPartChecks
         if(Directory.Exists(dir))File.WriteAllLines(Path.Combine(dir,"supply_trials.tsv"),rows);
         foreach(var row in rows)Console.WriteLine("  "+row);
     }
+
+    /// <summary>Every part combination a hull can carry at its sockets (null = stock), filtered by the fit rules.</summary>
+    internal static IEnumerable<string?[]> Combos(ShipDefinition hull)
+    {
+        var stock=MainGunParts.StockFor(hull);
+        IEnumerable<string?[]> combos=new[]{Array.Empty<string?>()};
+        for(int i=0;i<hull.Battery!.Hardpoints.Length;i++)
+        {
+            var options=MainGunParts.Candidates(hull,i).Select(p=>p==stock?null:p.Id).ToArray();
+            combos=combos.SelectMany(c=>options.Select(o=>c.Append(o).ToArray()));
+        }
+        return combos.Where(c=>MainGunParts.Reject(hull,c) is null);
+    }
+
+    /// <summary>The hull a player moves to next: same design and branch one tier up; escorts move to the gun cruiser.</summary>
+    private static ShipDefinition? NextTier(ResearchNode node)
+    {
+        var tree=ResearchTree.Catalog;var design=tree.Design(node);
+        var next=tree.Playable.FirstOrDefault(n=>tree.Design(n)==design&&n.Branch==node.Branch&&n.Tier==node.Tier+1)
+            ??tree.Playable.FirstOrDefault(n=>tree.Design(n)==design&&n.ParentId==node.Id&&n.Branch==ShipBranch.GunCruiser);
+        return next is null?null:FleetLoadouts.ResolveFit(FleetLoadouts.Empty(next.HullId!)).Definition;
+    }
+
+    /// <summary>
+    /// Phase 3 ceiling (§7): a hull with every container upgrade and its strongest legal main gun fit does not
+    /// out-shoot the next tier's stock hull in sustained energy per second.
+    /// </summary>
+    private static void Ceiling()
+    {
+        var rows=new List<string>{"hull\ttier\tstock\tupgraded_stock\tbest\tbest_fit\tnext\tnext_stock\tbest/next"};
+        foreach(var node in ResearchTree.Catalog.Playable.OrderBy(n=>n.HullId,StringComparer.Ordinal))
+        {
+            string id=node.HullId!;
+            var stock=FleetLoadouts.ResolveFit(FleetLoadouts.Empty(id)).Definition;
+            if(stock.Battery is null)continue;
+            var all=node.Upgrades.Select(u=>u.Id).ToArray();
+            var upgraded=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>()).Definition;
+            // Lasers and rails do not share a firepower unit; a hull is held to its own system's ceiling.
+            var system=MainGunParts.StockFor(stock).System;
+            float best=0;string bestFit="stock";int combos=0;
+            foreach(var combo in Combos(upgraded))
+            {
+                combos++;
+                if(combo.Any(c=>c is not null&&MainGunParts.ById(c).System!=system))continue;
+                var d=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=combo}).Definition;
+                float e=MainGunParts.SustainedEnergy(d);
+                if(e>best){best=e;bestFit=string.Join("+",combo.Select(c=>c??"stock"));}
+            }
+            Check(combos>0,$"{id}: upgraded stock fit is legal");
+            var next=NextTier(node);float nextStock=next is null?0:MainGunParts.SustainedEnergy(next);
+            float ratio=next is null?0:best/nextStock;
+            rows.Add($"{id}\t{node.Tier}\t{MainGunParts.SustainedEnergy(stock):0}\t{MainGunParts.SustainedEnergy(upgraded):0}\t{best:0}\t{bestFit}\t{next?.Id??"-"}\t{nextStock:0}\t{ratio:0.000}");
+            CeilingRatios[id]=ratio;
+        }
+        string dir=Path.Combine("docs","validation","modular_weapons_phase3_20261020");
+        if(Directory.Exists(dir))File.WriteAllLines(Path.Combine(dir,"ceiling.tsv"),rows);
+        foreach(var row in rows)Console.WriteLine("  "+row);
+        foreach(var (id,ratio) in CeilingRatios)
+            Check(ratio<=1.0001f,$"{id}: fully upgraded best fit {ratio:0.000}x the next tier's stock firepower");
+    }
+    private static readonly Dictionary<string,float> CeilingRatios=new();
 }

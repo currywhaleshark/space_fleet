@@ -55,7 +55,7 @@ public sealed class ResearchCatalog
                     {
                         Require(u is not null&&!string.IsNullOrWhiteSpace(u.Id)&&!string.IsNullOrWhiteSpace(u.Name)&&!string.IsNullOrWhiteSpace(u.Description)&&upgrades.Add(u.Id)&&u.Cost>0
                             &&double.IsFinite(u.MatchBonus)&&u.MatchBonus>=0&&u.MatchBonus<=.15&&u.Patch is not null,"invalid upgrade");
-                        Require(u!.Patch.Count>0&&u.Patch.All(p=>p.Key is "structureHitPoints" or "railgun" or "power" or "flight" or "damageControl"),"upgrade schema");
+                        Require(u!.Patch.Count>0&&u.Patch.All(p=>p.Key is "structureHitPoints" or "railgun" or "power" or "flight" or "damageControl" or "weaponBudget"),"upgrade schema");
                     }
                     var resolved=Resolve(n.HullId,n.Upgrades.Select(u=>u.Id).ToArray(),Array.Empty<EquipmentMount>());
                     Require(resolved.Definition.Id==hull.Id&&resolved.Definition.ModelId==hull.ModelId,"upgrades cannot change identity/model");
@@ -79,8 +79,8 @@ public sealed class ResearchCatalog
         if(selected.Distinct().Count()!=selected.Count||selected.Any(id=>!node.Upgrades.Any(u=>u.Id==id)))throw new InvalidDataException("잘못된 부품 연구 세팅입니다.");
         var patches=node.Upgrades.Where(u=>selected.Contains(u.Id)).Select(u=>u.Patch.ToJsonString()).ToArray();
         if(ShipVariants.All.FirstOrDefault(v=>v.Node.Id==hull) is { } variant)
-            return ShipLoadouts.Resolve(new(variant.Node.BaseHullId,variant.Node.Patch.ToJsonString(),patches,equipment){Components=components});
-        return ShipLoadouts.Resolve(new(hull,UpgradePatches:patches,Equipment:equipment){Components=components});
+            return ShipLoadouts.Resolve(new(variant.Node.BaseHullId,variant.Node.Patch.ToJsonString(),patches,equipment){Components=components,MainGuns=components?.MainGuns});
+        return ShipLoadouts.Resolve(new(hull,UpgradePatches:patches,Equipment:equipment){Components=components,MainGuns=components?.MainGuns});
     }
     public double Score(ShipFit fit)
     {
@@ -100,8 +100,17 @@ public sealed class ResearchCatalog
 
 public static class ResearchTree
 {
-    public static ResearchCatalog Catalog { get; }=Load();
+    private static ResearchCatalog? _catalog;
+    public static ResearchCatalog Catalog=>_catalog??=Load();
+    /// <summary>Null while the catalog is still loading (its validation resolves hulls).</summary>
+    internal static ResearchCatalog? CatalogOrNull=>_loading?null:Catalog;
+    private static bool _loading;
     private static ResearchCatalog Load()
+    {
+        _loading=true;
+        try{return LoadData();}finally{_loading=false;}
+    }
+    private static ResearchCatalog LoadData()
     {
         string Read(string name){using var stream=typeof(ResearchTree).Assembly.GetManifestResourceStream("SpaceFleet.data.tree."+name+".json")!;using var reader=new StreamReader(stream);return reader.ReadToEnd();}
         return ResearchCatalog.Parse(new[]{Read("earth"),Read("mars")},Read("rules"));

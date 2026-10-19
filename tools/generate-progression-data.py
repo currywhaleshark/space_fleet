@@ -66,11 +66,18 @@ catalog={p.stem:read(str(p.relative_to(ROOT))) for p in (ROOT/'data/ships').glob
 for p in (ROOT/'data/variants').glob('*.json'):
     v=read(str(p.relative_to(ROOT))); catalog[v['id']]=merge(catalog[v['baseHullId']],v['patch'])
 
+SUPPLY=1.08
+def first_socket(d):
+    if 'mainBattery' in d: return d['mainBattery']['hardpoints'][0]['id']
+    gun=d['railgun']
+    return gun['mounts'][0]['moduleId'] if gun.get('mounts') else gun['moduleId']
+
 def upgrades(hull,tier):
     d=catalog[hull]; cost=60*tier
     values=[('hull','선체 보강','구조 내구도 +8%',{'structureHitPoints':d['structureHitPoints']*1.08}),
-      ('fire-control','사격통제 개량','주포 재장전 시간 -6%',{'railgun':{'reloadSeconds':d['railgun']['reloadSeconds']*.94}}),
-      ('reactor','반응로 개량','발전·냉각 +5%',{'power':{'outputMw':d['power']['outputMw']*1.05,'coolingMw':d['power']['coolingMw']*1.05}}),
+      # Modular weapons §7: the old reload/output research became container upgrades (same IDs, so saves carry over).
+      ('fire-control','포좌 확장','첫 주포 소켓 한 단계 확대 · 무장 용적 +2',{'weaponBudget':{'volumeBonus':2,'enlargedSockets':[first_socket(d)]}}),
+      ('reactor','주포 전원 개량',f'주포 공급 +{round((SUPPLY-1)*100)}% · 냉각 +15%',{'power':{'coolingMw':d['power']['coolingMw']*1.15},'weaponBudget':{'supplyScale':SUPPLY}}),
       ('drive','추진계 개량','병진 가속 +5%',{'flight':{k:d['flight'][k]*1.05 for k in ['forwardAccel','strafeAccel','brakeAccel']}}),
       ('repair','복구계 개량','응급복구 시간 -8%',{'damageControl':{'repairSeconds':d['damageControl']['repairSeconds']*.92}})]
     return [dict(id=key,name=name,description=desc,cost=cost,matchBonus=.025,patch=patch) for key,name,desc,patch in values]
