@@ -70,7 +70,7 @@ public sealed partial class SimWorld
         status = GunneryStatus.NoTarget;
         if (ship.Damage.Destroyed || target.Damage.Destroyed || target.Faction == ship.Faction) return false;
         if(gun.DefenseTick==Tick){status=gun.DefenseStatus;return false;}
-        if(AutoLaserCooling(ship,gun))
+        if(AutoLaserCooling(ship,gun)||AutoOverchargeHold(ship,gun))
         {status=GunneryStatus.Reload;return false;}
         if (gun.Output <= .01f || !gun.HasAmmunition) { status = GunneryStatus.Reload; return false; }
         SensorTrack track = Sensors.Track(ship.Faction, target);

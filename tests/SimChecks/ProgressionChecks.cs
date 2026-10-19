@@ -142,7 +142,8 @@ static class ProgressionChecks
             Check(a.Select(p=>p.Kind).Order().SequenceEqual(b.Select(p=>p.Kind).Order()),"Participant weight classes match");
             IEnumerable<(MatchWeightClass,int)> Tiers(MatchParticipant[] team)=>team.SelectMany(p=>p.Loadout!.Members.Select((m,i)=>(m.Definition.MatchClass,p.MemberTiers![i]))).Order();
             Check(Tiers(a).SequenceEqual(Tiers(b)),"All member class/tier counts match, including mixed escort slots");
-            Check(Math.Abs(a.Sum(p=>p.MatchPoints)-b.Sum(p=>p.MatchPoints))<.00001,"Full squad research-weighted scores match");
+            // AI fits mirror fitted scores within a tolerance (modular weapons §8).
+            Check(Math.Abs(a.Sum(p=>p.MatchPoints)-b.Sum(p=>p.MatchPoints))<=FitScoreChecks.TeamTolerance*Math.Max(a.Sum(p=>p.MatchPoints),b.Sum(p=>p.MatchPoints)),"Full squad research-weighted scores match");
             Check(match.Participants.SelectMany(p=>p.MemberTiers!).All(t=>t>=match.LowTier&&t<=match.HighTier),"Every actual ship lies inside the global bracket");
             if(tree.ByHull(hull).Tier==1)Check(match.Participants.All(p=>p.Tier==1&&p.Kind==HullKind.Escort),"T1 introductory match contains only starter escorts");
             if(seed==1)

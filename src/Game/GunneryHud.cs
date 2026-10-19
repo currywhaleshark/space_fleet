@@ -120,6 +120,7 @@ public partial class Hud
                 int start = j;
                 while (j + 1 < blind.GetLength(1) && blind[i, j + 1]) j++;
                 float r0 = start * cellPx, r1 = Mathf.Min((j + 1) * cellPx, rTraverse);
+                if (r1 - r0 < 0.5f) continue; // blind cells beyond the traverse circle leave no visible (or a reversed) piece
                 Vector2[] piece = r0 < 0.5f
                     ? new[] { c, c + a0 * r1, c + a1 * r1 }
                     : new[] { c + a0 * r0, c + a0 * r1, c + a1 * r1, c + a1 * r0 };

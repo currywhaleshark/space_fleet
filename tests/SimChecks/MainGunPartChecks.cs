@@ -255,19 +255,6 @@ static class MainGunPartChecks
         foreach(var row in rows)Console.WriteLine("  "+row);
     }
 
-    /// <summary>Every part combination a hull can carry at its sockets (null = stock), filtered by the fit rules.</summary>
-    internal static IEnumerable<string?[]> Combos(ShipDefinition hull)
-    {
-        var stock=MainGunParts.StockFor(hull);
-        IEnumerable<string?[]> combos=new[]{Array.Empty<string?>()};
-        for(int i=0;i<hull.Battery!.Hardpoints.Length;i++)
-        {
-            var options=MainGunParts.Candidates(hull,i).Select(p=>p==stock?null:p.Id).ToArray();
-            combos=combos.SelectMany(c=>options.Select(o=>c.Append(o).ToArray()));
-        }
-        return combos.Where(c=>MainGunParts.Reject(hull,c) is null);
-    }
-
     /// <summary>The hull a player moves to next: same design and branch one tier up; escorts move to the gun cruiser.</summary>
     private static ShipDefinition? NextTier(ResearchNode node)
     {
@@ -294,7 +281,7 @@ static class MainGunPartChecks
             // Lasers and rails do not share a firepower unit; a hull is held to its own system's ceiling.
             var system=MainGunParts.StockFor(stock).System;
             float best=0;string bestFit="stock";int combos=0;
-            foreach(var combo in Combos(upgraded))
+            foreach(var combo in MainGunParts.Combos(upgraded,sameSystem:false))
             {
                 combos++;
                 if(combo.Any(c=>c is not null&&MainGunParts.ById(c).System!=system))continue;

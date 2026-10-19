@@ -44,7 +44,7 @@ static class TierBranchChecks
             Check(match.Player.Loadout!.Leader.Id==d.Id&&match.Participants.Count==20,"Every newly unlocked hull can deploy with its owned default squad");
             var blue=match.Participants.Where(p=>p.Team==Faction.Blue).ToArray();var red=match.Participants.Where(p=>p.Team==Faction.Red).ToArray();
             IEnumerable<(MatchWeightClass,int)> Tiers(MatchParticipant[] team)=>team.SelectMany(p=>p.Loadout!.Members.Select((m,i)=>(m.Definition.MatchClass,p.MemberTiers![i]))).Order();
-            Check(Tiers(blue).SequenceEqual(Tiers(red))&&Math.Abs(blue.Sum(p=>p.MatchPoints)-red.Sum(p=>p.MatchPoints))<.00001,"High-tier opponents mirror member classes, tiers and research score");
+            Check(Tiers(blue).SequenceEqual(Tiers(red))&&Math.Abs(blue.Sum(p=>p.MatchPoints)-red.Sum(p=>p.MatchPoints))<=FitScoreChecks.TeamTolerance*blue.Sum(p=>p.MatchPoints),"High-tier opponents mirror member classes, tiers and research score");
             Check(match.Participants.SelectMany(p=>p.MemberTiers!).All(t=>t>=match.LowTier&&t<=match.HighTier),"New branch ships obey the full squad tier bracket");
             if(d.Branch==ShipBranch.Recon)
             {

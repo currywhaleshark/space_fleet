@@ -52,6 +52,8 @@ public sealed class ShipBody
         Definition = definition ?? ShipDefinitions.For(shipClass);
         Damage = new ShipDamage(Definition, callsign);
         Railguns = System.Array.ConvertAll(Definition.PrimaryMounts, mount => new RailgunState(this, mount));
+        foreach (var gun in Railguns)
+            if (_primaryGun is null || gun.Definition.MaxRange > _primaryGun.Definition.MaxRange) _primaryGun = gun;
         Power = new ShipPower(this);
         Ordnance = new OrdnanceState(this);
         DamageControl = new DamageControlState(this);
@@ -65,7 +67,10 @@ public sealed class ShipBody
     public DamageControlState DamageControl { get; }
     public RailgunState[] Railguns { get; }
     /// <summary>Primary gun for single-gun callers; battery fire uses Railguns.</summary>
-    public RailgunState? Railgun => Railguns.Length > 0 ? Railguns[0] : null;
+    /// <summary>The longest-reaching main gun (the first on ties, so a uniform battery keeps its first mount). AI range and
+    /// ship-level gunnery read it; each turret still fires its own part (§12).</summary>
+    public RailgunState? Railgun => _primaryGun;
+    private readonly RailgunState? _primaryGun;
     public ShipPower Power { get; }
     /// <summary>미사일·디코이 잔량과 재장전.</summary>
     public OrdnanceState Ordnance { get; }

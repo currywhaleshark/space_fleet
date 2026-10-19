@@ -20,6 +20,8 @@ bool telemetry = argsMap.ContainsKey("telemetry");
 string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batch/battle.csv"));
 if(argsMap.ContainsKey("component-trials"))
 { ComponentTrials.Save(output,argsMap.GetValueOrDefault("phase","all"),seeds,jobs,minutes*60,argsMap.ContainsKey("legacy-pd"));return; }
+if(argsMap.ContainsKey("fit-trials"))
+{ FitTrials.Save(output,seeds,argsMap.GetValueOrDefault("leaders","escort,earth_gun_cruiser,battleship,mars_gun_cruiser_t4,mars_battleship_t5").Split(','),jobs,minutes*60);return; }
 if(argsMap.ContainsKey("cruiser-trials")){CruiserTrials.Save(output);return;}
 if(argsMap.ContainsKey("branch-trials")){BranchTrials.Save(output);return;}
 if(argsMap.ContainsKey("long-range-trials")){LongRangeTrials.Save(output);return;}

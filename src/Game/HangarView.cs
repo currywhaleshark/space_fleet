@@ -259,7 +259,7 @@ public partial class HangarView : Control
         if(Host.Hangar.EmptySlots()==0)
         {
             var squad=Host.Hangar.Squadron();var bracket=ResearchTree.Catalog.Bracket(squad);
-            match=$"편대 전력 {squad.Members.Sum(ResearchTree.Catalog.Score):0.##} · 매칭 T{bracket.Low}–{bracket.High}";
+            match=$"편대 전력 {squad.Members.Sum(FitScores.Score):0.##} · 매칭 T{bracket.Low}–{bracket.High}";
         }
         Label(match,new(1076,46,500,24),15,Muted).HorizontalAlignment=HorizontalAlignment.Right;
     }

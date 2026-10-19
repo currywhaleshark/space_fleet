@@ -44,6 +44,13 @@ public sealed class ShipBrain
         Profile = AiProfile.For(ship.Definition);
         _side = fleetSlot % 2 == 0 ? 1f : -1f;
         DefaultPips = ship.Definition.Ai.DefaultPips.ToArray();
+        // A fit drawing more than its main gun supply reloads slowly: lean one pip into weapons (§12).
+        if (ship.Definition.Battery is { SupplyRatio: < .95f } && DefaultPips[(int)PowerChannel.Weapons] < ShipPower.MaxPips)
+        {
+            int donor = Enumerable.Range(0, ShipPower.ChannelCount).Where(i => i != (int)PowerChannel.Weapons && i != (int)PowerChannel.Ecm && DefaultPips[i] > 1)
+                .OrderByDescending(i => DefaultPips[i]).DefaultIfEmpty(-1).First();
+            if (donor >= 0) { DefaultPips[donor]--; DefaultPips[(int)PowerChannel.Weapons]++; }
+        }
     }
 
     public ShipBody Ship { get; }

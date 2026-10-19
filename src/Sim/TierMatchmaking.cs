@@ -32,6 +32,8 @@ public static partial class Matchmaking
     {
         var validated=ValidateResearchLoadout(player,owned,upgrades);var tree=ResearchTree.Catalog;
         var bracket=tree.Bracket(player);var random=new Random(seed);
+        // Fit choices draw from their own stream so the hull/tier lineup for a seed stays as before.
+        var fitRandom=new Random(unchecked(seed*7919+17));
         var pool=tree.Playable.Where(n=>n.Tier>=bracket.Low&&n.Tier<=bracket.High).ToArray();
         ShipDefinition Hull(ResearchNode n)=>ShipDefinitions.ById(n.HullId!);
         ResearchNode Pick(IEnumerable<ResearchNode> candidates){var list=candidates.ToArray();if(list.Length==0)throw new InvalidDataException("이 티어의 편성을 만들 수 없습니다.");return list[random.Next(list.Length)];}
@@ -47,7 +49,9 @@ public static partial class Matchmaking
             for(int i=0;i<hull.Squadron.Members.Count;i++)
             {
                 var node=i==0?leader:Pick(pool.Where(n=>FleetLoadouts.Allows(hull,i,Hull(n))&&(kind!=MatchWeightClass.Large||n.Tier<=leader.Tier)));
-                int count=random.Next(node.Upgrades.Length+1);fits.Add(Fit(node,preset,node.Upgrades.Take(count).Select(u=>u.Id).ToArray()));
+                int count=random.Next(node.Upgrades.Length+1);var fit=Fit(node,preset,node.Upgrades.Take(count).Select(u=>u.Id).ToArray());
+                // AI squads field unlocked main gun mixes too (§8), stock half of the time.
+                fits.Add(fit with{Components=FitScores.RandomParts(fit,fitRandom)});
             }
             return new(fits);
         }
@@ -60,7 +64,9 @@ public static partial class Matchmaking
             for(int i=0;i<source.Members.Count;i++)
             {
                 var old=source.Members[i];var node=i==0?leader:Pick(pool.Where(n=>n.Tier==tree.ByHull(old.HullId).Tier&&FleetLoadouts.Allows(def,i,Hull(n))));
-                var research=node.Upgrades.Take(old.Upgrades?.Count??0).Select(u=>u.Id).ToArray();fits.Add(Fit(node,preset,research));
+                var research=node.Upgrades.Take(old.Upgrades?.Count??0).Select(u=>u.Id).ToArray();var fit=Fit(node,preset,research);
+                // Mirror the member's fitted score, not just its tier and research count.
+                fits.Add(fit with{Components=FitScores.ClosestParts(fit,FitScores.Score(old),fitRandom)});
             }
             return new(fits);
         }
@@ -75,7 +81,7 @@ public static partial class Matchmaking
         void Add(SquadronLoadout fit,Faction team,int slot,bool human)
         {
             var resolved=human?validated:FleetLoadouts.Resolve(fit);
-            participants.Add(new(slot,team,resolved.Leader.Id,human,resolved,fit.Members.Sum(tree.Score),
+            participants.Add(new(slot,team,resolved.Leader.Id,human,resolved,fit.Members.Sum(FitScores.Score),
                 tree.ByHull(resolved.Leader.Id).Tier,Array.AsReadOnly(fit.Members.Select(m=>tree.ByHull(m.HullId).Tier).ToArray())));
         }
         for(int i=0;i<blue.Count;i++)Add(blue[i],Faction.Blue,i+1,i==0);

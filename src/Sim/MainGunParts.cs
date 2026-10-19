@@ -182,6 +182,19 @@ public static class MainGunParts
             && Socket(h, p, SocketSize(hull, h)) is null).OrderBy(p => p == stock ? 0 : 1);
     }
 
+    /// <summary>Every legal per-socket mix (null = stock) on this hull, by default in its stock weapon system only.</summary>
+    public static IEnumerable<string?[]> Combos(ShipDefinition hull, bool sameSystem = true)
+    {
+        var stock = StockFor(hull);
+        IEnumerable<string?[]> combos = new[] { Array.Empty<string?>() };
+        for (int i = 0; i < hull.Battery!.Hardpoints.Length; i++)
+        {
+            var options = Candidates(hull, i).Where(p => !sameSystem || p.System == stock.System).Select(p => p == stock ? null : p.Id).ToArray();
+            combos = combos.SelectMany(c => options.Select(o => c.Append(o).ToArray()));
+        }
+        return combos.Where(c => Reject(hull, c) is null);
+    }
+
     private static float Reach(PrimaryWeaponDefinition w) => w.Railgun?.MaxRange ?? w.Laser!.FalloffMeters;
     private static float R(float actual, float stock) => stock == 0 ? 1 : actual / stock;
 

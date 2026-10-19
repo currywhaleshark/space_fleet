@@ -19,6 +19,7 @@ static class SimChecks
         if(args.Contains("--main-gun-parts")){MainGunPartChecks.Run();return;}
         if(args.Contains("--main-gun-ceiling")){MainGunPartChecks.RunCeiling();return;}
         if(args.Contains("--hull-upgrades")){HullUpgradeChecks.Run();return;}
+        if(args.Contains("--fit-scores")){FitScoreChecks.Run();return;}
         if(args.Contains("--long-range")){LongRangeBalanceChecks.Run();return;}
         if(args.Contains("--engagement")){EngagementChecks.Run();return;}
         if(args.Contains("--engagement-timing")){EngagementTimingChecks.Run();return;}
@@ -77,6 +78,7 @@ static class SimChecks
         MainBatteryChecks.Run();
         MainGunPartChecks.Run();
         HullUpgradeChecks.Run();
+        FitScoreChecks.Run();
         EngagementTimingChecks.Run();
         CheckCombinedG();
         CheckInertialFlight();
