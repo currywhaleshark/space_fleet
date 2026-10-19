@@ -12,8 +12,6 @@ namespace SpaceFleet.Sim;
 /// </summary>
 public static class FitScores
 {
-    /// <summary>Lasers spend energy differently (focus, armour reduction); this converts their rate to rail-equivalent.</summary>
-    public const float LaserEquivalence = 2f;
     // Firepower dominates; protection, point defence, mobility and sensing make up the rest.
     private const double Firepower = .5, Defense = .2, PointDefense = .1, Mobility = .1, Sensing = .1;
     private static readonly ConcurrentDictionary<string, double> Cache = new();
@@ -45,25 +43,7 @@ public static class FitScores
             * Math.Pow(R(Sight(fitted), Sight(stock)), Sensing);
     }
 
-    /// <summary>Sustained main gun output with a mild reach bonus against the stock fit's longest gun.</summary>
-    internal static double Guns(ShipDefinition def, ShipDefinition reference)
-    {
-        if (def.Battery is not { } b) return 0;
-        float ratio = b.SupplyRatio, reach = Reach(reference);
-        double total = 0;
-        for (int i = 0; i < b.Hardpoints.Length; i++)
-        {
-            var w = b.WeaponAt(i);
-            if (w.Laser is { } laser)
-                total += MainBatteries.Supplied(laser, ratio).EnergyPerSecond * LaserEquivalence * Math.Pow(LaserReach(laser) / reach, .25);
-            else if (w.Railgun is { } r)
-                total += r.Energy * MainBatteries.Overcharge(ratio) * w.BarrelCount * Math.Min(ratio, 1) / r.ReloadSeconds * Math.Pow(r.MaxRange / reach, .25);
-        }
-        return total;
-    }
-    private static float LaserReach(LaserDefinition laser) => laser.FalloffMeters * 5;
-    private static float Reach(ShipDefinition def) => def.Battery is not { } b ? 1
-        : Enumerable.Range(0, b.Hardpoints.Length).Select(b.WeaponAt).Max(w => w.Railgun?.MaxRange ?? LaserReach(w.Laser!));
+    internal static double Guns(ShipDefinition def, ShipDefinition reference) => MainGunParts.EffectiveFirepower(def, reference);
     private static double Shields(ShipDefinition d) => d.Shield.Capacity + d.Shield.RechargePerSecond * 30 + d.StructureHitPoints;
     private static double Defence(ShipDefinition d) => d.PointDefense is not { } pd ? 1
         : pd.ShotsPerSecond * pd.EffectiveMissileDamage * Math.Sqrt(pd.RangeMeters) * pd.Mounts.Length;
@@ -71,9 +51,21 @@ public static class FitScores
     private static double Sight(ShipDefinition d) => d.Sensors.Strength / Math.Sqrt(Math.Max(d.Sensors.Signature, 1e-6));
 
     /// <summary>A random fit of main gun parts an AI member may field (stock half the time), within the hull's legal mixes.</summary>
+    /// <summary>Test hook: overrides the AI's chance of keeping stock weapons.</summary>
+    internal static double? StockChanceOverride;
+    /// <summary>Test hook: every AI squad member that can carry this part carries as many as legal; mirrors stay stock.</summary>
+    internal static string? ForcedPart;
     public static ShipComponentSelection? RandomParts(ShipFit fit, Random random, double stockChance = .5)
     {
-        if (random.NextDouble() < stockChance) return null;
+        if (ForcedPart is { } forced)
+        {
+            var h = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
+            if (h.Battery is null) return null;
+            var best = MainGunParts.Combos(h, sameSystem: false).Select(c => (Combo: c, Count: c.Count(p => p == forced)))
+                .Where(x => x.Count > 0).OrderByDescending(x => x.Count).ThenBy(x => x.Combo.Count(p => p is not null)).FirstOrDefault();
+            return best.Combo is null ? null : new ShipComponentSelection { MainGuns = best.Combo };
+        }
+        if (random.NextDouble() < (StockChanceOverride ?? stockChance)) return null;
         var hull = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
         if (hull.Battery is null) return null;
         var combos = MainGunParts.Combos(hull).Where(c => c.Any(p => p is not null)).ToArray();
@@ -81,12 +73,15 @@ public static class FitScores
     }
 
     /// <summary>The legal main gun mix (stock included) whose score is closest to a target, among a random sample.</summary>
-    public static ShipComponentSelection? ClosestParts(ShipFit fit, double target, Random random, int samples = 32)
+    public static ShipComponentSelection? ClosestParts(ShipFit fit, double target, Random random, int samples = 64)
     {
+        if (ForcedPart is not null) return null;
         var hull = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
         double tree = ResearchTree.Catalog.Score(fit);
         if (hull.Battery is null || Math.Abs(tree - target) <= target * 1e-9) return null;
-        var options = MainGunParts.Combos(hull).Where(c => c.Any(p => p is not null)).OrderBy(_ => random.Next()).Take(samples)
+        // Every legal mix when there are few (the usual case), otherwise a random sample.
+        var all = MainGunParts.Combos(hull).Where(c => c.Any(p => p is not null)).ToArray();
+        var options = (all.Length <= samples ? all : all.OrderBy(_ => random.Next()).Take(samples).ToArray())
             .Select(c => new ShipComponentSelection { MainGuns = c }).Prepend(null).ToArray();
         return options.MinBy(o => Math.Abs(tree * Ratio(fit with { Components = o }) - target));
     }

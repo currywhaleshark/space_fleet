@@ -1,0 +1,75 @@
+{
+  "matches": 60,
+  "decidedOrLeading": 60,
+  "blueWins": 35,
+  "redWins": 25,
+  "meanAbsGap": 0.0002,
+  "maxAbsGap": 0.0013,
+  "higherScoreWins": 35,
+  "gapBins": [
+    {
+      "gap": "0.0 %\u20130.5 %",
+      "matches": 60,
+      "higherScoreWins": 35
+    },
+    {
+      "gap": "0.5 %\u20131.0 %",
+      "matches": 0,
+      "higherScoreWins": 0
+    },
+    {
+      "gap": "1.0 %\u20133.0 %",
+      "matches": 0,
+      "higherScoreWins": 0
+    }
+  ],
+  "shipsOnParts": 1306,
+  "ships": 4912,
+  "parts": [
+    {
+      "part": "earth-rail-m1-axial",
+      "ships": 163,
+      "relativeDamage": 12.916
+    },
+    {
+      "part": "mars-rail-m1-axial",
+      "ships": 260,
+      "relativeDamage": 7.819
+    },
+    {
+      "part": "mars-rail-xl1",
+      "ships": 1,
+      "relativeDamage": 5.339
+    },
+    {
+      "part": "earth-rail-m1-hp",
+      "ships": 109,
+      "relativeDamage": 1.661
+    },
+    {
+      "part": "earth-laser-l",
+      "ships": 6,
+      "relativeDamage": 1.594
+    },
+    {
+      "part": "earth-rail-s2",
+      "ships": 121,
+      "relativeDamage": 1.359
+    },
+    {
+      "part": "earth-rail-l3",
+      "ships": 23,
+      "relativeDamage": 1.32
+    },
+    {
+      "part": "earth-rail-m3",
+      "ships": 158,
+      "relativeDamage": 1.312
+    },
+    {
+      "part": "mars-rail-m1-long",
+      "ships": 291,
+      "relativeDamage": 1.246
+    }
+  ]
+}

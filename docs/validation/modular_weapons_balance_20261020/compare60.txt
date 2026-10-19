@@ -1,0 +1,12 @@
+== before: matches 60 blue 34 red 26 gap mean 0.0075 max 0.0309 higher-score wins 27/60 team |log dmg ratio| median 0.226
+== after: matches 60 blue 35 red 25 gap mean 0.0002 max 0.0013 higher-score wins 35/60 team |log dmg ratio| median 0.224
+part                      n0  before    n1   after   (median ship damage vs same hull+research stock, normalised)
+earth-laser-l             17    2.41     6    2.18
+earth-rail-l3             25    2.83    23    2.26
+earth-rail-m1-axial      196    0.00   163    0.00
+earth-rail-m1-hp         131    1.89   109    1.53
+earth-rail-m3            133    1.55   158    1.04
+earth-rail-s2            138    2.62   121    1.76
+mars-rail-m1-axial       259    0.26   260    1.06
+mars-rail-m1-long        346    2.35   291    1.65
+mars-rail-xl1              3    4.86     1    8.60

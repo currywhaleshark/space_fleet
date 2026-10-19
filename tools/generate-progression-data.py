@@ -66,7 +66,7 @@ catalog={p.stem:read(str(p.relative_to(ROOT))) for p in (ROOT/'data/ships').glob
 for p in (ROOT/'data/variants').glob('*.json'):
     v=read(str(p.relative_to(ROOT))); catalog[v['id']]=merge(catalog[v['baseHullId']],v['patch'])
 
-SUPPLY=1.08
+SUPPLY=1.06
 def first_socket(d):
     if 'mainBattery' in d: return d['mainBattery']['hardpoints'][0]['id']
     gun=d['railgun']

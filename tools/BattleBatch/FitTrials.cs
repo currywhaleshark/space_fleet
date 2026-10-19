@@ -10,8 +10,8 @@ using SpaceFleet.Sim;
 /// </summary>
 static class FitTrials
 {
-    sealed record ShipRow(int Seed, string Leader, string Team, string Hull, string Research, string Fit, double Inflicted, bool Destroyed);
-    sealed record MatchRow(int Seed, string Leader, double Blue, double Red, double Gap, string Winner, double Time, int Ships);
+    sealed record ShipRow(int Seed, string Leader, string Team, string Callsign, string Hull, string Research, string Fit, double Inflicted, bool Destroyed, int Shots, double AmmoLeft);
+    sealed record MatchRow(int Seed, string Leader, double Blue, double Red, double Gap, string Winner, double Time, int Ships, double BlueDamage, double RedDamage, int BlueParts);
 
     public static void Save(string output, int[] seeds, string[] leaders, int jobs, double seconds)
     {
@@ -32,7 +32,9 @@ static class FitTrials
             var outcome = world.Rules!.Outcome;
             // Without a decision inside the window, the side with more surviving strength leads.
             string winner = outcome?.Winner?.ToString() ?? Leading(world);
-            matches.Add(new(task.Seed, task.Leader, blue, red, (blue - red) / Math.Max(blue, red), winner, world.Time, world.Ships.Count));
+            double Dealt(Faction f) => world.Ships.Where(b => b.Faction == f).Sum(b => world.Log.Ship(b).ShieldDamageInflicted + world.Log.Ship(b).ModuleDamageInflicted);
+            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && b.Definition.Battery?.SocketWeapons is { } sw && sw.Any(p => p.Id != MainGunParts.StockFor(b.Definition).Id));
+            matches.Add(new(task.Seed, task.Leader, blue, red, (blue - red) / Math.Max(blue, red), winner, world.Time, world.Ships.Count, Dealt(Faction.Blue), Dealt(Faction.Red), blueParts));
             foreach (var body in world.Ships)
             {
                 var log = world.Log.Ship(body); var d = body.Definition; var b = d.Battery;
@@ -45,18 +47,19 @@ static class FitTrials
                 }
                 // Research state, so part fits are compared with stock ships researched the same way.
                 string research = $"{d.StructureHitPoints:0}/{d.WeaponBudget?.VolumeBonus ?? 0:0}/{d.WeaponBudget?.SupplyScale ?? 1:0.00}/{d.Flight.ForwardAccel:0.###}/{d.DamageControl.RepairSeconds:0.##}";
-                ships.Add(new(task.Seed, task.Leader, body.Faction.ToString(), d.Id, research, fit,
-                    log.ShieldDamageInflicted + log.ModuleDamageInflicted, body.Damage.Destroyed));
+                ships.Add(new(task.Seed, task.Leader, body.Faction.ToString(), body.Callsign, d.Id, research, fit,
+                    log.ShieldDamageInflicted + log.ModuleDamageInflicted, body.Damage.Destroyed, log.Rails,
+                    body.Railguns.Where(g => !g.IsLaser).Sum(g => g.Definition.Rounds) is int full && full > 0 ? body.Railguns.Where(g => !g.IsLaser).Sum(g => g.Rounds) / (double)full : 1));
             }
             Console.WriteLine($"fit-trial {task.Leader} seed {task.Seed}: blue {blue:0.00} red {red:0.00} → {winner} at {world.Time:0}s");
         });
         Directory.CreateDirectory(Path.GetDirectoryName(output)!);
         var m = matches.OrderBy(r => r.Leader).ThenBy(r => r.Seed).ToArray();
         var s = ships.OrderBy(r => r.Leader).ThenBy(r => r.Seed).ThenBy(r => r.Team).ThenBy(r => r.Hull).ToArray();
-        File.WriteAllLines(output, new[] { "seed,leader,blue,red,gap,winner,time,ships" }.Concat(m.Select(r =>
-            string.Join(",", r.Seed, r.Leader, F(r.Blue), F(r.Red), F(r.Gap), r.Winner, F(r.Time), r.Ships))));
-        File.WriteAllLines(Path.ChangeExtension(output, ".ships.csv"), new[] { "seed,leader,team,hull,research,fit,inflicted,destroyed" }.Concat(s.Select(r =>
-            string.Join(",", r.Seed, r.Leader, r.Team, r.Hull, r.Research, r.Fit, F(r.Inflicted), r.Destroyed))));
+        File.WriteAllLines(output, new[] { "seed,leader,blue,red,gap,winner,time,ships,blue_damage,red_damage,blue_parts" }.Concat(m.Select(r =>
+            string.Join(",", r.Seed, r.Leader, F(r.Blue), F(r.Red), F(r.Gap), r.Winner, F(r.Time), r.Ships, F(r.BlueDamage), F(r.RedDamage), r.BlueParts))));
+        File.WriteAllLines(Path.ChangeExtension(output, ".ships.csv"), new[] { "seed,leader,team,callsign,hull,research,fit,inflicted,destroyed,shots,ammo_left" }.Concat(s.Select(r =>
+            string.Join(",", r.Seed, r.Leader, r.Team, r.Callsign, r.Hull, r.Research, r.Fit, F(r.Inflicted), r.Destroyed, r.Shots, F(r.AmmoLeft)))));
         File.WriteAllText(Path.ChangeExtension(output, ".summary.json"), JsonSerializer.Serialize(Summary(m, s), new JsonSerializerOptions { WriteIndented = true }));
         Console.WriteLine(File.ReadAllText(Path.ChangeExtension(output, ".summary.json")));
     }

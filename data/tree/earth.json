@@ -39,7 +39,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 60,
           "matchBonus": 0.025,
           "patch": {
@@ -47,7 +47,7 @@
               "coolingMw": 379.49999999999994
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -117,7 +117,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
@@ -125,7 +125,7 @@
               "coolingMw": 379.49999999999994
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -195,7 +195,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 120,
           "matchBonus": 0.025,
           "patch": {
@@ -203,7 +203,7 @@
               "coolingMw": 48.3
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -273,7 +273,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
@@ -281,7 +281,7 @@
               "coolingMw": 379.49999999999994
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -351,7 +351,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
@@ -359,7 +359,7 @@
               "coolingMw": 379.49999999999994
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -429,7 +429,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
@@ -437,7 +437,7 @@
               "coolingMw": 1724.9999999999998
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -507,7 +507,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
@@ -515,7 +515,7 @@
               "coolingMw": 398.47499999999997
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -585,7 +585,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
@@ -593,7 +593,7 @@
               "coolingMw": 418.39874999999995
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -663,7 +663,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
@@ -671,7 +671,7 @@
               "coolingMw": 398.47499999999997
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -741,7 +741,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
@@ -749,7 +749,7 @@
               "coolingMw": 418.39874999999995
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -819,7 +819,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
@@ -827,7 +827,7 @@
               "coolingMw": 1811.2499999999998
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -897,7 +897,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
@@ -905,7 +905,7 @@
               "coolingMw": 50.714999999999996
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -975,7 +975,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
@@ -983,7 +983,7 @@
               "coolingMw": 53.25075
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -1053,7 +1053,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
@@ -1061,7 +1061,7 @@
               "coolingMw": 55.9132875
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -1131,7 +1131,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 180,
           "matchBonus": 0.025,
           "patch": {
@@ -1139,7 +1139,7 @@
               "coolingMw": 50.714999999999996
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -1209,7 +1209,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 240,
           "matchBonus": 0.025,
           "patch": {
@@ -1217,7 +1217,7 @@
               "coolingMw": 53.25075
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },
@@ -1287,7 +1287,7 @@
         {
           "id": "reactor",
           "name": "주포 전원 개량",
-          "description": "주포 공급 +8% · 냉각 +15%",
+          "description": "주포 공급 +6% · 냉각 +15%",
           "cost": 300,
           "matchBonus": 0.025,
           "patch": {
@@ -1295,7 +1295,7 @@
               "coolingMw": 55.9132875
             },
             "weaponBudget": {
-              "supplyScale": 1.08
+              "supplyScale": 1.06
             }
           }
         },

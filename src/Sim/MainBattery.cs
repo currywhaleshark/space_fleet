@@ -73,16 +73,19 @@ public static class MainBatteries
     /// <summary>Surplus supply raises per-shot energy and muzzle speed by up to 30%.</summary>
     public const float MaxOvercharge = 1.3f;
     public static float Overcharge(float supplyRatio) => Mathf.Clamp(supplyRatio, 1, MaxOvercharge);
+    /// <summary>Share of the overcharge that reaches muzzle speed (accuracy); energy takes all of it. +30% → +7.5% speed.</summary>
+    public const float OverchargeSpeedShare = .25f;
+    public static float OverchargeSpeed(float supplyRatio) => 1 + (Overcharge(supplyRatio) - 1) * OverchargeSpeedShare;
 
     /// <summary>
     /// Runtime values at a supply ratio. Under rated: reload stretches by rated ÷ supply, the shot is unchanged.
-    /// Over rated: energy and speed × overcharge (≤1.3), shot heat × overcharge².
+    /// Over rated: energy × overcharge (≤1.3), muzzle speed × a quarter of it, shot heat × overcharge².
     /// </summary>
     public static RailgunDefinition Supplied(RailgunDefinition gun, float supplyRatio)
     {
         if (supplyRatio == 1) return gun;
         float over = Overcharge(supplyRatio), under = Mathf.Min(supplyRatio, 1);
-        return gun with { MuzzleSpeed = gun.MuzzleSpeed * over, Energy = gun.Energy * over,
+        return gun with { MuzzleSpeed = gun.MuzzleSpeed * OverchargeSpeed(supplyRatio), Energy = gun.Energy * over,
             ShotHeatMj = gun.ShotHeatMj * over * over, ReloadSeconds = gun.ReloadSeconds / under };
     }
 

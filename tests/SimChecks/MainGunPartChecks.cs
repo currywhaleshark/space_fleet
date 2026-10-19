@@ -170,7 +170,7 @@ static class MainGunPartChecks
         Check(Near(b.SupplyRatio,ratio)&&s.All(g=>Near(g.Overcharge,ratio)),"Lighter fit overcharges every socket");
         Check(ShipDefinition.SerializeData(s[1].Definition with{Mounts=null})==ShipDefinition.SerializeData(MainBatteries.Supplied(st.Definition,b.SupplyRatio) with{Mounts=null})
             &&ShipDefinition.SerializeData(s[1].Mount)==ShipDefinition.SerializeData(st.Mount),"Stock socket keeps stock values at the fit's supply");
-        Check(s[0].Weapon.Railgun!.Energy==1250&&s[0].Weapon.Railgun.ReloadSeconds==3.4f&&s[2].Weapon.Railgun!.Energy==300
+        Check(s[0].Weapon.Railgun!.Energy==1250&&s[0].Weapon.Railgun.ReloadSeconds==3.1f&&s[2].Weapon.Railgun!.Energy==300
             &&s[2].Weapon.Railgun.MuzzleSpeed==7000&&s[2].Definition.MaxRange==100000,"Each socket compiles its own ballistics");
         Check(s[0].Mount!.YawRate==st.Mount!.YawRate*.8f&&s[2].Mount!.YawRate==st.Mount.YawRate,"Traverse follows the socket's part");
         // Broadside aim clears the forward housings, as in the component firing checks.
@@ -229,7 +229,7 @@ static class MainGunPartChecks
             var rounds=world.Projectiles.Where(p=>p.ModuleId==g.Definition.ModuleId).ToArray();
             float speed=(float)(rounds[0].Velocity-body.Velocity).Length();
             Check(rounds.All(p=>Near(p.Packet.Energy,rated.Energy*over)&&p.Packet.PenetrationMm==rated.PenetrationMm&&p.Packet.ModuleDamage==rated.ModuleDamage)
-                &&Near(speed,rated.MuzzleSpeed*over),$"{name}: energy and speed x overcharge only");
+                &&Near(speed,rated.MuzzleSpeed*MainBatteries.OverchargeSpeed(ratio)),$"{name}: energy x overcharge, speed x a quarter of it");
             float salvoHeat=body.Power.HeatMj-heat;
             Check(MathF.Abs(salvoHeat-rated.ShotHeatMj*over*over*g.BarrelCount)<.5f,$"{name}: heat x overcharge^2 ({salvoHeat})");
             int reload=0;while(!g.Ready&&reload<60*SimWorld.TickRate){foreach(var x in body.Railguns)x.Aim(aim);world.Step();reload++;}
@@ -266,7 +266,7 @@ static class MainGunPartChecks
 
     /// <summary>
     /// Phase 3 ceiling (§7): a hull with every container upgrade and its strongest legal main gun fit does not
-    /// out-shoot the next tier's stock hull in sustained energy per second.
+    /// out-shoot the next tier's stock hull in effective firepower (energy/s weighted by speed, penetration, reach).
     /// </summary>
     private static void Ceiling()
     {
@@ -286,16 +286,16 @@ static class MainGunPartChecks
                 combos++;
                 if(combo.Any(c=>c is not null&&MainGunParts.ById(c).System!=system))continue;
                 var d=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=combo}).Definition;
-                float e=MainGunParts.SustainedEnergy(d);
+                float e=(float)MainGunParts.EffectiveFirepower(d,stock);
                 if(e>best){best=e;bestFit=string.Join("+",combo.Select(c=>c??"stock"));}
             }
             Check(combos>0,$"{id}: upgraded stock fit is legal");
-            var next=NextTier(node);float nextStock=next is null?0:MainGunParts.SustainedEnergy(next);
+            var next=NextTier(node);float nextStock=next is null?0:(float)MainGunParts.EffectiveFirepower(next,next);
             float ratio=next is null?0:best/nextStock;
             rows.Add($"{id}\t{node.Tier}\t{MainGunParts.SustainedEnergy(stock):0}\t{MainGunParts.SustainedEnergy(upgraded):0}\t{best:0}\t{bestFit}\t{next?.Id??"-"}\t{nextStock:0}\t{ratio:0.000}");
             CeilingRatios[id]=ratio;
         }
-        string dir=Path.Combine("docs","validation","modular_weapons_phase3_20261020");
+        string dir=Path.Combine("docs","validation","modular_weapons_balance_20261020");
         if(Directory.Exists(dir))File.WriteAllLines(Path.Combine(dir,"ceiling.tsv"),rows);
         foreach(var row in rows)Console.WriteLine("  "+row);
         foreach(var (id,ratio) in CeilingRatios)

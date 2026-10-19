@@ -45,7 +45,7 @@ static class ComponentChecks
                     if(source.DefaultMainGun is not null)
                         permanent=CruiserTrials.Resolve(source.Id,ResearchTree.Catalog.ByHull(source.Id).Upgrades.Select(u=>u.Patch.ToJsonString())
                             .Append("{\"defaultMainGun\":null}").ToArray()).Definition;
-                    // Permanent research now grows the container (supply 1.08 → overcharge), not the reload.
+                    // Permanent research now grows the container (supply 1.06 → overcharge), not the reload.
                     var researched=new ShipBody("RES",upgraded,Faction.Blue).Railguns[0];var fitted=new ShipBody("FIT",d,Faction.Blue).Railguns[0];
                     Check(upgraded.Battery!.Weapon.Laser is not null ? researched.Laser!.Definition.EnergyPerSecond > fitted.Laser!.Definition.EnergyPerSecond
                         : Math.Abs(upgraded.Railgun!.ReloadSeconds-permanent.Railgun!.ReloadSeconds*part.Effects.Reload)<.0001&&researched.Definition.Energy>fitted.Definition.Energy,

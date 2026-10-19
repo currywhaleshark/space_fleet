@@ -1,0 +1,17 @@
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog��
+stock                       32        0.0     0.967   1.000        13
+earth-rail-m1-hp            32        5.4     0.988   1.021        14     0.030
+earth-rail-m3               32        5.2     0.975   1.008        15     0.029
+earth-rail-s2               32       10.2     0.912   0.943        13    -0.051
+earth-rail-l3               32        1.1     1.005   1.039        14     0.022
+mars-rail-m1-long           32        8.1     1.074   1.110        18     0.127
+earth-rail-m1-axial         32        5.6     0.977   1.010        15     0.002
+mars-rail-m1-axial          32        6.5     0.987   1.020        11     0.022
+
+# 170 mm 장포신 추가 조정(같은 기준선)
+## 장전 2.5초, 사거리 160 km, 탄속 12500
+mars-rail-m1-long           32        8.1     1.065   1.101        20     0.113
+## 탄속 10500(기본과 같음), 장전 2.3초
+mars-rail-m1-long           32        8.1     0.930   0.961        13    -0.022
+## 최종: 탄속 11500, 장전 2.3초, 사거리 160 km
+mars-rail-m1-long           32        8.1     1.007   1.041        17     0.056

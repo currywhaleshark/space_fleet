@@ -123,18 +123,22 @@ public static class MainGunParts
     }
 
     /// <summary>Applied after research and catalog systems. Choosing only stock parts keeps the hull (and its content ID) unchanged.</summary>
+    /// <summary>Test hook: convert every stock battery to explicit socket parts (identical numbers).</summary>
+    internal static bool ForceConversion;
     internal static ShipDefinition Apply(ShipDefinition hull, IReadOnlyList<string?>? choice)
     {
         float scale = hull.WeaponBudget?.SupplyScale ?? 1;
         if (choice is null)
         {
             // A reactor upgrade overcharges even the stock fit, which then needs explicit socket parts.
-            if (scale == 1 || hull.Battery is null) return hull;
+            if (scale == 1 && !ForceConversion || hull.Battery is null) return hull;
             choice = new string?[hull.Battery.Hardpoints.Length];
         }
-        if (Reject(hull, choice) is { } why) throw new InvalidDataException(why);
-        var b = hull.Battery!; var stock = StockFor(hull); var parts = Parts(hull, choice);
-        if (parts.All(p => p == stock) && scale == 1) return hull;
+        // An all-stock choice is always legal (and is resolved while catalogs are still loading).
+        if (choice.Any(id => id is not null) && Reject(hull, choice) is { } why) throw new InvalidDataException(why);
+        if (hull.Battery is null || choice.Count != hull.Battery.Hardpoints.Length) throw new InvalidDataException(Reject(hull, choice) ?? "주포 소켓 수가 맞지 않습니다.");
+        var b = hull.Battery; var stock = StockFor(hull); var parts = Parts(hull, choice);
+        if (parts.All(p => p == stock) && scale == 1 && !ForceConversion) return hull;
         var a = b.Weapon;
         var weapons = new PrimaryWeaponDefinition[parts.Length];
         var installs = new WeaponInstallationDefinition[parts.Length];
@@ -174,6 +178,38 @@ public static class MainGunParts
         return total;
     }
 
+    // Effective firepower (balance pass 2026-10-20): faster rounds hit more often, deeper penetration reaches modules.
+    public const double SpeedExponent = 1, PenetrationExponent = .5, ReachExponent = .25;
+    /// <summary>A laser's energy rate in rail-equivalent units (focus and armour reduction spend it differently).</summary>
+    public const double LaserEquivalence = 2;
+
+    /// <summary>
+    /// Sustained output weighted by what makes rounds land and bite, relative to a reference battery's primary gun:
+    /// Σ energy/s × (speed ÷ ref)^1 × (penetration ÷ ref)^0.5 × (reach ÷ ref)^0.25, at the fit's supply.
+    /// </summary>
+    public static double EffectiveFirepower(ShipDefinition def, ShipDefinition reference)
+    {
+        if (def.Battery is not { } b || reference.Battery is not { } rb) return 0;
+        var r0 = rb.Weapon.Railgun ?? rb.Weapon.Laser!.GeometryAdapter;
+        float refReach = Enumerable.Range(0, rb.Hardpoints.Length).Select(rb.WeaponAt).Max(Reach);
+        float ratio = b.SupplyRatio; double total = 0;
+        for (int i = 0; i < b.Hardpoints.Length; i++)
+        {
+            var w = b.WeaponAt(i);
+            double reach = Math.Pow(Reach(w) / refReach, ReachExponent);
+            if (w.Laser is { } laser)
+            {
+                var l = MainBatteries.Supplied(laser, ratio);
+                total += l.EnergyPerSecond * LaserEquivalence * Math.Pow(l.PenetrationMm / r0.PenetrationMm, PenetrationExponent) * reach;
+            }
+            else if (w.Railgun is { } r)
+                total += r.Energy * MainBatteries.Overcharge(ratio) * w.BarrelCount * MathF.Min(ratio, 1) / r.ReloadSeconds
+                    * Math.Pow(r.MuzzleSpeed * MainBatteries.OverchargeSpeed(ratio) / r0.MuzzleSpeed, SpeedExponent)
+                    * Math.Pow(r.PenetrationMm / r0.PenetrationMm, PenetrationExponent) * reach;
+        }
+        return total;
+    }
+
     /// <summary>Parts a hull could carry at a socket (own design and branch, socket size after upgrades), stock first.</summary>
     public static IEnumerable<MainGunPart> Candidates(ShipDefinition hull, int socket)
     {
@@ -195,7 +231,7 @@ public static class MainGunParts
         return combos.Where(c => Reject(hull, c) is null);
     }
 
-    private static float Reach(PrimaryWeaponDefinition w) => w.Railgun?.MaxRange ?? w.Laser!.FalloffMeters;
+    private static float Reach(PrimaryWeaponDefinition w) => w.Railgun?.MaxRange ?? w.Laser!.FalloffMeters * 5;
     private static float R(float actual, float stock) => stock == 0 ? 1 : actual / stock;
 
     /// <summary>Part value × (hull's actual stock value ÷ stock part value), field by field.</summary>

@@ -46,10 +46,10 @@ static class HullUpgradeChecks
             Check(ShipDefinition.SerializeData(mount.Railgun)==ShipDefinition.SerializeData(stock.Railgun)
                 &&mount.Battery.SocketWeapons is null,$"{id}: socket upgrade alone does not change the stock guns");
             var reactor=Upgraded(id,"reactor");
-            Check(Near(reactor.Battery!.SupplyRatio,1.08f)&&Near(reactor.Power.CoolingMw,stock.Power.CoolingMw*1.15f)
-                &&reactor.Power.OutputMw==stock.Power.OutputMw,$"{id}: 주포 전원 = supply 1.08, cooling 1.15");
+            Check(Near(reactor.Battery!.SupplyRatio,1.06f)&&Near(reactor.Power.CoolingMw,stock.Power.CoolingMw*1.15f)
+                &&reactor.Power.OutputMw==stock.Power.OutputMw,$"{id}: 주포 전원 = supply 1.06, cooling 1.15");
             var body=new ShipBody("R",reactor,Faction.Blue);
-            Check(body.Railguns.All(g=>Near(g.Overcharge,1.08f)),$"{id}: stock guns overcharge with the reactor upgrade");
+            Check(body.Railguns.All(g=>Near(g.Overcharge,1.06f)),$"{id}: stock guns overcharge with the reactor upgrade");
             var all=Upgraded(id,node.Upgrades.Select(u=>u.Id).ToArray());
             Check(all.Battery!.Hardpoints[0].Size==MainGunParts.SocketSize(mount,mount.Battery.Hardpoints[0])
                 &&MainGunParts.SocketSize(all,all.Battery.Hardpoints[0])==all.Battery.Hardpoints[0].Size,$"{id}: a fitted battery is not enlarged twice");
@@ -127,7 +127,7 @@ static class HullUpgradeChecks
                 &&m.Research.SharedComponents[DesignFamily.Mars].SequenceEqual(new[]{"shield-recharge"}),"Per-hull unlocks become design-shared");
             Check(m.Research.HasComponent("earth_gun_cruiser","main-triple")&&!m.Research.HasComponent("mars_gun_cruiser","main-triple"),"Shared unlock reaches other hulls of the design only");
             var escort=FleetLoadouts.ResolveFit(m.Fit(new("escort",0))).Definition;
-            Check(escort.WeaponBudget is {VolumeBonus:2,SupplyScale:1.08f}&&Near(escort.Battery!.SupplyRatio,1.08f),"Migrated research resolves as container upgrades");
+            Check(escort.WeaponBudget is {VolumeBonus:2,SupplyScale:1.06f}&&Near(escort.Battery!.SupplyRatio,1.06f),"Migrated research resolves as container upgrades");
             string saved=HangarStorage.Serialize(m);var again=HangarStorage.Parse(saved);
             Check(again.Version==5&&HangarStorage.Serialize(again)==saved,"v5 save round-trips exactly");
             m.Research.Points[DesignFamily.Earth]=5000;m.Research.GrantPath("earth_gun_cruiser");

@@ -52,42 +52,42 @@
     "id": "earth-rail-m1-hp", "caliberMm": 150, "name": "150mm 단장 고관통 레일건", "system": "Railgun", "size": "Medium", "barrels": 1,
     "volume": 3, "ratedMw": 45, "rounds": 260, "design": "Earth",
     "branches": ["Escort", "GunCruiser"], "minTier": 2, "cost": 120,
-    "railgun": { "muzzleSpeed": 9000, "reloadSeconds": 1.5, "energy": 900, "penetrationMm": 1350, "moduleDamage": 260, "maxRange": 160000,
+    "railgun": { "muzzleSpeed": 9000, "reloadSeconds": 1.8, "energy": 900, "penetrationMm": 1350, "moduleDamage": 260, "maxRange": 160000,
       "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 55, "aimErrorScale": 1 }
   },
   {
     "id": "earth-rail-m3", "caliberMm": 150, "name": "150mm 3연장 레일건", "system": "Railgun", "size": "Medium", "barrels": 3,
     "volume": 4, "ratedMw": 70, "rounds": 360, "design": "Earth", "traverseScale": 0.8,
     "branches": ["Escort", "GunCruiser"], "minTier": 3, "cost": 140,
-    "railgun": { "muzzleSpeed": 8000, "reloadSeconds": 1.6, "energy": 520, "penetrationMm": 760, "moduleDamage": 160, "maxRange": 150000,
+    "railgun": { "muzzleSpeed": 8000, "reloadSeconds": 1.4, "energy": 520, "penetrationMm": 760, "moduleDamage": 160, "maxRange": 150000,
       "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 50, "aimErrorScale": 1 }
   },
   {
     "id": "mars-rail-m1-long", "caliberMm": 170, "name": "170mm 장포신 단장 레일건", "system": "Railgun", "size": "Medium", "barrels": 1,
     "volume": 3.5, "ratedMw": 50, "rounds": 260, "design": "Mars",
     "branches": ["Escort", "GunCruiser", "MissileCruiser"], "minTier": 2, "cost": 130,
-    "railgun": { "muzzleSpeed": 12500, "reloadSeconds": 2.0, "energy": 1000, "penetrationMm": 1500, "moduleDamage": 290, "maxRange": 175000,
+    "railgun": { "muzzleSpeed": 11500, "reloadSeconds": 2.3, "energy": 1000, "penetrationMm": 1500, "moduleDamage": 290, "maxRange": 160000,
       "sensorErrorMeters": 0.385, "sensorErrorPerKm": 0.055, "velocityError": 0.11, "shotHeatMj": 70, "aimErrorScale": 1 }
   },
   {
     "id": "earth-rail-s2", "caliberMm": 100, "name": "100mm 2연장 레일건", "system": "Railgun", "size": "Small", "barrels": 2,
     "volume": 2, "ratedMw": 25, "rounds": 300, "design": "Earth",
     "branches": ["Escort", "GunCruiser", "AirDefenseCruiser", "LineBattleship"], "minTier": 2, "cost": 80,
-    "railgun": { "muzzleSpeed": 7000, "reloadSeconds": 1.6, "energy": 300, "penetrationMm": 500, "moduleDamage": 110, "maxRange": 100000,
+    "railgun": { "muzzleSpeed": 7000, "reloadSeconds": 1.1, "energy": 300, "penetrationMm": 500, "moduleDamage": 110, "maxRange": 100000,
       "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.1, "velocityError": 0.2, "shotHeatMj": 25, "aimErrorScale": 1 }
   },
   {
     "id": "earth-rail-l3", "caliberMm": 240, "name": "240mm 3연장 레일건", "system": "Railgun", "size": "Large", "barrels": 3,
     "volume": 8, "ratedMw": 76, "rounds": 300, "design": "Earth", "traverseScale": 0.8,
     "branches": ["LineBattleship"], "minTier": 5, "cost": 260,
-    "railgun": { "muzzleSpeed": 12000, "reloadSeconds": 3.4, "energy": 1250, "penetrationMm": 1600, "moduleDamage": 270, "maxRange": 250000,
+    "railgun": { "muzzleSpeed": 12000, "reloadSeconds": 3.1, "energy": 1250, "penetrationMm": 1600, "moduleDamage": 270, "maxRange": 250000,
       "sensorErrorMeters": 1, "sensorErrorPerKm": 0.08, "velocityError": 0.15, "shotHeatMj": 260, "aimErrorScale": 1 }
   },
   {
     "id": "mars-rail-xl1", "caliberMm": 320, "name": "320mm 장포신 단장 결전포", "system": "Railgun", "size": "ExtraLarge", "barrels": 1,
     "volume": 12, "ratedMw": 45, "rounds": 120, "design": "Mars", "traverseScale": 0.6,
     "branches": ["LineBattleship"], "minTier": 5, "cost": 300,
-    "railgun": { "muzzleSpeed": 20000, "reloadSeconds": 7.0, "energy": 3600, "penetrationMm": 3200, "moduleDamage": 600, "maxRange": 360000,
+    "railgun": { "muzzleSpeed": 20000, "reloadSeconds": 8.2, "energy": 3600, "penetrationMm": 3200, "moduleDamage": 600, "maxRange": 360000,
       "sensorErrorMeters": 0.55, "sensorErrorPerKm": 0.044, "velocityError": 0.0825, "shotHeatMj": 900, "aimErrorScale": 1.1 }
   },
   {
@@ -101,14 +101,14 @@
     "id": "earth-rail-m1-axial", "caliberMm": 110, "name": "110mm 중형 축선 레일건", "system": "Railgun", "size": "Medium", "barrels": 1,
     "volume": 4, "ratedMw": 14, "rounds": 140, "design": "Earth",
     "branches": ["Interceptor", "Recon"], "minTier": 3, "cost": 160,
-    "railgun": { "muzzleSpeed": 7000, "reloadSeconds": 0.9, "energy": 360, "penetrationMm": 450, "moduleDamage": 170, "maxRange": 90000,
+    "railgun": { "muzzleSpeed": 7000, "reloadSeconds": 1.12, "energy": 360, "penetrationMm": 450, "moduleDamage": 170, "maxRange": 90000,
       "sensorErrorMeters": 0.5, "sensorErrorPerKm": 0.15, "velocityError": 0.3, "shotHeatMj": 12, "aimErrorScale": 1 }
   },
   {
     "id": "mars-rail-m1-axial", "caliberMm": 110, "name": "110mm 중형 축선 레일건(화성)", "system": "Railgun", "size": "Medium", "barrels": 1,
     "volume": 4, "ratedMw": 14, "rounds": 140, "design": "Mars",
     "branches": ["Interceptor", "Assault"], "minTier": 3, "cost": 160,
-    "railgun": { "muzzleSpeed": 7500, "reloadSeconds": 1.0, "energy": 340, "penetrationMm": 470, "moduleDamage": 160, "maxRange": 95000,
+    "railgun": { "muzzleSpeed": 7500, "reloadSeconds": 1.5, "energy": 340, "penetrationMm": 470, "moduleDamage": 160, "maxRange": 95000,
       "sensorErrorMeters": 0.275, "sensorErrorPerKm": 0.0825, "velocityError": 0.165, "shotHeatMj": 12, "aimErrorScale": 1 }
   }
 ]

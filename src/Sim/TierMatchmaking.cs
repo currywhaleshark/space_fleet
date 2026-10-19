@@ -76,7 +76,21 @@ public static partial class Matchmaking
         {var choices=classes.Where(k=>sizes.Count(s=>s==k)<(classes.Length==3?4:MatchLineup.TeamSize)).ToArray();sizes.Add(choices[random.Next(choices.Length)]);}
         var blue=new List<SquadronLoadout>{player};
         foreach(var kind in sizes.Skip(1))blue.Add(Fresh(kind));
-        var red=blue.Select(Counterpart).ToArray();Shuffle(red,0,random);
+        var red=blue.Select(Counterpart).ToArray();
+        // Where a mirror could not reach its member's fitted score (few weaker parts on that side), refit the AI
+        // member instead; the player's own squad is never changed.
+        for(int i=1;i<blue.Count;i++)
+        {
+            var members=blue[i].Members.ToArray();bool changed=false;
+            for(int j=0;j<members.Length;j++)
+            {
+                double target=FitScores.Score(red[i].Members[j]),own=FitScores.Score(members[j]);
+                if(Math.Abs(own-target)<=.02*target)continue;
+                members[j]=members[j] with{Components=FitScores.ClosestParts(members[j] with{Components=null},target,fitRandom)};changed=true;
+            }
+            if(changed)blue[i]=new(members);
+        }
+        Shuffle(red,0,random);
         var participants=new List<MatchParticipant>();
         void Add(SquadronLoadout fit,Faction team,int slot,bool human)
         {

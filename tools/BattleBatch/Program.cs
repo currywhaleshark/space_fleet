@@ -21,7 +21,9 @@ string output = Path.GetFullPath(argsMap.GetValueOrDefault("output", "shots/batc
 if(argsMap.ContainsKey("component-trials"))
 { ComponentTrials.Save(output,argsMap.GetValueOrDefault("phase","all"),seeds,jobs,minutes*60,argsMap.ContainsKey("legacy-pd"));return; }
 if(argsMap.ContainsKey("fit-trials"))
-{ FitTrials.Save(output,seeds,argsMap.GetValueOrDefault("leaders","escort,earth_gun_cruiser,battleship,mars_gun_cruiser_t4,mars_battleship_t5").Split(','),jobs,minutes*60);return; }
+{ if(argsMap.ContainsKey("stock-only"))FitScores.StockChanceOverride=1; if(argsMap.ContainsKey("force-convert"))MainGunParts.ForceConversion=true;
+  if(argsMap.TryGetValue("blue-part",out var bluePart))FitScores.ForcedPart=bluePart;
+  FitTrials.Save(output,seeds,argsMap.GetValueOrDefault("leaders","escort,earth_gun_cruiser,battleship,mars_gun_cruiser_t4,mars_battleship_t5").Split(','),jobs,minutes*60);return; }
 if(argsMap.ContainsKey("cruiser-trials")){CruiserTrials.Save(output);return;}
 if(argsMap.ContainsKey("branch-trials")){BranchTrials.Save(output);return;}
 if(argsMap.ContainsKey("long-range-trials")){LongRangeTrials.Save(output);return;}
