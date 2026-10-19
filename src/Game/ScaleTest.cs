@@ -147,12 +147,17 @@ public partial class ScaleTest : Node3D
 
     private void BuildPlanet()
     {
+        // Drawn as an on-screen disc so the wide battle lens never stretches it into an oval near the edges.
+        var material = new ShaderMaterial { Shader = GD.Load<Shader>("res://shaders/gas_giant_disc.gdshader") };
+        material.SetShaderParameter("radius", PlanetRadius);
         _planet = new MeshInstance3D
         {
             Name = "Planet",
-            Mesh = new SphereMesh { Radius = PlanetRadius, Height = PlanetRadius * 2f, RadialSegments = 128, Rings = 64 },
-            MaterialOverride = new ShaderMaterial { Shader = GD.Load<Shader>("res://shaders/gas_giant.gdshader") },
+            Mesh = new QuadMesh { Size = new Vector2(2, 2) },
+            MaterialOverride = material,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            // The quad is only a carrier: cull with the planet's real extent.
+            CustomAabb = new Aabb(-Vector3.One * PlanetRadius, Vector3.One * PlanetRadius * 2),
             Rotation = new Vector3(0.35f, 0f, 0.25f),
         };
         _worldRoot.AddChild(_planet);
