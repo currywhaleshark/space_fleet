@@ -25,6 +25,7 @@ public partial class WreckView : Node3D
     private (int Piece,Vector3 Position) _mainBlastSite;
     public int PieceCount => _pieces.Count;
     public int VisibleExplosionFlashes => _bursts?.VisibleFlashes??0;
+    public int PointExplosionFlashes => _bursts?.PointFlashes??0;
     public int VisibleExplosionSparks => _bursts?.VisibleSparks??0;
     public int ExplosionPoolSize => _bursts?.PoolSize??0;
     public float MainExplosionAt => _timeline?.GlobalTime??0;

@@ -14,6 +14,7 @@ public partial class ShipView : Node3D
     private IReadOnlyList<Node3D> _plumes = new List<Node3D>();
     private float _plumeLevel;
     private IReadOnlyList<RcsJet> _rcs = new List<RcsJet>();
+    private float _engineVisibility = 1;
     private float[] _rcsLevel = System.Array.Empty<float>();
     private readonly List<(RailgunState Gun, TurretRig Rig, MeshInstance3D[] Flashes)> _batteries = new();
     private sealed class DefenseVisual
@@ -149,15 +150,35 @@ public partial class ShipView : Node3D
         if (_amGlow is not null)
         {
             var am=Body.Ordnance.Antimatter;
-            _amGlow.Visible=!Body.Damage.Destroyed && am.Rounds>0 && (am.Warning || am.Mode is AntimatterMode.Arming or AntimatterMode.Armed);
+            // The same on-screen fade as the engines: the pulsing containment glow is a 2 m panel, and the screen-space
+            // glow otherwise turned it into a large flashing blob on distant (often unidentified) interceptors.
+            _amGlow.Visible=_engineVisibility>0 && !Body.Damage.Destroyed && am.Rounds>0 && (am.Warning || am.Mode is AntimatterMode.Arming or AntimatterMode.Armed);
             Color color=am.Warning ? new Color(1,.12f,.02f) : new Color(.3f,1,1);
-            _amMaterial!.AlbedoColor=color; _amMaterial.Emission=color;
-            _amMaterial.EmissionEnergyMultiplier=am.Mode==AntimatterMode.Armed ? 5 : 2.5f+Mathf.Sin((float)Body.SimTime*8)*1.5f;
+            _amMaterial!.AlbedoColor=color*_engineVisibility; _amMaterial.Emission=color;
+            _amMaterial.EmissionEnergyMultiplier=(am.Mode==AntimatterMode.Armed ? 5 : 2.5f+Mathf.Sin((float)Body.SimTime*8)*1.5f)*_engineVisibility;
         }
     }
 
     public void SyncCombat(SimWorld world,Camera3D camera)
-    { Shield.Sync(this,world); Wreck.Sync(this,_model,camera); }
+    { Shield.Sync(this,world); Wreck.Sync(this,_model,camera); SyncEngineVisibility(camera); }
+
+    /// <summary>
+    /// Plume, RCS and antimatter containment glow brightness by the hull's on-screen length. The screen-space glow spreads every bright additive
+    /// pixel into a halo of fixed pixel size, so without this a ship a few pixels long (far away, often unidentified)
+    /// flashed a white blob as large as a nearby ship's. Full brightness from 24 px of hull, nothing below 2 px.
+    /// </summary>
+    public static float EngineVisibility(float hullPixels) => Mathf.SmoothStep(2f, 24f, hullPixels);
+    public float EngineFxVisibility => _engineVisibility;
+    private void SyncEngineVisibility(Camera3D camera)
+    {
+        float pixels = Body.Class.Length / Mathf.Max(1e-6f, CombatFx.PixelSize(camera, GlobalPosition, 1));
+        float visibility = EngineVisibility(pixels);
+        if (Mathf.Abs(visibility - _engineVisibility) < .01f && visibility is > 0 and < 1) return;
+        if (visibility == _engineVisibility) return;
+        _engineVisibility = visibility;
+        Palette.Plume.SetShaderParameter("visibility", visibility);
+        Palette.RcsPlume.SetShaderParameter("visibility", visibility);
+    }
 
     private void SyncTurrets(float alpha)
     {

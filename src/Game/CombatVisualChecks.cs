@@ -14,6 +14,8 @@ public partial class CombatVisualChecks : Node3D
     public string ShipId { get; init; }="battleship";
     public string PreviewView { get; init; }="hero";
     public float PreviewAge { get; init; }=.12f;
+    /// <summary>Camera distance for the "far" preview (m).</summary>
+    public float PreviewDistance { get; init; }=3_000_000;
     private readonly SimWorld _world=new();
     private ShipView _ship=null!;
     private ShipBody _source=null!;
@@ -139,7 +141,15 @@ public partial class CombatVisualChecks : Node3D
         Vector3 cameraPosition=_camera.Position;
         _camera.Position=new Vector3(0,0,-3000000); Advance(1);
         Check(_ship.Wreck.VisibleExplosionFlashes>0,"Destruction remains visible beyond the normal camera far plane");
-        _camera.Position=cameraPosition;
+        Check(_ship.Wreck.PointExplosionFlashes>0,"A distant destruction flash is drawn as a small crisp point, not an enlarged blur");
+        _camera.Position=cameraPosition; UpdateViews();
+        Check(_ship.Wreck.VisibleExplosionFlashes>0&&_ship.Wreck.PointExplosionFlashes==0,"A close destruction keeps its full fireball");
+        Check(ShipView.EngineVisibility(2)==0&&ShipView.EngineVisibility(60)==1&&ShipView.EngineVisibility(20) is >0 and <1,
+            "Engine glow fades with the hull's on-screen size");
+        _camera.Position=new Vector3(0,0,-3000000); UpdateViews();
+        Check(_ship.EngineFxVisibility==0,"A ship a few pixels long shows no engine or RCS glow");
+        _camera.Position=cameraPosition; UpdateViews();
+        Check(_ship.EngineFxVisibility==1,"A ship filling the view keeps full engine glow");
         _ship.Body.Damage.Reset(); UpdateViews();
         _world.FireRailguns(_ship.Body,Vector3.Forward); Advance(3);
         Check(_ballistics.VisibleTrails>0,"Actual battery fire creates visible rail trails");
@@ -182,7 +192,7 @@ public partial class CombatVisualChecks : Node3D
             else if(Preview=="breakup") _ship.Body.Damage.Breakup(_world.Time,"visual fixture");
             else if(Preview is "shatter" or "far") _ship.Body.Damage.Catastrophe(_world.Time,"visual fixture");
             else Hit(Preview);
-            if(Preview=="far") { _camera.Position=new Vector3(0,0,-3000000); _camera.LookAt(Vector3.Zero); }
+            if(Preview=="far") { _camera.Position=new Vector3(0,0,-PreviewDistance); _camera.LookAt(Vector3.Zero); }
             UpdateViews();
         }
         if(_frame>10) Advance(1);

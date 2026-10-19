@@ -84,7 +84,8 @@ public partial class Main : Node3D
         if(_args.ContainsKey("combat-visual-test") || _args.ContainsKey("fx-preview")) {
             AddChild(new CombatVisualChecks { Preview=_args.GetValueOrDefault("fx-preview"),Output=_args.GetValueOrDefault("shot"),
                 ShipId=_args.GetValueOrDefault("fx-ship","battleship"),PreviewView=_args.GetValueOrDefault("fx-view","hero"),
-                PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f }); return; }
+                PreviewAge=float.TryParse(_args.GetValueOrDefault("fx-age"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float age)?age:.12f,
+                PreviewDistance=float.TryParse(_args.GetValueOrDefault("fx-distance"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out float fxDistance)?fxDistance:3_000_000 }); return; }
         if (_args.ContainsKey("environment-test")) { AddChild(new EnvironmentChecks()); return; }
         if (_args.ContainsKey("model-test")) { AddChild(new ShipModelChecks()); return; }
         if (_args.ContainsKey("am-game-test")) { AddChild(new AntimatterGameChecks()); return; }
