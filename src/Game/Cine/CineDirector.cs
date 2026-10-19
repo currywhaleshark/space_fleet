@@ -185,6 +185,7 @@ public partial class CineDirector : Node3D
                           * new Basis(Vector3.Right, shake * (float)(Math.Sin(n * 1.7 + 1) + Math.Sin(n * 3.1) * 0.5));
         }
         _camera.Transform = new Transform3D(basis, Vector3.Zero);
+        BattleLook.AimViewFill(this, basis);
         _camera.Fov = pose.Fov;
         // 카메라가 놓인 뒤에 게임 연출을 맞춘다(화면 크기 하한·판 방향이 카메라를 쓴다).
         _stage.Ballistics.Sync(_stage.World, origin, _stage.Alpha, _camera, _stage.Views);
@@ -254,8 +255,8 @@ public partial class CineDirector : Node3D
                 RadianceSize = Sky.RadianceSizeEnum.Size256,
             },
             AmbientLightSource = Godot.Environment.AmbientSource.Color,
-            AmbientLightColor = new Color(0.24f, 0.28f, 0.36f),
-            AmbientLightEnergy = 0.32f,
+            AmbientLightColor = new Color(0.26f, 0.31f, 0.4f),
+            AmbientLightEnergy = 0.55f,
             ReflectedLightSource = Godot.Environment.ReflectionSource.Sky,
             TonemapMode = Godot.Environment.ToneMapper.Agx,
             GlowEnabled = true,
@@ -268,17 +269,11 @@ public partial class CineDirector : Node3D
             AdjustmentSaturation = 1.05f,
         };
         AddChild(new WorldEnvironment { Name = "Environment", Environment = env });
-        AddChild(new DirectionalLight3D
+        // 게임과 같은 조명(테두리광·행성 반사광·시점 보조광). 연출은 해만 조금 더 세게, 그림자는 더 멀리.
+        foreach (DirectionalLight3D light in BattleLook.Lights())
         {
-            Name = "Sun", LightEnergy = 2.6f, LightColor = new Color(1f, 0.95f, 0.88f), ShadowEnabled = true,
-            DirectionalShadowMaxDistance = 8000f, DirectionalShadowMode = DirectionalLight3D.ShadowMode.Parallel4Splits,
-            Basis = Basis.LookingAt(new Vector3(-0.75f, -0.35f, -0.35f).Normalized(), Vector3.Up),
-        });
-        AddChild(new DirectionalLight3D
-        {
-            Name = "PlanetFill", LightEnergy = 0.22f, LightColor = new Color(0.55f, 0.62f, 0.85f),
-            SkyMode = DirectionalLight3D.SkyModeEnum.LightOnly,
-            Basis = Basis.LookingAt(new Vector3(0.6f, 0.55f, 0.3f).Normalized(), Vector3.Up),
-        });
+            if (light.Name == "Sun") { light.LightEnergy = 2.6f; light.DirectionalShadowMaxDistance = 8000f; }
+            AddChild(light);
+        }
     }
 }
