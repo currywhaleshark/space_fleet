@@ -158,6 +158,16 @@ public partial class CombatVisualChecks : Node3D
         float normal=CombatFx.PixelSize(_camera,far,2); _camera.Fov=12;
         Check(CombatFx.PixelSize(_camera,far,2)<normal*.3f,"Minimum visual width follows scope FOV, without inflating zoomed rounds");
         var ordnance=new OrdnanceView(); AddChild(ordnance);
+        Check(_world.LaunchDecoys(_ship.Body)>0,"Visual decoy fixture uses an actual decoy launch"); _world.Step();
+        ordnance.Sync(_world,Vec3d.Zero,1,_camera.Position,_camera);
+        var decoy=ordnance.DecoyFlares.First();
+        Check(decoy.Transform.Basis.X.Length()>=OrdnanceView.DecoyFlareMeters*.6f-.01f,"A nearby decoy flare keeps its physical glare size");
+        Vector3 nearCamera=_camera.Position; _camera.Position=decoy.Position+new Vector3(0,0,150000);
+        ordnance.Sync(_world,Vec3d.Zero,1,_camera.Position,_camera);
+        float farPixels=decoy.Transform.Basis.X.Length()/CombatFx.PixelSize(_camera,decoy.Position,1);
+        Check(farPixels<=OrdnanceView.DecoyMinPixels*.25f+.5f,"A distant decoy shrinks instead of keeping a fixed screen size");
+        _camera.Position=nearCamera; for(int i=0;i<60*60&&_world.Decoys.Count>0;i++)_world.Step(); ordnance.Sync(_world,Vec3d.Zero,1,_camera.Position,_camera);
+        Check(_world.Decoys.Count==0&&!ordnance.DecoyFlares.Any(),"Burnt-out decoy flares are removed");
         _source.Ordnance.Antimatter.Jettison(); _world.Step();
         ordnance.Sync(_world,Vec3d.Zero,1,_camera.Position,_camera);
         Check(ordnance.GetChildren().OfType<MeshInstance3D>().Any(m=>m.Visible),"Actual AM jettison emits a visible flash/fragment event");

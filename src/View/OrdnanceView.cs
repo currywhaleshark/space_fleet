@@ -27,7 +27,11 @@ public partial class OrdnanceView : Node3D
     private readonly StandardMaterial3D _blue = Glow(new Color(0.4f, 0.75f, 1f), 3f);
     private readonly StandardMaterial3D _red = Glow(new Color(1f, 0.45f, 0.25f), 3f);
     private readonly StandardMaterial3D _flame = Glow(new Color(1f, 0.85f, 0.6f), 5f, additive: true);
-    private readonly StandardMaterial3D _decoy = Glow(new Color(1f, 0.95f, 0.8f), 8f, additive: true);
+    private static Shader? _decoyShader;
+    /// <summary>디코이 섬광의 실제 지름(m)과 가까울 때의 화면 크기 하한(px). 하한은 3 km 밖부터 거리에 반비례해 줄인다.</summary>
+    public const float DecoyFlareMeters = 40f, DecoyMinPixels = 24f;
+    /// <summary>검사용: 디코이 섬광 노드들.</summary>
+    internal IEnumerable<MeshInstance3D> DecoyFlares => _decoys.Values;
     private readonly StandardMaterial3D _tracer = Glow(new Color(1f, 0.9f, 0.5f), 4f, additive: true);
     private readonly StandardMaterial3D _tracerHit = Glow(new Color(1f, 0.6f, 0.3f), 6f, additive: true);
     private readonly StandardMaterial3D _boom = Glow(new Color(1f, 0.6f, 0.25f), 6f, additive: true);
@@ -88,11 +92,25 @@ public partial class OrdnanceView : Node3D
         {
             active.Add(d.Id);
             if (!_decoys.TryGetValue(d.Id, out MeshInstance3D? flare))
-                _decoys[d.Id] = flare = Make(_sphere, _decoy);
+            {
+                var material = new ShaderMaterial { Shader = _decoyShader ??= GD.Load<Shader>("res://shaders/decoy_flare.gdshader") };
+                material.SetShaderParameter("seed", (d.Id % 97) * 0.37f);
+                _decoys[d.Id] = flare = Make(CombatFx.Quad, material);
+            }
             Vector3 pos = (Vec3d.Lerp(d.PrevPosition, d.Position, alpha) - origin).ToVector3();
             float life = Mathf.Max(0f, 1f - (float)(d.Age / d.Definition.LifetimeSeconds));
-            flare.Position = pos;
-            flare.Scale = Vector3.One * Scale(pos, 2f) * (0.6f + life);
+            var flareMaterial = (ShaderMaterial)flare.MaterialOverride;
+            flareMaterial.SetShaderParameter("life", life);
+            flareMaterial.SetShaderParameter("time", (float)(world.Time % 1000.0));
+            // 섬광 광륜(약 40 m)으로 그리고, 화면 크기 하한은 가까울 때만 둔다. 예전에는 거리에 비례해 키워서
+            // 거리와 무관하게 같은 크기로 보였고 망원에서 크게 부풀었다.
+            float worldSize = DecoyFlareMeters * (0.6f + 0.4f * life);
+            if (camera is null) { flare.Position = pos; flare.Scale = Vector3.One * worldSize; }
+            else
+            {
+                float near = Mathf.Clamp(3000f / Mathf.Max(1f, pos.DistanceTo(camera.GlobalPosition)), 0.25f, 1f);
+                CombatFx.Flare(flare, camera, pos, worldSize, DecoyMinPixels * near);
+            }
         }
         Prune(_decoys, active);
 
@@ -226,6 +244,8 @@ public partial class OrdnanceView : Node3D
     {
         foreach (uint id in nodes.Keys.Where(id => !active.Contains(id)).ToArray())
         {
+            // QueueFree는 프레임 끝에 지우므로, 그때까지 남아 보이지 않게 먼저 숨긴다.
+            if (nodes[id] is Node3D node) node.Visible = false;
             nodes[id].QueueFree();
             nodes.Remove(id);
         }
