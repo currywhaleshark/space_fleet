@@ -123,7 +123,8 @@ public static class ImportedShipModels
         // 흰 표식은 시안처럼 바랜 상아색으로(큰 흰 면이 해를 받아 번쩍이지 않게).
         float shade = name.StartsWith("Markings") ? .45f : .72f;
         m.SetShaderParameter("base_color", new Vector3(c.R, c.G, c.B) * shade);
-        m.SetShaderParameter("metallic_value", source.Metallic);
+        // 검은 우주 하늘을 비추는 금속면은 해를 받아도 어둡다. 금속성을 줄여 확산광으로 형태가 읽히게 한다.
+        m.SetShaderParameter("metallic_value", source.Metallic * BattleLook.HullMetalScale);
         // 평평한 큰 면이 해를 거울처럼 반사해 하얗게 타는 것을 막는다.
         m.SetShaderParameter("roughness_value", Mathf.Max(source.Roughness, .56f));
         m.SetShaderParameter("panel", Mathf.Clamp(length * .011f, .6f, 16f));

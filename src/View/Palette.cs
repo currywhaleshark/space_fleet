@@ -41,7 +41,7 @@ public sealed class Palette
             {
                 AlbedoColor = hull,
                 AlbedoTexture = _panelTexture,
-                Metallic = 0.55f,
+                Metallic = 0.55f * BattleLook.HullMetalScale,
                 Roughness = 0.62f,
                 RoughnessTexture = _panelTexture,
                 Uv1Triplanar = true,
@@ -52,13 +52,13 @@ public sealed class Palette
             {
                 AlbedoColor = hull * 0.9f,
                 VertexColorUseAsAlbedo = true,
-                Metallic = 0.5f,
+                Metallic = 0.5f * BattleLook.HullMetalScale,
                 Roughness = 0.55f,
             },
             Dark = new StandardMaterial3D
             {
                 AlbedoColor = hull * 0.42f,
-                Metallic = 0.6f,
+                Metallic = 0.6f * BattleLook.HullMetalScale,
                 Roughness = 0.45f,
             },
             Light = Emissive(light, 5f),

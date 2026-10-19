@@ -45,6 +45,9 @@ public partial class ModelGallery : Node3D
             "rear" => new Vector3(-0.42f, 0.3f, 1f),
             "front" => new Vector3(0f, 0.08f, -1f),
             "top" => new Vector3(0.001f, 1f, 0.02f),
+            // 조명 검토: 해를 등진 쪽(lit), 아래에서 올려다본 쪽(below). 해는 +X·+Y·+Z 쪽에 있다.
+            "lit" => new Vector3(0.85f, 0.35f, 0.4f),
+            "below" => new Vector3(0.2f, -1f, 0.3f),
             _ => new Vector3(-0.75f, 0.42f, -0.85f),
         };
         var camera = new Camera3D { Fov = 34, Near = Mathf.Max(0.05f, l * 0.002f), Far = l * 40 };
@@ -59,6 +62,7 @@ public partial class ModelGallery : Node3D
             distance = l * 0.32f;
         }
         camera.LookAtFromPosition(focus + dir.Normalized() * distance, focus, View == "top" ? Vector3.Forward : Vector3.Up);
+        BattleLook.AimViewFill(this, camera.Basis);
         camera.MakeCurrent();
         if (Studio)
         {

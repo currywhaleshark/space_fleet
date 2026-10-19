@@ -360,6 +360,7 @@ public partial class ScaleTest : Node3D
             controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
         Camera.AvoidObstacles(World.Obstacles,RenderOrigin,RenderOrigin+Vec3d.From(controlled.Position));
         p = PerfTrace.Begin();
+        BattleLook.AimViewFill(this, Camera.GlobalBasis);
         _audio.SyncListener(RenderOrigin + Vec3d.From(Camera.Position), Camera.GlobalBasis);
         PerfTrace.End("audioListener", p); p = PerfTrace.Begin();
         _ballistics.Sync(World,RenderOrigin,alpha,Camera,Views);
