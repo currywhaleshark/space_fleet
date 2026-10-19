@@ -188,8 +188,15 @@ public partial class ChaseCamera : Camera3D
         return _terrainFraction<1;
     }
 
-    public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta)
+    private ShipDefinition? _opticDefinition;
+    private TelescopeOrbit _opticOrbit;
+
+    public void Follow(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation, float delta,
+        TelescopeOrbit? opticOrbit = null)
     {
+        if (opticOrbit is { } fitted) { _opticOrbit = fitted; _opticDefinition = definition; }
+        else if (!ReferenceEquals(_opticDefinition, definition))
+        { _opticOrbit = TelescopeOrbit.Fit(definition); _opticDefinition = definition; }
         _terrainDelta=Mathf.Clamp(delta,0,.1f);
         _followOrientation = shipOrientation;
         Fov = Mathf.Lerp(Fov, TelescopeHeld ? TelescopeFov : NormalFov, 1 - Mathf.Exp(-delta / .12f));
@@ -240,33 +247,13 @@ public partial class ChaseCamera : Camera3D
         Place(definition, shipPosition, shipOrientation);
     }
 
-    private static Vector3 TelescopeOffset(ShipDefinition definition, Vector3 localAim)
-    {
-        float clearance = Mathf.Max(1, definition.Flight.Length * .01f);
-        Vector3 outward = new Vector3(localAim.X, 0, localAim.Z).Normalized();
-        if (outward.LengthSquared() < .01f) outward = Vector3.Forward;
-        foreach (var section in definition.HullSections)
-            if (section.Id == "bridge")
-            {
-                // A circle outside the bridge's corners stays clear at every azimuth, including astern.
-                float radius = new Vector2(section.HalfSize.X, section.HalfSize.Z).Length() + clearance;
-                return section.Center + Vector3.Up * section.HalfSize.Y * .6f + outward * radius;
-            }
-        // Small craft retain mouse-to-nose flight. Orbit outside their envelope during turn lag.
-        float hullRadius = 0;
-        foreach (var section in definition.HullSections)
-            hullRadius = Mathf.Max(hullRadius, new Vector2(Mathf.Abs(section.Center.X) + section.HalfSize.X,
-                Mathf.Abs(section.Center.Z) + section.HalfSize.Z).Length());
-        return Vector3.Up * definition.Flight.CameraHeight * .25f + outward * (hullRadius + clearance);
-    }
-
     private void Place(ShipDefinition definition, Vector3 shipPosition, Quaternion shipOrientation)
     {
         var shipClass = definition.Flight;
         var offset = new Vector3(0, shipClass.CameraHeight, shipClass.CameraDistance) * _zoom;
         // Cut to the exterior optic instead of interpolating through the ship's superstructure.
         // Orbit horizontally at bridge height; looking down can still naturally reveal/occlude the deck.
-        Vector3 position = TelescopeHeld ? shipOrientation * TelescopeOffset(definition, shipOrientation.Inverse() * AimForward) : _aim * offset;
+        Vector3 position = TelescopeHeld ? shipOrientation * _opticOrbit.Offset(shipOrientation.Inverse() * AimForward) : _aim * offset;
         Transform = new Transform3D(_aim * Basis.FromEuler(VisualRotation), shipPosition + position);
     }
 }

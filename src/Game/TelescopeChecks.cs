@@ -25,11 +25,73 @@ public partial class TelescopeChecks : Node
         foreach(var ship in g.World.Ships) g.World.DetachBrain(ship);
         g._Process(1); return g;
     }
-    public override void _Ready()
+    public override async void _Ready()
     {
-        try { CheckHelm(); CheckPilot(); GD.Print($"PASS: {_checks} telescope interaction checks"); GetTree().Quit(); }
+        try { CheckHullOptics(); CheckHelm(); CheckPilot(); await CaptureOptics(); GD.Print($"PASS: {_checks} telescope interaction checks"); GetTree().Quit(); }
         catch(Exception error) { GD.PushError(error.ToString()); GetTree().Quit(1); }
         finally { Input.ActionRelease(InputSetup.Fire); }
+    }
+    private async System.Threading.Tasks.Task CaptureOptics()
+    {
+        if (!BattleArgs.Parse(OS.GetCmdlineUserArgs()).TryGetValue("telescope-shots",out var folder)) return;
+        System.IO.Directory.CreateDirectory(folder);
+        foreach(string id in new[]{"earth_air_defense_cruiser","mars_missile_cruiser","earth_starter_escort"})
+        {
+            var lineup=new MatchLineup(new[]{new MatchParticipant(1,Faction.Blue,id,true),new MatchParticipant(1,Faction.Red,"escort",false)});
+            var game=new ScaleTest {BattleMode=true,DevMode=false,LaunchControl="B01-1",LaunchConfig=new BattleConfig{Match=lineup}};
+            AddChild(game);game.SetProcess(false);game.SetPhysicsProcess(false);
+            var me=game.Controlled!.Body;int i=0;
+            foreach(var ship in game.World.Ships) {game.World.DetachBrain(ship);ship.Place(new(1e9,++i*10000,0),Quaternion.Identity);ship.Velocity=Vector3.Zero;}
+            me.Place(Vec3d.Zero,Quaternion.Identity);game.Gunnery!.Doctrine=FireDoctrine.Hold;
+            var target=game.Views.First(v=>v.Body.Faction!=me.Faction);
+            var hud=game.GetNode<Hud>("HudLayer/Hud");
+            foreach(var size in new[]{new Vector2I(1600,900),new Vector2I(1280,720)})
+            foreach(float yaw in new[]{0f,180})
+            {
+                GetWindow().Size=size;
+                game.Camera.ResetTelescope();game.Camera.ResetAim(Quaternion.Identity);game.Camera.SetTelescope(true);
+                Vector3 direction=new Quaternion(Vector3.Up,Mathf.DegToRad(yaw))*Vector3.Forward;
+                game.Camera.Observe(direction,Quaternion.Identity);game._Process(1);
+                Check(game.Camera.AimForward.Dot(direction)>.999f,"Rendered scope uses the requested azimuth");
+                game.SelectionHudFixture(target,TrackLevel.Locked,game.Camera.Position+game.Camera.AimForward*6000);
+                game._Process(.016);hud.QueueRedraw();
+                await ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);
+                hud.QueueRedraw();await ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);
+                Check(!game.ScopeHullBlocked,$"{id}: rendered scope clear at {yaw}");
+                string path=System.IO.Path.Combine(folder,$"{id}-{size.X}-{yaw}.png");
+                Check(GetViewport().GetTexture().GetImage().SavePng(path)==Error.Ok,"Scope screenshot saved");
+            }
+            game.Free();
+        }
+    }
+    private void CheckHullOptics()
+    {
+        var camera=new ChaseCamera {Mode=CameraMode.MouseAim}; AddChild(camera);
+        var rotation=new Quaternion(Vector3.Up,.8f)*new Quaternion(Vector3.Forward,.6f);
+        var position=new Vector3(12000,-2000,5000);
+        foreach(var definition in FleetLoadouts.Hulls)
+        {
+            var body=new ShipBody("OPTIC",definition,Faction.Blue);
+            var view=ShipView.Create(body,47); AddChild(view);
+            var boxes=TelescopeOrbit.ModelBounds(view.GetNode<Node3D>("Model")).ToArray();
+            var orbit=view.OpticOrbit;
+            camera.ResetTelescope(); camera.ResetAim(rotation); camera.SetTelescope(true);
+            foreach(float yaw in new[]{0f,30,60,90,120,150,180,210,240,270,300,330})
+            foreach(float pitch in new[]{0f,20,60})
+            {
+                camera.ResetAim(rotation*new Quaternion(Vector3.Up,Mathf.DegToRad(yaw))*new Quaternion(Vector3.Right,Mathf.DegToRad(pitch)));
+                camera.Follow(definition,position,rotation,1,orbit);
+                Vector3 local=rotation.Inverse()*(camera.Position-position);
+                Vector3 ray=rotation.Inverse()*camera.AimForward;
+                Check(!DamageRay.FirstHitAtPose(body,Vec3d.From(local),ray,definition.Flight.Length*2,
+                    Vec3d.Zero,Quaternion.Identity,out _),$"{definition.Id}: damage hull clears scope at {yaw}/{pitch}");
+                Check(!boxes.Any(box=>box.IntersectsSegment(local,local+ray*definition.Flight.Length*2)),
+                    $"{definition.Id}: authored model clears scope at {yaw}/{pitch}");
+            }
+            GD.Print($"Optic {definition.Id}: center={orbit.Center}, radius={orbit.Radius:0.0}");
+            view.Free();
+        }
+        camera.Free();
     }
     private void CheckHelm()
     {

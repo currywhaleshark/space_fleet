@@ -13,7 +13,7 @@ public sealed partial class SimWorld
     /// <summary>An overcharged rail (heat ∝ overcharge²) holds a salvo that would tip the ship into overheat (§12).</summary>
     private static bool AutoOverchargeHold(ShipBody ship,RailgunState gun)=>gun.Laser is null&&gun.Overcharge>1
         &&ship.Power.HeatMj+gun.Definition.ShotHeatMj*gun.SalvoRounds>ship.Definition.Power.HeatCapacityMj*.95f;
-    private bool AutoLaserCooling(ShipBody ship,RailgunState gun)
+    internal bool AutoLaserCooling(ShipBody ship,RailgunState gun)
     {
         if(gun.Laser is not { } laser)return false;
         if(ship.Power.HeatFraction>=.85f)laser.AutoCooling=true;
