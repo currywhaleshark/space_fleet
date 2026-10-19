@@ -90,7 +90,7 @@ public static partial class Matchmaking
         var random = new Random(config.Seed);
         var ships = new List<ShipBody>();
         var flagships = new ShipBody[2];
-        bool headOn = config.Engagement == Engagement.HeadOn;
+        bool headOn = config.Engagement == Engagement.HeadOn && config.Elevation == Elevation.Level;
         // Opening squad centres by role (battleships rear, wings ahead, air-defence screens beside their battleship).
         var roleSlots = new Dictionary<MatchParticipant, Vec3d>();
         foreach (var team in match.Participants.GroupBy(p => p.Team))
@@ -148,6 +148,6 @@ public static partial class Matchmaking
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
         world.Log.Environment.NavigationBuildMs = world.NavigationBuildMilliseconds;
-        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement);
+        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement, config.Elevation);
     }
 }

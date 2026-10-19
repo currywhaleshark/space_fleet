@@ -74,30 +74,30 @@ static class MatchmakingChecks
         Deployments();
         Console.WriteLine($"PASS: {_checks} random matchmaking checks");
     }
-    // Opening geometry (Deployment): seeded mode for matches, role ranks, screens beside battleships, courses.
+    // Opening geometry (Deployment): seeded course x height for matches, role ranks, screens beside battleships.
     private static void Deployments()
     {
-        Require(Deployment.Resolve(new BattleConfig{Seed=3})==Engagement.HeadOn,"Canonical fixture stays head-on");
+        Require(Deployment.Resolve(new BattleConfig{Seed=3})==(Engagement.HeadOn,Elevation.Level),"Canonical fixture stays head-on and level");
         var drawn=Enumerable.Range(1,60).Select(seed=>Deployment.Resolve(new BattleConfig{Seed=seed,Match=Matchmaking.Create(seed,"escort")})).ToArray();
-        Require(Deployment.Modes.All(m=>drawn.Count(d=>d==m)>=6),"Matches draw all four openings");
+        Require(Deployment.Modes.All(m=>Deployment.Heights.All(h=>drawn.Count(d=>d==(m,h))>=4)),"Matches draw all six course/height openings");
         Require(Deployment.Resolve(new BattleConfig{Seed=9,Mirror=true,Match=Matchmaking.Create(9,"escort")})==drawn[8],"Mirror keeps the seed's opening");
         var owned=FleetLoadouts.Hulls.Select(h=>h.Id).ToHashSet();var research=new Dictionary<string,IReadOnlySet<string>>();
+        const double R=150_000;
         foreach(string anchor in new[]{"earth_gun_cruiser","battleship_t5","earth_starter_escort"})
-        foreach(Engagement mode in Deployment.Modes)
+        foreach(Engagement course in Deployment.Modes)
+        foreach(Elevation height in Deployment.Heights)
         foreach(bool mirror in new[]{false,true})
         {
             var match=Matchmaking.CreateTiered(5,FleetLoadouts.Default(anchor),owned,research);
-            var config=new BattleConfig{Seed=5,Mirror=mirror,Match=match,Engagement=mode};
-            var world=new SimWorld();var roster=BattleSetup.Spawn(world,config);
-            string label=$"{anchor}/{mode}/{(mirror?"mirror":"normal")}";
-            Require(roster.Engagement==mode,label+": roster reports its opening");
-            Vec3d Centroid(Faction f)=>world.Ships.Where(s=>s.Faction==f).Aggregate(Vec3d.Zero,(a,s)=>a+s.Position)*(1.0/world.Ships.Count(s=>s.Faction==f));
-            Vec3d blue=Centroid(Faction.Blue),red=Centroid(Faction.Red);
-            Vec3d Line(Faction f)=>world.Ships.Where(s=>s.Faction==f&&s.Class.Kind==HullKind.Battleship).Aggregate(Vec3d.Zero,(a,s)=>a+s.Position)
-                *(1.0/world.Ships.Count(s=>s.Faction==f&&s.Class.Kind==HullKind.Battleship));
+            var world=new SimWorld();var roster=BattleSetup.Spawn(world,new BattleConfig{Seed=5,Mirror=mirror,Match=match,Engagement=course,Elevation=height});
+            string label=$"{anchor}/{course}/{height}/{(mirror?"mirror":"normal")}";
+            Require(roster.Engagement==course&&roster.Elevation==height,label+": roster reports its opening");
+            Vec3d Mean(IEnumerable<ShipBody> ships)=>ships.Aggregate(Vec3d.Zero,(a,s)=>a+s.Position)*(1.0/ships.Count());
+            Vec3d blue=Mean(world.Ships.Where(s=>s.Faction==Faction.Blue)),red=Mean(world.Ships.Where(s=>s.Faction==Faction.Red));
             bool lines=world.Ships.Any(s=>s.Class.Kind==HullKind.Battleship);
-            double range=lines?(Line(Faction.Red)-Line(Faction.Blue)).Length():(red-blue).Length(),slack=lines?.1:.25;
-            Require(range>150_000*(1-slack)&&range<150_000*(1+slack),label+": battle lines open at the requested distance");
+            Vec3d Line(Faction f)=>Mean(world.Ships.Where(s=>s.Faction==f&&s.Class.Kind==HullKind.Battleship));
+            Vec3d separation=lines?Line(Faction.Red)-Line(Faction.Blue):red-blue;double slack=lines?.1:.25;
+            Require(separation.Length()>R*(1-slack)&&separation.Length()<R*(1+slack),label+": battle lines open at the requested distance");
             foreach(Faction team in Enum.GetValues<Faction>())
             {
                 Vec3d enemy=team==Faction.Blue?red:blue;
@@ -109,27 +109,39 @@ static class MatchmakingChecks
                 foreach(var screen in world.Squadrons.Where(q=>q.Faction==team&&q.Role==SquadronRole.AirDefenseSquadron))
                     Require(world.Squadrons.Where(q=>q.Faction==team&&q.Role==SquadronRole.BattleGroup)
                         .Any(g=>(g.Leader!.Position-screen.Leader!.Position).Length()<12_000),label+": air-defence screen opens beside a battleship");
+                // Height: level fleets stay upright; overhead fleets each have the other above their own heads.
+                Vector3 up=world.Ships.First(s=>s.Faction==team).Orientation*Vector3.Up;
+                if(height==Elevation.Level)Require(up.Y>.98f,label+": level fleets fly upright");
+                else Require(Math.Abs(up.Y)>.98f&&(enemy-(team==Faction.Blue?blue:red)).ToVector3().Dot(up)>R*.25,label+": the other fleet is over this fleet's head");
             }
             Vector3 Forward(Faction f)=>world.Ships.First(s=>s.Faction==f).Orientation*Vector3.Forward;
-            Vector3 toRed=(red-blue).ToVector3().Normalized();
-            switch(mode)
+            float alignment=Forward(Faction.Blue).Dot(Forward(Faction.Red));
+            Vector3 toRed=separation.ToVector3().Normalized();
+            switch(course)
             {
-                case Engagement.HeadOn: case Engagement.Vertical:
-                    Require(Forward(Faction.Blue).Dot(toRed)>.98f&&Forward(Faction.Red).Dot(-toRed)>.98f,label+": fleets face each other");break;
-                case Engagement.Parallel:
-                    Require(Forward(Faction.Blue).Dot(Forward(Faction.Red))>.99f&&Math.Abs(Forward(Faction.Blue).Dot(toRed))<.15f,label+": same course, abeam");break;
-                case Engagement.Opposite:
-                    Require(Forward(Faction.Blue).Dot(Forward(Faction.Red))<-.99f&&Forward(Faction.Blue).Dot(toRed)>.7f,label+": opposite courses closing to pass");break;
+                case Engagement.HeadOn:Require(alignment<-.99f,label+": head-on courses are reversed");break;
+                case Engagement.Parallel:Require(alignment>.99f,label+": parallel courses match");break;
+                case Engagement.Opposite:Require(alignment<-.99f&&Forward(Faction.Blue).Dot(toRed)>.7f,label+": opposite courses close to pass");break;
             }
-            if(mode==Engagement.Vertical)Require(Math.Abs(red.Y-blue.Y)>150_000*.35,label+": one fleet opens well above the other");
-            else Require(Math.Abs(red.Y-blue.Y)<10_000,label+": level opening");
+            if(height==Elevation.Level)
+            {
+                Require(Math.Abs(separation.Y)<10_000,label+": level opening");
+                if(course==Engagement.HeadOn)Require(Forward(Faction.Blue).Dot(toRed)>.98f,label+": head-on fleets face each other");
+                if(course==Engagement.Parallel)Require(Math.Abs(Forward(Faction.Blue).Dot(toRed))<.15f,label+": parallel fleets sail abeam");
+            }
+            else
+            {
+                Require(Math.Abs(separation.Y)>R*(lines?.4:.25),label+": one fleet opens above the other");
+                if(course!=Engagement.Opposite)Require(Math.Abs(separation.Y)>R*(lines?.9:.75),label+": head-on and parallel overhead fleets open straight above each other");
+            }
             for(int i=0;i<world.Ships.Count;i++)for(int j=i+1;j<world.Ships.Count;j++)
                 Require((world.Ships[i].Position-world.Ships[j].Position).Length()>60,label+": spawn slots do not overlap");
             for(int i=0;i<240;i++)world.Step();
             Require(world.Ships.All(s=>!s.Damage.Destroyed&&s.Velocity.IsFinite()),label+": opening seconds stay stable");
         }
-        var fixture=new SimWorld();BattleSetup.Spawn(fixture,new BattleConfig{Seed=1,Engagement=Engagement.Opposite});
-        Require(fixture.Ships.Count==24&&Vector3.Right.Dot(fixture.Ships.First(s=>s.Faction==Faction.Blue).Orientation*Vector3.Forward)>.98f,
+        var fixture=new SimWorld();BattleSetup.Spawn(fixture,new BattleConfig{Seed=1,Engagement=Engagement.Opposite,Elevation=Elevation.Overhead});
+        Require(fixture.Ships.Count==24&&Vector3.Right.Dot(fixture.Ships.First(s=>s.Faction==Faction.Blue).Orientation*Vector3.Forward)>.98f
+            &&(fixture.Ships.First(s=>s.Faction==Faction.Red).Orientation*Vector3.Up).Y<-.98f,
             "Explicit opening also applies to the canonical fixture");
     }
 }

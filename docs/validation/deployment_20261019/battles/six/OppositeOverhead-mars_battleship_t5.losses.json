@@ -6,36 +6,35 @@
     "Outcome": {
       "Winner": 0,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 425.95
+      "Time": 374.06666666666666
     },
-    "Destroyed": 35,
+    "Destroyed": 29,
     "Disabled": 0,
-    "Repairs": 31,
+    "Repairs": 5,
     "Causes": {
-      "Structural": 23,
-      "Magazine": 10,
-      "Antimatter": 1,
-      "Reactor": 1
+      "Structural": 16,
+      "Magazine": 8,
+      "Reactor": 5
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
-        "Ships": 3,
-        "Destroyed": 2,
+        "Hull": "mars_battleship_t5",
+        "Ships": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 4
       },
       {
-        "Hull": "earth_gun_cruiser",
-        "Ships": 5,
-        "Destroyed": 2,
+        "Hull": "mars_gun_cruiser",
+        "Ships": 9,
+        "Destroyed": 6,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 0
       },
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 8,
-        "Destroyed": 8,
+        "Destroyed": 6,
         "Disabled": 0,
         "Repairs": 1
       },
@@ -44,7 +43,7 @@
         "Ships": 7,
         "Destroyed": 7,
         "Disabled": 0,
-        "Repairs": 5
+        "Repairs": 0
       },
       {
         "Hull": "mars_gun_cruiser_t5",
@@ -63,9 +62,16 @@
       {
         "Hull": "battleship",
         "Ships": 2,
-        "Destroyed": 2,
+        "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_gun_cruiser",
+        "Ships": 3,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser",
@@ -79,7 +85,7 @@
         "Ships": 4,
         "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "mars_assault_t5",
@@ -112,14 +118,14 @@
       {
         "Hull": "earth_recon_t4",
         "Ships": 4,
-        "Destroyed": 1,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "earth_gun_cruiser_t4",
         "Ships": 3,
-        "Destroyed": 3,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -131,20 +137,6 @@
         "Repairs": 0
       },
       {
-        "Hull": "mars_battleship_t5",
-        "Ships": 1,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 9
-      },
-      {
         "Hull": "mars_gun_cruiser_t4",
         "Ships": 3,
         "Destroyed": 1,
@@ -154,9 +146,9 @@
       {
         "Hull": "interceptor_t3",
         "Ships": 2,
-        "Destroyed": 1,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "interceptor_t4",
@@ -175,9 +167,16 @@
       {
         "Hull": "earth_recon_t5",
         "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 0
       }
     ]
   },
@@ -186,51 +185,52 @@
     "Mirror": true,
     "Ships": 80,
     "Outcome": {
-      "Winner": 1,
+      "Winner": 0,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 289.18333333333334
+      "Time": 348.71666666666664
     },
-    "Destroyed": 23,
-    "Disabled": 0,
-    "Repairs": 5,
+    "Destroyed": 31,
+    "Disabled": 1,
+    "Repairs": 17,
     "Causes": {
-      "Reactor": 4,
-      "Structural": 17,
-      "Magazine": 2
+      "Magazine": 9,
+      "Structural": 16,
+      "Reactor": 5,
+      "Antimatter": 1
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
-        "Ships": 3,
-        "Destroyed": 2,
+        "Hull": "mars_battleship_t5",
+        "Ships": 2,
+        "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 3
       },
       {
-        "Hull": "earth_gun_cruiser",
-        "Ships": 5,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
+        "Hull": "mars_gun_cruiser",
+        "Ships": 9,
+        "Destroyed": 5,
+        "Disabled": 1,
+        "Repairs": 8
       },
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 8,
         "Destroyed": 7,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "mars_missile_cruiser_t5",
         "Ships": 7,
-        "Destroyed": 3,
+        "Destroyed": 6,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_gun_cruiser_t5",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -246,14 +246,21 @@
         "Ships": 2,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 2
+      },
+      {
+        "Hull": "earth_gun_cruiser",
+        "Ships": 3,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser",
         "Ships": 4,
         "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 2
       },
       {
         "Hull": "mars_assault_t4",
@@ -288,7 +295,7 @@
         "Ships": 8,
         "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 1
       },
       {
         "Hull": "earth_recon_t4",
@@ -300,9 +307,9 @@
       {
         "Hull": "earth_gun_cruiser_t4",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 3,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser_t5",
@@ -310,25 +317,11 @@
         "Destroyed": 0,
         "Disabled": 0,
         "Repairs": 0
-      },
-      {
-        "Hull": "mars_battleship_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
-        "Destroyed": 5,
-        "Disabled": 0,
-        "Repairs": 1
       },
       {
         "Hull": "mars_gun_cruiser_t4",
         "Ships": 3,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -356,9 +349,16 @@
       {
         "Hull": "earth_recon_t5",
         "Ships": 2,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 2,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 1
       }
     ]
   },
@@ -367,425 +367,418 @@
     "Mirror": false,
     "Ships": 82,
     "Outcome": {
-      "Winner": 1,
+      "Winner": 0,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 310.4166666666667
+      "Time": 730.4
     },
-    "Destroyed": 32,
-    "Disabled": 1,
-    "Repairs": 26,
+    "Destroyed": 47,
+    "Disabled": 2,
+    "Repairs": 64,
     "Causes": {
-      "Magazine": 7,
-      "Structural": 22,
-      "Antimatter": 2,
-      "Reactor": 1
-    },
-    "Hulls": [
-      {
-        "Hull": "battleship_t5",
-        "Ships": 4,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "earth_gun_cruiser",
-        "Ships": 5,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 6
-      },
-      {
-        "Hull": "earth_air_defense_cruiser",
-        "Ships": 5,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 4
-      },
-      {
-        "Hull": "earth_gun_cruiser_t4",
-        "Ships": 4,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
-        "Destroyed": 4,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_missile_cruiser_t4",
-        "Ships": 3,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_air_defense_cruiser_t4",
-        "Ships": 3,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_air_defense_cruiser_t5",
-        "Ships": 2,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_interceptor_t5",
-        "Ships": 4,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "mars_interceptor_t3",
-        "Ships": 8,
-        "Destroyed": 4,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_assault_t4",
-        "Ships": 4,
-        "Destroyed": 0,
-        "Disabled": 1,
-        "Repairs": 2
-      },
-      {
-        "Hull": "interceptor_t3",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "interceptor_t5",
-        "Ships": 4,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_recon_t3",
-        "Ships": 2,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_interceptor_t4",
-        "Ships": 4,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 4
-      },
-      {
-        "Hull": "mars_assault_t3",
-        "Ships": 9,
-        "Destroyed": 4,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "mars_gun_cruiser_t5",
-        "Ships": 3,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_battleship_t5",
-        "Ships": 2,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "mars_missile_cruiser",
-        "Ships": 3,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_assault_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_gun_cruiser_t5",
-        "Ships": 1,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_recon_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "interceptor_t4",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_recon_t4",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      }
-    ]
-  },
-  {
-    "Seed": 2,
-    "Mirror": true,
-    "Ships": 82,
-    "Outcome": {
-      "Winner": 1,
-      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 386.4
-    },
-    "Destroyed": 39,
-    "Disabled": 1,
-    "Repairs": 23,
-    "Causes": {
-      "Magazine": 7,
-      "Structural": 26,
-      "Antimatter": 3,
-      "Reactor": 3
-    },
-    "Hulls": [
-      {
-        "Hull": "battleship_t5",
-        "Ships": 4,
-        "Destroyed": 2,
-        "Disabled": 1,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_gun_cruiser",
-        "Ships": 5,
-        "Destroyed": 4,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "earth_air_defense_cruiser",
-        "Ships": 5,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_gun_cruiser_t4",
-        "Ships": 4,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "mars_missile_cruiser_t4",
-        "Ships": 3,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "earth_air_defense_cruiser_t4",
-        "Ships": 3,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_air_defense_cruiser_t5",
-        "Ships": 2,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_interceptor_t5",
-        "Ships": 4,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 3
-      },
-      {
-        "Hull": "mars_interceptor_t3",
-        "Ships": 8,
-        "Destroyed": 6,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_assault_t4",
-        "Ships": 4,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "interceptor_t3",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "interceptor_t5",
-        "Ships": 4,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_recon_t3",
-        "Ships": 2,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_interceptor_t4",
-        "Ships": 4,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_assault_t3",
-        "Ships": 9,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser_t5",
-        "Ships": 3,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 7
-      },
-      {
-        "Hull": "mars_battleship_t5",
-        "Ships": 2,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 4
-      },
-      {
-        "Hull": "mars_missile_cruiser",
-        "Ships": 3,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_assault_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_gun_cruiser_t5",
-        "Ships": 1,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_recon_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "interceptor_t4",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "earth_recon_t4",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 0
-      }
-    ]
-  },
-  {
-    "Seed": 3,
-    "Mirror": false,
-    "Ships": 84,
-    "Outcome": {
-      "Winner": 1,
-      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 303.81666666666666
-    },
-    "Destroyed": 35,
-    "Disabled": 1,
-    "Repairs": 26,
-    "Causes": {
-      "Magazine": 5,
-      "Structural": 22,
+      "Magazine": 4,
       "Reactor": 4,
+      "Structural": 35,
       "Antimatter": 4
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
+        "Hull": "mars_battleship_t5",
         "Ships": 3,
-        "Destroyed": 1,
-        "Disabled": 1,
-        "Repairs": 4
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 5
       },
       {
-        "Hull": "earth_gun_cruiser",
+        "Hull": "mars_gun_cruiser",
         "Ships": 9,
-        "Destroyed": 5,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 5
+      },
+      {
+        "Hull": "earth_air_defense_cruiser",
+        "Ships": 5,
+        "Destroyed": 4,
+        "Disabled": 0,
+        "Repairs": 13
+      },
+      {
+        "Hull": "earth_gun_cruiser_t4",
+        "Ships": 4,
+        "Destroyed": 4,
         "Disabled": 0,
         "Repairs": 1
       },
       {
-        "Hull": "mars_gun_cruiser",
+        "Hull": "earth_gun_cruiser",
+        "Ships": 3,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_missile_cruiser_t4",
+        "Ships": 3,
+        "Destroyed": 2,
+        "Disabled": 1,
+        "Repairs": 8
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 3,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 10
+      },
+      {
+        "Hull": "earth_air_defense_cruiser_t4",
+        "Ships": 3,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_air_defense_cruiser_t5",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_interceptor_t5",
+        "Ships": 4,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 6
+      },
+      {
+        "Hull": "mars_interceptor_t3",
+        "Ships": 8,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 4
+      },
+      {
+        "Hull": "mars_assault_t4",
         "Ships": 4,
         "Destroyed": 1,
         "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "interceptor_t3",
+        "Ships": 1,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor_t5",
+        "Ships": 4,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 3
+      },
+      {
+        "Hull": "earth_recon_t3",
+        "Ships": 2,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_interceptor_t4",
+        "Ships": 4,
+        "Destroyed": 1,
+        "Disabled": 1,
+        "Repairs": 2
+      },
+      {
+        "Hull": "mars_assault_t3",
+        "Ships": 9,
+        "Destroyed": 6,
+        "Disabled": 0,
         "Repairs": 4
+      },
+      {
+        "Hull": "mars_gun_cruiser_t5",
+        "Ships": 3,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_missile_cruiser",
+        "Ships": 3,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_assault_t5",
+        "Ships": 1,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_gun_cruiser_t5",
+        "Ships": 1,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_recon_t5",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor_t4",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_recon_t4",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      }
+    ]
+  },
+  {
+    "Seed": 2,
+    "Mirror": true,
+    "Ships": 82,
+    "Outcome": {
+      "Winner": 0,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 345.0333333333333
+    },
+    "Destroyed": 36,
+    "Disabled": 0,
+    "Repairs": 21,
+    "Causes": {
+      "Magazine": 6,
+      "Structural": 25,
+      "Antimatter": 4,
+      "Reactor": 1
+    },
+    "Hulls": [
+      {
+        "Hull": "mars_battleship_t5",
+        "Ships": 3,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_gun_cruiser",
+        "Ships": 9,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 9
+      },
+      {
+        "Hull": "earth_air_defense_cruiser",
+        "Ships": 5,
+        "Destroyed": 4,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_gun_cruiser_t4",
+        "Ships": 4,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_gun_cruiser",
+        "Ships": 3,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_missile_cruiser_t4",
+        "Ships": 3,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 3,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 3
+      },
+      {
+        "Hull": "earth_air_defense_cruiser_t4",
+        "Ships": 3,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_air_defense_cruiser_t5",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_interceptor_t5",
+        "Ships": 4,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 3
+      },
+      {
+        "Hull": "mars_interceptor_t3",
+        "Ships": 8,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 2
+      },
+      {
+        "Hull": "mars_assault_t4",
+        "Ships": 4,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "interceptor_t3",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor_t5",
+        "Ships": 4,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_recon_t3",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_interceptor_t4",
+        "Ships": 4,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_assault_t3",
+        "Ships": 9,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_gun_cruiser_t5",
+        "Ships": 3,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_missile_cruiser",
+        "Ships": 3,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_assault_t5",
+        "Ships": 1,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_gun_cruiser_t5",
+        "Ships": 1,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_recon_t5",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor_t4",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "earth_recon_t4",
+        "Ships": 1,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      }
+    ]
+  },
+  {
+    "Seed": 3,
+    "Mirror": false,
+    "Ships": 84,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uC804\uB825 \uC0C1\uC2E4",
+      "Time": 404.35
+    },
+    "Destroyed": 34,
+    "Disabled": 2,
+    "Repairs": 37,
+    "Causes": {
+      "Structural": 23,
+      "Magazine": 6,
+      "Reactor": 4,
+      "Antimatter": 1
+    },
+    "Hulls": [
+      {
+        "Hull": "mars_battleship_t5",
+        "Ships": 2,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 7
+      },
+      {
+        "Hull": "mars_gun_cruiser",
+        "Ships": 6,
+        "Destroyed": 5,
+        "Disabled": 0,
+        "Repairs": 3
       },
       {
         "Hull": "mars_missile_cruiser_t5",
         "Ships": 2,
-        "Destroyed": 1,
+        "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 3
       },
       {
         "Hull": "mars_gun_cruiser_t4",
@@ -799,7 +792,14 @@
         "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 2
+      },
+      {
+        "Hull": "earth_gun_cruiser",
+        "Ships": 7,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 2
       },
       {
         "Hull": "earth_air_defense_cruiser_t4",
@@ -811,9 +811,16 @@
       {
         "Hull": "earth_air_defense_cruiser",
         "Ships": 5,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 9
       },
       {
         "Hull": "earth_gun_cruiser_t4",
@@ -827,7 +834,7 @@
         "Ships": 2,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 1
       },
       {
         "Hull": "earth_recon_t5",
@@ -853,28 +860,28 @@
       {
         "Hull": "mars_assault_t3",
         "Ships": 9,
-        "Destroyed": 7,
+        "Destroyed": 3,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_interceptor_t5",
         "Ships": 4,
-        "Destroyed": 3,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_assault_t5",
         "Ships": 1,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_interceptor_t4",
         "Ships": 2,
-        "Destroyed": 1,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 2
       },
@@ -883,14 +890,14 @@
         "Ships": 2,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "mars_interceptor_t3",
         "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 2
       },
       {
         "Hull": "earth_air_defense_cruiser_t5",
@@ -904,35 +911,28 @@
         "Ships": 3,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 1
       },
       {
         "Hull": "interceptor_t5",
         "Ships": 3,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
       },
       {
         "Hull": "interceptor_t3",
         "Ships": 1,
-        "Destroyed": 1,
-        "Disabled": 0,
+        "Destroyed": 0,
+        "Disabled": 1,
         "Repairs": 2
       },
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 4,
         "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 8
-      },
-      {
-        "Hull": "mars_battleship_t5",
-        "Ships": 1,
-        "Destroyed": 1,
-        "Disabled": 0,
-        "Repairs": 1
+        "Disabled": 1,
+        "Repairs": 3
       }
     ]
   },
@@ -943,45 +943,38 @@
     "Outcome": {
       "Winner": 1,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 265.45
+      "Time": 327.5833333333333
     },
-    "Destroyed": 29,
+    "Destroyed": 36,
     "Disabled": 0,
-    "Repairs": 18,
+    "Repairs": 26,
     "Causes": {
-      "Reactor": 2,
-      "Structural": 19,
-      "Magazine": 3,
-      "Antimatter": 5
+      "Structural": 31,
+      "Reactor": 1,
+      "Antimatter": 2,
+      "Magazine": 2
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
-        "Ships": 3,
-        "Destroyed": 2,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "earth_gun_cruiser",
-        "Ships": 9,
-        "Destroyed": 5,
-        "Disabled": 0,
-        "Repairs": 0
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 4,
+        "Hull": "mars_battleship_t5",
+        "Ships": 2,
         "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 1
       },
       {
+        "Hull": "mars_gun_cruiser",
+        "Ships": 6,
+        "Destroyed": 4,
+        "Disabled": 0,
+        "Repairs": 4
+      },
+      {
         "Hull": "mars_missile_cruiser_t5",
         "Ships": 2,
-        "Destroyed": 0,
+        "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 1
       },
       {
         "Hull": "mars_gun_cruiser_t4",
@@ -995,7 +988,14 @@
         "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 1
+      },
+      {
+        "Hull": "earth_gun_cruiser",
+        "Ships": 7,
+        "Destroyed": 3,
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser_t4",
@@ -1012,11 +1012,18 @@
         "Repairs": 0
       },
       {
+        "Hull": "battleship_t5",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 4
+      },
+      {
         "Hull": "earth_gun_cruiser_t4",
         "Ships": 4,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 4
       },
       {
         "Hull": "earth_gun_cruiser_t5",
@@ -1049,9 +1056,9 @@
       {
         "Hull": "mars_assault_t3",
         "Ships": 9,
-        "Destroyed": 3,
+        "Destroyed": 4,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "mars_interceptor_t5",
@@ -1063,7 +1070,7 @@
       {
         "Hull": "mars_assault_t5",
         "Ships": 1,
-        "Destroyed": 1,
+        "Destroyed": 0,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -1072,21 +1079,21 @@
         "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 4
       },
       {
         "Hull": "mars_assault_t4",
         "Ships": 2,
-        "Destroyed": 1,
+        "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 4
       },
       {
         "Hull": "mars_interceptor_t3",
         "Ships": 2,
         "Destroyed": 2,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 1
       },
       {
         "Hull": "earth_air_defense_cruiser_t5",
@@ -1105,7 +1112,7 @@
       {
         "Hull": "interceptor_t5",
         "Ships": 3,
-        "Destroyed": 0,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 2
       },
@@ -1114,21 +1121,14 @@
         "Ships": 1,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 0
       },
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 4,
-        "Destroyed": 0,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
-      },
-      {
-        "Hull": "mars_battleship_t5",
-        "Ships": 1,
-        "Destroyed": 0,
-        "Disabled": 0,
-        "Repairs": 2
       }
     ]
   },
@@ -1137,39 +1137,46 @@
     "Mirror": false,
     "Ships": 82,
     "Outcome": {
-      "Winner": 1,
+      "Winner": 0,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 340.3333333333333
+      "Time": 331.4166666666667
     },
-    "Destroyed": 29,
-    "Disabled": 1,
-    "Repairs": 25,
+    "Destroyed": 26,
+    "Disabled": 0,
+    "Repairs": 15,
     "Causes": {
-      "Magazine": 4,
       "Structural": 20,
-      "Reactor": 5
+      "Reactor": 3,
+      "Magazine": 3
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
-        "Ships": 2,
-        "Destroyed": 1,
+        "Hull": "mars_battleship_t5",
+        "Ships": 1,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 1
+      },
+      {
+        "Hull": "mars_gun_cruiser",
+        "Ships": 9,
+        "Destroyed": 4,
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "earth_gun_cruiser",
-        "Ships": 8,
+        "Ships": 6,
         "Destroyed": 5,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 3
       },
       {
         "Hull": "earth_gun_cruiser_t4",
         "Ships": 3,
         "Destroyed": 3,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser_t4",
@@ -1181,13 +1188,6 @@
       {
         "Hull": "earth_gun_cruiser_t5",
         "Ships": 3,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 2
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
         "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
@@ -1197,7 +1197,7 @@
         "Ships": 1,
         "Destroyed": 1,
         "Disabled": 0,
-        "Repairs": 2
+        "Repairs": 1
       },
       {
         "Hull": "mars_missile_cruiser_t4",
@@ -1209,15 +1209,15 @@
       {
         "Hull": "mars_gun_cruiser_t4",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 3,
         "Disabled": 0,
-        "Repairs": 5
+        "Repairs": 3
       },
       {
         "Hull": "mars_battleship",
         "Ships": 3,
         "Destroyed": 1,
-        "Disabled": 1,
+        "Disabled": 0,
         "Repairs": 4
       },
       {
@@ -1251,28 +1251,28 @@
       {
         "Hull": "mars_interceptor_t3",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 0
       },
       {
         "Hull": "mars_assault_t4",
         "Ships": 7,
-        "Destroyed": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 2
       },
       {
         "Hull": "mars_interceptor_t4",
         "Ships": 9,
         "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 3
+        "Repairs": 0
       },
       {
         "Hull": "mars_assault_t3",
         "Ships": 8,
-        "Destroyed": 0,
+        "Destroyed": 3,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -1286,16 +1286,16 @@
       {
         "Hull": "mars_interceptor_t5",
         "Ships": 6,
-        "Destroyed": 0,
+        "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 2,
-        "Destroyed": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 0
+        "Repairs": 1
       },
       {
         "Hull": "earth_air_defense_cruiser_t5",
@@ -1314,7 +1314,14 @@
       {
         "Hull": "mars_missile_cruiser_t5",
         "Ships": 3,
-        "Destroyed": 3,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 1,
+        "Destroyed": 0,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -1334,28 +1341,35 @@
     "Outcome": {
       "Winner": 0,
       "Reason": "\uC804\uB825 \uC0C1\uC2E4",
-      "Time": 368.3
+      "Time": 281.06666666666666
     },
-    "Destroyed": 30,
-    "Disabled": 3,
-    "Repairs": 18,
+    "Destroyed": 20,
+    "Disabled": 0,
+    "Repairs": 5,
     "Causes": {
-      "Structural": 18,
-      "Reactor": 7,
-      "Magazine": 5
+      "Reactor": 3,
+      "Structural": 11,
+      "Magazine": 6
     },
     "Hulls": [
       {
-        "Hull": "battleship_t5",
-        "Ships": 2,
-        "Destroyed": 1,
+        "Hull": "mars_battleship_t5",
+        "Ships": 1,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_gun_cruiser",
+        "Ships": 9,
+        "Destroyed": 2,
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "earth_gun_cruiser",
-        "Ships": 8,
-        "Destroyed": 8,
+        "Ships": 6,
+        "Destroyed": 3,
         "Disabled": 0,
         "Repairs": 1
       },
@@ -1364,7 +1378,7 @@
         "Ships": 3,
         "Destroyed": 3,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
       },
       {
         "Hull": "earth_air_defense_cruiser_t4",
@@ -1376,13 +1390,6 @@
       {
         "Hull": "earth_gun_cruiser_t5",
         "Ships": 3,
-        "Destroyed": 3,
-        "Disabled": 0,
-        "Repairs": 1
-      },
-      {
-        "Hull": "mars_gun_cruiser",
-        "Ships": 7,
         "Destroyed": 2,
         "Disabled": 0,
         "Repairs": 0
@@ -1397,23 +1404,23 @@
       {
         "Hull": "mars_missile_cruiser_t4",
         "Ships": 2,
-        "Destroyed": 2,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_gun_cruiser_t4",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 3,
         "Disabled": 0,
-        "Repairs": 7
+        "Repairs": 0
       },
       {
         "Hull": "mars_battleship",
         "Ships": 3,
         "Destroyed": 1,
-        "Disabled": 1,
-        "Repairs": 2
+        "Disabled": 0,
+        "Repairs": 1
       },
       {
         "Hull": "earth_recon_t3",
@@ -1446,28 +1453,28 @@
       {
         "Hull": "mars_interceptor_t3",
         "Ships": 3,
-        "Destroyed": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 0
       },
       {
         "Hull": "mars_assault_t4",
         "Ships": 7,
-        "Destroyed": 2,
+        "Destroyed": 0,
         "Disabled": 0,
-        "Repairs": 1
+        "Repairs": 2
       },
       {
         "Hull": "mars_interceptor_t4",
         "Ships": 9,
         "Destroyed": 0,
-        "Disabled": 2,
-        "Repairs": 2
+        "Disabled": 0,
+        "Repairs": 0
       },
       {
         "Hull": "mars_assault_t3",
         "Ships": 8,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -1488,7 +1495,7 @@
       {
         "Hull": "mars_missile_cruiser",
         "Ships": 2,
-        "Destroyed": 2,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
@@ -1502,13 +1509,20 @@
       {
         "Hull": "battleship",
         "Ships": 1,
-        "Destroyed": 0,
+        "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0
       },
       {
         "Hull": "mars_missile_cruiser_t5",
         "Ships": 3,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "battleship_t5",
+        "Ships": 1,
         "Destroyed": 1,
         "Disabled": 0,
         "Repairs": 0

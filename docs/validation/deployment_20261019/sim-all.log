@@ -146,7 +146,7 @@ Canonical battle: Blue:0.000/0.000/0.250/88.000/127.421/171.617/182.054/191.901/
   destroyed/disabled 12/24
 Brawl statistics (seeds 1-6): 6/6 battles, brawl s = 60 117 60 90 30 60, outcome s = 571 627 666 681 648 568
 PASS: 66 battle/setup/log/rules checks
-PASS: 90593 random matchmaking checks
+PASS: 128721 random matchmaking checks
 PASS: 21 battle objective checks
 PASS: 26 simulation profiler checks
 PASS: 5608 conservative spatial bounds checks

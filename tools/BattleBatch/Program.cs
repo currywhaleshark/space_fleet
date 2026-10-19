@@ -68,7 +68,8 @@ Parallel.ForEach(tasks, new ParallelOptions { MaxDegreeOfParallelism = jobs }, t
     {
         var world = new SimWorld {CoverCostEnabled=argsMap.GetValueOrDefault("cover-cost","true")!="false"};
         var config = new BattleConfig { Seed = task.Seed, Mirror = task.Mirror, BlueDesign=blueDesign, RedDesign=redDesign, StartDistance=startDistance, Objective = Enum.Parse<BattleObjective>(argsMap.GetValueOrDefault("objective", "Annihilation"), true),Battlefield=battlefield,FieldSeed=fieldSeeds[0],
-            Engagement=Enum.Parse<Engagement>(argsMap.GetValueOrDefault("engagement","Auto"),true) };
+            Engagement=Enum.Parse<Engagement>(argsMap.GetValueOrDefault("engagement","Auto"),true),
+            Elevation=Enum.Parse<Elevation>(argsMap.GetValueOrDefault("elevation","Auto"),true) };
         if (argsMap.TryGetValue("match-hull", out var matchHull))
             config = config with { Match = Matchmaking.Create(task.Seed, matchHull) };
         if(argsMap.TryGetValue("tier-hull",out var tierHull))

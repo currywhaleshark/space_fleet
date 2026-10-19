@@ -13,8 +13,10 @@ public sealed record BattleConfig
     public BattleObjective Objective { get; init; } = BattleObjective.Annihilation;
     public double StartDistance { get; init; } = 150_000;
     public Vector3 RedOffset { get; init; } = Vector3.Zero;
-    // Opening geometry (Deployment). Auto: head-on for the canonical fixture, a seeded draw for matches.
+    // Opening geometry (Deployment): course relation and height relation. Auto: head-on and level for the
+    // canonical fixture, a seeded draw for matches.
     public Engagement Engagement { get; init; } = Engagement.Auto;
+    public Elevation Elevation { get; init; } = Elevation.Auto;
     // Set by Deployment.Apply once StartDistance/RedOffset describe the resolved opening.
     public bool DeploymentApplied { get; init; }
     public bool Mirror { get; init; }
@@ -28,7 +30,8 @@ public sealed record BattleConfig
     public MatchLineup? Match { get; init; }
 }
 
-public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship, Engagement Engagement = Engagement.HeadOn);
+public sealed record BattleRoster(IReadOnlyList<ShipBody> Ships, ShipBody BlueFlagship, ShipBody RedFlagship,
+    Engagement Engagement = Engagement.HeadOn, Elevation Elevation = Elevation.Level);
 
 /// <summary>Canonical game/test fleet placement. Jitter belongs to a spatial squad slot, so mirrors swap the same poses.</summary>
 public static class BattleSetup
@@ -68,7 +71,7 @@ public static class BattleSetup
             throw new ArgumentException("Invalid battle config");
         config = Deployment.Apply(config);
         if (config.Match is not null) return Matchmaking.Spawn(world, config);
-        bool headOn = config.Engagement == Engagement.HeadOn;
+        bool headOn = config.Engagement == Engagement.HeadOn && config.Elevation == Elevation.Level;
         var random = new Random(config.Seed);
         var offsets = new Vec3d[2, 3];
         var headings = new float[2, 3];
@@ -131,6 +134,6 @@ public static class BattleSetup
         world.Sensors.Update(world.Ships, world.Time, force: true);
         world.Log = new BattleLog(world);
         world.Log.Environment.NavigationBuildMs=world.NavigationBuildMilliseconds;
-        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement);
+        return new BattleRoster(ships.AsReadOnly(), flagships[0], flagships[1], config.Engagement, config.Elevation);
     }
 }
