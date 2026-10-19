@@ -61,8 +61,8 @@ public partial class WorldMapOverlay : Control
         _drag = MouseButton.None; _moved = false; _shiftHeld = Input.IsKeyPressed(Key.Shift);
         _pointer = GetViewport().GetMousePosition(); Visible = true; Layout(); QueueRedraw();
     }
-    public void Close() { Visible = false; _drag = MouseButton.None; _shiftHeld = false; }
-    public void CancelInteraction() { _drag = MouseButton.None; _moved = false; _shiftHeld = false; }
+    public void Close() { Visible = false; _drag = MouseButton.None; _shiftHeld = false; CancelProbe(); }
+    public void CancelInteraction() { _drag = MouseButton.None; _moved = false; _shiftHeld = false; CancelProbe(); }
     public void FitAll() => Map.Fit(Contacts().Select(c => c.Position).Concat(Game.ProbeMarkers().Select(p => p.Position))
         .Concat(Game.World.Rules?.CaptureZones.Select(z => z.Position) ?? Enumerable.Empty<Vec3d>()));
     private float Radius => Mathf.Min(_surface.Size.X, _surface.Size.Y) * .46f;
@@ -87,7 +87,8 @@ public partial class WorldMapOverlay : Control
         if (e is InputEventKey shift && (shift.PhysicalKeycode == Key.Shift || shift.Keycode == Key.Shift))
             _shiftHeld = shift.Pressed;
         if (e is InputEventMouse mouseEvent) { _pointer = mouseEvent.Position; _shiftHeld = mouseEvent.ShiftPressed; }
-        if (e.IsActionPressed(InputSetup.WorldMap) || e.IsActionPressed(InputSetup.ReleaseMouse)) CloseRequested?.Invoke();
+        if (HandleProbeInput(e)) { }
+        else if (e.IsActionPressed(InputSetup.WorldMap) || e.IsActionPressed(InputSetup.ReleaseMouse)) CloseRequested?.Invoke();
         else if (e.IsActionPressed(InputSetup.SquadMenu)) Game.OpenMapWingMenu(_selected);
         else if (e is InputEventKey { Pressed: true, Echo: false } key && (key.PhysicalKeycode == Key.Home || key.Keycode == Key.Home)) FitAll();
         else if (e is InputEventMouseButton button)
@@ -99,8 +100,6 @@ public partial class WorldMapOverlay : Control
             {
                 if (button.ButtonIndex is MouseButton.WheelUp or MouseButton.WheelDown)
                     Map.Zoom(button.ButtonIndex == MouseButton.WheelUp ? .8f : 1.25f, Normalized(button.Position));
-                else if (button.ButtonIndex == MouseButton.Left && button.ShiftPressed)
-                { _drag = MouseButton.None; Game.LaunchPlayerProbeAt(Map.ScreenPlane(Normalized(button.Position))); }
                 else if (button.ButtonIndex is MouseButton.Left or MouseButton.Right or MouseButton.Middle)
                 { _drag = button.ButtonIndex; _press = button.Position; _moved = false; }
             }

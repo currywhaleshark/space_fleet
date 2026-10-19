@@ -29,9 +29,9 @@ internal static class BranchTrials
         w.Sensors.Update(w.Ships,0,true);w.EnableCommander(Faction.Blue);w.Log=new BattleLog(w);
         return(w,wing,anchor,target);
     }
-    public static Result Run(string id,double seconds=150)
+    public static Result Run(string id,double seconds=150,double range=42000)
     {
-        var(w,wing,anchor,target)=Fixture(id);double rally=0,minRange=double.MaxValue;
+        var(w,wing,anchor,target)=Fixture(id,range);double rally=0,minRange=double.MaxValue;
         while(w.Time<seconds)
         {
             w.Step();if(wing.Rallying)rally+=SimWorld.TickDelta;

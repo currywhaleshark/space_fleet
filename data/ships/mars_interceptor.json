@@ -125,7 +125,7 @@
   "kind": "Interceptor",
   "reconProbes": {
     "count": 2,
-    "deploymentMeters": 36000,
+    "deploymentMeters": 75000,
     "acceleration": 280,
     "burnSeconds": 7,
     "sensorStrength": 115

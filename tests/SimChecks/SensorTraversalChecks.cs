@@ -11,7 +11,8 @@ static class SensorTraversalChecks
         {
             if(a.Observation is {} x && b.Observation is {} y)
             { Check(x.Observer.Callsign==y.Observer.Callsign,"Sensor winner/tie changed");a=a with { Observation=x with { Observer=y.Observer } }; }
-            Check(a==b,"Sensor signal/position/quality/observation changed");
+            // Merit provenance is not part of the reference traversal; merit checks cover it.
+            Check(a with { CreditSource=null }==b with { CreditSource=null },"Sensor signal/position/quality/observation changed");
         }
         foreach(int count in new[]{12,48})
         foreach(double offset in new[]{0.0,1e12})

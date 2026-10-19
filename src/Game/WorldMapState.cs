@@ -41,6 +41,19 @@ public sealed class WorldMapState
     public Vec3d ScreenPlane(Vector2 normalized) => Center
         + Vec3d.From(View.Inverse() * new Vector3(normalized.X, -normalized.Y, 0)) * HalfSpan;
 
+    /// <summary>Where the cursor ray meets the horizontal plane at world height <paramref name="y"/>; null when the view is edge-on.</summary>
+    public Vec3d? ScreenOnLevel(Vector2 normalized, double y)
+    {
+        Basis inverse = View.Inverse();
+        Vector3 along = inverse * new Vector3(normalized.X, -normalized.Y, 0), depth = inverse * Vector3.Back;
+        if (Mathf.Abs(depth.Y) < .05f) return null;
+        double t = ((y - Center.Y) / HalfSpan - along.Y) / depth.Y;
+        return Center + Vec3d.From(along + depth * (float)t) * HalfSpan;
+    }
+    /// <summary>World metres per screen pixel of vertical cursor travel, for raising or lowering a point.
+    /// A near top-down view is clamped so a small drag cannot jump tens of kilometres.</summary>
+    public double HeightPerPixel(float radiusPixels) => HalfSpan / (radiusPixels * Math.Max(.25, Math.Cos(Pitch)));
+
     public void Pan(Vector2 normalizedDelta) => Center -= ScreenPlane(normalizedDelta) - Center;
     public void Zoom(float factor, Vector2 anchor)
     {

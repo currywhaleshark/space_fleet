@@ -112,8 +112,8 @@ static class ProgressionChecks
             old.SetEquipment("battleship",1,"utility-port","shield-capacity");old.SetSlot(0,"battleship",1);
             string original=HangarStorage.Serialize(old);File.WriteAllText(path,original);
             var loaded=HangarStorage.Load(path,null);
-            Check(loaded.CanSave&&loaded.Profile.Version==3&&loaded.Profile.Owned.Count==12,"Old trial hangar migrates its owned hulls plus starters");
-            Check(loaded.Profile.Hulls["battleship"].Presets[1].Single().EquipmentId=="shield-capacity"&&loaded.Profile.Hulls["battleship"].Squadron[0].Preset==1,"Migration keeps equipment/preset references");
+            Check(loaded.CanSave&&loaded.Profile.Version==4&&loaded.Profile.Owned.Count==12,"Old trial hangar migrates its owned hulls plus starters");
+            Check(loaded.Profile.Hulls["battleship"].Presets[1].Single().EquipmentId=="shield-capacity"&&loaded.Profile.Hulls["battleship"].Squadron[0]?.Preset==1,"Migration keeps equipment/preset references");
             HangarStorage.Save(path,loaded.Profile);
             Check(File.ReadAllText(path+".bak")==original,"First migrated save retains exact v1 backup");
             Check(HangarStorage.Load(path,null).Profile.Research!.Unlocked.Length==12,"Migration is not repeated on v2");

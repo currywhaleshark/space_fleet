@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><Optimize>true</Optimize>
+    <NoWarn>CS8618;CS8602;CS8604;CS0168;CS0219</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup><Root Condition="'$(Root)'==''">$(MSBuildThisFileDirectory)../..</Root></PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GodotSharp"><HintPath>$(Root)/.godot/mono/temp/bin/Debug/GodotSharp.dll</HintPath></Reference>
+    <Compile Include="$(Root)/src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/tree/*.json" LogicalName="SpaceFleet.data.tree.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

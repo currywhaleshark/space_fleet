@@ -85,9 +85,11 @@ static class InterceptorRoleChecks
             Check(ship.Ordnance.Missiles == 4 && ship.Ordnance.Antimatter.Rounds == 3, "All stores independent");
             Step(world, 25);
             double distance = (probe.Position - ship.Position).Length();
-            Check(distance > 20_000 && distance < 40_000, $"Useful deployment by 25 s: {id} {distance:F0}");
-            Step(world, 10);
-            Check(probe.OnStation, $"Probe brakes into its observation area: {id}");
+            Check(distance > 20_000 && distance < 50_000, $"Useful deployment by 25 s, still under way to the far station: {id} {distance:F0}");
+            // A 70-75 km throw reaches station in about 50 s, leaving most of its 120 s battery on station.
+            Step(world, 35);
+            Check(probe.OnStation && Math.Abs((probe.Position - ship.Position).Length() - ship.Definition.ReconProbes!.DeploymentMeters - ship.Hull.BoundingRadius - 4) < 200,
+                $"Probe brakes into its far observation area: {id}");
             Check(world.LaunchProbe(ship, Vector3.Right).Fired, "Second probe uses independent direction");
             world.ResetWeapons();
             Check(ship.Ordnance.Interceptor.Probes == 0 && !world.LaunchProbe(ship, Vector3.Forward).Fired, "Combat reset does not refill probes");
@@ -104,7 +106,8 @@ static class InterceptorRoleChecks
         foreach (var module in scout.Damage.Modules.Where(m => m.Definition.Kind == ModuleKind.Sensor))
             scout.Damage.Hurt(module, module.Health, 0, 0, 1);
         scout.DamageControl.Priority = RepairPriority.Hold;
-        world.LaunchProbe(scout, Vector3.Forward);
+        // Station 30 km ahead, 6 km short of the target (the full throw now reaches 70 km).
+        world.LaunchProbeAt(scout, new Vec3d(0, 0, -30_000));
         Step(world, .5);
         Check(world.Sensors.Track(Faction.Blue, enemy).Level == TrackLevel.None, "Probe does not remotely reveal its destination on launch");
         Step(world, 30);

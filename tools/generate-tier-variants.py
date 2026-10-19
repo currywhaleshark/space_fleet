@@ -64,7 +64,7 @@ for family in ['earth','mars']:
             d['sensors']['strength']*=1.75;d['sensors']['signature']*=.65
             d['antimatter']['rounds']=d['antimatter']['flight']['rounds']=1
             d['reconProbes'].update(count=tier+1,lifetimeSeconds=180+(tier-3)*15,sensorStrength=160+(tier-3)*25,
-                deploymentMeters=36000,acceleration=280,burnSeconds=8)
+                deploymentMeters=80000,acceleration=280,burnSeconds=8)
             d['ai']['defaultPips']=[3,1,1,3,0]
         elif branch=='Assault':
             d['squadron']['composition']='강습함 5';d.pop('reconProbes',None)

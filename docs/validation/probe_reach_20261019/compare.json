@@ -1,0 +1,42 @@
+{
+ "before": {
+  "matches": 108,
+  "probes": 417,
+  "perMatch": 3.9,
+  "launchedFirst30s": 0,
+  "launchMedian": 129.0,
+  "throwKmMedian": 29.1,
+  "arrivalCapKmMedian": 30.2,
+  "usefulShare": 0.249,
+  "newContacts": 11,
+  "newIdents": 530,
+  "launchersEarth": 417,
+  "launchersMars": 0,
+  "identEscort": "4793/4800",
+  "identEscortAvgSecMedian": 16.4,
+  "contactEscortAvgSecMedian": 1.0,
+  "identInterceptor": "2488/3480",
+  "identInterceptorAvgSecMedian": 121.2,
+  "contactInterceptorAvgSecMedian": 36.3
+ },
+ "after": {
+  "matches": 108,
+  "probes": 1165,
+  "perMatch": 10.8,
+  "launchedFirst30s": 857,
+  "launchMedian": 0.0,
+  "throwKmMedian": 51.4,
+  "arrivalCapKmMedian": 28.5,
+  "usefulShare": 0.445,
+  "newContacts": 1766,
+  "newIdents": 2744,
+  "launchersEarth": 912,
+  "launchersMars": 253,
+  "identEscort": "4792/4800",
+  "identEscortAvgSecMedian": 15.8,
+  "contactEscortAvgSecMedian": 1.0,
+  "identInterceptor": "2580/3480",
+  "identInterceptorAvgSecMedian": 93.7,
+  "contactInterceptorAvgSecMedian": 31.4
+ }
+}

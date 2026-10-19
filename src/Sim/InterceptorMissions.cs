@@ -45,6 +45,49 @@ public sealed partial class SimWorld
             .ThenBy(s => (s.Position - leader.Position).LengthSquared()).FirstOrDefault() ?? leader;
     }
 
+    /// <summary>A probe only adds intelligence this far beyond our own capital sensors (they see a screen 4-5x farther).</summary>
+    public const double ProbeLead = 45_000;
+    /// <summary>Two of a wing's probes closer than this watch the same area.</summary>
+    public const double ProbeSpacing = 15_000;
+    /// <summary>Automatic probes a wing keeps out at once (a recon wing two); the rest stay in reserve for later looks.</summary>
+    public static int MaxWingProbes(Squadron wing) => wing.Leader?.Definition.Branch == ShipBranch.Recon ? 2 : 1;
+
+    /// <summary>
+    /// Where an automatic probe adds information, or null when it would not:
+    /// - Toward the nearest enemy screen ship we hold any contact on, stopping at this probe's identification range
+    ///   of that hull (blueprint signature, no engine/heat boost).
+    /// - Recon probes that out-range the hull's own detection of them stand just outside it.
+    /// - With no contact, or a player-given scouting direction, the full deployment distance along that direction.
+    /// - The drop point must lie at least <see cref="ProbeLead"/> beyond our own capital ships, otherwise
+    ///   the fleet already sees everything the probe would.
+    /// </summary>
+    private Vec3d? ProbePlan(Squadron wing, ShipBody ship, Vector3 direction, Vector3 lateral, float side)
+    {
+        var def = ship.Definition.ReconProbes!;
+        var screen = wing.ReconDirection is not null ? default : _ships
+            .Where(s => s.Faction != wing.Faction && s.Class.Kind != HullKind.Interceptor)
+            .Select(s => (Ship: s, Track: Sensors.Track(wing.Faction, s)))
+            .Where(k => k.Track.Level >= TrackLevel.Contact && !k.Track.ObservedDestroyed)
+            .OrderBy(k => (k.Track.EstimatedPosition - ship.Position).LengthSquared()).FirstOrDefault();
+        Vec3d requested;
+        if (screen.Ship is null) requested = ship.Position + Vec3d.From((direction + lateral * side * .25f).Normalized() * def.DeploymentMeters);
+        else
+        {
+            var sensors = screen.Ship.Definition.Sensors;
+            double identify = Math.Sqrt(def.SensorStrength * sensors.Signature / SensorNet.IdentifySnr) * 1000;
+            double spotted = Math.Sqrt(sensors.Strength * def.Signature / SensorNet.ContactSnr) * 1000;
+            double standoff = identify * .95 > spotted + 1000 ? spotted + 1000 : identify * .9;
+            Vec3d target = screen.Track.EstimatedPosition + Vec3d.From(lateral * side * (float)(standoff * .5));
+            Vec3d toward = target - ship.Position; double distance = toward.Length();
+            if (distance <= standoff + 1000) return null;
+            requested = ship.Position + toward * ((distance - standoff) / distance);
+        }
+        if (!TryProbeDestination(ship, requested, out var plan, Obstacles)) return null;
+        double ownSensors = _ships.Where(s => s.Faction == wing.Faction && Squadron.Active(s) && s.Class.Kind != HullKind.Interceptor)
+            .Select(s => (s.Position - plan).Length()).DefaultIfEmpty(double.PositiveInfinity).Min();
+        return ownSensors >= ProbeLead ? plan : null;
+    }
+
     private void UpdateWing(Squadron wing)
     {
         if (wing.Leader is not { } leader) { wing.Activity = "전멸"; return; }
@@ -97,7 +140,10 @@ public sealed partial class SimWorld
                 .All(k => (k.Track.EstimatedPosition - entry).Length() > (mars ? 13_000 : 16_000));
         wing.AssaultAvailable = armed && !heavyLoss && strike.Ship is not null && (cover == 0
             || cover == 1 && strike.Track.ObservedShieldFraction < .3f || flankOpen);
-        bool intelPoor = capitals.Length == 0 || capitals.All(k => k.Track.Level < TrackLevel.Locked);
+        // An enemy screen held only as a contact is also poor intel: identifying it is what a probe adds.
+        bool screenUnidentified = _ships.Any(s => s.Faction != wing.Faction && s.Class.Kind != HullKind.Interceptor
+            && Sensors.Track(wing.Faction, s) is { Level: TrackLevel.Contact, ObservedDestroyed: false });
+        bool intelPoor = capitals.Length == 0 || capitals.All(k => k.Track.Level < TrackLevel.Locked) || screenUnidentified;
         InterceptorMission recommendation = heavyLoss ? InterceptorMission.Return
             : scout ? InterceptorMission.Recon
             : incoming ? InterceptorMission.AirDefense
@@ -126,6 +172,10 @@ public sealed partial class SimWorld
         if(gathering)wing.Activity=$"강습 집결 {wing.RallyReady}/{wing.RallyRequired}";
         var assigned = new Dictionary<ShipBody, int>();
         var usedThreats = new HashSet<object>();
+        // One automatic launch per wing update, and only while fewer than MaxWingProbes are out.
+        int probeLimit = MaxWingProbes(wing);
+        int wingProbes = _probes.Count(p => p.Active && p.Owner.Squadron == wing);
+        bool launched = false;
         for (int i = 0; i < members.Length; i++)
         {
             var ship = members[i];
@@ -155,16 +205,12 @@ public sealed partial class SimWorld
                 if(reconHull&&known.Any(k=>(k.Track.EstimatedPosition-ship.Position).Length()<11_000))
                     station=anchor.Position+Vec3d.From(lateral*side*(6000+i*700)-direction*6000);
                 order = ShipOrder.HoldAt(station);
-                bool covered = _probes.Any(p => p.Active && p.Owner.Squadron == wing
-                    && (p.Destination - (ship.Position + Vec3d.From(direction) * p.Definition.DeploymentMeters)).Length() < 12_000);
                 if ((ship.Position - station).Length() < 1500) ship.Ordnance.Interceptor.FirstAction ??= Time;
-                bool usefulArea = capitals.Length == 0 || capitals.Any(k => (k.Track.EstimatedPosition - ship.Position).Length()
-                    < (ship.Definition.ReconProbes?.DeploymentMeters ?? 0) + 36_000);
-                if (!covered && usefulArea && ship.Ordnance.Interceptor.Probes > 0 && Time >= ship.Ordnance.Interceptor.NextLaunch)
-                {
-                    Vector3 throwDirection = (direction + lateral * side * .25f).Normalized();
-                    LaunchProbe(ship, throwDirection);
-                }
+                if (!launched && wingProbes < probeLimit && ship.Ordnance.Interceptor.Probes > 0 && Time >= ship.Ordnance.Interceptor.NextLaunch
+                    && ProbePlan(wing, ship, direction, lateral, side) is { } plan
+                    && !_probes.Any(p => p.Active && p.Owner.Squadron == wing && (p.Destination - plan).Length() < ProbeSpacing)
+                    && LaunchProbeAt(ship, plan).Fired)
+                { launched = true; wingProbes++; }
             }
             else if (mission == InterceptorMission.AirDefense)
             {

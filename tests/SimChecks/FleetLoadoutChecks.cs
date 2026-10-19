@@ -51,7 +51,7 @@ static class FleetLoadoutChecks
             n=>n["hulls"]!["battleship"]!["presets"]=new JsonArray(),
             n=>n["hulls"]!["battleship"]!["presets"]![0]=new JsonArray((JsonNode?)null),
             n=>n["hulls"]!["battleship"]!["squadron"]![1]!["preset"]=-1,
-            n=>n["hulls"]!["battleship"]!["squadron"]![1]=null,
+            n=>n["hulls"]!["battleship"]!["squadron"]![0]=null, // v4 allows empty wing slots, never an empty flagship slot
             n=>n["hulls"]!["earth_gun_cruiser"]=null,
             n=>n["unknown"]=true})
         {var node=JsonNode.Parse(before)!.AsObject();corrupt(node);Reject(()=>HangarStorage.Parse(node.ToJsonString()),"Malformed save rejected before use");}
@@ -94,7 +94,7 @@ static class FleetLoadoutChecks
             profile.SetSlot(2,"escort",2);HangarStorage.Save(path,profile);
             Check(File.ReadAllText(path+".bak")==first&&!File.Exists(path+".tmp"),"Atomic save retains previous valid backup");
             var loaded=HangarStorage.Load(path,"interceptor");
-            Check(loaded.CanSave&&loaded.Profile.Hulls["battleship"].Squadron[2].Preset==2,"Persisted member selection reloads");
+            Check(loaded.CanSave&&loaded.Profile.Hulls["battleship"].Squadron[2]?.Preset==2,"Persisted member selection reloads");
             File.WriteAllText(path,"{broken");var bad=HangarStorage.Load(path,"mars_interceptor");
             Check(!bad.CanSave&&bad.Message is not null&&File.ReadAllText(path)=="{broken"&&File.ReadAllText(path+".bak")==first,"Corrupt save preserved and autosave disabled");
         }

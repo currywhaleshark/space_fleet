@@ -115,8 +115,35 @@ public partial class WeaponInputChecks
         Check(map.ActiveProbePreview?.Destination != preview?.Destination, "Probe preview follows mouse motion");
         KeyEvent(g, Key.Shift, false);
         Check(map.ActiveProbePreview is null, "Releasing Shift hides the preview");
+        Check(preview is { } level && Math.Abs(level.Destination.Y - ship.Position.Y) < 1,
+            "Plain placement lies level with the controlled ship, whatever the map angle");
+        // Shift+drag raises the point, release arms it, right click cancels without launching.
+        int stock = ship.Ordnance.Interceptor.Probes;
+        void MapClick(Vector2 at, bool pressed, bool shift = false, MouseButton button = MouseButton.Left)
+            => g._UnhandledInput(new InputEventMouseButton { Position = at, ShiftPressed = shift, ButtonIndex = button, Pressed = pressed });
+        MapClick(pointer, true, true);
+        g._UnhandledInput(new InputEventMouseMotion { Position = pointer - new Vector2(0, 80) });
+        Check(map.ActiveProbePreview is { } raised && raised.Destination.Y > ship.Position.Y + 1000 && map.ProbeHeight > 0
+            && Math.Abs(raised.Requested.X - preview!.Value.Requested.X) < 1 && Math.Abs(raised.Requested.Z - preview.Value.Requested.Z) < 1,
+            "Dragging up raises the probe point above its ground position");
+        g._UnhandledInput(new InputEventMouseMotion { Position = pointer + new Vector2(0, 80) });
+        Check(map.ActiveProbePreview is { } lowered && lowered.Destination.Y < ship.Position.Y - 1000, "Dragging down lowers it");
+        MapClick(pointer + new Vector2(0, 80), false);
+        Check(map.ProbeArmed && ship.Ordnance.Interceptor.Probes == stock && map.ActiveProbePreview is not null,
+            "Releasing a drag arms the placement without launching");
+        MapClick(pointer, true, button: MouseButton.Right);
+        Check(!map.ProbeArmed && ship.Ordnance.Interceptor.Probes == stock, "Right click cancels an armed placement");
+        MapClick(pointer, true, true); g._UnhandledInput(new InputEventMouseMotion { Position = pointer - new Vector2(0, 60) });
+        MapClick(pointer - new Vector2(0, 60), false);
+        var armed = map.ActiveProbePreview!.Value;
+        MapClick(pointer + new Vector2(200, 0), true); MapClick(pointer + new Vector2(200, 0), false);
+        var lifted = g.World.Probes.Last(p => p.Owner == ship);
+        Check(!map.ProbeArmed && ship.Ordnance.Interceptor.Probes == stock - 1 && (lifted.Destination - armed.Destination).Length() < .01
+            && lifted.Destination.Y > ship.Position.Y + 1000, "A click after the drag launches to the raised point, wherever it lands");
+        // A plain Shift+click still launches straight away at the level point.
+        ship.Ordnance.Interceptor.NextLaunch = 0; ship.Ordnance.Interceptor.Probes++;
         g._UnhandledInput(new InputEventMouseMotion { Position = pointer, ShiftPressed = true });
-        g._UnhandledInput(new InputEventMouseButton { Position = pointer, ShiftPressed = true, ButtonIndex = MouseButton.Left, Pressed = true });
+        MapClick(pointer, true, true); MapClick(pointer, false, true);
         var deployed = g.World.Probes.Last(p => p.Owner == ship);
         Check(preview is { } p && (deployed.Destination - p.Destination).Length() < .01,
             "Shift click deploys to exactly the previewed location");

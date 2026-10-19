@@ -140,7 +140,8 @@ static class TierBranchChecks
         w.OrderWing(wing,null);
         Check(!wing.Rallying&&wing.Members.Skip(3).All(s=>w.BrainOf(s)!.Target==target),"Spent wingmates cannot deadlock the remaining armed attackers at rendezvous");
         Check(wing.Members.Take(3).All(s=>w.BrainOf(s)!.Target is null),"Ships without AM return to air defense instead of following the assault");
-        var(r,scouts,home,enemy)=BranchTrials.Fixture("earth_recon_t3");r.OrderWing(scouts,null);
+        // 80 km: inside assault reach, but beyond where the anchor alone already covers what a probe would add.
+        var(r,scouts,home,enemy)=BranchTrials.Fixture("earth_recon_t3",80_000);r.OrderWing(scouts,null);
         Check(scouts.Mission==InterceptorMission.Recon&&scouts.AssaultAvailable&&scouts.Target is null,"Recon branch stays on observation even with a tempting assault opportunity");
         Check(r.Probes.Count>0&&scouts.Members.All(s=>r.BrainOf(s)!.Target is null),"Recon begins actual probe work without an attack run");
         enemy.Place(scouts.Members[0].Position+new Vec3d(0,0,-5000),Quaternion.Identity);
@@ -148,7 +149,7 @@ static class TierBranchChecks
         Check(r.BrainOf(scouts.Members[0])!.Order.Point.Z>home.Position.Z,"Close identified threat sends the scout behind the friendly anchor");
         r.OrderWing(scouts,InterceptorMission.Assault,enemy);
         Check(scouts.Mission==InterceptorMission.Assault&&scouts.Members.All(s=>r.BrainOf(s)!.Target==enemy),"Recon still honors an explicit assault order and its single AM round");
-        var scoutTrial=BranchTrials.Run("earth_recon_t3",60);
+        var scoutTrial=BranchTrials.Run("earth_recon_t3",60,80_000);
         Check(scoutTrial.FirstAssault is null&&scoutTrial.Probes>0&&scoutTrial.MinimumRange>20000,"Sixty-second reconnaissance patrol stays clear of the capital's defense bubble");
         var assaultTrial=BranchTrials.Run("mars_assault_t3",120);
         Check(assaultTrial.RallySeconds>1&&assaultTrial.FirstAssault is >1&&assaultTrial.FirstAssault<90&&assaultTrial.AssaultSpread<1,"Dispersed assault wing actually navigates to rendezvous and begins a synchronized run");
@@ -160,7 +161,7 @@ static class TierBranchChecks
         var enemy=w.Add(new ShipBody("HIDDEN",ShipDefinitions.ById("interceptor"),Faction.Red));enemy.Place(new(0,0,-41000),Quaternion.Identity);
         foreach(var module in s.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor))s.Damage.Hurt(module,module.Health,0,0,1);
         s.DamageControl.Priority=RepairPriority.Hold;
-        Check(w.LaunchProbe(s,Vector3.Forward).Fired,"T5 reconnaissance probe launches");
+        Check(w.LaunchProbeAt(s,new Vec3d(0,0,-36000)).Fired,"T5 reconnaissance probe launches"); // Station 5 km short of the target, inside the 80 km reach.
         CruiserTrials.Step(w,.5);Check(w.Sensors.Track(Faction.Blue,enemy).Level==TrackLevel.None,"High-tier probe does not reveal its destination instantly");
         CruiserTrials.Step(w,30);var track=w.Sensors.Track(Faction.Blue,enemy);
         Check(track.Level==TrackLevel.Identified&&track.Observation is null&&s.Ordnance.Interceptor.NewIdentifications>0,"Improved probe shares identification, never a free high-quality firing lock");

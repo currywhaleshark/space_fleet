@@ -21,7 +21,7 @@
     "structureHitPoints": 816.2933760000002,
     "reconProbes": {
       "count": 6,
-      "deploymentMeters": 36000,
+      "deploymentMeters": 80000,
       "acceleration": 280,
       "sensorStrength": 210,
       "lifetimeSeconds": 210,
