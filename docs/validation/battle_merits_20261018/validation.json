@@ -1,0 +1,179 @@
+{
+  "date": "2026-10-18",
+  "implementation": "BattleMeritLedger, launch provenance, confirmed ribbons, frozen results; prior HUD readability changes retained",
+  "sim_merits": {
+    "passed": 66,
+    "command": "dotnet shots/merits-runtime/SimChecks.dll --merits"
+  },
+  "deterministic_battles": {
+    "passed": 36,
+    "runs": 36,
+    "seed": 12,
+    "sizes": [
+      24,
+      78
+    ],
+    "fields": [
+      "DeepSpace",
+      "AsteroidCluster"
+    ],
+    "modes": [
+      "Annihilation",
+      "Flagship",
+      "Domination"
+    ],
+    "seconds_per_run": 120,
+    "variants": [
+      "ledger disabled",
+      "ledger enabled",
+      "enabled repeat"
+    ],
+    "assertions": [
+      "Existing BattleLog.Summary identical with ledger disabled/enabled",
+      "Repeated hit, kill, damage, scout-damage totals identical"
+    ],
+    "limits": [
+      "120-second windows, not complete battles to victory",
+      "Wall-time overlapped compilation/GPU verification; no precise overhead percentage claimed",
+      "Stress run preceded final source-cache identity and event-metadata refinements; final focused checks cover those changes"
+    ]
+  },
+  "regression_suites": {
+    "sensors": 26,
+    "datalink": 79,
+    "missiles": 128,
+    "counter_missiles": 129,
+    "lasers": 226,
+    "defense_drones": 77,
+    "drone_combat": 50,
+    "objectives": 21,
+    "structure": 52,
+    "damage": 128,
+    "critical_and_recovery": 184505,
+    "damage_control": 69
+  },
+  "balance_and_saves": {
+    "weapon_sensor_ai_values_changed": false,
+    "research_formula_changed": false,
+    "save_reset": false,
+    "outcome_freezes": [
+      "merit totals",
+      "important timeline",
+      "fleet state",
+      "legacy personal record",
+      "existing RP input"
+    ]
+  },
+  "intentional_limits": [
+    "Probe-only observations retain existing no-railgun-lock behavior. Probe discovery and actual missile-link guidance receive credit.",
+    "Missile support counts actual linked flight share, excluding autonomous seeker time; one actual provider per missile.",
+    "RP conversion/role reward rebalancing deferred until longer role-distribution measurement as permitted by the work order.",
+    "Disable ribbon awarded once per victim to prevent repair farming; kills and removals deduplicated.",
+    "Important history limited to 32 events per ship; confirmed notification ring limited to 512."
+  ],
+  "final_source_smoke": {
+    "passed": 5,
+    "ships": 78,
+    "field": "AsteroidCluster",
+    "mode": "Domination",
+    "seconds_per_run": 30,
+    "variants": [
+      "off",
+      "on",
+      "repeat"
+    ],
+    "assertions": [
+      "Exact ship pose, shield, structure and module health identical",
+      "BattleLog summary identical",
+      "Merit totals repeat identically"
+    ]
+  },
+  "gpu_ui": {
+    "executable": "SpaceFleet-20261018-merits-r3-Windows-x64",
+    "resolutions": [
+      "1280x720",
+      "1600x900"
+    ],
+    "passed_each": 53,
+    "text_scales": [
+      100,
+      130
+    ],
+    "scenes": [
+      "interceptor",
+      "battleship",
+      "telescope",
+      "spectator",
+      "four result scopes",
+      "legacy history"
+    ],
+    "checks": [
+      "ribbon bounds",
+      "squad panel nonoverlap",
+      "center clear",
+      "pause",
+      "x1/x2/x4 lifetimes",
+      "kill priority",
+      "personal attribution",
+      "outcome freeze"
+    ],
+    "visual_review": [
+      "1280x720 result and interceptor scope",
+      "1600x900 battleship HUD"
+    ]
+  },
+  "package": {
+    "folder": "builds/SpaceFleet-20261018-merits-r3-Windows-x64",
+    "checks": [
+      "PASS: 51 scene flow checks",
+      "PASS: 43 matchmaking/ownership/roster/spectator flow checks",
+      "PASS: 62 hangar/preview/launch/handoff flow checks",
+      "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+      "PASS: 10420 ship model checks",
+      "PASS: 228 combat visual checks",
+      "PASS: 44 combat feedback checks",
+      "PASS: 120 audio checks; recorded peak 0.468",
+      "PASS: 120 fleet audio checks",
+      "PASS: 17 laser render/audio/equipment checks",
+      "PASS: 873 HUD readability/marker preservation checks",
+      "PASS: 275 HUD text/damage/help checks",
+      "PASS: 38 merit HUD/notification/control/freeze checks",
+      "PASS: 142 selected-target HUD checks",
+      "PASS: 303 weapon selection/telescope/damage-control checks",
+      "PASS: 24 telescope interaction checks",
+      "PASS: 22 contact memory checks",
+      "PASS: 31 sensor coverage GPU checks",
+      "PASS: 21 AM game/input/model checks",
+      "PASS: 204 environment presentation checks"
+    ],
+    "check_groups": 20,
+    "checks_total": 13074,
+    "zip_crc_valid": true,
+    "sha256": "afbbfc4487f473e33a4ce0d82801a6c795a5ddfb0ba73fc53c71c2998965b0f9",
+    "release_dll_hashes_match": {
+      "SpaceFleet.dll": "9c644e8ff5ea38d24e626516729bda29983d0a6a3203a4d36441dc031b593d96",
+      "SpaceFleet.Sim.dll": "bc7563c2e9e14700b17af4788e33f1f8ed575f10e028fd861abb6c5bd8123209"
+    }
+  },
+  "release_match_smoke": {
+    "mode": "10 vs 10 tiered mixed squads",
+    "field": "AsteroidCluster",
+    "resolution": "1600x900",
+    "gpu": "NVIDIA GeForce RTX 2060",
+    "autoplay_speed": 1,
+    "sim_window_seconds": [
+      120,
+      140
+    ],
+    "real_seconds": 20,
+    "profile_isolated_from_player_save": true,
+    "fps_one_second_windows": {
+      "minimum": 32.7,
+      "median": 45.0,
+      "maximum": 48.7
+    },
+    "mean_sim_tick_ms": 2.4984585000000004,
+    "runtime_errors": false,
+    "limits": "Single scene/configuration smoke; no before/after FPS comparison and no full-battle win-rate claim."
+  }
+}

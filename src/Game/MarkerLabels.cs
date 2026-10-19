@@ -18,6 +18,7 @@ internal sealed class MarkerLabels
     private Dictionary<object, Vector2> _previous = new(), _next = new();
     private Rect2 _screen;
     public IReadOnlyList<Placed> Placements => _placed;
+    public float TextScale { get; set; } = 1;
 
     public void Begin(Vector2 size)
     {
@@ -35,7 +36,7 @@ internal sealed class MarkerLabels
     public void Add(object key, Vector2 point, Vector2 offset, string text, Color color, int priority = 10, int size = 13)
     {
         if (!_screen.Grow(8).HasPoint(point)) return;
-        _requests.Add(new(key, point, offset, text, color, priority, size, _requests.Count));
+        _requests.Add(new(key, point, offset, text, color, priority, (int)MathF.Round(size * TextScale), _requests.Count));
     }
     private bool Fits(Rect2 rect)
     {

@@ -45,6 +45,8 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.ContainsKey("merit-test")){AddChild(new MeritGameChecks());return;}
+        if(_args.ContainsKey("hud-details-test")){AddChild(new HudDetailsChecks());return;}
         if(_args.ContainsKey("selection-hud-test")){AddChild(new TargetSelectionChecks());return;}
         if(_args.ContainsKey("hud-readability-test")){AddChild(new HudReadabilityChecks());return;}
         if(_args.ContainsKey("laser-test")||_args.ContainsKey("laser-preview"))
@@ -74,6 +76,7 @@ public partial class Main : Node3D
         InputSetup.Register();
         SoundSettings.Initialize();
         FeedbackSettings.Load();
+        HudSettings.Load();
         if(_args.ContainsKey("teaser") || _args.ContainsKey("teaser-preview")) {
             AddChild(new CinematicTeaser { Options=_args }); return; }
         if (_args.ContainsKey("gallery")) { AddChild(ModelGallery.FromArgs(_args)); return; }

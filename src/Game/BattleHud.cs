@@ -87,7 +87,7 @@ public partial class Hud
     private void DrawBattleHud(Vector2 screen)
     {
         if(!Game.BattleMode||Game.World.Rules is not {} rules)return;
-        float x=screen.X*.5f-200;
+        float x=Mathf.Min(screen.X*.5f-200,screen.X-744); // Keep the target header clear in small windows.
         DrawRect(new(x-12,14,424,30),PanelBack);
         DrawRect(new(x,24,185,8),Faint);DrawRect(new(x,24,185*(float)rules.Fraction(Faction.Blue),8),Friendly);
         var enemies=Game.World.Ships.Where(s=>s.Faction==Faction.Red).ToArray();

@@ -42,6 +42,6 @@ public partial class Hud
         DrawDiamond(p, 3f, color);
         if (target.Body.Damage.Shield > 1f)
             DrawArc(p, 11f, 0, Mathf.Tau, 20, new Color(Friendly, 0.7f), 1.5f);
-        Label(p + new Vector2(12, -8), module.Definition.Name, 12, color);
+        Label(p + new Vector2(12, -8), ModuleNames.Display(module.Definition), 12, color);
     }
 }

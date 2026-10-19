@@ -29,19 +29,21 @@ public partial class ScaleTest
     public ShipView? SpectatedView => Spectating ? CameraView : null;
     private readonly List<ControlSegment> _controlSegments = new();
     private readonly PlayerRecord _record = new();
-    private PlayerRecord? _recordStart;
+    private PlayerRecord? _recordStart, _frozenRecord;
     private ShipBody? _recordShip;
     private double _controlStart;
     public IReadOnlyList<ControlSegment> ControlSegments => _recordShip is null ? _controlSegments
         : _controlSegments.Concat(new[] {new ControlSegment(_recordShip.Callsign,_controlStart,World.Time)}).ToArray();
     public PlayerRecord ResultRecord
     {
-        get { var result=_record.Copy(); if(_recordShip is not null && _recordStart is not null)result.AddDifference(PlayerRecord.Sample(_recordShip,World.Log!),_recordStart);return result; }
+        get { if(_frozenRecord is not null)return _frozenRecord.Copy(); var result=_record.Copy(); if(_recordShip is not null && _recordStart is not null)result.AddDifference(PlayerRecord.Sample(_recordShip,World.Log!),_recordStart);return result; }
     }
+    internal void FreezeResultRecord() { if(World.Merits.Outcome is not null && _frozenRecord is null)_frozenRecord=ResultRecord; }
     private void StartRecord(ShipBody ship)
-    { if(!BattleMode)return;CloseRecord();_recordShip=ship;_controlStart=World.Time;_recordStart=PlayerRecord.Sample(ship,World.Log!); }
+    { if(!BattleMode)return;CloseRecord();_recordShip=ship;World.Merits.BeginControl(ship);_controlStart=World.Time;_recordStart=PlayerRecord.Sample(ship,World.Log!); }
     private void CloseRecord()
     {
+        World.Merits.Controlled=null;
         if(_recordShip is null||_recordStart is null)return;
         _record.AddDifference(PlayerRecord.Sample(_recordShip,World.Log!),_recordStart);
         _controlSegments.Add(new(_recordShip.Callsign,_controlStart,World.Time));_recordShip=null;_recordStart=null;
@@ -118,7 +120,7 @@ public partial class ScaleTest
     public void AdvanceBattle(double seconds)
     {
         bool autoplay=AutoPlay;AutoPlay=true;EnableAutoPlay();
-        double end=World.Time+seconds;while(World.Time<end)World.Step();
+        double end=World.Time+seconds;while(World.Time<end){World.Step();FreezeResultRecord();}
         UpdateContacts();
         _audio.Prime(World,AudioShip);
         Camera.ClearImpacts();

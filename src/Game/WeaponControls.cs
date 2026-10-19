@@ -68,6 +68,7 @@ public partial class ScaleTest
     public override void _Notification(int what)
     {
         if(what!=NotificationApplicationFocusOut) return;
+        if (ShowHelp) SetHelp(false);
         if(Controlled?.Body is { } ship) SimWorld.StopLasers(ship);
         CloseRoster();
         Camera?.ResetTelescope(); _selectionPointer=null; _fireReleaseGuard=true; JettisonProgress=0;
@@ -79,7 +80,7 @@ public partial class Hud
 {
     private void DrawWeaponSelection(ShipBody ship,Vector2 screen)
     {
-        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,ship.Railguns.Length);
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,ship.Railguns.Length, HudSettings.TextScale);
         DrawSelectedTargetReadout(layout);
         var start=layout.Weapons;
         string[] labels={ ship.Railgun?.IsLaser == true ? "1 레이저 ∞" : $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",

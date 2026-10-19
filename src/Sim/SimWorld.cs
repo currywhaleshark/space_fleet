@@ -10,7 +10,8 @@ namespace SpaceFleet.Sim;
 /// </summary>
 public sealed partial class SimWorld
 {
-    public SimWorld() { Sensors.Obstacles = Obstacles; }
+    public SimWorld() { Sensors.Obstacles = Obstacles; Merits=new(this); Sensors.Merits=Merits; }
+    public BattleMeritLedger Merits { get; }
     public const double TickRate = 60.0;
     public const double TickDelta = 1.0 / TickRate;
     // 작은 날개·방열판의 회전 접촉을 위해 240Hz로 나눈다. 외부 시뮬레이션 틱은 여전히 60Hz.
@@ -30,7 +31,7 @@ public sealed partial class SimWorld
 
     public ShipBody Add(ShipBody ship)
     {
-        _ships.Add(ship);
+        _ships.Add(ship); Merits.Register(ship);
         return ship;
     }
 
@@ -115,7 +116,8 @@ public sealed partial class SimWorld
         if(Obstacles.Count>0)RecordAssaultExposure();
         Log?.Step();
         Rules?.Evaluate(Time);
-        if(Rules?.Outcome is {} outcome)Log?.CaptureOutcome(outcome.Time);
+        Merits.Step();
+        if(Rules?.Outcome is {} outcome){Log?.CaptureOutcome(outcome.Time);Merits.Freeze(outcome.Time);}
         SimProfiler.End(SimSection.Post, sectionTiming);
         SimProfiler.End(SimSection.Tick, tickTiming);
     }

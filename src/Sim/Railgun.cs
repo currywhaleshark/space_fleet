@@ -131,6 +131,7 @@ public sealed class RailgunState
 
 public sealed class RailProjectile
 {
+    public ShotCredit Credit { get; init; }
     // Programmed counter-missile fuze. It cannot retarget or expand ship/probe collision bounds.
     public Missile? ProximityTarget { get; internal set; }
     public float ProximityMeters { get; internal set; }

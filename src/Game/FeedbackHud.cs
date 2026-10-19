@@ -61,7 +61,7 @@ public partial class Hud
         if (strongest is null) return;
         Color alert = new(FeedbackColor(strongest.Kind), strongest.Fade);
         string message = "피격 · " + strongest.Label;
-        Vector2 textSize = _font.GetStringSize(message, fontSize: 17);
+        Vector2 textSize = _font.GetStringSize(message, fontSize: HudFont(17));
         Vector2 at = new(center.X, screen.Y * .25f);
         DrawRect(new Rect2(at - new Vector2(textSize.X * .5f + 15, 22), textSize + new Vector2(30, 12)),
             new Color(PanelBack, .7f * strongest.Fade));

@@ -165,7 +165,9 @@ public sealed class BattleRules
             _lastEvaluatedTime = time;
             foreach (CaptureZone zone in CaptureZones)
             {
+                double previousProgress=zone.Progress;Faction? previousOwner=zone.Owner;
                 zone.Update(_world.Ships, dt);
+                _world.Merits.CaptureZone(zone,previousProgress,previousOwner,dt,time);
                 if (zone.ScoringOwner is Faction owner) _scores[(int)owner] += dt;
             }
             bool blueEmpty = Recoverable(Faction.Blue) <= 0;

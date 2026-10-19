@@ -9,7 +9,7 @@ public partial class ScaleTest
     private bool _mapReleaseGuard;
     public bool WorldMapOpen => _worldMap is { Visible: true };
     public WorldMapState WorldMap => _worldMap.Map;
-    private bool MapControlsBlocked => WorldMapOpen || RosterOpen || _mapReleaseGuard;
+    private bool MapControlsBlocked => WorldMapOpen || RosterOpen || ShowHelp || _mapReleaseGuard;
 
     private void CreateWorldMap()
     {

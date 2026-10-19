@@ -27,7 +27,7 @@ public partial class Hud
     {
         if (Game.Gunnery is not { } order || controlled.Body.Railgun is not { } gun) return;
         var battery = controlled.Body.Railguns;
-        Rect2 panel = CombatHudLayout.For(screen, true, battery.Length).Gunnery;
+        Rect2 panel = CombatHudLayout.For(screen, true, battery.Length, HudSettings.TextScale).Gunnery;
         DrawRect(panel, PanelBack);
         float x = panel.Position.X, cy = panel.Position.Y + 53;
         var ring = new Vector2(x + 46, cy);
@@ -71,7 +71,7 @@ public partial class Hud
         {
             RailgunState mount=battery[i];
             string state=MountStatus(mount,controlled.Body.Power);
-            CenteredLabel(new(x+6+cell*(i%columns+.5f),panel.Position.Y+111+(i/columns)*18),$"{i+1} {state}",12,
+            CenteredLabel(new(x+6+cell*(i%columns+.5f),panel.Position.Y+111+(i/columns)*Mathf.Ceil(18*HudSettings.TextScale)),$"{i+1} {state}",12,
                 mount.Output<=.01f||!mount.HasAmmunition?Hostile:state is "준비" or "조사"?Good:Motion);
         }
         DrawFiringSphere(new(panel.End.X-SphereRadius-10,cy),controlled.Body);

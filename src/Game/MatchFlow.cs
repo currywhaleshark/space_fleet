@@ -109,7 +109,8 @@ public partial class Main
         if(_rewardClaimed||_matchReceipt is null||_fixtureOutcome is not null||Battle?.LaunchConfig?.Match?.Tier is null||Battle.World.Rules?.Outcome is not { } outcome)return;
         _rewardClaimed=true;var stats=Battle.OwnedSquadron!.Members.Select(Battle.World.Log!.Ship).ToArray();
         LastResearchReward=Hangar.Research!.Reward(_matchReceipt,_rewardDesign,outcome.Time,outcome.Winner==Faction.Blue,
-            stats.Sum(s=>s.ModuleDamageInflicted+s.ShieldDamageInflicted*.2),stats.Sum(s=>s.MissilesIntercepted+s.TorpedoesIntercepted));
+            Battle.World.Merits.Outcome?.Reward(Battle.OwnedSquadron.Members).Damage??stats.Sum(s=>s.ModuleDamageInflicted+s.ShieldDamageInflicted*.2),
+            Battle.World.Merits.Outcome?.Reward(Battle.OwnedSquadron.Members).Intercepts??stats.Sum(s=>s.MissilesIntercepted+s.TorpedoesIntercepted));
         SaveHangar();
     }
     private bool _matchPreviewApplied;

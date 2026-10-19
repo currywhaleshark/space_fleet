@@ -106,8 +106,8 @@ public partial class Hud
             if (hit.Kind == HitKind.Critical) DrawDiamond(c, 30 * pulse, color);
         }
         string label = "명중 · " + hit.Label;
-        Vector2 at = CombatHudLayout.For(GetViewportRect().Size,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length).HitFeedback(c);
-        Vector2 textSize = _font.GetStringSize(label, fontSize: 15);
+        Vector2 at = CombatHudLayout.For(GetViewportRect().Size,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length, HudSettings.TextScale).HitFeedback(c);
+        Vector2 textSize = _font.GetStringSize(label, fontSize: HudFont(15));
         DrawRect(new Rect2(at - new Vector2(textSize.X * .5f + 9, 17), textSize + new Vector2(18, 6)), new Color(PanelBack, .65f * hit.Fade));
         CenteredLabel(at, label, 15, color);
     }

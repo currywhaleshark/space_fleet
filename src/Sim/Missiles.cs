@@ -135,6 +135,9 @@ public sealed class OrdnanceState
 
 public sealed class Missile
 {
+    public ShotCredit Credit { get; init; }
+    internal ShotCredit SupportCredit;
+    internal double CreditFlightSeconds,CreditLinkSeconds;
     public required uint Id { get; init; }
     public required ShipBody Shooter { get; init; }
     public ShipBody? Target { get; init; }

@@ -160,6 +160,7 @@ public partial class ScaleTest : Node3D
 
     public override void _UnhandledInput(InputEvent e)
     {
+        if (HandleHelpOverlayInput(e)) return;
         if(HandleRosterInput(e))return;
         if(RosterOpen){GetViewport().SetInputAsHandled();return;}
         if (e is InputEventMouse mouse && Input.MouseMode != Input.MouseModeEnum.Captured) _selectionPointer = mouse.Position;
@@ -214,8 +215,6 @@ public partial class ScaleTest : Node3D
             SelectPointerTarget();
         else if (e.IsActionPressed(InputSetup.TestFire))
             FireTest(RenderOrigin + Vec3d.From(Camera.Position), Camera.AimForward);
-        else if (e.IsActionPressed(InputSetup.ToggleHelp))
-            ShowHelp = !ShowHelp;
         else if (e.IsActionPressed(InputSetup.ShowModules))
             ShowModules = !ShowModules;
         else if (e.IsActionPressed(InputSetup.Repair))
@@ -293,7 +292,7 @@ public partial class ScaleTest : Node3D
         if (Gunnery is { } order) order.AimPart = AimPart;
         if (!AutoPlay) StepSquadCommand();
         long t = PerfTrace.Begin();
-        World.Step();
+        World.Step(); FreezeResultRecord();
         PerfTrace.End("sim", t); t = PerfTrace.Begin();
         _battleFx.Observe(World, RenderOrigin + Vec3d.From(Camera.Position));
         PerfTrace.End("fxObserve", t); t = PerfTrace.Begin();
@@ -317,7 +316,7 @@ public partial class ScaleTest : Node3D
         PerfTrace.Frame(this, World.Time);
         UpdateMapInputGuard();
         if (!Input.IsActionPressed(InputSetup.Fire) && !Input.IsMouseButtonPressed(MouseButton.Left)) _fireReleaseGuard = false;
-        else if (Paused || MenuOpen || WorldMapOpen || RosterOpen || RadarPointerCaptured) _fireReleaseGuard = true;
+        else if (Paused || MenuOpen || WorldMapOpen || RosterOpen || ShowHelp || RadarPointerCaptured) _fireReleaseGuard = true;
         StepShotRadial();
         if (_shot is not null && WorldMapOpen && _frame == 60) _worldMap.FitAll();
         if (_shot is not null && WorldMapOpen && _frame == 70 && OS.GetCmdlineUserArgs().Contains("--probe-range-preview"))
@@ -350,6 +349,7 @@ public partial class ScaleTest : Node3D
 
         float feedbackDelta = Paused ? 0 : (float)delta;
         Feedback.Advance(feedbackDelta);
+        AdvanceMerits(feedbackDelta);
         Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
         Camera.Follow(controlled.Body.Definition, controlled.Position,
             controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);

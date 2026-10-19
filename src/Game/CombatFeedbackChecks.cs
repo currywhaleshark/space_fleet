@@ -25,6 +25,7 @@ public partial class CombatFeedbackChecks : Node
             kind == HitKind.Critical ? 1e6f : 2, target.Class.Length * 3);
         ShotResult hit = DamageRay.Apply(target, origin, direction, packet, world.Time, id);
         world.RecordImpact(id, shooter, hit, world.Time, direction, packet.Energy, shieldBefore, BattleWeapon.Railgun);
+        world.Sensors.Update(world.Ships,world.Time,true);
     }
 
     public override void _Ready()

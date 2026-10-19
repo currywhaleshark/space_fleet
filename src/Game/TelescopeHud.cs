@@ -45,7 +45,7 @@ public partial class Hud
         float bearing=Mathf.RadToDeg(Mathf.Atan2(local.X,-local.Z));
         float elevation=Mathf.RadToDeg(Mathf.Asin(Mathf.Clamp(local.Y,-1,1)));
         CenteredLabel(center+new Vector2(0,-radius-15),$"방위 {bearing:+0;-0;0}°    고각 {elevation:+0;-0;0}°",11,Dim);
-        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length);
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length,HudSettings.TextScale);
         float controlsY=Mathf.Min(screen.Y*.5f+radius+23,layout.Selection.Position.Y-12);
         if(layout.Gunnery.Size.X>0 && layout.Gunnery.HasPoint(new Vector2(screen.X*.5f,controlsY)))
             controlsY=layout.Gunnery.Position.Y-12;

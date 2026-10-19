@@ -1,0 +1,5 @@
+merit-load ships=78 field=AsteroidCluster mode=Domination pass=0 ms=12873 allocMB=85.8 events=0 pending=0 shots=4
+merit-load ships=78 field=AsteroidCluster mode=Domination pass=1 ms=12330 allocMB=86.2 events=164 pending=1 shots=4
+merit-load ships=78 field=AsteroidCluster mode=Domination pass=2 ms=11105 allocMB=86.3 events=164 pending=1 shots=4
+merit-overhead True/AsteroidCluster/Domination: -4.2%
+PASS: 5 merit deterministic battle regression checks

@@ -1,0 +1,31 @@
+{
+  "name": "SpaceFleet-20261018-merits-r3-Windows-x64",
+  "builtAt": "2026-10-18T03:15:30.0130100+09:00",
+  "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+  "sourceCommit": "730ddbcdf044cfcadcb17c69cc4934d97b0b1fc2",
+  "localChanges": true,
+  "platform": "Windows x64",
+  "selfContained": true,
+  "checks": [
+    "PASS: 51 scene flow checks",
+    "PASS: 43 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 62 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 10420 ship model checks",
+    "PASS: 228 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.468",
+    "PASS: 120 fleet audio checks",
+    "PASS: 17 laser render/audio/equipment checks",
+    "PASS: 873 HUD readability/marker preservation checks",
+    "PASS: 275 HUD text/damage/help checks",
+    "PASS: 38 merit HUD/notification/control/freeze checks",
+    "PASS: 142 selected-target HUD checks",
+    "PASS: 303 weapon selection/telescope/damage-control checks",
+    "PASS: 24 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ]
+}

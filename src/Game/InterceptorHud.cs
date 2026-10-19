@@ -109,13 +109,14 @@ public partial class ScaleTest
 
 public partial class Hud
 {
-    private void DrawInterceptorStatus(ShipView controlled, Vector2 screen)
+    private void DrawInterceptorStatus(ShipView controlled, Vector2 screen, float squadTop)
     {
         var wing = Game.CommandWing;
         if (wing is null && controlled.Body.Definition.ReconProbes is null) return;
         var ship = controlled.Body.Definition.ReconProbes is not null ? controlled.Body : wing?.Leader ?? controlled.Body;
         var equipment = ship.Ordnance.Interceptor;
-        var at = new Vector2(24, 276);
+        // Keep probe/mission detail beside the radar, reserving the strip beneath it for combat ribbons.
+        var at = new Vector2(284,116);
         Label(at, wing is null ? "정찰 프로브" : $"{wing.Name} · {InterceptorMissions.Label(wing.Mission)} · {(wing.OrderedMission is null ? "자동" : "명령")}", 14, Friendly);
         if (wing is not null)
         {

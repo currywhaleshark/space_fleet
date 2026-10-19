@@ -77,11 +77,13 @@ public partial class BattleOverlay : Control
                 _shake.ValueChanged += value => FeedbackSettings.SetShake((float)value);
                 AddChild(_shake);
                 Button(SoundSettings.Muted ? "효과음 켜기 · F10" : "효과음 끄기 · F10",new(620,760,360,46),
-                    () => { SoundSettings.ToggleMute(); Rebuild(); }); break;
+                    () => { SoundSettings.ToggleMute(); Rebuild(); });
+                Button($"HUD 글자 {HudSettings.TextPercent}% · 변경",new(620,818,360,46),
+                    () => { HudSettings.Cycle(); Rebuild(); }); break;
             case BattleScreen.Result:
                 Button("다시 매칭",new(260,730,320,56),()=>Host.BeginMatch());
                 Button("격납고로",new(640,730,320,56),Host.ReturnToHangar);
-                Button("메인으로",new(1020,730,320,56),Host.ReturnToPort); break;
+                Button("메인으로",new(1020,730,320,56),Host.ReturnToPort); MeritResultButtons(); break;
         }
         LayoutButtons(); QueueRedraw();
     }
@@ -187,6 +189,7 @@ public partial class BattleOverlay : Control
         if(Host.Battle is not { } battle || Host.Outcome is not { } outcome)return;
         string title=outcome.Winner is null?"무승부":outcome.Winner==Faction.Blue?"승리":"패배";
         Center(126,title,44,outcome.Winner==Faction.Red?Red:Blue);Center(166,$"{BattleRules.Name(battle.World.Rules!.Objective)} · {outcome.Reason}  ·  {TimeSpan.FromSeconds(outcome.Time):mm\\:ss}",20);
+        if(_showMerits){DrawMeritResult(battle);return;}
         Text(new(260,224),"전투의 흐름",20);float width=1080;double duration=Math.Max(outcome.Time,30);
         foreach(var interval in (battle.World.Log!.OutcomeIntervals??battle.World.Log.Intervals).Where(i=>i.Start<duration))
         {float x=260+(float)(interval.Start/duration)*width;float w=(float)(Math.Min(interval.Duration,duration-interval.Start)/duration)*width;DrawRect(new(x,245,Math.Max(w,1),32),Phases[(int)interval.Phase]);}
@@ -202,8 +205,11 @@ public partial class BattleOverlay : Control
             float y=f==Faction.Blue?432:480;float x=290;
             foreach(var ship in battle.World.Ships.Where(s=>s.Faction==f))
             {
-                Color c=ship.Damage.Disabled?Red:ship.Damage.Modules.Any(m=>m.Destroyed)?Orange:f==Faction.Blue?Blue:Red;
-                if(ship.Damage.Destroyed){DrawLine(new(x-9,y-9),new(x+9,y+9),c,2);DrawLine(new(x+9,y-9),new(x-9,y+9),c,2);}
+                var frozen=battle.World.Merits.Outcome?.Fleet.FirstOrDefault(s=>s.Ship==ship.Callsign);
+                bool disabled=frozen?.Disabled??ship.Damage.Disabled, destroyed=frozen?.Destroyed??ship.Damage.Destroyed;
+                bool damaged=frozen?.Damaged??ship.Damage.Modules.Any(m=>m.Destroyed);
+                Color c=disabled?Red:damaged?Orange:f==Faction.Blue?Blue:Red;
+                if(destroyed){DrawLine(new(x-9,y-9),new(x+9,y+9),c,2);DrawLine(new(x+9,y-9),new(x-9,y+9),c,2);}
                 else Ship(new(x,y),ship.Class.Kind,c,.22f);
                 x+=Mathf.Min(48,1000f/battle.World.Ships.Count(s=>s.Faction==f));
             }

@@ -88,6 +88,7 @@ static class DefenseDroneChecks
         Step(w,3);
         Check(!w.Missiles.Contains(round) && d.Interceptions==1,"Actual drone hit destroys a hostile missile and counts the interception once");
         Check(w.OrdnanceEvents.Any(e=>e.Kind==OrdnanceEventKind.Intercepted),"Drone kills produce the shared interception event");
+        Check(w.Merits.Ship(c)[MeritKind.MissileIntercept]==1,"Drone carrier receives the single actual removal credit");
         Check(d.LastFiredAt.Any(t=>double.IsFinite(t)),"Firing exposes actual timestamp for HUD and visuals");
         Console.WriteLine($"Drone fore approach / 3 s: all-around {patrol}, fore {forward}, aft {rear} shots");
     }

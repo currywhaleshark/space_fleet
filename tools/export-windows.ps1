@@ -102,6 +102,8 @@ Tab 유지: 양팀 편성·생존 현황. 내 함선 격침 시 내 편대원에
 내 편대 전멸 시 계속 관전 또는 메인으로 나가기. 관전 중 ← → 함선 변경, 중클릭 회전, 휠 줌.
 관전 음향은 관전 중인 함선의 엔진·사격·피격과 그 주변 함대를 기준으로 들립니다.
 F1: 조작 도움말 / Esc: 일시정지·메뉴.
+F1 도움말은 현재 함종의 필수 조작부터 표시합니다. 탭 클릭 또는 ←/→로 공통·심화 조작을 봅니다.
+일시정지의 HUD 글자 버튼으로 100% / 115% / 130% 크기를 선택하며 설정이 저장됩니다.
 1 주포 / 2 미사일 / 3 반물질 어뢰(요격함) / 좌클릭 발사 / 우클릭 망원.
 호위함·전함 주포: 표식·부위 클릭은 선택만, 표식 밖의 새 클릭은 발사. 표적 변경 중 누르던 클릭은 놓은 뒤 다시 눌러야 합니다.
 자동 사격은 새 표적의 사거리·포각·정렬 등을 확인합니다. 장갑 관통 여부는 착탄 때 판정하며 발사를 보류하지 않습니다.
@@ -143,12 +145,17 @@ R: 마우스(비행/망원은 중앙 조준선)에 가장 가까운 적 함선·
 지구 T3~T5 방공순양함은 기본 레이저를 무료 장착합니다. 자율 주포는 12km 내 탐지된 접근 미사일을 포탑별로 나눠 요격합니다.
 수동·집중·정지 명령이 우선하며, 기존 PD·요격 미사일·방어 드론은 함께 작동합니다.
 
+전투 성과: 실제 발사 함선의 명중·관통·격침·지원, 미사일/어뢰 요격, 탐지와 사격 지원, 거점 공로를 집계합니다.
+레이더 아래 누적 리본과 표적 도면 왼쪽의 중요 알림으로 확인합니다. 미확인 격침은 센서 확인 후 알립니다.
+결과 화면에서 직접 조종 / AI 편대원 / 편대 / 팀을 구분합니다. 연구 RP 산식은 기존대로 유지합니다.
+프로브는 기존처럼 단독 주포 잠금을 만들지 않으며, 탐지·식별과 실제 미사일 유도에 대한 지원 공로를 남깁니다.
+
 THIRD_PARTY_NOTICES.md, third_party/, licenses/에 사용한 코드와 런타임의 고지가 있습니다.
 '@ | Set-Content -LiteralPath (Join-Path $sfOutput '읽어주세요.txt') -Encoding UTF8
 
 # Run from the exported folder: no project path, source assets, or editor executable.
 $sfChecks = @()
-foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','hud-readability-test','selection-hud-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
+foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','hud-readability-test','hud-details-test','merit-test','selection-hud-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
     if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }

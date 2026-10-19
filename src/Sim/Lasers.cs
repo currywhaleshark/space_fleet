@@ -48,6 +48,7 @@ public sealed class LaserState
     private ShipBody? _focusShip;
     private Vector3 _anchor;
     internal Vector3 RequestedDirection;
+    internal ShotCredit Credit;
     internal double RequestedUntil, PulseCredit;
     internal bool AutoCooling;
     public bool Cooling => AutoCooling;
@@ -77,7 +78,7 @@ public sealed partial class SimWorld
     public static void StopLasers(ShipBody ship)
     { foreach (var gun in ship.Railguns) gun.Laser?.Stop(); }
 
-    private FireAttempt RequestLaser(ShipBody ship, RailgunState gun, Vector3 direction)
+    private FireAttempt RequestLaser(ShipBody ship, RailgunState gun, Vector3 direction, ShotCredit? credit)
     {
         var laser = gun.Laser!;
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f)
@@ -88,7 +89,7 @@ public sealed partial class SimWorld
         if (line != FireFailure.None)
         { laser.Stop(); return new(false, line == FireFailure.Arc ? "조사각 밖" : "선체 가림", Failure: line); }
         if (!gun.Aligned(direction)) { laser.Stop(); return new(false, "포탑 선회 중", Failure: FireFailure.Traversing); }
-        laser.RequestedDirection = direction;
+        laser.RequestedDirection = direction; laser.Credit=credit??Merits.Capture(ship);
         // Player/AI must renew at 60 Hz. A lost target, stale order or released input cannot latch the beam on.
         laser.RequestedUntil = ship.SimTime + TickDelta * 1.5;
         return new(true, "레이저 조사", Shots: 1);
@@ -169,8 +170,8 @@ public sealed partial class SimWorld
         {
             state.LoseFocus(LaserDefinition.PulseSeconds);
             if (small is Missile missile)
-            { missile.Health -= def.ModuleDamagePerSecond * scale; if (missile.Health <= 0) DestroyMissile(shooter, missile, shooter.SimTime); }
-            else if (small is ReconProbe probe) DamageProbe(shooter, probe, def.ModuleDamagePerSecond * scale, shooter.SimTime);
+            { missile.Health -= def.ModuleDamagePerSecond * scale; if (missile.Health <= 0) DestroyMissile(shooter, missile, shooter.SimTime,BattleWeapon.Laser,state.Credit); }
+            else if (small is ReconProbe probe) DamageProbe(shooter, probe, def.ModuleDamagePerSecond * scale, shooter.SimTime,BattleWeapon.Laser,state.Credit);
             else if (droneCarrier is not null) DamageDrone(shooter,droneCarrier,droneIndex,def.ModuleDamagePerSecond*scale,shooter.SimTime);
             return;
         }
@@ -184,7 +185,7 @@ public sealed partial class SimWorld
         var hit = DamageRay.Apply(target, from, direction, packet, shooter.SimTime, id,
             entryArmorScale: shieldBefore > 0 ? 1 : 1 - state.FocusFraction * def.MaxArmorReduction);
         state.End = hit.Point; state.HitLocal = hit.LocalPoint ?? state.HitLocal; state.ShieldHit = !hit.HullHit;
-        Log?.Hit(shooter, hit, BattleWeapon.Laser, shooter.SimTime, shieldBefore);
+        CreditHit(_shotSequence,shooter, hit, BattleWeapon.Laser, shooter.SimTime, shieldBefore,state.Credit,gun.Definition.ModuleId);
         // Limit secondary bursts/feedback per mount; the continuous surface spot is rendered separately.
         if (state.Pulses % 4 == 0 || hit.CausedDestruction || shieldBefore > 0 && target.Damage.Shield <= 0)
             RecordImpact(id, shooter, hit, shooter.SimTime, direction, packet.Energy, shieldBefore, BattleWeapon.Laser);

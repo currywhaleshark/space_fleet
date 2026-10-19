@@ -73,9 +73,13 @@ public sealed class CombatFeedback
         {
             if (!_seen.Add(impact.Id) || paused || impact.Hit.Target is not { } target) continue;
             if (target == ship) { Receive(Describe(impact)); received = true; }
-            else if (impact.Shooter == ship && target.Faction != ship.Faction)
+            else if (impact.Shooter == ship && target.Faction != ship.Faction
+                && world.Sensors.Track(ship.Faction,target).Level>=TrackLevel.Identified
+                && world.Sensors.Memory(ship.Faction,target,world.Time) is null
+                && (!impact.TargetDestroyed || world.Sensors.Track(ship.Faction,target).ObservedDestroyed))
             {
                 var feedback = Describe(impact);
+                if(feedback.Kind==HitKind.Critical && !impact.TargetDestroyed && world.Sensors.Track(ship.Faction,target).Level<TrackLevel.Locked)continue;
                 // 같은 순간의 작은 탄이 모듈 파괴 알림을 즉시 덮지 않게 한다.
                 if (Outgoing is null || Outgoing.Age > (Outgoing.Kind == HitKind.Critical ? .9f : .3f)
                     || Priority(feedback) >= Priority(Outgoing))

@@ -227,7 +227,7 @@ public partial class ScaleTest
         if (FireAssist && SelectedSmallContact is not null && !CorrectingSmallAim) { Notify(SmallAimStatus, true); return; }
         Vector3 direction = CorrectingSmallAim ? SmallAimDirection : CorrectingAim ? FiringSolution!.Direction : ManualDirection(player);
         FireAttempt attempt = FireAssist && CorrectingSmallAim && SelectedSmallContact is { Kind: SmallContactKind.Missile } missile
-            ? World.FireMissileIntercept(player, missile) : World.FireRailgun(player, direction);
+            ? World.FireMissileIntercept(player, missile) : World.FireRailgun(player, direction, World.Merits.Capture(player,fireTarget?.Body,CorrectingAim && !CorrectingSmallAim));
         LastFireMessage = attempt.Reason;
         LastFireFailed = !attempt.Fired;
         LastFireTime = World.Time;

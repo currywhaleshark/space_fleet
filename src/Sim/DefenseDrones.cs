@@ -236,13 +236,13 @@ public sealed partial class SimWorld
                             drones.ShipHits++;
                             _pointDefenseShots[^1]=_pointDefenseShots[^1] with { To=result.ShieldPoint??result.Point };
                         }
-                        Log?.Hit(ship,result,BattleWeapon.DefenseDrone,time,shieldBefore);
+                        CreditHit(_shotSequence,ship,result,BattleWeapon.DefenseDrone,time,shieldBefore);
                         RecordImpact(_shotSequence,ship,result,time,direction,def.ShipEnergy,shieldBefore,BattleWeapon.DefenseDrone);
                     }
                 }
                 if(target is not null && target.Health<=0 && _missiles.Remove(target))
                 {
-                    Log?.Intercept(ship, target);
+                    Log?.Intercept(ship, target); Merits.Intercept(ship,target,BattleWeapon.DefenseDrone,time);
                     drones.Interceptions++;
                     Log?.EndAntimatter(target,AntimatterOutcome.Drone,time);
                     _ordnanceEvents.Add(new(OrdnanceEventKind.Intercepted,target.Position,time,target.Faction,target.Weapon));

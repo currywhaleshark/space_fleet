@@ -1,0 +1,51 @@
+Sensor ranges BB vs BB: contact 381 km, identify 220 km, lock 135 km
+Contact at 150 km: error 1671 m, worst offset step per 0.25 s update 11.0%
+PASS: 26 sensor/EW checks
+PASS: 79 datalink fire-control checks
+Missile DD->BB 60 km stationary: impact after 20.3s
+Missile DD->DD 30 km crossing 200 m/s: impact after 14.5s
+Salvo BB->DD, four directions/roll phases at 40 km: no PD 96/96 hits / PD 3 intercepted, 93 hits
+Salvo BB->DD x6 at 40 km: decoys 1 hits (no decoys 6)
+Group defense, four directions at 30/60 km: 4/64 intercepted, 60 hit
+Near miss battleship at 2500 m/s: reapproach=42.5s, no hit, coast/expiry OK
+Near miss escort at 2500 m/s: reapproach=35.0s, no hit, coast/expiry OK
+Near miss interceptor at 2500 m/s: reapproach=none, no hit, coast/expiry OK
+Low-speed rear-target reattack: hit after 33.2s, turn reaches 15.5 km
+PASS: 128 missile/PD/decoy checks
+Counter trial interceptor offset=0 speed=3000 lateral=0: 1.850s, one round
+Counter trial interceptor offset=0 speed=3000 lateral=600: 1.900s, one round
+Counter trial interceptor offset=0 speed=6000 lateral=0: 1.150s, one round
+Counter trial interceptor offset=0 speed=6000 lateral=600: 1.217s, one round
+Counter trial interceptor offset=1000000000000 speed=3000 lateral=0: 1.850s, one round
+Counter trial interceptor offset=1000000000000 speed=3000 lateral=600: 1.900s, one round
+Counter trial interceptor offset=1000000000000 speed=6000 lateral=0: 1.150s, one round
+Counter trial interceptor offset=1000000000000 speed=6000 lateral=600: 1.217s, one round
+Counter trial mars_interceptor offset=0 speed=3000 lateral=0: 1.817s, one round
+Counter trial mars_interceptor offset=0 speed=3000 lateral=600: 1.867s, one round
+Counter trial mars_interceptor offset=0 speed=6000 lateral=0: 1.150s, one round
+Counter trial mars_interceptor offset=0 speed=6000 lateral=600: 1.217s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=3000 lateral=0: 1.817s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=3000 lateral=600: 1.867s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=6000 lateral=0: 1.150s, one round
+Counter trial mars_interceptor offset=1000000000000 speed=6000 lateral=600: 1.217s, one round
+PASS: 129 counter-missile checks
+PASS: 226 laser channel/damage/heat/sensor/fit checks
+Drone fore approach / 3 s: all-around 12, fore 64, aft 0 shots
+PASS: 77 defense drone checks
+IC auxiliary 0 stock drone kill: 6.92s, 32 shots
+IC auxiliary 0 vs drone / 5 s: slow 22, fast 2 shots
+IC auxiliary 1 stock drone kill: 6.92s, 32 shots
+IC auxiliary 1 vs drone / 5 s: slow 22, fast 2 shots
+PASS: 50 drone combat checks
+PASS: 21 battle objective checks
+structure finish battleship: 650 penetrating 100-damage rays
+structure finish escort: 63 penetrating 100-damage rays
+structure finish interceptor: 13 penetrating 100-damage rays
+structure finish mars_battleship: 182 penetrating 100-damage rays
+structure finish mars_escort: 25 penetrating 100-damage rays
+structure finish mars_interceptor: 10 penetrating 100-damage rays
+PASS: 52 cumulative hull structure checks
+Collision: 380 m/s ram → BB modules hit 2, 60 m/s ram → IC modules hit 2
+PASS: 128 damage/data checks
+PASS: 184505 critical damage / emergency repair risk checks
+PASS: 69 damage-control checks

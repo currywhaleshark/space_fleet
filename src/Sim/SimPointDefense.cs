@@ -70,7 +70,7 @@ public sealed partial class SimWorld
                 ShotResult result = DamageRay.Apply(raider, mount, hitDirection, packet, time, ++_shotSequence);
                 if (result.Target is not null)
                     _pointDefenseShots[^1] = _pointDefenseShots[^1] with { To = result.ShieldPoint ?? result.Point };
-                Log?.Hit(ship, result, BattleWeapon.PointDefense, time, shieldBefore);
+                CreditHit(_shotSequence,ship, result, BattleWeapon.PointDefense, time, shieldBefore);
                 RecordImpact(_shotSequence, ship, result, time, hitDirection, packet.Energy,
                     shieldBefore, BattleWeapon.PointDefense);
             }

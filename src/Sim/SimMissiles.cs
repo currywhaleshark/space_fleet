@@ -49,7 +49,7 @@ public sealed partial class SimWorld
         if(BrainOf(shooter) is { Enabled:true } && TerrainBlocked(start,track.EstimatedPosition)) return new(false,"지형 가림");
         var missile = new Missile
         {
-            Id = _shotSequence, Shooter = shooter, Target = target, Definition = def,
+            Id = _shotSequence, Shooter = shooter, Target = target, Definition = def, Credit=Merits.Capture(shooter,target),
             Position = start, PrevPosition = start, Health = def.HitPoints, AimPoint = track.EstimatedPosition,
             // 수직 발사관: 함선 위쪽으로 사출한 뒤 스스로 표적을 향해 꺾는다.
             Velocity = shooter.Velocity + (def.CanInterceptMissiles ? shooter.Forward : shooter.Up) * def.EjectSpeed,
@@ -212,6 +212,7 @@ public sealed partial class SimWorld
                 }
                 break;
         }
+        Merits.MissileGuidance(m,dt);
         m.AimPoint = aim;
 
         if (m.Definition.CanInterceptMissiles && m.InterceptTarget is null)
@@ -409,7 +410,7 @@ public sealed partial class SimWorld
             packet=packet with { Range=packet.Range+Mathf.Max(0,hullDistance-1) };
         ShotResult hit = DamageRay.ApplyAtPose(victim, origin, direction, packet, time, m.Id, pose, orientation);
         Log?.EndAntimatter(m, AntimatterOutcome.Hit, time, victim);
-        Log?.Hit(m.Shooter, hit, m.Weapon, time, shieldBefore);
+        CreditHit(m.Id,m.Shooter, hit, m.Weapon, time, shieldBefore,Merits.MissileCredit(m));
         RecordImpact(m.Id, m.Shooter, hit, time, direction, m.Definition.Energy, shieldBefore, m.Weapon);
         _ordnanceEvents.Add(new(OrdnanceEventKind.Detonation, hit.ShieldPoint??hit.Point, time, m.Faction, m.Weapon, direction));
     }

@@ -17,6 +17,12 @@ public partial class Hud
 
     private void DrawRadar(ShipView controlled, Vector2 screen)
     {
+        _unscaledText = true;
+        try { DrawRadarContents(controlled,screen); }
+        finally { _unscaledText = false; }
+    }
+    private void DrawRadarContents(ShipView controlled, Vector2 screen)
+    {
         RadarBounds = default;
         DrawnOwnedRadarGroups=DrawnAlliedRadarGroups=0;
         if (Game.ShowHelp) return;

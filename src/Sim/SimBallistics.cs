@@ -50,11 +50,11 @@ public sealed partial class SimWorld
         if (_impacts.Count > 64) _impacts.RemoveAt(0);
     }
 
-    public FireAttempt FireRailgun(ShipBody shooter, Vector3 direction)
+    public FireAttempt FireRailgun(ShipBody shooter, Vector3 direction, ShotCredit? credit=null)
     {
         if (!_ships.Contains(shooter)) return new(false, "월드에 없는 함선", Failure: FireFailure.NotInWorld);
         if (shooter.Railgun is not RailgunState gun) return new(false, "주포 없음", Failure: FireFailure.NoGun);
-        return FireRailgun(shooter, gun, direction);
+        return FireRailgun(shooter, gun, direction, credit);
     }
 
     /// <summary>All ready mounts aim independently at a common point (or a parallel far-field direction).</summary>
@@ -73,11 +73,11 @@ public sealed partial class SimWorld
         return count > 0 ? first with { Shots = count, Reason = $"주포 {count}발 발사" } : first;
     }
 
-    public FireAttempt FireRailgun(ShipBody shooter, RailgunState gun, Vector3 direction)
+    public FireAttempt FireRailgun(ShipBody shooter, RailgunState gun, Vector3 direction, ShotCredit? credit=null)
     {
         if (!_ships.Contains(shooter) || !System.Array.Exists(shooter.Railguns, g => g == gun))
             return new(false, "월드에 없는 함선/포탑", Failure: FireFailure.NotInWorld);
-        if (gun.IsLaser) return RequestLaser(shooter, gun, direction);
+        if (gun.IsLaser) return RequestLaser(shooter, gun, direction, credit);
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return new(false, "조준 방향 없음", Failure: FireFailure.NoDirection);
         gun.Aim(direction);
         if (!gun.Ready) return new(false, gun.Status, Failure: FireFailure.NotReady);
@@ -100,7 +100,7 @@ public sealed partial class SimWorld
             var projectile = new RailProjectile
             {
                 Id = ++_shotSequence, Shooter = shooter, Position = muzzle, PrevPosition = muzzle,
-                ModuleId = gun.Definition.ModuleId, Barrel = barrel,
+                ModuleId = gun.Definition.ModuleId, Barrel = barrel, Credit=credit??Merits.Capture(shooter),
                 Velocity = shooter.Velocity + direction * gun.Definition.MuzzleSpeed, Packet = gun.Definition.Packet,
                 Lifetime = gun.Definition.MaxRange / gun.Definition.MuzzleSpeed,
             };
@@ -257,8 +257,8 @@ public sealed partial class SimWorld
             {
                 double hitTime = time + travelTime * smallFraction;
                 if (small is Missile missile)
-                { missile.Health -= proximity ? 6 : p.Packet.Energy; if (missile.Health <= 0) DestroyMissile(p.Shooter, missile, hitTime); }
-                else DamageProbe(p.Shooter, (ReconProbe)small, p.Packet.Energy, hitTime);
+                { missile.Health -= proximity ? 6 : p.Packet.Energy; if (missile.Health <= 0) DestroyMissile(p.Shooter, missile, hitTime,BattleWeapon.Railgun,p.Credit); }
+                else DamageProbe(p.Shooter, (ReconProbe)small, p.Packet.Energy, hitTime,BattleWeapon.Railgun,p.Credit);
                 _projectiles.RemoveAt(index);
                 continue;
             }
@@ -275,7 +275,7 @@ public sealed partial class SimWorld
                     _projectileShipRadii[targetIndex] = radiusAfter;
                     if (_indexedProjectileShips) BuildProjectileShipIndex();
                 }
-                Log?.Hit(p.Shooter, hit, BattleWeapon.Railgun, time + travelTime * earliest, shieldBefore);
+                CreditHit(p.Id,p.Shooter, hit, BattleWeapon.Railgun, time + travelTime * earliest, shieldBefore,p.Credit,p.ModuleId);
                 RecordImpact(p.Id, p.Shooter, hit, time + travelTime * earliest,
                     hitDirection, p.Packet.Energy, shieldBefore, BattleWeapon.Railgun);
                 _projectiles.RemoveAt(index);

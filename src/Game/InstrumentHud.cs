@@ -16,7 +16,7 @@ public partial class Hud
     private void DrawInstruments(ShipView controlled, Vector2 screen)
     {
         ShipBody body = controlled.Body;
-        var panel = CombatHudLayout.For(screen, Game.Scheme==ControlScheme.Helm, body.Railguns.Length).Instruments;
+        var panel = CombatHudLayout.For(screen, Game.Scheme==ControlScheme.Helm, body.Railguns.Length, HudSettings.TextScale).Instruments;
         DrawRect(panel, PanelBack);
         float cx = panel.Position.X + panel.Size.X * 0.5f;
         float top = panel.Position.Y;
@@ -112,9 +112,9 @@ public partial class Hud
         float x=center.X-maxWidth*.5f, y=center.Y;
         foreach (var chip in chips)
         {
-            float w=_font.GetStringSize(chip.Text,HorizontalAlignment.Left,-1,size).X+14;
-            if(x+w>center.X+maxWidth*.5f && x>center.X-maxWidth*.5f) {x=center.X-maxWidth*.5f;y+=18;}
-            var rect=new Rect2(x,y-9,w,17);
+            float w=_font.GetStringSize(chip.Text,HorizontalAlignment.Left,-1,HudFont(size)).X+14;
+            if(x+w>center.X+maxWidth*.5f && x>center.X-maxWidth*.5f) {x=center.X-maxWidth*.5f;y+=HudFont(size)+6;}
+            var rect=new Rect2(x,y-HudFont(size)+3,w,HudFont(size)+5);
             Color color=chip.On?chip.Color:Faint;
             DrawRect(rect,chip.On?new Color(chip.Color,.15f):new Color(0,0,0,0));
             DrawRect(rect,color,false,1);

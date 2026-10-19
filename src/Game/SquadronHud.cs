@@ -11,14 +11,18 @@ namespace SpaceFleet.Game;
 /// </summary>
 public partial class Hud
 {
+    internal Rect2 SquadronBounds { get; private set; }
     private void DrawSquadrons(ShipView controlled, Vector2 screen)
     {
+        SquadronBounds=new();
         var squadrons = Game.World.Squadrons.Where(q => q.Faction == controlled.Body.Faction).ToList();
         if(Game.LaunchConfig?.Match is not null)squadrons.RemoveAll(q=>q!=Game.OwnedSquadron);
         if (squadrons.Count == 0) return;
-        DrawInterceptorStatus(controlled, screen);
-        const float row = 20f;
-        var panel = new Rect2(16, screen.Y - 228 - squadrons.Count * row - 12, 250, squadrons.Count * row + 8);
+        float row = HudFont(13) + 29;
+        float bottom = screen.Y - (Game.BattleMode ? 284 : 232);
+        var panel = new Rect2(16, bottom - squadrons.Count * row - 8, 250, squadrons.Count * row + 8);
+        SquadronBounds=panel;
+        DrawInterceptorStatus(controlled, screen, panel.Position.Y);
         DrawRect(panel, PanelBack);
 
         for (int i = 0; i < squadrons.Count; i++)
@@ -58,8 +62,9 @@ public partial class Hud
                     _ => SquadCommands.Label(Game.SquadOrder),
                 }
                 : q.Activity;
-            Label(new Vector2(panel.Position.X + 120, y + 14), $"{q.Name} · {activity}", 12, mine ? ShipAffiliation.Owned : Dim,
+            Label(new Vector2(panel.Position.X + 120, y + 16), q.Name, 13, mine ? ShipAffiliation.Owned : Text,
                 HorizontalAlignment.Left, panel.Size.X - 126);
+            Label(new Vector2(panel.Position.X + 20, y + row - 7), activity, 13, Dim, width: panel.Size.X - 30);
         }
     }
 }

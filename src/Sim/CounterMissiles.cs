@@ -44,7 +44,7 @@ public sealed partial class SimWorld
         var track = Sensors.SmallTrack(ship.Faction, target)!.Value;
         Vec3d start = ship.Position + Vec3d.From(ship.Orientation * def.LaunchPoint);
         _missiles.Add(new Missile {
-            Id = ++_shotSequence, Shooter = ship, InterceptTarget = target, Definition = def,
+            Id = ++_shotSequence, Shooter = ship, InterceptTarget = target, Definition = def, Credit=Merits.Capture(ship),
             Position = start, PrevPosition = start, Health = def.HitPoints,
             Velocity = ship.Velocity + ship.Forward * def.EjectSpeed,
             NoseDirection = ship.Forward, PreviousNoseDirection = ship.Forward,
@@ -112,7 +112,7 @@ public sealed partial class SimWorld
             target.Health -= m.Definition.InterceptDamage;
             if (target.Health <= 0)
             {
-                DestroyMissile(m.Shooter, target, time);
+                DestroyMissile(m.Shooter, target, time,BattleWeapon.Missile,m.Credit);
                 if (Log is { } log) log.Ship(m.Shooter).CounterMissileKills++;
             }
             _missiles.Remove(m); m.Health = 0;

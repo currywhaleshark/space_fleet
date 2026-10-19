@@ -8,6 +8,9 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--merits")){MeritChecks.Run();return;}
+        if(args.Contains("--merit-smoke")){MeritChecks.Regression(true);return;}
+        if(args.Contains("--merit-battles")){MeritChecks.Regression();return;}
         if(args.Contains("--aa-lasers")){AirDefenseLaserChecks.Run();return;}
         if(args.Contains("--laser-perf")){LaserChecks.Profile();return;}
         if(args.Contains("--lasers")){LaserChecks.Run();return;}

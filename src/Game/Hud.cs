@@ -20,7 +20,7 @@ public partial class Hud : Control
     private static readonly Color Hostile = new(1f, 0.42f, 0.32f, 0.9f);
     private static readonly Color Motion = new(1f, 0.78f, 0.35f, 0.9f);
     private static readonly Color Good = new(0.35f, 0.9f, 0.7f, 0.9f);
-    private static readonly Color PanelBack = new(0.01f, 0.02f, 0.03f, 0.72f);
+    private static readonly Color PanelBack = new(0.01f, 0.02f, 0.03f, 0.88f);
 
     private Font _font = null!;
     private readonly MarkerLabels _markerLabels = new();
@@ -68,7 +68,7 @@ public partial class Hud : Control
         Vector2 size = GetViewportRect().Size;
         BeginMarkerLabels(size,controlled);
         if(Game.Spectating)
-        {DrawBrackets(cam,controlled,size);_markerLabels.Draw(this,_font);DrawBattleHud(size);DrawRadar(Game.SpectatedView??controlled,size);return;}
+        {DrawBrackets(cam,controlled,size);_markerLabels.Draw(this,_font);DrawBattleHud(size);DrawMerits(size);DrawRadar(Game.SpectatedView??controlled,size);DrawHelp(controlled,size);return;}
 
         UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
@@ -106,6 +106,7 @@ public partial class Hud : Control
         DrawTargetPanel(size);
         DrawShotFeedback(cam);
         DrawIncomingFeedback(size);
+        DrawMerits(size);
         DrawBattleHud(size);
         DrawTerrainWarning(controlled,size);
         DrawRadar(controlled, size);
@@ -120,11 +121,14 @@ public partial class Hud : Control
 
     private void BeginMarkerLabels(Vector2 screen,ShipView controlled)
     {
+        _markerLabels.TextScale = HudSettings.TextScale;
         _markerLabels.Begin(screen);
         float radarScale=Mathf.Clamp(Mathf.Min(screen.X/1600,screen.Y/900),.6f,1);
         _markerLabels.Reserve(new Rect2(16,16,248*radarScale,248*radarScale));
+        if(MeritBounds.HasArea())_markerLabels.Reserve(MeritBounds);
+        if(MeritNoticeBounds.HasArea())_markerLabels.Reserve(MeritNoticeBounds);
         if(Game.Spectating)return;
-        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length);
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length, HudSettings.TextScale);
         if(Game.Feedback.Outgoing is not null)
         {
             Vector2 at=layout.HitFeedback(screen*.5f);
@@ -182,13 +186,17 @@ public partial class Hud : Control
             DrawArc(center, radius, start, start + sweep * f, Math.Max(3, (int)(32 * f)), fill, width);
     }
 
+    private bool _unscaledText;
+    private int HudFont(int size) => _unscaledText ? size : HudSettings.FontSize(size);
+    private Color Readable(Color color) => !_unscaledText && color == Dim ? new Color(Dim, .78f) : color;
     private void Label(Vector2 at, string text, int size, Color color, HorizontalAlignment align = HorizontalAlignment.Left, float width = -1)
-        => DrawString(_font, at, text, align, width, size, color);
+        => DrawString(_font, at, HudText.Fit(_font,text,HudFont(size),width), align, width, HudFont(size), Readable(color));
 
     private void CenteredLabel(Vector2 center, string text, int size, Color color)
     {
+        size = HudFont(size);
         Vector2 s = _font.GetStringSize(text, HorizontalAlignment.Left, -1, size);
-        DrawString(_font, center + new Vector2(-s.X * 0.5f, s.Y * 0.3f), text, HorizontalAlignment.Left, -1, size, color);
+        DrawString(_font, center + new Vector2(-s.X * 0.5f, s.Y * 0.3f), text, HorizontalAlignment.Left, -1, size, Readable(color));
     }
 
     /// <summary>함종 표식: 전함 ●●●, 호위함 ●●, 요격함 ●.</summary>
@@ -410,7 +418,7 @@ public partial class Hud : Control
             DrawRect(panel, Hostile, false, 2f);
 
         Label(panel.Position + new Vector2(10, 18), body.Callsign, 14, Game.ShipMarkerColor(body));
-        ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 14).X + 18, 13), body.Class.Kind, Game.ShipMarkerColor(body));
+        ClassPips(panel.Position + new Vector2(_font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, HudFont(14)).X + 18, 13), body.Class.Kind, Game.ShipMarkerColor(body));
         Label(panel.Position + new Vector2(140, 18), $"구조 {body.Damage.StructureFraction * 100:0}%", 12,
             body.Damage.StructureFraction <= .25f ? Hostile : body.Damage.StructureFraction <= .5f ? Motion : Dim,
             HorizontalAlignment.Right, 100);
@@ -418,13 +426,14 @@ public partial class Hud : Control
         DrawSystemBars(new Rect2(panel.Position + new Vector2(10, 44), new Vector2(panel.Size.X - 20, 66)), body.Damage);
         var dc = body.DamageControl;
         string state = body.Damage.Destroyed ? "복구 불가" : dc.Priority == RepairPriority.Hold ? "작업 중지"
-            : dc.Kits == 0 ? "자재 소진" : dc.ActiveModule is { } module ? module.Definition.Name : $"대기 · {dc.RestoreFraction*100:0}% 응급복구";
-        Label(panel.Position + new Vector2(10, 124), $"5 응급복구 · {DamageControlState.Label(dc.Priority)} · 자재 {dc.Kits}/{dc.Capacity}", 12, Text);
-        Label(panel.Position + new Vector2(10, 143), state, 12, dc.ActiveModule is null ? Dim : Motion);
+            : dc.Kits == 0 ? "자재 소진" : dc.ActiveModule is { } module ? ModuleNames.Display(module.Definition) : $"대기 · {dc.RestoreFraction*100:0}% 응급복구";
+        float textGap = Mathf.Round((HudSettings.TextScale-1)*25);
+        Label(panel.Position + new Vector2(10, 124+textGap), $"5 복구 · {DamageControlState.Label(dc.Priority)} · {dc.Kits}/{dc.Capacity}", 13, Text, width:230);
+        Label(panel.Position + new Vector2(10, 145+textGap), state, 13, dc.ActiveModule is null ? Dim : Motion, width:230);
         string progress = dc.ActiveModule is null ? ""
             : dc.QuietRemaining > .01 ? $"피격 중단 · {dc.QuietRemaining:0.0}초 후 재개" : $"작업 {dc.Progress * 100:0}% · {dc.WorkRemaining:0.0}초";
-        Label(panel.Position + new Vector2(10, 162), progress, 11, dc.QuietRemaining > .01 ? Hostile : Good);
-        HBar(new Rect2(panel.Position + new Vector2(10, 173), new Vector2(230, 4)), dc.Progress, Good);
+        Label(panel.Position + new Vector2(10, 166+textGap), progress, 12, dc.QuietRemaining > .01 ? Hostile : Good, width:230);
+        HBar(new Rect2(panel.Position + new Vector2(10, 173+textGap), new Vector2(230, 4)), dc.Progress, Good);
 
         if (collided && body.LastCollision is CollisionImpact hit)
             Label(panel.Position + new Vector2(0, -8), $"충돌 {hit.OtherCallsign} · Δv {hit.DeltaSpeed:0}", 13, Hostile);
@@ -477,54 +486,6 @@ public partial class Hud : Control
     }
 
     // ── 도움말·디버그(F1) ───────────────────────────────────────
-
-    private void DrawHelp(ShipView controlled, Vector2 screen)
-    {
-        if (!Game.ShowHelp)
-        {
-            Label(new Vector2(16, screen.Y - 12), SoundSettings.Muted ? "F1 도움말 · M 전체 지도 · F10 효과음 켜기" : "F1 도움말 · M 전체 지도 · F10 효과음 끄기", 12, Dim);
-            return;
-        }
-        ShipBody body = controlled.Body;
-        string[] lines =
-        {
-            $"렌더 원점 {(Game.FloatingOrigin ? "카메라 기준" : "월드 0 고정")} · 월드 0에서 {FormatDistance(body.Position.Length())} · FPS {Engine.GetFramesPerSecond():0} · 틱 {Game.World.Tick}",
-            "플레이 조작 · W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · Tab 양팀 현황 · 휠 줌",
-            Game.Scheme == ControlScheme.Pilot ? "요격함 · 마우스 조준 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제"
-                : "조함 · A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 좌클릭 선택/사격",
-            "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 선택 편대/요격 임무 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/ESC 취소",
-            "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
-            "5 응급복구 라디얼 · 자동/계통 우선/중지 · 자재 소모 · 기능 35%까지",
-            "R 근처 적 지정 · 1 주포 추적 / 2 요격 미사일 · 좌클릭 발사 · 요격함 AM 3발",
-            "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
-            "요격함 N · 정찰/방공/제공/강습/복귀/프로브 · 지도 Shift 범위 미리보기 + 클릭 전개",
-            "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
-            "Z 비행보조 · V 항공식/우주식 · F10 효과음 · 일시정지에서 음량 조절",
-            "T 요격함 사격보조 / 대형함 교리 순환",
-            "G 집중공격 · H 호위 · J 위치 유지 · [ ] 배속 ×1/×4/×16",
-            "F1 도움말 · F2 원점 · F3 1,000 km 도약 · F4 시험 레이 · F5 모듈 · F6 복구 · F7 이동 표적 · F8 미사일 훈련",
-        };
-        if(Game.BattleMode && !Game.DevMode) lines=new[]
-        {
-            "W/S 스로틀 · X 정지 · Q/E 롤 · Shift 부스트 · 휠 줌",
-            Game.Scheme==ControlScheme.Pilot?"마우스 비행 · A/D/Space/Ctrl 평행추력 · Esc 커서 해제":"A/D 요 · Space/Ctrl 피치 · Alt 평행추력 · 중클릭 관찰(떼면 3초 유지) · 주포 선택 시 좌클릭 표적/부위",
-            "구형 레이더 · PgUp/PgDn 또는 지도 위 휠로 범위 · 구 클릭 / M 전체 지도",
-            "F 전력 · B 사격 교리(조함) · N 선택 편대/요격 임무 · 4 드론 방어구역 · 유지 → 방향 → 떼기 · 중앙/Esc 취소",
-            "1 주포 · 2 미사일 · 3 어뢰 · 좌클릭 발사 · 우클릭 유지 망원 ×4",
-            "5 응급복구 라디얼 · 자동/계통 우선/중지 · 자재 소모 · 기능 35%까지",
-            "R 근처 적 지정 · 1 주포 추적 / 2 요격 미사일 · 좌클릭 발사 · 요격함 AM 3발",
-            "Backspace 1초 AM 전량 투기 · C 디코이 · R 표적 · Y 부위",
-            "요격함 N · 정찰/방공/제공/강습/복귀/프로브 · 지도 Shift 범위 미리보기 + 클릭 전개",
-            "요격함 보조 포탑 2기 · 후방 상·하부 자동 요격 · 몸체를 돌려 사계 확보",
-            "Z 비행보조 · V 항공식/우주식 · [ ] 배속 ×1/×2/×4",
-            "Esc 커서 해제 후 일시정지/음량 · F10 효과음 · 함선 상실 시 자동 인계 · F1 닫기",
-        };
-        float width = lines.Max(l => _font.GetStringSize(l, HorizontalAlignment.Left, -1, 13).X) + 20;
-        DrawRect(new Rect2(8, 8, width, 16 + lines.Length * 19), PanelBack);
-        for (int i = 0; i < lines.Length; i++)
-            Label(new Vector2(18, 26 + i * 19), lines[i], 13, i == 0 ? Dim : Text);
-    }
 
     private static string FormatDistance(double meters) =>
         meters >= 1000 ? $"{meters / 1000:#,0.0} km" : $"{meters:0} m";

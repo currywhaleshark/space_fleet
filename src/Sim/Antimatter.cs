@@ -112,7 +112,7 @@ public sealed partial class SimWorld
         if(BrainOf(shooter) is { Enabled:true } && TerrainBlocked(start,aim)) return new(false,"지형 가림");
         if (shooter.Forward.AngleTo(direction) > Mathf.DegToRad(am.LaunchConeDegrees)) return new(false, "AM 전방 발사각 밖");
         _shotSequence++;
-        _missiles.Add(new Missile { Id = _shotSequence, Shooter = shooter, Target = target, Definition = def,
+        _missiles.Add(new Missile { Id = _shotSequence, Shooter = shooter, Target = target, Definition = def, Credit=Merits.Capture(shooter,target,true),
             Weapon = BattleWeapon.Antimatter, Assault = am, LocalAim = localAim, LaunchRange = range,
             Position = start, PrevPosition = start, Health = def.HitPoints, AimPoint = aim,
             Velocity = shooter.Velocity + direction * def.EjectSpeed, LaunchDirection = direction,

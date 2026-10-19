@@ -1,0 +1,93 @@
+{
+  "scope": [
+    "HUD font presets 100/115/130, saved in user://hud.cfg",
+    "Recent 15-second, two-item damage summary; Korean module/armor-section names",
+    "Capability-based F1 essential/common help, modal flight and fire input guard"
+  ],
+  "unchanged": [
+    "Radar and tactical-map rendering policy",
+    "Simulation balance and ship/module definitions"
+  ],
+  "sourceChecks": [
+    {
+      "log": "hud-details-1600x900.log",
+      "pass": [
+        "PASS: 290 HUD text/damage/help checks"
+      ],
+      "errors": false
+    },
+    {
+      "log": "hud-details-960x720.log",
+      "pass": [
+        "PASS: 290 HUD text/damage/help checks"
+      ],
+      "errors": false
+    },
+    {
+      "log": "hud-readability-1600x900.log",
+      "pass": [
+        "PASS: 873 HUD readability/marker preservation checks"
+      ],
+      "errors": false
+    },
+    {
+      "log": "hud-readability-960x720.log",
+      "pass": [
+        "PASS: 873 HUD readability/marker preservation checks"
+      ],
+      "errors": false
+    }
+  ],
+  "visualInspection": {
+    "resolutions": [
+      "960x720",
+      "1600x900"
+    ],
+    "roles": [
+      "BB-01",
+      "DD-31",
+      "IC-21"
+    ],
+    "textPercent": [
+      100,
+      115,
+      130
+    ],
+    "helpPages": [
+      "essential",
+      "common/advanced"
+    ]
+  },
+  "limitations": [
+    "No full 240-ship rendered FPS benchmark in this UI change",
+    "Windows smaller than 960x720 not visually verified"
+  ],
+  "verifiedBehavior": [
+    "Recovery supersedes older destruction for the same module",
+    "Armor blocks do not supersede internal module destruction",
+    "Shield absorption does not erase a recent depletion report",
+    "Outdated reports expire after 15 seconds",
+    "Help blocks steering, weapon selection, targeting and held-click firing; Escape restores cursor",
+    "Map rendering remains at its previous font scale"
+  ],
+  "release": {
+    "executable": "builds\\SpaceFleet-20261018-hud-details-Windows-x64\\SpaceFleet.exe",
+    "archive": "builds\\SpaceFleet-20261018-hud-details-Windows-x64.zip",
+    "sha256": "689a9a1c38e104898b111871679dbcb260245ac257001e52be330fb12791aaee",
+    "zipCrc": "PASS",
+    "groups": 19,
+    "checks": 13036,
+    "assemblies": [
+      {
+        "name": "SpaceFleet.dll",
+        "sha256": "2a639aca584f08a7cd9c900e4bf79fc8952c185c0d925a2bc9f4d8b0910cbdbc",
+        "matchesCompiledRelease": true
+      },
+      {
+        "name": "SpaceFleet.Sim.dll",
+        "sha256": "dd4cd9df37a5757cd101a9bcc90976862206b975a3e578080691efea83e7f19f",
+        "matchesCompiledRelease": true
+      }
+    ]
+  }
+}

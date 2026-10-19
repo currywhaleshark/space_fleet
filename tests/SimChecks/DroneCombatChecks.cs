@@ -58,6 +58,7 @@ static class DroneCombatChecks
         float shield=ic.Damage.Shield;
         Step(w,8);
         Check(d.ShipHits>0 && ic.Damage.Shield<shield && d.RemainingRounds<640,"Drones attack hostile interceptors and consume their own finite rounds");
+        Check(w.Merits.Ship(bb)[MeritKind.Hit]==d.ShipHits,"Every drone hit has one carrier merit event");
         Check(w.Log!.Ship(ic).ShieldDamage>0,"Drone hits enter the normal ship damage log");
         for(int i=0;i<180;i++) w.Step();
         Check(w.Impacts.Any(p=>p.Weapon==BattleWeapon.DefenseDrone && p.Shooter==bb && p.Hit.Target==ic),"Drone impacts drive ordinary shield/armor/hull feedback");

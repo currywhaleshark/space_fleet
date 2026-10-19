@@ -1,0 +1,104 @@
+using System;
+using System.IO;
+using System.Linq;
+using Godot;
+using SpaceFleet.Sim;
+
+namespace SpaceFleet.Game;
+
+public partial class MeritGameChecks : Node
+{
+    private int _checks;
+    private void Check(bool ok,string why){if(!ok)throw new InvalidOperationException(why);_checks++;}
+    private async System.Threading.Tasks.Task Frame(Hud hud)
+    {hud.QueueRedraw();await ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);hud.QueueRedraw();await ToSignal(RenderingServer.Singleton,RenderingServer.SignalName.FramePostDraw);}
+    private void Shot(string name)
+    {
+        if(!BattleArgs.Parse(OS.GetCmdlineUserArgs()).TryGetValue("merit-shots",out var dir))return;
+        Directory.CreateDirectory(dir);Check(GetViewport().GetTexture().GetImage().SavePng(Path.Combine(dir,name+".png"))==Error.Ok,"Screenshot saved");
+    }
+    public override async void _Ready()
+    {
+        int original=HudSettings.TextPercent;
+        try
+        {
+            InputSetup.Register();
+            foreach(string role in new[]{"IC-21","BB-01"})
+            {
+                var game=new ScaleTest{BattleMode=true,DevMode=false,LaunchControl=role};AddChild(game);game.SetProcess(false);game.SetPhysicsProcess(false);
+                var me=game.Controlled!.Body;int i=0;
+                foreach(var ship in game.World.Ships){game.World.DetachBrain(ship);ship.Place(new(1e9,++i*10000,0),Quaternion.Identity);ship.Velocity=Vector3.Zero;}
+                me.Place(Vec3d.Zero,Quaternion.Identity);game.Camera.ResetAim(me.Orientation);game._Process(1);
+                var target=game.Views.First(v=>v.Body.Callsign=="BB-X1");
+                game.SelectionHudFixture(target,TrackLevel.Locked,game.Camera.Position+game.Camera.AimForward*6000);
+                game.World.Sensors.Update(game.World.Ships,game.World.Time,true);
+                for(int n=0;n<6;n++)
+                {
+                    CombatFeedbackChecks.Strike(game.World,me,target.Body,n==5?HitKind.Critical:HitKind.Penetration,(uint)(9000+n));
+                    var hit=game.World.Impacts[^1];game.World.Merits.Hit(hit.Id,me,hit.Hit,hit.Weapon,hit.Time,0,game.World.Merits.Capture(me));
+                }
+                game.World.Sensors.Update(game.World.Ships,game.World.Time,true);game.World.Merits.Step();game.AdvanceMerits(.016f);
+                var hud=game.GetNode<Hud>("HudLayer/Hud");
+                Check(game.World.Merits.Personal()[MeritKind.Hit]==6,"Actual rays reach personal merit totals");
+                foreach(int percent in new[]{100,130})
+                {
+                    HudSettings.SetTextPercent(percent,false);await Frame(hud);
+                    Check(hud.MeritBounds.HasArea()&&new Rect2(Vector2.Zero,GetViewport().GetVisibleRect().Size).Encloses(hud.MeritBounds),"Ribbons fit supported resolution and font scale");
+                    var size=GetViewport().GetVisibleRect().Size;
+                    Check(!hud.MeritBounds.Intersects(hud.SquadronBounds),"Ribbons stop above squad/system panels");
+                    Check(!hud.MeritBounds.HasPoint(size*.5f),"Central aiming view remains clear");
+                    Shot(role+"-ribbons-"+percent);
+                    game.Camera.SetTelescope(true);await Frame(hud);Check(hud.MeritBounds.HasArea(),"Scope retains personal ribbons");Shot(role+"-scope-"+percent);game.Camera.SetTelescope(false);
+                }
+                Check(game.MeritDisplay.Showing.Count<=2,"At most two important notices");
+                if(game.MeritDisplay.Showing.Count>0)
+                {
+                    float age=game.MeritDisplay.Showing[0].Age;game.Paused=true;game.AdvanceMerits(1);
+                    Check(game.MeritDisplay.Showing[0].Age==age,"Pause freezes screen-time notifications");game.Paused=false;
+                }
+                foreach(int speed in new[]{1,2,4})
+                {game.SetBattleSpeed(speed);float age=game.MeritDisplay.Showing.FirstOrDefault()?.Age??0;game.AdvanceMerits(.016f);
+                    Check(game.MeritDisplay.Showing.Count==0||Math.Abs(game.MeritDisplay.Showing[0].Age-age-.016f)<.001,"Notification lifetime independent of battle speed");}
+                var before=game.World.Merits.Personal();game.BeginSpectating();game.AdvanceMerits(.016f);
+                Check(game.World.Merits.Controlled is null&&game.World.Merits.Personal()[MeritKind.Hit]==before[MeritKind.Hit],"Spectating keeps personal attribution instead of adopting observed ship");
+                await Frame(hud);Shot(role+"-spectating");
+                game.World.Merits.Freeze(game.World.Time);var frozen=game.World.Merits.Outcome!.Personal;
+                game.World.Merits.Hit(99999,me,game.World.Impacts[0].Hit,BattleWeapon.Railgun,99,0,new(true));
+                Check(game.World.Merits.Outcome.Personal.Damage==frozen.Damage,"Official result remains frozen");
+                if(role=="BB-01")
+                {
+                    var host=GetParent<Main>();var overlay=host.ShowMeritResultFixture(game);
+                    for(int scope=0;scope<4;scope++){overlay.ActivateButton(4+scope);await Frame(hud);Shot("result-scope-"+scope);Check(overlay.Visible,"Result scope renders");}
+                    overlay.ActivateButton(3);await Frame(hud);Shot("result-history");host.EndMeritResultFixture();
+                }
+                RemoveChild(game);game.QueueFree();await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+            }
+            CheckQueue();GD.Print($"PASS: {_checks} merit HUD/notification/control/freeze checks");GetTree().Quit();
+        }
+        catch(Exception e){GD.PushError(e.ToString());GetTree().Quit(1);}
+        finally{HudSettings.SetTextPercent(original,false);Input.MouseMode=Input.MouseModeEnum.Visible;}
+    }
+    private void CheckQueue()
+    {
+        var w=new SimWorld();var a=w.Add(new ShipBody("A",ShipClass.Interceptor,Faction.Blue));var t=w.Add(new ShipBody("T",ShipClass.Interceptor,Faction.Red));
+        w.Merits.Controlled=a;t.Place(new(0,0,-1000),Quaternion.Identity);w.Sensors.Update(w.Ships,0,true);
+        var display=new MeritPresentation();uint id=20000;
+        for(int n=0;n<10;n++)w.Merits.Hit(++id,a,new(t,t.Position,0,false,false,Array.Empty<ModuleHit>(),""){StructuralDamage=1},BattleWeapon.Railgun,0,0,new(true));
+        display.Advance(w.Merits,.016f,false,false,null);Check(display.Showing.Count==0,"Ordinary burst does not create ten important alerts");
+        t.Damage.Breakup(0,"test");w.Sensors.Update(w.Ships,0,true);
+        w.Merits.Hit(++id,a,new(t,t.Position,0,false,false,Array.Empty<ModuleHit>(),""){CausedDestruction=true},BattleWeapon.Railgun,0,0,new(true));
+        display.Advance(w.Merits,.016f,false,false,null);
+        Check(display.Showing.Any(n=>n.Event.Kind==MeritKind.Kill),"Kill notification survives ordinary-hit spam");
+    }
+}
+
+public partial class Main
+{
+    internal BattleOverlay ShowMeritResultFixture(ScaleTest game)
+    {
+        SetProcess(false);Battle=game;_fixtureOutcome=new(Faction.Blue,"검증용 판정",game.World.Time);
+        var layer=new CanvasLayer{Layer=10};AddChild(layer);
+        _overlay=new BattleOverlay{Host=this};layer.AddChild(_overlay);ChangeScreen(BattleScreen.Result);return _overlay;
+    }
+    internal void EndMeritResultFixture(){var layer=_overlay.GetParent();RemoveChild(layer);layer.QueueFree();Battle=null;_fixtureOutcome=null;Screen=BattleScreen.Title;}
+}

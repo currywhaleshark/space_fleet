@@ -75,14 +75,16 @@ public partial class HudReadabilityChecks : Node
     {
         foreach(var screen in new[]{new Vector2(960,720),new(1024,768),new(1180,812),new(1280,720),new(1364,1024),new(1600,900),new(1920,1080)})
             foreach(int mounts in new[]{1,2,3,4,8})
+            foreach(float scale in new[]{1f,1.15f,1.3f})
             {
-                var layout=CombatHudLayout.For(screen,true,mounts);
+                var layout=CombatHudLayout.For(screen,true,mounts,scale);
                 var full=new Rect2(Vector2.Zero,screen);
                 var power=new Rect2(screen.X-266,screen.Y-150,250,118);
                 var weapons=new Rect2(layout.Weapons,new Vector2(390,31));
                 Check(full.Encloses(layout.Gunnery)&&full.Encloses(layout.Instruments),"Both panels remain on screen");
                 Check(layout.Gunnery.Size.X>=332,"Firing display always has room for ring, target and sphere");
                 Check(!layout.Gunnery.Intersects(power)&&!layout.Instruments.Intersects(power),"No firing/instrument content behind power panel");
+                Check(!layout.Gunnery.Intersects(new Rect2(screen.X-332,8,320,424)),"Large text never pushes the firing sphere behind the damage panel");
                 Check(!layout.Gunnery.Intersects(layout.Instruments)&&!layout.Gunnery.Intersects(weapons)&&!layout.Instruments.Intersects(weapons),"Bottom controls reflow without overlapping");
                 Check(full.Encloses(layout.Selection) && !layout.Selection.Intersects(layout.Gunnery) && !layout.Selection.Intersects(weapons),
                     "Persistent selected-target readout fits between the responsive battery panel and weapon keys");

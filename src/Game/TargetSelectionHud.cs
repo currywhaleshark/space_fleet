@@ -53,7 +53,7 @@ public partial class Hud
             Vector2 d = EdgeDirection(camera, render - camera.GlobalPosition);
             p = EdgePoint(d, screen, 80);
             // Keep the selected arrow above the responsive battery/weapon panels.
-            var layout = CombatHudLayout.For(screen, Game.Scheme == ControlScheme.Helm, Game.Controlled!.Body.Railguns.Length);
+            var layout = CombatHudLayout.For(screen, Game.Scheme == ControlScheme.Helm, Game.Controlled!.Body.Railguns.Length, HudSettings.TextScale);
             float bottom = Math.Min(layout.Selection.Position.Y, layout.Gunnery.Size.X > 0 ? layout.Gunnery.Position.Y : screen.Y) - 30;
             p.Y = Math.Min(p.Y, bottom);
             Vector2 n = new(-d.Y, d.X);
@@ -101,9 +101,9 @@ public partial class Hud
             : Game.SelectedSmallContact is not null ? "지정 표적 요격"
             : Game.Camera.TelescopeHeld ? Game.Scheme == ControlScheme.Pilot ? "기수 연동 조준" : "중앙 직접 조준"
             : Game.Scheme == ControlScheme.Helm && Game.Gunnery?.Doctrine == FireDoctrine.Manual ? "마우스 직접 조준" : "";
-        float available = row.Size.X - 24 - _font.GetStringSize(mode, fontSize: 12).X;
+        float available = row.Size.X - 24 - _font.GetStringSize(mode, fontSize: HudFont(12)).X;
         string shown = name;
-        while (shown.Length > 1 && _font.GetStringSize(shown, fontSize: 13).X > available)
+        while (shown.Length > 1 && _font.GetStringSize(shown, fontSize: HudFont(13)).X > available)
             shown = shown[..^1];
         if (shown != name) shown = shown[..^1] + "…";
         Label(row.Position + new Vector2(9, 17), shown, 13, target is null ? Dim : color);

@@ -52,9 +52,12 @@ public partial class Hud
     {
         var am=ship.Ordnance.Antimatter;
         if(am.Definition is not { } def) return;
-        float width=294;
-        Vector2 start=screen.X>=1450 ? new(screen.X*.5f+212,screen.Y-155) : new(screen.X*.5f-width*.5f,screen.Y-325);
-        if(Game.Camera.TelescopeHeld && screen.X<1450) start=new(16,screen.Y*.5f-40);
+        float width=294+Mathf.Round((HudSettings.TextScale-1)*150);
+        bool beside=screen.X>=1560;
+        if(beside)width=Mathf.Min(width,screen.X*.5f-490);
+        Vector2 start=beside ? new(screen.X*.5f+212,screen.Y-155) : new(screen.X*.5f-width*.5f,screen.Y-325);
+        if(!beside)start.Y=CombatHudLayout.For(screen,false,ship.Railguns.Length,HudSettings.TextScale).Selection.Position.Y-137;
+        if(Game.Camera.TelescopeHeld && !beside) start=new(16,screen.Y*.5f-40);
         // Stowed, healthy ordnance needs status, not firing instructions over the battlefield.
         // Any preparation, damage warning or jettison returns the complete warning/control panel.
         if(!Game.AntimatterSelected&&!am.Warning&&am.Mode==AntimatterMode.Safe&&Game.JettisonProgress<=0)
@@ -70,7 +73,7 @@ public partial class Hud
         Color color=am.Warning || am.Mode==AntimatterMode.Failed ? Hostile : Game.AntimatterSelected ? Lead : Dim;
         DrawRect(panel,new Color(color,.5f),false,1);
         Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds}",15,color);
-        Label(start+new Vector2(93,20),am.Status,13,color);
+        Label(start+new Vector2(120,20),am.Status,13,color);
         Label(start+new Vector2(10,42),$"격리용기 {am.Containment*100:0}%",13,am.Warning ? Hostile : Text);
         var bar=new Rect2(start+new Vector2(180,34),new Vector2(102,5));
         DrawRect(bar,Faint); DrawRect(new Rect2(bar.Position,new Vector2(bar.Size.X*am.Containment,bar.Size.Y)),color);

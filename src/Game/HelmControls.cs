@@ -35,6 +35,7 @@ public partial class ScaleTest
 
     private void SetControlScheme(ShipBody ship)
     {
+        if (ShowHelp) SetHelp(false);
         Camera.ResetTelescope();
         Camera.Mode = SchemeFor(ship) == ControlScheme.Pilot ? CameraMode.MouseAim : CameraMode.ShipFollow;
         Camera.ResetAim(ship.Orientation);

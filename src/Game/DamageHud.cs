@@ -20,9 +20,12 @@ public partial class Hud
 
     private const float PanelWidth = 320f;
     private const float ViewHeight = 76f;
+    private readonly DamageReadout _damageReadout = new();
+    internal int DrawnDamageNotices { get; private set; }
 
     private void DrawTargetPanel(Vector2 screen)
     {
+        DrawnDamageNotices = 0;
         if (Game.InspectTarget is not ShipView target || Game.Controlled is not ShipView me)
             return;
         if (Game.ContactOf(target) is { SignalLost: true } lost)
@@ -45,15 +48,24 @@ public partial class Hud
             return;
         }
 
-        var reports = damage.Reports.Skip(Math.Max(0, damage.Reports.Count - 4)).ToArray();
-        float height = 46f + (enemy ? 16f : 0f) + (ViewHeight + 10f) * 2f + 70f + reports.Length * 17f + 8f;
+        var reports = _damageReadout.Recent(body, Game.World.Time);
+        float noticeRow = HudFont(13) + 5;
+        var lines = reports.Select(r => HudText.Wrap(_font, r.Message, HudFont(13), inner)).ToArray();
+        foreach(var wrapped in lines)
+            if(wrapped.Count>2)
+            {
+                wrapped[1]=HudText.Fit(_font,string.Join(" ",wrapped.Skip(1)),HudFont(13),inner);
+                wrapped.RemoveRange(2,wrapped.Count-2);
+            }
+        float noticeHeight = reports.Count == 0 ? 0 : 24 + lines.Sum(l => Math.Min(l.Count, 2) * noticeRow + 5);
+        float height = 46f + (enemy ? 16f : 0f) + (ViewHeight + 10f) * 2f + 72f + noticeHeight + 8f;
         var panel = new Rect2(screen.X - PanelWidth - 12f, 8f, PanelWidth, height);
         DrawRect(panel, PanelBack);
         float y = panel.Position.Y;
 
         Color identity = damage.Destroyed ? Dim : Game.ShipMarkerColor(body);
         Label(new Vector2(x, y + 20f), body.Callsign, 15, identity);
-        ClassPips(new Vector2(x + _font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, 15).X + 8f, y + 15f), body.Class.Kind, identity);
+        ClassPips(new Vector2(x + _font.GetStringSize(body.Callsign, HorizontalAlignment.Left, -1, HudFont(15)).X + 8f, y + 15f), body.Class.Kind, identity);
         // 거리가 주황이면 내 주포 사거리 밖이다.
         double distance = (body.Position - me.Body.Position).Length();
         bool outOfRange = me.Body.Railgun is RailgunState gun && distance > gun.Definition.MaxRange;
@@ -79,16 +91,19 @@ public partial class Hud
         DrawSystemBars(new Rect2(x, y, inner, 62f), damage);
         y += 72f;
 
-        // 최근 리포트 4줄. 오래된 것일수록 흐리게.
-        for (int i = 0; i < reports.Length; i++)
+        if (reports.Count > 0)
         {
-            DamageReport report = reports[i];
-            bool severe = report.Message.Contains("격침") || report.Message.Contains("단절") || report.Message.Contains("파괴");
-            float age = (float)(Game.World.Time - report.Time);
-            float alpha = Mathf.Clamp(1f - age / 12f, 0.35f, 1f);
-            Color color = severe ? Hostile : report.Message.StartsWith("실드") ? Friendly : Motion;
-            Label(new Vector2(x, y + 12f), report.Message, 12, new Color(color, color.A * alpha), HorizontalAlignment.Left, inner);
-            y += 17f;
+            Label(new(x,y+14), "최근 주요 피해", 12, Dim);
+            y += 25;
+        }
+        for (int i = 0; i < reports.Count; i++)
+        {
+            DamageNotice report = reports[i];
+            bool recovered=report.Message.Contains("복구")&&!report.Message.Contains("불가")&&!report.Message.Contains("위험");
+            Color color = report.Priority >= 3 ? Hostile : recovered ? Good : report.Message.StartsWith("실드") ? Friendly : Text;
+            foreach (string line in lines[i].Take(2))
+            { Label(new(x,y+HudFont(13)),line,13,color, width:inner); y += noticeRow; }
+            y += 5; DrawnDamageNotices++;
         }
     }
 
@@ -193,8 +208,8 @@ public partial class Hud
             if (module.HealthFraction < 0.99f)
             {
                 Vector2 at = bounds.Position + new Vector2(0, -5);
-                Label(at + Vector2.One, def.Name, 12, Colors.Black);
-                Label(at, def.Name, 12, color);
+                Label(at + Vector2.One, ModuleNames.Display(def), 12, Colors.Black);
+                Label(at, ModuleNames.Display(def), 12, color);
             }
         }
     }

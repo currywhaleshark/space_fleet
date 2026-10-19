@@ -29,6 +29,7 @@ public sealed record ShotResult(ShipBody? Target, Vec3d Point, float Distance, b
     public bool HullHit { get; init; } = true;
     public float StructuralDamage { get; init; }
     public bool CausedDestruction { get; init; }
+    public bool CausedDisable { get; init; }
 }
 
 /// <summary>명중 뒤의 관통 경로. 외부 실드, 선체 장갑 경계, 내부 모듈, 출구 장갑 순서로 진행한다.</summary>
@@ -112,6 +113,7 @@ public static class DamageRay
     public static ShotResult ApplyAtPose(ShipBody ship, Vec3d origin, Vector3 direction, DamagePacket packet,
         double time, uint sequence, Vec3d position, Quaternion orientation, bool shieldApplies = true, float entryArmorScale = 1)
     {
+        bool wasDisabled=ship.Damage.Disabled;
         packet.Validate();
         if (!float.IsFinite(entryArmorScale) || entryArmorScale <= 0 || entryArmorScale > 1)
             throw new ArgumentException("Invalid temporary entry armor scale");
@@ -204,7 +206,7 @@ public static class DamageRay
         if (hits.Count > 0 && summary == "선체 관통") summary = $"{hits.Count}개 모듈 타격";
         return new ShotResult(ship, point, first, false, armorStopped, hits, summary) {
             ShieldPoint=shieldPoint, ShieldLocalPoint=shieldLocal, ShieldAbsorbed=absorbed,
-            StructuralDamage=structureDealt, CausedDestruction=ship.Damage.Destroyed,
+            StructuralDamage=structureDealt, CausedDestruction=ship.Damage.Destroyed, CausedDisable=!wasDisabled && ship.Damage.Disabled,
             LocalPoint=o+d*first, LocalNormal=spans[0].Span.EnterNormal };
 
         void AddStructurePath(Region region, float factor, float end)

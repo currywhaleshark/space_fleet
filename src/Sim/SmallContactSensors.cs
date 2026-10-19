@@ -99,10 +99,11 @@ public sealed partial class SensorNet
     /// <summary>Nominal new-contact range in meters: signature 1, no jamming or engine/heat boost.</summary>
     public static double NominalContactRange(float strength) => Math.Sqrt(Math.Max(0, strength) / ContactSnr) * 1000;
 
-    private (float Track, float Detect, float Range, float ErrorScale, float BlockedTrack, float BlockedDetect) ProbeObservation(Faction side,
+    private (float Track, float Detect, float Range, float ErrorScale, float BlockedTrack, float BlockedDetect, ReconProbe? Source, ReconProbe? DetectSource) ProbeObservation(Faction side,
         ShipBody target, IReadOnlyList<ReconProbe> probes, float shipTrack, float shipDetect, float screen, double time,IReadOnlyList<ShipBody> ships)
     {
         float best = 0, detect = 0, range = 0, diversity = 0;
+        ReconProbe? source=null, detectSource=null;
         float blockedTrack=0,blockedDetect=0;
         Vector3 firstDirection = Vector3.Zero;
         TrackLevel withoutProbes = Classify(shipTrack, shipDetect, TrackLevel.None);
@@ -118,8 +119,9 @@ public sealed partial class SensorNet
             float track = Mathf.Min(5.5f, signal / (1 + EffectiveJamming(jammer)));
             if(Occluded(probe.Position,target.Position))
             { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,signal); continue; }
+            if(signal>detect)detectSource=probe;
             detect = Mathf.Max(detect, signal);
-            if (track > best) { best = track; range = delta.Length(); }
+            if (track > best) { best = track; range = delta.Length(); source=probe; }
             if (track < ContactSnr) continue;
             probe.Observing++;
             Vector3 direction = delta.Normalized();
@@ -131,6 +133,6 @@ public sealed partial class SensorNet
                 && _probeDiscoveries.Add((side, target, TrackLevel.Identified)))
                 probe.Owner.Ordnance.Interceptor.NewIdentifications++;
         }
-        return (best, detect, range, 1 / Mathf.Sqrt(1 + Mathf.Min(1.8f, diversity)),blockedTrack,blockedDetect);
+        return (best, detect, range, 1 / Mathf.Sqrt(1 + Mathf.Min(1.8f, diversity)),blockedTrack,blockedDetect,source,detectSource);
     }
 }

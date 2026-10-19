@@ -149,22 +149,23 @@ public sealed partial class SimWorld
             probe.Age, probe.Health <= 0, probe.Contacts.Count, probe.Identifications.Count));
     }
 
-    private void DamageProbe(ShipBody shooter, ReconProbe probe, float damage, double time)
+    private void DamageProbe(ShipBody shooter, ReconProbe probe, float damage, double time, BattleWeapon weapon=BattleWeapon.PointDefense, ShotCredit? credit=null)
     {
         if (!probe.Active || shooter.Faction == probe.Faction) return;
         probe.Health -= damage;
         if (probe.Health > 0) return;
+        Merits.ProbeDestroyed(shooter,probe,weapon,time,credit);
         shooter.Ordnance.Interceptor.ProbeKills++;
         shooter.Ordnance.Interceptor.FirstAction ??= time;
         _ordnanceEvents.Add(new(OrdnanceEventKind.ProbeDestroyed, probe.Position, time, probe.Faction));
         EndProbe(probe);
     }
 
-    private void DestroyMissile(ShipBody shooter, Missile missile, double time)
+    private void DestroyMissile(ShipBody shooter, Missile missile, double time, BattleWeapon weapon=BattleWeapon.PointDefense, ShotCredit? credit=null)
     {
         if (!_missiles.Remove(missile)) return;
         missile.Health = 0;
-        Log?.Intercept(shooter, missile);
+        Log?.Intercept(shooter, missile); Merits.Intercept(shooter,missile,weapon,time,credit);
         Log?.EndAntimatter(missile, AntimatterOutcome.PointDefense, time);
         shooter.Ordnance.Interceptor.MissileKills++;
         shooter.Ordnance.Interceptor.FirstAction ??= time;

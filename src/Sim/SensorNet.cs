@@ -30,6 +30,7 @@ public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, floa
     double Range, float ErrorMeters, Vec3d EstimatedPosition, Vector3 Offset = default)
 {
     public SensorObservation? Observation { get; init; }
+    public MeritSource? CreditSource { get; init; }
     public bool ObservedDestroyed { get; init; }
     public bool ObservedDisabled { get; init; }
     public float ObservedShieldFraction { get; init; } = 1;
@@ -76,6 +77,9 @@ public sealed partial class SensorNet
 
     private readonly Dictionary<(Faction, ShipBody), SensorTrack> _tracks = new();
     private double _nextUpdate;
+    internal BattleMeritLedger? Merits;
+    internal (float Track,float Detect,float Jam) MeasureForCredit(ShipBody observer,ShipBody target,IReadOnlyList<ShipBody> ships)
+        => Occluded(observer.Position,target.Position)?(0,0,0):Measure(observer,target,VisibleScreen(observer.Position,target,ships));
 
     /// <summary>observer 진영이 target을 아는 정도. 같은 진영은 항상 완전히 안다.</summary>
     public SensorTrack Track(Faction observer, ShipBody target)
@@ -134,7 +138,8 @@ public sealed partial class SensorNet
                 continue;
             float bestTrack = 0f, bestDetect = 0f, bestJam = 0f;
             float blockedTrack = 0, blockedDetect = 0;
-            ShipBody? bestObserver = null;
+            ShipBody? bestObserver = null, detectionObserver=null;
+            MeritSource? creditSource=null;
             double bestRange = double.PositiveInfinity;
             float screen = 0;
             foreach (ShipBody support in ships)
@@ -160,6 +165,7 @@ public sealed partial class SensorNet
                         || track <= blockedTrack && detect <= blockedDetect)) continue;
                 if (environment && Occluded(observer.Position,target.Position))
                 { blockedTrack=Mathf.Max(blockedTrack,track); blockedDetect=Mathf.Max(blockedDetect,detect); continue; }
+                if(detect>bestDetect)detectionObserver=observer;
                 bestDetect = Mathf.Max(bestDetect, detect);
                 if (track > bestTrack)
                 {
@@ -172,19 +178,28 @@ public sealed partial class SensorNet
             if (!double.IsFinite(bestRange))
                 bestRange = 0;
 
+            if(bestObserver is not null)creditSource=new(ObservationKind.Ship,0,bestObserver,time,bestObserver.Damage.SensorFraction*bestObserver.Power.SensorEffect);
             var probeData = ProbeObservation(side, target, probes, bestTrack, bestDetect, screen, time, ships);
             if (probeData.Track > bestTrack)
-            { bestTrack = probeData.Track; bestRange = probeData.Range; bestObserver = null; }
+            { bestTrack = probeData.Track; bestRange = probeData.Range; bestObserver = null;
+                if(probeData.Source is {} probe)creditSource=new(ObservationKind.Probe,probe.Id,probe.Owner,time,probeData.Track); }
+            float shipDetect=bestDetect;
             bestDetect = Mathf.Max(bestDetect, probeData.Detect);
             SensorTrack before = Track(side,target);
             TrackLevel previous = before.Level;
             TrackLevel level = Classify(bestTrack, bestDetect, previous);
+            if(level==TrackLevel.Contact)
+            {
+                if(probeData.Detect>shipDetect && probeData.DetectSource is {} probe)creditSource=new(ObservationKind.Probe,probe.Id,probe.Owner,time,probeData.Detect);
+                else if(detectionObserver is not null)creditSource=new(ObservationKind.Ship,0,detectionObserver,time,detectionObserver.Damage.SensorFraction*detectionObserver.Power.SensorEffect);
+            }
             float error = probeData.ErrorScale * (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
             uint seed = Hash(side.ToString()) ^ Hash(target.Callsign);
             Vector3 offset = (FireControl.SmoothNoise(seed, time, OffsetDriftRate) * error).ToVector3();
             _tracks[(side, target)] = level == TrackLevel.None ? SensorTrack.Unknown
                 : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, target.Position + offset, offset)
                 {
+                    CreditSource=creditSource is {} provenance?provenance with{Level=level,TrackSnr=bestTrack,DetectSnr=bestDetect}:null,
                     ObservedDestroyed = target.Damage.Destroyed, ObservedDisabled = target.Damage.Disabled,
                     ObservedShieldFraction = target.Damage.ShieldCapacity > 0 ? target.Damage.Shield / target.Damage.ShieldCapacity : 0,
                     ObservedVelocity = target.Velocity, ObservedOrientation = target.Orientation,
@@ -194,6 +209,7 @@ public sealed partial class SensorNet
                 };
             if(environment) ObserveOcclusion(side,target,before,_tracks[(side,target)],
                 Mathf.Max(blockedTrack,probeData.BlockedTrack),Mathf.Max(blockedDetect,probeData.BlockedDetect),time);
+            Merits?.Observe(target,side,_tracks[(side,target)],time);
         }
         _lastSampleTime=time;
     }
