@@ -40,7 +40,7 @@ public partial class ScaleTest
             if (!SmallAimSolved) { SmallAimStatus = "요격 사거리/사격통제 확인"; return; }
             var line = SimWorld.RailLine(ship, direction);
             CorrectingSmallAim = line == FireFailure.None;
-            SmallAimStatus = CorrectingSmallAim ? (TrackingSmallAim ? "기수 추적 · 근접신관 요격" : "좌클릭 유지 · 요격 보정") : line == FireFailure.HullBlocked
+            SmallAimStatus = CorrectingSmallAim ? (AutoSmallBattery ? "자동 요격" : TrackingSmallAim ? "기수 추적 · 근접신관 요격" : "좌클릭 유지 · 요격 보정") : line == FireFailure.HullBlocked
                 ? "선체 가림" : Scheme == ControlScheme.Pilot ? (TrackingSmallAim ? "기수 정렬 중 · 발사 대기" : "좌클릭 유지 · 기수 추적") : "포각 밖";
             return;
         }
@@ -59,26 +59,39 @@ public partial class ScaleTest
         SmallAimStatus = "R 표적 지정";
     }
 
+    private bool AutoSmallBattery => Scheme == ControlScheme.Helm && !Camera.TelescopeHeld
+        && Gunnery?.Doctrine is FireDoctrine.Free or FireDoctrine.Focus or FireDoctrine.Disable;
+
     private void StepSmallTargetBattery(ShipBody ship)
     {
         FiringSolution = null; CorrectingAim = false;
         if (MenuOpen || RadarPointerCaptured || SelectedWeapon != PlayerWeapon.MainGun) return;
-        bool firing = !_fireReleaseGuard && Input.IsActionPressed(InputSetup.Fire);
-        if (ScopeHullBlocked) { if (firing) Notify("선체에 시야 가림", true); return; }
+        bool firing = !_fireReleaseGuard && (Input.IsActionPressed(InputSetup.Fire) || AutoSmallBattery);
+        if (ScopeHullBlocked) { SimWorld.StopLasers(ship); if (firing) Notify("선체에 시야 가림", true); return; }
         if (!SmallAimSolved || SelectedSmallContact is not { } target)
-        { if (firing) Notify(SmallAimStatus, true); return; }
+        { SimWorld.StopLasers(ship); if (firing && Input.IsActionPressed(InputSetup.Fire)) Notify(SmallAimStatus, true); return; }
         bool fired = false; string status = SmallAimStatus;
         foreach (var gun in ship.Railguns)
         {
-            if (!World.SmallTargetAim(ship, target, out var direction, out var point, gun, playerAssist: true)) continue;
+            if (!World.SmallTargetAim(ship, target, out var direction, out var point, gun, playerAssist: true))
+            { gun.Laser?.Stop(); continue; }
             gun.Aim(direction);
-            if (!firing) continue;
-            if (World.FriendlyInLine(ship, gun.MuzzlePosition, direction, (float)(point - gun.MuzzlePosition).Length()))
-            { status = "아군 사선"; continue; }
+            if (!firing) { gun.Laser?.Stop(); continue; }
+            if (AutoSmallBattery && World.AutoLaserCooling(ship, gun)) { status = "냉각 중"; continue; }
+            if (World.Obstacles.SegmentBlocked(gun.MuzzlePosition, point, out _))
+            { gun.Laser?.Stop(); status = "지형 가림"; continue; }
+            float range = (float)(point - gun.MuzzlePosition).Length();
+            if (World.FriendlyInLine(ship, gun.MuzzlePosition, direction, range)
+                || World.FriendlyInLine(ship, gun.MuzzlePosition, gun.Direction, range))
+            { gun.Laser?.Stop(); status = "아군 사선"; continue; }
             var shot = World.FireRailgun(ship, gun, direction);
             fired |= shot.Fired; status = shot.Reason;
         }
-        if (firing) Notify(fired ? "요격 주포 발사" : status, !fired);
+        if (firing)
+        {
+            SmallAimStatus = fired ? (ship.Railgun?.IsLaser == true ? "레이저 요격" : "요격 주포 발사") : status;
+            if (Input.IsActionPressed(InputSetup.Fire)) Notify(SmallAimStatus, !fired);
+        }
     }
 
     public IEnumerable<ProbeMarker> ProbeMarkers()

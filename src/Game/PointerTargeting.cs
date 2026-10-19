@@ -68,7 +68,8 @@ public partial class ScaleTest
                 order.Engaged=null; order.EngagedModule=null; order.Solution=null; order.Status=GunneryStatus.Manual;
             }
             UpdateSmallAim(me.Body);
-            Notify(chosen.Kind == SmallContactKind.Missile ? "적 미사일 지정 · 1 주포 / 2 미사일 · 좌클릭 요격" : "적 프로브 지정 · 1 주포 / 좌클릭 요격", false);
+            Notify(AutoSmallBattery ? "소형 표적 지정 · 자동 요격"
+                : chosen.Kind == SmallContactKind.Missile ? "적 미사일 지정 · 1 주포 / 2 미사일 · 좌클릭 요격" : "적 프로브 지정 · 1 주포 / 좌클릭 요격", false);
         }
         else if (ship is not null) { SelectEnemy(ship); Notify("표적 · " + ContactOf(ship)!.Name, false); }
         else Notify("화면 안에 탐지된 적 표적 없음", true);

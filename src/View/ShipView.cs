@@ -30,6 +30,8 @@ public partial class ShipView : Node3D
     public ShieldView Shield { get; private set; } = null!;
     public WreckView Wreck { get; private set; } = null!;
     private Node3D _model=null!;
+    private TelescopeOrbit? _opticOrbit;
+    public TelescopeOrbit OpticOrbit => _opticOrbit ??= TelescopeOrbit.Fit(Body.Definition, TelescopeOrbit.ModelBounds(_model));
     private VisualHullSurface? _surface;
     public Vector3 ProjectFxPoint(Vector3 localPoint,Vector3 incoming)
         => ProjectFxSurface(localPoint,incoming).Point;

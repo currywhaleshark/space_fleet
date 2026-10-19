@@ -10,7 +10,7 @@ public sealed partial class SimWorld
     private readonly List<(SmallContact Contact,double Eta)> _batteryThreats=new();
     private readonly Dictionary<object,int> _batteryAssignments=new();
 
-    private bool AutoLaserCooling(ShipBody ship,RailgunState gun)
+    internal bool AutoLaserCooling(ShipBody ship,RailgunState gun)
     {
         if(gun.Laser is not { } laser)return false;
         if(ship.Power.HeatFraction>=.85f)laser.AutoCooling=true;

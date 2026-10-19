@@ -62,7 +62,8 @@ public partial class Hud
             CenteredLabel(new(mx,cy-19),lost.Name,14,ContactMemory.LostColor);
             CenteredLabel(new(mx,cy+1),FormatDistance((lost.Position-controlled.SimPosition).Length()),13,ContactMemory.LostColor);
         }
-        string reason=lost is not null?"신호 소실":FiringStatus(controlled.Body,order.Status);
+        string reason=Game.SelectedSmallContact is not null?Game.SmallAimStatus
+            :lost is not null?"신호 소실":FiringStatus(controlled.Body,order.Status);
         CenteredLabel(new(mx,cy+25),reason,13,lost is not null?ContactMemory.LostColor
             :order.Status==GunneryStatus.Firing?Good:order.Status==GunneryStatus.Obstructed?EnvironmentSymbols.Terrain:Motion);
         int columns=System.Math.Min(4,battery.Length);

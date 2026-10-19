@@ -33,6 +33,7 @@ public partial class WeaponInputChecks : Node
     private void Run()
     {
         CheckTargetSelectionFire();
+        CheckSmallBatteryInput();
         CheckLaserInput();
         CheckCounterMissileInput();
         CheckMissileTracking();

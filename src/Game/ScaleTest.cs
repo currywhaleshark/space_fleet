@@ -357,7 +357,8 @@ public partial class ScaleTest : Node3D
         AdvanceMerits(feedbackDelta);
         Camera.AdvanceImpacts(feedbackDelta, FeedbackSettings.Shake / 100f);
         Camera.Follow(controlled.Body.Definition, controlled.Position,
-            controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta);
+            controlled.Body.InterpolatedOrientation((float)alpha), Paused ? 0 : (float)delta,
+            Camera.TelescopeHeld ? controlled.OpticOrbit : null);
         Camera.AvoidObstacles(World.Obstacles,RenderOrigin,RenderOrigin+Vec3d.From(controlled.Position));
         p = PerfTrace.Begin();
         BattleLook.AimViewFill(this, Camera.GlobalBasis);
