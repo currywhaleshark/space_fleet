@@ -131,11 +131,7 @@ public static class ShipComponents
                         hull.Kind==HullKind.Battleship?40000:hull.Kind==HullKind.Escort?20000:5000,
                         ballistics.SensorErrorMeters,ballistics.SensorErrorPerKm*3,ballistics.AimErrorScale)};
             }
-            var installs=b.Installations.Select(m=>{
-                var center=(m.Muzzles[0]+m.Muzzles[^1])*.5f;
-                float span=Mathf.Max(Mathf.Abs(m.Muzzles[^1].X-m.Muzzles[0].X)*.5f,Mathf.Abs(center.Z)*.06f);
-                var muzzles=Enumerable.Range(0,count).Select(i=>center+Vector3.Right*(count==1?0:(2f*i/(count-1)-1)*span)).ToArray();
-                return m with{Muzzles=muzzles,Rounds=laser?0:m.Rounds};}).ToArray();
+            var installs=b.Installations.Select(m=>m with{Muzzles=MainBatteries.Spread(m,count),Rounds=laser?0:m.Rounds}).ToArray();
             json.Remove(nameof(ShipDefinition.Railgun));
             Set(nameof(ShipDefinition.MainBattery),b with{Weapon=w,Installations=installs});
         }

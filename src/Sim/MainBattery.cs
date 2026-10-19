@@ -38,7 +38,17 @@ public sealed record PrimaryWeaponDefinition(string Id, PrimaryWeaponSystem Syst
 public sealed record WeaponInstallationDefinition(string HardpointId, Vector3[] Muzzles, int Rounds);
 
 public sealed record MainBatteryDefinition(WeaponHardpointDefinition[] Hardpoints,
-    PrimaryWeaponDefinition Weapon, WeaponInstallationDefinition[] Installations);
+    PrimaryWeaponDefinition Weapon, WeaponInstallationDefinition[] Installations)
+{
+    /// <summary>
+    /// Modular parts, one per socket (calibers may differ; one system per ship). Null keeps the
+    /// single shared Weapon. When present, Weapon is the primary socket's part and supplies the
+    /// ship-level compatibility view; each turret fires with its own part.
+    /// </summary>
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public PrimaryWeaponDefinition[]? SocketWeapons { get; init; }
+    public PrimaryWeaponDefinition WeaponAt(int socket) => SocketWeapons?[socket] ?? Weapon;
+}
 
 /// <summary>Optional loadout choice. Null installations retain the authored barrel layout and magazine.</summary>
 public sealed record PrimaryWeaponSelection(PrimaryWeaponDefinition Weapon,
@@ -85,30 +95,39 @@ public static class MainBatteries
             && b.Installations.All(m => m is not null), "every socket requires one installation");
         Require(b.Hardpoints.Select(h => h.Id).Distinct().Count() == b.Hardpoints.Length
             && b.Hardpoints.Select(h => h.ModuleId).Distinct().Count() == b.Hardpoints.Length, "duplicate socket/module");
-        Require(b.Weapon is not null && Identifier(b.Weapon.Id) && Enum.IsDefined(b.Weapon.System)
-            && Enum.IsDefined(b.Weapon.Size), "invalid weapon identity");
-        var w = b.Weapon;
-        Require(w.BarrelCount is >= 1 and <= 3
-            && Positive(w.TraverseSpeedScale) && w.TraverseSpeedScale <= 1
-            && Nonnegative(w.MassKg) && Nonnegative(w.PowerMw), "invalid weapon format/cost");
-        if (w.System == PrimaryWeaponSystem.Laser)
+        Require(b.SocketWeapons is null || b.SocketWeapons.Length == b.Hardpoints.Length
+            && b.SocketWeapons.All(s => s is not null), "every socket requires one part");
+        if (b.SocketWeapons is { } parts)
+            Require(parts.Any(s => ShipDefinition.SerializeData(s) == ShipDefinition.SerializeData(b.Weapon)),
+                "primary weapon must be one of the socket parts");
+        var weapons = Enumerable.Range(0, b.Hardpoints.Length).Select(b.WeaponAt).Prepend(b.Weapon).ToArray();
+        foreach (var w in weapons.Distinct())
         {
-            Require(w.Railgun is null && w.Laser is not null && w.BarrelCount == 1, "laser requires one emitter and laser parameters only");
-            w.Laser.Validate();
+            Require(w is not null && Identifier(w.Id) && Enum.IsDefined(w.System)
+                && Enum.IsDefined(w.Size), "invalid weapon identity");
+            Require(w.System == b.Weapon.System, "one weapon system per ship");
+            Require(w.BarrelCount is >= 1 and <= 3
+                && Positive(w.TraverseSpeedScale) && w.TraverseSpeedScale <= 1
+                && Nonnegative(w.MassKg) && Nonnegative(w.PowerMw), "invalid weapon format/cost");
+            if (w.System == PrimaryWeaponSystem.Laser)
+            {
+                Require(w.Railgun is null && w.Laser is not null && w.BarrelCount == 1, "laser requires one emitter and laser parameters only");
+                w.Laser.Validate();
+            }
+            else Require(w.Railgun is not null && w.Laser is null, "railgun requires ballistic parameters only");
+            var g = w.Railgun ?? w.Laser!.GeometryAdapter;
+            Require(Positive(g.MuzzleSpeed) && Positive(g.ReloadSeconds) && Positive(g.Energy)
+                && Positive(g.PenetrationMm) && Positive(g.ModuleDamage) && Positive(g.MaxRange)
+                && Nonnegative(g.SensorErrorMeters) && Nonnegative(g.SensorErrorPerKm)
+                && Nonnegative(g.VelocityError) && Nonnegative(g.ShotHeatMj) && Positive(g.AimErrorScale), "invalid ballistics");
         }
-        else Require(w.Railgun is not null && w.Laser is null, "railgun requires ballistic parameters only");
-        var g = w.Railgun ?? w.Laser!.GeometryAdapter;
-        Require(Positive(g.MuzzleSpeed) && Positive(g.ReloadSeconds) && Positive(g.Energy)
-            && Positive(g.PenetrationMm) && Positive(g.ModuleDamage) && Positive(g.MaxRange)
-            && Nonnegative(g.SensorErrorMeters) && Nonnegative(g.SensorErrorPerKm)
-            && Nonnegative(g.VelocityError) && Nonnegative(g.ShotHeatMj) && Positive(g.AimErrorScale), "invalid ballistics");
         Require(ship.Modules is not null && ship.Flight is not null && ship.Power is not null, "missing hull data");
-        Require((double)w.MassKg * b.Hardpoints.Length < ship.Flight.MassKg
-            && (double)w.PowerMw * b.Hardpoints.Length <= ship.Power.Weapons, "weapon costs exceed authored hull totals");
+        Require(weapons.Skip(1).Sum(w => (double)w.MassKg) < ship.Flight.MassKg
+            && weapons.Skip(1).Sum(w => (double)w.PowerMw) <= ship.Power.Weapons, "weapon costs exceed authored hull totals");
         long rounds = 0;
         for (int i = 0; i < b.Hardpoints.Length; i++)
         {
-            var h = b.Hardpoints[i]; var m = b.Installations[i];
+            var h = b.Hardpoints[i]; var m = b.Installations[i]; var w = b.WeaponAt(i);
             Require(Identifier(h.Id) && Identifier(h.ModuleId) && Enum.IsDefined(h.Size) && w.Size <= h.Size
                 && m.HardpointId == h.Id, "incompatible size or installation order/identity");
             Require(ship.Modules.Any(d => d.Id == h.ModuleId && d.Kind == ModuleKind.Gun), "socket requires gun damage module");
@@ -140,7 +159,7 @@ public static class MainBatteries
         var mounts = b.Hardpoints[0].Fixed ? null : b.Hardpoints.Select((h, i) =>
             new TurretDefinition(h.ModuleId, h.Pivot, h.Trunnion, (Vector3[])b.Installations[i].Muzzles.Clone(),
                 h.Ventral, h.YawDegrees, h.MinElevation, h.MaxElevation,
-                h.YawRate * w.TraverseSpeedScale, h.ElevationRate * w.TraverseSpeedScale, b.Installations[i].Rounds,
+                h.YawRate * b.WeaponAt(i).TraverseSpeedScale, h.ElevationRate * b.WeaponAt(i).TraverseSpeedScale, b.Installations[i].Rounds,
                 h.ToleranceDegrees, h.HousingCenter, h.HousingHalfSize)).ToArray();
         var first = b.Hardpoints[0]; var barrels = b.Installations[0].Muzzles;
         Vector3 muzzle = mounts is null ? first.Pivot + first.Trunnion + barrels[0]
@@ -150,9 +169,17 @@ public static class MainBatteries
             g.SensorErrorMeters, g.SensorErrorPerKm, g.VelocityError, g.ShotHeatMj, mounts, g.AimErrorScale);
     }
 
+    /// <summary>Spreads barrels evenly about the installation's center line.</summary>
+    internal static Vector3[] Spread(WeaponInstallationDefinition m, int count)
+    {
+        var center=(m.Muzzles[0]+m.Muzzles[^1])*.5f;
+        float span=Mathf.Max(Mathf.Abs(m.Muzzles[^1].X-m.Muzzles[0].X)*.5f,Mathf.Abs(center.Z)*.06f);
+        return Enumerable.Range(0,count).Select(i=>center+Vector3.Right*(count==1?0:(2f*i/(count-1)-1)*span)).ToArray();
+    }
+
     internal static ResolvedWeaponMount[] Bind(MainBatteryDefinition? b, RailgunDefinition? gun) => b is null
         ? Array.Empty<ResolvedWeaponMount>() : b.Hardpoints.Select((h, i) =>
-            new ResolvedWeaponMount(h, b.Weapon, b.Installations[i], gun!.Mounts?[i])).ToArray();
+            new ResolvedWeaponMount(h, b.WeaponAt(i), b.Installations[i], gun!.Mounts?[i])).ToArray();
 
     internal static ShipDefinition Select(ShipDefinition hull, PrimaryWeaponSelection choice)
     {

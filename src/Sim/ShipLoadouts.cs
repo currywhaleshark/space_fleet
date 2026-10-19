@@ -18,13 +18,16 @@ public sealed record ShipLoadout(string BaseHullId, string? TreePatch = null, IR
     public PrimaryWeaponSelection? MainWeapon { get; init; }
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ShipComponentSelection? Components { get; init; }
+    /// <summary>Absolute main gun part per socket (null entry = stock part); applied after catalog systems.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public IReadOnlyList<string?>? MainGuns { get; init; }
 }
 
 public sealed record ResolvedLoadout(string LoadoutId, string BaseHullId, string ContentHash,
     string DefinitionJson, ShipDefinition Definition);
 
 /// <summary>
-/// Pure composition: base -> tree -> explicit primary -> upgrades -> catalog systems -> bay equipment -> validation.
+/// Pure composition: base -> tree -> explicit primary -> upgrades -> catalog systems -> main gun parts -> bay equipment -> validation.
 /// Objects merge recursively; arrays replace as a whole; null removes an optional field.
 /// No arithmetic/string expression evaluation and no mutation of the base catalog.
 /// </summary>
@@ -49,7 +52,10 @@ public static class ShipLoadouts
         var definition = ShipDefinition.Parse(source.ToJsonString(), strict: true);
         if (loadout.MainWeapon is not null && loadout.Components?.MainGun is not null)
             throw new InvalidDataException("Choose a catalog primary or an explicit primary, not both");
+        if (loadout.MainGuns is not null && (loadout.MainWeapon is not null || loadout.Components?.MainGun is not null))
+            throw new InvalidDataException("Choose main gun parts or a primary replacement, not both");
         definition = ShipComponents.Apply(definition, loadout.Components, useFactoryPrimary:loadout.MainWeapon is null);
+        definition = MainGunParts.Apply(definition, loadout.MainGuns);
         if (definition.InstalledEquipment.Length > 0)
             throw new InvalidDataException("Install equipment through bay selections, not definition patches");
         if (loadout.Equipment is { Count: > 0 } mounts) definition = Install(definition, mounts);

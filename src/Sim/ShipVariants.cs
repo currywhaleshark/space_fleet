@@ -27,6 +27,9 @@ public static class ShipVariants
         var node=ById(id).Node;
         return ShipLoadouts.Resolve(new(node.BaseHullId,node.Patch.ToJsonString(),upgrades,equipment) { MainWeapon = mainWeapon });
     }
+    /// <summary>The unmodified loadout of a base hull or tier variant, for adding selections.</summary>
+    public static ShipLoadout Loadout(string id)
+        => Catalog.TryGetValue(id, out var v) ? new(v.Node.BaseHullId, v.Node.Patch.ToJsonString()) : new(id);
     internal static bool TryGet(string id, out ShipVariant variant) => Catalog.TryGetValue(id, out variant!);
     private static IReadOnlyDictionary<string, ShipVariant> Load()
     {

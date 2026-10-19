@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings><EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <NoWarn>$(NoWarn);CS8602;CS8604;CS8618</NoWarn>
+    <BaseIntermediateOutputPath>obj/$(Tag)/</BaseIntermediateOutputPath>
+    <OutputPath>bin/$(Tag)/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Reference Include="GodotSharp"><HintPath>$(Root)/.godot/mono/temp/bin/Debug/GodotSharp.dll</HintPath></Reference>
+    <Compile Include="$(Root)/src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
+    <Compile Include="$(Root)/src/Shared/*.cs" Link="Shared/%(Filename)%(Extension)" />
+    <Compile Include="$(Root)/src/Game/HangarProfile.cs" Link="Game/HangarProfile.cs" />
+    <Compile Include="$(Root)/src/Game/ResearchProgress.cs" Link="Game/ResearchProgress.cs" />
+    <EmbeddedResource Include="$(Root)/data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/tree/*.json" LogicalName="SpaceFleet.data.tree.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

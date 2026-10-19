@@ -26,6 +26,12 @@ public sealed class RailgunState
         var common = ship.Definition.Railgun!;
         Definition = mount is null ? common : common with { ModuleId = mount.ModuleId, Rounds = mount.Rounds,
             Muzzle = mount.Breech(0) + mount.MountBasis * (mount.Muzzles[0] + mount.Muzzles[^1]) * .5f };
+        // Modular sockets may carry different calibers; each turret fires with its own part.
+        if (ship.Definition.Battery?.SocketWeapons is not null && (Weapon.Railgun ?? Weapon.Laser?.GeometryAdapter) is { } own)
+            Definition = Definition with { MuzzleSpeed = own.MuzzleSpeed, ReloadSeconds = own.ReloadSeconds, Energy = own.Energy,
+                PenetrationMm = own.PenetrationMm, ModuleDamage = own.ModuleDamage, MaxRange = own.MaxRange,
+                SensorErrorMeters = own.SensorErrorMeters, SensorErrorPerKm = own.SensorErrorPerKm,
+                VelocityError = own.VelocityError, ShotHeatMj = own.ShotHeatMj, AimErrorScale = own.AimErrorScale };
         Laser = Weapon.Laser is { } laser ? new LaserState(laser) : null;
         Reset();
     }

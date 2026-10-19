@@ -16,6 +16,7 @@ static class SimChecks
         if(args.Contains("--lasers")){LaserChecks.Run();return;}
         if(args.Contains("--components")){ComponentChecks.Run();return;}
         if(args.Contains("--hardpoints")){MainBatteryChecks.Run();return;}
+        if(args.Contains("--main-gun-parts")){MainGunPartChecks.Run();return;}
         if(args.Contains("--long-range")){LongRangeBalanceChecks.Run();return;}
         if(args.Contains("--engagement")){EngagementChecks.Run();return;}
         if(args.Contains("--engagement-timing")){EngagementTimingChecks.Run();return;}
@@ -72,6 +73,7 @@ static class SimChecks
         AirDefenseLaserChecks.Run();
         ComponentChecks.Run();
         MainBatteryChecks.Run();
+        MainGunPartChecks.Run();
         EngagementTimingChecks.Run();
         CheckCombinedG();
         CheckInertialFlight();
