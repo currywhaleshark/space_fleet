@@ -77,7 +77,7 @@ public partial class HangarPreview : Control
     /// - A distant planet.
     /// Scenery only: no collision, and the bay markers still use the ship's own coordinates.
     /// </summary>
-    private static void BuildDock(Node3D root,Aabb ship,float length)
+    internal static void BuildDock(Node3D root,Aabb ship,float length,bool planet=true)
     {
         float s=length;
         var steel=new StandardMaterial3D{AlbedoColor=new(.07f,.08f,.1f),Metallic=.55f,Roughness=.6f};
@@ -113,7 +113,7 @@ public partial class HangarPreview : Control
         for(int k=0;k<3;k++)Box(new(c.X-halfX,floor+.03f*s,c.Z-halfZ*.7f+k*halfZ*.7f),new(.03f*s,.06f*s,.03f*s),trim);
         root.AddChild(new OmniLight3D{Position=new(c.X+halfX*.6f,top,c.Z),OmniRange=length*2,LightEnergy=.35f,LightColor=new(.85f,.9f,1),ShadowEnabled=false});
         // A distant lit planet gives the berth a horizon (inside the camera's far plane).
-        root.AddChild(new MeshInstance3D{Name="DockPlanet",Mesh=new SphereMesh{Radius=5*s,Height=10*s,RadialSegments=48,Rings=24},
+        if(planet)root.AddChild(new MeshInstance3D{Name="DockPlanet",Mesh=new SphereMesh{Radius=5*s,Height=10*s,RadialSegments=48,Rings=24},
             Position=c+new Vector3(-7*s,-4*s,-9*s),CastShadow=GeometryInstance3D.ShadowCastingSetting.Off,
             MaterialOverride=new StandardMaterial3D{AlbedoColor=new(.12f,.2f,.3f),Roughness=1,RimEnabled=true,Rim=.6f,RimTint=.3f}});
     }

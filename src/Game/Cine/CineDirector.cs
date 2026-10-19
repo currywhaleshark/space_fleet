@@ -19,7 +19,7 @@ public partial class CineDirector : Node3D
     private static readonly Vec3d PlanetPosition = new(-2.2e7, -0.9e7, -5.5e7);
     private const float PlanetRadius = 6.0e6f;
 
-    private readonly List<CineShot> _shots = CineScript.Build();
+    private List<CineShot> _shots = null!;
     private readonly List<double> _starts = new();
     private CineStage? _stage;
     private CineFx _fx = null!;
@@ -35,17 +35,24 @@ public partial class CineDirector : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        // 편집본 선택: v3(기본, 지구 대 화성 티저) / v4(새 함급·전개·정찰·방공·강습·원거리 격침).
+        bool v4 = _args.GetValueOrDefault("cine-cut", "v3") == "v4";
+        _shots = v4 ? CineScriptV4.Build() : CineScript.Build();
         double start = 0;
         foreach (CineShot shot in _shots) { _starts.Add(start); start += shot.Duration; }
         GD.Print($"cine: {_shots.Count} shots, {start:0.0} s");
 
         BuildEnvironment();
+        // 전투 화면과 같은 화면 원판 행성(화면 가장자리에서도 둥글다).
+        var planetMaterial = new ShaderMaterial { Shader = GD.Load<Shader>("res://shaders/gas_giant_disc.gdshader") };
+        planetMaterial.SetShaderParameter("radius", PlanetRadius);
         _planet = new MeshInstance3D
         {
             Name = "Planet",
-            Mesh = new SphereMesh { Radius = PlanetRadius, Height = PlanetRadius * 2f, RadialSegments = 128, Rings = 64 },
-            MaterialOverride = new ShaderMaterial { Shader = GD.Load<Shader>("res://shaders/gas_giant.gdshader") },
+            Mesh = new QuadMesh { Size = new Vector2(2, 2) },
+            MaterialOverride = planetMaterial,
             CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+            CustomAabb = new Aabb(-Vector3.One * PlanetRadius, Vector3.One * PlanetRadius * 2),
             Rotation = new Vector3(0.35f, 0f, 0.25f),
         };
         AddChild(_planet);
@@ -57,6 +64,7 @@ public partial class CineDirector : Node3D
         AddChild(_fx);
         var layer = new CanvasLayer { Name = "CineLayer" };
         _overlay = new CineOverlay { Name = "Overlay" };
+        if (v4) _overlay.UseCutV4();
         layer.AddChild(_overlay);
         AddChild(layer);
 
@@ -161,6 +169,7 @@ public partial class CineDirector : Node3D
         Vec3d origin = pose.Position;
         _fx.Camera = origin;
         foreach (ShipView view in _stage.Views) view.Sync(origin, _stage.Alpha, (float)delta);
+        foreach (var (node, at, rotation) in _stage.Props) node.Transform = new Transform3D(new Basis(rotation), (at - origin).ToVector3());
         PlaceBackdrop(_planet, PlanetPosition - origin);
         _planet.Visible = shot.Planet;
 

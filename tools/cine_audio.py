@@ -141,14 +141,32 @@ def riser(sec=2.0):
 
 # ── 배경음 ────────────────────────────────────────────────
 
+def plan(duration, shots):
+    """편집본별 음악 계획: 세기 곡선, 북 구간, 8분음 장면, 상승음 시각, 느린 구간."""
+    start = {s["name"]: s["start"] for s in shots}
+    if "brawl" in start:   # v3 티저
+        kill = start["brawl"] + 4.6
+        return dict(
+            keys=[(0, 0.35), (start["contact"], 0.25), (start["salvo"], 0.6), (start["defense"], 0.7), (start["broadside"], 0.75),
+                  (start["strike"], 0.85), (start["brawl"], 1.0), (kill, 0.25), (start["title"], 0.9), (duration, 0.5)],
+            drums=(start["salvo"], kill), driving=("strike", "brawl"), double="brawl",
+            risers=((start["brawl"] - 1.8, 1.8), (start["title"] + 1.3 - 1.6, 1.6)),
+            slow=(kill, start["brawl"] + 8.5), title=start["title"])
+    # v4: 정박지 → 편대 → 머리 위 → 정찰 → 방공 → 강습 → 원거리 격침 → 제목.
+    kill = start["farkill"] + 3.5
+    return dict(
+        keys=[(0, 0.3), (start["lineup"], 0.42), (start["overhead"], 0.6), (start["probe"], 0.4), (start["laser"], 0.75),
+              (start["assault"], 0.9), (start["farkill"], 0.65), (kill, 1.0), (kill + 1.0, 0.35), (start["title"], 0.9), (duration, 0.5)],
+        drums=(start["overhead"], kill), driving=("assault",), double="assault",
+        risers=((kill - 1.6, 1.6), (start["title"] + 1.3 - 1.6, 1.6)),
+        slow=(start["assault"] + 4.2, start["assault"] + 6.2), title=start["title"])
+
+
 def music(duration, shots):
     t = t_axis(duration)
-    start = {s["name"]: s["start"] for s in shots}
-    dur = {s["name"]: s["duration"] for s in shots}
+    p = plan(duration, shots)
     # 장면별 세기 곡선.
-    keys = [(0, 0.35), (start["contact"], 0.25), (start["salvo"], 0.6), (start["defense"], 0.7), (start["broadside"], 0.75),
-            (start["strike"], 0.85), (start["brawl"], 1.0), (start["brawl"] + 4.6, 0.25), (start["title"], 0.9), (duration, 0.5)]
-    xs, ys = zip(*keys)
+    xs, ys = zip(*p["keys"])
     intensity = np.interp(t, xs, ys)
     # 저음 드론 + 단조 화음 패드(D 단조), 세기에 따라 필터가 열린다.
     drone = np.sin(2 * np.pi * 36.71 * t) * 0.6 + np.sin(2 * np.pi * 55.0 * t) * 0.25
@@ -162,28 +180,27 @@ def music(duration, shots):
     # 북: 96 BPM, 미사일전부터 격침 직전까지. 난전에서 8분음을 더한다.
     beat = 60 / 96
     drums = np.zeros_like(t)
-    kill = start["brawl"] + 4.6
-    n = start["salvo"]
+    n, kill = p["drums"]
     i = 0
     while n < kill:
         name = next(s["name"] for s in shots if s["start"] <= n < s["start"] + s["duration"])
-        hit = i % 4 in (0, 2) or (name in ("strike", "brawl") and True)
+        hit = i % 4 in (0, 2) or name in p["driving"]
         if hit:
             h = tom(1.0, 62 if i % 4 == 0 else 78) * (1.0 if i % 4 == 0 else 0.6)
             s0 = int(n * SR)
             seg = drums[s0:s0 + len(h)]
             seg += h[: len(seg)]
-        n += beat / (2 if name == "brawl" else 1)
+        n += beat / (2 if name == p["double"] else 1)
         i += 1
     out = stereo(bed * 0.35) + stereo(drums * 0.55)
     # 상승음: 난전 직전과 제목 직전.
-    for at, sec in ((start["brawl"] - 1.8, 1.8), (start["title"] + 1.3 - 1.6, 1.6)):
+    for at, sec in p["risers"]:
         r = riser(sec) * 0.25
         s0 = int(at * SR)
         out[s0:s0 + len(r)] += stereo(r)[: len(out) - s0]
     # 제목: 큰 화음 타격.
     b = braam(6.5) * 0.55
-    s0 = int((start["title"] + 1.3) * SR)
+    s0 = int((p["title"] + 1.3) * SR)
     out[s0:s0 + len(b)] += stereo(b)[: len(out) - s0]
     return out
 
@@ -229,7 +246,7 @@ def main(events_path, out_path):
         return clip
     synth = {"launch": whoosh(), "missile": explosion(0.6, 2.4), "pop": pop(), "boom": explosion(1.0), "kill": explosion(2.0, 5.0),
              "break": explosion(1.4, 4.0)}
-    slow_from, slow_to = start["brawl"] + 4.6, start["brawl"] + 8.5
+    slow_from, slow_to = plan(duration, shots)["slow"]
 
     def place(clip, at, gain, pan=0.0, slow=False):
         if clip.ndim == 1:
@@ -276,12 +293,25 @@ def main(events_path, out_path):
             place(synth[kind], at, g * gain, pan * 0.5, slow)
 
     # 탐지 화면: 탐색 빔이 접촉을 지날 때 핑, 잠금 순간 삑.
-    c0 = start["contact"]
-    for i in range(9):
-        place(ping(1300 + 40 * i), c0 + 0.35 + i * 0.09, 0.12)
-    place(ping(900), c0 + 1.9, 0.18)
-    for k in range(2):
-        place(beep(1800), c0 + 3.0 + k * 0.13, 0.22)
+    if "contact" in start:
+        c0 = start["contact"]
+        for i in range(9):
+            place(ping(1300 + 40 * i), c0 + 0.35 + i * 0.09, 0.12)
+        place(ping(900), c0 + 1.9, 0.18)
+        for k in range(2):
+            place(beep(1800), c0 + 3.0 + k * 0.13, 0.22)
+    # v4 원거리 격침: 30 km 밖이라 폭발음은 거의 들리지 않는다. 대신 게임 전과 알림처럼
+    # 리본이 튈 때마다 짧은 핑(같은 리본이 쌓이면 음이 오른다), 격침 배너에 낮은 타격음과 삑.
+    if "farkill" in start:
+        f0 = start["farkill"]
+        ribbons = ((0.9, "hit"), (1.5, "hit"), (1.8, "pen"), (2.3, "hit"), (2.6, "pen"), (2.9, "hit"))
+        seen = {}
+        for at, kind in ribbons:
+            seen[kind] = seen.get(kind, 0) + 1
+            place(ping((1500 if kind == "hit" else 1250) + 90 * seen[kind]), f0 + at, 0.14)
+        place(synth["kill"], f0 + 3.5, 0.5)
+        place(beep(1400), f0 + 3.5, 0.2)
+        place(beep(1900), f0 + 3.62, 0.2)
 
     mix = music(duration, shots) * 0.8 + reverb(sfx, 1.6, 0.22) * 0.9
     mix = reverb(mix, 2.4, 0.12)

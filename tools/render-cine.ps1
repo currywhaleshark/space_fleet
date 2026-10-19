@@ -1,15 +1,16 @@
 # 티저 영상 전체를 만든다: Godot 무비 메이커로 프레임(AVI) → 소리 합성(cine_audio.py) → ffmpeg로 MP4.
-# 결과: shots/cine/render/project_fleet_teaser.mp4
-param([string]$Size = '1920x1080', [int]$Crf = 17)
+# 결과: shots/cine/render/project_fleet_teaser.mp4 (v3) 또는 project_fleet_v4.mp4 (-Cut v4)
+param([string]$Size = '1920x1080', [int]$Crf = 17, [ValidateSet('v3','v4')][string]$Cut = 'v3')
 . "$PSScriptRoot\godot.ps1"
 $ErrorActionPreference = 'Stop'
 $dir = Join-Path $ProjectDir 'shots\cine\render'
 New-Item -ItemType Directory -Force $dir | Out-Null
-$avi = Join-Path $dir 'teaser_raw.avi'
-$events = Join-Path $dir 'events.json'
-$wav = Join-Path $dir 'teaser_audio.wav'
-$mp4 = Join-Path $dir 'project_fleet_teaser.mp4'
-$log = Join-Path $dir 'render.log'
+$tag = if ($Cut -eq 'v3') { 'teaser' } else { $Cut }
+$avi = Join-Path $dir "${tag}_raw.avi"
+$events = Join-Path $dir $(if ($Cut -eq 'v3') { 'events.json' } else { "${tag}_events.json" })
+$wav = Join-Path $dir "${tag}_audio.wav"
+$mp4 = Join-Path $dir $(if ($Cut -eq 'v3') { 'project_fleet_teaser.mp4' } else { "project_fleet_$Cut.mp4" })
+$log = Join-Path $dir $(if ($Cut -eq 'v3') { 'render.log' } else { "${tag}_render.log" })
 
 & "$PSScriptRoot\build.ps1" | Out-Null
 
@@ -19,7 +20,7 @@ $w, $h = $Size -split 'x'
 Set-Content -Path $override -Value "[editor]`nmovie_writer/mjpeg_quality=0.95`n[display]`nwindow/size/viewport_width=$w`nwindow/size/viewport_height=$h`n" -Encoding ascii
 try {
     $argList = @('--path', "`"$ProjectDir`"", '--resolution', $Size, '--write-movie', "`"$avi`"", '--fixed-fps', '30',
-        '--log-file', "`"$log`"", '--', '--cine', "--cine-events=`"$($events -replace '\\', '/')`"")
+        '--log-file', "`"$log`"", '--', '--cine', "--cine-cut=$Cut", "--cine-events=`"$($events -replace '\\', '/')`"")
     $proc = Start-Process -FilePath $Godot -ArgumentList $argList -WindowStyle Hidden -PassThru
     if (-not $proc.WaitForExit(3600000)) { Stop-Process -Id $proc.Id -Force; throw 'render timed out' }
 }

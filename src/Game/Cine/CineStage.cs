@@ -54,9 +54,16 @@ public sealed class CineStage
 
     /// <summary>함선 하나를 놓는다. heading은 전방(-Z)이 향할 방향, 속도는 전방 기준 m/s.</summary>
     public ShipBody Spawn(string callsign, ShipClass cls, Faction faction, Vec3d at, Vector3 heading, float speed = 0, float roll = 0, bool drones = true)
-    {
         // 청군은 지구 설계, 적군은 화성 설계(아레스·솔리스·로웰).
-        var definition = ShipDefinitions.For(cls.Kind, faction == Faction.Red ? DesignFamily.Mars : DesignFamily.Earth);
+        => Place(callsign, ShipDefinitions.For(cls.Kind, faction == Faction.Red ? DesignFamily.Mars : DesignFamily.Earth), faction, at, heading, speed, roll, drones);
+
+    /// <summary>함급 ID로 놓는다(T3~T5 변형·순양함). 공장 기본 무장(방공 순양함의 레이저 등)까지 합성한다.</summary>
+    public ShipBody Spawn(string callsign, string hullId, Faction faction, Vec3d at, Vector3 heading, float speed = 0, float roll = 0, bool drones = true)
+        => Place(callsign, ShipVariants.All.Any(v => v.Node.Id == hullId) ? ShipVariants.Resolve(hullId).Definition
+            : ShipLoadouts.Resolve(new(hullId)).Definition, faction, at, heading, speed, roll, drones);
+
+    private ShipBody Place(string callsign, ShipDefinition definition, Faction faction, Vec3d at, Vector3 heading, float speed, float roll, bool drones)
+    {
         var body = World.Add(new ShipBody(callsign, definition, faction));
         Quaternion q = Basis.LookingAt(heading.Normalized(), Vector3.Up).GetRotationQuaternion();
         if (roll != 0) q = q * new Quaternion(Vector3.Forward, Mathf.DegToRad(roll));
@@ -70,6 +77,36 @@ public sealed class CineStage
         if (drones && body.Definition.DefenseDrones is not null)
             view.AddChild(DroneSwarm.Create(body, view.Palette));
         return body;
+    }
+
+    /// <summary>시뮬레이션 좌표에 고정된 배경 소품(정박지 등). 연출이 매 프레임 렌더 원점에 맞춰 옮긴다.</summary>
+    public List<(Node3D Node, Vec3d At, Quaternion Rotation)> Props { get; } = new();
+
+    /// <summary>격납고 미리보기와 같은 궤도 정박지를 함선 둘레에 세운다(함선 크기에 비례).</summary>
+    public void Dock(ShipBody ship)
+    {
+        ShipView view = Views.First(v => v.Body == ship);
+        Transform3D toShip = view.GlobalTransform.AffineInverse();
+        Aabb bounds = default; bool first = true;
+        foreach (var mesh in ImportedShipModels.Meshes(view))
+        {
+            if (!mesh.IsVisibleInTree()) continue;
+            Aabb local = mesh.GetAabb();
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 point = toShip * (mesh.GlobalTransform * local.GetEndpoint(i));
+                bounds = first ? new Aabb(point, Vector3.Zero) : bounds.Expand(point); first = false;
+            }
+        }
+        var dock = new Node3D { Name = "Dock" };
+        HangarPreview.BuildDock(dock, bounds, ship.Definition.Flight.Length, planet: false);
+        // 전투 조명(강한 태양) 아래에서는 격납고용 강판이 하얗게 떠 보인다. 어둡고 거칠게 바꾼다(재질은 이 정박지 전용).
+        var dimmed = new HashSet<StandardMaterial3D>();
+        foreach (var box in dock.GetChildren().OfType<MeshInstance3D>())
+            if (box.MaterialOverride is StandardMaterial3D m && m.ShadingMode != BaseMaterial3D.ShadingModeEnum.Unshaded && dimmed.Add(m))
+            { m.AlbedoColor *= 0.4f; m.Metallic = 0.25f; m.Roughness = 0.9f; }
+        Root.AddChild(dock);
+        Props.Add((dock, ship.Position, ship.Orientation));
     }
 
     /// <summary>보간된 위치(카메라 계산용).</summary>
@@ -155,6 +192,10 @@ public sealed class CineShot
     public Func<CineStage, double, CamPose>? Camera { get; init; }
     /// <summary>영상 1초에 진행할 시뮬레이션 초(슬로모션 곡선).</summary>
     public Func<double, double> Rate { get; init; } = _ => 1;
+    /// <summary>게임 전과 배너(조준점 위): 시각, 제목, 설명, 색.</summary>
+    public (double At, string Title, string Detail, Color Tint)[] Banners { get; init; } = Array.Empty<(double, string, string, Color)>();
+    /// <summary>게임 전과 리본(조준점 아래): 시각마다 해당 리본이 튀어나오고 같은 이름이면 ×N으로 쌓인다.</summary>
+    public (double At, string Label, Color Tint)[] Ribbons { get; init; } = Array.Empty<(double, string, Color)>();
     /// <summary>화면 아래 짧은 자막(시작, 끝, 글).</summary>
     public (double From, double To, string Text, string Sub)[] Captions { get; init; } = Array.Empty<(double, double, string, string)>();
 }

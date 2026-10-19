@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Godot;
 
 namespace SpaceFleet.Game.Cine;
@@ -15,7 +16,16 @@ public partial class CineOverlay : Control
     private static readonly Color Accent = new(0.4f, 0.76f, 1f);
     private static readonly Color Hostile = new(1f, 0.42f, 0.3f);
     private static readonly Color Lock = new(0.35f, 1f, 0.66f);
-    private static readonly string[] Phases = { "탐지", "미사일", "포격", "정밀타격", "난전" };
+    private string[] Phases = { "탐지", "미사일", "포격", "정밀타격", "난전" };
+    private string _titleLine = "탐지 · 미사일 · 포격 · 정밀타격 · 난전";
+    private string _titleSub = "지구 함대 대 화성 함대 · 3D 우주 함대전 · 개발 중";
+    /// <summary>v4 편집본: 국면 띠와 제목 아래 글.</summary>
+    public void UseCutV4()
+    {
+        Phases = new[] { "편성", "전개", "정찰", "방공", "강습", "격침" };
+        _titleLine = "편성 · 전개 · 정찰 · 방공 · 강습 · 격침";
+        _titleSub = "지구권 · 화성권 · 10 대 10 편대전 · 3D 우주 함대전 · 개발 중";
+    }
 
     private SystemFont _latin = null!, _latinBold = null!, _korean = null!, _koreanBold = null!;
 
@@ -47,6 +57,7 @@ public partial class CineOverlay : Control
         if (Shot.Card) DrawRect(new Rect2(Vector2.Zero, size), new Color(0.015f, 0.022f, 0.032f));
         if (Shot.Name == "contact") DrawContact(size);
         if (!Shot.Card) DrawCaptions(size);
+        if (!Shot.Card) DrawMerits(size);
         if (Shot.Name == "title") DrawTitle(size);
         if (Fade > 0) DrawRect(new Rect2(Vector2.Zero, size), new Color(0, 0, 0, Fade));
 
@@ -101,7 +112,7 @@ public partial class CineOverlay : Control
         int phase = Shot!.Phase;
         float y = size.Y - Bar * 0.5f;
         float item = 190 * S;
-        float x0 = size.X * 0.5f - item * 2.5f;
+        float x0 = size.X * 0.5f - item * Phases.Length * 0.5f;
         float show = Shot.Phase == 0 && !Shot.Card ? 0 : 1;
         if (show <= 0) return;
         for (int i = 0; i < Phases.Length; i++)
@@ -219,7 +230,72 @@ public partial class CineOverlay : Control
         float w = 520 * S * (float)CineMath.Ease(line);
         DrawRect(new Rect2(c.X - w / 2, c.Y + 26 * S, w, 2 * S), new Color(Accent, a));
         float b = (float)Math.Clamp((t - 2.4) / 0.8, 0, 1);
-        Text(_korean, c + new Vector2(0, 74 * S), "탐지 · 미사일 · 포격 · 정밀타격 · 난전", 22, new Color(Dim, b), HorizontalAlignment.Center);
-        Text(_korean, c + new Vector2(0, 108 * S), "지구 함대 대 화성 함대 · 3D 우주 함대전 · 개발 중", 17, new Color(Dim, b * 0.8f), HorizontalAlignment.Center);
+        Text(_korean, c + new Vector2(0, 74 * S), _titleLine, 22, new Color(Dim, b), HorizontalAlignment.Center);
+        Text(_korean, c + new Vector2(0, 108 * S), _titleSub, 17, new Color(Dim, b * 0.8f), HorizontalAlignment.Center);
+    }
+
+    // ── 게임 전과 연출(MeritHud와 같은 모양) ──────────────────────
+
+    private static float EaseOut(double t) { t = Math.Clamp(t, 0, 1); return 1 - (float)Math.Pow(1 - t, 3); }
+
+    private void DrawMerits(Vector2 size)
+    {
+        // 배너: 막대가 가운데서 열리고 제목이 크게 나타났다 내려앉는다. 3.6초 뒤 사라진다.
+        float y = size.Y * 0.5f - 230 * S;
+        foreach (var (at, title, detail, tint) in Shot!.Banners)
+        {
+            double age = Local - at;
+            if (age < 0 || age > 3.6) continue;
+            float fade = (float)Math.Clamp((3.6 - age) / 0.6, 0, 1), open = EaseOut(age / 0.22);
+            float h = 92 * S, w = 520 * S, half = w * 0.5f * open;
+            var bar = new Rect2(size.X * 0.5f - half, y, half * 2, h);
+            DrawRect(bar, new Color(0.01f, 0.02f, 0.03f, 0.82f * fade));
+            DrawRect(new Rect2(bar.Position, new Vector2(bar.Size.X, 2 * S)), new Color(tint, fade));
+            DrawRect(new Rect2(bar.Position + new Vector2(0, h - 2 * S), new Vector2(bar.Size.X, 2 * S)), new Color(tint, 0.6f * fade));
+            if (age < 0.3) DrawRect(bar, new Color(1, 1, 1, 0.35f * (1 - (float)age / 0.3f)));
+            foreach (int side in new[] { -1, 1 })
+            {
+                var tip = new Vector2(size.X * 0.5f + side * (half + 12 * S), y + h * 0.5f);
+                float d = 7 * S;
+                DrawColoredPolygon(new[] { tip + new Vector2(0, -d), tip + new Vector2(side * d, 0), tip + new Vector2(0, d), tip + new Vector2(-side * d, 0) }, new Color(tint, fade));
+            }
+            float settle = 1 + 0.5f * (1 - EaseOut(age / 0.28));
+            DrawSetTransform(new Vector2(size.X * 0.5f, y + 44 * S), 0, Vector2.One * settle);
+            Text(_koreanBold, new Vector2(0, 0), title, 38, new Color(tint, fade * (float)Math.Min(1, age / 0.12 + 0.2)), HorizontalAlignment.Center);
+            DrawSetTransform(Vector2.Zero, 0, Vector2.One);
+            if (open > 0.6f) Text(_korean, new Vector2(size.X * 0.5f, y + h - 14 * S), detail, 17, new Color(Ink, fade), HorizontalAlignment.Center);
+        }
+        // 리본: 같은 이름은 하나로 묶어 ×N. 새로 받으면 1.3배로 튀어나오며 번쩍인다. 마지막 갱신 3.2초 뒤 사라진다.
+        var strip = new System.Collections.Generic.List<(string Label, Color Tint, int Count, double Last)>();
+        foreach (var (at, label, tint) in Shot.Ribbons)
+        {
+            if (at > Local) continue;
+            int i = strip.FindIndex(r => r.Label == label);
+            if (i < 0) strip.Add((label, tint, 1, at)); else strip[i] = (label, tint, strip[i].Count + 1, at);
+        }
+        strip.RemoveAll(r => Local - r.Last > 3.2);
+        if (strip.Count == 0) return;
+        int px = Mathf.RoundToInt(19 * S);
+        float rh = px + 18 * S, gap = 10 * S;
+        string Label((string Label, Color Tint, int Count, double Last) r) => r.Count > 1 ? $"{r.Label} ×{r.Count}" : r.Label;
+        float[] widths = strip.Select(r => _koreanBold.GetStringSize(Label(r), HorizontalAlignment.Left, -1, px).X + 44 * S).ToArray();
+        float x = size.X * 0.5f - (widths.Sum() + gap * (strip.Count - 1)) * 0.5f, ry = size.Y * 0.5f + 150 * S;
+        for (int i = 0; i < strip.Count; i++)
+        {
+            var r = strip[i];
+            double bump = Local - r.Last;
+            float fade = (float)Math.Clamp((3.2 - bump) / 0.5, 0, 1), pop = 1 + 0.3f * (1 - EaseOut(bump / 0.18));
+            var half = new Vector2(widths[i], rh) * 0.5f;
+            DrawSetTransform(new Vector2(x + half.X, ry + half.Y), 0, Vector2.One * pop);
+            DrawRect(new Rect2(-half, half * 2), new Color(0.01f, 0.02f, 0.03f, 0.85f * fade));
+            DrawRect(new Rect2(-half, half * 2), new Color(r.Tint, 0.75f * fade), false, 1.5f * S);
+            float l = -half.X + 8 * S;
+            DrawColoredPolygon(new[] { new Vector2(l, -half.Y + 5 * S), new Vector2(l + 15 * S, -half.Y + 5 * S), new Vector2(l + 15 * S, half.Y - 5 * S),
+                new Vector2(l + 7.5f * S, half.Y - 11 * S), new Vector2(l, half.Y - 5 * S) }, new Color(r.Tint, fade));
+            if (bump < 0.25) DrawRect(new Rect2(-half, half * 2), new Color(1, 1, 1, 0.45f * (1 - (float)bump / 0.25f)));
+            DrawString(_koreanBold, new Vector2(l + 24 * S, px * 0.36f), Label(r), HorizontalAlignment.Left, -1, px, new Color(Colors.White, fade));
+            DrawSetTransform(Vector2.Zero, 0, Vector2.One);
+            x += widths[i] + gap;
+        }
     }
 }
