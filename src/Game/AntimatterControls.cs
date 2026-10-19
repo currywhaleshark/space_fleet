@@ -63,12 +63,13 @@ public partial class Hud
         if(!Game.AntimatterSelected&&!am.Warning&&am.Mode==AntimatterMode.Safe&&Game.JettisonProgress<=0)
         {
             start+=new Vector2(0,75); // Keep the panel's bottom edge, leaving the aiming area clear.
+            AntimatterBounds=new(start,new Vector2(width,50));
             DrawRect(new(start,new Vector2(width,50)),PanelBack);
             Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds} · {am.Status}",15,Text);
             Label(start+new Vector2(10,41),$"격리용기 {am.Containment*100:0}% · 3 어뢰 선택",13,Dim);
             return;
         }
-        var panel=new Rect2(start,new Vector2(width,125));
+        var panel=new Rect2(start,new Vector2(width,125));AntimatterBounds=panel;
         DrawRect(panel,PanelBack);
         Color color=am.Warning || am.Mode==AntimatterMode.Failed ? Hostile : Game.AntimatterSelected ? Lead : Dim;
         DrawRect(panel,new Color(color,.5f),false,1);

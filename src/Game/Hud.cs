@@ -60,6 +60,7 @@ public partial class Hud : Control
     {
         ModuleRegions.Clear();
         BracketPositions.Clear();
+        AntimatterBounds=InterceptorStatusBounds=new();
         DrawnLeadSolution=null;
         if (Game?.Controlled is not ShipView controlled)
             return;

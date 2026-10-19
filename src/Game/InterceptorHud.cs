@@ -117,6 +117,7 @@ public partial class Hud
         var equipment = ship.Ordnance.Interceptor;
         // Keep probe/mission detail beside the radar, reserving the strip beneath it for combat ribbons.
         var at = new Vector2(284,116);
+        InterceptorStatusBounds = new Rect2(at.X, at.Y - HudFont(14) - 2, 250, HudFont(14) + 72 + HudFont(12));
         Label(at, wing is null ? "정찰 프로브" : $"{wing.Name} · {InterceptorMissions.Label(wing.Mission)} · {(wing.OrderedMission is null ? "자동" : "명령")}", 14, Friendly);
         if (wing is not null)
         {

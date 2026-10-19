@@ -25,12 +25,34 @@ internal static class MeritText
     internal static int Priority(MeritKind kind) => kind switch {
         MeritKind.Kill=>6,MeritKind.ScoutKill or MeritKind.Assist=>5,MeritKind.TorpedoIntercept or MeritKind.FlagshipProtection=>4,
         MeritKind.Disabled or MeritKind.Capture or MeritKind.Defense=>3,MeritKind.ModuleDestroyed=>2,_=>1 };
+    /// <summary>Ribbon colour: gold for kills, orange for disabling damage, blue for gunnery, teal for defence, violet for scouting.</summary>
+    internal static Color Tint(MeritKind kind) => kind switch {
+        MeritKind.Kill=>new(1,.8f,.3f),MeritKind.ScoutKill or MeritKind.Assist=>new(.96f,.84f,.5f),
+        MeritKind.Disabled=>new(1,.55f,.32f),MeritKind.ModuleDestroyed=>new(1,.66f,.42f),
+        MeritKind.Hit=>new(.78f,.9f,1),MeritKind.Penetration=>new(.5f,.8f,1),MeritKind.ShieldBreak=>new(.45f,.7f,1),
+        MeritKind.MissileIntercept or MeritKind.TorpedoIntercept or MeritKind.ProbeDestroyed
+            or MeritKind.Protection or MeritKind.FlagshipProtection=>new(.42f,.95f,.8f),
+        MeritKind.Capture or MeritKind.Defense=>new(.55f,.95f,.5f),
+        _=>new(.76f,.62f,1) };
+    /// <summary>Sensor bookkeeping stays in the counter panel; everything else pops a ribbon.</summary>
+    internal static bool PopsRibbon(MeritKind kind) => kind is not (MeritKind.Detection or MeritKind.Identification);
 }
 
 /// <summary>A small screen-time queue, independent of simulation speed. Never consumes unconfirmed events.</summary>
 internal sealed class MeritPresentation
 {
     internal sealed class Notice { public MeritEvent Event; public float Age; public Notice(MeritEvent e){Event=e;} }
+    /// <summary>A ribbon under the reticle. Repeats of the same kind add to its count and pop it again.</summary>
+    internal sealed class RibbonPop { public MeritKind Kind; public int Count; public float Age, Bump; }
+    internal const float NoticeLife=4, RibbonLife=3.2f, PulseLife=1;
+    internal const int MaxRibbons=5;
+    internal List<RibbonPop> Ribbons { get; }=new(MaxRibbons+1);
+    /// <summary>Count gained during the current counter pulse, drawn as "+n" beside the panel counter.</summary>
+    internal readonly Dictionary<MeritKind,int> Gains=new();
+    /// <summary>Ribbons gained in the same frame pop in turn, this far apart.</summary>
+    internal const float CascadeStep=.08f;
+    private int _cascade;
+    private float _cascadeStart;
     private BattleMeritLedger? _ledger;
     private long _cursor;
     private readonly List<MeritEvent> _waiting=new(8);
@@ -39,17 +61,22 @@ internal sealed class MeritPresentation
     private readonly List<MeritKind> _keys=new();
     internal void Advance(BattleMeritLedger ledger,float delta,bool paused,bool hidden,Action<MeritEvent>? sound)
     {
-        if(_ledger!=ledger){_ledger=ledger;_cursor=0;Showing.Clear();_waiting.Clear();Pulses.Clear();}
+        if(_ledger!=ledger){_ledger=ledger;_cursor=0;Showing.Clear();_waiting.Clear();Pulses.Clear();Gains.Clear();Ribbons.Clear();}
         if(paused)return;
         delta=Math.Min(delta,.1f);
-        foreach(var n in Showing)n.Age+=delta;Showing.RemoveAll(n=>n.Age>=4);
-        _keys.Clear();_keys.AddRange(Pulses.Keys);foreach(var key in _keys)Pulses[key]=Math.Max(0,Pulses[key]-delta);
-        MeritEvent? audible=null;
+        foreach(var n in Showing)n.Age+=delta;Showing.RemoveAll(n=>n.Age>=NoticeLife);
+        foreach(var r in Ribbons){r.Age+=delta;r.Bump+=delta;}Ribbons.RemoveAll(r=>r.Age>=RibbonLife);
+        _keys.Clear();_keys.AddRange(Pulses.Keys);
+        foreach(var key in _keys){Pulses[key]=Math.Max(0,Pulses[key]-delta);if(Pulses[key]==0)Gains.Remove(key);}
+        MeritEvent? audible=null;_cascade=0;
+        // New pops queue behind any ribbon still waiting from an earlier frame.
+        _cascadeStart=0;foreach(var r in Ribbons)if(r.Bump<0)_cascadeStart=Math.Max(_cascadeStart,CascadeStep-r.Bump);
         foreach(var e in ledger.Events)
         {
             if(e.PublishedId<=_cursor)continue;
             _cursor=e.PublishedId;if(!e.Personal)continue;
-            Pulses[e.Kind]=.65f;
+            Pulses[e.Kind]=PulseLife;Gains[e.Kind]=Gains.GetValueOrDefault(e.Kind)+e.Count;
+            if(MeritText.PopsRibbon(e.Kind))Pop(e);
             if(audible is null || MeritText.Priority(e.Kind)>MeritText.Priority(audible.Value.Kind))audible=e;
             if(!BattleMeritLedger.IsImportant(e.Kind))continue;
             int same=_waiting.FindIndex(old=>old.Kind==e.Kind&&old.Target==e.Target&&e.Time-old.Time<1);
@@ -71,6 +98,17 @@ internal sealed class MeritPresentation
         }
         if(audible is {} cue)sound?.Invoke(cue);
     }
+    private void Pop(MeritEvent e)
+    {
+        var ribbon=Ribbons.Find(r=>r.Kind==e.Kind);
+        if(ribbon is null)
+        {
+            ribbon=new RibbonPop{Kind=e.Kind};Ribbons.Add(ribbon);
+            if(Ribbons.Count>MaxRibbons)Ribbons.RemoveAt(0);
+        }
+        if(ribbon.Bump>=0)ribbon.Bump=-(_cascadeStart+CascadeStep*_cascade++);
+        ribbon.Count+=e.Count;ribbon.Age=0;
+    }
 }
 
 public partial class ScaleTest
@@ -89,12 +127,12 @@ public partial class Hud
         (MeritKind.MissileIntercept,"요격"),(MeritKind.Kill,"격침"),(MeritKind.Assist,"지원")};
     private void DrawMerits(Vector2 screen)
     {
-        MeritBounds=MeritNoticeBounds=new();
+        MeritBounds=MeritNoticeBounds=RibbonStripBounds=new();
         if(Game.WorldMapOpen||Game.MenuOpen||Game.RosterOpen||Game.ShowHelp)return;
         var stats=Game.World.Merits.Personal(true);
         var active=Ribbons;
         double capture=Game.World.Merits.Personal().CaptureProgress;
-        if(!active.Any(r=>stats[r.Kind]>0)&&Game.MeritDisplay.Showing.Count==0&&capture==0&&stats[MeritKind.Detection]==0)return;
+        if(!active.Any(r=>stats[r.Kind]>0)&&Game.MeritDisplay.Showing.Count==0&&Game.MeritDisplay.Ribbons.Count==0&&capture==0&&stats[MeritKind.Detection]==0)return;
         float row=HudFont(11)+6,y=16+248*Mathf.Clamp(Mathf.Min(screen.X/1600,screen.Y/900),.6f,1)+18;
         float top=y-18;
         int rows=(active.Length+2)/3;
@@ -105,20 +143,111 @@ public partial class Hud
         {
             var r=active[i];float x=24+i%3*80,yy=y+i/3*row;
             Color color=stats[r.Kind]==0?new Color(Text,.35f):Text;
-            if(Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind)>0)color=Colors.White;
+            if(Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind)>0)color=MeritText.Tint(r.Kind).Lerp(Colors.White,.4f);
             // A small notched ribbon, no separate card or animation layer.
             DrawPolyline(new[]{new Vector2(x,yy-9),new(x+5,yy-9),new(x+5,yy),new(x+2.5f,yy-2),new(x,yy),new(x,yy-9)},color,1);
             Label(new(x+9,yy),$"{r.Label} {stats[r.Kind]}",11,color);
+            float pulse=Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind);
+            if(pulse>0&&Game.MeritDisplay.Gains.GetValueOrDefault(r.Kind) is >0 and var gain)
+                Label(new(x+9+_font.GetStringSize($"{r.Label} {stats[r.Kind]}",fontSize:HudFont(11)).X+4,yy-8*(1-pulse)),$"+{gain}",11,new Color(MeritText.Tint(r.Kind),pulse));
         }
-        y=133;float noticeX=screen.X-608;
-        if(Game.MeritDisplay.Showing.Count>0)
-        {MeritNoticeBounds=new(noticeX-8,112,264,Game.MeritDisplay.Showing.Count*(HudFont(12)+6)+12);DrawRect(MeritNoticeBounds,new Color(PanelBack,.8f));}
-        foreach(var notice in Game.MeritDisplay.Showing)
+        DrawMeritBanners(screen);
+        DrawRibbonStrip(screen);
+    }
+    internal Rect2 RibbonStripBounds { get; private set; }
+    /// <summary>The antimatter panel drawn this frame (empty when none), so pop-ups can keep clear of it.</summary>
+    internal Rect2 AntimatterBounds { get; private set; }
+    internal Rect2 InterceptorStatusBounds { get; private set; }
+    private float BannerTop(Vector2 screen)=>screen.Y*.5f-190;
+    private static float EaseOut(float t){t=Mathf.Clamp(t,0,1);return 1-(1-t)*(1-t)*(1-t);}
+    /// <summary>Important merits as banners above the reticle: the bar opens outward, the title settles from large.</summary>
+    private void DrawMeritBanners(Vector2 screen)
+    {
+        var showing=Game.MeritDisplay.Showing;
+        if(showing.Count==0)return;
+        float y=BannerTop(screen);var bounds=new Rect2();
+        // The most important merit sits on top.
+        foreach(var notice in showing.OrderByDescending(n=>MeritText.Priority(n.Event.Kind)))
         {
-            string message=MeritText.Message(notice.Event)+(notice.Event.Count>1?$" ×{notice.Event.Count}":"");
-            Label(new(noticeX,y),HudText.Fit(_font,message,HudFont(12),248),12,new Color(Text,Math.Min(1,4-notice.Age)));y+=HudFont(12)+6;
+            var e=notice.Event;bool major=MeritText.Priority(e.Kind)>=3;
+            Color tint=MeritText.Tint(e.Kind);
+            float fade=Math.Min(1,(MeritPresentation.NoticeLife-notice.Age)/.6f),open=EaseOut(notice.Age/.22f);
+            float height=major?HudFont(26)+HudFont(13)+20:HudFont(15)+16,width=major?460:380;
+            var full=new Rect2(screen.X*.5f-width*.5f,y,width,height);
+            float half=width*.5f*open;var bar=new Rect2(screen.X*.5f-half,y,half*2,height);
+            DrawRect(bar,new Color(PanelBack,.82f*fade));
+            DrawRect(new(bar.Position,new Vector2(bar.Size.X,2)),new Color(tint,fade));
+            DrawRect(new(bar.Position+new Vector2(0,height-2),new Vector2(bar.Size.X,2)),new Color(tint,.6f*fade));
+            // A short white flash as the bar opens.
+            if(notice.Age<.3f)DrawRect(bar,new Color(1,1,1,.35f*(1-notice.Age/.3f)));
+            foreach(int side in new[]{-1,1})
+            {
+                var tip=new Vector2(screen.X*.5f+side*(half+10),y+height*.5f);
+                DrawColoredPolygon(new[]{tip+new Vector2(0,-6),tip+new Vector2(6*side,0),tip+new Vector2(0,6),tip+new Vector2(-6*side,0)},new Color(tint,fade));
+            }
+            string count=e.Count>1?$" ×{e.Count}":"";
+            if(major)
+            {
+                float settle=1+.5f*(1-EaseOut(notice.Age/.28f));
+                var center=new Vector2(screen.X*.5f,y+HudFont(26)*.5f+8);
+                DrawSetTransform(center,0,Vector2.One*settle);
+                CenteredLabel(Vector2.Zero,MeritText.Name(e.Kind)+count,26,new Color(tint,fade*Math.Min(1,notice.Age/.12f+.2f)));
+                DrawSetTransform(Vector2.Zero,0,Vector2.One);
+                string detail=e.Kind is MeritKind.Capture or MeritKind.Defense or MeritKind.FlagshipProtection?MeritText.Message(e):e.Target?.Callsign??"";
+                if(detail.Length>0&&open>.6f)CenteredLabel(new(screen.X*.5f,y+height-HudFont(13)*.5f-8),detail,13,new Color(Text,fade));
+            }
+            else if(open>.5f)CenteredLabel(new(screen.X*.5f,y+height*.5f),HudText.Fit(_font,MeritText.Message(e)+count,HudFont(15),width-40),15,new Color(tint,fade));
+            bounds=bounds.HasArea()?bounds.Merge(full):full;y+=height+6;
+        }
+        MeritNoticeBounds=bounds.Grow(12);
+    }
+    /// <summary>Ribbons just above the weapon row: each new ribbon pops in with a flash, repeats bump the same ribbon.</summary>
+    private void DrawRibbonStrip(Vector2 screen)
+    {
+        RibbonStripBounds=new();
+        var ribbons=Game.MeritDisplay.Ribbons;
+        if(ribbons.Count==0||Game.Spectating||Game.Controlled is not {} controlled)return;
+        var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length,HudSettings.TextScale);
+        float bottom=layout.Selection.Position.Y;
+        if(layout.Gunnery.Size.X>0)bottom=Math.Min(bottom,layout.Gunnery.Position.Y);
+        // On narrower screens the interceptor's antimatter panel sits centred above the weapon row.
+        if(AntimatterBounds.HasArea()&&AntimatterBounds.Position.X<screen.X*.5f&&AntimatterBounds.End.X>screen.X*.5f)
+            bottom=Math.Min(bottom,AntimatterBounds.Position.Y);
+        int font=HudFont(14);float height=font+14,gap=8;
+        var widths=new float[ribbons.Count];float total=-gap;
+        for(int i=0;i<ribbons.Count;i++)
+        {
+            var r=ribbons[i];widths[i]=_font.GetStringSize(RibbonText(r),fontSize:font).X+34;
+            total+=widths[i]+gap;
+        }
+        float x=screen.X*.5f-total*.5f,y=bottom-12-height;
+        // Too little room under the reticle (small windows with that panel): the strip moves above the banners.
+        if(y<screen.Y*.5f+48)
+        {
+            y=BannerTop(screen)-24-height;
+            // ...and above the interceptor's wing status when the two would meet.
+            if(new Rect2(x-4,y-4,total+8,height+8).Intersects(InterceptorStatusBounds))y=InterceptorStatusBounds.Position.Y-12-height;
+        }
+        RibbonStripBounds=new(x-4,y-4,total+8,height+8);
+        for(int i=0;i<ribbons.Count;i++)
+        {
+            var r=ribbons[i];Color tint=MeritText.Tint(r.Kind);
+            if(r.Bump<0){x+=widths[i]+gap;continue;} // Waiting its turn in a cascade.
+            float fade=Math.Min(1,(MeritPresentation.RibbonLife-r.Age)/.5f),pop=1+.3f*(1-EaseOut(r.Bump/.18f));
+            var center=new Vector2(x+widths[i]*.5f,y+height*.5f);var half=new Vector2(widths[i],height)*.5f;
+            DrawSetTransform(center,0,Vector2.One*pop);
+            DrawRect(new(-half,half*2),new Color(PanelBack,.85f*fade));
+            DrawRect(new(-half,half*2),new Color(tint,.75f*fade),false,1);
+            // Notched ribbon tab in the merit colour.
+            float l=-half.X+6;
+            DrawColoredPolygon(new[]{new Vector2(l,-half.Y+4),new(l+12,-half.Y+4),new(l+12,half.Y-4),new(l+6,half.Y-9),new(l,half.Y-4)},new Color(tint,fade));
+            if(r.Bump<.25f)DrawRect(new(-half,half*2),new Color(1,1,1,.45f*(1-r.Bump/.25f)));
+            DrawString(_font,new Vector2(l+19,font*.36f),RibbonText(r),HorizontalAlignment.Left,-1,font,new Color(Colors.White,fade));
+            DrawSetTransform(Vector2.Zero,0,Vector2.One);
+            x+=widths[i]+gap;
         }
     }
+    private static string RibbonText(MeritPresentation.RibbonPop r)=>MeritText.Name(r.Kind)+(r.Count>1?$" ×{r.Count}":"");
 }
 
 public partial class CombatAudio

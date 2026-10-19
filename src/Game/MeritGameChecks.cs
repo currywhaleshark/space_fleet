@@ -47,7 +47,11 @@ public partial class MeritGameChecks : Node
                     var size=GetViewport().GetVisibleRect().Size;
                     Check(!hud.MeritBounds.Intersects(hud.SquadronBounds),"Ribbons stop above squad/system panels");
                     Check(!hud.MeritBounds.HasPoint(size*.5f),"Central aiming view remains clear");
+                    CheckPopupLayout(game,hud,size);
                     Shot(role+"-ribbons-"+percent);
+                    // Same frame after the pop and banner animations have settled.
+                    for(int k=0;k<5;k++)game.AdvanceMerits(.1f);
+                    await Frame(hud);CheckPopupLayout(game,hud,size);Shot(role+"-merit-pop-"+percent);
                     game.Camera.SetTelescope(true);await Frame(hud);Check(hud.MeritBounds.HasArea(),"Scope retains personal ribbons");Shot(role+"-scope-"+percent);game.Camera.SetTelescope(false);
                 }
                 Check(game.MeritDisplay.Showing.Count<=2,"At most two important notices");
@@ -78,6 +82,15 @@ public partial class MeritGameChecks : Node
         catch(Exception e){GD.PushError(e.ToString());GetTree().Quit(1);}
         finally{HudSettings.SetTextPercent(original,false);Input.MouseMode=Input.MouseModeEnum.Visible;}
     }
+    private void CheckPopupLayout(ScaleTest game,Hud hud,Vector2 size)
+    {
+        var screen=new Rect2(Vector2.Zero,size);var strip=hud.RibbonStripBounds;var banner=hud.MeritNoticeBounds;
+        var layout=CombatHudLayout.For(size,game.Scheme==ControlScheme.Helm,game.Controlled!.Body.Railguns.Length,HudSettings.TextScale);
+        Check(strip.HasArea()&&screen.Encloses(strip),"Ribbon pop-ups fit the screen");
+        Check(!strip.Intersects(new Rect2(size*.5f-new Vector2(60,40),new Vector2(120,80)))&&strip.End.Y<=layout.Selection.Position.Y,"Ribbon pop-ups keep the reticle and weapon row clear");
+        Check(!strip.Intersects(hud.MeritBounds)&&!strip.Intersects(hud.SquadronBounds)&&!strip.Intersects(layout.Instruments)&&!strip.Intersects(hud.AntimatterBounds)&&!strip.Intersects(hud.InterceptorStatusBounds),"Ribbon pop-ups do not cover HUD panels");
+        Check(!banner.HasArea()||(screen.Encloses(banner)&&!banner.HasPoint(size*.5f)&&!banner.Intersects(strip)),"Merit banners stay above the reticle");
+    }
     private void CheckQueue()
     {
         var w=new SimWorld();var a=w.Add(new ShipBody("A",ShipClass.Interceptor,Faction.Blue));var t=w.Add(new ShipBody("T",ShipClass.Interceptor,Faction.Red));
@@ -85,10 +98,23 @@ public partial class MeritGameChecks : Node
         var display=new MeritPresentation();uint id=20000;
         for(int n=0;n<10;n++)w.Merits.Hit(++id,a,new(t,t.Position,0,false,false,Array.Empty<ModuleHit>(),""){StructuralDamage=1},BattleWeapon.Railgun,0,0,new(true));
         display.Advance(w.Merits,.016f,false,false,null);Check(display.Showing.Count==0,"Ordinary burst does not create ten important alerts");
+        var hits=display.Ribbons.Single(r=>r.Kind==MeritKind.Hit);
+        Check(hits.Count==10&&display.Gains[MeritKind.Hit]==10&&display.Pulses[MeritKind.Hit]>0,"Burst merges into one hit ribbon with its count");
+        for(int k=0;k<3;k++)display.Advance(w.Merits,.1f,false,false,null);
+        float age=hits.Age;display.Advance(w.Merits,1,true,false,null);Check(hits.Age==age,"Pause freezes ribbon pop-ups");
+        w.Merits.Hit(++id,a,new(t,t.Position,0,false,false,Array.Empty<ModuleHit>(),""){StructuralDamage=1},BattleWeapon.Railgun,0,0,new(true));
+        display.Advance(w.Merits,.016f,false,false,null);
+        Check(display.Ribbons.Count(r=>r.Kind==MeritKind.Hit)==1&&hits.Count==11&&hits.Bump<=0&&hits.Age<.02f,"A repeat hit pops the same ribbon again");
         t.Damage.Breakup(0,"test");w.Sensors.Update(w.Ships,0,true);
         w.Merits.Hit(++id,a,new(t,t.Position,0,false,false,Array.Empty<ModuleHit>(),""){CausedDestruction=true},BattleWeapon.Railgun,0,0,new(true));
         display.Advance(w.Merits,.016f,false,false,null);
         Check(display.Showing.Any(n=>n.Event.Kind==MeritKind.Kill),"Kill notification survives ordinary-hit spam");
+        Check(display.Ribbons[^1].Kind==MeritKind.Kill&&display.Ribbons.Any(r=>r.Kind==MeritKind.Hit),"Kill ribbon joins the strip on the right");
+        var fresh=display.Ribbons.Where(r=>r.Age<.02f).OrderByDescending(r=>r.Bump).ToArray();
+        Check(fresh.Length<2||fresh.Zip(fresh.Skip(1)).All(p=>p.First.Bump-p.Second.Bump>MeritPresentation.CascadeStep*.9f),"Ribbons gained together pop in turn: "+string.Join(",",fresh.Select(r=>$"{r.Kind}:{r.Bump:0.000}")));
+        Check(display.Ribbons.Count<=MeritPresentation.MaxRibbons,"Ribbon strip is bounded");
+        for(int k=0;k<45;k++)display.Advance(w.Merits,.1f,false,false,null);
+        Check(display.Ribbons.Count==0&&display.Showing.Count==0&&display.Gains.Count==0,"Pop-ups, banners and gains expire in screen time");
     }
 }
 
