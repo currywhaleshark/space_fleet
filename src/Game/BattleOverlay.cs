@@ -31,6 +31,19 @@ public partial class BattleOverlay : Control
                 BorderColor=Blue,BorderWidthBottom=1,BorderWidthTop=1,BorderWidthLeft=1,BorderWidthRight=1,CornerRadiusTopLeft=4,CornerRadiusTopRight=4,CornerRadiusBottomLeft=4,CornerRadiusBottomRight=4});
         b.Pressed+=action; AddChild(b); _buttons.Add((b,rect));
     }
+    /// <summary>Option chip on the battle settings screen; the chosen one is filled.</summary>
+    private void Chip(string text,string key,Rect2 rect,bool selected,Action action)
+    {
+        var b=new Button{Text=text};b.SetMeta("key",key);b.AddThemeFontOverride("font",_font);
+        b.AddThemeColorOverride("font_color",selected?new Color(.02f,.06f,.1f):Ink);
+        b.AddThemeColorOverride("font_hover_color",selected?new Color(.02f,.06f,.1f):Colors.White);
+        foreach (string state in new[] {"normal","hover","pressed","focus"})
+            b.AddThemeStyleboxOverride(state,new StyleBoxFlat {BgColor=selected?(state=="hover"?new Color(.6f,.84f,1):Blue):state=="normal"?new Color(.025f,.06f,.1f,.95f):new Color(.06f,.15f,.23f),
+                BorderColor=Blue,BorderWidthBottom=1,BorderWidthTop=1,BorderWidthLeft=1,BorderWidthRight=1,CornerRadiusTopLeft=4,CornerRadiusTopRight=4,CornerRadiusBottomLeft=4,CornerRadiusBottomRight=4});
+        b.Pressed+=action;AddChild(b);_buttons.Add((b,rect));
+    }
+    internal void ActivateButton(string key)=>_buttons.Single(x=>x.Button.HasMeta("key")&&x.Button.GetMeta("key").AsString()==key).Button.EmitSignal(Godot.Button.SignalName.Pressed);
+    private const float RowX=470,ChipW=170,ChipGap=14;
     public void Rebuild()
     {
         foreach(var item in _buttons) {RemoveChild(item.Button);item.Button.QueueFree();} _buttons.Clear();
@@ -45,14 +58,28 @@ public partial class BattleOverlay : Control
                 Button("격납고로",new(620,590,360,56),Host.OpenHangar);
                 Button("종료",new(620,662,360,48),Host.Quit); break;
             case BattleScreen.Select:
-                for(int i=0;i<3;i++)
-                {var kind=(HullKind)i;bool owned=Host.Hangar.Owned.Contains(ShipDefinitions.For(kind,Host.PlayerDesign).Id);Button(Host.SelectedKind==kind?"선택됨":owned?"이 편대 선택":"연구 필요",new(260+i*380,552,320,52),()=>{if(Host.SelectedKind!=kind)Host.ChooseHull(kind);});}
-                Button($"내 함선 설계 · {DesignName(Host.PlayerDesign)}  ↔",new(610,230,380,42),()=>Host.ToggleDesign(false));
-                Button("출격 · 10 대 10 AI 매칭",new(620,785,500,56),()=>Host.BeginMatch());
-                Button("메인으로",new(310,785,260,56),Host.ReturnToPort);
-                Button($"전투 목표 · {BattleRules.Name(Host.SelectedObjective)}  ↔",new(310,706,460,52),Host.CycleObjective);
-                Button($"전장 · {AsteroidField.Name(Host.SelectedBattlefield)}  ↔",new(830,706,460,52),Host.CycleBattlefield);
-                Button("격납고 · 함선/편대 세팅",new(1040,230,320,42),Host.OpenHangar); break;
+            {
+                var s=Host.Settings;
+                void Row<T>(float y,string prefix,T current,(string label,T value)[] options,Func<T,MatchSettings> set)
+                {
+                    for(int i=0;i<options.Length;i++)
+                    {
+                        var option=options[i];
+                        Chip(option.label,prefix+"-"+i,new(RowX+i*(ChipW+ChipGap),y,ChipW,48),Equals(current,option.value),()=>Host.SetSettings(set(option.value)));
+                    }
+                }
+                Row(240,"objective",s.Objective,new (string,BattleObjective?)[]{("무작위",null),(BattleRules.Name(BattleObjective.Annihilation),BattleObjective.Annihilation),
+                    (BattleRules.Name(BattleObjective.Flagship),BattleObjective.Flagship),(BattleRules.Name(BattleObjective.Domination),BattleObjective.Domination)},v=>s with{Objective=v});
+                Row(370,"field",s.Battlefield,new (string,Battlefield?)[]{("무작위",null),(AsteroidField.Name(Battlefield.DeepSpace),Battlefield.DeepSpace),
+                    (AsteroidField.Name(Battlefield.AsteroidCluster),Battlefield.AsteroidCluster)},v=>s with{Battlefield=v});
+                Row(500,"course",s.Course,new[]{("무작위",Engagement.Auto),("대향",Engagement.HeadOn),("동항",Engagement.Parallel),("반항",Engagement.Opposite)},v=>s with{Course=v});
+                Row(630,"height",s.Height,new[]{("무작위",Elevation.Auto),("평면",Elevation.Level),("머리 위",Elevation.Overhead)},v=>s with{Height=v});
+                Button("격납고로",new(310,785,260,56),Host.OpenHangar);
+                Button("이 설정으로 출격",new(620,785,500,56),Host.LaunchFromSettings);
+                _buttons[^1].Button.SetMeta("key","launch");
+                Button("모두 무작위",new(1140,785,180,56),()=>Host.SetSettings(MatchSettings.Random));
+                break;
+            }
             case BattleScreen.Research:
                 ResearchView=new ResearchView {Host=Host};AddChild(ResearchView);break;
             case BattleScreen.Hangar:
@@ -118,7 +145,10 @@ public partial class BattleOverlay : Control
             }
             if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
-            {DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));Center(166,BattleRules.Name(Host.SelectedObjective)+" · "+AsteroidField.Name(Host.SelectedBattlefield),26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  내 편대를 지휘하세요",19);Center(244,"Tab 양팀 편성   ·   N 편대   ·   F 전력   ·   F1 도움말",17,Blue);}
+            {
+                var config=b.LaunchConfig!;var (course,height)=Deployment.Resolve(config);
+                DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));
+                Center(166,$"{BattleRules.Name(config.Objective)} · {AsteroidField.Name(config.Battlefield)} · {Deployment.Name(course)} · {Deployment.Name(height)}",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  내 편대를 지휘하세요",19);Center(244,"Tab 양팀 편성   ·   N 편대   ·   F 전력   ·   F1 도움말",17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
             {DrawRect(new(0,0,1600,900),new(0,0,0,.72f));Center(420,lost.Controlled!.Body.Damage.Destroyed?"격침":"무력화",40,Red);Center(468,"지휘권 인계 중",20);}
             return;
@@ -145,29 +175,36 @@ public partial class BattleOverlay : Control
         }
         else if(Host.Screen==BattleScreen.Select)
         {
-            bool mars = Host.PlayerDesign == DesignFamily.Mars;
-            Color accent = mars ? Orange : Blue;
-            Center(145,"내 함선과 편대",34);Center(187,"선택한 편대로 출격하면 나머지 참가자는 AI로 편성됩니다",18,Blue);
-            string[] descriptions=mars ? new[]{"장거리 정밀포격 · 가벼운 방어","센서망 지원 · ECM · 분산 기동","고속 침투 · 반물질 강습 후 이탈"}
-                : new[]{"전열 유지 · 지속포격 · 높은 방어","상호방공 · 측면 지원 · 집중사격","요격전 · 근접 기동 · 반물질 강습"};
-            for(int i=0;i<3;i++)
-            {
-                float x=260+i*380;DrawRect(new(x,295,320,350),new(.025f,.06f,.095f));
-                if(Host.SelectedKind==(HullKind)i)DrawRect(new(x,295,320,350),accent,false,2);
-                Ship(new(x+160,395),(HullKind)i,accent,i==0?1.1f:1.35f);
-                var def=Host.SelectedKind==(HullKind)i?ShipDefinitions.ById(Host.PlayerHullId):ShipDefinitions.For((HullKind)i,Host.PlayerDesign);
-                Text(new(x+22,325),def.Flight.DisplayName,21,accent);
-                string description=def.Branch switch {ShipBranch.GunCruiser=>"측면 대치 · 집중 주포 사격",ShipBranch.AirDefenseCruiser=>"주력함 방공 · 미사일 조기 요격",ShipBranch.MissileCruiser=>"장거리 일제 사격 · 발사 후 이탈",ShipBranch.Recon=>"외곽 정찰 · 프로브 · 잠금 공유",ShipBranch.Assault=>"편대 집결 · 반물질 강습",_=>descriptions[i]};
-                Text(new(x+22,492),description,16);Text(new(x+30,531),i==2?"◉  마우스 비행 · 사격":"⌨  키보드 조함 · 자동 사격",17,accent);
-                Text(new(x+30,630),Host.SelectedKind==(HullKind)i?$"편대 {Host.Hangar.Hulls[Host.PlayerHullId].Squadron.Length}척 · 격납고 세팅 적용":def.Squadron.Composition,17,accent);
-            }
-            Center(668,mars ? "얇은 방어 · 적은 방공  /  거리와 기동으로 우위를 확보하세요" : "두터운 방어 · 지속화력  /  전열과 상호지원을 유지하세요",18,accent);
-            Center(691,Host.SelectedObjective switch
+            var s=Host.Settings;
+            Center(118,"전장 설정",36);
+            Center(160,"항목마다 지정하거나 무작위에 맡깁니다 · 격납고에서 바로 출격하면 모두 무작위로 정해집니다",18,Blue);
+            void Label(float y,string title,string detail){Text(new(260,y+32),title,22);Text(new(RowX,y+80),detail,16,new Color(Ink,.75f));}
+            Label(240,"전투 규칙",s.Objective switch
             {
                 BattleObjective.Flagship => "적 기함 격침 또는 무력화 시 승리",
                 BattleObjective.Domination => "3차원 거점 3곳을 점령하고 500점을 먼저 획득",
-                _ => "적 함대의 전투능력을 제거하면 승리",
-            },15,Ink);
+                BattleObjective.Annihilation => "적 함대의 전투능력을 제거하면 승리",
+                _ => $"{BattleRules.Name(BattleObjective.Annihilation)} · {BattleRules.Name(BattleObjective.Flagship)} · {BattleRules.Name(BattleObjective.Domination)} 중 하나",
+            });
+            Label(370,"전장",s.Battlefield switch
+            {
+                Battlefield.DeepSpace => "장애물 없는 열린 공간",
+                Battlefield.AsteroidCluster => "소행성 사이로 엄폐와 우회가 가능한 전장",
+                _ => "심우주 · 소행성 군집 중 하나 (지형은 매번 다름)",
+            });
+            Label(500,"진형 · 방향",s.Course switch
+            {
+                Engagement.HeadOn => "정면 150 km에서 서로 마주 보고 시작",
+                Engagement.Parallel => "옆으로 150 km, 같은 방향으로 나란히 진행",
+                Engagement.Opposite => "반대 방향으로 진행하며 엇갈려 지나감",
+                _ => "대향 · 동항 · 반항 중 하나",
+            });
+            Label(630,"진형 · 높낮이",s.Height switch
+            {
+                Elevation.Level => "같은 높이에서 시작",
+                Elevation.Overhead => "상대가 머리 위에 있고, 위쪽 함대는 뒤집힌 자세",
+                _ => "평면 · 머리 위 중 하나",
+            });
         }
         else if(Host.Screen==BattleScreen.Pause)
         {Center(298,"일시정지",40);Center(340,"함대가 대기합니다",18,Blue);Text(new(620,671),$"효과음 {SoundSettings.Volume:0}%",17,Ink);
@@ -183,7 +220,6 @@ public partial class BattleOverlay : Control
         DrawColoredPolygon(points.Select(v=>p+v*scale).ToArray(),new Color(color,.55f));
         DrawLine(p+new Vector2(0,-30)*scale,p+new Vector2(0,36)*scale,color,2);
     }
-    private static string DesignName(DesignFamily family) => family == DesignFamily.Mars ? "화성권" : "지구권";
     private void DrawResult()
     {
         if(Host.Battle is not { } battle || Host.Outcome is not { } outcome)return;

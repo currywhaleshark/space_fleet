@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
@@ -20,15 +21,11 @@ public partial class Main
         if(frame==10){_overlay.ActivateButton(0);Verify(Screen==BattleScreen.Hangar,"Title opens the hangar first");ChangeScreen(BattleScreen.Select);}
         if(frame==14)
         {
-            _overlay.ActivateButton(3);
+            ToggleDesign(false);
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"Player design selector is independent of the opponent");
             ToggleDesign(true); // Canonical fixture; random matching has its own flow checks.
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Earth,"Opponent design selector supports Mars vs Earth");
-            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Flagship,"Objective selector cycles to flagship");
-            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Domination,"Objective selector cycles to domination");
-            _overlay.ActivateButton(6); Verify(SelectedObjective==BattleObjective.Annihilation,"Objective selector returns to annihilation");
-            _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.AsteroidCluster,"Battlefield selector cycles independently");
-            _overlay.ActivateButton(7); Verify(SelectedBattlefield==Battlefield.DeepSpace,"Default battlefield remains DeepSpace");
+            CheckBattleSettings();
         }
         if(frame==20){StartBattle("BB-01",true);Verify(Screen==BattleScreen.Battle&&Battle!.Controlled!.Body.Callsign=="BB-01","BB role starts battle");}
         if(frame==30)
@@ -129,13 +126,43 @@ public partial class Main
         {
             Verify(Screen==BattleScreen.Result&&Battle!.TimeScale==1,"Outcome opens result after delay at x1");
             _overlay.ActivateButton(1);Verify(Screen==BattleScreen.Hangar&&Battle is null,"Result returns to fitting");ChangeScreen(BattleScreen.Select);
-            _overlay.ActivateButton(3);
+            ToggleDesign(false);
             Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Earth,"UI supports Earth vs Earth");
-            _overlay.ActivateButton(3); ToggleDesign(true);
+            ToggleDesign(false); ToggleDesign(true);
             Verify(PlayerDesign==DesignFamily.Mars && EnemyDesign==DesignFamily.Mars,"UI supports Mars vs Mars");
-            _overlay.ActivateButton(3);
+            ToggleDesign(false);
             Verify(PlayerDesign==DesignFamily.Earth && EnemyDesign==DesignFamily.Mars,"UI supports Earth vs Mars");
         }
         if(frame==480){GD.Print($"PASS: {_flowChecks} scene flow checks");GetTree().Quit();}
+    }
+    /// <summary>Battle settings: each item is chosen or random, and only the settings screen's launch uses the choices.</summary>
+    private void CheckBattleSettings()
+    {
+        Verify(Settings==MatchSettings.Random,"Battle settings start fully random");
+        _overlay.ActivateButton("objective-2");Verify(Settings.Objective==BattleObjective.Flagship,"Objective chip selects flagship");
+        _overlay.ActivateButton("objective-3");Verify(Settings.Objective==BattleObjective.Domination,"Objective chip selects domination");
+        _overlay.ActivateButton("field-2");Verify(Settings.Battlefield==Battlefield.AsteroidCluster,"Battlefield chip selects asteroid cluster");
+        _overlay.ActivateButton("course-3");Verify(Settings.Course==Engagement.Opposite,"Course chip selects opposite");
+        _overlay.ActivateButton("height-2");Verify(Settings.Height==Elevation.Overhead,"Height chip selects overhead");
+        Verify(Settings.Objective==BattleObjective.Domination,"Chips keep the other choices");
+        _overlay.ActivateButton("objective-0");Verify(Settings.Objective is null&&Settings.Course==Engagement.Opposite,"Objective chip returns to random");
+        var chosen=new MatchSettings(BattleObjective.Flagship,Battlefield.AsteroidCluster,Engagement.Parallel,Elevation.Overhead);
+        bool fixedOk=true;
+        for(int seed=1;seed<=40;seed++)
+        {var r=Resolve(chosen,seed);fixedOk&=r.Objective==BattleObjective.Flagship&&r.Field==Battlefield.AsteroidCluster&&r.Course==Engagement.Parallel&&r.Height==Elevation.Overhead;}
+        Verify(fixedOk,"Chosen settings pass through for every seed");
+        var objectives=new HashSet<BattleObjective>();var fields=new HashSet<Battlefield>();var terrain=new HashSet<int>();
+        bool autoKept=true;
+        for(int seed=1;seed<=200;seed++)
+        {
+            var r=Resolve(MatchSettings.Random,seed);objectives.Add(r.Objective);fields.Add(r.Field);terrain.Add(r.FieldSeed);
+            autoKept&=r.Course==Engagement.Auto&&r.Height==Elevation.Auto;
+        }
+        Verify(objectives.Count==Enum.GetValues<BattleObjective>().Length&&fields.Count==Enum.GetValues<Battlefield>().Length,"Random launch covers every objective and battlefield");
+        Verify(terrain.Count>100,"Random launch varies the terrain seed");
+        // The match deployment then draws all six openings from the seed (MatchmakingChecks.Deployments).
+        Verify(autoKept,"Random formation leaves course and height to the match deployment draw");
+        Verify(Resolve(MatchSettings.Random,7)==Resolve(MatchSettings.Random,7),"Random setup is reproducible from the match seed");
+        SetSettings(MatchSettings.Random);
     }
 }

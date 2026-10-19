@@ -244,10 +244,10 @@ public partial class HangarView : Control
         Button("기술 연구",new(288,18,128,42),()=>Host.OpenResearch(ResearchTree.Catalog.ByHull(Host.PlayerHullId).Id),size:16);
         Button("전장 설정",new(426,18,128,42),()=>Host.ChangeScreen(BattleScreen.Select),size:16);
         string? problem=Host.LaunchProblem();
-        var launch=Button("출격",new(650,10,300,50),()=>Host.BeginMatch(),true,primary:true,size:20);
+        var launch=Button("출격",new(650,10,300,50),Host.LaunchFromHangar,true,primary:true,size:20);
         launch.Disabled=problem is not null;launch.SetMeta("focus_key","launch");
-        launch.TooltipText=problem??"이 편대로 매칭을 시작합니다";
-        Label(problem??"편대 준비 완료",new(560,62,480,20),13,problem is null?Muted:Orange).HorizontalAlignment=HorizontalAlignment.Center;
+        launch.TooltipText=problem??"이 편대로 매칭을 시작합니다 · 전투 규칙, 전장, 진형은 무작위 · 지정하려면 전장 설정";
+        Label(problem??"전투 규칙 · 전장 · 진형 무작위",new(560,62,480,20),13,problem is null?Muted:Orange).HorizontalAlignment=HorizontalAlignment.Center;
         var research=Host.Hangar.Research!;
         Label($"지구권 {research.Points[DesignFamily.Earth]:N0} RP  ·  화성권 {research.Points[DesignFamily.Mars]:N0} RP",new(1076,16,500,28),16,Blue)
             .HorizontalAlignment=HorizontalAlignment.Right;

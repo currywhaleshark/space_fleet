@@ -6,6 +6,13 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
+/// <summary>Battle setup chosen on the battle settings screen. Null or Auto means "random" for that item.</summary>
+public sealed record MatchSettings(BattleObjective? Objective=null,Battlefield? Battlefield=null,
+    Engagement Course=Engagement.Auto,Elevation Height=Elevation.Auto)
+{
+    public static readonly MatchSettings Random=new();
+}
+
 public partial class Main
 {
     public HullKind SelectedKind { get; private set; } = HullKind.Interceptor;
@@ -77,13 +84,32 @@ public partial class Main
         try{Matchmaking.ValidateResearchLoadout(Hangar.Squadron(),Hangar.Owned,Hangar.Research!.UpgradeSets());return null;}
         catch(System.IO.InvalidDataException e){return e.Message;}
     }
-    public void BeginMatch(bool useRequestedSeed = false)
+    /// <summary>Settings screen choices; the hangar's launch button ignores them and randomises everything.</summary>
+    public MatchSettings Settings { get; private set; }=MatchSettings.Random;
+    // The last launch's settings, reused by "다시 매칭". Null keeps the fixed Selected* values (flow checks).
+    internal MatchSettings? LastLaunchSettings { get; private set; }
+    private (BattleObjective Objective,Battlefield Field,int FieldSeed,Engagement Course,Elevation Height)? _matchSetup;
+    public void SetSettings(MatchSettings settings){Settings=settings;_overlay.Rebuild();}
+    public void LaunchFromHangar()=>BeginMatch(settings:MatchSettings.Random);
+    public void LaunchFromSettings()=>BeginMatch(settings:Settings);
+    /// <summary>Concrete objective, battlefield and terrain seed for a launch; random items follow the match seed.
+    /// Course and height stay Auto when random: the deployment draws them from the same seed.</summary>
+    internal static (BattleObjective Objective,Battlefield Field,int FieldSeed,Engagement Course,Elevation Height) Resolve(MatchSettings settings,int seed)
+    {
+        var random=new Random(unchecked(seed*31+7));
+        var objectives=Enum.GetValues<BattleObjective>();var fields=Enum.GetValues<Battlefield>();
+        var objective=objectives[random.Next(objectives.Length)];var field=fields[random.Next(fields.Length)];
+        return (settings.Objective??objective,settings.Battlefield??field,1+random.Next(1000),settings.Course,settings.Height);
+    }
+    public void BeginMatch(bool useRequestedSeed = false, MatchSettings? settings = null)
     {
         if(LaunchProblem() is { } problem){HangarMessage=problem;OpenHangar();return;}
+        settings??=LastLaunchSettings;LastLaunchSettings=settings;
         if (Battle is not null) { RemoveChild(Battle); Battle.QueueFree(); Battle = null; }
         _fixtureOutcome = null;
         _matchingSeed = useRequestedSeed && _args.TryGetValue("seed", out var seed) ? int.Parse(seed)
             : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue);
+        _matchSetup=settings is null?(SelectedObjective,SelectedBattlefield,FieldSeed,Engagement.Auto,Elevation.Auto):Resolve(settings,_matchingSeed);
         PendingMatch = Matchmaking.CreateTiered(_matchingSeed, Hangar.Squadron(),Hangar.Owned,Hangar.Research!.UpgradeSets());
         _matchReceipt=Guid.NewGuid().ToString("N");_rewardDesign=PlayerDesign;_rewardClaimed=false;LastResearchReward=null;
         MatchingRemaining = 1.2; SaveFleetChoice();

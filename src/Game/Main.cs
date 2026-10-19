@@ -133,9 +133,10 @@ public partial class Main : Node3D
         _fixtureOutcome = null; _resultDelay = 0; Role = role;
         Seed = matchSeed ?? (useRequestedSeed && _args.TryGetValue("seed", out string? seed) ? int.Parse(seed)
             : System.Security.Cryptography.RandomNumberGenerator.GetInt32(1, int.MaxValue));
+        (BattleObjective Objective,Battlefield Field,int FieldSeed,Engagement Course,Elevation Height) setup=match is not null&&_matchSetup is { } chosen?chosen:(SelectedObjective,SelectedBattlefield,FieldSeed,Engagement.Auto,Elevation.Auto);
         Battle = new ScaleTest { BattleMode = true, DevMode = _args.ContainsKey("dev"), AutoPlay = _args.ContainsKey("autoplay"),
-            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=SelectedObjective,
-                Battlefield=SelectedBattlefield,FieldSeed=FieldSeed,Match=match }, LaunchControl=role };
+            LaunchConfig = new BattleConfig { Seed=Seed, BlueDesign=PlayerDesign, RedDesign=EnemyDesign, Objective=setup.Objective,
+                Battlefield=setup.Field,FieldSeed=setup.FieldSeed,Engagement=setup.Course,Elevation=setup.Height,Match=match }, LaunchControl=role };
         Battle.PauseRequested += TogglePause;
         Battle.SquadronLost += () => ChangeScreen(BattleScreen.Eliminated);
         Battle.ControlRecovered += () => ChangeScreen(BattleScreen.Battle);

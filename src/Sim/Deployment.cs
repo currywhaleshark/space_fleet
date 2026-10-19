@@ -25,6 +25,10 @@ public enum Elevation { Auto, Level, Overhead }
 public static class Deployment
 {
     public static readonly Engagement[] Modes = { Engagement.HeadOn, Engagement.Parallel, Engagement.Opposite };
+    public static string Name(Engagement course) => course switch
+    { Engagement.HeadOn => "대향", Engagement.Parallel => "동항", Engagement.Opposite => "반항", _ => "무작위" };
+    public static string Name(Elevation height) => height switch
+    { Elevation.Level => "평면", Elevation.Overhead => "머리 위", _ => "무작위" };
     public static readonly Elevation[] Heights = { Elevation.Level, Elevation.Overhead };
 
     /// <summary>Auto values: head-on and level for the canonical fixture; one seeded draw per match (mirror keeps it).</summary>
