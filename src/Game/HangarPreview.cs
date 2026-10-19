@@ -48,6 +48,7 @@ public partial class HangarPreview : Control
             {var point=mesh.GlobalTransform*local.GetEndpoint(i);bounds=first?new Aabb(point,Vector3.Zero):bounds.Expand(point);first=false;}
         }
         _focus=bounds.GetCenter();_fitLength=Mathf.Max(Definition.Flight.Length,bounds.Size.Length());
+        BuildDock(root,bounds,Definition.Flight.Length);
         if(Cutaway)
         {
             // Never mutate shared model materials: other ships and exterior previews retain their finish.
@@ -67,6 +68,54 @@ public partial class HangarPreview : Control
         float length=Definition.Flight.Length;
         _camera=new Camera3D{Fov=34,Near=Mathf.Max(.02f,length*.001f),Far=length*20};root.AddChild(_camera);
         UpdateCamera();_camera.MakeCurrent();
+    }
+    /// <summary>
+    /// Orbital berth scaled to the ship, so every class sits in the same dock.
+    /// - Deck with guide and berth lights.
+    /// - Tall mooring towers and an upper walkway on the starboard side only: the default camera views from port,
+    ///   so the near side stays open with low bollards.
+    /// - A distant planet.
+    /// Scenery only: no collision, and the bay markers still use the ship's own coordinates.
+    /// </summary>
+    private static void BuildDock(Node3D root,Aabb ship,float length)
+    {
+        float s=length;
+        var steel=new StandardMaterial3D{AlbedoColor=new(.07f,.08f,.1f),Metallic=.55f,Roughness=.6f};
+        var trim=new StandardMaterial3D{AlbedoColor=new(.13f,.15f,.18f),Metallic=.5f,Roughness=.5f};
+        var glow=new StandardMaterial3D{ShadingMode=BaseMaterial3D.ShadingModeEnum.Unshaded,AlbedoColor=new(.3f,.7f,.95f)};
+        var warm=new StandardMaterial3D{ShadingMode=BaseMaterial3D.ShadingModeEnum.Unshaded,AlbedoColor=new(1,.72f,.38f)};
+        void Box(Vector3 center,Vector3 size,Material material)=>root.AddChild(new MeshInstance3D{Name="Dock",Mesh=new BoxMesh{Size=size},
+            Position=center,MaterialOverride=material,CastShadow=GeometryInstance3D.ShadowCastingSetting.Off});
+        var c=ship.GetCenter();
+        float halfX=ship.Size.X*.5f+.12f*s,halfZ=ship.Size.Z*.5f+.15f*s;
+        float floor=ship.Position.Y-.18f*s,top=ship.End.Y+.2f*s,inner=ship.Size.X*.5f+.02f*s,arm=halfX-inner;
+        // Deck, guide lines and berth lights on both sides.
+        Box(new(c.X,floor-.01f*s,c.Z),new(halfX*2.4f,.02f*s,halfZ*2.2f),steel);
+        foreach(int side in new[]{-1,1})
+        {
+            Box(new(c.X+side*halfX*.55f,floor+.001f*s,c.Z),new(.005f*s,.003f*s,halfZ*2),glow);
+            for(int k=0;k<9;k++)Box(new(c.X+side*halfX*.9f,floor+.002f*s,c.Z-halfZ+k*halfZ/4),new(.018f*s,.004f*s,.01f*s),warm);
+        }
+        // Starboard: three mooring towers with arms to just short of the hull, joined by an upper walkway.
+        for(int k=0;k<3;k++)
+        {
+            float z=c.Z-halfZ*.7f+k*halfZ*.7f;
+            Box(new(c.X+halfX,(floor+top)*.5f,z),new(.04f*s,top-floor,.04f*s),steel);
+            if(arm>.01f*s)
+            {
+                Box(new(c.X+inner+arm*.5f,c.Y,z),new(arm,.012f*s,.012f*s),trim);
+                Box(new(c.X+inner+.004f*s,c.Y,z),new(.008f*s,.03f*s,.03f*s),glow);
+            }
+            Box(new(c.X+halfX,top+.02f*s,z),new(.012f*s,.012f*s,.012f*s),warm);
+        }
+        Box(new(c.X+halfX,top,c.Z),new(.03f*s,.02f*s,halfZ*1.5f),trim);
+        // Port: low bollards only, so the default view of the ship stays clear.
+        for(int k=0;k<3;k++)Box(new(c.X-halfX,floor+.03f*s,c.Z-halfZ*.7f+k*halfZ*.7f),new(.03f*s,.06f*s,.03f*s),trim);
+        root.AddChild(new OmniLight3D{Position=new(c.X+halfX*.6f,top,c.Z),OmniRange=length*2,LightEnergy=.35f,LightColor=new(.85f,.9f,1),ShadowEnabled=false});
+        // A distant lit planet gives the berth a horizon (inside the camera's far plane).
+        root.AddChild(new MeshInstance3D{Name="DockPlanet",Mesh=new SphereMesh{Radius=5*s,Height=10*s,RadialSegments=48,Rings=24},
+            Position=c+new Vector3(-7*s,-4*s,-9*s),CastShadow=GeometryInstance3D.ShadowCastingSetting.Off,
+            MaterialOverride=new StandardMaterial3D{AlbedoColor=new(.12f,.2f,.3f),Roughness=1,RimEnabled=true,Rim=.6f,RimTint=.3f}});
     }
     private void UpdateCamera()
     {

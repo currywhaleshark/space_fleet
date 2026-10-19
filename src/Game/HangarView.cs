@@ -7,7 +7,12 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-/// <summary>Three presets per hull, squad member references and physical bay fitting.</summary>
+/// <summary>
+/// Port screen in the WoWS/War Thunder idiom:
+/// - "My ships" carousel at the bottom (drag order, favourites first, hide/show).
+/// - The selected ship's squad slots on the left (+ to add, x to remove, right click or ... for presets).
+/// - Preview in the centre with compact system/bay icons (tooltip on hover, option list on click), stats on the right.
+/// </summary>
 public partial class HangarView : Control
 {
     public Main Host { get; set; }=null!;
@@ -16,61 +21,87 @@ public partial class HangarView : Control
     private HangarPreview _preview=null!;
     private string? _bay;
     private bool _cutaway;
-    private bool _systems=true;
     private ComponentSlot _system=ComponentSlot.MainGun;
-    private static readonly Color Ink=new(.81f,.89f,.96f),Blue=new(.35f,.75f,1),Orange=new(1,.7f,.32f),Muted=MenuStyles.Muted;
-    private HangarSlot Current => Host.Hangar.Hulls[Host.PlayerHullId].Squadron[Host.HangarSlotIndex];
+    private enum Popover { None, System, Bay }
+    private Popover _popover;
+    private int? _picker;
+    private HullKind? _kindFilter;
+    private DesignFamily? _designFilter;
+    private bool _hiddenTray;
+    private static readonly Color Ink=new(.81f,.89f,.96f),Blue=new(.35f,.75f,1),Orange=new(1,.7f,.32f),Muted=MenuStyles.Muted,
+        Line=new(.13f,.23f,.3f),Panel=new(.025f,.055f,.08f);
+    private HangarSlot?[] Squad => Host.Hangar.Hulls[Host.PlayerHullId].Squadron;
+    private HangarSlot Current => Squad[Host.HangarSlotIndex]??Squad[0]!;
     internal ResolvedLoadout CurrentFit => FleetLoadouts.ResolveFit(Host.Hangar.Fit(Current));
     internal string? SelectedBay => _bay;
     internal HangarPreview Preview => _preview;
+    internal bool PickerOpen => _picker is not null;
     public override void _Ready()
     {
         _font=new SystemFont{FontNames=new[]{"Malgun Gothic","Segoe UI"}};
         if(OS.GetCmdlineUserArgs().Contains("--hangar-exterior"))_cutaway=false;
         var args=BattleArgs.Parse(OS.GetCmdlineUserArgs());
-        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-system",out var system))_system=Enum.Parse<ComponentSlot>(system);
-        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-bay",out var bay)){_bay=bay;_systems=false;_cutaway=true;}
+        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-system",out var system)){_system=Enum.Parse<ComponentSlot>(system);_popover=Popover.System;}
+        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-bay",out var bay)){_bay=bay;_cutaway=true;_popover=Popover.Bay;}
+        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-picker",out var picker))_picker=int.Parse(picker);
         Size=new(1600,900);Rebuild();
         if(args.ContainsKey("shot")&&args.ContainsKey("hangar-focus"))MenuStyles.RestoreFocus(this,"system-"+_system);
     }
-    private Label Label(string text,Rect2 r,int size=18,Color? color=null)
+    private Label Label(string text,Rect2 r,int size=18,Color? color=null,Node? parent=null)
     {
         var label=new Label{AutowrapMode=TextServer.AutowrapMode.WordSmart,Text=text,
             Position=r.Position,Size=r.Size,MouseFilter=MouseFilterEnum.Ignore};
         label.AddThemeFontOverride("font",_font);label.AddThemeFontSizeOverride("font_size",size);
-        label.AddThemeColorOverride("font_color",color??Ink);AddChild(label);return label;
+        label.AddThemeColorOverride("font_color",color??Ink);(parent??this).AddChild(label);return label;
     }
-    private Button Button(string text,Rect2 r,Action action,bool selected=false,bool primary=false)
+    private Button Button(string text,Rect2 r,Action action,bool selected=false,bool primary=false,int size=18,Node? parent=null)
     {
         var b=new Button{Text=text,Position=r.Position,Size=r.Size,ClipText=true,TextOverrunBehavior=TextServer.OverrunBehavior.TrimEllipsis};
-        b.AddThemeFontSizeOverride("font_size",18);
+        b.AddThemeFontSizeOverride("font_size",size);
         MenuStyles.Apply(b,_font,selected?Blue:Muted,primary,accent:selected);
         b.AddThemeColorOverride("font_color",primary?new(.025f,.055f,.085f):selected?Blue:Ink);
-        b.Pressed+=action;AddChild(b);return b;
+        b.Pressed+=action;(parent??this).AddChild(b);return b;
     }
     private MenuItemButton Item(string name,Texture2D? picture,Rect2 r,Action? action,string details,
-        bool selected=false,bool portrait=false,string status="",string marker="")
+        bool selected=false,bool portrait=false,string status="",string marker="",Node? parent=null)
     {
         var b=new MenuItemButton{Caption=name,Picture=picture,Typeface=_font,Portrait=portrait,
             Detail=status,Marker=marker,TooltipText=details,Position=r.Position,Size=r.Size};
         MenuStyles.Apply(b,_font,selected?Blue:Ink,accent:selected);
         b.SetMeta("focus_key",name);
-        b.Pressed+=action??b.ShowDetails;AddChild(b);return b;
+        b.Pressed+=action??b.ShowDetails;(parent??this).AddChild(b);return b;
     }
     private void Action(Action edit)
     {
         try{edit();Host.SaveHangar();Rebuild();}
-        catch(Exception e)when(e is InvalidDataException or ArgumentException)
-        {_status.Text="변경할 수 없습니다 · "+e.Message;_status.Modulate=Orange;}
+        catch(Exception e)when(e is InvalidDataException or ArgumentException){Error(e);}
     }
+    private void Error(Exception e){_status.Text="변경할 수 없습니다 · "+e.Message;_status.Modulate=Orange;}
+
+    // ---- Slot and fitting actions (also driven directly by the hangar flow checks) ----
     internal void SelectSlot(int slot)
-    {Host.HangarSlotIndex=slot;_bay=null;Rebuild();}
-    internal void SelectBay(string bay){_bay=bay;_systems=false;_cutaway=true;Rebuild();}
-    internal void SelectSystem(ComponentSlot slot){_system=slot;_systems=true;_cutaway=false;Rebuild();}
+    {
+        if(Squad[slot] is null){OpenPicker(slot);return;}
+        Host.HangarSlotIndex=slot;_bay=null;_popover=Popover.None;Rebuild();
+    }
+    internal void SelectBay(string bay){_bay=bay;_cutaway=true;_popover=Popover.Bay;Rebuild();}
+    internal void SelectSystem(ComponentSlot slot){_system=slot;_cutaway=false;_popover=Popover.System;Rebuild();}
+    internal void OpenPicker(int slot){_picker=slot;_popover=Popover.None;Rebuild();}
+    /// <summary>Escape closes the topmost hangar overlay first; false when none is open.</summary>
+    internal bool CloseOverlay()
+    {
+        if(_picker is not null){int slot=_picker.Value;_picker=null;Rebuild();MenuStyles.RestoreFocus(this,"squad-"+slot);return true;}
+        if(_popover!=Popover.None)
+        {
+            var key=_popover==Popover.System?"system-"+_system:"bay-"+_bay;
+            _popover=Popover.None;_cutaway=false;Rebuild();MenuStyles.RestoreFocus(this,key);return true;
+        }
+        return false;
+    }
     internal void InstallSystem(string? id,bool research=false)
     {
         if(MenuConfirmation.Pending(this) is not null)return;
-        var target=Current;var system=_system;var fit=Host.Hangar.Fit(target);var old=fit.Components?.Get(system);
+        var target=Current;int index=SlotIndex(target);var system=_system;var fit=Host.Hangar.Fit(target);var old=fit.Components?.Get(system);
         if(old==id)return;
         try
         {
@@ -81,21 +112,26 @@ public partial class HangarView : Control
             if(cost>0&&!research)throw new InvalidDataException("부품을 먼저 연구해야 합니다.");
             if(progress.Points[before.Design]<cost)throw new InvalidDataException("연구 점수가 부족합니다.");
             string Name(string? part)=>part is null?"기본형":ShipComponents.ById(part).Name;
+            string scope=target.UsesOwn?"이 슬롯에만 적용됩니다.":"같은 프리셋을 사용하는 함선에 함께 적용됩니다.";
             MenuConfirmation.Show(this,_font,cost>0?"부품 연구 및 교체 확인":"부품 교체 확인",
                 FitScope(target)+$"\n{ShipComponents.Name(system)} · {Name(old)} → {Name(id)}\n\n"+
                 ComponentComparison.Fitting(system,before,after),
                 MenuConfirmation.Price(before.Design,progress.Points[before.Design],cost),
-                cost>0?"공유 프리셋에 함께 적용됩니다. 연구 점수는 환불되지 않으며, 연구한 부품의 재장착은 무료입니다.":"같은 프리셋을 사용하는 함선에 함께 적용됩니다. 연구 점수 소모 없이 다시 변경할 수 있습니다.",
-                cost>0?"연구하고 장착":"교체 적용",()=>Action(()=>Host.Hangar.SetComponent(target.HullId,target.Preset,system,id,research)));
+                cost>0?scope+" 연구 점수는 환불되지 않으며, 연구한 부품의 재장착은 무료입니다.":scope+" 연구 점수 소모 없이 다시 변경할 수 있습니다.",
+                cost>0?"연구하고 장착":"교체 적용",()=>Action(()=>
+                {
+                    if(target.UsesOwn)Host.Hangar.SetSlotComponent(index,system,id,research);
+                    else Host.Hangar.SetComponent(target.HullId,target.Preset,system,id,research);
+                }));
         }
-        catch(Exception e)when(e is InvalidDataException or ArgumentException)
-        {_status.Text="변경할 수 없습니다 · "+e.Message;_status.Modulate=Orange;}
+        catch(Exception e)when(e is InvalidDataException or ArgumentException){Error(e);}
     }
-    internal void SelectPreset(int preset)=>Action(()=>Host.Hangar.SetSlot(Host.HangarSlotIndex,Current.HullId,preset));
+    /// <summary>Shared preset 0..2, or HangarSlot.Individual for a slot-owned fit.</summary>
+    internal void SelectPreset(int preset)=>Action(()=>Host.Hangar.SetSlotMode(Host.HangarSlotIndex,preset));
     internal void Install(string? device)
     {
         if(_bay is null||MenuConfirmation.Pending(this) is not null)return;
-        var target=Current;string bay=_bay;var fit=Host.Hangar.Fit(target);
+        var target=Current;int index=SlotIndex(target);string bay=_bay;var fit=Host.Hangar.Fit(target);
         string? old=fit.Equipment.FirstOrDefault(m=>m.BayId==bay)?.EquipmentId;
         if(old==device)return;
         try
@@ -106,113 +142,415 @@ public partial class HangarView : Control
             MenuConfirmation.Show(this,_font,device is null?"장비 해제 확인":"장비 교체 확인",
                 FitScope(target)+$"\n{BayName(bay)} · {Name(old)} → {Name(device)}\n\n"+
                 ComponentComparison.Equipment(before,after),"비용 0 RP · 연구 점수를 소모하지 않습니다.",
-                "같은 프리셋을 사용하는 함선에 함께 적용됩니다. 격납고에서 다시 변경할 수 있습니다.",
-                device is null?"장비 해제":"장착 적용",()=>Action(()=>Host.Hangar.SetEquipment(target.HullId,target.Preset,bay,device)));
+                target.UsesOwn?"이 슬롯에만 적용됩니다. 격납고에서 다시 변경할 수 있습니다.":"같은 프리셋을 사용하는 함선에 함께 적용됩니다. 격납고에서 다시 변경할 수 있습니다.",
+                device is null?"장비 해제":"장착 적용",()=>Action(()=>
+                {
+                    if(target.UsesOwn)Host.Hangar.SetSlotEquipment(index,bay,device);
+                    else Host.Hangar.SetEquipment(target.HullId,target.Preset,bay,device);
+                }));
         }
-        catch(Exception e)when(e is InvalidDataException or ArgumentException)
-        {_status.Text="변경할 수 없습니다 · "+e.Message;_status.Modulate=Orange;}
+        catch(Exception e)when(e is InvalidDataException or ArgumentException){Error(e);}
     }
+    private int SlotIndex(HangarSlot target)=>Squad[Host.HangarSlotIndex]==target?Host.HangarSlotIndex:0;
     private string FitScope(HangarSlot target)
     {
-        var members=Host.Hangar.Hulls[Host.PlayerHullId].Squadron.Select((slot,index)=>(slot,index))
-            .Where(m=>m.slot==target).Select(m=>m.index==0?"기함":$"편대원 {m.index}");
-        return $"{ShipDefinitions.ById(target.HullId).Flight.DisplayName} · 프리셋 {target.Preset+1}\n적용 대상: {string.Join(", ",members)}";
+        string head=$"{ShipDefinitions.ById(target.HullId).Flight.DisplayName} · {ModeName(target)}";
+        if(target.UsesOwn)return head+$"\n적용 대상: {(Host.HangarSlotIndex==0?"기함":$"편대원 {Host.HangarSlotIndex+1}")} (개별 설정)";
+        var members=Squad.Select((slot,index)=>(slot,index))
+            .Where(m=>m.slot is {UsesOwn:false}&&m.slot.HullId==target.HullId&&m.slot.Preset==target.Preset)
+            .Select(m=>m.index==0?"기함":$"편대원 {m.index+1}");
+        return head+$"\n적용 대상: {string.Join(", ",members)}";
     }
+    private static string ModeName(HangarSlot slot)=>slot.UsesOwn?"개별 설정":$"공유 프리셋 {slot.Preset+1}";
     internal void ChangeMember(string hull)
     {
         if(Host.HangarSlotIndex==0){Host.ChooseHull(hull);return;}
         Action(()=>Host.Hangar.SetSlot(Host.HangarSlotIndex,hull,0));
     }
+    internal void RemoveMember(int slot)
+    {
+        Action(()=>
+        {
+            Host.Hangar.ClearSlot(slot);
+            if(Host.HangarSlotIndex==slot)Host.HangarSlotIndex=0;
+        });
+    }
+    internal void PickHull(string hull)
+    {
+        if(_picker is not { } slot)return;
+        _picker=null;Host.HangarSlotIndex=slot;
+        Action(()=>Host.Hangar.SetSlot(slot,hull,0));
+        MenuStyles.RestoreFocus(this,"squad-"+slot);
+    }
+    /// <summary>Why a hull cannot fill a member slot of the current leader, or null when it can.</summary>
+    internal string? PickBlocked(int slot,ShipDefinition hull)
+    {
+        var leader=ShipDefinitions.ById(Host.PlayerHullId);
+        if(!Host.Hangar.Owned.Contains(hull.Id))return "미해금";
+        if(hull.Design!=leader.Design)return "다른 진영";
+        if(!FleetLoadouts.Allows(leader,slot,hull))
+            return leader.Kind==HullKind.Battleship?"호위함·순양함만":"같은 함종만";
+        if(leader.MatchClass==MatchWeightClass.Large&&ResearchTree.Catalog.ByHull(hull.Id).Tier>ResearchTree.Catalog.ByHull(leader.Id).Tier)
+            return "기함보다 높은 티어";
+        return null;
+    }
+
+    // ---- Layout ----
     private void Rebuild()
     {
         string? focus=MenuStyles.FocusKey(this);
         float yaw=_preview?.Yaw??-.9f,pitch=_preview?.Pitch??.42f,zoom=_preview?.Zoom??1.35f;
         foreach(Node child in GetChildren()){RemoveChild(child);child.QueueFree();}
-        var state=Host.Hangar.Hulls[Host.PlayerHullId];Host.HangarSlotIndex=Math.Clamp(Host.HangarSlotIndex,0,state.Squadron.Length-1);
+        Host.HangarSlotIndex=Math.Clamp(Host.HangarSlotIndex,0,Squad.Length-1);
+        if(Squad[Host.HangarSlotIndex] is null)Host.HangarSlotIndex=0;
         var slot=Current;var fit=CurrentFit;var def=fit.Definition;
-        if(!def.Bays.Any(b=>b.Id==_bay))_bay=def.Bays.FirstOrDefault()?.Id;
-        Label("격납고",new(40,28,260,55),34);
-        Label("내 편대",new(40,88,280,30),17,Muted);
-        Label(def.Flight.DisplayName,new(340,27,800,50),30);
-        Label($"{(def.Design==DesignFamily.Earth?"지구권":"화성권")}  ·  {(Host.HangarSlotIndex==0?"기함":$"편대원 {Host.HangarSlotIndex}")}  ·  프리셋 {slot.Preset+1}",new(340,79,550,30),18,Blue);
-        Label($"T{ResearchTree.Catalog.ByHull(def.Id).Tier} · 보유 함급 {Host.Hangar.Owned.Count} / {FleetLoadouts.Hulls.Count()}",new(1170,40,385,35),18,Muted);
-        Button("기술 연구",new(1170,108,385,44),()=>Host.OpenResearch(ResearchTree.Catalog.ByHull(def.Id).Id));
-        var leader=ShipDefinitions.ById(Host.PlayerHullId);var owned=Host.Hangar.Owned;
-        var hulls=FleetLoadouts.Hulls.Where(h=>owned.Contains(h.Id)&&(Host.HangarSlotIndex==0
-            ||FleetLoadouts.Allows(leader,Host.HangarSlotIndex,h)&&(leader.MatchClass!=MatchWeightClass.Large||ResearchTree.Catalog.ByHull(h.Id).Tier<=ResearchTree.Catalog.ByHull(leader.Id).Tier))).ToArray();
-        var select=new OptionButton{Position=new(40,136),Size=new(270,48)};
-        select.AddThemeFontOverride("font",_font);select.AddThemeFontSizeOverride("font_size",17);
-        for(int i=0;i<hulls.Length;i++){select.AddItem(hulls[i].Flight.DisplayName);if(hulls[i].Id==slot.HullId)select.Select(i);}
-        select.ItemSelected+=i=>ChangeMember(hulls[(int)i].Id);AddChild(select);
-        Label(Host.HangarSlotIndex==0?"함급 선택 · 편대 세팅 불러오기":"같은 진영 · 슬롯에 맞는 함급",new(40,187,280,24),14,Muted);
-        for(int i=0;i<state.Squadron.Length;i++)
+        if(!def.Bays.Any(b=>b.Id==_bay)){_bay=def.Bays.FirstOrDefault()?.Id;if(_popover==Popover.Bay&&_bay is null)_popover=Popover.None;}
+        BuildTopBar();
+        BuildSquad();
+        // Centre: ship name, fit mode selector, preview and compact fitting icons.
+        Label(def.Flight.DisplayName,new(364,92,520,42),26);
+        string role=FleetLoadouts.RoleName(def.Branch);
+        Label($"T{ResearchTree.Catalog.ByHull(def.Id).Tier} · {role} · {(def.Design==DesignFamily.Earth?"지구권":"화성권")} · {(Host.HangarSlotIndex==0?"기함":$"편대원 {Host.HangarSlotIndex+1}")}",
+            new(364,134,520,26),16,Blue);
+        string[] modes={"프리셋 1","프리셋 2","프리셋 3","개별"};
+        for(int i=0;i<modes.Length;i++)
         {
-            int index=i;var member=state.Squadron[i];var hull=ShipDefinitions.ById(member.HullId);
-            Item(hull.Flight.DisplayName,MenuArt.Ship(hull),new(40,220+i*94,270,88),()=>SelectSlot(index),
-                $"{hull.Flight.DisplayName}\n{(i==0?"기함":$"편대원 {i}")} · 프리셋 {member.Preset+1}\n"+HullDetails(hull),
-                Host.HangarSlotIndex==i,portrait:true,marker:i==0?"기함":$"{i+1}").SetMeta("focus_key","squad-"+i);
+            int mode=i;
+            var b=Button(modes[i],new(884+i*74,104,70,34),()=>SelectPreset(mode),slot.Preset==i,size:15);
+            b.TooltipText=i<3?$"공유 프리셋 {i+1} · 이 함급의 같은 프리셋을 쓰는 슬롯과 장비를 공유합니다":"개별 설정 · 이 슬롯만 따로 장비를 저장합니다";
         }
-        var squadInfo=Label($"편대 {state.Squadron.Length}척",new(40,708,270,30),16,Muted);
-        squadInfo.MouseFilter=MouseFilterEnum.Pass;squadInfo.TooltipText="기함 격침 시 생존 함선으로 인계합니다. 장비와 피해 상태는 유지됩니다.";
-        for(int i=0;i<3;i++){int preset=i;Button($"프리셋 {i+1}",new(340+i*265,125,250,42),()=>SelectPreset(preset),slot.Preset==i);}
-        _preview=new HangarPreview{Position=new(340,190),Size=new(780,414),Definition=def,Cutaway=_cutaway,ShowBayMarkers=!_systems||_cutaway,SelectedBay=_bay,Yaw=yaw,Pitch=pitch,Zoom=zoom};
+        _preview=new HangarPreview{Position=new(364,166),Size=new(816,352),Definition=def,Cutaway=_cutaway,
+            ShowBayMarkers=_popover==Popover.Bay||_cutaway,SelectedBay=_bay,Yaw=yaw,Pitch=pitch,Zoom=zoom};
         _preview.BaySelected+=SelectBay;AddChild(_preview);
-        Button(_cutaway?"외형으로 보기":"단면으로 보기",new(925,70,195,38),()=>{_cutaway=!_cutaway;Rebuild();},_cutaway).SetMeta("focus_key","preview-mode");
-        Label(_systems?"드래그 회전 · 휠 확대":"드래그 회전 · 휠 확대 · 베이 클릭",new(355,571,600,30),15,Muted);
-        Button("계통 교체",new(340,615,235,36),()=>{_systems=true;_cutaway=false;Rebuild();},_systems);
-        Button("베이 장비",new(590,615,235,36),()=>{_systems=false;_cutaway=true;Rebuild();},!_systems);
-        if(_systems)
-        {
-            var parts=Host.Hangar.Fit(Current).Components;
-            foreach(var system in Enum.GetValues<ComponentSlot>())
-            {
-                int index=(int)system;var id=parts?.Get(system);
-                string name=id is null?(system==ComponentSlot.MainGun&&def.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(system)):ShipComponents.ById(id).Name;
-                Item(name,MenuArt.Component(system,id,def),new(340+index%3*265,658+index/3*58,250,52),()=>SelectSystem(system),
-                    name+"\n"+ShipComponents.Name(system)+" · 교체 부품 선택\n"+(id is null?"기본 장착 계통":ShipComponents.ById(id).Description),
-                    _system==system).SetMeta("focus_key","system-"+system);
-            }
-        }
-        else for(int i=0;i<def.Bays.Length;i++)
-        {
-            var bay=def.Bays[i];string? installed=slot is not null?Host.Hangar.Fit(slot).Equipment.FirstOrDefault(m=>m.BayId==bay.Id)?.EquipmentId:null;
-            string equipmentName=installed is null?"빈 베이":ShipEquipment.ById(installed).Name;
-            Item(equipmentName,installed is null?MenuArt.Icon("empty-bay"):MenuArt.Equipment(ShipEquipment.ById(installed).Category),
-                new(340+i*197,660,185,106),()=>SelectBay(bay.Id),BayName(bay.Id)+"\n"+equipmentName+"\n"+SizeName(bay.Size),
-                _bay==bay.Id,portrait:true,status:BayName(bay.Id)).SetMeta("focus_key","bay-"+bay.Id);
-        }
-        var help=Label("장비에 마우스를 올리면 상세 · 키보드 선택 후 F1",new(340,775,780,24),15,Muted);
-        help.MouseFilter=MouseFilterEnum.Pass;help.TooltipText="같은 함급·프리셋의 편대원에게 함께 적용됩니다. 외형 교체는 주포만 반영합니다.";
+        Button(_cutaway?"외형으로 보기":"단면으로 보기",new(1036,176,134,32),()=>{_cutaway=!_cutaway;Rebuild();},_cutaway,size:15)
+            .SetMeta("focus_key","preview-mode");
+        Label("드래그 회전 · 휠 확대",new(378,490,400,24),14,Muted);
+        BuildFittingIcons(def);
+        var others=Squad.Count(s=>s is {UsesOwn:false}&&s.HullId==slot.HullId&&s.Preset==slot.Preset);
+        Label(slot.UsesOwn?"개별 설정 · 아이콘 변경은 이 슬롯에만 적용됩니다.":$"공유 프리셋 {slot.Preset+1} · 이 함급의 같은 프리셋을 쓰는 모든 슬롯에 적용"+(others>1?$" (지금 {others}척)":""),
+            new(364,594,816,24),15,slot.UsesOwn?Orange:Muted);
+        _status=Label(Host.HangarMessage??"변경 사항은 자동 저장됩니다.",new(364,620,816,26),15,Muted);
         BuildStats(def);
-        var selected=def.Bays.FirstOrDefault(b=>b.Id==_bay);
-        if(_systems)BuildSystems(def);
-        else if(selected is not null)
-        {
-            Label($"{BayName(selected.Id)} · {SizeName(selected.Size)}",new(1170,425,390,32),21,Blue);
-            Label(string.Join(" / ",selected.Accepts.Select(Category)),new(1170,460,390,30),15,Muted);
-            Button("베이 비우기",new(1170,487,385,36),()=>Install(null),!def.InstalledEquipment.Any(m=>m.BayId==selected.Id));
-            int i=0;
-            foreach(var device in ShipEquipment.All)
-            {
-                string? reason=Compatibility(def,selected,device);
-                float y=535+i++*64;
-                bool installed=def.InstalledEquipment.Any(m=>m.BayId==selected.Id&&m.Equipment.Id==device.Id);
-                var button=Item(device.Name,MenuArt.Equipment(device.Category),new(1170,y,385,58),()=>Install(device.Id),
-                    device.Name+"\n"+(reason??(installed?"장착 중":"클릭하여 장착"))+"\n"+Benefit(device)+
-                    $"\n소비 {device.PowerMw:0.#} MW · 추가 폐열 {device.HeatMw:0.#} MW · 질량 {device.MassKg/1000:0.#} t\n"+Risk(device),installed,
-                    status:reason is not null?"장착 불가":installed?"장착 중":"");
-                button.Disabled=reason is not null;
-                button.SetMeta("focus_key","equipment-"+device.Id);
-            }
-        }
-        string? problem=Host.LaunchProblem();
-        string match=problem is null?$"편대 전력 {Host.Hangar.Squadron().Members.Sum(ResearchTree.Catalog.Score):0.##} · 매칭 T{ResearchTree.Catalog.Bracket(Host.Hangar.Squadron()).Low}–{ResearchTree.Catalog.Bracket(Host.Hangar.Squadron()).High}":problem;
-        _status=Label(match+"\n"+(Host.HangarMessage??"변경 사항은 자동 저장됩니다."),new(340,813,780,65),16,problem is null?Muted:Orange);
-        Button("메인으로",new(40,821,128,50),Host.ReturnToPort);
-        Button("전장 설정",new(180,821,130,50),()=>Host.ChangeScreen(BattleScreen.Select));
-        Button("이 편대로 출격",new(1170,817,385,54),()=>Host.BeginMatch(),true,primary:true).Disabled=problem is not null;
+        BuildCarousel();
+        if(_popover!=Popover.None)BuildPopover(def);
+        if(_picker is { } picker)BuildPicker(picker);
         MenuStyles.RestoreFocus(this,focus);
         QueueRedraw();
+    }
+    private void BuildTopBar()
+    {
+        Button("메인으로",new(24,18,110,42),Host.ReturnToPort,size:16);
+        Label("격납고",new(150,14,140,48),28);
+        Button("기술 연구",new(288,18,128,42),()=>Host.OpenResearch(ResearchTree.Catalog.ByHull(Host.PlayerHullId).Id),size:16);
+        Button("전장 설정",new(426,18,128,42),()=>Host.ChangeScreen(BattleScreen.Select),size:16);
+        string? problem=Host.LaunchProblem();
+        var launch=Button("출격",new(650,10,300,50),()=>Host.BeginMatch(),true,primary:true,size:20);
+        launch.Disabled=problem is not null;launch.SetMeta("focus_key","launch");
+        launch.TooltipText=problem??"이 편대로 매칭을 시작합니다";
+        Label(problem??"편대 준비 완료",new(560,62,480,20),13,problem is null?Muted:Orange).HorizontalAlignment=HorizontalAlignment.Center;
+        var research=Host.Hangar.Research!;
+        Label($"지구권 {research.Points[DesignFamily.Earth]:N0} RP  ·  화성권 {research.Points[DesignFamily.Mars]:N0} RP",new(1076,16,500,28),16,Blue)
+            .HorizontalAlignment=HorizontalAlignment.Right;
+        string match="";
+        if(Host.Hangar.EmptySlots()==0)
+        {
+            var squad=Host.Hangar.Squadron();var bracket=ResearchTree.Catalog.Bracket(squad);
+            match=$"편대 전력 {squad.Members.Sum(ResearchTree.Catalog.Score):0.##} · 매칭 T{bracket.Low}–{bracket.High}";
+        }
+        Label(match,new(1076,46,500,24),15,Muted).HorizontalAlignment=HorizontalAlignment.Right;
+    }
+    private void BuildSquad()
+    {
+        var leader=ShipDefinitions.ById(Host.PlayerHullId);
+        Label("내 편대",new(24,92,140,30),19);
+        Label(leader.Flight.DisplayName,new(150,96,194,24),14,Muted).HorizontalAlignment=HorizontalAlignment.Right;
+        for(int i=0;i<Squad.Length;i++)
+        {
+            int index=i;var member=Squad[i];var at=new Rect2(24,130+i*94,320,86);
+            if(member is null)
+            {
+                var add=Button("+   함급 추가",at,()=>OpenPicker(index),size:17);
+                add.AddThemeColorOverride("font_color",Blue);add.SetMeta("focus_key","squad-"+i);
+                add.TooltipText=$"편대원 {i+1} · 빈 슬롯 · 넣을 함급을 고릅니다";continue;
+            }
+            var hull=ShipDefinitions.ById(member.HullId);
+            var button=Item(hull.Flight.DisplayName,MenuArt.Ship(hull),at,()=>SelectSlot(index),
+                $"{hull.Flight.DisplayName}\n{(i==0?"기함":$"편대원 {i+1}")} · {ModeName(member)}\n"+HullDetails(hull)+"\n\n우클릭 · 함급 교체, 장비 프리셋, 개별 설정",
+                Host.HangarSlotIndex==i,portrait:true,status:ModeName(member),marker:i==0?"기함":$"{i+1}");
+            button.SetMeta("focus_key","squad-"+i);
+            button.GuiInput+=e=>{if(e is InputEventMouseButton{ButtonIndex:MouseButton.Right,Pressed:true}){OpenSlotMenu(index,null);button.AcceptEvent();}};
+            var more=Button("⋯",new(at.End.X-(i==0?34:66),at.Position.Y+4,28,26),()=>OpenSlotMenu(index,null),size:15);
+            more.SetMeta("focus_key","slot-menu-"+i);more.TooltipText="슬롯 메뉴 · 함급 교체, 장비 프리셋, 개별 설정";
+            if(i>0)
+            {
+                var remove=Button("×",new(at.End.X-34,at.Position.Y+4,28,26),()=>RemoveMember(index),size:16);
+                remove.SetMeta("focus_key","slot-remove-"+i);remove.TooltipText="편대에서 제거 · 빈 슬롯은 + 로 다시 채웁니다";
+            }
+        }
+        int empty=Host.Hangar.EmptySlots();
+        float y=130+Squad.Length*94;
+        Label($"편대 {Squad.Length-empty} / {Squad.Length}척",new(24,y,160,24),15,Muted);
+        if(empty>0)
+        {
+            Label($"빈 슬롯 {empty}개",new(24,y+26,130,24),15,Orange);
+            Button("기본 편성으로 채우기",new(160,y+22,184,32),()=>Action(Host.Hangar.FillEmptySlots),size:14).SetMeta("focus_key","fill-squad");
+        }
+    }
+    private PopupMenu? _menu;
+    internal PopupMenu? SlotMenu => _menu;
+    internal void OpenSlotMenu(int slot,Control? anchor)
+    {
+        var member=Squad[slot];if(member is null)return;
+        _menu?.QueueFree();
+        var menu=_menu=new PopupMenu();
+        menu.AddThemeFontOverride("font",_font);menu.AddThemeFontSizeOverride("font_size",16);
+        menu.AddThemeFontOverride("font_separator",_font);menu.AddThemeFontSizeOverride("font_separator_size",14);
+        var hull=ShipDefinitions.ById(member.HullId);
+        menu.AddSeparator((slot==0?"기함":$"편대원 {slot+1}")+" · "+hull.Flight.DisplayName);
+        menu.AddItem(slot==0?"기함은 아래 내 함선에서 바꿉니다":"함급 교체…",0);menu.SetItemDisabled(menu.GetItemIndex(0),slot==0);
+        menu.AddSeparator("장비 설정");
+        for(int i=0;i<=HangarSlot.Individual;i++)
+        {
+            menu.AddRadioCheckItem(i<3?$"공유 프리셋 {i+1}":"개별 설정",10+i);
+            menu.SetItemChecked(menu.GetItemIndex(10+i),member.Preset==i);
+        }
+        if(slot>0){menu.AddSeparator();menu.AddItem("편대에서 제거",20);}
+        menu.IdPressed+=id=>
+        {
+            switch(id)
+            {
+                case 0:OpenPicker(slot);break;
+                case >=10 and <=13:Host.HangarSlotIndex=slot;SelectPreset((int)id-10);break;
+                case 20:RemoveMember(slot);break;
+            }
+        };
+        menu.PopupHide+=()=>{menu.QueueFree();if(_menu==menu)_menu=null;};
+        AddChild(menu);
+        Vector2 at=anchor is null?GetViewport().GetMousePosition():anchor.GetGlobalTransformWithCanvas()*new Vector2(anchor.Size.X,0);
+        menu.Popup(new Rect2I((Vector2I)at,Vector2I.Zero));
+    }
+    private void BuildFittingIcons(ShipDefinition def)
+    {
+        Label("계통",new(364,544,40,24),15,Muted);
+        var parts=Host.Hangar.Fit(Current).Components;
+        foreach(var system in Enum.GetValues<ComponentSlot>())
+        {
+            int index=(int)system;var id=parts?.Get(system);
+            if(system==ComponentSlot.MainGun&&id==def.DefaultMainGun)id=null;
+            string name=id is null?(system==ComponentSlot.MainGun&&def.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(system)):ShipComponents.ById(id).Name;
+            var b=Item("",MenuArt.Component(system,id,def),new(404+index*58,530,52,52),()=>ToggleSystem(system),
+                $"{ShipComponents.Name(system)}\n{name}\n{(id is null?"기본 장착 계통":ShipComponents.ById(id).Description)}\n\n클릭하여 변경",
+                _popover==Popover.System&&_system==system);
+            b.SetMeta("focus_key","system-"+system);b.AccessibilityName=ShipComponents.Name(system)+" · "+name;
+            if(id is not null)Dot(b);
+        }
+        Label("베이",new(770,544,40,24),15,Muted);
+        for(int i=0;i<def.Bays.Length;i++)
+        {
+            var bay=def.Bays[i];string? installed=Host.Hangar.Fit(Current).Equipment.FirstOrDefault(m=>m.BayId==bay.Id)?.EquipmentId;
+            string equipmentName=installed is null?"빈 베이":ShipEquipment.ById(installed).Name;
+            var b=Item("",installed is null?MenuArt.Icon("empty-bay"):MenuArt.Equipment(ShipEquipment.ById(installed).Category),
+                new(810+i*58,530,52,52),()=>ToggleBay(bay.Id),
+                $"{BayName(bay.Id)} · {SizeName(bay.Size)}\n{equipmentName}\n{(installed is null?"장비를 넣을 수 있습니다":Benefit(ShipEquipment.ById(installed)))}\n\n클릭하여 변경",
+                _popover==Popover.Bay&&_bay==bay.Id);
+            b.SetMeta("focus_key","bay-"+bay.Id);b.AccessibilityName=BayName(bay.Id)+" · "+equipmentName;
+            if(installed is not null)Dot(b);
+        }
+    }
+    private static void Dot(Control icon)=>icon.AddChild(new ColorRect{Position=new(icon.Size.X-11,5),Size=new(6,6),Color=Blue,MouseFilter=MouseFilterEnum.Ignore});
+    private void ToggleSystem(ComponentSlot system)
+    {
+        if(_popover==Popover.System&&_system==system){_popover=Popover.None;Rebuild();return;}
+        SelectSystem(system);
+    }
+    private void ToggleBay(string bay)
+    {
+        if(_popover==Popover.Bay&&_bay==bay){_popover=Popover.None;_cutaway=false;Rebuild();return;}
+        SelectBay(bay);
+    }
+    private void BuildPopover(ShipDefinition def)
+    {
+        // A transparent catcher closes the option list on any outside click.
+        var catcher=new Control{Position=Vector2.Zero,Size=new(1600,900),MouseFilter=MouseFilterEnum.Stop};
+        catcher.GuiInput+=e=>{if(e is InputEventMouseButton{Pressed:true}){_popover=Popover.None;_cutaway=false;Rebuild();}};
+        AddChild(catcher);
+        bool system=_popover==Popover.System;
+        int count=system?1+ShipComponents.All.Count(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun)
+            :1+ShipEquipment.All.Count();
+        float height=48+count*66+30;
+        float x=system?404+(int)_system*58:810+Array.FindIndex(def.Bays,b=>b.Id==_bay)*58;
+        x=Mathf.Min(x,1180-400);
+        var panel=new Panel{Position=new(x,522-height),Size=new(400,height)};
+        panel.AddThemeStyleboxOverride("panel",new StyleBoxFlat{BgColor=Panel,BorderColor=new(.25f,.45f,.58f),
+            BorderWidthBottom=1,BorderWidthTop=1,BorderWidthLeft=1,BorderWidthRight=1,CornerRadiusBottomLeft=4,CornerRadiusBottomRight=4,
+            CornerRadiusTopLeft=4,CornerRadiusTopRight=4,ShadowColor=new(0,0,0,.6f),ShadowSize=12});
+        AddChild(panel);
+        if(system)BuildSystems(def,panel);else BuildBay(def,panel);
+    }
+    private void BuildSystems(ShipDefinition def,Control panel)
+    {
+        var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);
+        string? installed=fit.Components?.Get(_system);
+        if(_system==ComponentSlot.MainGun&&installed==def.DefaultMainGun)installed=null;
+        Label(ShipComponents.Name(_system)+" 교체",new(14,10,220,28),18,Blue,panel);
+        Label(Current.UsesOwn?"이 슬롯만":ModeName(Current),new(230,14,156,22),14,Current.UsesOwn?Orange:Muted,panel).HorizontalAlignment=HorizontalAlignment.Right;
+        var stockProblem=SystemProblem(fit,null);
+        var stockHull=ShipDefinitions.ById(def.Id);
+        string stockName=_system==ComponentSlot.MainGun&&stockHull.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(_system);
+        var stock=Item(stockName,MenuArt.Component(_system,hull:stockHull),new(10,46,380,62),()=>InstallSystem(null),
+            "연구 비용 없이 기본형으로 복귀",installed is null,status:stockProblem is not null?"장착 불가":installed is null?"장착 중":"",parent:panel);
+        stock.SetMeta("focus_key","component-stock");
+        stock.TooltipText=stockProblem??"연구 비용 없이 기본형으로 복귀";
+        stock.Disabled=stockProblem is not null;
+        if(!stock.Disabled){var original=FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,null)}).Definition;
+            stock.TooltipText+="\n"+ComponentComparison.Summary(_system,def,original)+"\n"+ComponentComparison.Costs(def,original);}
+        int row=1;
+        foreach(var part in ShipComponents.All.Where(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun))
+        {
+            bool unlocked=research.HasComponent(def.Id,part.Id);int cost=research.ComponentCost(def.Id,part.Id);
+            string? problem=SystemProblem(fit,part.Id);
+            if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
+            string action=installed==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 연구 및 장착";
+            string state=problem is not null?(unlocked?"장착 불가":$"{cost:N0} RP · 연구 불가"):action;
+            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(10,46+row++*66,380,62),()=>InstallSystem(part.Id,true),"",
+                installed==part.Id,status:state,parent:panel);
+            button.SetMeta("focus_key","component-"+part.Id);
+            button.Disabled=problem is not null;
+            string comparison=part.Description,costs="";
+            try{var next=FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,part.Id)}).Definition;
+                comparison=ComponentComparison.Summary(_system,def,next);costs=ComponentComparison.Costs(def,next);}
+            catch(InvalidDataException){/* A rejected fit has no valid resolved numbers to display. */}
+            button.TooltipText=part.Name+"\n"+(problem??action)+"\n현재 → 교체 후\n"+comparison+"\n"+costs+"\n기본형 대비: "+part.Description;
+            button.AccessibilityDescription=button.TooltipText;
+        }
+        Label($"보유 {research.Points[def.Design]:N0} RP · 연구 후 교체 무료",new(14,46+row*66,370,24),14,Muted,panel);
+    }
+    private void BuildBay(ShipDefinition def,Control panel)
+    {
+        var selected=def.Bays.First(b=>b.Id==_bay);
+        Label($"{BayName(selected.Id)} · {SizeName(selected.Size)}",new(14,10,240,28),18,Blue,panel);
+        Label(Current.UsesOwn?"이 슬롯만":ModeName(Current),new(230,14,156,22),14,Current.UsesOwn?Orange:Muted,panel).HorizontalAlignment=HorizontalAlignment.Right;
+        bool empty=!def.InstalledEquipment.Any(m=>m.BayId==selected.Id);
+        var clear=Item("베이 비우기",MenuArt.Icon("empty-bay"),new(10,46,380,62),()=>Install(null),"장착한 장비를 내립니다",empty,
+            status:empty?"비어 있음":"",parent:panel);
+        clear.SetMeta("focus_key","equipment-none");
+        int row=1;
+        foreach(var device in ShipEquipment.All)
+        {
+            string? reason=Compatibility(def,selected,device);
+            bool installed=def.InstalledEquipment.Any(m=>m.BayId==selected.Id&&m.Equipment.Id==device.Id);
+            var button=Item(device.Name,MenuArt.Equipment(device.Category),new(10,46+row++*66,380,62),()=>Install(device.Id),
+                device.Name+"\n"+(reason??(installed?"장착 중":"클릭하여 장착"))+"\n"+Benefit(device)+
+                $"\n소비 {device.PowerMw:0.#} MW · 추가 폐열 {device.HeatMw:0.#} MW · 질량 {device.MassKg/1000:0.#} t\n"+Risk(device),installed,
+                status:reason is not null?"장착 불가":installed?"장착 중":"",parent:panel);
+            button.Disabled=reason is not null;
+            button.SetMeta("focus_key","equipment-"+device.Id);
+        }
+        Label(string.Join(" / ",selected.Accepts.Select(Category))+" 장착 가능",new(14,46+row*66,370,24),14,Muted,panel);
+    }
+    private void BuildPicker(int slot)
+    {
+        var dim=new ColorRect{Position=Vector2.Zero,Size=new(1600,900),Color=new(.004f,.015f,.03f,.82f),MouseFilter=MouseFilterEnum.Stop};
+        dim.GuiInput+=e=>{if(e is InputEventMouseButton{Pressed:true})CloseOverlay();};
+        AddChild(dim);
+        var panel=new Panel{Position=new(230,96),Size=new(1140,708)};
+        panel.AddThemeStyleboxOverride("panel",new StyleBoxFlat{BgColor=new(.02f,.05f,.075f),BorderColor=new(.25f,.45f,.58f),
+            BorderWidthBottom=1,BorderWidthTop=1,BorderWidthLeft=1,BorderWidthRight=1,CornerRadiusBottomLeft=6,CornerRadiusBottomRight=6,
+            CornerRadiusTopLeft=6,CornerRadiusTopRight=6});
+        AddChild(panel);
+        var leader=ShipDefinitions.ById(Host.PlayerHullId);
+        Label($"편대원 {slot+1} · 함급 선택",new(24,18,600,34),24,Ink,panel);
+        Label(leader.Kind==HullKind.Battleship?"전투단: 같은 진영 호위함·순양함, 기함 이하 티어 · 같은 함급 중복 가능":"같은 진영 같은 함종 · 같은 함급 중복 가능",
+            new(24,54,800,24),15,Muted,panel);
+        Button("닫기",new(1020,20,96,38),()=>CloseOverlay(),size:16,parent:panel).SetMeta("focus_key","picker-close");
+        var hulls=FleetLoadouts.Hulls.Where(h=>h.Design==leader.Design)
+            .Select(h=>(hull:h,reason:PickBlocked(slot,h),tier:ResearchTree.Catalog.ByHull(h.Id).Tier))
+            .OrderBy(x=>x.reason is not null).ThenByDescending(x=>x.tier).ThenBy(x=>x.hull.Kind).ToArray();
+        var scroll=new ScrollContainer{Position=new(20,92),Size=new(1100,596),HorizontalScrollMode=ScrollContainer.ScrollMode.Disabled};
+        panel.AddChild(scroll);
+        var grid=new GridContainer{Columns=6};grid.AddThemeConstantOverride("h_separation",10);grid.AddThemeConstantOverride("v_separation",10);
+        scroll.AddChild(grid);
+        foreach(var (hull,reason,tier) in hulls)
+        {
+            var card=new MenuItemButton{Caption=hull.Flight.DisplayName,Picture=MenuArt.Ship(hull),Typeface=_font,Portrait=true,
+                Detail=reason??$"T{tier} · {FleetLoadouts.RoleName(hull.Branch)}",Marker=$"T{tier}",
+                TooltipText=$"{hull.Flight.DisplayName}\n{(reason is null?"편성 가능 · 공유 프리셋 1로 들어갑니다":"편성 불가 · "+reason+(reason=="미해금"?" · 기술 연구에서 해금합니다":""))}\n"+HullDetails(hull),
+                CustomMinimumSize=new(172,150),Size=new(172,150)};
+            MenuStyles.Apply(card,_font,reason is null?Ink:Muted);
+            card.SetMeta("focus_key","pick-"+hull.Id);card.Disabled=reason is not null;
+            if(reason is not null)card.Modulate=new(1,1,1,.45f);
+            string id=hull.Id;card.Pressed+=()=>PickHull(id);
+            grid.AddChild(card);
+        }
+        var first=hulls.FirstOrDefault(x=>x.reason is null).hull;
+        MenuStyles.RestoreFocus(this,first is not null?"pick-"+first.Id:"picker-close");
+    }
+    private void BuildCarousel()
+    {
+        Label("내 함선",new(24,668,90,28),18);
+        (string label,HullKind? kind)[] kinds={("전체",null),("전함",HullKind.Battleship),("순양·호위",HullKind.Escort),("요격·정찰",HullKind.Interceptor)};
+        float x=118;
+        foreach(var (label,kind) in kinds)
+        {
+            var k=kind;float w=label.Length>2?96:64;
+            Button(label,new(x,666,w,32),()=>{_kindFilter=k;_hiddenTray=false;Rebuild();},!_hiddenTray&&_kindFilter==k,size:14).SetMeta("focus_key","filter-"+label);
+            x+=w+6;
+        }
+        x+=10;
+        (string label,DesignFamily? design)[] designs={("양 진영",null),("지구권",DesignFamily.Earth),("화성권",DesignFamily.Mars)};
+        foreach(var (label,design) in designs)
+        {
+            var d=design;
+            Button(label,new(x,666,78,32),()=>{_designFilter=d;_hiddenTray=false;Rebuild();},!_hiddenTray&&_designFilter==d,size:14).SetMeta("focus_key","filter-"+label);
+            x+=84;
+        }
+        var hidden=Host.Hangar.Hidden;
+        Button($"숨긴 함선 {hidden.Length}",new(x+10,666,120,32),()=>{_hiddenTray=!_hiddenTray;Rebuild();},_hiddenTray,size:14).SetMeta("focus_key","hidden-tray");
+        Label(_hiddenTray?"숨긴 함선 · 다시 표시하면 원래 자리로 돌아갑니다":"★ 즐겨찾기는 항상 앞 · 드래그로 순서 변경 · ◌ 로 숨기기",
+            new(1000,670,576,24),14,Muted).HorizontalAlignment=HorizontalAlignment.Right;
+        var scroll=new ScrollContainer{Position=new(24,706),Size=new(1552,180),VerticalScrollMode=ScrollContainer.ScrollMode.Disabled};
+        AddChild(scroll);
+        var row=new HBoxContainer();row.AddThemeConstantOverride("separation",10);scroll.AddChild(row);
+        if(_hiddenTray)
+        {
+            if(hidden.Length==0)
+            {
+                var none=Label("숨긴 함선이 없습니다. 카드의 ◌ 버튼으로 숨길 수 있습니다.",new(0,0,800,30),15,Muted,row);
+                none.CustomMinimumSize=new(800,30);
+            }
+            foreach(string id in hidden)
+            {
+                var hull=ShipDefinitions.ById(id);var cell=new Control{CustomMinimumSize=new(168,160)};row.AddChild(cell);
+                var card=Item(hull.Flight.DisplayName,MenuArt.Ship(hull),new(0,0,168,120),null,HullDetails(hull),portrait:true,
+                    marker:$"T{ResearchTree.Catalog.ByHull(id).Tier}",parent:cell);
+                card.Modulate=new(1,1,1,.6f);card.SetMeta("focus_key","hidden-"+id);
+                string hullId=id;
+                Button("다시 표시",new(0,126,168,32),()=>Action(()=>Host.Hangar.SetHidden(hullId,false)),size:14,parent:cell).SetMeta("focus_key","show-"+id);
+            }
+            return;
+        }
+        foreach(string id in Host.Hangar.ShipList())
+        {
+            var hull=ShipDefinitions.ById(id);
+            if(_kindFilter is { } kind&&hull.Kind!=kind||_designFilter is { } design&&hull.Design!=design)continue;
+            bool favorite=Host.Hangar.Favorites.Contains(id);int tier=ResearchTree.Catalog.ByHull(id).Tier;
+            var cell=new Control{CustomMinimumSize=new(168,160)};row.AddChild(cell);
+            string hullId=id;
+            var card=new HangarShipCard{HullId=id,Caption=hull.Flight.DisplayName,Picture=MenuArt.Ship(hull),Typeface=_font,Portrait=true,
+                Detail=FleetLoadouts.RoleName(hull.Branch),Marker=$"T{tier}",Position=Vector2.Zero,Size=new(168,160),
+                TooltipText=$"{hull.Flight.DisplayName}\nT{tier} · {FleetLoadouts.RoleName(hull.Branch)} · {(hull.Design==DesignFamily.Earth?"지구권":"화성권")}\n클릭: 이 함선을 기함으로 편대 열기\n드래그: 순서 변경"};
+            MenuStyles.Apply(card,_font,id==Host.PlayerHullId?Blue:Ink,accent:id==Host.PlayerHullId);
+            card.SetMeta("focus_key","ship-"+id);
+            card.Pressed+=()=>Host.ChooseHull(hullId);
+            card.Dropped+=dragged=>Action(()=>Host.Hangar.MoveShip(dragged,hullId));
+            cell.AddChild(card);
+            var star=Button(favorite?"★":"☆",new(134,4,30,28),()=>Action(()=>Host.Hangar.SetFavorite(hullId,!favorite)),favorite,size:16,parent:cell);
+            star.AddThemeColorOverride("font_color",favorite?new(1,.79f,.3f):Muted);
+            star.TooltipText=favorite?"즐겨찾기 해제":"즐겨찾기 · 항상 앞에 정렬";star.SetMeta("focus_key","favorite-"+id);
+            var hide=Button("◌",new(100,4,30,28),()=>Action(()=>Host.Hangar.SetHidden(hullId,true)),size:15,parent:cell);
+            hide.TooltipText=id==Host.PlayerHullId?"현재 기함은 숨길 수 없습니다":"목록에서 숨기기 · 숨긴 함선에서 다시 표시";
+            hide.Disabled=id==Host.PlayerHullId;hide.SetMeta("focus_key","hide-"+id);
+        }
     }
     private string? Compatibility(ShipDefinition def,EquipmentBay bay,EquipmentDefinition device)
     {
@@ -223,43 +561,6 @@ public partial class HangarView : Control
         try{FleetLoadouts.ResolveFit(Host.Hangar.Fit(Current) with{Equipment=next});return null;}
         catch(InvalidDataException){return "전력·열 예산 또는 운용 조건 부족";}
     }
-    private void BuildSystems(ShipDefinition def)
-    {
-        var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);
-        string? installed=fit.Components?.Get(_system);
-        if(_system==ComponentSlot.MainGun&&installed==def.DefaultMainGun)installed=null;
-        Label(ShipComponents.Name(_system)+" 교체",new(1170,425,385,32),19,Blue);
-        var stockProblem=SystemProblem(fit,null);
-        var stockHull=ShipDefinitions.ById(def.Id);
-        string stockName=_system==ComponentSlot.MainGun&&stockHull.DefaultMainGun=="main-laser"?"기본 레이저":"기본 "+ShipComponents.Name(_system);
-        var stock=Item(stockName,MenuArt.Component(_system,hull:stockHull),new(1170,465,385,68),()=>InstallSystem(null),
-            "연구 비용 없이 기본형으로 복귀",installed is null,status:stockProblem is not null?"장착 불가":installed is null?"장착 중":"");
-        stock.SetMeta("focus_key","component-stock");
-        stock.TooltipText=SystemProblem(fit,null)??"연구 비용 없이 기본형으로 복귀";
-        stock.Disabled=SystemProblem(fit,null) is not null;
-        if(!stock.Disabled){var original=FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,null)}).Definition;
-            stock.TooltipText+="\n"+ComponentComparison.Summary(_system,def,original)+"\n"+ComponentComparison.Costs(def,original);}
-        int row=0;
-        foreach(var part in ShipComponents.All.Where(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun))
-        {
-            bool unlocked=research.HasComponent(def.Id,part.Id);int cost=research.ComponentCost(def.Id,part.Id);
-            string? problem=SystemProblem(fit,part.Id);
-            if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
-            float y=545+row++*72;
-            string action=installed==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 연구 및 장착";
-            string state=problem is not null?(unlocked?"장착 불가":$"{cost:N0} RP · 연구 불가"):action;
-            var button=Item(part.Name,MenuArt.Component(_system,part.Id),new(1170,y,385,64),()=>InstallSystem(part.Id,true),"",installed==part.Id,status:state);
-            button.AddThemeFontSizeOverride("font_size",17);button.SetMeta("focus_key","component-"+part.Id);
-            button.Disabled=problem is not null;
-            string comparison=part.Description,costs="";
-            try{var next=FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,part.Id)}).Definition;
-                comparison=ComponentComparison.Summary(_system,def,next);costs=ComponentComparison.Costs(def,next);}
-            catch(InvalidDataException){/* A rejected fit has no valid resolved numbers to display. */}
-            button.TooltipText=part.Name+"\n"+(problem??action)+"\n현재 → 교체 후\n"+comparison+"\n"+costs+"\n기본형 대비: "+part.Description;
-            button.AccessibilityDescription=button.TooltipText;
-        }
-        Label($"보유 {research.Points[def.Design]:N0} RP · 연구 후 교체 무료",new(1170,782,385,22),15,Muted);
-    }
     private string? SystemProblem(ShipFit fit,string? id)
     {
         try{FleetLoadouts.ResolveFit(fit with{Components=(fit.Components??new()).With(_system,id)});return null;}
@@ -267,25 +568,27 @@ public partial class HangarView : Control
     }
     private void BuildStats(ShipDefinition def)
     {
+        Label("성능",new(1200,92,200,30),19);
+        Label("세로선은 기본형",new(1376,96,200,24),14,Muted).HorizontalAlignment=HorizontalAlignment.Right;
         var baseline=ShipDefinitions.ById(def.Id);var gear=def.InstalledEquipment.Select(m=>m.Equipment).ToArray();
         float budget=def.Power.Engines+def.Power.Shields+def.Power.Weapons+def.Power.Sensors;
-        Meter("전력",budget+gear.Sum(d=>d.PowerMw),def.Power.OutputMw,budget,"MW",190);
-        Meter("추가 폐열",gear.Sum(d=>d.HeatMw),def.Power.CoolingMw,0,"MW",241);
-        Meter("가속",def.Flight.ForwardAccel,Mathf.Max(baseline.Flight.ForwardAccel*1.25f,def.Flight.ForwardAccel),baseline.Flight.ForwardAccel,"m/s²",292);
-        Meter("실드",def.Shield.Capacity*(1+gear.Sum(d=>d.Effects.ShieldCapacityFraction)),baseline.Shield.Capacity*2,baseline.Shield.Capacity,"",343);
-        Item("함선 상세",null,new(1170,386,385,32),null,HullDetails(def));
+        Meter("전력",budget+gear.Sum(d=>d.PowerMw),def.Power.OutputMw,budget,"MW",136);
+        Meter("추가 폐열",gear.Sum(d=>d.HeatMw),def.Power.CoolingMw,0,"MW",192);
+        Meter("가속",def.Flight.ForwardAccel,Mathf.Max(baseline.Flight.ForwardAccel*1.25f,def.Flight.ForwardAccel),baseline.Flight.ForwardAccel,"m/s²",248);
+        Meter("실드",def.Shield.Capacity*(1+gear.Sum(d=>d.Effects.ShieldCapacityFraction)),baseline.Shield.Capacity*2,baseline.Shield.Capacity,"",304);
+        Item("함선 상세",null,new(1200,370,376,40),null,HullDetails(def));
     }
     private static string HullDetails(ShipDefinition def)=>$"{def.Flight.DisplayName}\n{FleetLoadouts.RoleName(def.Branch)} · 전장 {def.Flight.Length:0} m\n"+
         $"미사일 {def.Missiles?.Rounds??0} · AM {def.Antimatter?.Rounds??0} · 프로브 {def.ReconProbes?.Count??0}\n"+
         $"센서 {def.Sensors.Strength*(1+def.InstalledEquipment.Sum(m=>m.Equipment.Effects.SensorStrengthFraction)):0} · 열용량 {def.Power.HeatCapacityMj:0} MJ\n드론 {def.DefenseDrones?.Count??0}";
     private void Meter(string name,float value,float maximum,float baseline,string unit,float y)
     {
-        Label(name,new(1170,y,130,25),16);
+        Label(name,new(1200,y,130,25),16);
         string valueText=name is "가속" or "실드"?$"{value:0.##} {unit} · 기본 {baseline:0.##}":$"{value:0.#} / {maximum:0.#} {unit}";
-        var label=Label(valueText,new(1280,y,275,25),15,Muted);label.HorizontalAlignment=HorizontalAlignment.Right;
-        AddChild(new ColorRect{Position=new(1170,y+28),Size=new(385,8),Color=new(.08f,.14f,.19f),MouseFilter=MouseFilterEnum.Ignore});
-        AddChild(new ColorRect{Position=new(1170,y+28),Size=new(385*Mathf.Clamp(value/maximum,0,1),8),Color=name=="추가 폐열"?Orange:Blue,MouseFilter=MouseFilterEnum.Ignore});
-        if(baseline>0)AddChild(new ColorRect{Position=new(1170+Mathf.Clamp(baseline/maximum,0,1)*385-1,y+25),Size=new(2,14),Color=Ink,MouseFilter=MouseFilterEnum.Ignore});
+        var label=Label(valueText,new(1300,y,276,25),15,Muted);label.HorizontalAlignment=HorizontalAlignment.Right;
+        AddChild(new ColorRect{Position=new(1200,y+28),Size=new(376,8),Color=new(.08f,.14f,.19f),MouseFilter=MouseFilterEnum.Ignore});
+        AddChild(new ColorRect{Position=new(1200,y+28),Size=new(376*Mathf.Clamp(value/maximum,0,1),8),Color=name=="추가 폐열"?Orange:Blue,MouseFilter=MouseFilterEnum.Ignore});
+        if(baseline>0)AddChild(new ColorRect{Position=new(1200+Mathf.Clamp(baseline/maximum,0,1)*376-1,y+25),Size=new(2,14),Color=Ink,MouseFilter=MouseFilterEnum.Ignore});
     }
     internal static string BayName(string id)=>id switch{"utility-port"=>"좌현 다목적","utility-starboard"=>"우현 다목적","sensor"=>"센서 베이","hangar"=>"드론 베이",_=>id};
     private static string SizeName(BaySize size)=>size switch{BaySize.Small=>"소형",BaySize.Medium=>"중형",BaySize.Large=>"대형",_=>"특대형"};
@@ -297,7 +600,22 @@ public partial class HangarView : Control
     public override void _Draw()
     {
         DrawRect(new(0,0,1600,900),new(.012f,.025f,.043f));
-        DrawLine(new(322,190),new(322,790),new(.13f,.23f,.3f));DrawLine(new(1145,190),new(1145,790),new(.13f,.23f,.3f));
-        DrawLine(new(40,804),new(1555,804),new(.13f,.23f,.3f));
+        DrawRect(new(0,0,1600,84),new(.018f,.035f,.055f));DrawLine(new(0,84),new(1600,84),Line);
+        DrawLine(new(354,96),new(354,650),Line);DrawLine(new(1190,96),new(1190,650),Line);
+        DrawLine(new(24,658),new(1576,658),Line);
     }
+}
+
+/// <summary>"My ships" card that can be dragged onto another card to reorder the carousel.</summary>
+public partial class HangarShipCard : MenuItemButton
+{
+    public string HullId { get; init; }="";
+    public event Action<string>? Dropped;
+    public override Variant _GetDragData(Vector2 atPosition)
+    {
+        SetDragPreview(new Label{Text=Caption,Modulate=new(1,1,1,.85f)});
+        return HullId;
+    }
+    public override bool _CanDropData(Vector2 atPosition,Variant data)=>data.VariantType==Variant.Type.String&&data.AsString()!=HullId;
+    public override void _DropData(Vector2 atPosition,Variant data)=>Dropped?.Invoke(data.AsString());
 }

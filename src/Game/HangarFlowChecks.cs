@@ -55,6 +55,7 @@ public partial class Main
                 &&HangarStorage.Serialize(Hangar)==_confirmationUnchanged,"Real Escape input cancels without passing through to menu navigation");
             Hangar.Research!.Points[DesignFamily.Earth]=0;ReturnToPort();
         }
+        if(frame==8)CheckHangarSquadEditing();
         if(frame==12)
         {
             _overlay.ActivateButton(0);
@@ -62,6 +63,7 @@ public partial class Main
             ChooseHull("battleship");var view=_overlay.HangarView!;
             HangarVerify(view.CurrentFit.Definition.Id=="battleship","Hull selector loads selected hull");
             Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
+            view.SelectSystem(ComponentSlot.MainGun);
             var unavailable=Find("component-main-triple");
             HangarVerify(unavailable.Disabled&&unavailable.TooltipText.Contains("RP 부족"),"Unaffordable fit keeps the precise RP shortfall in its tooltip");
             HangarVerify(Find("squad-0") is MenuItemButton {Picture:not null,Portrait:true},"Squad member is an image-led ship button");
@@ -73,7 +75,7 @@ public partial class Main
             popup.EmitSignal(Window.SignalName.WindowInput,new InputEventKey{Keycode=Key.Escape,Pressed=true});
             HangarVerify(!popup.Visible&&Screen==BattleScreen.Hangar,"Escape closes details without leaving fitting");
             var preset=Find("프리셋 2");preset.GrabFocus();preset.EmitSignal(BaseButton.SignalName.Pressed);
-            HangarVerify(view.CurrentFit.Definition.Components is null&&Hangar.Hulls["battleship"].Squadron[0].Preset==1
+            HangarVerify(view.CurrentFit.Definition.Components is null&&Hangar.Hulls["battleship"].Squadron[0]!.Preset==1
                 &&view.GetViewport().GuiGetFocusOwner()==Find("프리셋 2"),"Preset action rebuild preserves keyboard focus and switches the fit");
             Find("프리셋 1").EmitSignal(BaseButton.SignalName.Pressed);
             Hangar.Research!.Points[DesignFamily.Earth]=100000;
@@ -148,7 +150,10 @@ public partial class Main
             preview._GuiInput(new InputEventMouseButton{ButtonIndex=MouseButton.Left,Pressed=false,Position=new(470,200)});
             HangarVerify(preview.Yaw!=yaw,"Preview drag orbits without steering a ship");
             _UnhandledInput(new InputEventKey{PhysicalKeycode=Key.Escape,Pressed=true});
-            HangarVerify(Screen==BattleScreen.Title,"Escape returns from hangar to main menu");OpenHangar();
+            HangarVerify(Screen==BattleScreen.Hangar&&view.Preview.PickBay(view.Preview.BayScreen("utility-port")) is null,
+                "Escape first closes the open bay option list and stays in the hangar");
+            _UnhandledInput(new InputEventKey{PhysicalKeycode=Key.Escape,Pressed=true});
+            HangarVerify(Screen==BattleScreen.Title,"A second Escape returns from hangar to main menu");OpenHangar();
             BeginMatch(true);
             _hangarSnapshot=PendingMatch!.Player.Loadout!.Members.Select(m=>m.ContentHash).ToArray();
             Hangar.SetEquipment("battleship",0,"utility-port",null);
@@ -178,4 +183,58 @@ public partial class Main
             GD.Print($"PASS: {_hangarChecks} hangar/preview/launch/handoff flow checks");GetTree().Quit();
         }
     }
+
+    /// <summary>Port-style squad editing: empty slots, hull cards, individual fits, slot menu, "my ships" list and save v4.</summary>
+    private void CheckHangarSquadEditing()
+    {
+        OpenHangar();ChooseHull("battleship");var view=_overlay.HangarView!;
+        Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
+        var squad=Hangar.Hulls["battleship"].Squadron;
+        view.RemoveMember(2);squad=Hangar.Hulls["battleship"].Squadron;
+        HangarVerify(squad[2] is null&&Find("squad-2").Text.Contains("함급 추가"),"x empties a member slot and shows a + slot");
+        HangarVerify(LaunchProblem()?.Contains("빈 슬롯 1개")==true&&Find("launch").Disabled,"An empty slot blocks launch with its count");
+        HangarVerify(Throws(()=>Hangar.ClearSlot(0)),"The leader slot cannot be emptied");
+        view.SelectSlot(2);
+        HangarVerify(view.PickerOpen&&!Find("pick-earth_air_defense_cruiser").Disabled,"Selecting an empty slot opens hull cards with eligible hulls enabled");
+        HangarVerify(Find("pick-interceptor").Disabled&&((MenuItemButton)Find("pick-interceptor")).Detail=="호위함·순양함만","Ineligible cards stay visible, disabled, with the reason");
+        HangarVerify(view.CloseOverlay()&&!view.PickerOpen,"Escape path closes the hull cards first");
+        view.SelectSlot(2);view.PickHull("earth_air_defense_cruiser");
+        HangarVerify(Hangar.Hulls["battleship"].Squadron[2]==new HangarSlot("earth_air_defense_cruiser",0)&&LaunchProblem() is null,"Picking a card fills the slot with shared preset 1");
+        view.RemoveMember(2);Hangar.FillEmptySlots();
+        HangarVerify(Hangar.EmptySlots()==0&&Hangar.Hulls["battleship"].Squadron[2]!.HullId==FleetLoadouts.Default("battleship").Members[2].HullId,"Fill restores default members");
+        // Individual fit: copies the shared preset once, then edits stay in the slot.
+        view.SelectSlot(1);view.SelectPreset(HangarSlot.Individual);
+        var member=Hangar.Hulls["battleship"].Squadron[1]!;
+        HangarVerify(member.UsesOwn&&member.Own is not null&&Find("개별") is {} own&&own.HasMeta("focus_key"),"Individual mode stores a slot-owned fit");
+        view.SelectBay("utility-port");view.Install("shield-capacity");MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(Hangar.Hulls["battleship"].Squadron[1]!.Own!.Equipment.Length==1&&Hangar.Hulls[member.HullId].Presets[0].Length==0,
+            "Individual equipment changes only the slot, never the shared preset");
+        view.SelectPreset(0);
+        HangarVerify(view.CurrentFit.Definition.InstalledEquipment.Length==0,"Switching back to a shared preset uses that preset");
+        view.SelectPreset(HangarSlot.Individual);
+        HangarVerify(view.CurrentFit.Definition.InstalledEquipment.Length==1,"The slot's individual fit is kept while a shared preset is in use");
+        view.OpenSlotMenu(1,null);var menu=view.SlotMenu!;
+        HangarVerify(menu.Visible&&menu.IsItemChecked(menu.GetItemIndex(10+HangarSlot.Individual))&&menu.GetItemIndex(20)>=0,"Slot menu offers presets, individual fit and removal");
+        menu.Hide();
+        view.OpenSlotMenu(0,null);menu=view.SlotMenu!;
+        HangarVerify(menu.IsItemDisabled(menu.GetItemIndex(0))&&menu.GetItemIndex(20)<0,"Leader slot cannot be replaced or removed from its menu");
+        menu.Hide();
+        // My ships: favourites lead, drag order persists, hidden ships leave the list but not ownership.
+        Hangar.SetFavorite("earth_gun_cruiser",true);
+        HangarVerify(Hangar.ShipList()[0]=="earth_gun_cruiser","A favourite is always listed first");
+        Hangar.MoveShip("escort","earth_gun_cruiser");
+        HangarVerify(Hangar.ShipList().Take(2).SequenceEqual(new[]{"escort","earth_gun_cruiser"}),"Dragging onto a favourite moves the ship into the favourites in that place");
+        Hangar.SetHidden("interceptor",true);
+        HangarVerify(!Hangar.ShipList().Contains("interceptor")&&Hangar.Owned.Contains("interceptor"),"Hiding removes a hull from the list without losing it");
+        HangarVerify(Throws(()=>Hangar.SetHidden("battleship",true)),"The current leader cannot be hidden");
+        string json=HangarStorage.Serialize(Hangar);
+        HangarVerify(HangarStorage.Serialize(HangarStorage.Parse(json))==json,"Save v4 round trips slots, individual fits and the ship list");
+        var legacy=System.Text.Json.Nodes.JsonNode.Parse(json)!.AsObject();
+        legacy["version"]=3;legacy.Remove("shipOrder");legacy.Remove("favorites");legacy.Remove("hidden");
+        foreach(var (_,hull) in legacy["hulls"]!.AsObject())
+            foreach(var slot in hull!["squadron"]!.AsArray())if(slot is System.Text.Json.Nodes.JsonObject member3){member3.Remove("own");member3["preset"]=Math.Min(2,(int)member3["preset"]!);}
+        HangarVerify(HangarStorage.Parse(legacy.ToJsonString()).ShipList().Length>0,"A v3 save without the new fields still loads");
+        Hangar=HangarProfile.Create();ReturnToPort();
+    }
+    private static bool Throws(Action action){try{action();return false;}catch(System.IO.InvalidDataException){return true;}}
 }

@@ -212,7 +212,7 @@ public partial class Main : Node3D
         else if(Screen==BattleScreen.Pause && e.IsActionPressed(InputSetup.ReleaseMouse))
         {TogglePause();GetViewport().SetInputAsHandled();}
         else if(Screen==BattleScreen.Hangar && e.IsActionPressed(InputSetup.ReleaseMouse))
-        {ReturnToPort();GetViewport().SetInputAsHandled();}
+        {if(_overlay?.HangarView?.CloseOverlay()!=true)ReturnToPort();GetViewport().SetInputAsHandled();}
         else if(Screen==BattleScreen.Research && e.IsActionPressed(InputSetup.ReleaseMouse))
         {OpenHangar();GetViewport().SetInputAsHandled();}
     }
