@@ -104,19 +104,41 @@ public static class PrimaryWeaponModels
             }
             float length=Mathf.Max(.3f,-muzzle.Z), width=length*.075f*(binding.Weapon.Size>=WeaponSize.Large&&def.Battery?.SocketWeapons is not null?1.35f:1);
             var body=new SurfaceTool();body.Begin(Mesh.PrimitiveType.Triangles);
-            // Optical shroud ends at the physical muzzle. Collars visibly distinguish it from exposed rail pairs.
-            MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,width),new(width*2.6f,width*1.8f),
-                muzzle,new(width*1.8f,width*1.8f));
-            for(int i=0;i<4;i++)
-            {
-                float z=-length*(.15f+i*.2f);
-                MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,z+width*.15f),new(width*3,width*2.2f),
-                    new(muzzle.X,muzzle.Y,z-width*.15f),new(width*3,width*2.2f));
-            }
-            var mesh=body.Commit();mesh.SurfaceSetMaterial(0,palette.Hull);
-            parent.AddChild(new MeshInstance3D{Name="ReplacementLaserEmitter",Mesh=mesh});
             var lens=new StandardMaterial3D{AlbedoColor=new(.04f,.22f,.3f),Metallic=.6f,Roughness=.18f,
                 EmissionEnabled=true,Emission=new(.12f,.65f,.85f),EmissionEnergyMultiplier=.6f};
+            ArrayMesh mesh;
+            if(WeaponKit.Available&&def.Battery?.SocketWeapons is not null)
+            {
+                // Socket part (§23): a round jacket ending in the Blender kit's emitter head (cooling fins, lens) at the
+                // muzzle, with insulator collars; large emitters get one more collar.
+                var dark=new SurfaceTool();dark.Begin(Mesh.PrimitiveType.Triangles);
+                var glow=new SurfaceTool();glow.Begin(Mesh.PrimitiveType.Triangles);
+                var tools=new Dictionary<WeaponKit.Slot,SurfaceTool>{[WeaponKit.Slot.Armour]=body,[WeaponKit.Slot.Dark]=dark,[WeaponKit.Slot.Glow]=glow};
+                float girth=width*2.6f,head=Mathf.Min(girth*1.3f,length*.35f);int collars=binding.Weapon.Size>=WeaponSize.Large?3:2;
+                WeaponKit.Append(tools,"kit_jacket",WeaponKit.Span(muzzle.X,muzzle.Y,width,muzzle.Z+head,girth*.8f,girth*.8f));
+                WeaponKit.Append(tools,"kit_laser_head",WeaponKit.Span(muzzle.X,muzzle.Y,muzzle.Z+head,muzzle.Z,girth,girth));
+                for(int i=0;i<collars;i++)
+                {
+                    float z=-length*(.15f+i*.45f/collars);
+                    WeaponKit.Append(tools,"kit_collar",WeaponKit.Span(muzzle.X,muzzle.Y,z+width*.3f,z-width*.3f,girth*1.1f,girth*1.1f));
+                }
+                mesh=body.Commit();dark.Commit(mesh);glow.Commit(mesh);
+                mesh.SurfaceSetMaterial(0,palette.Hull);mesh.SurfaceSetMaterial(1,palette.Dark);mesh.SurfaceSetMaterial(2,lens);
+            }
+            else
+            {
+                // Optical shroud ends at the physical muzzle. Collars visibly distinguish it from exposed rail pairs.
+                MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,width),new(width*2.6f,width*1.8f),
+                    muzzle,new(width*1.8f,width*1.8f));
+                for(int i=0;i<4;i++)
+                {
+                    float z=-length*(.15f+i*.2f);
+                    MeshKit.AddTaper(body,new(muzzle.X,muzzle.Y,z+width*.15f),new(width*3,width*2.2f),
+                        new(muzzle.X,muzzle.Y,z-width*.15f),new(width*3,width*2.2f));
+                }
+                mesh=body.Commit();mesh.SurfaceSetMaterial(0,palette.Hull);
+            }
+            parent.AddChild(new MeshInstance3D{Name="ReplacementLaserEmitter",Mesh=mesh});
             parent.AddChild(new MeshInstance3D{Name="LaserOptic",Position=muzzle,RotationDegrees=new(90,0,0),
                 Mesh=new CylinderMesh{TopRadius=width*.65f,BottomRadius=width*.65f,Height=width*.03f,RadialSegments=16,Material=lens}});
         }

@@ -138,6 +138,19 @@ static class HullUpgradeChecks
             var tampered=JsonNode.Parse(HangarStorage.Serialize(m))!.AsObject();
             tampered["research"]!["parts"]!["Earth"]=new JsonArray();
             Reject(()=>HangarStorage.Parse(tampered.ToJsonString()),"A save cannot fit parts it has not researched");
+            // Laser balance 2026-10-20: the large laser became AA-only. A battleship fitted with it reverts those
+            // sockets to stock (preset and individual member fit); other sockets, RP and the research stay.
+            var old=JsonNode.Parse(HangarStorage.Serialize(m))!.AsObject();
+            ((JsonArray)old["research"]!["parts"]!["Earth"]!).Add("earth-laser-l");((JsonArray)old["research"]!["parts"]!["Earth"]!).Add("earth-rail-s2");
+            old["hulls"]!["battleship"]!["systemPresets"]![0]=new JsonObject{["mainGuns"]=new JsonArray("earth-laser-l",null,"earth-laser-l")};
+            old["hulls"]!["battleship"]!["systemPresets"]![1]=new JsonObject{["mainGuns"]=new JsonArray("earth-laser-l","earth-rail-s2",null)};
+            string retiredPath=Path.Combine(folder,"retired.json");File.WriteAllText(retiredPath,old.ToJsonString());
+            var retired=HangarStorage.Load(retiredPath,null);var rp=retired.Profile;
+            Check(retired.CanSave&&retired.Message?.Contains("대형 레이저")==true,$"Retired part load keeps saving with a notice: {retired.Message}");
+            Check(rp.Hulls["battleship"].SystemPresets[0] is null or {MainGuns:null}
+                &&rp.Hulls["battleship"].SystemPresets[1]!.MainGuns!.SequenceEqual(new[]{null,"earth-rail-s2",null}),"Only the retired sockets revert to stock");
+            Check(rp.Research!.HasPart(DesignFamily.Earth,"earth-laser-l")&&rp.Research.Points[DesignFamily.Earth]==m.Research.Points[DesignFamily.Earth],
+                "The retired part stays researched and RP is unchanged");
         }
         finally{Directory.Delete(folder,true);}
     }

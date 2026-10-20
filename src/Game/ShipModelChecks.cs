@@ -133,7 +133,7 @@ public partial class ShipModelChecks : Node
     {
         (string Hull,string?[] Guns)[] fits={("battleship",new[]{"earth-rail-l3",null,"earth-rail-s2"}),("escort",new[]{"earth-rail-m1-hp","earth-rail-s2"}),
             ("mars_escort",new[]{"mars-rail-m1-long",null}),("earth_air_defense_cruiser",new[]{"earth-rail-s2","earth-rail-s2"}),
-            ("battleship",new[]{"earth-laser-l","earth-laser-l","earth-laser-l"})};
+            ("battleship",new[]{"earth-laser-l-line","earth-laser-l-line","earth-laser-l-line"})};
         foreach(var (hull,guns) in fits)
         {
             var def=ShipLoadouts.Resolve(ShipVariants.Loadout(hull) with{MainGuns=guns}).Definition;

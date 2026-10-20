@@ -34,7 +34,7 @@ static class FitScoreChecks
         var aa=FleetLoadouts.ResolveFit(FleetLoadouts.Empty("earth_air_defense_cruiser")).Definition;
         Check(FitScores.Guns(aa)>0,"Laser batteries have a firepower term");
         // Rails and lasers share one unit (laser balance 2026-10-20): a laser hull fitted with rails, and a rail hull
-        // fitted with lasers, land where the mirror duels put them instead of near zero.
+        // fitted with lasers, land near where the mirror duels put them (2.04, 2.17, 1.03-1.16) instead of near zero.
         var aaT5=FleetLoadouts.Empty("earth_air_defense_cruiser_t5") with{Upgrades=new[]{"fire-control"}};
         double Fitted(ShipFit fit,params string?[] guns)=>MainGunParts.EffectiveFirepower(FleetLoadouts.ResolveFit(fit with{Components=new ShipComponentSelection{MainGuns=guns}}).Definition)
             /MainGunParts.EffectiveFirepower(FleetLoadouts.ResolveFit(fit).Definition);
@@ -42,9 +42,9 @@ static class FitScoreChecks
         Check(rails>1.2&&rails<2.5,$"AA cruiser twin rails score as a real anti-ship upgrade ({rails:0.00})");
         Check(large>1.5&&large<2.5,$"AA cruiser large emitter ({large:0.00})");
         var line=FleetLoadouts.Empty("battleship") with{Upgrades=new[]{"fire-control"}};
-        double lasers=Fitted(line,"earth-laser-l","earth-laser-l","earth-laser-l");
-        Check(lasers>.2&&lasers<.5,$"Battleship emitters score well below its rails ({lasers:0.00})");
-        Console.WriteLine($"  firepower vs stock: AA T5 twin rails {rails:0.000}, AA T5 large emitter {large:0.000}, battleship 3 emitters {lasers:0.000}");
+        double lasers=Fitted(line,"earth-laser-l-line","earth-laser-l-line","earth-laser-l-line");
+        Check(lasers>.8&&lasers<1.4,$"Battleship line lasers score near their rails ({lasers:0.00})");
+        Console.WriteLine($"  firepower vs stock: AA T5 twin rails {rails:0.000}, AA T5 large emitter {large:0.000}, battleship 3 line lasers {lasers:0.000}");
     }
 
     private static void Matches()

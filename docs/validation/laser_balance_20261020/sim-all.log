@@ -28,9 +28,9 @@ PASS: 67844 primary hardpoint/weapon/legacy compatibility checks
   hull	tier	stock	upgraded_stock	best	best_fit	next	next_stock	best/next
   battleship	4	2667	2827	5808	stock+stock+stock	battleship_t5	5959	0.975
   battleship_t5	5	2887	3060	6412	stock+stock+stock	-	0	0.000
-  earth_air_defense_cruiser	3	775	822	477	stock+stock	earth_air_defense_cruiser_t4	527	0.905
-  earth_air_defense_cruiser_t4	4	839	890	559	stock+stock	earth_air_defense_cruiser_t5	617	0.905
-  earth_air_defense_cruiser_t5	5	909	963	1304	earth-laser-l+stock	-	0	0.000
+  earth_air_defense_cruiser	3	775	822	388	stock+stock	earth_air_defense_cruiser_t4	440	0.882
+  earth_air_defense_cruiser_t4	4	839	890	466	stock+stock	earth_air_defense_cruiser_t5	525	0.887
+  earth_air_defense_cruiser_t5	5	909	963	1075	earth-laser-l+stock	-	0	0.000
   earth_gun_cruiser	3	1951	2068	1917	earth-rail-m1-hp+earth-rail-m1-hp	earth_gun_cruiser_t4	1965	0.975
   earth_gun_cruiser_t4	4	2112	2239	2116	earth-rail-m1-hp+earth-rail-m1-hp	earth_gun_cruiser_t5	2169	0.975
   earth_gun_cruiser_t5	5	2286	2424	2336	earth-rail-m1-hp+earth-rail-m1-hp	-	0	0.000
@@ -60,9 +60,9 @@ PASS: 67844 primary hardpoint/weapon/legacy compatibility checks
   mars_missile_cruiser_t4	4	663	703	846	stock+stock	mars_missile_cruiser_t5	868	0.975
   mars_missile_cruiser_t5	5	718	761	934	stock+stock	-	0	0.000
   mars_starter_escort	1	1122	1189	1403	stock	mars_escort	1534	0.915
-PASS: 586 main gun part checks
-PASS: 350 hull upgrade/part research/save v5 checks
-  firepower vs stock: AA T5 twin rails 1.490, AA T5 large emitter 1.993, battleship 3 emitters 0.312
+PASS: 591 main gun part checks
+PASS: 353 hull upgrade/part research/save v5 checks
+  firepower vs stock: AA T5 twin rails 1.750, AA T5 large emitter 1.931, battleship 3 line lasers 0.960
   team fitted-score gap: matches 60, mean 0.03%, max 0.20%; AI ships on part mixes 2695/4684
 PASS: 143 fit score/matching/AI fit checks
   ordnance replacement fits 151

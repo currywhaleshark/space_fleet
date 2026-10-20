@@ -73,7 +73,9 @@ internal static class ComponentTrials
                 ("earth_air_defense_cruiser_t5","earth-laser-l,-",new[]{8000d,20000d,40000d}),
                 ("earth_air_defense_cruiser_t5","earth-rail-s2,earth-rail-s2",new[]{8000d,20000d,40000d}),
                 ("battleship","stock",new[]{20000d,60000d,100000d}),
-                ("battleship","earth-laser-l,earth-laser-l,earth-laser-l",new[]{20000d,60000d,100000d})})
+                ("battleship","earth-laser-l-line,earth-laser-l-line,earth-laser-l-line",new[]{20000d,60000d,100000d}),
+                ("battleship_t5","stock",new[]{20000d,60000d,100000d}),
+                ("battleship_t5","earth-laser-l-line,earth-laser-l-line,earth-laser-l-line",new[]{20000d,60000d,100000d})})
             foreach(double range in ranges)foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
                 tasks.Add(($"laser-{hull}-{fit}-{range}-{seed}-{mirror}",()=>LaserDuel(hull,fit,seed,mirror,range,seconds)));
         // Laser balance: the same AA fits screening a passive anchor from four 12-missile waves (beam AA and heat).

@@ -189,11 +189,12 @@ public static class MainGunParts
     public const double ReferenceSpeed = 10_000, ReferencePenetrationMm = 1000, ReferenceReachMeters = 100_000;
     public const float LaserEvaluationMeters = 20_000;
     /// <summary>
-    /// Lasers: energy/s × (penetration ÷ ref)^2 × attenuation at 20 km. A beam lands as many small pulses, each of which
-    /// must defeat the armour on its own, so penetration counts for more than with one heavy slug; range is the falloff
-    /// at a typical gun-line distance rather than a maximum reach. Calibrated on mirror duels (laser_balance_20261020).
+    /// Lasers: energy/s × 3 × pen⁴ ÷ (pen⁴ + 350⁴) × attenuation at 20 km. A beam lands as many small pulses, each of
+    /// which must defeat the armour on its own: below ~350 mm little gets through, well above it more penetration adds
+    /// little (battleship beams mostly burn shields). Range is the falloff at a typical gun-line distance, not a maximum
+    /// reach. Calibrated on mirror duels (laser_balance_20261020).
     /// </summary>
-    public const double LaserEquivalence = 14, LaserPenetrationExponent = 2;
+    public const double LaserEquivalence = 3, LaserArmourMm = 350, LaserPenetrationExponent = 4;
 
     /// <summary>Σ per socket, at the fit's supply. Rails: energy/s × (speed ÷ ref)^1 × (penetration ÷ ref)^0.5 × (reach ÷ ref)^0.25.</summary>
     public static double EffectiveFirepower(ShipDefinition def)
@@ -206,7 +207,8 @@ public static class MainGunParts
             if (w.Laser is { } laser)
             {
                 var l = MainBatteries.Supplied(laser, ratio);
-                total += l.EnergyPerSecond * LaserEquivalence * Math.Pow(l.PenetrationMm / ReferencePenetrationMm, LaserPenetrationExponent)
+                double bite = Math.Pow(l.PenetrationMm, LaserPenetrationExponent);
+                total += l.EnergyPerSecond * LaserEquivalence * bite / (bite + Math.Pow(LaserArmourMm, LaserPenetrationExponent))
                     * l.Attenuation(LaserEvaluationMeters);
             }
             else if (w.Railgun is { } r)

@@ -140,6 +140,13 @@ static class MainGunPartChecks
         Check(MainGunParts.Totals(new[]{m3,m3},100,100) is null&&MainGunParts.Totals(new[]{m3,m3},100,90)!.Contains("전력 과다"),"Rated draw limited to 1.5x supply");
         Reject(()=>Resolve("mars_escort",new[]{"earth-rail-m2",null}),"다른 진영","No cross-faction parts");
         Reject(()=>Resolve("escort",new[]{"earth-laser-m",null}),"연구할 수 없는","Branch-locked part");
+        // Laser balance 2026-10-20: the large emitter is air-defence only; line battleships carry their own beam.
+        Reject(()=>Resolve("battleship",new[]{"earth-laser-l","earth-laser-l","earth-laser-l"}),"연구할 수 없는","Large AA emitter is not a battleship part");
+        var aaLarge=ResearchTree.Catalog.Resolve("earth_air_defense_cruiser_t5",new[]{"fire-control"},Array.Empty<EquipmentMount>()).Definition;
+        Check(MainGunParts.Reject(aaLarge,new[]{"earth-laser-l",null}) is null
+            &&MainGunParts.Reject(aaLarge,new[]{"earth-laser-l-line",null})?.Contains("연구할 수 없는")==true,"Line laser is battleship only");
+        var line=Resolve("battleship",new[]{"earth-laser-l-line","earth-laser-l-line","earth-laser-l-line"}).Definition;
+        Check(line.Battery!.Weapon.Laser is not null&&Near(line.Battery.SupplyRatio,1),"Three line lasers run a battleship at full supply");
         Reject(()=>Resolve("earth_air_defense_cruiser",new[]{null,"earth-rail-s2"}),"계통","One weapon system per ship");
         Reject(()=>Resolve("escort",new[]{"earth-rail-m2"}),"소켓 2개","One part per socket");
         Reject(()=>Resolve("escort",new[]{"missing-gun",null}),"알 수 없는","Unknown part");

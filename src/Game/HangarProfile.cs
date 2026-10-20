@@ -263,6 +263,37 @@ public sealed class HangarProfile
         };
         return next.IsEmpty?null:next;
     }
+    /// <summary>Set when loading reverted sockets to stock because their part no longer fits the hull's branch.</summary>
+    [System.Text.Json.Serialization.JsonIgnore] public bool RetiredParts { get; private set; }
+
+    /// <summary>
+    /// A socket part whose branch list no longer includes the hull (the large laser became air-defence only on 2026-10-20)
+    /// reverts to stock instead of failing the whole save. The part stays researched.
+    /// </summary>
+    internal void RetireParts()
+    {
+        ShipComponentSelection? Clean(string hullId,ShipComponentSelection? parts)
+        {
+            if(parts?.MainGuns is not { } guns||!FleetLoadouts.Hulls.Any(d=>d.Id==hullId))return parts; // unknown hulls fail validation
+            var hull=ShipDefinitions.ById(hullId);
+            bool Retired(string? id)=>id is not null&&MainGunParts.Find(id) is { } part&&part!=MainGunParts.StockFor(hull)
+                &&!part.Branches.Contains(hull.Branch);
+            if(!guns.Any(Retired))return parts;
+            RetiredParts=true;
+            var kept=guns.Select(g=>Retired(g)?null:g).ToArray();
+            return parts with{MainGuns=kept.All(g=>g is null)?null:kept};
+        }
+        foreach(var (id,hull) in Hulls)
+        {
+            if(hull?.SystemPresets is { } presets)
+                for(int i=0;i<presets.Length;i++)presets[i]=Clean(id,presets[i]);
+            if(hull?.Squadron is { } squad)
+                for(int i=0;i<squad.Length;i++)
+                    if(squad[i] is {Own:{ } own} slot&&Clean(slot.HullId,own.Components) is var cleaned&&!ReferenceEquals(cleaned,own.Components))
+                        squad[i]=slot with{Own=own with{Components=cleaned}};
+        }
+    }
+
     public void Validate()
     {
         if(Version is not (1 or 2 or 3 or 4 or 5)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))
@@ -316,7 +347,7 @@ public static class HangarStorage
         }
         Unique(doc.RootElement);
         var profile=JsonSerializer.Deserialize<HangarProfile>(json,Options)??throw new InvalidDataException("빈 저장입니다.");
-        profile.Validate();return profile;
+        profile.RetireParts();profile.Validate();return profile;
     }
     public static HangarLoadResult Load(string path,string? legacyHull)
     {
@@ -350,6 +381,7 @@ public static class HangarStorage
                 if(research.Components.Count>0)note="교체 부품 해금을 진영 공유로 옮겼습니다. 사격통제·반응로 연구는 포좌 확장·주포 전원 개량으로 바뀌었습니다.";
                 research.ShareLegacyUnlocks();
             }
+            if(profile.RetiredParts)note=(note is null?"":note+" ")+"더 이상 달 수 없는 주포 부품(전함의 대형 레이저)을 기본 주포로 되돌렸습니다. 연구는 유지됩니다.";
             profile.Version=5;profile.Validate();
             return new(profile,true,note);
         }
