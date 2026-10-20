@@ -55,8 +55,10 @@ public static class ShipLoadouts
         var mainGuns = loadout.MainGuns ?? loadout.Components?.MainGuns;
         if (mainGuns is not null && (loadout.MainWeapon is not null || loadout.Components?.MainGun is not null))
             throw new InvalidDataException("Choose main gun parts or a primary replacement, not both");
+        if (loadout.Components?.PowerParts is { Length: > 0 } && (loadout.MainWeapon is not null || loadout.Components.MainGun is not null))
+            throw new InvalidDataException("Power parts need socket main guns, not a primary replacement");
         definition = ShipComponents.Apply(definition, loadout.Components, useFactoryPrimary:loadout.MainWeapon is null);
-        definition = MainGunParts.Apply(definition, mainGuns);
+        definition = MainGunParts.Apply(definition, mainGuns, loadout.Components?.PowerParts);
         if (loadout.Components is { } parts && (parts.Launcher ?? parts.Missile ?? parts.PointDefensePart) is not null)
         {
             if (parts.PointDefensePart is not null && parts.Secondary is not null)

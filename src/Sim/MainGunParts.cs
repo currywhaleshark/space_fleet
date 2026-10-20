@@ -31,7 +31,8 @@ public static class MainGunParts
     /// <summary>Research facts of any part (main gun or ordnance): cost, stock, design (null = either), branches, min tier.</summary>
     public static (int Cost, bool Stock, DesignFamily? Design, ShipBranch[] Branches, int MinTier)? Research(string id)
         => Find(id) is { } g ? (g.Cost, IsStock(g), g.Design, g.Branches, g.MinTier)
-        : OrdnanceParts.Find(id) is { } o ? (o.Cost, o.Stock, o.Design, o.Branches, o.MinTier) : null;
+        : OrdnanceParts.Find(id) is { } o ? (o.Cost, o.Stock, o.Design, o.Branches, o.MinTier)
+        : PowerParts.Find(id) is { } w ? (w.Cost, false, w.Design, w.Branches, w.MinTier) : null;
     /// <summary>Stock parts are always fitted; others are researched once per design (§6).</summary>
     public static bool IsStock(MainGunPart part) => part.StockKinds is { Length: > 0 };
     /// <summary>A hull that can research this part: same design, a listed branch and at least the part's tier.</summary>
@@ -82,8 +83,8 @@ public static class MainGunParts
         => hull.Battery is { } b && part.Design == hull.Design && part.Branches.Contains(hull.Branch)
             && b.Hardpoints.Any(h => Socket(h, part, SocketSize(hull, h)) is null);
 
-    /// <summary>Why this per-socket choice cannot be installed, or null. Null entries mean the stock part.</summary>
-    public static string? Reject(ShipDefinition hull, IReadOnlyList<string?> choice)
+    /// <summary>Why this per-socket choice (and power parts, §24) cannot be installed, or null. Null entries mean the stock part.</summary>
+    public static string? Reject(ShipDefinition hull, IReadOnlyList<string?> choice, IReadOnlyList<string>? power = null)
     {
         if (hull.Battery is not { } b) return "주포 소켓이 없는 함선입니다.";
         if (choice.Count != b.Hardpoints.Length) return $"소켓 {b.Hardpoints.Length}개에 부품을 하나씩 골라야 합니다.";
@@ -98,16 +99,19 @@ public static class MainGunParts
             if (Socket(b.Hardpoints[i], p, SocketSize(hull, b.Hardpoints[i])) is { } why) return $"{p.Name}: {why}";
         }
         if (parts.Select(p => p.System).Distinct().Count() > 1) return "한 함선에는 한 가지 주포 계통만 달 수 있습니다.";
-        return Totals(parts, VolumeBudget(hull), Supply(hull));
+        PowerPart[] extra;
+        try { extra = PowerParts.Parts(hull, power); } catch (InvalidDataException e) { return e.Message; }
+        return Totals(parts, VolumeBudget(hull), Supply(hull), extra);
     }
 
-    /// <summary>Hull totals: weapon volume, and rated draw at most 1.5× the main gun supply.</summary>
-    internal static string? Totals(IReadOnlyList<MainGunPart> parts, float volumeBudget, float supplyMw)
+    /// <summary>Hull totals: weapon volume (guns and power parts), and rated draw at most 1.5× the main gun supply.</summary>
+    internal static string? Totals(IReadOnlyList<MainGunPart> parts, float volumeBudget, float supplyMw, IReadOnlyList<PowerPart>? power = null)
     {
-        float volume = parts.Sum(p => p.Volume);
+        power ??= Array.Empty<PowerPart>();
+        float volume = parts.Sum(p => p.Volume) + power.Sum(p => p.Volume);
         if (volume > volumeBudget + 1e-4f) return $"무장 용적 초과: {volume:0.#} / {volumeBudget:0.#}";
-        float power = parts.Sum(p => p.RatedMw), limit = supplyMw / MainBatteries.MinSupplyRatio;
-        if (power > limit + 1e-4f) return $"무장 정격 전력 과다: {power:0.#} MW, 공급 {supplyMw:0.#} MW의 1.5배까지";
+        float rated = parts.Sum(p => p.RatedMw), supply = PowerParts.Supply(supplyMw, rated, power), limit = supply / MainBatteries.MinSupplyRatio;
+        if (rated > limit + 1e-4f) return $"무장 정격 전력 과다: {rated:0.#} MW, 공급 {supply:0.#} MW의 1.5배까지";
         return null;
     }
 
@@ -129,20 +133,24 @@ public static class MainGunParts
     /// <summary>Applied after research and catalog systems. Choosing only stock parts keeps the hull (and its content ID) unchanged.</summary>
     /// <summary>Test hook: convert every stock battery to explicit socket parts (identical numbers).</summary>
     internal static bool ForceConversion;
-    internal static ShipDefinition Apply(ShipDefinition hull, IReadOnlyList<string?>? choice)
+    internal static ShipDefinition Apply(ShipDefinition hull, IReadOnlyList<string?>? choice, IReadOnlyList<string>? power = null)
     {
         float scale = hull.WeaponBudget?.SupplyScale ?? 1;
+        if (power is { Count: 0 }) power = null;
         if (choice is null)
         {
-            // A reactor upgrade overcharges even the stock fit, which then needs explicit socket parts.
-            if (scale == 1 && !ForceConversion || hull.Battery is null) return hull;
+            // A reactor upgrade overcharges even the stock fit, and power parts change supply or cooling:
+            // both then need explicit socket parts.
+            if (scale == 1 && power is null && !ForceConversion || hull.Battery is null)
+                return power is null ? hull : throw new InvalidDataException("주포가 없는 함선입니다.");
             choice = new string?[hull.Battery.Hardpoints.Length];
         }
         // An all-stock choice is always legal (and is resolved while catalogs are still loading).
-        if (choice.Any(id => id is not null) && Reject(hull, choice) is { } why) throw new InvalidDataException(why);
+        if ((choice.Any(id => id is not null) || power is not null) && Reject(hull, choice, power) is { } why) throw new InvalidDataException(why);
         if (hull.Battery is null || choice.Count != hull.Battery.Hardpoints.Length) throw new InvalidDataException(Reject(hull, choice) ?? "주포 소켓 수가 맞지 않습니다.");
         var b = hull.Battery; var stock = StockFor(hull); var parts = Parts(hull, choice);
-        if (parts.All(p => p == stock) && scale == 1 && !ForceConversion) return hull;
+        if (parts.All(p => p == stock) && scale == 1 && power is null && !ForceConversion) return hull;
+        var extra = PowerParts.Parts(hull, power);
         var a = b.Weapon;
         var weapons = new PrimaryWeaponDefinition[parts.Length];
         var installs = new WeaponInstallationDefinition[parts.Length];
@@ -158,10 +166,20 @@ public static class MainGunParts
         // The longest-reaching socket supplies the ship-level view (AI range, HUD); turrets fire their own.
         int primary = Enumerable.Range(0, parts.Length).MaxBy(i => (Reach(weapons[i]), -i));
         var hardpoints = b.Hardpoints.Select(h => h with { Size = SocketSize(hull, h) }).ToArray();
-        var battery = new MainBatteryDefinition(hardpoints, weapons[primary], installs) { SocketWeapons = weapons, SupplyMw = Supply(hull) };
+        var battery = new MainBatteryDefinition(hardpoints, weapons[primary], installs)
+        {
+            SocketWeapons = weapons, SupplyMw = PowerParts.Supply(Supply(hull), parts.Sum(p => p.RatedMw), extra),
+            PowerParts = extra.Length > 0 ? extra.Select(p => p.Id).ToArray() : null,
+        };
         var json = JsonNode.Parse(hull.ToJson())!.AsObject();
         json.Remove(nameof(ShipDefinition.Railgun));
         json[nameof(ShipDefinition.MainBattery)] = JsonNode.Parse(ShipDefinition.SerializeData(battery));
+        if (extra.Any(p => p.Kind == PowerPartKind.Cooler))
+            json[nameof(ShipDefinition.Power)] = JsonNode.Parse(ShipDefinition.SerializeData(hull.Power with
+            {
+                CoolingMw = hull.Power.CoolingMw + extra.Sum(p => p.CoolingMw),
+                HeatCapacityMj = hull.Power.HeatCapacityMj + extra.Sum(p => p.HeatCapacityMj),
+            }));
         return ShipDefinition.Parse(json.ToJsonString(), strict: true);
     }
 
@@ -196,6 +214,33 @@ public static class MainGunParts
     /// </summary>
     public const double LaserEquivalence = 3, LaserArmourMm = 350, LaserPenetrationExponent = 4;
 
+    /// <summary>Average focus heat multiplier of a beam over an engagement (1 + 1.5 × focus, focus about one half).</summary>
+    public const float LaserHeatFactor = 1.75f;
+    /// <summary>
+    /// Share of the time the lasers can fire before automatic cooling: ship cooling ÷ beam heat, at most 1 (1 without
+    /// lasers). Rails barely heat the ship, so their duty stays 1.
+    /// </summary>
+    public static double LaserDuty(ShipDefinition def, float coolingMw)
+    {
+        if (def.Battery is not { } b) return 1;
+        float ratio = b.SupplyRatio, heat = 0;
+        for (int i = 0; i < b.Hardpoints.Length; i++)
+            if (b.WeaponAt(i).Laser is { } laser) heat += MainBatteries.Supplied(laser, ratio).HeatMw * LaserHeatFactor;
+        return heat <= 0 ? 1 : Math.Min(1, coolingMw / heat);
+    }
+    /// <summary>
+    /// Effective firepower with what fitted coolers add to laser duty (§24): × duty ÷ duty without the coolers. The laser
+    /// model was calibrated without a duty term, so the hull's own cooling stays inside it.
+    /// </summary>
+    public static double SustainedFirepower(ShipDefinition def)
+    {
+        double fire = EffectiveFirepower(def);
+        if (def.Battery?.PowerParts is not { } ids) return fire;
+        float coolers = ids.Select(PowerParts.ById).Sum(p => p.CoolingMw);
+        if (coolers <= 0) return fire;
+        return fire * LaserDuty(def, def.Power.CoolingMw) / LaserDuty(def, def.Power.CoolingMw - coolers);
+    }
+
     /// <summary>Σ per socket, at the fit's supply. Rails: energy/s × (speed ÷ ref)^1 × (penetration ÷ ref)^0.5 × (reach ÷ ref)^0.25.</summary>
     public static double EffectiveFirepower(ShipDefinition def)
     {
@@ -227,6 +272,9 @@ public static class MainGunParts
         return All.Where(p => p == stock || p.Design == hull.Design && p.Branches.Contains(hull.Branch)
             && Socket(h, p, SocketSize(hull, h)) is null).OrderBy(p => p == stock ? 0 : 1);
     }
+
+    /// <summary>Whether this mix draws more than the hull supplies (a generator would raise its rate).</summary>
+    public static bool UnderSupplied(ShipDefinition hull, IReadOnlyList<string?> choice) => Parts(hull, choice).Sum(p => p.RatedMw) > Supply(hull) + 1e-4f;
 
     /// <summary>Every legal per-socket mix (null = stock) on this hull, by default in its stock weapon system only.</summary>
     public static IEnumerable<string?[]> Combos(ShipDefinition hull, bool sameSystem = true)

@@ -288,13 +288,26 @@ static class MainGunPartChecks
             // Lasers and rails do not share a firepower unit; a hull is held to its own system's ceiling.
             var system=MainGunParts.StockFor(stock).System;
             float best=0;string bestFit="stock";int combos=0;
+            // Power parts (§24): no extra, or one or two generators where the mix is under-supplied, and on laser hulls
+            // one or two coolers (beam duty). Coolers do not change rail firepower.
+            var generators=PowerParts.Candidates(upgraded).Where(p=>p.Kind==PowerPartKind.Generator).Select(p=>p.Id).ToArray();
+            var coolers=PowerParts.Candidates(upgraded).Where(p=>p.Kind==PowerPartKind.Cooler).Select(p=>p.Id).ToArray();
             foreach(var combo in MainGunParts.Combos(upgraded,sameSystem:false))
             {
                 combos++;
                 if(combo.Any(c=>c is not null&&MainGunParts.ById(c).System!=system))continue;
-                var d=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=combo}).Definition;
-                float e=(float)MainGunParts.EffectiveFirepower(d);
-                if(e>best){best=e;bestFit=string.Join("+",combo.Select(c=>c??"stock"));}
+                var power=new List<string[]?>{null};
+                if(MainGunParts.UnderSupplied(upgraded,combo))
+                    power.AddRange(generators.Select(g=>new[]{g}).Concat(generators.SelectMany(g=>generators.Select(h=>new[]{g,h}))));
+                if(system==PrimaryWeaponSystem.Laser)
+                    power.AddRange(coolers.Select(c=>new[]{c}).Concat(coolers.SelectMany(c=>coolers.Select(h=>new[]{c,h}))));
+                foreach(var extra in power)
+                {
+                    if(extra is not null&&MainGunParts.Reject(upgraded,combo,extra) is not null)continue;
+                    var d=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=combo,PowerParts=extra}).Definition;
+                    float e=(float)MainGunParts.SustainedFirepower(d);
+                    if(e>best){best=e;bestFit=string.Join("+",combo.Select(c=>c??"stock").Concat(extra??Array.Empty<string>()));}
+                }
             }
             Check(combos>0,$"{id}: upgraded stock fit is legal");
             var next=NextTier(node);float nextStock=next is null?0:(float)MainGunParts.EffectiveFirepower(next);

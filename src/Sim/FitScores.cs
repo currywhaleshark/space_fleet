@@ -44,7 +44,7 @@ public static class FitScores
             * Math.Pow(R(Sight(fitted), Sight(stock)), Sensing);
     }
 
-    internal static double Guns(ShipDefinition def) => MainGunParts.EffectiveFirepower(def);
+    internal static double Guns(ShipDefinition def) => MainGunParts.SustainedFirepower(def);
     private static double Shields(ShipDefinition d) => d.Shield.Capacity + d.Shield.RechargePerSecond * 30 + d.StructureHitPoints;
     private static double Defence(ShipDefinition d) => d.PointDefense is not { } pd ? 1
         : pd.ShotsPerSecond * pd.EffectiveMissileDamage * Math.Sqrt(pd.RangeMeters) * pd.Mounts.Length;
@@ -76,6 +76,16 @@ public static class FitScores
                 _ => new ShipComponentSelection { PointDefensePart = forcedId },
             };
         }
+        if (ForcedPart is { } forcedPower && PowerParts.Find(forcedPower) is { } forcedKind)
+        {
+            // Stock guns plus as many of the forced generator/cooler as the weapon volume holds.
+            var h = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
+            if (h.Battery is null || PowerParts.Socket(h, forcedKind) is not null) return null;
+            var stockGuns = new string?[h.Battery.Hardpoints.Length];
+            var ids = new List<string>();
+            while (ids.Count < PowerParts.MaxPerShip && MainGunParts.Reject(h, stockGuns, ids.Append(forcedPower).ToArray()) is null) ids.Add(forcedPower);
+            return ids.Count == 0 ? null : new ShipComponentSelection { PowerParts = ids.ToArray() };
+        }
         if (ForcedPart is { } forced)
         {
             var h = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
@@ -88,7 +98,17 @@ public static class FitScores
         var hull = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
         if (hull.Battery is null) return null;
         var combos = MainGunParts.Combos(hull).Where(c => c.Any(p => p is not null)).ToArray();
-        return combos.Length == 0 ? null : new ShipComponentSelection { MainGuns = combos[random.Next(combos.Length)] };
+        var guns = combos.Length == 0 ? new string?[hull.Battery.Hardpoints.Length] : combos[random.Next(combos.Length)];
+        // Half the part mixes also fill spare weapon volume with one random generator or cooler (§24).
+        var power = random.NextDouble() < .5 ? RandomPower(hull, guns, random) : null;
+        if (combos.Length == 0 && power is null) return null;
+        return new ShipComponentSelection { MainGuns = guns.Any(g => g is not null) ? guns : null, PowerParts = power };
+    }
+
+    private static string[]? RandomPower(ShipDefinition hull, string?[] guns, Random random)
+    {
+        var legal = PowerParts.Candidates(hull).Where(p => MainGunParts.Reject(hull, guns, new[] { p.Id }) is null).ToArray();
+        return legal.Length == 0 ? null : new[] { legal[random.Next(legal.Length)].Id };
     }
 
     /// <summary>The legal main gun mix (stock included) whose score is closest to a target, among a random sample.</summary>
@@ -101,7 +121,12 @@ public static class FitScores
         // Every legal mix when there are few (the usual case), otherwise a random sample.
         var all = MainGunParts.Combos(hull).Where(c => c.Any(p => p is not null)).ToArray();
         var options = (all.Length <= samples ? all : all.OrderBy(_ => random.Next()).Take(samples).ToArray())
-            .Select(c => new ShipComponentSelection { MainGuns = c }).Prepend(null).ToArray();
+            .Select(c => new ShipComponentSelection { MainGuns = c })
+            // Generators matter only where they lift an under-supplied mix toward rated (§24).
+            .Concat(all.Where(c => MainGunParts.UnderSupplied(hull, c)).Take(samples)
+                .SelectMany(c => PowerParts.Candidates(hull).Where(p => p.Kind == PowerPartKind.Generator && MainGunParts.Reject(hull, c, new[] { p.Id }) is null)
+                    .Select(p => new ShipComponentSelection { MainGuns = c, PowerParts = new[] { p.Id } })))
+            .Prepend(null).ToArray();
         return options.MinBy(o => Math.Abs(tree * Ratio(fit with { Components = o }) - target));
     }
 }

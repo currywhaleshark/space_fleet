@@ -117,7 +117,7 @@ public sealed class HangarProfile
         var next=EditableSquad(index,leaderAllowed:true);var slot=next[index];
         if(slot is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
         var parts=(own.Components??new()).With(system,id);
-        if(system==ComponentSlot.MainGun&&id is not null)parts=parts with{MainGuns=null}; // catalog primary replaces socket parts
+        if(system==ComponentSlot.MainGun&&id is not null)parts=parts with{MainGuns=null,PowerParts=null}; // catalog primary replaces socket and power parts
         if(system==ComponentSlot.Secondary&&id is not null)parts=parts with{PointDefensePart=null}; // catalog secondary replaces a PD part
         var fit=own with{Components=parts.IsEmpty?null:parts};
         FleetLoadouts.ResolveFit(Fit(slot with{Own=fit})); // Validate the complete budget before charging RP.
@@ -174,7 +174,7 @@ public sealed class HangarProfile
         if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
             throw new InvalidDataException("잘못된 프리셋입니다.");
         var next=(state.SystemPresets[preset]??new()).With(slot,id);
-        if(slot==ComponentSlot.MainGun&&id is not null)next=next with{MainGuns=null}; // catalog primary replaces socket parts
+        if(slot==ComponentSlot.MainGun&&id is not null)next=next with{MainGuns=null,PowerParts=null}; // catalog primary replaces socket and power parts
         if(slot==ComponentSlot.Secondary&&id is not null)next=next with{PointDefensePart=null}; // catalog secondary replaces a PD part
         var fit=Fit(new(hull,preset)) with{Components=next.IsEmpty?null:next};
         FleetLoadouts.ResolveFit(fit); // Validate the complete budget before charging RP or changing the preset.
@@ -216,6 +216,38 @@ public sealed class HangarProfile
         guns[socket]=part;
         // Socket parts replace a catalog primary; all-stock sockets drop back to no selection.
         var next=(current??new()).With(ComponentSlot.MainGun,null) with{MainGuns=guns.All(g=>g is null)?null:guns};
+        return next.IsEmpty?null:next;
+    }
+    /// <summary>Generator or cooler in one power slot of a shared preset (null = empty, §24); researches it first when asked.</summary>
+    public void SetPowerPart(string hull,int preset,int slot,string? part,bool research=false)
+    {
+        if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
+            throw new InvalidDataException("잘못된 프리셋입니다.");
+        var next=WithPowerPart(state.SystemPresets[preset],slot,part);
+        FleetLoadouts.ResolveFit(Fit(new(hull,preset)) with{Components=next}); // Validate volume before charging RP.
+        BuyIfNeeded(hull,part,research);
+        state.SystemPresets[preset]=next;
+    }
+    public void SetSlotPowerPart(int index,int slot,string? part,bool research=false)
+    {
+        var next=EditableSquad(index,leaderAllowed:true);var member=next[index];
+        if(member is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
+        var fit=own with{Components=WithPowerPart(own.Components,slot,part)};
+        FleetLoadouts.ResolveFit(Fit(member with{Own=fit}));
+        BuyIfNeeded(member.HullId,part,research);
+        next[index]=member with{Own=fit};Commit(next);
+    }
+    /// <summary>Sets power slot <paramref name="slot"/> (0..3); empty slots close up, so the list stays in fitting order.</summary>
+    internal static ShipComponentSelection? WithPowerPart(ShipComponentSelection? current,int slot,string? part)
+    {
+        if(slot<0||slot>=PowerParts.MaxPerShip)throw new InvalidDataException("없는 전력 부품 칸입니다.");
+        if(part is not null)PowerParts.ById(part);
+        if(part is not null&&current?.MainGun is not null)throw new InvalidDataException("교체 계통 주포에는 전력 부품을 달 수 없습니다.");
+        var list=(current?.PowerParts??Array.Empty<string>()).Cast<string?>().ToList();
+        while(list.Count<=slot)list.Add(null);
+        list[slot]=part;
+        var kept=list.OfType<string>().ToArray();
+        var next=(current??new()) with{PowerParts=kept.Length==0?null:kept};
         return next.IsEmpty?null:next;
     }
     private void BuyIfNeeded(string hull,string? part,bool research)

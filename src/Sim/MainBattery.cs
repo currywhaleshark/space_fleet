@@ -54,6 +54,9 @@ public sealed record MainBatteryDefinition(WeaponHardpointDefinition[] Hardpoint
     /// </summary>
     [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public float? SupplyMw { get; init; }
+    /// <summary>Generator and cooler part IDs in this battery's weapon volume (§24); their effects are already in SupplyMw and Power.</summary>
+    [global::System.Text.Json.Serialization.JsonIgnore(Condition = global::System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string[]? PowerParts { get; init; }
     /// <summary>Supply ÷ total rated power of the installed parts (1 for stock batteries).</summary>
     public float SupplyRatio => SupplyMw is float supply && SocketWeapons is { } parts ? supply / parts.Sum(p => p.PowerMw) : 1;
 }

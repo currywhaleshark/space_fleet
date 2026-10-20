@@ -30,7 +30,7 @@ internal static class ComponentTrials
 
     public static void Save(string output,string phase,int[] seeds,int jobs,double seconds,bool legacyPd=false)
     {
-        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "laser-duels" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
+        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "laser-duels" or "power-duels" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
             ||seeds.Length==0||seeds.Distinct().Count()!=seeds.Length)throw new ArgumentException("Invalid component trial options");
         var tasks=new List<(string Id,Func<object> Run)>();
         if(phase is "all" or "bench")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
@@ -78,6 +78,20 @@ internal static class ComponentTrials
                 ("battleship_t5","earth-laser-l-line,earth-laser-l-line,earth-laser-l-line",new[]{20000d,60000d,100000d})})
             foreach(double range in ranges)foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
                 tasks.Add(($"laser-{hull}-{fit}-{range}-{seed}-{mirror}",()=>LaserDuel(hull,fit,seed,mirror,range,seconds)));
+        // Power parts (§24): coolers on spare volume and generators under heavy mixes, against the same hull's stock fit.
+        if(phase is "power-duels")
+            foreach(var (hull,fit,ranges) in new (string,string,double[])[]{
+                ("earth_air_defense_cruiser_t5","stock",new[]{8000d,20000d,40000d}),
+                ("earth_air_defense_cruiser_t5","|earth-cooler-m",new[]{8000d,20000d,40000d}),
+                ("battleship_t5","earth-laser-l-line,earth-laser-l-line,earth-laser-l-line",new[]{20000d,60000d,100000d}),
+                ("battleship_t5","earth-laser-l-line,earth-laser-l-line,earth-laser-l-line|earth-cooler-m",new[]{20000d,60000d,100000d}),
+                ("escort","earth-rail-m3,earth-rail-m1-hp",new[]{10000d,30000d,60000d}),
+                ("escort","earth-rail-m3,earth-rail-m1-hp|earth-gen-s",new[]{10000d,30000d,60000d}),
+                ("escort","|earth-cooler-s",new[]{10000d,30000d,60000d}),
+                ("mars_escort","|mars-cooler-s",new[]{10000d,30000d,60000d}),
+                ("mars_battleship_t5","|mars-cooler-m",new[]{30000d,80000d,140000d})})
+            foreach(double range in ranges)foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
+                tasks.Add(($"power-{hull}-{fit}-{range}-{seed}-{mirror}",()=>LaserDuel(hull,fit,seed,mirror,range,seconds)));
         // Laser balance: the same AA fits screening a passive anchor from four 12-missile waves (beam AA and heat).
         if(phase is "laser-duels")
             foreach(string fit in LaserAaFits)foreach(int seed in seeds)
@@ -284,8 +298,15 @@ internal static class ComponentTrials
         return new{Kind="laser-aa",Hull=hull,Fit=fit,Seed=seed,Incoming=incoming,Intercepts=log.MissilesIntercepted,
             Hits=w.Log.Ship(source).MissileHits,Pulses=log.LaserPulses,log.Rails,MaxHeat=heat,CoolingShare=cooling/(double)ticks};
     }
-    private static ShipDefinition Researched(string hull,string fit)=>ResearchTree.Catalog.Resolve(hull,new[]{"fire-control"},Array.Empty<EquipmentMount>(),
-        fit=="stock"?null:new ShipComponentSelection{MainGuns=fit.Split(',').Select(g=>g=="-"?null:g).ToArray()}).Definition;
+    /// <summary>"stock", or "guns|power": comma-separated socket parts ("-" = stock, empty = all stock) and power parts.</summary>
+    private static ShipDefinition Researched(string hull,string fit)
+    {
+        if(fit=="stock")return ResearchTree.Catalog.Resolve(hull,new[]{"fire-control"},Array.Empty<EquipmentMount>()).Definition;
+        var halves=fit.Split('|');
+        var guns=halves[0].Length==0?null:halves[0].Split(',').Select(g=>g=="-"?null:g).ToArray();
+        var power=halves.Length>1?halves[1].Split(','):null;
+        return ResearchTree.Catalog.Resolve(hull,new[]{"fire-control"},Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=guns,PowerParts=power}).Definition;
+    }
     private static object LaserDuel(string hull,string fit,int seed,bool mirror,double range,double seconds)
     {
         var w=new SimWorld();var random=new Random(seed);var selected=Researched(hull,fit);var stock=Researched(hull,"stock");

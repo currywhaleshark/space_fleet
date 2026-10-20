@@ -21,6 +21,7 @@ static class SimChecks
         if(args.Contains("--hull-upgrades")){HullUpgradeChecks.Run();return;}
         if(args.Contains("--fit-scores")){FitScoreChecks.Run();return;}
         if(args.Contains("--ordnance-parts")){OrdnancePartChecks.Run();return;}
+        if(args.Contains("--power-parts")){PowerPartChecks.Run();return;}
         if(args.Contains("--multi-lock")){MultiLockChecks.Run();return;}
         if(args.Contains("--long-range")){LongRangeBalanceChecks.Run();return;}
         if(args.Contains("--engagement")){EngagementChecks.Run();return;}
@@ -82,6 +83,7 @@ static class SimChecks
         HullUpgradeChecks.Run();
         FitScoreChecks.Run();
         OrdnancePartChecks.Run();
+        PowerPartChecks.Run();
         MultiLockChecks.Run();
         EngagementTimingChecks.Run();
         CheckCombinedG();

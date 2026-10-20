@@ -31,10 +31,14 @@ public sealed record ShipComponentSelection(string? MainGun = null, string? Seco
     public string? Missile { get; init; }
     [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string? PointDefensePart { get; init; }
+    /// <summary>Internal generators and coolers in main gun weapon volume (§24); null = none.</summary>
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string[]? PowerParts { get; init; }
     [System.Text.Json.Serialization.JsonIgnore]
-    public IEnumerable<string> PartIds => (MainGuns ?? Array.Empty<string?>()).Append(Launcher).Append(Missile).Append(PointDefensePart).OfType<string>();
+    public IEnumerable<string> PartIds => (MainGuns ?? Array.Empty<string?>()).Append(Launcher).Append(Missile).Append(PointDefensePart)
+        .Concat(PowerParts ?? Array.Empty<string>()).OfType<string>();
     [System.Text.Json.Serialization.JsonIgnore]
-    public bool IsEmpty => !Ids.Any() && MainGuns is null && Launcher is null && Missile is null && PointDefensePart is null;
+    public bool IsEmpty => !Ids.Any() && MainGuns is null && Launcher is null && Missile is null && PointDefensePart is null && PowerParts is null;
 }
 
 // Multipliers apply after permanent research, once, before physical bay equipment.

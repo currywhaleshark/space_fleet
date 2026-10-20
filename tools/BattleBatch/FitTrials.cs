@@ -35,7 +35,10 @@ static class FitTrials
             double Dealt(Faction f) => world.Ships.Where(b => b.Faction == f).Sum(b => world.Log.Ship(b).ShieldDamageInflicted + world.Log.Ship(b).ModuleDamageInflicted);
             // Ships carrying a non-stock main gun part, or (forced ordnance trials) every AI ship that can carry the forced part.
             var forced = FitScores.ForcedPart is { } fid ? OrdnanceParts.Find(fid) : null;
-            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && (forced is not null
+            var forcedPower = FitScores.ForcedPart is { } pid ? PowerParts.Find(pid) : null;
+            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && (forcedPower is not null
+                ? b.Definition.Battery?.PowerParts?.Contains(forcedPower.Id) == true
+                : forced is not null
                 ? !b.Callsign.StartsWith("B01") && OrdnanceParts.Socket(b.Definition, forced) is null
                 : b.Definition.Battery?.SocketWeapons is { } sw && sw.Any(p => p.Id != MainGunParts.StockFor(b.Definition).Id)));
             matches.Add(new(task.Seed, task.Leader, blue, red, (blue - red) / Math.Max(blue, red), winner, world.Time, world.Ships.Count, Dealt(Faction.Blue), Dealt(Faction.Red), blueParts));
@@ -48,6 +51,7 @@ static class FitTrials
                 {
                     var stock = MainGunParts.StockFor(d).Id;
                     if (parts.Any(p => p.Id != stock)) fit = string.Join("+", parts.Select(p => p.Id == stock ? "-" : p.Id));
+                    if (b.PowerParts is { } power) fit = (fit == "stock" ? "" : fit + "+") + string.Join("+", power);
                 }
                 // Research state, so part fits are compared with stock ships researched the same way.
                 string research = $"{d.StructureHitPoints:0}/{d.WeaponBudget?.VolumeBonus ?? 0:0}/{d.WeaponBudget?.SupplyScale ?? 1:0.00}/{d.Flight.ForwardAccel:0.###}/{d.DamageControl.RepairSeconds:0.##}";

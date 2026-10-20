@@ -1,0 +1,7 @@
+    ì˜¤ë¥˜ 0ê°œ
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog¥Ä
+stock                       32        0.0     0.967   1.000        13
+earth-cooler-s              32       12.8     1.016   1.050        13     0.053
+mars-cooler-s               32       12.6     0.958   0.990        14    -0.008
+
+[exited with code 0]
