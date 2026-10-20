@@ -30,7 +30,7 @@ internal static class ComponentTrials
 
     public static void Save(string output,string phase,int[] seeds,int jobs,double seconds,bool legacyPd=false)
     {
-        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
+        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "laser-duels" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
             ||seeds.Length==0||seeds.Distinct().Count()!=seeds.Length)throw new ArgumentException("Invalid component trial options");
         var tasks=new List<(string Id,Func<object> Run)>();
         if(phase is "all" or "bench")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
@@ -66,6 +66,20 @@ internal static class ComponentTrials
                 if((option=="stock"||threat is "light" or "heavy")&&!(own&&option=="stock"&&speed!=0))
                     tasks.Add(($"ordnance-{id}-{option}-{threat}-{seed}-{speed}-{(own?"own":"common")}",()=>OrdnanceSalvo(id,option,threat,seed,speed,own)));
         }
+        // Laser balance: a fitted hull against the same hull on stock weapons (both with 포좌 확장 so large parts fit).
+        if(phase is "laser-duels")
+            foreach(var (hull,fit,ranges) in new (string,string,double[])[]{
+                ("earth_air_defense_cruiser_t5","stock",new[]{8000d,20000d,40000d}),
+                ("earth_air_defense_cruiser_t5","earth-laser-l,-",new[]{8000d,20000d,40000d}),
+                ("earth_air_defense_cruiser_t5","earth-rail-s2,earth-rail-s2",new[]{8000d,20000d,40000d}),
+                ("battleship","stock",new[]{20000d,60000d,100000d}),
+                ("battleship","earth-laser-l,earth-laser-l,earth-laser-l",new[]{20000d,60000d,100000d})})
+            foreach(double range in ranges)foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
+                tasks.Add(($"laser-{hull}-{fit}-{range}-{seed}-{mirror}",()=>LaserDuel(hull,fit,seed,mirror,range,seconds)));
+        // Laser balance: the same AA fits screening a passive anchor from four 12-missile waves (beam AA and heat).
+        if(phase is "laser-duels")
+            foreach(string fit in LaserAaFits)foreach(int seed in seeds)
+                tasks.Add(($"laser-aa-{fit}-{seed}",()=>LaserRaid("earth_air_defense_cruiser_t5",fit,seed)));
         Directory.CreateDirectory(Path.GetDirectoryName(output)!);
         var results=new ConcurrentBag<(string Id,object Data)>();int done=0;
         Parallel.ForEach(tasks,new ParallelOptions{MaxDegreeOfParallelism=jobs},task=>{
@@ -239,6 +253,63 @@ internal static class ComponentTrials
             defender.Damage.Destroyed,defender.Damage.StructureFraction,Received=log.ModuleDamage};
     }
 
+    internal static readonly string[] LaserAaFits={"stock","earth-laser-l,-","earth-rail-s2,earth-rail-s2"};
+    private static object LaserRaid(string hull,string fit,int seed)
+    {
+        var w=new SimWorld();var rng=new Random(seed);
+        var guard=w.Add(new ShipBody("GUARD",Edit(Researched(hull,fit),j=>{j["Decoys"]=null;j["PointDefense"]=null;j["DefenseDrones"]=null;j["Missiles"]=null;}),Faction.Blue));
+        var anchor=w.Add(new ShipBody("ANCHOR",CruiserTrials.PassiveTarget(),Faction.Blue));anchor.Place(new(0,0,5000),Quaternion.Identity);
+        var source=w.Add(new ShipBody("SOURCE",CruiserTrials.Resolve("escort","""{"railgun":null,"pointDefense":null,"defenseDrones":null,"sensors":{"jammer":0}}""").Definition,Faction.Red));
+        source.Place(new(0,0,-22000),new Quaternion(Vector3.Up,Mathf.Pi));
+        foreach(var ship in w.Ships)ship.Control=new(){FlightAssist=false};
+        w.AttachBrain(guard,ShipOrder.HoldAt(guard.Position));w.Log=new BattleLog(w);
+        int incoming=0,cooling=0,ticks=0;float heat=0;
+        while(w.Time<75)
+        {
+            if(incoming<48&&w.Time+1e-8>=incoming/12*15)
+            {
+                for(int i=0;i<12;i++,incoming++)
+                {
+                    var p=new Vec3d((rng.NextDouble()-.5)*3200,(i%2==0?1:-1)*(150+rng.NextDouble()*550),-10000-i/4*1000);
+                    CruiserTrials.AddThreat(w,source,anchor,p,(anchor.Position-p).ToVector3().Normalized()*2500);
+                }
+                w.Sensors.Update(w.Ships,w.Time,true,w.Probes,w.Missiles);
+            }
+            w.Step();ticks++;heat=Math.Max(heat,guard.Power.HeatFraction);
+            if(guard.Railguns.Any(g=>g.Laser?.Cooling==true))cooling++;
+        }
+        var log=w.Log.Ship(guard);
+        return new{Kind="laser-aa",Hull=hull,Fit=fit,Seed=seed,Incoming=incoming,Intercepts=log.MissilesIntercepted,
+            Hits=w.Log.Ship(source).MissileHits,Pulses=log.LaserPulses,log.Rails,MaxHeat=heat,CoolingShare=cooling/(double)ticks};
+    }
+    private static ShipDefinition Researched(string hull,string fit)=>ResearchTree.Catalog.Resolve(hull,new[]{"fire-control"},Array.Empty<EquipmentMount>(),
+        fit=="stock"?null:new ShipComponentSelection{MainGuns=fit.Split(',').Select(g=>g=="-"?null:g).ToArray()}).Definition;
+    private static object LaserDuel(string hull,string fit,int seed,bool mirror,double range,double seconds)
+    {
+        var w=new SimWorld();var random=new Random(seed);var selected=Researched(hull,fit);var stock=Researched(hull,"stock");
+        var blue=Add(w,"DUEL-B",mirror?stock:selected,Faction.Blue,new(0,(random.NextDouble()-.5)*2000,0));
+        var red=Add(w,"DUEL-R",mirror?selected:stock,Faction.Red,new(0,(random.NextDouble()-.5)*2000,-range),new Quaternion(Vector3.Up,Mathf.Pi));
+        var a=mirror?red:blue;var b=mirror?blue:red;
+        w.AttachBrain(blue,ShipOrder.AttackOn(red));w.AttachBrain(red,ShipOrder.AttackOn(blue));w.Doctrine=new FleetDoctrine();
+        w.Rules=new BattleRules(w,BattleObjective.Annihilation);w.Sensors.Update(w.Ships,0,true);w.Log=new BattleLog(w);
+        // Selected ship: share of ticks with a beam on, in automatic cooling, and its mean heat fraction.
+        int ticks=0,beam=0,cooling=0;double heat=0;
+        while(w.Time<seconds&&w.Rules.Outcome is null)
+        {
+            w.Step();ticks++;heat+=a.Power.HeatFraction;
+            if(a.Railguns.Any(g=>g.Laser?.Active==true))beam++;
+            if(a.Railguns.Any(g=>g.Laser?.Cooling==true))cooling++;
+        }
+        w.Log.Finish();var la=w.Log.Ship(a);var lb=w.Log.Ship(b);
+        return new{Kind="laser-duel",Hull=hull,Fit=fit,Seed=seed,Mirror=mirror,Range=range,Seconds=w.Time,
+            Winner=w.Rules.Outcome?.Winner==a.Faction?"selected":w.Rules.Outcome?.Winner==b.Faction?"stock":"none",
+            SelectedDealt=la.ShieldDamageInflicted+la.ModuleDamageInflicted,StockDealt=lb.ShieldDamageInflicted+lb.ModuleDamageInflicted,
+            SelectedModules=la.ModuleDamageInflicted,StockModules=lb.ModuleDamageInflicted,SelectedPulses=la.LaserPulses,SelectedRails=la.Rails,
+            Predicted=MainGunParts.EffectiveFirepower(selected)/MainGunParts.EffectiveFirepower(stock),
+            BeamShare=beam/(double)Math.Max(1,ticks),CoolingShare=cooling/(double)Math.Max(1,ticks),MeanHeat=heat/Math.Max(1,ticks),
+            Emitters=a.Railguns.Select(g=>g.Laser is { } l?$"laser {l.Definition.EnergyPerSecond:0}/s pen {l.Definition.PenetrationMm:0} falloff {l.Definition.FalloffMeters:0} heat {l.Definition.HeatMw:0}"
+                :$"rail {g.Definition.Energy:0} x{g.BarrelCount} v {g.Definition.MuzzleSpeed:0} reload {g.Definition.ReloadSeconds:0.00} pen {g.Definition.PenetrationMm:0}").ToArray()};
+    }
     private static object Duel(string hull,string? part,int seed,bool mirror,double range,double seconds)
     {
         var w=new SimWorld();var random=new Random(seed);var selected=Fit(hull,part);var stock=ShipDefinitions.ById(hull);

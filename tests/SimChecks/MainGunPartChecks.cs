@@ -286,11 +286,11 @@ static class MainGunPartChecks
                 combos++;
                 if(combo.Any(c=>c is not null&&MainGunParts.ById(c).System!=system))continue;
                 var d=ResearchTree.Catalog.Resolve(id,all,Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=combo}).Definition;
-                float e=(float)MainGunParts.EffectiveFirepower(d,stock);
+                float e=(float)MainGunParts.EffectiveFirepower(d);
                 if(e>best){best=e;bestFit=string.Join("+",combo.Select(c=>c??"stock"));}
             }
             Check(combos>0,$"{id}: upgraded stock fit is legal");
-            var next=NextTier(node);float nextStock=next is null?0:(float)MainGunParts.EffectiveFirepower(next,next);
+            var next=NextTier(node);float nextStock=next is null?0:(float)MainGunParts.EffectiveFirepower(next);
             float ratio=next is null?0:best/nextStock;
             rows.Add($"{id}\t{node.Tier}\t{MainGunParts.SustainedEnergy(stock):0}\t{MainGunParts.SustainedEnergy(upgraded):0}\t{best:0}\t{bestFit}\t{next?.Id??"-"}\t{nextStock:0}\t{ratio:0.000}");
             CeilingRatios[id]=ratio;

@@ -94,7 +94,7 @@
     "id": "earth-laser-l", "name": "대형 채널링 레이저", "system": "Laser", "size": "Large", "barrels": 1,
     "volume": 7, "ratedMw": 80, "rounds": 0, "design": "Earth",
     "branches": ["AirDefenseCruiser", "LineBattleship"], "minTier": 4, "cost": 240,
-    "laser": { "energyPerSecond": 500, "moduleDamagePerSecond": 150, "penetrationMm": 420, "heatMw": 260, "falloffMeters": 35000,
+    "laser": { "energyPerSecond": 500, "moduleDamagePerSecond": 150, "penetrationMm": 390, "heatMw": 260, "falloffMeters": 35000,
       "sensorErrorMeters": 0.7, "sensorErrorPerKm": 0.3, "aimErrorScale": 1 }
   },
   {

@@ -1,0 +1,3422 @@
+[
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 4800.000000000036,
+      "StockDealt": 11284.854270935059,
+      "SelectedModules": 0,
+      "StockModules": 6484.854270935059,
+      "SelectedPulses": 2064,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 35.983333333333334,
+      "Winner": "stock",
+      "SelectedDealt": 1978.945068359375,
+      "StockDealt": 8840.055709838867,
+      "SelectedModules": 0,
+      "StockModules": 4040.055709838867,
+      "SelectedPulses": 807,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 53.11666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 2414.19970703125,
+      "StockDealt": 10076.635452270508,
+      "SelectedModules": 0,
+      "StockModules": 5276.635452270508,
+      "SelectedPulses": 1060,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 36.016666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 2129.9130859375,
+      "StockDealt": 8910.02335357666,
+      "SelectedModules": 0,
+      "StockModules": 4110.02335357666,
+      "SelectedPulses": 808,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 43.63333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 2187.120361328125,
+      "StockDealt": 9385.352699279785,
+      "SelectedModules": 0,
+      "StockModules": 4585.352699279785,
+      "SelectedPulses": 918,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 86.53333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 4800.000000000004,
+      "StockDealt": 9087.630512237549,
+      "SelectedModules": 0,
+      "StockModules": 4287.630512237549,
+      "SelectedPulses": 2583,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 48.25,
+      "Winner": "stock",
+      "SelectedDealt": 2264.31591796875,
+      "StockDealt": 9662.206634521484,
+      "SelectedModules": 0,
+      "StockModules": 4862.206634521484,
+      "SelectedPulses": 986,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 73.76666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 3599.5811767578125,
+      "StockDealt": 8723.33309173584,
+      "SelectedModules": 0,
+      "StockModules": 3923.33309173584,
+      "SelectedPulses": 2201,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 32.31666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 2094.8525390625,
+      "StockDealt": 8634.9388961792,
+      "SelectedModules": 0,
+      "StockModules": 3834.938896179199,
+      "SelectedPulses": 968,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 39.35,
+      "Winner": "stock",
+      "SelectedDealt": 2085.285888671875,
+      "StockDealt": 9144.32958984375,
+      "SelectedModules": 0,
+      "StockModules": 4344.32958984375,
+      "SelectedPulses": 858,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 48.31666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 2264.81982421875,
+      "StockDealt": 9712.338256835938,
+      "SelectedModules": 0,
+      "StockModules": 4912.3382568359375,
+      "SelectedPulses": 988,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-100000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 86.53333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 4800,
+      "StockDealt": 9263.333038330078,
+      "SelectedModules": 0,
+      "StockModules": 4463.333038330078,
+      "SelectedPulses": 2583,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.11666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 4800,
+      "StockDealt": 12834.393745422363,
+      "SelectedModules": 0,
+      "StockModules": 8034.393745422363,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 27.95,
+      "Winner": "stock",
+      "SelectedDealt": 4740.064895629883,
+      "StockDealt": 12478.965362548828,
+      "SelectedModules": 0,
+      "StockModules": 7678.965362548828,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.26666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 4800,
+      "StockDealt": 13431.946310043335,
+      "SelectedModules": 0,
+      "StockModules": 8631.946310043335,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 72.25,
+      "Winner": "stock",
+      "SelectedDealt": 4791.9433670043945,
+      "StockDealt": 13428.672676086426,
+      "SelectedModules": 0,
+      "StockModules": 8628.672676086426,
+      "SelectedPulses": 269,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.26666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 4870.122543334961,
+      "StockDealt": 12834.393836975098,
+      "SelectedModules": 70.12254333496094,
+      "StockModules": 8034.393836975098,
+      "SelectedPulses": 271,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 28.133333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 4738.544769287109,
+      "StockDealt": 12362.947425842285,
+      "SelectedModules": 0,
+      "StockModules": 7562.947425842285,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.11666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 4800.487088859081,
+      "StockDealt": 12834.39372253418,
+      "SelectedModules": 0.4870888590812683,
+      "StockModules": 8034.39372253418,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 27.883333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 4742.134063005447,
+      "StockDealt": 12493.69841003418,
+      "SelectedModules": 2.108596086502075,
+      "StockModules": 7693.69841003418,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.06666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 4800,
+      "StockDealt": 12859.105002880096,
+      "SelectedModules": 0,
+      "StockModules": 8059.105002880096,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 27.866666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 4740.375991821289,
+      "StockDealt": 12635.16716003418,
+      "SelectedModules": 0,
+      "StockModules": 7835.16716003418,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 72.21666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 4927.586273193359,
+      "StockDealt": 12834.39389038086,
+      "SelectedModules": 127.58627319335938,
+      "StockModules": 8034.393890380859,
+      "SelectedPulses": 265,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-20000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 72.2,
+      "Winner": "stock",
+      "SelectedDealt": 4848.601707458496,
+      "StockDealt": 13428.69507598877,
+      "SelectedModules": 127.57759094238281,
+      "StockModules": 8628.69507598877,
+      "SelectedPulses": 264,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 115.61666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 5073.249228179469,
+      "StockDealt": 13518.89404296875,
+      "SelectedModules": 268.2492281794548,
+      "StockModules": 8718.89404296875,
+      "SelectedPulses": 1187,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 14.683333333333334,
+      "Winner": "stock",
+      "SelectedDealt": 2675.584228515625,
+      "StockDealt": 7397.675323486328,
+      "SelectedModules": 0,
+      "StockModules": 2597.675323486328,
+      "SelectedPulses": 438,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 34.583333333333336,
+      "Winner": "stock",
+      "SelectedDealt": 5087.939469873905,
+      "StockDealt": 11531.664291381836,
+      "SelectedModules": 284.60613614320755,
+      "StockModules": 6731.664291381836,
+      "SelectedPulses": 875,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 115.64999999999999,
+      "Winner": "stock",
+      "SelectedDealt": 5229.416759490978,
+      "StockDealt": 14240.83507156372,
+      "SelectedModules": 429.4167594909668,
+      "StockModules": 9440.83507156372,
+      "SelectedPulses": 1192,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 19.616666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 3562.7332763671875,
+      "StockDealt": 7832.148895263672,
+      "SelectedModules": 0,
+      "StockModules": 3032.148895263672,
+      "SelectedPulses": 584,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 115.68333333333334,
+      "Winner": "stock",
+      "SelectedDealt": 5310.336390256889,
+      "StockDealt": 14369.999947547913,
+      "SelectedModules": 508.6697235107422,
+      "StockModules": 9569.999947547913,
+      "SelectedPulses": 1192,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 5011.475529521711,
+      "StockDealt": 13610.761558532715,
+      "SelectedModules": 206.05886283516884,
+      "StockModules": 8810.761558532715,
+      "SelectedPulses": 1234,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 115.63333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 5273.731232583534,
+      "StockDealt": 14226.530822753906,
+      "SelectedModules": 473.7312325835228,
+      "StockModules": 9426.530822753906,
+      "SelectedPulses": 1191,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 81.2,
+      "Winner": "stock",
+      "SelectedDealt": 5011.520564973362,
+      "StockDealt": 13799.030044555664,
+      "SelectedModules": 206.52056497335434,
+      "StockModules": 8999.030044555664,
+      "SelectedPulses": 1134,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 19.466666666666665,
+      "Winner": "stock",
+      "SelectedDealt": 3550.9454345703125,
+      "StockDealt": 7719.6967697143555,
+      "SelectedModules": 0,
+      "StockModules": 2919.6967697143555,
+      "SelectedPulses": 582,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 115.64999999999999,
+      "Winner": "stock",
+      "SelectedDealt": 5010.960094332699,
+      "StockDealt": 13883.190933227539,
+      "SelectedModules": 205.54342764616013,
+      "StockModules": 9083.190933227539,
+      "SelectedPulses": 1186,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-earth-laser-l,earth-laser-l,earth-laser-l-60000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "earth-laser-l,earth-laser-l,earth-laser-l",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 14.733333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 2669.353515625,
+      "StockDealt": 7397.675598144531,
+      "SelectedModules": 0,
+      "StockModules": 2597.6755981445312,
+      "SelectedPulses": 438,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 94.03333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 10875.366952896118,
+      "StockDealt": 11193.970275878906,
+      "SelectedModules": 4541.353793144226,
+      "StockModules": 5462.734115600586,
+      "SelectedPulses": 0,
+      "SelectedRails": 36
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 94.03333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 11193.970275878906,
+      "StockDealt": 10875.366952896118,
+      "SelectedModules": 5462.734115600586,
+      "StockModules": 4541.353793144226,
+      "SelectedPulses": 0,
+      "SelectedRails": 40
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 41.06666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 7206.852933645248,
+      "StockDealt": 8621.363510608673,
+      "SelectedModules": 2396.019599914551,
+      "StockModules": 3812.613510131836,
+      "SelectedPulses": 0,
+      "SelectedRails": 24
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 41.06666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 8621.363510608673,
+      "StockDealt": 7206.852933645248,
+      "SelectedModules": 3812.613510131836,
+      "StockModules": 2396.019599914551,
+      "SelectedPulses": 0,
+      "SelectedRails": 24
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 15261.959052085876,
+      "StockDealt": 12847.365134239197,
+      "SelectedModules": 5640.6901931762695,
+      "StockModules": 3932.782527923584,
+      "SelectedPulses": 0,
+      "SelectedRails": 34
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 12847.365134239197,
+      "StockDealt": 15261.959052085876,
+      "SelectedModules": 3932.782527923584,
+      "StockModules": 5640.6901931762695,
+      "SelectedPulses": 0,
+      "SelectedRails": 30
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 41.03333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 8626.37869310379,
+      "StockDealt": 8800.801314592361,
+      "SelectedModules": 3817.628692626953,
+      "StockModules": 3991.6346473693848,
+      "SelectedPulses": 0,
+      "SelectedRails": 24
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 41.03333333333333,
+      "Winner": "stock",
+      "SelectedDealt": 8800.801314592361,
+      "StockDealt": 8626.37869310379,
+      "SelectedModules": 3991.6346473693848,
+      "StockModules": 3817.628692626953,
+      "SelectedPulses": 0,
+      "SelectedRails": 22
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 40.8,
+      "Winner": "selected",
+      "SelectedDealt": 7505.05583190918,
+      "StockDealt": 7079.399847507477,
+      "SelectedModules": 2705.0558319091797,
+      "StockModules": 2249.8165130615234,
+      "SelectedPulses": 0,
+      "SelectedRails": 24
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 40.8,
+      "Winner": "stock",
+      "SelectedDealt": 7079.399847507477,
+      "StockDealt": 7505.05583190918,
+      "SelectedModules": 2249.8165130615234,
+      "StockModules": 2705.0558319091797,
+      "SelectedPulses": 0,
+      "SelectedRails": 24
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 100000,
+      "Seconds": 49.96666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 10118.55742263794,
+      "StockDealt": 7136.884847640991,
+      "SelectedModules": 5232.151973724365,
+      "StockModules": 2328.551513671875,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-100000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 100000,
+      "Seconds": 49.96666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 7136.884847640991,
+      "StockDealt": 10118.55742263794,
+      "SelectedModules": 2328.551513671875,
+      "StockModules": 5232.151973724365,
+      "SelectedPulses": 0,
+      "SelectedRails": 18
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 16144.694437026978,
+      "StockDealt": 17037.664291381836,
+      "SelectedModules": 5834.75119972229,
+      "StockModules": 6127.235954284668,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 17037.664291381836,
+      "StockDealt": 16144.694437026978,
+      "SelectedModules": 6127.235954284668,
+      "StockModules": 5834.75119972229,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 17541.120357513428,
+      "StockDealt": 17322.31096458435,
+      "SelectedModules": 6458.270969390869,
+      "StockModules": 6674.975118637085,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 17322.31096458435,
+      "StockDealt": 17541.120357513428,
+      "SelectedModules": 6674.975118637085,
+      "StockModules": 6458.270969390869,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 17265.065258026123,
+      "StockDealt": 17937.862468719482,
+      "SelectedModules": 6411.970470428467,
+      "StockModules": 6541.277729034424,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 17937.862468719482,
+      "StockDealt": 17265.065258026123,
+      "SelectedModules": 6541.277729034424,
+      "StockModules": 6411.970470428467,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 16905.150436401367,
+      "StockDealt": 16710.591018676758,
+      "SelectedModules": 5593.141006469727,
+      "StockModules": 6006.414932250977,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 16710.591018676758,
+      "StockDealt": 16905.150436401367,
+      "SelectedModules": 6006.414932250977,
+      "StockModules": 5593.141006469727,
+      "SelectedPulses": 0,
+      "SelectedRails": 26
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 46.75,
+      "Winner": "stock",
+      "SelectedDealt": 8648.504501342773,
+      "StockDealt": 12051.350814819336,
+      "SelectedModules": 3848.5045013427734,
+      "StockModules": 7251.350814819336,
+      "SelectedPulses": 0,
+      "SelectedRails": 14
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 46.75,
+      "Winner": "selected",
+      "SelectedDealt": 12051.350814819336,
+      "StockDealt": 8648.504501342773,
+      "SelectedModules": 7251.350814819336,
+      "StockModules": 3848.5045013427734,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 16810.695156097412,
+      "StockDealt": 11566.494800567627,
+      "SelectedModules": 6340.329250335693,
+      "StockModules": 4823.149585723877,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-20000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 11566.494800567627,
+      "StockDealt": 16810.695156097412,
+      "SelectedModules": 4823.149585723877,
+      "StockModules": 6340.329250335693,
+      "SelectedPulses": 0,
+      "SelectedRails": 18
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 20.516666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 7100.308734893799,
+      "StockDealt": 8143.289249420166,
+      "SelectedModules": 2285.3087310791016,
+      "StockModules": 3267.8725776672363,
+      "SelectedPulses": 0,
+      "SelectedRails": 16
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 20.516666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 8143.289249420166,
+      "StockDealt": 7100.308734893799,
+      "SelectedModules": 3267.8725776672363,
+      "StockModules": 2285.3087310791016,
+      "SelectedPulses": 0,
+      "SelectedRails": 20
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 10761.9794921875,
+      "StockDealt": 15330.809038162231,
+      "SelectedModules": 4645.255104064941,
+      "StockModules": 9464.315364837646,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 15330.809038162231,
+      "StockDealt": 10761.9794921875,
+      "SelectedModules": 9464.315364837646,
+      "StockModules": 4645.255104064941,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 75.75,
+      "Winner": "selected",
+      "SelectedDealt": 11078.377766609192,
+      "StockDealt": 11866.783466339111,
+      "SelectedModules": 5011.00772857666,
+      "StockModules": 6483.0341720581055,
+      "SelectedPulses": 0,
+      "SelectedRails": 30
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 75.75,
+      "Winner": "stock",
+      "SelectedDealt": 11866.783466339111,
+      "StockDealt": 11078.377766609192,
+      "SelectedModules": 6483.0341720581055,
+      "StockModules": 5011.00772857666,
+      "SelectedPulses": 0,
+      "SelectedRails": 32
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 14.716666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 7080.315338134766,
+      "StockDealt": 7041.713851928711,
+      "SelectedModules": 2280.3153381347656,
+      "StockModules": 2241.713851928711,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 14.716666666666667,
+      "Winner": "stock",
+      "SelectedDealt": 7041.713851928711,
+      "StockDealt": 7080.315338134766,
+      "SelectedModules": 2241.713851928711,
+      "StockModules": 2280.3153381347656,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 19.516666666666666,
+      "Winner": "stock",
+      "SelectedDealt": 7015.964462280273,
+      "StockDealt": 8059.570335388184,
+      "SelectedModules": 2215.9644622802734,
+      "StockModules": 3259.5703353881836,
+      "SelectedPulses": 0,
+      "SelectedRails": 16
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 19.516666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 8059.570335388184,
+      "StockDealt": 7015.964462280273,
+      "SelectedModules": 3259.5703353881836,
+      "StockModules": 2215.9644622802734,
+      "SelectedPulses": 0,
+      "SelectedRails": 16
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 60000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 10766.430606842041,
+      "StockDealt": 15231.195631980896,
+      "SelectedModules": 4645.254909515381,
+      "StockModules": 9361.791385650635,
+      "SelectedPulses": 0,
+      "SelectedRails": 28
+    }
+  },
+  {
+    "Id": "laser-battleship-stock-60000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "battleship",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 60000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 15231.195631980896,
+      "StockDealt": 10766.430606842041,
+      "SelectedModules": 9361.791385650635,
+      "StockModules": 4645.254909515381,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.58333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 2714.965864792466,
+      "StockDealt": 819.9340257942677,
+      "SelectedModules": 1464.5937868505716,
+      "StockModules": 370.4940233528614,
+      "SelectedPulses": 852,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 62.733333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 1825.285577450879,
+      "StockDealt": 663.4636783599854,
+      "SelectedModules": 1375.8455750094727,
+      "StockModules": 214.0236759185791,
+      "SelectedPulses": 560,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.68333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 2745.71144749783,
+      "StockDealt": 832.7004808038473,
+      "SelectedModules": 1484.2627017702907,
+      "StockModules": 383.26047836244106,
+      "SelectedPulses": 840,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2940.680457031529,
+      "StockDealt": 843.6853754371405,
+      "SelectedModules": 1582.367484009068,
+      "StockModules": 394.2453729957342,
+      "SelectedPulses": 978,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.6,
+      "Winner": "selected",
+      "SelectedDealt": 2736.136492525926,
+      "StockDealt": 829.5958645790815,
+      "SelectedModules": 1475.1137721890118,
+      "StockModules": 380.1558621376753,
+      "SelectedPulses": 838,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2871.9875487959944,
+      "StockDealt": 837.6796731203794,
+      "SelectedModules": 1582.353652921971,
+      "StockModules": 388.2396706789732,
+      "SelectedPulses": 998,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.85,
+      "Winner": "selected",
+      "SelectedDealt": 2703.6448822599486,
+      "StockDealt": 818.1898201107979,
+      "SelectedModules": 1451.568702755554,
+      "StockModules": 368.74981766939163,
+      "SelectedPulses": 865,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 62.733333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 1825.0904848873615,
+      "StockDealt": 663.4512206315994,
+      "SelectedModules": 1375.6504824459553,
+      "StockModules": 214.01121819019318,
+      "SelectedPulses": 559,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.61666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 2739.1920003979467,
+      "StockDealt": 818.2091153562069,
+      "SelectedModules": 1489.6719732373022,
+      "StockModules": 368.76911291480064,
+      "SelectedPulses": 854,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 103.08333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 2698.097942173481,
+      "StockDealt": 849.7524820715189,
+      "SelectedModules": 1303.729274570942,
+      "StockModules": 400.31247963011265,
+      "SelectedPulses": 788,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 99.61666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 2717.2755169104785,
+      "StockDealt": 821.60620431602,
+      "SelectedModules": 1467.755489749834,
+      "StockModules": 372.16620187461376,
+      "SelectedPulses": 852,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--20000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2938.5996083854698,
+      "StockDealt": 841.6558261662722,
+      "SelectedModules": 1582.3934163688682,
+      "StockModules": 392.2158237248659,
+      "SelectedPulses": 990,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1919.9020773180973,
+      "StockDealt": 1355.198020497529,
+      "SelectedModules": 987.5441595324528,
+      "StockModules": 457.14613298532186,
+      "SelectedPulses": 1580,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1916.4519829149667,
+      "StockDealt": 1383.5579827124914,
+      "SelectedModules": 981.1459259386484,
+      "StockModules": 459.2836182410558,
+      "SelectedPulses": 1588,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1900.4655582470386,
+      "StockDealt": 1265.294159633239,
+      "SelectedModules": 988.471997456023,
+      "StockModules": 441.30205605657875,
+      "SelectedPulses": 1610,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1907.4654994682696,
+      "StockDealt": 1309.54726257015,
+      "SelectedModules": 982.0835223869708,
+      "StockModules": 465.3564094512535,
+      "SelectedPulses": 1610,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1990.593994635345,
+      "StockDealt": 1317.9470233505067,
+      "SelectedModules": 1055.8884778201596,
+      "StockModules": 437.92770953825084,
+      "SelectedPulses": 1602,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1916.0250891462601,
+      "StockDealt": 1373.0091580621304,
+      "SelectedModules": 963.0625532881058,
+      "StockModules": 443.47649280944484,
+      "SelectedPulses": 1602,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1949.0050317519008,
+      "StockDealt": 1401.5404603992706,
+      "SelectedModules": 1000.9422265761195,
+      "StockModules": 424.548665813089,
+      "SelectedPulses": 1586,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1934.1176737068854,
+      "StockDealt": 1373.7855894836453,
+      "SelectedModules": 1009.2662447212897,
+      "StockModules": 461.30776431885033,
+      "SelectedPulses": 1602,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1907.5945618689457,
+      "StockDealt": 1432.647236072497,
+      "SelectedModules": 929.3933480322758,
+      "StockModules": 427.85712453074893,
+      "SelectedPulses": 1594,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1906.5353216710255,
+      "StockDealt": 1285.5409567824504,
+      "SelectedModules": 992.8830236973927,
+      "StockModules": 452.0281279555461,
+      "SelectedPulses": 1582,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1917.8080104106148,
+      "StockDealt": 1362.7943903345758,
+      "SelectedModules": 961.7177127116402,
+      "StockModules": 433.1595293421443,
+      "SelectedPulses": 1592,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--40000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1947.6886294381611,
+      "StockDealt": 1357.8171886856417,
+      "SelectedModules": 1006.0143168466084,
+      "StockModules": 462.18137020419636,
+      "SelectedPulses": 1608,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 93.4,
+      "Winner": "selected",
+      "SelectedDealt": 2436.295389117673,
+      "StockDealt": 872.8750742673874,
+      "SelectedModules": 1600.882547320798,
+      "StockModules": 423.43507182598114,
+      "SelectedPulses": 689,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 61.983333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 2002.5144929457456,
+      "StockDealt": 719.9447197914124,
+      "SelectedModules": 1553.0744905043393,
+      "StockModules": 270.5047173500061,
+      "SelectedPulses": 529,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 62.449999999999996,
+      "Winner": "selected",
+      "SelectedDealt": 1916.6005812846124,
+      "StockDealt": 733.7333033084869,
+      "SelectedModules": 1467.1605788432062,
+      "StockModules": 284.2933008670807,
+      "SelectedPulses": 557,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 92.35,
+      "Winner": "selected",
+      "SelectedDealt": 2457.4419358859304,
+      "StockDealt": 899.5269958376884,
+      "SelectedModules": 1479.5056565890554,
+      "StockModules": 450.0869933962822,
+      "SelectedPulses": 699,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 83.45,
+      "Winner": "selected",
+      "SelectedDealt": 2211.5523232752457,
+      "StockDealt": 917.9133615791798,
+      "SelectedModules": 1465.0520791346207,
+      "StockModules": 468.4733591377735,
+      "SelectedPulses": 722,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 96.55,
+      "Winner": "selected",
+      "SelectedDealt": 2473.670856244862,
+      "StockDealt": 946.380915760994,
+      "SelectedModules": 1588.8318059518933,
+      "StockModules": 496.9409133195877,
+      "SelectedPulses": 698,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 66.31666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 2440.6463093981147,
+      "StockDealt": 872.8333987593651,
+      "SelectedModules": 1605.6548543199897,
+      "StockModules": 423.39339631795883,
+      "SelectedPulses": 506,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 61.983333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 1939.9964761137962,
+      "StockDealt": 719.9190773963928,
+      "SelectedModules": 1490.55647367239,
+      "StockModules": 270.4790749549866,
+      "SelectedPulses": 547,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 93.35,
+      "Winner": "selected",
+      "SelectedDealt": 2437.176120094955,
+      "StockDealt": 872.9287338256836,
+      "SelectedModules": 1601.34189157933,
+      "StockModules": 423.48873138427734,
+      "SelectedPulses": 684,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 119.58333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 3027.7966943895444,
+      "StockDealt": 874.7820981144905,
+      "SelectedModules": 1718.7670389330015,
+      "StockModules": 425.34209567308426,
+      "SelectedPulses": 912,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 93.45,
+      "Winner": "selected",
+      "SelectedDealt": 2429.1972070634365,
+      "StockDealt": 866.5850927829742,
+      "SelectedModules": 1594.2057519853115,
+      "StockModules": 417.145090341568,
+      "SelectedPulses": 688,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-laser-l,--8000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-laser-l,-",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 98.2,
+      "Winner": "selected",
+      "SelectedDealt": 2444.7572097206867,
+      "StockDealt": 792.3082192465663,
+      "SelectedModules": 1487.1587294960773,
+      "StockModules": 342.86821680516005,
+      "SelectedPulses": 840,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 16.233333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 1992.93998336792,
+      "StockDealt": 979.9688889980316,
+      "SelectedModules": 1543.4999809265137,
+      "StockModules": 530.5288865566254,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 15.283333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 1992.9399795532227,
+      "StockDealt": 994.5082149505615,
+      "SelectedModules": 1543.4999771118164,
+      "StockModules": 545.0682125091553,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 16.15,
+      "Winner": "selected",
+      "SelectedDealt": 2136.2650032043457,
+      "StockDealt": 951.9068647623062,
+      "SelectedModules": 1686.8250007629395,
+      "StockModules": 502.46686232089996,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 15.433333333333334,
+      "Winner": "selected",
+      "SelectedDealt": 2136.2649822235107,
+      "StockDealt": 1005.418688416481,
+      "SelectedModules": 1686.8249797821045,
+      "StockModules": 555.9786859750748,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 16.333333333333332,
+      "Winner": "selected",
+      "SelectedDealt": 2136.265003681183,
+      "StockDealt": 982.7223482131958,
+      "SelectedModules": 1686.8250012397766,
+      "StockModules": 533.2823457717896,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 18.883333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 2136.264980316162,
+      "StockDealt": 1075.8429956436157,
+      "SelectedModules": 1686.8249778747559,
+      "StockModules": 626.4029932022095,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 15,
+      "Winner": "selected",
+      "SelectedDealt": 2136.264991760254,
+      "StockDealt": 947.3505450487137,
+      "SelectedModules": 1686.8249893188477,
+      "StockModules": 497.91054260730743,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 15.533333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 1992.9399900436401,
+      "StockDealt": 998.8267421722412,
+      "SelectedModules": 1543.499987602234,
+      "StockModules": 549.386739730835,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 14.95,
+      "Winner": "selected",
+      "SelectedDealt": 2136.26496219635,
+      "StockDealt": 948.3223021030426,
+      "SelectedModules": 1686.8249597549438,
+      "StockModules": 498.88229966163635,
+      "SelectedPulses": 0,
+      "SelectedRails": 50
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 15.383333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 1992.939992904663,
+      "StockDealt": 996.5993270874023,
+      "SelectedModules": 1543.4999904632568,
+      "StockModules": 547.1593246459961,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 14.966666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 2136.2649993896484,
+      "StockDealt": 953.1204684972763,
+      "SelectedModules": 1686.8249969482422,
+      "StockModules": 503.68046605587006,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-20000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 16.466666666666665,
+      "Winner": "selected",
+      "SelectedDealt": 2136.264961242676,
+      "StockDealt": 1003.1155030727386,
+      "SelectedModules": 1686.8249588012695,
+      "StockModules": 553.6755006313324,
+      "SelectedPulses": 0,
+      "SelectedRails": 56
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 25.916666666666668,
+      "Winner": "selected",
+      "SelectedDealt": 1202.3706588745117,
+      "StockDealt": 792.1870973110199,
+      "SelectedModules": 752.9306564331055,
+      "StockModules": 191.0815064907074,
+      "SelectedPulses": 0,
+      "SelectedRails": 50
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 26.15,
+      "Winner": "selected",
+      "SelectedDealt": 1206.5531425476074,
+      "StockDealt": 791.7343600988388,
+      "SelectedModules": 757.1131401062012,
+      "StockModules": 182.1082614660263,
+      "SelectedPulses": 0,
+      "SelectedRails": 48
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 45.31666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 1373.0356149673462,
+      "StockDealt": 1122.2035413980484,
+      "SelectedModules": 915.0749816894531,
+      "StockModules": 250.57127821445465,
+      "SelectedPulses": 0,
+      "SelectedRails": 104
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 48.96666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 2224.464988708496,
+      "StockDealt": 797.5635014176369,
+      "SelectedModules": 1775.0249862670898,
+      "StockModules": 196.88393598794937,
+      "SelectedPulses": 0,
+      "SelectedRails": 122
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 26.15,
+      "Winner": "selected",
+      "SelectedDealt": 979.0363311767578,
+      "StockDealt": 793.4176831841469,
+      "SelectedModules": 529.5963287353516,
+      "StockModules": 192.73811775445938,
+      "SelectedPulses": 0,
+      "SelectedRails": 50
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 26.25,
+      "Winner": "selected",
+      "SelectedDealt": 1790.5770568847656,
+      "StockDealt": 789.4067348241806,
+      "SelectedModules": 1341.1370544433594,
+      "StockModules": 190.4312709569931,
+      "SelectedPulses": 0,
+      "SelectedRails": 48
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 26.666666666666668,
+      "Winner": "selected",
+      "SelectedDealt": 1514.999771118164,
+      "StockDealt": 794.7087987661362,
+      "SelectedModules": 1065.5597686767578,
+      "StockModules": 189.76897943019867,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 32.4,
+      "Winner": "selected",
+      "SelectedDealt": 2090.189910888672,
+      "StockDealt": 795.5834805965424,
+      "SelectedModules": 1640.7499084472656,
+      "StockModules": 190.64366126060486,
+      "SelectedPulses": 0,
+      "SelectedRails": 70
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 34.86666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 2122.4187927246094,
+      "StockDealt": 784.5165196061134,
+      "SelectedModules": 1672.9787902832031,
+      "StockModules": 180.42875105142593,
+      "SelectedPulses": 0,
+      "SelectedRails": 78
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 26.349999999999998,
+      "Winner": "selected",
+      "SelectedDealt": 1550.8306274414062,
+      "StockDealt": 794.238597869873,
+      "SelectedModules": 1101.390625,
+      "StockModules": 192.70698165893555,
+      "SelectedPulses": 0,
+      "SelectedRails": 48
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 25.466666666666665,
+      "Winner": "selected",
+      "SelectedDealt": 1147.327247619629,
+      "StockDealt": 796.2630589008331,
+      "SelectedModules": 697.8872451782227,
+      "StockModules": 194.30541729927063,
+      "SelectedPulses": 0,
+      "SelectedRails": 48
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-40000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 26.099999999999998,
+      "Winner": "selected",
+      "SelectedDealt": 1852.9549179077148,
+      "StockDealt": 795.8409348130226,
+      "SelectedModules": 1403.5149154663086,
+      "StockModules": 191.3271408677101,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 1.9666666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 840.1516876220703,
+      "StockDealt": 764.9215905666351,
+      "SelectedModules": 390.71168518066406,
+      "StockModules": 315.4815881252289,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 35.016666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 2239.8533477783203,
+      "StockDealt": 946.7142167687416,
+      "SelectedModules": 1790.413345336914,
+      "StockModules": 497.27421432733536,
+      "SelectedPulses": 0,
+      "SelectedRails": 108
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 47.96666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 2199.6587562561035,
+      "StockDealt": 1038.136343717575,
+      "SelectedModules": 1750.2187538146973,
+      "StockModules": 588.6963412761688,
+      "SelectedPulses": 0,
+      "SelectedRails": 76
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 2.2,
+      "Winner": "selected",
+      "SelectedDealt": 1065.834487915039,
+      "StockDealt": 735.5501101016998,
+      "SelectedModules": 616.3944854736328,
+      "StockModules": 286.1101076602936,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 22.55,
+      "Winner": "selected",
+      "SelectedDealt": 2323.6899795532227,
+      "StockDealt": 920.9740867614746,
+      "SelectedModules": 1874.2499771118164,
+      "StockModules": 471.53408432006836,
+      "SelectedPulses": 0,
+      "SelectedRails": 52
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 24.3,
+      "Winner": "selected",
+      "SelectedDealt": 2268.5649757385254,
+      "StockDealt": 764.2818133831024,
+      "SelectedModules": 1819.1249732971191,
+      "StockModules": 314.84181094169617,
+      "SelectedPulses": 0,
+      "SelectedRails": 104
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 1.9666666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 840.1518173217773,
+      "StockDealt": 765.2840030193329,
+      "SelectedModules": 390.7118148803711,
+      "StockModules": 315.84400057792664,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 34.03333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 2239.8533630371094,
+      "StockDealt": 949.8040791153908,
+      "SelectedModules": 1790.4133605957031,
+      "StockModules": 500.3640766739845,
+      "SelectedPulses": 0,
+      "SelectedRails": 104
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 13.6,
+      "Winner": "selected",
+      "SelectedDealt": 2298.0474433898926,
+      "StockDealt": 1018.8786199092865,
+      "SelectedModules": 1848.6074409484863,
+      "StockModules": 569.4386174678802,
+      "SelectedPulses": 0,
+      "SelectedRails": 54
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 38.21666666666667,
+      "Winner": "selected",
+      "SelectedDealt": 2251.9841079711914,
+      "StockDealt": 1083.1025111675262,
+      "SelectedModules": 1802.5441055297852,
+      "StockModules": 633.66250872612,
+      "SelectedPulses": 0,
+      "SelectedRails": 46
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 2.0166666666666666,
+      "Winner": "selected",
+      "SelectedDealt": 840.1510543823242,
+      "StockDealt": 774.5166275501251,
+      "SelectedModules": 390.71105194091797,
+      "StockModules": 325.0766251087189,
+      "SelectedPulses": 0,
+      "SelectedRails": 12
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-earth-rail-s2,earth-rail-s2-8000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "earth-rail-s2,earth-rail-s2",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 12.883333333333333,
+      "Winner": "selected",
+      "SelectedDealt": 2268.5649757385254,
+      "StockDealt": 847.2865874767303,
+      "SelectedModules": 1819.1249732971191,
+      "StockModules": 397.8465850353241,
+      "SelectedPulses": 0,
+      "SelectedRails": 56
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1811.7314524110407,
+      "StockDealt": 1310.0307419002056,
+      "SelectedModules": 1245.1339258607477,
+      "StockModules": 860.5907394587994,
+      "SelectedPulses": 1904,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1310.0307419002056,
+      "StockDealt": 1811.7314524110407,
+      "SelectedModules": 860.5907394587994,
+      "StockModules": 1245.1339258607477,
+      "SelectedPulses": 372,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2199.8602105863392,
+      "StockDealt": 1254.2089585363865,
+      "SelectedModules": 1338.879291702062,
+      "StockModules": 804.7689560949802,
+      "SelectedPulses": 1693,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1254.2089585363865,
+      "StockDealt": 2199.8602105863392,
+      "SelectedModules": 804.7689560949802,
+      "StockModules": 1338.879291702062,
+      "SelectedPulses": 309,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1862.1879090239527,
+      "StockDealt": 1277.840906245634,
+      "SelectedModules": 1299.8506363799097,
+      "StockModules": 828.4009038042277,
+      "SelectedPulses": 1982,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1277.840906245634,
+      "StockDealt": 1862.1879090239527,
+      "SelectedModules": 828.4009038042277,
+      "StockModules": 1299.8506363799097,
+      "SelectedPulses": 354,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2033.6111287071835,
+      "StockDealt": 1312.3308755680919,
+      "SelectedModules": 1331.5369786217343,
+      "StockModules": 862.8908731266856,
+      "SelectedPulses": 1964,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1312.3308755680919,
+      "StockDealt": 2033.6111287071835,
+      "SelectedModules": 862.8908731266856,
+      "StockModules": 1331.5369786217343,
+      "SelectedPulses": 367,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2005.1113175192659,
+      "StockDealt": 1301.4940727166831,
+      "SelectedModules": 1274.9194916525666,
+      "StockModules": 852.0540702752769,
+      "SelectedPulses": 1950,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1301.4940727166831,
+      "StockDealt": 2005.1113175192659,
+      "SelectedModules": 852.0540702752769,
+      "StockModules": 1274.9194916525666,
+      "SelectedPulses": 354,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2097.464937173413,
+      "StockDealt": 1305.1703268978745,
+      "SelectedModules": 1390.704507791088,
+      "StockModules": 855.7303244564682,
+      "SelectedPulses": 1964,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-20000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 20000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1305.1703268978745,
+      "StockDealt": 2097.464937173413,
+      "SelectedModules": 855.7303244564682,
+      "StockModules": 1390.704507791088,
+      "SelectedPulses": 367,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1467.7238361945151,
+      "StockDealt": 1507.9352424659692,
+      "SelectedModules": 468.14869428777683,
+      "StockModules": 489.36688690566643,
+      "SelectedPulses": 1734,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1507.9352424659692,
+      "StockDealt": 1467.7238361945151,
+      "SelectedModules": 489.36688690566643,
+      "StockModules": 468.14869428777683,
+      "SelectedPulses": 1664,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1475.6803721987208,
+      "StockDealt": 1457.9379361708006,
+      "SelectedModules": 484.0020427309473,
+      "StockModules": 496.6665891249022,
+      "SelectedPulses": 1758,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1457.9379361708006,
+      "StockDealt": 1475.6803721987208,
+      "SelectedModules": 496.6665891249022,
+      "StockModules": 484.0020427309473,
+      "SelectedPulses": 1706,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1490.6637554095569,
+      "StockDealt": 1565.6844036538437,
+      "SelectedModules": 468.2104701922717,
+      "StockModules": 490.96871685574797,
+      "SelectedPulses": 1732,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1565.6844036538437,
+      "StockDealt": 1490.6637554095569,
+      "SelectedModules": 490.96871685574797,
+      "StockModules": 468.2104701922717,
+      "SelectedPulses": 1578,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1513.6839352665475,
+      "StockDealt": 1471.9164810130876,
+      "SelectedModules": 479.3439389286568,
+      "StockModules": 497.8692207286638,
+      "SelectedPulses": 1739,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1471.9164810130876,
+      "StockDealt": 1513.6839352665475,
+      "SelectedModules": 497.8692207286638,
+      "StockModules": 479.3439389286568,
+      "SelectedPulses": 1604,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1483.346148654322,
+      "StockDealt": 1510.8250538263328,
+      "SelectedModules": 481.1692496980231,
+      "StockModules": 493.7691151056297,
+      "SelectedPulses": 1734,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1510.8250538263328,
+      "StockDealt": 1483.346148654322,
+      "SelectedModules": 493.7691151056297,
+      "StockModules": 481.1692496980231,
+      "SelectedPulses": 1654,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1457.9173091418202,
+      "StockDealt": 1518.289919826268,
+      "SelectedModules": 454.6525348193104,
+      "StockModules": 488.92669198202975,
+      "SelectedPulses": 1728,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-40000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 40000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1518.289919826268,
+      "StockDealt": 1457.9173091418202,
+      "SelectedModules": 488.92669198202975,
+      "StockModules": 454.6525348193104,
+      "SelectedPulses": 1626,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-1-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2358.3907355684787,
+      "StockDealt": 1193.4952288791537,
+      "SelectedModules": 1327.0596503634006,
+      "StockModules": 744.0552264377475,
+      "SelectedPulses": 1462,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-1-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 1,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1193.4952288791537,
+      "StockDealt": 2358.3907355684787,
+      "SelectedModules": 744.0552264377475,
+      "StockModules": 1327.0596503634006,
+      "SelectedPulses": 167,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-2-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2828.04972899711,
+      "StockDealt": 995.5889965891838,
+      "SelectedModules": 1370.295609124063,
+      "StockModules": 546.1489941477776,
+      "SelectedPulses": 1200,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-2-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 2,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 995.5889965891838,
+      "StockDealt": 2828.04972899711,
+      "SelectedModules": 546.1489941477776,
+      "StockModules": 1370.295609124063,
+      "SelectedPulses": 93,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-3-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2357.77208992932,
+      "StockDealt": 1155.8914542868733,
+      "SelectedModules": 1442.5925550172105,
+      "StockModules": 706.4514518454671,
+      "SelectedPulses": 1000,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-3-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 3,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1155.8914542868733,
+      "StockDealt": 2357.77208992932,
+      "SelectedModules": 706.4514518454671,
+      "StockModules": 1442.5925550172105,
+      "SelectedPulses": 145,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-4-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2355.035057598725,
+      "StockDealt": 1195.4189942926168,
+      "SelectedModules": 1327.0316777769476,
+      "StockModules": 745.9789918512106,
+      "SelectedPulses": 1435,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-4-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 4,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1195.4189942926168,
+      "StockDealt": 2355.035057598725,
+      "SelectedModules": 745.9789918512106,
+      "StockModules": 1327.0316777769476,
+      "SelectedPulses": 167,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-5-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2342.601193057607,
+      "StockDealt": 1159.2690709754825,
+      "SelectedModules": 1297.6655698886607,
+      "StockModules": 709.8290685340762,
+      "SelectedPulses": 1060,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-5-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 5,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1159.2690709754825,
+      "StockDealt": 2342.601193057607,
+      "SelectedModules": 709.8290685340762,
+      "StockModules": 1297.6655698886607,
+      "SelectedPulses": 149,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-6-False",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": false,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 2443.351019346621,
+      "StockDealt": 1238.0236259624362,
+      "SelectedModules": 1370.6336731552146,
+      "StockModules": 788.58362352103,
+      "SelectedPulses": 1194,
+      "SelectedRails": 0
+    }
+  },
+  {
+    "Id": "laser-earth_air_defense_cruiser_t5-stock-8000-6-True",
+    "Result": {
+      "Kind": "laser-duel",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Fit": "stock",
+      "Seed": 6,
+      "Mirror": true,
+      "Range": 8000,
+      "Seconds": 120,
+      "Winner": "none",
+      "SelectedDealt": 1238.0236259624362,
+      "StockDealt": 2443.351019346621,
+      "SelectedModules": 788.58362352103,
+      "StockModules": 1370.6336731552146,
+      "SelectedPulses": 171,
+      "SelectedRails": 0
+    }
+  }
+]

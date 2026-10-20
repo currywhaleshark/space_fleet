@@ -36,7 +36,7 @@ public static class FitScores
     public static double Ratio(ShipDefinition fitted, ShipDefinition stock)
     {
         static double R(double a, double b) => b <= 0 ? 1 : Math.Max(a, 1e-6) / b;
-        return Math.Pow(R(Guns(fitted, stock), Guns(stock, stock)), Firepower)
+        return Math.Pow(R(Guns(fitted), Guns(stock)), Firepower)
             * Math.Pow(R(Shields(fitted), Shields(stock)), Defense)
             * Math.Pow(R(Defence(fitted), Defence(stock)), PointDefense)
             * Math.Pow(R(Ordnance(fitted, stock), Ordnance(stock, stock)), Missiles)
@@ -44,7 +44,7 @@ public static class FitScores
             * Math.Pow(R(Sight(fitted), Sight(stock)), Sensing);
     }
 
-    internal static double Guns(ShipDefinition def, ShipDefinition reference) => MainGunParts.EffectiveFirepower(def, reference);
+    internal static double Guns(ShipDefinition def) => MainGunParts.EffectiveFirepower(def);
     private static double Shields(ShipDefinition d) => d.Shield.Capacity + d.Shield.RechargePerSecond * 30 + d.StructureHitPoints;
     private static double Defence(ShipDefinition d) => d.PointDefense is not { } pd ? 1
         : pd.ShotsPerSecond * pd.EffectiveMissileDamage * Math.Sqrt(pd.RangeMeters) * pd.Mounts.Length;

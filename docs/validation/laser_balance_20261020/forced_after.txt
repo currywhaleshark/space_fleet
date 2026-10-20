@@ -1,0 +1,8 @@
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog¥Ä
+stock                       32        0.0     0.967   1.000        13
+earth-laser-l               32        1.4     0.976   1.009        15    -0.000
+     30 battleship
+      5 battleship_t5
+      9 earth_air_defense_cruiser_t5
+
+[exited with code 0]

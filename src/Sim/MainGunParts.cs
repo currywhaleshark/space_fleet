@@ -182,34 +182,38 @@ public static class MainGunParts
         return total;
     }
 
-    // Effective firepower (balance pass 2026-10-20): faster rounds hit more often, deeper penetration reaches modules.
+    // Effective firepower (balance pass 2026-10-20, laser pass 2026-10-20): faster rounds hit more often, deeper
+    // penetration reaches modules. Fixed reference values put rails and lasers in one unit, so a laser hull fitted
+    // with rails (and the reverse) is compared like for like; between fits of one system the references cancel.
     public const double SpeedExponent = 1, PenetrationExponent = .5, ReachExponent = .25;
-    /// <summary>A laser's energy rate in rail-equivalent units (focus and armour reduction spend it differently).</summary>
-    public const double LaserEquivalence = 2;
-
+    public const double ReferenceSpeed = 10_000, ReferencePenetrationMm = 1000, ReferenceReachMeters = 100_000;
+    public const float LaserEvaluationMeters = 20_000;
     /// <summary>
-    /// Sustained output weighted by what makes rounds land and bite, relative to a reference battery's primary gun:
-    /// Σ energy/s × (speed ÷ ref)^1 × (penetration ÷ ref)^0.5 × (reach ÷ ref)^0.25, at the fit's supply.
+    /// Lasers: energy/s × (penetration ÷ ref)^2 × attenuation at 20 km. A beam lands as many small pulses, each of which
+    /// must defeat the armour on its own, so penetration counts for more than with one heavy slug; range is the falloff
+    /// at a typical gun-line distance rather than a maximum reach. Calibrated on mirror duels (laser_balance_20261020).
     /// </summary>
-    public static double EffectiveFirepower(ShipDefinition def, ShipDefinition reference)
+    public const double LaserEquivalence = 14, LaserPenetrationExponent = 2;
+
+    /// <summary>Σ per socket, at the fit's supply. Rails: energy/s × (speed ÷ ref)^1 × (penetration ÷ ref)^0.5 × (reach ÷ ref)^0.25.</summary>
+    public static double EffectiveFirepower(ShipDefinition def)
     {
-        if (def.Battery is not { } b || reference.Battery is not { } rb) return 0;
-        var r0 = rb.Weapon.Railgun ?? rb.Weapon.Laser!.GeometryAdapter;
-        float refReach = Enumerable.Range(0, rb.Hardpoints.Length).Select(rb.WeaponAt).Max(Reach);
+        if (def.Battery is not { } b) return 0;
         float ratio = b.SupplyRatio; double total = 0;
         for (int i = 0; i < b.Hardpoints.Length; i++)
         {
             var w = b.WeaponAt(i);
-            double reach = Math.Pow(Reach(w) / refReach, ReachExponent);
             if (w.Laser is { } laser)
             {
                 var l = MainBatteries.Supplied(laser, ratio);
-                total += l.EnergyPerSecond * LaserEquivalence * Math.Pow(l.PenetrationMm / r0.PenetrationMm, PenetrationExponent) * reach;
+                total += l.EnergyPerSecond * LaserEquivalence * Math.Pow(l.PenetrationMm / ReferencePenetrationMm, LaserPenetrationExponent)
+                    * l.Attenuation(LaserEvaluationMeters);
             }
             else if (w.Railgun is { } r)
                 total += r.Energy * MainBatteries.Overcharge(ratio) * w.BarrelCount * MathF.Min(ratio, 1) / r.ReloadSeconds
-                    * Math.Pow(r.MuzzleSpeed * MainBatteries.OverchargeSpeed(ratio) / r0.MuzzleSpeed, SpeedExponent)
-                    * Math.Pow(r.PenetrationMm / r0.PenetrationMm, PenetrationExponent) * reach;
+                    * Math.Pow(r.MuzzleSpeed * MainBatteries.OverchargeSpeed(ratio) / ReferenceSpeed, SpeedExponent)
+                    * Math.Pow(r.PenetrationMm / ReferencePenetrationMm, PenetrationExponent)
+                    * Math.Pow(r.MaxRange / ReferenceReachMeters, ReachExponent);
         }
         return total;
     }
