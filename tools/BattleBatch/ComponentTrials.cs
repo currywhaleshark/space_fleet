@@ -30,7 +30,7 @@ internal static class ComponentTrials
 
     public static void Save(string output,string phase,int[] seeds,int jobs,double seconds,bool legacyPd=false)
     {
-        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "laser-duels" or "power-duels" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
+        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "laser-duels" or "power-duels" or "aa-player" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
             ||seeds.Length==0||seeds.Distinct().Count()!=seeds.Length)throw new ArgumentException("Invalid component trial options");
         var tasks=new List<(string Id,Func<object> Run)>();
         if(phase is "all" or "bench")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
@@ -92,6 +92,13 @@ internal static class ComponentTrials
                 ("mars_battleship_t5","|mars-cooler-m",new[]{30000d,80000d,140000d})})
             foreach(double range in ranges)foreach(int seed in seeds)foreach(bool mirror in new[]{false,true})
                 tasks.Add(($"power-{hull}-{fit}-{range}-{seed}-{mirror}",()=>LaserDuel(hull,fit,seed,mirror,range,seconds)));
+        // AA laser player lock (2026-10-20 report): the hangar's AA cruisers, a player locking one incoming missile at a
+        // time and holding fire (as ScaleTest.StepSmallTargetBattery does), against the AI's own defence.
+        if(phase is "aa-player")
+            foreach(var (hull,research) in new[]{("earth_air_defense_cruiser",""),("earth_air_defense_cruiser","fire-control,reactor"),
+                ("earth_air_defense_cruiser_t5",""),("earth_air_defense_cruiser_t5","fire-control,reactor")})
+            foreach(string mode in new[]{"player","ai"})foreach(string flight in new[]{"coast","live","cross"})foreach(int seed in seeds)
+                tasks.Add(($"aa-player-{hull}-{research}-{mode}-{flight}-{seed}",()=>AaPlayer(hull,research,mode,seed,flight)));
         // Laser balance: the same AA fits screening a passive anchor from four 12-missile waves (beam AA and heat).
         if(phase is "laser-duels")
             foreach(string fit in LaserAaFits)foreach(int seed in seeds)
@@ -267,6 +274,58 @@ internal static class ComponentTrials
             Intercepted=log.MissilesIntercepted,Hits=w.Log.Ship(launcher).MissileHits,FirstKill=firstKill,Seconds=w.Time,
             Shots=defender.Ordnance.PointDefense.Sum(p=>(long)p.ShotCount),Remaining=w.Missiles.Count,
             defender.Damage.Destroyed,defender.Damage.StructureFraction,Received=log.ModuleDamage};
+    }
+
+    private static object AaPlayer(string hull,string research,string mode,int seed,string flight)
+    {
+        var w=new SimWorld();var rng=new Random(seed);
+        var def=ResearchTree.Catalog.Resolve(hull,research.Length==0?Array.Empty<string>():research.Split(','),Array.Empty<EquipmentMount>()).Definition;
+        def=Edit(def,j=>{j["Decoys"]=null;j["PointDefense"]=null;j["DefenseDrones"]=null;j["Missiles"]=null;});
+        var guard=w.Add(new ShipBody("GUARD",def,Faction.Blue));
+        var source=w.Add(new ShipBody("SOURCE",CruiserTrials.Resolve("escort","""{"railgun":null,"pointDefense":null,"defenseDrones":null,"sensors":{"jammer":0}}""").Definition,Faction.Red));
+        source.Place(new(0,0,-22000),new Quaternion(Vector3.Up,Mathf.Pi));
+        foreach(var ship in w.Ships)ship.Control=new(){FlightAssist=false};
+        if(mode=="player")guard.Gunnery=new GunneryOrder{PlayerSmallTarget=true};
+        else w.AttachBrain(guard,ShipOrder.HoldAt(guard.Position));
+        w.Log=new BattleLog(w);
+        // Six missiles, one every four seconds: "coast" = injected coasting round at the guard; "live" = a real launch
+        // (boost, seeker, guidance) at the guard; "cross" = a real launch at an ally 5 km to the side.
+        ShipBody? ally=null;
+        if(flight=="cross"){ally=w.Add(new ShipBody("ALLY",CruiserTrials.PassiveTarget(),Faction.Blue));ally.Place(new(5000,0,-2000),Quaternion.Identity);ally.Control=new(){FlightAssist=false};w.Log=new BattleLog(w);}
+        var missiles=new List<Missile>();var reasons=new Dictionary<string,int>();int aimFail=0,ticks=0;
+        while(w.Time<45)
+        {
+            if(missiles.Count<6&&w.Time+1e-8>=missiles.Count*4)
+            {
+                var p=new Vec3d((rng.NextDouble()-.5)*3000,(rng.NextDouble()-.5)*1200,-10000);
+                if(flight=="coast")missiles.Add(CruiserTrials.AddThreat(w,source,guard,p,(guard.Position-p).ToVector3().Normalized()*2000));
+                else
+                {
+                    source.Place(p+new Vec3d(0,0,-6000),new Quaternion(Vector3.Up,Mathf.Pi));source.Ordnance.Reset();w.Sensors.Update(w.Ships,w.Time,true);
+                    var at=ally??guard;
+                    if(w.LaunchMissile(source,at).Fired)missiles.Add(w.Missiles.Last());
+                }
+                w.Sensors.Update(w.Ships,w.Time,true,w.Probes,w.Missiles);
+            }
+            w.Step();ticks++;
+            if(mode!="player")continue;
+            // The player keeps the oldest live missile locked and holds fire (StepSmallTargetBattery).
+            var target=missiles.FirstOrDefault(m=>m.Health>0&&w.Missiles.Contains(m));
+            if(target is null){SimWorld.StopLasers(guard);continue;}
+            if(w.Sensors.SmallTrack(guard.Faction,target) is not { } contact){SimWorld.StopLasers(guard);reasons["no track"]=reasons.GetValueOrDefault("no track")+1;continue;}
+            if(!w.SmallTargetAim(guard,contact,out _,out _,playerAssist:true)){aimFail++;SimWorld.StopLasers(guard);continue;}
+            foreach(var gun in guard.Railguns)
+            {
+                if(!w.SmallTargetAim(guard,contact,out var direction,out var point,gun,playerAssist:true)){gun.Laser?.Stop();reasons["gun aim"]=reasons.GetValueOrDefault("gun aim")+1;continue;}
+                gun.Aim(direction);
+                var shot=w.FireRailgun(guard,gun,direction);
+                string key=shot.Fired?"fired":shot.Reason;reasons[key]=reasons.GetValueOrDefault(key)+1;
+            }
+        }
+        var log=w.Log.Ship(guard);
+        return new{Kind="aa-player",Hull=hull,Research=research,Mode=mode,Flight=flight,Seed=seed,Incoming=missiles.Count,Intercepts=log.MissilesIntercepted,
+            Hits=w.Log.Ship(source).MissileHits,Pulses=log.LaserPulses,AimFail=aimFail,Reasons=reasons,
+            Socketed=def.Battery!.SocketWeapons is not null,Supply=(double)def.Battery.SupplyRatio};
     }
 
     internal static readonly string[] LaserAaFits={"stock","earth-laser-l,-","earth-rail-s2,earth-rail-s2"};

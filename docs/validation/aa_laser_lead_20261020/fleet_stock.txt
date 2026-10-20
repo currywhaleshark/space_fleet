@@ -1,0 +1,5 @@
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog¥Ä
+stock                       32        0.0     0.967   1.000        13
+stock-lead                  32        0.0     1.000   1.034        14     0.036
+
+[exited with code 0]

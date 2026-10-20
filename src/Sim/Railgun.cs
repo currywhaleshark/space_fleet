@@ -127,6 +127,12 @@ public sealed class RailgunState
         Yaw = Mathf.MoveToward(Yaw, yaw, Mathf.DegToRad(mount.YawRate) * (float)dt * drive);
         Elevation = Mathf.MoveToward(Elevation, pitch, Mathf.DegToRad(mount.ElevationRate) * (float)dt * drive);
     }
+    /// <summary>
+    /// A request made through <see cref="Aim"/>, carried forward to now by the same tracking lead the turret drives
+    /// with. A request this turret is not tracking is returned unchanged.
+    /// </summary>
+    internal Vector3 Led(Vector3 requested) => _aimDirection is Vector3 aim && _ship.SimTime <= _aimUntil
+        && aim.AngleTo(requested) < 1e-4f ? Lead(aim) : requested;
     private Vector3 Lead(Vector3 direction)
     {
         float angle = _aimRate.Length() * (float)(_ship.SimTime - _aimTime);

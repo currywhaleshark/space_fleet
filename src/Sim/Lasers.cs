@@ -102,9 +102,12 @@ public sealed partial class SimWorld
         {
             if (gun.Laser is not { } laser) continue;
             float seconds = (float)dt;
+            // The turret leads a moving target by its tracking rate, so check the request carried forward the same way:
+            // against the one-tick-old request a crossing missile (a few degrees per second) never "aligns" (0.03°).
+            Vector3 wanted = gun.Led(laser.RequestedDirection);
             laser.Active = ship.SimTime <= laser.RequestedUntil && gun.Ready && ship.Power.HeatFraction < 1
-                && gun.Aligned(laser.RequestedDirection)
-                && RailLineLocal(ship, gun, ship.Orientation.Inverse() * laser.RequestedDirection) == FireFailure.None
+                && gun.Aligned(wanted)
+                && RailLineLocal(ship, gun, ship.Orientation.Inverse() * wanted) == FireFailure.None
                 && !BarrelBlocked(ship, gun, gun.Yaw, gun.Elevation);
             if (!laser.Active)
             {

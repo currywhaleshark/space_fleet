@@ -1,0 +1,1523 @@
+[
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 70,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 84,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 74,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 82,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 76,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--ai-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 75,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 74,
+        "fired": 48
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 135,
+        "fired": 49
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 92,
+        "fired": 48
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 333,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 649,
+        "gun aim": 2,
+        "fired": 2309
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 334,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 629,
+        "gun aim": 1,
+        "fired": 2266,
+        "\uC870\uC0AC\uAC01 \uBC16": 24
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 335,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 628,
+        "gun aim": 1,
+        "fired": 2305
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1472,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 48,
+        "gun aim": 11,
+        "fired": 59
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1453,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 81,
+        "gun aim": 10,
+        "fired": 56,
+        "\uC870\uC0AC\uAC01 \uBC16": 15
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5--player-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1463,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 69,
+        "gun aim": 9,
+        "fired": 58
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 70,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 84,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 74,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 82,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 76,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-ai-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 75,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 74,
+        "fired": 48
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 135,
+        "fired": 49
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 92,
+        "fired": 48
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 333,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 649,
+        "gun aim": 2,
+        "fired": 2309
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 334,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 629,
+        "gun aim": 1,
+        "fired": 2266,
+        "\uC870\uC0AC\uAC01 \uBC16": 24
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 335,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 628,
+        "gun aim": 1,
+        "fired": 2305
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1472,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 48,
+        "gun aim": 11,
+        "fired": 59
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1453,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 81,
+        "gun aim": 10,
+        "fired": 56,
+        "\uC870\uC0AC\uAC01 \uBC16": 15
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser_t5-fire-control,reactor-player-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser_t5",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1463,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 69,
+        "gun aim": 9,
+        "fired": 58
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 70,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 84,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 74,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 80,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 76,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--ai-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 80,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 74,
+        "fired": 48
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 135,
+        "fired": 49
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 92,
+        "fired": 48
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 333,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 610,
+        "gun aim": 2,
+        "fired": 2309,
+        "\uC120\uCCB4 \uAC00\uB9BC": 39
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 334,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 589,
+        "gun aim": 1,
+        "fired": 2262,
+        "\uC120\uCCB4 \uAC00\uB9BC": 44,
+        "\uC870\uC0AC\uAC01 \uBC16": 24
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 335,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 576,
+        "gun aim": 1,
+        "fired": 2305,
+        "\uC120\uCCB4 \uAC00\uB9BC": 52
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 18,
+      "AimFail": 1457,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 44,
+        "gun aim": 11,
+        "fired": 84,
+        "\uC120\uCCB4 \uAC00\uB9BC": 13,
+        "\uC870\uC0AC\uAC01 \uBC16": 2
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 19,
+      "AimFail": 1439,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 81,
+        "gun aim": 10,
+        "fired": 84,
+        "\uC870\uC0AC\uAC01 \uBC16": 19
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser--player-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 18,
+      "AimFail": 1447,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 63,
+        "gun aim": 9,
+        "fired": 83,
+        "\uC120\uCCB4 \uAC00\uB9BC": 11,
+        "\uC870\uC0AC\uAC01 \uBC16": 6
+      },
+      "Socketed": false,
+      "Supply": 1
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 70,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 84,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 74,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 80,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 76,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-ai-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "ai",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 76,
+      "AimFail": 0,
+      "Reasons": {},
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-coast-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 74,
+        "fired": 48
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-coast-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 135,
+        "fired": 49
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-coast-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "coast",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 0,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 92,
+        "fired": 48
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-cross-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 333,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 610,
+        "gun aim": 2,
+        "fired": 2309,
+        "\uC120\uCCB4 \uAC00\uB9BC": 39
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-cross-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 334,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 589,
+        "gun aim": 1,
+        "fired": 2262,
+        "\uC120\uCCB4 \uAC00\uB9BC": 44,
+        "\uC870\uC0AC\uAC01 \uBC16": 24
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-cross-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "cross",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 0,
+      "Hits": 6,
+      "Pulses": 0,
+      "AimFail": 335,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 576,
+        "gun aim": 1,
+        "fired": 2305,
+        "\uC120\uCCB4 \uAC00\uB9BC": 52
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-live-1",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 1,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1470,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 43,
+        "gun aim": 11,
+        "fired": 57,
+        "\uC120\uCCB4 \uAC00\uB9BC": 11
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-live-2",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 2,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1453,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 81,
+        "gun aim": 10,
+        "fired": 56,
+        "\uC870\uC0AC\uAC01 \uBC16": 15
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  },
+  {
+    "Id": "aa-player-earth_air_defense_cruiser-fire-control,reactor-player-live-3",
+    "Result": {
+      "Kind": "aa-player",
+      "Hull": "earth_air_defense_cruiser",
+      "Research": "fire-control,reactor",
+      "Mode": "player",
+      "Flight": "live",
+      "Seed": 3,
+      "Incoming": 6,
+      "Intercepts": 6,
+      "Hits": 0,
+      "Pulses": 12,
+      "AimFail": 1460,
+      "Reasons": {
+        "\uD3EC\uD0D1 \uC120\uD68C \uC911": 63,
+        "gun aim": 9,
+        "fired": 57,
+        "\uC120\uCCB4 \uAC00\uB9BC": 11,
+        "\uC870\uC0AC\uAC01 \uBC16": 2
+      },
+      "Socketed": true,
+      "Supply": 1.059999942779541
+    }
+  }
+]

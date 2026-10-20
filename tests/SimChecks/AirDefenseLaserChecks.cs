@@ -46,6 +46,48 @@ static class AirDefenseLaserChecks
         var log=w.Log!.Ship(g);
         return new(id,laser,layered,seed,count,log.MissilesIntercepted,w.Log.Ship(s).MissileHits,distinct,log.LaserPulses,log.Rails,heat,speed);
     }
+    /// <summary>
+    /// 2026-10-20 report: AA lasers never fired at missiles crossing toward an ally, under player lock or automatic
+    /// defence. The turret leads a moving target, but the beam compared the barrel with the one-tick-old request (0.03°).
+    /// </summary>
+    static void CrossingIntercepts()
+    {
+        foreach(bool player in new[]{false,true})
+        {
+            var(w,g,s,a)=Fixture(player:player);
+            a.Place(new(5000,0,-2000),Quaternion.Identity);
+            if(player)g.Gunnery!.PlayerSmallTarget=true;
+            var missiles=new List<Missile>();
+            for(int i=0;i<3;i++)
+            {
+                var from=new Vec3d((i-1)*1500,(i%2==0?1:-1)*400,-9000-i*2500);
+                missiles.Add(Threat(w,s,a,from,2000));
+            }
+            w.Sensors.Update(w.Ships,0,true,w.Probes,w.Missiles);
+            for(int tick=0;tick<12*60;tick++)
+            {
+                w.Step();
+                if(!player)continue;
+                // As ScaleTest.StepSmallTargetBattery: keep the oldest live missile locked and hold fire.
+                var target=missiles.FirstOrDefault(m=>m.Health>0&&w.Missiles.Contains(m));
+                if(target is null||w.Sensors.SmallTrack(g.Faction,target) is not { } contact){SimWorld.StopLasers(g);continue;}
+                foreach(var gun in g.Railguns)
+                {
+                    if(!w.SmallTargetAim(g,contact,out var direction,out _,gun,playerAssist:true)){gun.Laser?.Stop();continue;}
+                    gun.Aim(direction);w.FireRailgun(g,gun,direction);
+                }
+            }
+            var log=w.Log!.Ship(g);
+            Check(log.LaserPulses>0&&log.MissilesIntercepted==3,$"{(player?"Player lock":"Automatic defence")} lasers kill missiles crossing toward an ally ({log.MissilesIntercepted}/3, {log.LaserPulses} pulses)");
+        }
+        // The lead carries a tracked request forward; an unrelated request stays as given.
+        var(f,guard,_,_)=Fixture();var mount=guard.Railguns[0];
+        Vector3 d0=(guard.Orientation*new Vector3(0,.1f,-1)).Normalized();mount.Aim(d0);f.Step();
+        Vector3 d1=d0.Rotated(guard.Up,Mathf.DegToRad(.5f));mount.Aim(d1);
+        Check(mount.Led(d1).AngleTo(d1)<1e-5f,"A fresh request is not yet led");
+        Check(mount.Led(new Vector3(1,0,0))==new Vector3(1,0,0),"An untracked request is unchanged");
+    }
+
     public static void Run()
     {
         foreach(string id in new[]{"earth_air_defense_cruiser","earth_air_defense_cruiser_t4","earth_air_defense_cruiser_t5"})
@@ -107,6 +149,7 @@ static class AirDefenseLaserChecks
         foreach(var ally in lost.W.Ships.Where(x=>x.Faction==Faction.Blue))foreach(var module in ally.Damage.Modules.Where(x=>x.Definition.Kind==ModuleKind.Sensor))module.Health=0;
         CruiserTrials.Step(lost.W,.7);
         Check(lost.Guard.Railguns.All(x=>x.DefenseTarget is null),"Lost small contacts expire and release all mounts");
+        CrossingIntercepts();
         var rows=new List<WaveResult>();
         foreach(string id in new[]{"earth_air_defense_cruiser","earth_air_defense_cruiser_t4","earth_air_defense_cruiser_t5"})
         foreach(bool layered in new[]{false,true})foreach(int seed in new[]{1,2,3,4})foreach(bool laser in new[]{false,true})

@@ -68,6 +68,27 @@ public partial class WeaponInputChecks
             game.World.Sensors.Update(game.World.Ships, game.World.Time, true, game.World.Probes, game.World.Missiles);
             Tick(game, 45);
             Check(Pulses() == pulses && !game.SmallAimSolved, id + ": lost contact cannot sustain auto-fire");
+            // 2026-10-20 report: a missile crossing the bow (several degrees per second) was never irradiated, under
+            // either automatic doctrine or a held trigger. Both must now destroy a real, moving, full-health missile.
+            foreach (bool held in new[] { false, true })
+            {
+                enemy.Ordnance.Reset(); game.World.Sensors.Update(game.World.Ships, game.World.Time, true);
+                Check(game.World.LaunchMissile(enemy, ship).Fired, id + ": crossing fixture launches");
+                var crossing = game.World.Missiles.Last();
+                crossing.Position = new Vec3d(-4500, 1200, -6000); crossing.Velocity = new Vector3(1500, 0, 300);
+                crossing.NoseDirection = crossing.Velocity.Normalized(); crossing.Age = crossing.Definition.BurnSeconds + 1;
+                game.World.Sensors.Update(game.World.Ships, game.World.Time, true, game.World.Probes, game.World.Missiles);
+                game._Process(.016);
+                game.Gunnery.Doctrine = held ? FireDoctrine.Hold : FireDoctrine.Free;
+                game.SelectTargetAt(game.Camera.UnprojectPosition((crossing.Position - game.RenderOrigin).ToVector3()));
+                Check(game.SelectedSmallContact?.Target == crossing, id + ": crossing missile selected");
+                pulses = Pulses();
+                if (held) Input.ActionPress(InputSetup.Fire);
+                for (int i = 0; i < 240 && crossing.Health > 0 && game.World.Missiles.Contains(crossing); i++) Tick(game);
+                if (held) { Input.ActionRelease(InputSetup.Fire); Mouse(game, MouseButton.Left, false); }
+                Check(Pulses() > pulses && (crossing.Health <= 0 || !game.World.Missiles.Contains(crossing)),
+                    $"{id}: {(held ? "held trigger" : "automatic doctrine")} destroys a crossing missile (health {crossing.Health:0.#}, pulses {Pulses() - pulses})");
+            }
             game.Free();
         }
     }
