@@ -488,7 +488,9 @@ public sealed partial class SimWorld
         }
         if (brain.SalvoLaunched < Math.Max(ship.Definition.Ai.MissilesPerSalvo,ship.Definition.Missiles?.CellCount??1) && ship.Ordnance.MissileReady)
         {
-            var launch=LaunchMissile(ship,target);
+            // Multi-cell launchers split a salvo across their lock channels (§22); a single tube always fires at the target.
+            var targets=SensorLocks.SalvoTargets(this,ship,target,brain.Profile.MissileRangeMeters);
+            var launch=LaunchMissile(ship,targets[brain.SalvoLaunched%targets.Count]);
             if(launch.Fired)brain.SalvoLaunched++;
             if(Obstacles.Count>0)RecordTerrainFire(brain,target,launch.Reason=="지형 가림",launch.Fired);
         }

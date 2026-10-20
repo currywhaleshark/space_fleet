@@ -177,6 +177,37 @@ public partial class ShipModelChecks : Node
         Check(stockBody.Railguns.All(g=>WeaponLooks.Scale(g)==1),"Stock effects unchanged");
         var mix=new ShipBody("MIXFX",ShipLoadouts.Resolve(new ShipLoadout("battleship"){MainGuns=new[]{"earth-rail-l3",null,"earth-rail-s2"}}).Definition,Faction.Blue);
         Check(WeaponLooks.Scale(mix.Railguns[0])>1&&WeaponLooks.Scale(mix.Railguns[2])<.6f,"240 mm flashes larger than 100 mm on the same hull");
+        CheckKitModels();
+    }
+
+    /// <summary>Phase 6 weapon kit: Blender pieces load; missile cells sit where each cell fires; fixed axial guns get a receiver.</summary>
+    private void CheckKitModels()
+    {
+        Check(WeaponKit.Available,"Blender weapon kit loads from "+WeaponKit.Path);
+        foreach(var (hull,launcher,cells) in new[]{("mars_missile_cruiser_t4","launcher-vls8",8),("battleship","launcher-quad",4),("escort","launcher-twin",2)})
+        {
+            var def=ShipLoadouts.Resolve(ShipVariants.Loadout(hull) with{Components=new ShipComponentSelection{Launcher=launcher}}).Definition;
+            var model=ShipModels.Build(def,Faction.Blue,47);AddChild(model.Root);
+            try
+            {
+                var row=model.Root.FindChild("MissileCells",true,false) as Node3D;
+                Check(row is not null&&row.GetChildren().OfType<MeshInstance3D>().Count()==1,$"{hull}: one merged cell hatch mesh");
+                var markers=row!.GetChildren().OfType<Node3D>().Where(n=>n.Name.ToString().StartsWith("cell_")).ToArray();
+                Check(markers.Length==cells,$"{hull}: {cells} hatches for {cells} cells");
+                // Each hatch is where OrdnanceState launches that cell's missile.
+                var body=new ShipBody("CELLS",def,Faction.Blue);var expected=new List<Vector3>();
+                for(int i=0;i<cells;i++){expected.Add(def.Missiles!.LaunchPoint+body.Ordnance.CellOffset);body.Ordnance.ConsumeMissile();}
+                Check(markers.All(m=>expected.Any(e=>e.DistanceTo(m.Position)<.01f))&&expected.All(e=>markers.Any(m=>e.DistanceTo(m.Position)<.01f)),$"{hull}: hatches match the launch positions");
+            }
+            finally{model.Root.Free();}
+        }
+        var stock=ShipModels.Build(ShipLoadouts.Resolve(ShipVariants.Loadout("mars_missile_cruiser_t4")).Definition,Faction.Blue,47);AddChild(stock.Root);
+        try{Check(stock.Root.FindChild("MissileCells",true,false) is null,"Single tube keeps the stock model");}finally{stock.Root.Free();}
+        var axial=ResearchTree.Catalog.Resolve("interceptor_t3",new[]{"fire-control"},Array.Empty<EquipmentMount>(),new ShipComponentSelection{MainGuns=new[]{"earth-rail-m1-axial"}}).Definition;
+        var small=ShipModels.Build(axial,Faction.Blue,47);AddChild(small.Root);
+        try{Check(small.Root.FindChild("PartFixedReceiver",true,false) is MeshInstance3D,"Medium axial gun gets a receiver pod");}finally{small.Root.Free();}
+        var plain=ShipModels.Build(ShipLoadouts.Resolve(ShipVariants.Loadout("interceptor_t3")).Definition,Faction.Blue,47);AddChild(plain.Root);
+        try{Check(plain.Root.FindChild("PartFixedReceiver",true,false) is null,"Stock axial gun keeps the stock model");}finally{plain.Root.Free();}
     }
 
     private static ShipDefinition CruiserModelSource(ShipDefinition def)=>ShipVariants.Resolve(def.Id,new[]{"{\"defaultMainGun\":null}"}).Definition;

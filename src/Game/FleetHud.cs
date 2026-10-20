@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
 using SpaceFleet.View;
@@ -29,6 +30,8 @@ public partial class Hud
                     Vector3 render = (target.InterpolatedPosition(Engine.GetPhysicsInterpolationFraction()) + track.Offset - Game.RenderOrigin).ToVector3();
                     if (cam.IsPositionBehind(render)) break;
                     Vector2 to = cam.UnprojectPosition(render);
+                    // Points almost on the camera plane project far off screen; their arrowheads cannot be triangulated.
+                    if (!to.IsFinite() || Mathf.Abs(to.X) > 1e5f || Mathf.Abs(to.Y) > 1e5f) break;
                     Vector2 d = to - from;
                     float len = d.Length();
                     if (len < 30f) break;
@@ -37,7 +40,10 @@ public partial class Hud
                     Vector2 a = from + dir * 14f, b = to - dir * 16f;
                     DrawDashedLine(a, b, new Color(Friendly, 0.35f), 1f, 6f);
                     Vector2 n = new(-dir.Y, dir.X);
-                    DrawColoredPolygon(new[] { b + dir * 6f, b - dir * 2f + n * 4f, b - dir * 2f - n * 4f }, new Color(Friendly, 0.6f));
+                    var head = new[] { b + dir * 6f, b - dir * 2f + n * 4f, b - dir * 2f - n * 4f };
+                    // Skip arrowheads Godot cannot triangulate (non-finite or collapsed screen points).
+                    if (head.All(p => p.IsFinite()) && Mathf.Abs((head[1] - head[0]).Cross(head[2] - head[0])) > 1f)
+                        DrawColoredPolygon(head, new Color(Friendly, 0.6f));
                     break;
                 }
                 case OrderKind.Hold:

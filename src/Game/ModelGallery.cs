@@ -22,6 +22,10 @@ public partial class ModelGallery : Node3D
     public string? Output { get; init; }
     /// <summary>--gallery-guns=part,part,... (one per socket, "-" = stock) shows a modular main gun fit.</summary>
     public string[]? Guns { get; init; }
+    /// <summary>--gallery-ordnance=launcher-vls8,missile-...,pd-... shows missile/PD parts.</summary>
+    public string[]? Ordnance { get; init; }
+    /// <summary>--gallery-research=fire-control,... applies permanent research (e.g. 포좌 확장 for larger parts).</summary>
+    public string[]? Research { get; init; }
     private ShipView _view = null!;
     private int _frame;
 
@@ -32,8 +36,15 @@ public partial class ModelGallery : Node3D
         if (ShipId.StartsWith("zone-")) { BuildZone(ShipId[5..]); return; }
         if (ShipId is "asteroids" or "asteroid-variants" or "asteroid") { BuildAsteroids(); return; }
 
-        var definition = Guns is null ? ShipDefinitions.ById(ShipId)
-            : ShipLoadouts.Resolve(ShipVariants.Loadout(ShipId) with { MainGuns = Guns.Select(g => g == "-" ? null : g).ToArray() }).Definition;
+        ShipComponentSelection? parts = Ordnance is null ? null : new ShipComponentSelection
+        {
+            Launcher = Ordnance.FirstOrDefault(id => OrdnanceParts.ById(id).Kind == OrdnanceKind.Launcher),
+            Missile = Ordnance.FirstOrDefault(id => OrdnanceParts.ById(id).Kind == OrdnanceKind.Missile),
+            PointDefensePart = Ordnance.FirstOrDefault(id => OrdnanceParts.ById(id).Kind == OrdnanceKind.PointDefense),
+        };
+        if (Guns is not null) parts = (parts ?? new()) with { MainGuns = Guns.Select(g => g == "-" ? null : g).ToArray() };
+        var definition = parts is null && Research is null ? ShipDefinitions.ById(ShipId)
+            : ResearchTree.Catalog.Resolve(ShipId, Research, Array.Empty<EquipmentMount>(), parts).Definition;
         var body = new ShipBody("GALLERY", definition, Faction);
         body.Place(Vec3d.Zero, Quaternion.Identity);
         body.Control = new ShipControl { Thrust = Vector3.Forward * 0.6f, FlightAssist = false };
@@ -59,7 +70,14 @@ public partial class ModelGallery : Node3D
         AddChild(camera);
         float distance = l * (View is "side" or "top" ? 1.55f : 1.25f);
         Vector3 focus = Vector3.Zero;
-        if (View.StartsWith("turret") && body.Definition.Railgun?.Mounts is { Length: > 0 } mounts)
+        if (View == "launcher" && body.Definition.Missiles is { } launcherDef)
+        {
+            // 미사일 발사구 근접: 셀 해치 확인용.
+            focus = launcherDef.LaunchPoint;
+            dir = new Vector3(-0.6f, 0.75f, -0.4f);
+            distance = l * 0.12f;
+        }
+        else if (View.StartsWith("turret") && body.Definition.Railgun?.Mounts is { Length: > 0 } mounts)
         {
             // 주포탑 근접(turret = 첫 포탑, turret2 = 세 번째): 포탑 몸체와 포신 비례 확인용. 함저 포탑은 아래에서 본다.
             var mount = mounts[Math.Clamp(View.Length > 6 && int.TryParse(View[6..], out int n) ? n : 0, 0, mounts.Length - 1)];
@@ -164,5 +182,7 @@ public partial class ModelGallery : Node3D
         Output = args.GetValueOrDefault("shot"),
         Studio = args.GetValueOrDefault("gallery-light") == "studio",
         Guns = args.TryGetValue("gallery-guns", out var guns) ? guns.Split(',') : null,
+        Ordnance = args.TryGetValue("gallery-ordnance", out var ordnance) ? ordnance.Split(',') : null,
+        Research = args.TryGetValue("gallery-research", out var research) ? research.Split(',') : null,
     };
 }

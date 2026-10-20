@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
@@ -65,6 +66,22 @@ public static class PrimaryWeaponModels
         }
     }
 
+    /// <summary>A fixed-axis part (e.g. the medium axial gun after 포좌 확장): a kit receiver over the hull's own gun, ending at its muzzle.</summary>
+    private static void FixedReceiver(Node3D hull,ShipDefinition def,ResolvedWeaponMount binding,MainGunPart part,Palette palette)
+    {
+        if(!WeaponKit.Available)return;
+        var gun=def.Modules.Single(m=>m.Id==binding.Hardpoint.ModuleId);var muzzle=def.Railgun!.Muzzle;
+        // Small craft carry the axial gun inside the nose; the receiver is a chin pod wide enough to read from outside.
+        float w=MathF.Max(gun.HalfSize.X*2.4f,def.Flight.Length*.06f)*Mathf.Pow(WeaponLooks.CaliberRatio(def,binding.Weapon),.8f);
+        var armour=new SurfaceTool();armour.Begin(Mesh.PrimitiveType.Triangles);
+        var dark=new SurfaceTool();dark.Begin(Mesh.PrimitiveType.Triangles);
+        var tools=new Dictionary<WeaponKit.Slot,SurfaceTool>{[WeaponKit.Slot.Armour]=armour,[WeaponKit.Slot.Dark]=dark,[WeaponKit.Slot.Glow]=dark};
+        WeaponKit.Append(tools,"kit_axial_receiver",WeaponKit.Span(muzzle.X,muzzle.Y-w*.25f,gun.Center.Z+gun.HalfSize.Z,muzzle.Z+w*.2f,w,w*.9f));
+        var mesh=armour.Commit();dark.Commit(mesh);
+        mesh.SurfaceSetMaterial(0,palette.Hull);mesh.SurfaceSetMaterial(1,palette.Dark);
+        hull.AddChild(new MeshInstance3D{Name="PartFixedReceiver",Mesh=mesh});
+    }
+
     private static void ApplyLasers(Node3D hull,ShipDefinition def,Palette palette)
     {
         foreach(var binding in def.PrimaryMounts)
@@ -119,7 +136,8 @@ public static class PrimaryWeaponModels
         Material? glow=null, armour=null;
         foreach(var binding in def.PrimaryMounts)
         {
-            if(binding.Weapon.Id==stock.Id||binding.Turret is not { } mount||MainGunParts.Find(binding.Weapon.Id) is not { } part)continue;
+            if(binding.Weapon.Id==stock.Id||MainGunParts.Find(binding.Weapon.Id) is not { } part)continue;
+            if(binding.Turret is not { } mount){FixedReceiver(hull,def,binding,part,palette);continue;}
             string key=mount.ModuleId.Replace('-','_');
             var recoil=hull.FindChild("recoil_"+key,true,false) as Node3D
                 ??throw new InvalidOperationException("Missing primary recoil socket: "+key);
@@ -135,49 +153,77 @@ public static class PrimaryWeaponModels
             var rails=new SurfaceTool();rails.Begin(Mesh.PrimitiveType.Triangles);
             var fins=new SurfaceTool();fins.Begin(Mesh.PrimitiveType.Triangles);
             float minX=muzzles.Min(m=>m.X),maxX=muzzles.Max(m=>m.X),y=muzzles.Average(m=>m.Y),cx=(minX+maxX)*.5f;
-            if(!mars)
-            {
-                // Earth: one angular mantlet across the whole mount, then short thick jackets.
-                float half=(maxX-minX)*.5f+w*1.4f;
-                MeshKit.AddTaper(body,new(cx,y,w*1.2f),new(half*2,w*2.8f),new(cx,y,-length*.1f),new(half*1.85f,w*2.5f));
-                MeshKit.AddTaper(rails,new(cx,y,-length*.1f),new(half*1.85f,w*2.5f),new(cx,y,-length*.1f-w*.3f),new(half*1.7f,w*2.2f));
-            }
             float jacket=mars?.1f:part.Size==WeaponSize.ExtraLarge?.5f:.36f;
-            // Collars keep at least ~3 barrel widths apart so short multi-barrel mounts do not read as a grid.
             int rings=Math.Clamp(Math.Min(RingCount(part.CaliberMm),(int)(length*(.9f-jacket)/(w*3.2f))),2,9);
-            // Multi-barrel mounts share clamp bands across all barrels (fewer, wider) instead of a grid of collars.
             bool shared=muzzles.Length>1;
-            if(shared)
+            if(shared)rings=Math.Min(rings,4);
+            if(WeaponKit.Available)
             {
-                rings=Math.Min(rings,4);
-                for(int ring=0;ring<rings;ring++)
+                // Blender kit (tools/build-weapon-kit.py): same layout as the fallback boxes, bevelled and round.
+                var tools=new Dictionary<WeaponKit.Slot,SurfaceTool>{[WeaponKit.Slot.Armour]=body,[WeaponKit.Slot.Dark]=rails,[WeaponKit.Slot.Glow]=fins};
+                float span=maxX-minX;
+                if(!mars)WeaponKit.Append(tools,"kit_mantlet_earth",WeaponKit.Span(cx,y,w*1.2f,-length*.1f,span+w*2.8f,w*2.8f));
+                if(shared)
+                    for(int ring=0;ring<rings;ring++)
+                    {
+                        float z=-length*(jacket+.08f+ring*(.85f-jacket)/rings);
+                        WeaponKit.Append(tools,"kit_collar",WeaponKit.Span(cx,y,z+w*.3f,z-w*.3f,span+w*2.1f,w*2.1f));
+                    }
+                for(int i=0;i<muzzles.Length;i++)
                 {
-                    float z=-length*(jacket+.08f+ring*(.85f-jacket)/rings);
-                    MeshKit.AddTaper(rails,new(cx,y,z+w*.3f),new(maxX-minX+w*2.1f,w*2.1f),new(cx,y,z-w*.3f),new(maxX-minX+w*2.1f,w*2.1f));
+                    var m=muzzles[i];
+                    WeaponKit.Append(tools,"kit_jacket",WeaponKit.Span(m.X,m.Y,-length*.08f,-length*jacket,w*2.2f,w*2.2f));
+                    WeaponKit.Append(tools,mars?"kit_rail_mars":"kit_rail_earth",WeaponKit.Span(m.X,m.Y,-length*jacket,m.Z,w*1.7f,w*1.7f));
+                    for(int ring=0;ring<rings;ring++)
+                    {
+                        float z=-length*(jacket+.05f+ring*(.9f-jacket)/rings);
+                        if(!shared)WeaponKit.Append(tools,"kit_collar",WeaponKit.Span(m.X,m.Y,z+w*.18f,z-w*.18f,w*2.05f,w*2.05f));
+                        if(mars&&ring%2==0)WeaponKit.Append(tools,"kit_fin_mars",WeaponKit.Span(m.X,m.Y+w*.6f,z+w*.35f,z-w*.35f,w*.9f,w*1.1f));
+                    }
+                    recoil.AddChild(new Node3D{Name=$"muzzle_{key}_{i}",Position=m});
                 }
             }
-            for(int i=0;i<muzzles.Length;i++)
+            else
             {
-                Vector3 muzzle=muzzles[i];
-                Vector3 At(float z,float x=0,float yy=0)=>new(muzzle.X+x,muzzle.Y+yy,z);
-                MeshKit.AddTaper(body,At(-length*.08f),new(w*2.3f,w*2.3f),At(-length*jacket),new(w*2.1f,w*2.1f));
-                if(mars)
-                    // Mars: open frame — two thin side beams instead of a closed housing.
-                    foreach(float side in new[]{-1f,1f})
-                        MeshKit.AddTaper(rails,At(w,side*w*1.35f,-w*.5f),new(w*.35f,w*.5f),At(-length*.6f,side*w*1.35f,-w*.5f),new(w*.25f,w*.4f));
-                // Two heavy rails with a dark slot between them run to the physical muzzle.
-                foreach(float side in new[]{-1f,1f})
-                    MeshKit.AddTaper(body,At(-length*jacket,side*w*.55f),new(w*.8f,w*1.7f),At(muzzle.Z,side*w*.55f),new(w*.7f,w*1.5f));
-                MeshKit.AddTaper(rails,At(-length*jacket,0,-w*.1f),new(w*.35f,w*1.2f),At(muzzle.Z+w*.2f,0,-w*.1f),new(w*.3f,w*1.1f));
-                for(int ring=0;ring<rings;ring++)
+                if(!mars)
                 {
-                    float z=-length*(jacket+.05f+ring*(.9f-jacket)/rings);
-                    if(!shared)MeshKit.AddTaper(rails,At(z+w*.18f),new(w*2.05f,w*2.05f),At(z-w*.18f),new(w*2.05f,w*2.05f));
-                    // Mars heat sinks: thin glowing plates standing on top of the rails.
-                    if(mars&&ring%2==0)
-                        MeshKit.AddTaper(fins,At(z+w*.35f,0,w*1.1f),new(w*.15f,w*1.0f),At(z-w*.35f,0,w*1.1f),new(w*.15f,w*1.0f));
+                    // Earth: one angular mantlet across the whole mount, then short thick jackets.
+                    float half=(maxX-minX)*.5f+w*1.4f;
+                    MeshKit.AddTaper(body,new(cx,y,w*1.2f),new(half*2,w*2.8f),new(cx,y,-length*.1f),new(half*1.85f,w*2.5f));
+                    MeshKit.AddTaper(rails,new(cx,y,-length*.1f),new(half*1.85f,w*2.5f),new(cx,y,-length*.1f-w*.3f),new(half*1.7f,w*2.2f));
                 }
-                recoil.AddChild(new Node3D{Name=$"muzzle_{key}_{i}",Position=muzzle});
+                // Multi-barrel mounts share clamp bands across all barrels (fewer, wider) instead of a grid of collars.
+                if(shared)
+                {
+                    for(int ring=0;ring<rings;ring++)
+                    {
+                        float z=-length*(jacket+.08f+ring*(.85f-jacket)/rings);
+                        MeshKit.AddTaper(rails,new(cx,y,z+w*.3f),new(maxX-minX+w*2.1f,w*2.1f),new(cx,y,z-w*.3f),new(maxX-minX+w*2.1f,w*2.1f));
+                    }
+                }
+                for(int i=0;i<muzzles.Length;i++)
+                {
+                    Vector3 muzzle=muzzles[i];
+                    Vector3 At(float z,float x=0,float yy=0)=>new(muzzle.X+x,muzzle.Y+yy,z);
+                    MeshKit.AddTaper(body,At(-length*.08f),new(w*2.3f,w*2.3f),At(-length*jacket),new(w*2.1f,w*2.1f));
+                    if(mars)
+                        // Mars: open frame — two thin side beams instead of a closed housing.
+                        foreach(float side in new[]{-1f,1f})
+                            MeshKit.AddTaper(rails,At(w,side*w*1.35f,-w*.5f),new(w*.35f,w*.5f),At(-length*.6f,side*w*1.35f,-w*.5f),new(w*.25f,w*.4f));
+                    // Two heavy rails with a dark slot between them run to the physical muzzle.
+                    foreach(float side in new[]{-1f,1f})
+                        MeshKit.AddTaper(body,At(-length*jacket,side*w*.55f),new(w*.8f,w*1.7f),At(muzzle.Z,side*w*.55f),new(w*.7f,w*1.5f));
+                    MeshKit.AddTaper(rails,At(-length*jacket,0,-w*.1f),new(w*.35f,w*1.2f),At(muzzle.Z+w*.2f,0,-w*.1f),new(w*.3f,w*1.1f));
+                    for(int ring=0;ring<rings;ring++)
+                    {
+                        float z=-length*(jacket+.05f+ring*(.9f-jacket)/rings);
+                        if(!shared)MeshKit.AddTaper(rails,At(z+w*.18f),new(w*2.05f,w*2.05f),At(z-w*.18f),new(w*2.05f,w*2.05f));
+                        // Mars heat sinks: thin glowing plates standing on top of the rails.
+                        if(mars&&ring%2==0)
+                            MeshKit.AddTaper(fins,At(z+w*.35f,0,w*1.1f),new(w*.15f,w*1.0f),At(z-w*.35f,0,w*1.1f),new(w*.15f,w*1.0f));
+                    }
+                    recoil.AddChild(new Node3D{Name=$"muzzle_{key}_{i}",Position=muzzle});
+                }
             }
             var mesh=body.Commit();rails.Commit(mesh);
             armour??=new StandardMaterial3D{AlbedoColor=palette.Hull.AlbedoColor*.62f,Metallic=palette.Hull.Metallic,Roughness=.55f};

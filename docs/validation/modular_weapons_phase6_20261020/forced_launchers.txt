@@ -1,0 +1,13 @@
+# 동시 락온 적용 직후(발사기 수치 5단계 값)
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog��
+stock                       32        0.0     0.967   1.000        13
+launcher-twin               32       19.2     1.032   1.066        18     0.082
+launcher-quad               32        5.5     1.064   1.100        16     0.107
+launcher-vls8               32        3.5     1.024   1.058        13     0.067
+
+# 발사기 장전·탄창 조정 후
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog��
+stock                       32        0.0     0.967   1.000        13
+launcher-twin               32       19.2     1.003   1.037        13     0.028
+launcher-quad               32        5.5     1.010   1.044        14     0.048
+launcher-vls8               32        3.5     1.019   1.053        14     0.053

@@ -58,6 +58,7 @@ public static class ImportedShipModels
         foreach (var jet in def.GetProperty("rcs").EnumerateArray())
             b.RcsNozzle(V(jet.GetProperty("position")), V(jet.GetProperty("exhaust")), jet.GetProperty("size").GetSingle(), jet.GetProperty("plume").GetSingle(), buildNozzle: false);
         PrimaryWeaponModels.Apply(visual,definition,b.Palette);
+        OrdnanceModels.Apply(visual,definition,b.Palette);
         var turrets = new List<TurretRig>();
         Node3D Required(string name) => visual.FindChild(name, recursive: true, owned: false) as Node3D
             ?? throw new InvalidOperationException($"{id}: missing Blender turret node {name}. Run tools/build.ps1 to refresh model imports.");
