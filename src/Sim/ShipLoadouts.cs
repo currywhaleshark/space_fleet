@@ -57,6 +57,12 @@ public static class ShipLoadouts
             throw new InvalidDataException("Choose main gun parts or a primary replacement, not both");
         definition = ShipComponents.Apply(definition, loadout.Components, useFactoryPrimary:loadout.MainWeapon is null);
         definition = MainGunParts.Apply(definition, mainGuns);
+        if (loadout.Components is { } parts && (parts.Launcher ?? parts.Missile ?? parts.PointDefensePart) is not null)
+        {
+            if (parts.PointDefensePart is not null && parts.Secondary is not null)
+                throw new InvalidDataException("Choose a point-defence part or a catalog secondary, not both");
+            definition = OrdnanceParts.Apply(definition, parts.Launcher, parts.Missile, parts.PointDefensePart);
+        }
         if (definition.InstalledEquipment.Length > 0)
             throw new InvalidDataException("Install equipment through bay selections, not definition patches");
         if (loadout.Equipment is { Count: > 0 } mounts) definition = Install(definition, mounts);

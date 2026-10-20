@@ -195,7 +195,7 @@ public sealed partial class SimWorld
         float standoff = (brain.CommandStandoff ?? brain.Profile.StandoffMeters) * (track.Level >= TrackLevel.Locked ? 1f : 0.6f);
         if (ship.Definition.Design == DesignFamily.Mars)
             standoff = brain.Profile.StandoffMeters * (track.Level >= TrackLevel.Locked ? 1f : .72f);
-        if (ship.Definition.Branch == ShipBranch.MissileCruiser && brain.SalvoLaunched >= ship.Definition.Ai.MissilesPerSalvo
+        if (ship.Definition.Branch == ShipBranch.MissileCruiser && brain.SalvoLaunched >= Math.Max(ship.Definition.Ai.MissilesPerSalvo,ship.Definition.Missiles?.CellCount??1)
             && Time - ship.Ordnance.LastMissileLaunch < 15) standoff *= 1.3f;
         if (ship.Definition.Branch == ShipBranch.MissileCruiser && ship.Ordnance.Missiles == 0 && ship.Railgun is { } fallbackGun)
             standoff = Math.Min(standoff, fallbackGun.Definition.MuzzleSpeed * brain.Profile.RailFlightSeconds * .7f);
@@ -486,7 +486,7 @@ public sealed partial class SimWorld
             brain.SalvoId = salvo.Id;
             brain.SalvoLaunched = 0;
         }
-        if (brain.SalvoLaunched < ship.Definition.Ai.MissilesPerSalvo && ship.Ordnance.MissileReady)
+        if (brain.SalvoLaunched < Math.Max(ship.Definition.Ai.MissilesPerSalvo,ship.Definition.Missiles?.CellCount??1) && ship.Ordnance.MissileReady)
         {
             var launch=LaunchMissile(ship,target);
             if(launch.Fired)brain.SalvoLaunched++;

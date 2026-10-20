@@ -28,6 +28,10 @@ public static class MainGunParts
         ?? throw new InvalidDataException("알 수 없는 주포 부품입니다: " + id);
     public static MainGunPart? Find(string id) => All.FirstOrDefault(p => p.Id == id);
     public static string UnlockKey(string id) => "part:" + id;
+    /// <summary>Research facts of any part (main gun or ordnance): cost, stock, design (null = either), branches, min tier.</summary>
+    public static (int Cost, bool Stock, DesignFamily? Design, ShipBranch[] Branches, int MinTier)? Research(string id)
+        => Find(id) is { } g ? (g.Cost, IsStock(g), g.Design, g.Branches, g.MinTier)
+        : OrdnanceParts.Find(id) is { } o ? (o.Cost, o.Stock, o.Design, o.Branches, o.MinTier) : null;
     /// <summary>Stock parts are always fitted; others are researched once per design (§6).</summary>
     public static bool IsStock(MainGunPart part) => part.StockKinds is { Length: > 0 };
     /// <summary>A hull that can research this part: same design, a listed branch and at least the part's tier.</summary>

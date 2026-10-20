@@ -45,7 +45,7 @@ public sealed partial class SimWorld
         if (track.Level < TrackLevel.Contact) return new(false, "표적 미탐지");
 
         _shotSequence++;
-        Vec3d start = shooter.Position + Vec3d.From(shooter.Orientation * def.LaunchPoint);
+        Vec3d start = shooter.Position + Vec3d.From(shooter.Orientation * (def.LaunchPoint + shooter.Ordnance.CellOffset));
         if(BrainOf(shooter) is { Enabled:true } && TerrainBlocked(start,track.EstimatedPosition)) return new(false,"지형 가림");
         var missile = new Missile
         {

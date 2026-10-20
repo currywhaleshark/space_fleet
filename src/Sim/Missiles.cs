@@ -27,6 +27,10 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
     public float BodyScale { get; init; } = 1;
     public float LaunchSignatureFraction { get; init; }
     public float LaunchSignatureSeconds { get; init; }
+    /// <summary>Launch cells that can fire at once (§21); null = the single stock tube.</summary>
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public int? Cells { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore] public int CellCount => Cells ?? 1;
 }
 
 /// <summary>
@@ -79,6 +83,12 @@ public sealed class OrdnanceState
     public DefenseDroneState Drones { get; }
     public PointDefenseMountState[] PointDefense { get; }
     public float MissileReload { get; private set; }
+    /// <summary>Cells holding a missile ready to fire. A single tube holds one; empty cells refill one per reload.</summary>
+    public int LoadedCells { get; private set; }
+    private int CellLimit => Math.Min(MissileDefinition?.CellCount ?? 1, Missiles);
+    /// <summary>Lateral offset of the next firing cell (zero for a single tube) so a salvo leaves side by side.</summary>
+    public Vector3 CellOffset => MissileDefinition is { CellCount: > 1 } d
+        ? Vector3.Right * 2.5f * ((d.CellCount - LoadedCells) % d.CellCount - (d.CellCount - 1) * .5f) : Vector3.Zero;
     public double LastMissileLaunch { get; private set; } = double.NegativeInfinity;
     public int Decoys { get; private set; }
     public float DecoyCooldown { get; private set; }
@@ -88,10 +98,11 @@ public sealed class OrdnanceState
 
     public string MissileStatus => MissileDefinition is null ? "발사관 없음" : _ship.Damage.Destroyed ? "격침"
         : _ship.Damage.MagazineFraction <= 0.01f ? "탄약고 손상" : Missiles <= 0 ? "미사일 소진"
-        : _ship.Power.Overheated ? "과열 · 발사 불가" : MissileReload > 0 ? $"장전 {MissileReload:0.0}s" : "발사 준비";
+        : _ship.Power.Overheated ? "과열 · 발사 불가" : LoadedCells <= 0 ? $"장전 {MissileReload:0.0}s"
+        : MissileDefinition.CellCount > 1 ? $"발사 준비 · {LoadedCells}/{MissileDefinition.CellCount}셀" : "발사 준비";
 
     public bool MissileReady => MissileDefinition is not null && !_ship.Damage.Destroyed && _ship.Damage.MagazineFraction > 0.01f
-        && Missiles > 0 && MissileReload <= 0 && !_ship.Power.Overheated;
+        && Missiles > 0 && LoadedCells > 0 && !_ship.Power.Overheated;
 
     public bool DecoyReady => DecoyDefinition is not null && !_ship.Damage.Destroyed && Decoys > 0 && DecoyCooldown <= 0;
 
@@ -100,6 +111,7 @@ public sealed class OrdnanceState
         Missiles = MissileDefinition?.Rounds ?? 0;
         Decoys = DecoyDefinition?.Count ?? 0;
         MissileReload = 0;
+        LoadedCells = CellLimit;
         LastMissileLaunch = double.NegativeInfinity;
         DecoyCooldown = 0;
         // Resetting the practice guns/repair tools cannot restock a spent or jettisoned AM payload.
@@ -110,7 +122,13 @@ public sealed class OrdnanceState
 
     internal void Step(double dt)
     {
-        MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
+        // Empty cells refill one at a time; a single tube behaves exactly as the old reload timer.
+        if (LoadedCells < CellLimit)
+        {
+            MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
+            if (MissileReload <= 0) { LoadedCells++; if (LoadedCells < CellLimit) MissileReload = MissileDefinition!.ReloadSeconds; }
+        }
+        else MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
         DecoyCooldown = Mathf.Max(0f, DecoyCooldown - (float)dt);
         Antimatter.Step(dt);
         Drones.Step(dt);
@@ -120,7 +138,9 @@ public sealed class OrdnanceState
     {
         Missiles--;
         LastMissileLaunch = _ship.SimTime;
-        MissileReload = MissileDefinition!.ReloadSeconds;
+        LoadedCells = Math.Max(0, LoadedCells - 1);
+        if (MissileReload <= 0 || MissileDefinition!.CellCount == 1) MissileReload = MissileDefinition!.ReloadSeconds;
+        LoadedCells = Math.Min(LoadedCells, CellLimit);
         _ship.Power.AddHeat(MissileDefinition.LaunchHeatMj);
     }
 

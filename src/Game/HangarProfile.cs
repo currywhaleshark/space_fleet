@@ -118,6 +118,7 @@ public sealed class HangarProfile
         if(slot is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
         var parts=(own.Components??new()).With(system,id);
         if(system==ComponentSlot.MainGun&&id is not null)parts=parts with{MainGuns=null}; // catalog primary replaces socket parts
+        if(system==ComponentSlot.Secondary&&id is not null)parts=parts with{PointDefensePart=null}; // catalog secondary replaces a PD part
         var fit=own with{Components=parts.IsEmpty?null:parts};
         FleetLoadouts.ResolveFit(Fit(slot with{Own=fit})); // Validate the complete budget before charging RP.
         if(id is not null&&!Research.HasComponent(slot.HullId,id))
@@ -174,6 +175,7 @@ public sealed class HangarProfile
             throw new InvalidDataException("잘못된 프리셋입니다.");
         var next=(state.SystemPresets[preset]??new()).With(slot,id);
         if(slot==ComponentSlot.MainGun&&id is not null)next=next with{MainGuns=null}; // catalog primary replaces socket parts
+        if(slot==ComponentSlot.Secondary&&id is not null)next=next with{PointDefensePart=null}; // catalog secondary replaces a PD part
         var fit=Fit(new(hull,preset)) with{Components=next.IsEmpty?null:next};
         FleetLoadouts.ResolveFit(fit); // Validate the complete budget before charging RP or changing the preset.
         if(id is not null&&!Research.HasComponent(hull,id))
@@ -224,7 +226,43 @@ public sealed class HangarProfile
         Research.BuyPart(design,part);
     }
     private bool Unresearched(string hull,ShipComponentSelection? parts)=>parts?.Ids.Any(part=>Research?.HasComponent(hull,part)!=true)==true
-        ||parts?.MainGuns?.OfType<string>().Any(part=>Research?.HasPart(ShipDefinitions.ById(hull).Design,part)!=true)==true;
+        ||parts?.PartIds.Any(part=>Research?.HasPart(ShipDefinitions.ById(hull).Design,part)!=true)==true;
+    /// <summary>Missile launcher, missile or PD part of a shared preset (null = stock); researches it first when asked.</summary>
+    public void SetOrdnance(string hull,int preset,OrdnanceKind kind,string? part,bool research=false)
+    {
+        if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
+            throw new InvalidDataException("잘못된 프리셋입니다.");
+        var next=WithOrdnance(state.SystemPresets[preset],kind,part);
+        FleetLoadouts.ResolveFit(Fit(new(hull,preset)) with{Components=next});
+        BuyIfNeeded(hull,part,research);
+        state.SystemPresets[preset]=next;
+    }
+    public void SetSlotOrdnance(int index,OrdnanceKind kind,string? part,bool research=false)
+    {
+        var next=EditableSquad(index,leaderAllowed:true);var slot=next[index];
+        if(slot is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
+        var fit=own with{Components=WithOrdnance(own.Components,kind,part)};
+        FleetLoadouts.ResolveFit(Fit(slot with{Own=fit}));
+        BuyIfNeeded(slot.HullId,part,research);
+        next[index]=slot with{Own=fit};Commit(next);
+    }
+    internal static ShipComponentSelection? WithOrdnance(ShipComponentSelection? current,OrdnanceKind kind,string? part)
+    {
+        if(part is not null)
+        {
+            var p=OrdnanceParts.ById(part);
+            if(p.Kind!=kind)throw new InvalidDataException("부품 종류가 맞지 않습니다.");
+            if(p.Stock)part=null;
+        }
+        var next=(current??new()) switch
+        {
+            var c when kind==OrdnanceKind.Launcher=>c with{Launcher=part},
+            var c when kind==OrdnanceKind.Missile=>c with{Missile=part},
+            // A PD part replaces a catalog secondary.
+            var c=>(part is null?c:c.With(ComponentSlot.Secondary,null)) with{PointDefensePart=part},
+        };
+        return next.IsEmpty?null:next;
+    }
     public void Validate()
     {
         if(Version is not (1 or 2 or 3 or 4 or 5)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))

@@ -246,6 +246,7 @@ public sealed class ShipDefinition
         if (Missiles is MissileDefinition ms) ValidateMissile(ms);
         void ValidateMissile(MissileDefinition ms)
         {
+            Require(ms.Cells is null or (>= 1 and <= 16), "invalid missile cells");
             Require(ms.Rounds > 0 && Positive(ms.ReloadSeconds) && ms.LaunchPoint.IsFinite() && float.IsFinite(ms.EjectSpeed) && ms.EjectSpeed >= 0
                 && Positive(ms.AccelG) && Positive(ms.BurnSeconds) && Positive(ms.MaxFlightSeconds) && Positive(ms.SeekerRangeMeters)
                 && Positive(ms.SeekerFovDegrees) && ms.SeekerFovDegrees <= 180 && Positive(ms.SeekerStrength) && Positive(ms.FuzeMeters)

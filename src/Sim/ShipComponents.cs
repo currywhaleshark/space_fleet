@@ -24,8 +24,17 @@ public sealed record ShipComponentSelection(string? MainGun = null, string? Seco
     /// <summary>Absolute main gun part per socket (null entry = stock); see MainGunParts. Not a catalog component.</summary>
     [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string?[]? MainGuns { get; init; }
+    /// <summary>Missile launcher, missile and point-defence parts (§21); null = stock.</summary>
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Launcher { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? Missile { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? PointDefensePart { get; init; }
     [System.Text.Json.Serialization.JsonIgnore]
-    public bool IsEmpty => !Ids.Any() && MainGuns is null;
+    public IEnumerable<string> PartIds => (MainGuns ?? Array.Empty<string?>()).Append(Launcher).Append(Missile).Append(PointDefensePart).OfType<string>();
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool IsEmpty => !Ids.Any() && MainGuns is null && Launcher is null && Missile is null && PointDefensePart is null;
 }
 
 // Multipliers apply after permanent research, once, before physical bay equipment.
@@ -102,7 +111,7 @@ public static class ShipComponents
         var f=hull.Flight;var p=hull.Power;
         var json=JsonNode.Parse(hull.ToJson())!.AsObject();
         void Set<T>(string name,T value)=>json[name]=JsonNode.Parse(ShipDefinition.SerializeData(value));
-        Set(nameof(ShipDefinition.Components),selection is null?null:selection with{MainGuns=null});
+        Set(nameof(ShipDefinition.Components),selection is null?null:selection with{MainGuns=null,Launcher=null,Missile=null,PointDefensePart=null});
         Set(nameof(ShipDefinition.Flight),f with{MassKg=f.MassKg*massScale,ForwardAccel=f.ForwardAccel*engine.Forward/massScale,
             StrafeAccel=f.StrafeAccel*engine.Strafe/massScale,BrakeAccel=f.BrakeAccel*engine.Brake/massScale});
         Set(nameof(ShipDefinition.Power),p with{OutputMw=p.OutputMw*generator.Output,CoolingMw=p.CoolingMw*generator.Cooling,

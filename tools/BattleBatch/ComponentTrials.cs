@@ -30,7 +30,7 @@ internal static class ComponentTrials
 
     public static void Save(string output,string phase,int[] seeds,int jobs,double seconds,bool legacyPd=false)
     {
-        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
+        if(phase is not ("all" or "bench" or "pd" or "pd-salvos" or "ordnance-salvos" or "duels" or "fleet")||jobs<1||seconds<=0||!double.IsFinite(seconds)
             ||seeds.Length==0||seeds.Distinct().Count()!=seeds.Length)throw new ArgumentException("Invalid component trial options");
         var tasks=new List<(string Id,Func<object> Run)>();
         if(phase is "all" or "bench")foreach(string id in Hulls)foreach(string? part in Choices(id,ComponentSlot.MainGun))
@@ -54,6 +54,18 @@ internal static class ComponentTrials
         foreach(string part in new[]{"stock","barrage-before","pd-barrage","pd-longrange"})
         foreach(int seed in seeds)foreach(string threat in new[]{"light","heavy"})foreach(float speed in new[]{650f,1800f})
             tasks.Add(($"salvo-{id}-{part}-{seed}-{threat}-{speed}",()=>PdSalvo(id,part,seed,threat,speed)));
+        // Modular weapons phase 5: the same controlled stream against every PD option, and every missile part against stock PD.
+        if(phase is "ordnance-salvos")foreach(string id in Hulls)
+        {
+            var hull=ShipDefinitions.ById(id);
+            var options=new[]{"stock","pd-barrage","pd-longrange"}.Concat(OrdnanceParts.Candidates(hull,OrdnanceKind.PointDefense).Where(p=>!p.Stock).Select(p=>p.Id));
+            var threats=new[]{"light","heavy"}.Concat(OrdnanceParts.All.Where(p=>p.Kind==OrdnanceKind.Missile&&!p.Stock).Select(p=>p.Id));
+            // Speed 0 = the threat's own motor burnout speed; "own" range starts the stream at 90% of this PD's own range.
+            foreach(string option in options)foreach(string threat in threats)foreach(int seed in seeds)foreach(float speed in new[]{650f,1800f,0f})
+            foreach(bool own in new[]{false,true})
+                if((option=="stock"||threat is "light" or "heavy")&&!(own&&option=="stock"&&speed!=0))
+                    tasks.Add(($"ordnance-{id}-{option}-{threat}-{seed}-{speed}-{(own?"own":"common")}",()=>OrdnanceSalvo(id,option,threat,seed,speed,own)));
+        }
         Directory.CreateDirectory(Path.GetDirectoryName(output)!);
         var results=new ConcurrentBag<(string Id,object Data)>();int done=0;
         Parallel.ForEach(tasks,new ParallelOptions{MaxDegreeOfParallelism=jobs},task=>{
@@ -167,19 +179,40 @@ internal static class ComponentTrials
             ModuleDamage=w.Log.Ship(defender).ModuleDamageInflicted,Intercepted=w.Log.Ship(defender).MissilesIntercepted,KilledAt=killed};
     }
 
+    /// <summary>Reference hull that carries each missile part (any tier: research tiers are not enforced in resolution).</summary>
+    private static MissileDefinition Threat(string threat)=>threat switch
+    {
+        "light"=>ShipDefinitions.ById("interceptor").Missiles!,
+        "heavy"=>ShipDefinitions.ById("escort").Missiles!,
+        _=>OrdnanceParts.ById(threat) is var part?FleetLoadouts.ResolveFit(FleetLoadouts.Empty(part.Family switch
+            {MissileFamily.Light=>"interceptor_t3",MissileFamily.Heavy=>"battleship",_=>part.Design==DesignFamily.Mars?"mars_missile_cruiser":"escort"})
+            with{Components=new ShipComponentSelection{Missile=threat}}).Definition.Missiles!:throw new ArgumentException(threat),
+    };
+    private static object OrdnanceSalvo(string hull,string option,string threat,int seed,float speed,bool ownRange)
+    {
+        var parts=option=="stock"?null:OrdnanceParts.Find(option) is not null?new ShipComponentSelection{PointDefensePart=option}
+            :new ShipComponentSelection().With(ComponentSlot.Secondary,option);
+        var d=Edit(FleetLoadouts.ResolveFit(FleetLoadouts.Empty(hull) with{Components=parts}).Definition,j=>j["DefenseDrones"]=null);
+        var flight=Threat(threat);
+        if(speed<=0)speed=MathF.Min(flight.Accel*flight.BurnSeconds,4000);
+        return Stream(d,hull,option,seed,threat,flight,speed,ownRange?d.PointDefense!.RangeMeters*.9:null);
+    }
     private static object PdSalvo(string hull,string part,int seed,string type,float speed)
     {
         var d=Edit(Fit(hull,part=="stock"?null:part=="barrage-before"?"pd-barrage":part,ComponentSlot.Secondary),j=>{
             j["DefenseDrones"]=null;
             if(part=="barrage-before")j["PointDefense"]!.AsObject().Remove("MissileDamagePerHit");});
+        return Stream(d,hull,part,seed,type,ShipDefinitions.ById(type=="light"?"interceptor":"escort").Missiles!,speed);
+    }
+    private static object Stream(ShipDefinition d,string hull,string part,int seed,string type,MissileDefinition flight,float speed,double? start=null)
+    {
         var w=new SimWorld();var defender=Add(w,"DEFENDER",d,Faction.Blue,Vec3d.Zero);
         var launcher=Add(w,"LAUNCHER",NoDefense(ShipDefinitions.ById("interceptor")),Faction.Red,new(0,0,-20000));
         var pd=d.PointDefense!;var first=defender.Ordnance.PointDefense[0];
         Vector3 approach=first.MountBasis*new Basis(Vector3.Up,first.CenterYaw)
             *new Basis(Vector3.Right,Mathf.DegToRad(45))*Vector3.Forward;
         Vector3 across=approach.Cross(Vector3.Up).Normalized();
-        var flight=ShipDefinitions.ById(type=="light"?"interceptor":"escort").Missiles!;
-        double distance=ShipDefinitions.ById(hull).PointDefense!.RangeMeters*.7;
+        double distance=start??ShipDefinitions.ById(hull).PointDefense!.RangeMeters*.7;
         var random=new Random(seed);var offsets=Enumerable.Range(0,12).Select(_=>(float)(random.NextDouble()-.5)*80).ToArray();
         w.Log=new BattleLog(w);int launched=0;double? firstKill=null;
         while(w.Time<20)

@@ -18,9 +18,9 @@ public static partial class Matchmaking
                 throw new InvalidDataException("연구하지 않은 부품입니다.");
             if(fit.Components?.Ids.Any(id=>!upgrades.TryGetValue(fit.HullId,out var unlocked)||!unlocked.Contains(ShipComponents.UnlockKey(id)))==true)
                 throw new InvalidDataException("연구하지 않은 교체 부품입니다.");
-            if(fit.Components?.MainGuns?.OfType<string>().Any(id=>!MainGunParts.IsStock(MainGunParts.ById(id))
+            if(fit.Components?.PartIds.Any(id=>MainGunParts.Research(id) is not {Stock:true}
                 &&(!upgrades.TryGetValue(fit.HullId,out var unlocked)||!unlocked.Contains(MainGunParts.UnlockKey(id))))==true)
-                throw new InvalidDataException("연구하지 않은 주포 부품입니다.");
+                throw new InvalidDataException("연구하지 않은 부품입니다.");
             if(resolved.Leader.MatchClass==MatchWeightClass.Large&&node.Tier>tree.ByHull(resolved.Leader.Id).Tier)
                 throw new InvalidDataException("호위 함선의 티어는 기함 이하여야 합니다.");
         }
@@ -79,7 +79,8 @@ public static partial class Matchmaking
         var red=blue.Select(Counterpart).ToArray();
         // Where a mirror could not reach its member's fitted score (few weaker parts on that side), refit the AI
         // member instead; the player's own squad is never changed.
-        for(int i=1;i<blue.Count;i++)
+        // Controlled forced-part trials keep their forced fits (FitScores.ForcedPart).
+        for(int i=1;i<blue.Count&&FitScores.ForcedPart is null;i++)
         {
             var members=blue[i].Members.ToArray();bool changed=false;
             for(int j=0;j<members.Length;j++)

@@ -1,0 +1,16 @@
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog��
+stock                       32        0.0     0.967   1.000        13
+launcher-twin               32       19.2     0.948   0.980        13    -0.021
+launcher-quad               32        5.5     1.025   1.059        12     0.057
+launcher-vls8               32        3.5     0.993   1.027        11     0.033
+missile-medium-ap           32       13.5     1.047   1.082        20     0.088
+missile-medium-fast         32       13.5     0.975   1.008        11     0.017
+missile-heavy-ap            32        2.0     0.966   0.999        14    -0.007
+missile-longrange           32        3.5     0.966   0.999        15     0.014
+missile-light-ap            32       18.4     0.970   1.003        13    -0.007
+pd-gatling                  32       17.2     0.957   0.989        13    -0.005
+pd-flak                     32       17.2     0.979   1.012        15     0.023
+pd-longbarrel               32       17.2     0.972   1.004        15     0.005
+
+# 중 관통 미사일 조정(관통 900→800, 내구 16→14) 후
+missile-medium-ap           32       13.5     0.998   1.031        15     0.033

@@ -13,7 +13,7 @@ namespace SpaceFleet.Sim;
 public static class FitScores
 {
     // Firepower dominates; protection, point defence, mobility and sensing make up the rest.
-    private const double Firepower = .5, Defense = .2, PointDefense = .1, Mobility = .1, Sensing = .1;
+    private const double Firepower = .45, Defense = .15, PointDefense = .1, Missiles = .1, Mobility = .1, Sensing = .1;
     private static readonly ConcurrentDictionary<string, double> Cache = new();
 
     public static double Score(ShipFit fit) => ResearchTree.Catalog.Score(fit) * Ratio(fit);
@@ -39,6 +39,7 @@ public static class FitScores
         return Math.Pow(R(Guns(fitted, stock), Guns(stock, stock)), Firepower)
             * Math.Pow(R(Shields(fitted), Shields(stock)), Defense)
             * Math.Pow(R(Defence(fitted), Defence(stock)), PointDefense)
+            * Math.Pow(R(Ordnance(fitted, stock), Ordnance(stock, stock)), Missiles)
             * Math.Pow(R(Agility(fitted), Agility(stock)), Mobility)
             * Math.Pow(R(Sight(fitted), Sight(stock)), Sensing);
     }
@@ -47,6 +48,13 @@ public static class FitScores
     private static double Shields(ShipDefinition d) => d.Shield.Capacity + d.Shield.RechargePerSecond * 30 + d.StructureHitPoints;
     private static double Defence(ShipDefinition d) => d.PointDefense is not { } pd ? 1
         : pd.ShotsPerSecond * pd.EffectiveMissileDamage * Math.Sqrt(pd.RangeMeters) * pd.Mounts.Length;
+    /// <summary>Missile strength: energy weighted by penetration, survivability (HP) and speed, salvo size and magazine.</summary>
+    private static double Ordnance(ShipDefinition d, ShipDefinition reference)
+    {
+        if (d.Missiles is not { } m || reference.Missiles is not { } r) return 1;
+        return m.Energy * Math.Sqrt(m.PenetrationMm / r.PenetrationMm) * Math.Pow(m.HitPoints / r.HitPoints, .3) * Math.Pow(m.AccelG / r.AccelG, .3)
+            * Math.Pow(m.CellCount, .3) * Math.Pow(m.Rounds / (double)r.Rounds, .25) / Math.Sqrt(m.ReloadSeconds / r.ReloadSeconds);
+    }
     private static double Agility(ShipDefinition d) => d.Flight.ForwardAccel * .5 + d.Flight.StrafeAccel * .3 + d.Flight.BrakeAccel * .2;
     private static double Sight(ShipDefinition d) => d.Sensors.Strength / Math.Sqrt(Math.Max(d.Sensors.Signature, 1e-6));
 
@@ -57,6 +65,17 @@ public static class FitScores
     internal static string? ForcedPart;
     public static ShipComponentSelection? RandomParts(ShipFit fit, Random random, double stockChance = .5)
     {
+        if (ForcedPart is { } forcedId && OrdnanceParts.Find(forcedId) is { } ordnance)
+        {
+            var h = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
+            if (OrdnanceParts.Socket(h, ordnance) is not null || ordnance.Stock) return null;
+            return ordnance.Kind switch
+            {
+                OrdnanceKind.Launcher => new ShipComponentSelection { Launcher = forcedId },
+                OrdnanceKind.Missile => new ShipComponentSelection { Missile = forcedId },
+                _ => new ShipComponentSelection { PointDefensePart = forcedId },
+            };
+        }
         if (ForcedPart is { } forced)
         {
             var h = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;

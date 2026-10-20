@@ -33,7 +33,11 @@ static class FitTrials
             // Without a decision inside the window, the side with more surviving strength leads.
             string winner = outcome?.Winner?.ToString() ?? Leading(world);
             double Dealt(Faction f) => world.Ships.Where(b => b.Faction == f).Sum(b => world.Log.Ship(b).ShieldDamageInflicted + world.Log.Ship(b).ModuleDamageInflicted);
-            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && b.Definition.Battery?.SocketWeapons is { } sw && sw.Any(p => p.Id != MainGunParts.StockFor(b.Definition).Id));
+            // Ships carrying a non-stock main gun part, or (forced ordnance trials) every AI ship that can carry the forced part.
+            var forced = FitScores.ForcedPart is { } fid ? OrdnanceParts.Find(fid) : null;
+            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && (forced is not null
+                ? !b.Callsign.StartsWith("B01") && OrdnanceParts.Socket(b.Definition, forced) is null
+                : b.Definition.Battery?.SocketWeapons is { } sw && sw.Any(p => p.Id != MainGunParts.StockFor(b.Definition).Id)));
             matches.Add(new(task.Seed, task.Leader, blue, red, (blue - red) / Math.Max(blue, red), winner, world.Time, world.Ships.Count, Dealt(Faction.Blue), Dealt(Faction.Red), blueParts));
             foreach (var body in world.Ships)
             {

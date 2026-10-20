@@ -34,13 +34,16 @@ public sealed class ResearchProgress
     public string[] ForHull(string id)=>Upgrades.TryGetValue(id,out var upgrades)?upgrades:Array.Empty<string>();
     public bool HasComponent(string hull,string id)=>SharedComponents[ShipDefinitions.ById(hull).Design].Contains(id)
         ||Components.TryGetValue(hull,out var ids)&&ids.Contains(id);
-    public bool HasPart(DesignFamily design,string id)=>MainGunParts.IsStock(MainGunParts.ById(id))||Parts[design].Contains(id);
-    public int PartCost(string id)=>MainGunParts.ById(id).Cost;
+    private static (int Cost,bool Stock,DesignFamily? Design,ShipBranch[] Branches,int MinTier) Info(string id)
+        =>MainGunParts.Research(id)??throw new InvalidDataException("알 수 없는 부품입니다: "+id);
+    public bool HasPart(DesignFamily design,string id)=>Info(id).Stock||Parts[design].Contains(id);
+    public int PartCost(string id)=>Info(id).Cost;
     /// <summary>The owned hull that qualifies a design for this part, if any.</summary>
     public string? PartSponsor(DesignFamily design,string id)
     {
-        var part=MainGunParts.ById(id);var tree=ResearchTree.Catalog;
-        return Owned.Where(h=>MainGunParts.CanResearch(ShipDefinitions.ById(h),tree.ByHull(h).Tier,part)&&ShipDefinitions.ById(h).Design==design)
+        var part=Info(id);var tree=ResearchTree.Catalog;
+        if(part.Stock||part.Design is { } own&&own!=design)return null;
+        return Owned.Where(h=>ShipDefinitions.ById(h) is var d&&d.Design==design&&part.Branches.Contains(d.Branch)&&tree.ByHull(h).Tier>=part.MinTier)
             .OrderBy(h=>h,StringComparer.Ordinal).FirstOrDefault();
     }
     public bool BuyPart(DesignFamily design,string id)
@@ -137,7 +140,7 @@ public sealed class ResearchProgress
             if(ids.Any(id=>!owned.Any(h=>ShipDefinitions.ById(h).Design==design&&ShipComponents.Available(ShipDefinitions.ById(h),ShipComponents.ById(id)))))
                 throw new InvalidDataException("잘못된 공유 교체 부품 목록입니다.");
         foreach(var (design,ids) in Parts)
-            if(ids.Any(id=>MainGunParts.Find(id) is not { } part||part.Design!=design||MainGunParts.IsStock(part)))
+            if(ids.Any(id=>MainGunParts.Research(id) is not { } part||part.Design is { } own&&own!=design||part.Stock))
                 throw new InvalidDataException("잘못된 주포 부품 연구 목록입니다.");
     }
 }

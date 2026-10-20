@@ -24,6 +24,8 @@ public partial class HangarView : Control
     private ComponentSlot _system=ComponentSlot.MainGun;
     // Main gun popover: catalog systems, or absolute parts per socket (modular weapons §16–17).
     private bool _partsTab;
+    // Secondary popover: catalog systems (null) or a missile/PD part kind (modular weapons §21).
+    private OrdnanceKind? _ordnanceTab;
     private int _socket;
     private enum Popover { None, System, Bay }
     private Popover _popover;
@@ -46,6 +48,7 @@ public partial class HangarView : Control
         var args=BattleArgs.Parse(OS.GetCmdlineUserArgs());
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-system",out var system)){_system=Enum.Parse<ComponentSlot>(system);_popover=Popover.System;}
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-parts",out var socket)){_partsTab=true;_socket=int.Parse(socket);}
+        if(args.ContainsKey("shot")&&args.TryGetValue("hangar-ordnance",out var ordnance))_ordnanceTab=Enum.Parse<OrdnanceKind>(ordnance);
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-bay",out var bay)){_bay=bay;_cutaway=true;_popover=Popover.Bay;}
         if(args.ContainsKey("shot")&&args.TryGetValue("hangar-picker",out var picker))_picker=int.Parse(picker);
         Size=new(1600,900);Rebuild();
@@ -380,10 +383,13 @@ public partial class HangarView : Control
         AddChild(catcher);
         bool system=_popover==Popover.System;
         bool parts=system&&_system==ComponentSlot.MainGun&&_partsTab&&def.Battery is not null;
-        int count=parts?1+PartRows(def).Length
+        bool secondaryTabs=system&&_system==ComponentSlot.Secondary;
+        if(secondaryTabs&&_ordnanceTab is OrdnanceKind.Launcher or OrdnanceKind.Missile&&def.Missiles is null)_ordnanceTab=null;
+        int count=secondaryTabs&&_ordnanceTab is { } kind?1+OrdnanceRows(def,kind).Length
+            :parts?1+PartRows(def).Length
             :system?1+ShipComponents.All.Count(p=>p.Slot==_system&&ShipComponents.Available(def,p)&&p.Id!=def.DefaultMainGun)
             :1+ShipEquipment.All.Count();
-        float height=48+count*66+30+(system&&_system==ComponentSlot.MainGun?36:0)+(parts?40:0);
+        float height=48+count*66+30+(system&&_system is ComponentSlot.MainGun or ComponentSlot.Secondary?36:0)+(parts?40:0);
         float x=system?404+(int)_system*58:810+Array.FindIndex(def.Bays,b=>b.Id==_bay)*58;
         x=Mathf.Min(x,1180-400);
         var panel=new Panel{Position=new(x,522-height),Size=new(400,height)};
@@ -407,9 +413,25 @@ public partial class HangarView : Control
                 b.SetMeta("focus_key","maingun-tab-"+(tab?"parts":"systems"));
             }
         }
-        Label(ShipComponents.Name(_system)+(_partsTab&&top>46?" 부품":" 교체"),new(14,10,220,28),18,Blue,panel);
+        if(_system==ComponentSlot.Secondary)
+        {
+            top=82;
+            var tabs=new (string Label,OrdnanceKind? Kind,string Tip)[]{("교체 계통",null,"PD 전체에 적용하는 교체 계통"),("PD 부품",OrdnanceKind.PointDefense,"근접방어 포대 부품"),
+                ("발사기",OrdnanceKind.Launcher,"셀 수 = 동시 발사 수, 셀이 많을수록 탄창·장전 부담"),("미사일",OrdnanceKind.Missile,"탄두·추진 계열이 같은 미사일")};
+            int at=0;
+            foreach(var tab in tabs)
+            {
+                if(tab.Kind is OrdnanceKind.Launcher or OrdnanceKind.Missile&&def.Missiles is null)continue;
+                var b=Button(tab.Label,new(10+at++*94,44,90,30),()=>{_ordnanceTab=tab.Kind;Rebuild();},_ordnanceTab==tab.Kind,size:15,parent:panel);
+                b.TooltipText=tab.Tip;b.SetMeta("focus_key","secondary-tab-"+(tab.Kind?.ToString()??"systems"));
+            }
+        }
+        string title=_system==ComponentSlot.Secondary&&_ordnanceTab is { } shown?shown switch{OrdnanceKind.PointDefense=>"PD 부품",OrdnanceKind.Launcher=>"미사일 발사기",_=>"미사일"}
+            :ShipComponents.Name(_system)+(_partsTab&&top>46?" 부품":" 교체");
+        Label(title,new(14,10,220,28),18,Blue,panel);
         Label(Current.UsesOwn?"이 슬롯만":ModeName(Current),new(230,14,156,22),14,Current.UsesOwn?Orange:Muted,panel).HorizontalAlignment=HorizontalAlignment.Right;
-        if(_partsTab&&top>46){BuildParts(def,panel,top);return;}
+        if(_system==ComponentSlot.Secondary&&_ordnanceTab is { } ordnance){BuildOrdnance(def,panel,top,ordnance);return;}
+        if(_system==ComponentSlot.MainGun&&_partsTab&&top>46){BuildParts(def,panel,top);return;}
         string? installed=fit.Components?.Get(_system);
         if(_system==ComponentSlot.MainGun&&installed==def.DefaultMainGun)installed=null;
         var stockProblem=SystemProblem(fit,null);
@@ -442,6 +464,74 @@ public partial class HangarView : Control
             button.AccessibilityDescription=button.TooltipText;
         }
         Label($"보유 {research.Points[def.Design]:N0} RP · 연구 후 교체 무료",new(14,top+row*66,370,24),14,Muted,panel);
+    }
+    /// <summary>Non-stock missile/PD parts of this kind that suit the hull's design, branch, tube family or PD class.</summary>
+    private static OrdnancePart[] OrdnanceRows(ShipDefinition def,OrdnanceKind kind)=>OrdnanceParts.Candidates(def,kind).Where(p=>!p.Stock).ToArray();
+    private static OrdnancePart? OrdnanceStock(ShipDefinition def,OrdnanceKind kind)=>kind switch
+    {OrdnanceKind.Launcher=>OrdnanceParts.StockLauncher,OrdnanceKind.Missile=>OrdnanceParts.StockMissile(def),_=>OrdnanceParts.StockPointDefense(def)};
+    private static string? OrdnanceChoice(ShipComponentSelection? c,OrdnanceKind kind)=>kind switch
+    {OrdnanceKind.Launcher=>c?.Launcher,OrdnanceKind.Missile=>c?.Missile,_=>c?.PointDefensePart};
+    private static string OrdnanceSummary(OrdnancePart p)=>p.Kind switch
+    {
+        OrdnanceKind.Launcher=>$"{p.Cells}셀 동시 발사 · 탄창 ×{p.MagazineScale:0.##} · 장전 ×{p.ReloadScale:0.##}",
+        OrdnanceKind.Missile=>$"발당 {p.Energy:0} · 관통 {p.PenetrationMm:0} mm · 내구 {p.HitPoints:0} · 가속 {p.AccelG:0} G · 탐색 {p.SeekerRangeMeters/1000:0.#} km",
+        _=>$"사거리 {p.RangeMeters/1000:0.#} km · 초당 {p.ShotsPerSecond:0.#}발 · 발당 {p.DamagePerHit:0.#}"+(p.MissileDamagePerHit is { } md?$"(미사일 {md:0.#})":"")+$" · 선회 ×{p.TrackingScale:0.##}",
+    };
+    private void BuildOrdnance(ShipDefinition def,Control panel,float top,OrdnanceKind kind)
+    {
+        var research=Host.Hangar.Research!;var fit=Host.Hangar.Fit(Current);
+        var stock=OrdnanceStock(def,kind);if(stock is null)return;
+        string current=OrdnanceChoice(fit.Components,kind)??stock.Id;
+        string? Problem(string? id)
+        {
+            try{FleetLoadouts.ResolveFit(fit with{Components=HangarProfile.WithOrdnance(fit.Components,kind,id)});return null;}
+            catch(InvalidDataException e){return e.Message;}
+        }
+        var stockButton=Item(stock.Name+" (기본)",MenuArt.Component(ComponentSlot.Secondary,hull:def),new(10,top,380,62),()=>InstallOrdnance(kind,null),
+            "",current==stock.Id,status:current==stock.Id?"장착 중":"",parent:panel);
+        stockButton.SetMeta("focus_key","ordnance-stock");stockButton.TooltipText=stock.Name+"\n"+OrdnanceSummary(stock);
+        int row=1;
+        foreach(var part in OrdnanceRows(def,kind))
+        {
+            bool unlocked=research.HasPart(def.Design,part.Id);int cost=research.PartCost(part.Id);
+            string? problem=Problem(part.Id);
+            if(problem is null&&!unlocked&&research.PartSponsor(def.Design,part.Id) is null)problem=$"T{part.MinTier} 이상 연구 가능 함급 필요";
+            if(problem is null&&!unlocked&&research.Points[def.Design]<cost)problem=$"{cost-research.Points[def.Design]:N0} RP 부족 · 필요 {cost:N0}";
+            string action=current==part.Id?"장착 중":unlocked?"장착 가능":cost+" RP · 진영 공유 연구 및 장착";
+            var button=Item(part.Name,MenuArt.Component(ComponentSlot.Secondary,hull:def),new(10,top+row++*66,380,62),()=>InstallOrdnance(kind,part.Id,true),"",
+                current==part.Id,status:problem is not null?(unlocked?"장착 불가":"연구 불가"):action,parent:panel);
+            button.SetMeta("focus_key","ordnance-"+part.Id);button.Disabled=problem is not null;
+            button.TooltipText=part.Name+"\n"+(problem??action)+"\n"+OrdnanceSummary(part)+"\n기본: "+OrdnanceSummary(stock);
+            button.AccessibilityDescription=button.TooltipText;
+        }
+        Label($"보유 {research.Points[def.Design]:N0} RP · 부품 연구는 진영 전체 공유",new(14,top+row*66,370,24),14,Muted,panel);
+    }
+    internal void InstallOrdnance(OrdnanceKind kind,string? id,bool research=false)
+    {
+        if(MenuConfirmation.Pending(this) is not null)return;
+        var target=Current;int index=SlotIndex(target);var fit=Host.Hangar.Fit(target);
+        try
+        {
+            var before=FleetLoadouts.ResolveFit(fit).Definition;var stock=OrdnanceStock(before,kind)!;
+            string old=OrdnanceChoice(fit.Components,kind)??stock.Id;
+            if(old==(id??stock.Id))return;
+            FleetLoadouts.ResolveFit(fit with{Components=HangarProfile.WithOrdnance(fit.Components,kind,id)});
+            var progress=Host.Hangar.Research!;
+            long cost=id is not null&&!progress.HasPart(before.Design,id)?progress.PartCost(id):0;
+            if(cost>0&&!research)throw new InvalidDataException("부품을 먼저 연구해야 합니다.");
+            if(progress.Points[before.Design]<cost)throw new InvalidDataException("연구 점수가 부족합니다.");
+            string scope=target.UsesOwn?"이 슬롯에만 적용됩니다.":"같은 프리셋을 사용하는 함선에 함께 적용됩니다.";
+            MenuConfirmation.Show(this,_font,cost>0?"부품 연구 및 장착 확인":"부품 교체 확인",
+                FitScope(target)+$"\n{OrdnanceParts.ById(old).Name} → {OrdnanceParts.ById(id??stock.Id).Name}\n\n{OrdnanceSummary(OrdnanceParts.ById(id??stock.Id))}",
+                MenuConfirmation.Price(before.Design,progress.Points[before.Design],cost),
+                cost>0?scope+" 부품 연구는 같은 진영 함급 모두에 열리며 환불되지 않습니다.":scope+" 연구 점수 소모 없이 다시 변경할 수 있습니다.",
+                cost>0?"연구하고 장착":"교체 적용",()=>Action(()=>
+                {
+                    if(target.UsesOwn)Host.Hangar.SetSlotOrdnance(index,kind,id,research);
+                    else Host.Hangar.SetOrdnance(target.HullId,target.Preset,kind,id,research);
+                }));
+        }
+        catch(Exception e)when(e is InvalidDataException or ArgumentException){Error(e);}
     }
     /// <summary>Parts that could go in the selected socket other than its stock part (fit rules shown per row).</summary>
     private MainGunPart[] PartRows(ShipDefinition def)
