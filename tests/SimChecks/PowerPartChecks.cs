@@ -125,6 +125,10 @@ static class PowerPartChecks
             Check(forced is {MainGuns:null,PowerParts:{Length:>0}}&&forced.PowerParts.All(id=>id=="earth-cooler-s"),"Forced power part fills spare volume");
         }
         finally{FitScores.ForcedPart=null;}
+        // Generator fleet trials: the same heavy mix with and without the generators that feed it.
+        var bare=FitScores.HeavyParts(hull,false);var fedMix=FitScores.HeavyParts(hull,true);
+        Check(bare is {MainGuns:not null,PowerParts:null}&&fedMix is {PowerParts:{Length:>0}}&&fedMix.MainGuns!.SequenceEqual(bare.MainGuns)
+            &&MainGunParts.UnderSupplied(FleetLoadouts.ResolveFit(hull).Definition,bare.MainGuns),"Heavy-mix trials pair one under-supplied mix with and without generators");
         int withPower=0;var random=new Random(5);
         for(int i=0;i<200;i++)if(FitScores.RandomParts(hull,random,0) is {PowerParts:not null})withPower++;
         Check(withPower is > 40 and < 160,$"AI part mixes sometimes add a power part ({withPower}/200)");

@@ -76,6 +76,8 @@ public static class FitScores
                 _ => new ShipComponentSelection { PointDefensePart = forcedId },
             };
         }
+        if (ForcedPart is HeavyMix or HeavyMixFed)
+            return HeavyParts(fit, ForcedPart == HeavyMixFed);
         if (ForcedPart is { } forcedPower && PowerParts.Find(forcedPower) is { } forcedKind)
         {
             // Stock guns plus as many of the forced generator/cooler as the weapon volume holds.
@@ -103,6 +105,39 @@ public static class FitScores
         var power = random.NextDouble() < .5 ? RandomPower(hull, guns, random) : null;
         if (combos.Length == 0 && power is null) return null;
         return new ShipComponentSelection { MainGuns = guns.Any(g => g is not null) ? guns : null, PowerParts = power };
+    }
+
+    /// <summary>
+    /// Test hook values for generator trials (§24): every AI member that can takes the strongest under-supplied gun mix
+    /// that leaves room for a generator; "+gen" also fills that room with generators up to the mix's rated draw.
+    /// </summary>
+    internal const string HeavyMix = "heavy-mix", HeavyMixFed = "heavy-mix+gen";
+    private static readonly ConcurrentDictionary<string, (string?[] Guns, string[] Power)?> HeavyCache = new();
+    internal static ShipComponentSelection? HeavyParts(ShipFit fit, bool fed)
+    {
+        string key = fit.HullId + "|" + string.Join(",", fit.Upgrades ?? Array.Empty<string>());
+        var choice = HeavyCache.GetOrAdd(key, _ =>
+        {
+            var hull = FleetLoadouts.ResolveFit(fit with { Components = null }).Definition;
+            if (hull.Battery is null) return null;
+            var generators = PowerParts.Candidates(hull).Where(p => p.Kind == PowerPartKind.Generator).OrderByDescending(p => p.SupplyMw).ToArray();
+            (string?[] Guns, string[] Power)? best = null; double bestFire = 0;
+            foreach (var combo in MainGunParts.Combos(hull).Where(c => MainGunParts.UnderSupplied(hull, c)))
+            {
+                var power = new List<string>();
+                foreach (var g in generators)
+                    while (power.Count < PowerParts.MaxPerShip && MainGunParts.Reject(hull, combo, power.Append(g.Id).ToArray()) is null
+                        && FleetLoadouts.ResolveFit(fit with { Components = new ShipComponentSelection { MainGuns = combo, PowerParts = power.Count == 0 ? null : power.ToArray() } })
+                            .Definition.Battery!.SupplyRatio < 1 - 1e-4f)
+                        power.Add(g.Id);
+                if (power.Count == 0) continue;
+                double fire = MainGunParts.EffectiveFirepower(FleetLoadouts.ResolveFit(fit with { Components = new ShipComponentSelection { MainGuns = combo, PowerParts = power.ToArray() } }).Definition);
+                if (fire > bestFire) { bestFire = fire; best = (combo, power.ToArray()); }
+            }
+            return best;
+        });
+        if (choice is not { } c) return null;
+        return new ShipComponentSelection { MainGuns = c.Guns.Any(g => g is not null) ? c.Guns : null, PowerParts = fed ? c.Power : null };
     }
 
     private static string[]? RandomPower(ShipDefinition hull, string?[] guns, Random random)

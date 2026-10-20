@@ -1,0 +1,6 @@
+config                 matches  blueParts  dmgRatio  vsBase  blueWins  meanLog¥Ä
+stock                       32        0.0     0.967   1.000        13
+heavy-mix                   32        3.6     0.978   1.011        16     0.020
+heavy-mix+gen               32        3.6     0.992   1.026        16     0.042
+
+[exited with code 0]

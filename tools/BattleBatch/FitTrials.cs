@@ -36,7 +36,10 @@ static class FitTrials
             // Ships carrying a non-stock main gun part, or (forced ordnance trials) every AI ship that can carry the forced part.
             var forced = FitScores.ForcedPart is { } fid ? OrdnanceParts.Find(fid) : null;
             var forcedPower = FitScores.ForcedPart is { } pid ? PowerParts.Find(pid) : null;
-            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && (forcedPower is not null
+            bool heavy = FitScores.ForcedPart is FitScores.HeavyMix or FitScores.HeavyMixFed;
+            int blueParts = world.Ships.Count(b => b.Faction == Faction.Blue && (heavy
+                ? !b.Callsign.StartsWith("B01") && b.Definition.Battery?.SocketWeapons is { } heavyGuns && heavyGuns.Sum(w => w.PowerMw) > MainGunParts.Supply(b.Definition) * 1.0001f
+                : forcedPower is not null
                 ? b.Definition.Battery?.PowerParts?.Contains(forcedPower.Id) == true
                 : forced is not null
                 ? !b.Callsign.StartsWith("B01") && OrdnanceParts.Socket(b.Definition, forced) is null
