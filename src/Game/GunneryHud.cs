@@ -48,7 +48,7 @@ public partial class Hud
             && Game.ContactOf(inspect) is { SignalLost: true } memory ? memory : null;
         if (Game.SelectedSmallContact is { } small)
         {
-            CenteredLabel(new(mx,cy-19), small.Kind==SmallContactKind.Missile?"지정 미사일":"지정 프로브",14,Hostile);
+            CenteredLabel(new(mx,cy-19),small.Level<TrackLevel.Identified?"미식별 소형 접촉":small.Kind==SmallContactKind.Missile?"지정 미사일":"지정 프로브",14,Hostile);
             CenteredLabel(new(mx,cy+1),FormatDistance((small.Predict(Game.World.Time)-controlled.SimPosition).Length()),13,Text);
         }
         else if (Game.FireTarget is ShipView target)
@@ -64,8 +64,16 @@ public partial class Hud
         }
         string reason=Game.SelectedSmallContact is not null?Game.SmallAimStatus
             :lost is not null?"신호 소실":FiringStatus(controlled.Body,order.Status);
-        CenteredLabel(new(mx,cy+25),reason,13,lost is not null?ContactMemory.LostColor
-            :order.Status==GunneryStatus.Firing?Good:order.Status==GunneryStatus.Obstructed?EnvironmentSymbols.Terrain:Motion);
+        Color reasonColor=lost is not null?ContactMemory.LostColor
+            :order.Status==GunneryStatus.Firing?Good:order.Status==GunneryStatus.Obstructed?EnvironmentSymbols.Terrain:Motion;
+        // Two short lines stay between the gauges; preserve range/current-limit numbers at 720p.
+        int separator=reason.IndexOf(" · ",System.StringComparison.Ordinal);
+        if(separator>=0)
+        {
+            CenteredLabel(new(mx,cy+19),reason[..separator],13,reasonColor);
+            CenteredLabel(new(mx,cy+38),reason[(separator+3)..],12,reasonColor);
+        }
+        else CenteredLabel(new(mx,cy+25),reason,13,reasonColor);
         int columns=System.Math.Min(4,battery.Length);
         float cell=(panel.Size.X-12)/columns;
         for(int i=0;i<battery.Length;i++)
@@ -86,6 +94,7 @@ public partial class Hud
         :gun.Laser?.Active==true?"조사":gun.Ready?"준비":gun.IsLaser?"조사 대기":"장전";
 
     internal static string FiringStatus(ShipBody ship,GunneryStatus status) =>
+        status==GunneryStatus.Attenuated?$"거리 감쇠로 대기 · 출력 {ship.Railguns.Where(g=>g.Laser is not null).Select(g=>g.Laser!.AutoTransmission).DefaultIfEmpty().Max():P0}":
         status==GunneryStatus.Reload && ship.Railgun?.IsLaser==true
             ?ship.Power.Overheated||ship.Railguns.Any(g=>g.Laser?.Cooling==true)?"냉각 중":"조사 대기"
             :GunneryLabels.Status(status);

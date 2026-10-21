@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 13524,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 153,
+    "portClearanceSkips": 9,
+    "coolingGrilles": 31,
+    "serviceConduits": 27,
+    "fastenerPairs": 14,
+    "accessHatches": 16,
+    "radiatorBanks": 4
+  },
+  "verifiedSurfaceAnchors": 153,
+  "id": "mars_interceptor_t4",
+  "originalGeometryHash": "02b330fed17cab3a92b221429e78a52b9cb03da41a41fb9f1d17bd51b1144d44",
+  "originalGeometryPreserved": true,
+  "triangles": 19680,
+  "meshGroups": 3,
+  "materials": 12
+}

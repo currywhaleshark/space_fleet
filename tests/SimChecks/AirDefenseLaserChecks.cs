@@ -158,7 +158,7 @@ static class AirDefenseLaserChecks
             rows.Add(Wave("earth_air_defense_cruiser",laser,layered,seed,48,3500));
         foreach(var group in rows.GroupBy(x=>(x.Hull,x.Layered,x.Laser,x.Incoming,x.Speed)))
             Console.WriteLine($"{group.Key}: intercepted {group.Sum(x=>x.Intercepts)}/{group.Sum(x=>x.Incoming)}, hits {group.Sum(x=>x.Hits)}, distinct {group.Max(x=>x.DistinctMountTargets)}, heat {group.Max(x=>x.MaxHeat):F3}, pulses {group.Sum(x=>x.Pulses)} rails {group.Sum(x=>x.Rails)}");
-        string output="docs/validation/aa_lasers_20261017";Directory.CreateDirectory(output);
+        string output="shots/aa-laser-checks";Directory.CreateDirectory(output);
         File.WriteAllText(Path.Combine(output,"waves.json"),JsonSerializer.Serialize(rows,new JsonSerializerOptions{WriteIndented=true}));
         Check(rows.Where(x=>x.Laser&&!x.Layered).Sum(x=>x.Intercepts)>0,"Unassisted factory lasers physically destroy full-health incoming missiles");
         Check(rows.Where(x=>x.Laser&&x.Incoming==48&&!x.Layered).Sum(x=>x.Hits)>0,"Saturation can penetrate finite-traverse two-emitter defense");

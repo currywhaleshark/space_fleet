@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 11392,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 126,
+    "coolingGrilles": 21,
+    "accessHatches": 15,
+    "fastenerPairs": 30,
+    "portClearanceSkips": 18,
+    "serviceConduits": 20,
+    "serviceEnclosures": 4
+  },
+  "verifiedSurfaceAnchors": 126,
+  "id": "mars_gun_cruiser",
+  "originalGeometryHash": "7dc90817d8a37ccea571c94dde4455d244087ab2402f8aa0fe2b6856f40010e5",
+  "originalGeometryPreserved": true,
+  "triangles": 22444,
+  "meshGroups": 9,
+  "materials": 11
+}

@@ -109,7 +109,10 @@ public static class ImportedShipModels
     {
         if (source is null) return null;
         (float Variation, float Hatch, float Lights, float Seam)? style =
-            name.StartsWith("Armor - graphite") ? (.13f, .35f, 1f, .022f)
+            // Physical refit panels already have seams, fasteners and grilles.
+            // Retain the damage/burn shader without painting a second busy grid.
+            name.StartsWith("Armor - machined") ? (.025f, 0f, 0f, .002f)
+            : name.StartsWith("Armor - graphite") ? (.13f, .35f, 1f, .022f)
             : name.StartsWith("Armor - raised") ? (.1f, .25f, .6f, .02f)
             : name.StartsWith("Edge") ? (.07f, 0f, 0f, .03f)
             : name.StartsWith("Recess") ? (.06f, .5f, 0f, .03f)
@@ -118,6 +121,7 @@ public static class ImportedShipModels
         if (style is not { } s) return null;
         if (HullSurfaces.TryGetValue((ship, name), out var cached)) return cached;
         bool mars = design == DesignFamily.Mars;
+        bool detailed = model.TryGetProperty("surfaceDetail", out _);
         var m = new ShaderMaterial { Shader = _hullShader ??= GD.Load<Shader>("res://shaders/hull_panels.gdshader") };
         Color c = source.AlbedoColor;
         // 시안처럼 어두운 흑연색을 유지한다(거칠기를 올린 만큼 확산광이 늘어 밝아지는 것을 되돌린다).
@@ -128,10 +132,11 @@ public static class ImportedShipModels
         m.SetShaderParameter("metallic_value", source.Metallic * BattleLook.HullMetalScale);
         // 평평한 큰 면이 해를 거울처럼 반사해 하얗게 타는 것을 막는다.
         m.SetShaderParameter("roughness_value", Mathf.Max(source.Roughness, .56f));
-        m.SetShaderParameter("panel", Mathf.Clamp(length * .011f, .6f, 16f));
+        m.SetShaderParameter("panel", name.StartsWith("Armor - machined")
+            ? Mathf.Clamp(length * .06f, 1.5f, 80f) : Mathf.Clamp(length * .011f, .6f, 16f));
         m.SetShaderParameter("seam", s.Seam);
-        m.SetShaderParameter("variation", s.Variation);
-        m.SetShaderParameter("hatch", s.Hatch);
+        m.SetShaderParameter("variation", s.Variation * (detailed ? .45f : 1f));
+        m.SetShaderParameter("hatch", s.Hatch * (detailed ? .3f : 1f));
         m.SetShaderParameter("light_density", s.Lights * (mars ? .07f : .045f));
         m.SetShaderParameter("light_color", mars ? new Vector3(1f, .3f, .05f) : new Vector3(1f, .55f, .16f));
         m.SetShaderParameter("light_energy", mars ? 5f : 3.5f);
@@ -144,13 +149,13 @@ public static class ImportedShipModels
             if (hull && surface.TryGetProperty("accent", out JsonElement accent))
             {
                 m.SetShaderParameter("accent_color", new Vector3(accent[0].GetSingle(), accent[1].GetSingle(), accent[2].GetSingle()) * shade);
-                m.SetShaderParameter("accent_ratio", Value("accentRatio"));
+                m.SetShaderParameter("accent_ratio", Value("accentRatio") * (detailed ? .25f : 1f));
                 if (surface.TryGetProperty("accentScale", out JsonElement scale)) m.SetShaderParameter("accent_scale", scale.GetSingle());
             }
             if (hull || name.StartsWith("Armor - raised"))
             {
-                m.SetShaderParameter("wear", Value("wear"));
-                m.SetShaderParameter("streaks", Value("streaks"));
+                m.SetShaderParameter("wear", Value("wear") * (detailed ? .4f : 1f));
+                m.SetShaderParameter("streaks", Value("streaks") * (detailed ? .5f : 1f));
             }
         }
         HullSurfaces[(ship, name)] = m;

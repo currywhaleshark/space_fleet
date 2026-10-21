@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 12232,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 130,
+    "serviceEnclosures": 11,
+    "serviceConduits": 22,
+    "accessHatches": 17,
+    "portClearanceSkips": 12,
+    "fastenerPairs": 26,
+    "coolingGrilles": 15
+  },
+  "verifiedSurfaceAnchors": 130,
+  "id": "mars_gun_cruiser_t5",
+  "originalGeometryHash": "264c0ed8ce047b0b6c543b6c43fbc4ef9adce756e2cd058980c8f8c879f23750",
+  "originalGeometryPreserved": true,
+  "triangles": 22536,
+  "meshGroups": 9,
+  "materials": 11
+}

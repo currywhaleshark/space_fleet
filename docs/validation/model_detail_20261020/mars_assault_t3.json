@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 14908,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 170,
+    "serviceConduits": 29,
+    "portClearanceSkips": 18,
+    "coolingGrilles": 33,
+    "accessHatches": 19,
+    "fastenerPairs": 27,
+    "radiatorBanks": 1
+  },
+  "verifiedSurfaceAnchors": 170,
+  "id": "mars_assault_t3",
+  "originalGeometryHash": "913cdd7351ff8dda5ec8a7993897b2274a37eea970191cd6179ebd6fd9f748de",
+  "originalGeometryPreserved": true,
+  "triangles": 20868,
+  "meshGroups": 3,
+  "materials": 11
+}

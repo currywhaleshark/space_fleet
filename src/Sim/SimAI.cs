@@ -496,12 +496,14 @@ public sealed partial class SimWorld
         }
     }
 
-    /// <summary>사선(포구에서 사거리까지)에 아군 선체가 있는가.</summary>
-    public bool FriendlyInLine(ShipBody shooter, Vec3d muzzle, Vector3 direction, float range)
+    /// <summary>사선에 아군 선체가 있는가. 자동 레이저는 실제 충돌 경계인 실드도 포함한다.</summary>
+    public bool FriendlyInLine(ShipBody shooter, Vec3d muzzle, Vector3 direction, float range, bool includeShields = false)
     {
         foreach (ShipBody other in _ships)
             if (other != shooter && other.Faction == shooter.Faction && !other.Damage.Destroyed
-                && DamageRay.FirstHit(other, muzzle, direction, range, out _))
+                && (includeShields
+                    ? DamageRay.FirstDefenseHitAtPose(other, muzzle, direction, range, other.Position, other.Orientation, out _)
+                    : DamageRay.FirstHit(other, muzzle, direction, range, out _)))
                 return true;
         return false;
     }

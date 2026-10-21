@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+perf build: gameMinOpts=True simMinOpts=False simAssembly=SpaceFleet.Sim
+perf t=181s fps=11.9 frame=84ms | ballistics=20.6/211 physics=18.9/14 sim=16.9/10 shipCombat=11.0/54 hudDraw=7.1/9 fxSync=5.1/19 ordnance=4.0/38 shipViews=2.9/5 audioObserve=1.0/6 fxObserve=0.7/3 contacts=0.4/1 audioListener=0.1/1 combat+am=0.0/0 | draws=2235 objects=11785 prims=1539169 nodes=10732 gpu=309MB
+perf t=182s fps=20.2 frame=50ms | physics=13.1/7 sim=12.4/7 hudDraw=6.8/16 shipCombat=6.6/19 fxSync=5.5/6 shipViews=2.6/3 ballistics=2.5/10 ordnance=0.8/1 fxObserve=0.3/1 contacts=0.3/0 audioObserve=0.2/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2221 objects=11895 prims=1556823 nodes=10847 gpu=314MB
+perf t=183s fps=23.7 frame=42ms | physics=11.4/7 sim=10.8/7 hudDraw=6.5/11 fxSync=5.6/6 ballistics=2.9/19 shipViews=2.7/3 shipCombat=1.2/9 ordnance=0.7/1 fxObserve=0.2/0 contacts=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2215 objects=11864 prims=1556477 nodes=10896 gpu=315MB
+perf t=184s fps=25.0 frame=40ms | physics=11.7/8 sim=11.1/7 hudDraw=6.4/7 fxSync=5.4/6 shipViews=2.8/4 ballistics=2.0/4 ordnance=0.7/1 contacts=0.3/1 fxObserve=0.2/0 shipCombat=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2211 objects=11867 prims=1539143 nodes=10911 gpu=315MB
+perf t=185s fps=25.6 frame=39ms | physics=10.5/6 sim=10.0/6 hudDraw=6.5/8 fxSync=5.3/6 shipViews=2.8/4 ballistics=1.7/4 ordnance=0.7/1 contacts=0.2/0 fxObserve=0.2/0 shipCombat=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2297 objects=11962 prims=1541263 nodes=10933 gpu=315MB
+autoplay start: sim=185.40s FPS min=2.36 mean=21.72 engine=25.0
+perf t=186s fps=26.2 frame=38ms | physics=9.5/7 sim=8.9/7 hudDraw=6.5/7 fxSync=5.4/6 shipViews=2.8/4 ballistics=2.0/4 ordnance=0.7/1 contacts=0.3/1 fxObserve=0.2/0 shipCombat=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2227 objects=11903 prims=1555455 nodes=10997 gpu=315MB
+perf t=187s fps=24.3 frame=41ms | physics=11.2/9 sim=10.4/7 hudDraw=6.9/9 fxSync=5.2/6 shipViews=2.8/4 ballistics=2.2/4 ordnance=0.8/2 contacts=0.4/4 fxObserve=0.2/0 shipCombat=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2279 objects=12000 prims=1538365 nodes=11026 gpu=315MB
+perf t=188s fps=26.1 frame=38ms | physics=9.6/8 sim=9.0/8 hudDraw=6.7/10 fxSync=4.8/5 shipViews=2.6/3 ballistics=2.3/4 ordnance=0.7/1 contacts=0.3/2 shipCombat=0.2/0 fxObserve=0.2/0 audioObserve=0.1/0 audioListener=0.0/0 combat+am=0.0/0 | draws=2293 objects=11885 prims=1555041 nodes=11047 gpu=315MB

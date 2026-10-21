@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 8968,
+  "groups": 5,
+  "assemblies": {
+    "portClearanceSkips": 6,
+    "armorPanels": 122,
+    "accessHatches": 26,
+    "coolingGrilles": 11,
+    "fastenerPairs": 33,
+    "serviceConduits": 2,
+    "radiatorBanks": 3
+  },
+  "verifiedSurfaceAnchors": 122,
+  "id": "earth_recon_t4",
+  "originalGeometryHash": "221ccca850651d51077883581679c3d1c570db75c104e6f494b6bdb910279a52",
+  "originalGeometryPreserved": true,
+  "triangles": 16356,
+  "meshGroups": 5,
+  "materials": 11
+}

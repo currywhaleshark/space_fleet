@@ -17,12 +17,14 @@ public sealed partial class SimWorld
         if (!_ships.Contains(ship) || target.Faction == ship.Faction || !_missiles.Contains(target) || target.Health <= 0) return false;
         reason = "미사일 신호 소실";
         if (Sensors.SmallTrack(ship.Faction, target) is not { } track || !track.Fresh(Time)) return false;
+        reason = "식별 · 잠금 대기";
+        if (!track.Locked(Time)) return false;
         Vec3d start = ship.Position + Vec3d.From(ship.Orientation * def.LaunchPoint);
         reason="지형 가림";
         if(TerrainBlocked(start,track.Predict(Time))) return false;
         Vector3 r = (track.Predict(Time) - start).ToVector3(), v = track.Velocity - ship.Velocity;
-        reason = "요격 미사일 사거리 밖";
-        if (r.Length() > def.InterceptRangeMeters) return false;
+        if (r.Length() > def.InterceptRangeMeters)
+        {reason=$"사거리 밖 · {r.Length()/1000:0.0} / {def.InterceptRangeMeters/1000:0.0} km";return false;}
         reason = "통과/이탈 중인 미사일";
         if (r.Dot(v) >= 0) return false;
         reason = "요격 방향으로 기수를 돌리세요";
@@ -71,10 +73,10 @@ public sealed partial class SimWorld
             Vector3 forward = m.Velocity.LengthSquared() > 1 ? m.Velocity.Normalized() : m.NoseDirection;
             if (r.Length() <= m.Definition.SeekerRangeMeters && forward.AngleTo(r) <= Mathf.DegToRad(m.Definition.SeekerFovDegrees * .5f)
                 && !TerrainBlocked(m.Position,target.Position)
-                && m.Definition.SeekerStrength * (target.Burning ? 2 : .65f) / (km * km) >= 1)
+                && m.Definition.SeekerStrength * SensorNet.Signature(target) / (km * km) >= 1)
             { aim = target.Position; velocity = target.Velocity; observed = true; }
         }
-        if (!observed && m.InterceptTarget is { } intended && Sensors.SmallTrack(m.Faction, intended) is { } track && track.Fresh(time))
+        if (!observed && m.InterceptTarget is { } intended && Sensors.SmallTrack(m.Faction, intended) is { } track && track.Locked(time))
         { aim = track.Predict(time); velocity = track.Velocity; observed = true; }
         m.LastAimVelocity = velocity;
         if (!observed) return;

@@ -30,14 +30,15 @@ public sealed partial class SimWorld
         if(ship.Definition.Branch!=ShipBranch.AirDefenseCruiser||!Squadron.Active(ship))return false;
         var anchor=CruiserAnchor(ship);
         _batteryThreats.Clear();_batteryAssignments.Clear();
+        float reach=0;foreach(var mount in ship.Railguns)reach=Math.Max(reach,SmallTargetRange(mount));
         foreach(var contact in Sensors.SmallContacts(ship.Faction))
         {
-            if(contact.Kind!=SmallContactKind.Missile||!contact.Fresh(Time)
-                ||(contact.Predict(Time)-ship.Position).LengthSquared()>12000.0*12000)continue;
+            if(contact.Kind!=SmallContactKind.Missile||!contact.Fresh(Time)||contact.Level<TrackLevel.Identified
+                ||(contact.Predict(Time)-ship.Position).LengthSquared()>(double)reach*reach)continue;
             if(Threatens(contact,anchor,out double eta)||Threatens(contact,ship,out eta))
                 _batteryThreats.Add((contact,eta));
         }
-        bool reserved=false,firing=false;
+        bool reserved=false,firing=false;int statusRank=-1;
         foreach(var gun in ship.Railguns)
         {
             var prior=gun.DefenseTarget;gun.DefenseTarget=null;gun.DefenseTick=-1;
@@ -46,7 +47,7 @@ public sealed partial class SimWorld
             foreach(var candidate in _batteryThreats)
             {
                 var contact=candidate.Contact;
-                if(!SmallTargetAim(ship,contact,out var aim,out var at,gun))continue;
+                if(!SmallTargetAim(ship,contact,out var aim,out var at,out _,gun,requireLock:false))continue;
                 // Split available targets before doubling up. Keep an existing track
                 // unless urgency/coverage changes enough to justify a new slew.
                 double turn=gun.Direction.AngleTo(aim)/Math.Max(.01,Mathf.DegToRad(gun.Mount?.YawRate??30));
@@ -54,22 +55,25 @@ public sealed partial class SimWorld
                     -(prior==contact.Target?2:0);
                 if(rank>=score||RailLineLocal(ship,gun,ship.Orientation.Inverse()*aim)!=FireFailure.None
                     ||TerrainBlocked(gun.MuzzlePosition,at)
-                    ||FriendlyInLine(ship,gun.MuzzlePosition,aim,(float)(at-gun.MuzzlePosition).Length()))continue;
+                    ||FriendlyInLine(ship,gun.MuzzlePosition,aim,(float)(at-gun.MuzzlePosition).Length(),includeShields:gun.IsLaser))continue;
                 score=rank;best=contact;direction=aim;point=at;
             }
             if(best is not { } chosen)continue;
             gun.DefenseTarget=chosen.Target;gun.DefenseTick=Tick;reserved=true;
             _batteryAssignments[chosen.Target]=_batteryAssignments.GetValueOrDefault(chosen.Target)+1;
             gun.Aim(direction);
+            if(!chosen.Locked(Time))
+            {gun.Laser?.Stop();gun.DefenseStatus=GunneryStatus.WaitLock;if(statusRank<0){status=gun.DefenseStatus;statusRank=0;}continue;}
             // Inspect the real bore as well as the requested line while traversing.
-            if(FriendlyInLine(ship,gun.MuzzlePosition,gun.Direction,(float)(point-gun.MuzzlePosition).Length()))
-            {gun.Laser?.Stop();gun.DefenseStatus=GunneryStatus.FriendlyLine;continue;}
-            var shot=FireRailgun(ship,gun,direction);
+            if(FriendlyInLine(ship,gun.MuzzlePosition,gun.Direction,(float)(point-gun.MuzzlePosition).Length(),includeShields:gun.IsLaser))
+            {gun.Laser?.Stop();gun.DefenseStatus=GunneryStatus.FriendlyLine;if(statusRank<1){status=gun.DefenseStatus;statusRank=1;}continue;}
+            var shot=FireRailgun(ship,gun,direction,automatic:true);
             firing|=shot.Fired;
             gun.DefenseStatus=shot.Fired?GunneryStatus.Firing:shot.Failure==FireFailure.Traversing
                 ?GunneryStatus.Traversing:GunneryStatus.Reload;
+            if(statusRank<2){status=gun.DefenseStatus;statusRank=2;}
         }
-        if(reserved)status=firing?GunneryStatus.Firing:GunneryStatus.Traversing;
+        if(firing)status=GunneryStatus.Firing;
         return reserved;
     }
 }

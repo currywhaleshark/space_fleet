@@ -152,6 +152,7 @@ static class DroneCombatChecks
         m.Position=m.PrevPosition=Vec3d.From(direction*1700); Step(w,.1);
         Check(ic.Ordnance.PointDefense[0].TargetKind==PointDefenseTarget.Drone,"Out-of-range missile pretrack does not suppress an in-range drone");
         m.Position=m.PrevPosition=Vec3d.From(direction*800); Step(w,.1);
+        w.Sensors.Update(w.Ships,w.Time,true,w.Probes,w.Missiles);w.Step();
         Check(ic.Ordnance.PointDefense[0].TargetKind==PointDefenseTarget.Missile,"In-range hostile missile takes priority over the drone");
     }
     private static void CheckRailgun()

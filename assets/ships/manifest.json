@@ -1439,9 +1439,9 @@
       "source": "art/blender/earth_gun_cruiser_t5.blend",
       "model": "assets/ships/earth_gun_cruiser_t5.glb",
       "modules": 19,
-      "triangles": 10768,
-      "materials": 10,
-      "editableParts": 221,
+      "triangles": 24940,
+      "materials": 11,
+      "editableParts": 225,
       "meshGroups": 13,
       "turrets": 2,
       "pointDefenseTurrets": 4,
@@ -1675,6 +1675,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 175
       }
     },
     {
@@ -1682,9 +1686,9 @@
       "source": "art/blender/earth_gun_cruiser_t4.blend",
       "model": "assets/ships/earth_gun_cruiser_t4.glb",
       "modules": 19,
-      "triangles": 10128,
-      "materials": 10,
-      "editableParts": 225,
+      "triangles": 35572,
+      "materials": 11,
+      "editableParts": 230,
       "meshGroups": 13,
       "turrets": 2,
       "pointDefenseTurrets": 4,
@@ -1918,6 +1922,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 276
       }
     },
     {
@@ -1925,9 +1933,9 @@
       "source": "art/blender/earth_air_defense_cruiser_t4.blend",
       "model": "assets/ships/earth_air_defense_cruiser_t4.glb",
       "modules": 19,
-      "triangles": 10352,
-      "materials": 10,
-      "editableParts": 229,
+      "triangles": 44676,
+      "materials": 11,
+      "editableParts": 234,
       "meshGroups": 17,
       "turrets": 2,
       "pointDefenseTurrets": 6,
@@ -2161,6 +2169,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 359
       }
     },
     {
@@ -2168,9 +2180,9 @@
       "source": "art/blender/mars_gun_cruiser_t4.blend",
       "model": "assets/ships/mars_gun_cruiser_t4.glb",
       "modules": 18,
-      "triangles": 10304,
-      "materials": 10,
-      "editableParts": 249,
+      "triangles": 19392,
+      "materials": 11,
+      "editableParts": 254,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -2404,6 +2416,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 102
       }
     },
     {
@@ -2411,9 +2427,9 @@
       "source": "art/blender/earth_recon_t4.blend",
       "model": "assets/ships/earth_recon_t4.glb",
       "modules": 16,
-      "triangles": 7388,
-      "materials": 10,
-      "editableParts": 122,
+      "triangles": 16356,
+      "materials": 11,
+      "editableParts": 127,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -2647,6 +2663,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 122
       }
     },
     {
@@ -2654,9 +2674,9 @@
       "source": "art/blender/interceptor_t4.blend",
       "model": "assets/ships/interceptor_t4.glb",
       "modules": 16,
-      "triangles": 6640,
-      "materials": 10,
-      "editableParts": 116,
+      "triangles": 19740,
+      "materials": 11,
+      "editableParts": 121,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -2890,6 +2910,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 172
       }
     },
     {
@@ -2897,9 +2921,9 @@
       "source": "art/blender/mars_assault_t4.blend",
       "model": "assets/ships/mars_assault_t4.glb",
       "modules": 16,
-      "triangles": 5796,
-      "materials": 10,
-      "editableParts": 97,
+      "triangles": 18040,
+      "materials": 11,
+      "editableParts": 102,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -3133,6 +3157,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 137
       }
     },
     {
@@ -3140,9 +3168,9 @@
       "source": "art/blender/mars_interceptor_t4.blend",
       "model": "assets/ships/mars_interceptor_t4.glb",
       "modules": 16,
-      "triangles": 6156,
-      "materials": 11,
-      "editableParts": 105,
+      "triangles": 19680,
+      "materials": 12,
+      "editableParts": 110,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -3376,6 +3404,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 153
       }
     },
     {
@@ -3383,9 +3415,9 @@
       "source": "art/blender/earth_air_defense_cruiser_t5.blend",
       "model": "assets/ships/earth_air_defense_cruiser_t5.glb",
       "modules": 19,
-      "triangles": 10356,
-      "materials": 10,
-      "editableParts": 216,
+      "triangles": 27076,
+      "materials": 11,
+      "editableParts": 221,
       "meshGroups": 17,
       "turrets": 2,
       "pointDefenseTurrets": 6,
@@ -3619,6 +3651,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 182
       }
     },
     {
@@ -3626,9 +3662,9 @@
       "source": "art/blender/mars_gun_cruiser_t5.blend",
       "model": "assets/ships/mars_gun_cruiser_t5.glb",
       "modules": 18,
-      "triangles": 10304,
-      "materials": 10,
-      "editableParts": 245,
+      "triangles": 22536,
+      "materials": 11,
+      "editableParts": 250,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -3862,6 +3898,10 @@
         "accentScale": 4,
         "wear": 0.3,
         "streaks": 0.4
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 130
       }
     },
     {
@@ -3869,9 +3909,9 @@
       "source": "art/blender/mars_missile_cruiser_t5.blend",
       "model": "assets/ships/mars_missile_cruiser_t5.glb",
       "modules": 18,
-      "triangles": 11844,
-      "materials": 10,
-      "editableParts": 264,
+      "triangles": 37924,
+      "materials": 11,
+      "editableParts": 269,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -4105,6 +4145,10 @@
         "accentScale": 4,
         "wear": 0.3,
         "streaks": 0.4
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 277
       }
     },
     {
@@ -4112,9 +4156,9 @@
       "source": "art/blender/mars_missile_cruiser_t4.blend",
       "model": "assets/ships/mars_missile_cruiser_t4.glb",
       "modules": 18,
-      "triangles": 11188,
-      "materials": 10,
-      "editableParts": 248,
+      "triangles": 44808,
+      "materials": 11,
+      "editableParts": 253,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -4348,6 +4392,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 315
       }
     },
     {
@@ -4355,9 +4403,9 @@
       "source": "art/blender/interceptor_t3.blend",
       "model": "assets/ships/interceptor_t3.glb",
       "modules": 16,
-      "triangles": 6352,
-      "materials": 10,
-      "editableParts": 108,
+      "triangles": 27256,
+      "materials": 11,
+      "editableParts": 113,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -4591,6 +4639,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 258
       }
     },
     {
@@ -4598,9 +4650,9 @@
       "source": "art/blender/mars_interceptor_t3.blend",
       "model": "assets/ships/mars_interceptor_t3.glb",
       "modules": 16,
-      "triangles": 6060,
-      "materials": 10,
-      "editableParts": 101,
+      "triangles": 20064,
+      "materials": 11,
+      "editableParts": 106,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -4834,6 +4886,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 222
       }
     },
     {
@@ -4841,9 +4897,9 @@
       "source": "art/blender/earth_recon_t3.blend",
       "model": "assets/ships/earth_recon_t3.glb",
       "modules": 16,
-      "triangles": 7060,
-      "materials": 10,
-      "editableParts": 115,
+      "triangles": 15564,
+      "materials": 11,
+      "editableParts": 120,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -5077,6 +5133,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 124
       }
     },
     {
@@ -5084,9 +5144,9 @@
       "source": "art/blender/earth_gun_cruiser.blend",
       "model": "assets/ships/earth_gun_cruiser.glb",
       "modules": 19,
-      "triangles": 10012,
-      "materials": 10,
-      "editableParts": 202,
+      "triangles": 37932,
+      "materials": 11,
+      "editableParts": 206,
       "meshGroups": 13,
       "turrets": 2,
       "pointDefenseTurrets": 4,
@@ -5320,6 +5380,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 312
       }
     },
     {
@@ -5327,9 +5391,9 @@
       "source": "art/blender/mars_gun_cruiser.blend",
       "model": "assets/ships/mars_gun_cruiser.glb",
       "modules": 18,
-      "triangles": 11052,
-      "materials": 10,
-      "editableParts": 274,
+      "triangles": 22444,
+      "materials": 11,
+      "editableParts": 279,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -5563,6 +5627,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 126
       }
     },
     {
@@ -5570,9 +5638,9 @@
       "source": "art/blender/mars_missile_cruiser.blend",
       "model": "assets/ships/mars_missile_cruiser.glb",
       "modules": 18,
-      "triangles": 11100,
-      "materials": 10,
-      "editableParts": 246,
+      "triangles": 29232,
+      "materials": 11,
+      "editableParts": 251,
       "meshGroups": 9,
       "turrets": 2,
       "pointDefenseTurrets": 2,
@@ -5806,6 +5874,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 167
       }
     },
     {
@@ -5813,9 +5885,9 @@
       "source": "art/blender/battleship_t5.blend",
       "model": "assets/ships/battleship_t5.glb",
       "modules": 24,
-      "triangles": 12900,
-      "materials": 10,
-      "editableParts": 270,
+      "triangles": 38136,
+      "materials": 11,
+      "editableParts": 274,
       "meshGroups": 23,
       "turrets": 3,
       "pointDefenseTurrets": 8,
@@ -6069,6 +6141,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 294
       }
     },
     {
@@ -6076,9 +6152,9 @@
       "source": "art/blender/mars_battleship_t5.blend",
       "model": "assets/ships/mars_battleship_t5.glb",
       "modules": 21,
-      "triangles": 13020,
-      "materials": 10,
-      "editableParts": 320,
+      "triangles": 24156,
+      "materials": 11,
+      "editableParts": 325,
       "meshGroups": 13,
       "turrets": 2,
       "pointDefenseTurrets": 4,
@@ -6332,6 +6408,10 @@
         "accentScale": 4,
         "wear": 0.3,
         "streaks": 0.4
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 117
       }
     },
     {
@@ -6339,9 +6419,9 @@
       "source": "art/blender/earth_starter_escort.blend",
       "model": "assets/ships/earth_starter_escort.glb",
       "modules": 18,
-      "triangles": 7768,
-      "materials": 10,
-      "editableParts": 157,
+      "triangles": 33800,
+      "materials": 11,
+      "editableParts": 162,
       "meshGroups": 11,
       "turrets": 1,
       "pointDefenseTurrets": 4,
@@ -6575,6 +6655,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 297
       }
     },
     {
@@ -6582,9 +6666,9 @@
       "source": "art/blender/mars_starter_escort.blend",
       "model": "assets/ships/mars_starter_escort.glb",
       "modules": 17,
-      "triangles": 8876,
-      "materials": 10,
-      "editableParts": 216,
+      "triangles": 24992,
+      "materials": 11,
+      "editableParts": 221,
       "meshGroups": 7,
       "turrets": 1,
       "pointDefenseTurrets": 2,
@@ -6818,6 +6902,10 @@
         "accentScale": 4,
         "wear": 0.3,
         "streaks": 0.4
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 175
       }
     },
     {
@@ -6825,9 +6913,9 @@
       "source": "art/blender/interceptor_t5.blend",
       "model": "assets/ships/interceptor_t5.glb",
       "modules": 16,
-      "triangles": 6368,
-      "materials": 10,
-      "editableParts": 112,
+      "triangles": 19176,
+      "materials": 11,
+      "editableParts": 117,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -7061,6 +7149,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 200
       }
     },
     {
@@ -7068,9 +7160,9 @@
       "source": "art/blender/mars_interceptor_t5.blend",
       "model": "assets/ships/mars_interceptor_t5.glb",
       "modules": 16,
-      "triangles": 6072,
-      "materials": 10,
-      "editableParts": 104,
+      "triangles": 15284,
+      "materials": 11,
+      "editableParts": 109,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -7304,6 +7396,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 121
       }
     },
     {
@@ -7311,9 +7407,9 @@
       "source": "art/blender/mars_assault_t5.blend",
       "model": "assets/ships/mars_assault_t5.glb",
       "modules": 16,
-      "triangles": 6132,
-      "materials": 10,
-      "editableParts": 103,
+      "triangles": 20048,
+      "materials": 11,
+      "editableParts": 108,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -7547,6 +7643,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 151
       }
     },
     {
@@ -7554,9 +7654,9 @@
       "source": "art/blender/earth_recon_t5.blend",
       "model": "assets/ships/earth_recon_t5.glb",
       "modules": 16,
-      "triangles": 7820,
-      "materials": 10,
-      "editableParts": 131,
+      "triangles": 26280,
+      "materials": 11,
+      "editableParts": 136,
       "meshGroups": 5,
       "turrets": 0,
       "pointDefenseTurrets": 2,
@@ -7790,6 +7890,10 @@
         "accentScale": 4,
         "wear": 0.2,
         "streaks": 0.2
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 254
       }
     },
     {
@@ -7797,9 +7901,9 @@
       "source": "art/blender/mars_assault_t3.blend",
       "model": "assets/ships/mars_assault_t3.glb",
       "modules": 16,
-      "triangles": 5960,
-      "materials": 10,
-      "editableParts": 98,
+      "triangles": 20868,
+      "materials": 11,
+      "editableParts": 103,
       "meshGroups": 3,
       "turrets": 0,
       "pointDefenseTurrets": 1,
@@ -8033,6 +8137,10 @@
         "accentScale": 4,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 170
       }
     },
     {
@@ -8040,9 +8148,9 @@
       "source": "art/blender/earth_air_defense_cruiser.blend",
       "model": "assets/ships/earth_air_defense_cruiser.glb",
       "modules": 19,
-      "triangles": 9760,
-      "materials": 10,
-      "editableParts": 201,
+      "triangles": 31732,
+      "materials": 11,
+      "editableParts": 205,
       "meshGroups": 17,
       "turrets": 2,
       "pointDefenseTurrets": 6,
@@ -8276,6 +8384,10 @@
         "accentScale": 5,
         "wear": 0.25,
         "streaks": 0.35
+      },
+      "surfaceDetail": {
+        "version": 1,
+        "panels": 268
       }
     }
   ]

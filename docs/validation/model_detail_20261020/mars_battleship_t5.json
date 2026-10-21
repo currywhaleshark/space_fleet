@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 11136,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 117,
+    "serviceEnclosures": 3,
+    "coolingGrilles": 29,
+    "serviceConduits": 14,
+    "accessHatches": 20,
+    "portClearanceSkips": 10,
+    "fastenerPairs": 24
+  },
+  "verifiedSurfaceAnchors": 117,
+  "id": "mars_battleship_t5",
+  "originalGeometryHash": "c150d38534ff595bb513649352d5b05a99a2b9f364c24c8700e1b2caec5695c0",
+  "originalGeometryPreserved": true,
+  "triangles": 24156,
+  "meshGroups": 13,
+  "materials": 11
+}

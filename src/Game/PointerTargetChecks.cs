@@ -97,9 +97,9 @@ public partial class WeaponInputChecks
         rounds = ship.Railgun.Rounds;
         Input.ActionPress(InputSetup.Fire); Tick(g); Input.ActionRelease(InputSetup.Fire);
         Check(!g.CorrectingSmallAim && ship.Railgun.Rounds == rounds, "Selection cannot bypass the fixed gun traverse limit");
-        probe.Position = probe.Destination = new Vec3d(0, 0, -10000);
+        probe.Position = probe.Destination = new Vec3d(0, 0, -1500000);
         var observer = g.World.Ships.First(s => s != ship && s.Faction == ship.Faction && s.Class.Kind == HullKind.Escort);
-        observer.Place(new Vec3d(3000, 0, -9000), Quaternion.Identity); Observe();
+        observer.Place(new Vec3d(3000, 0, -1499000), Quaternion.Identity); Observe();
         Check(!g.SmallAimSolved, "Selected small target outside interception range has no firing solution");
         // Map input and preview use the same destination, sensor strength and moving observation point.
         KeyEvent(g, Key.M);

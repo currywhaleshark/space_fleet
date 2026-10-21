@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "addedTriangles": 9088,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 102,
+    "serviceConduits": 16,
+    "fastenerPairs": 14,
+    "portClearanceSkips": 10,
+    "coolingGrilles": 18,
+    "serviceEnclosures": 4,
+    "accessHatches": 11,
+    "radiatorBanks": 1
+  },
+  "verifiedSurfaceAnchors": 102,
+  "id": "mars_gun_cruiser_t4",
+  "originalGeometryHash": "79bd7cf7d9afe0ad6eaf53ea74f5b97e5c8fabfdc2237ef5eebe4ab0085b54eb",
+  "originalGeometryPreserved": true,
+  "triangles": 19392,
+  "meshGroups": 9,
+  "materials": 11
+}

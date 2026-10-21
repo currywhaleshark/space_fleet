@@ -60,11 +60,13 @@ public partial class WeaponInputChecks
             KeyEvent(game, Key.Key2); pulses = Pulses(); Tick(game, 12);
             Check(Pulses() == pulses, id + ": choosing missiles cannot keep firing primary lasers");
             KeyEvent(game, Key.Key1);
-            missile.Position = new Vec3d(0,1500,-18000);
+            missile.Position = new Vec3d(0,1500,-ship.Railguns.Max(SimWorld.SmallTargetRange)-4000);
+            var relay=game.World.Ships.First(s=>s!=ship&&s.Faction==ship.Faction);
+            relay.Place(missile.Position+new Vec3d(2000,0,0),Quaternion.Identity);
             game.World.Sensors.Update(game.World.Ships, game.World.Time, true, game.World.Probes, game.World.Missiles);
             SimWorld.StopLasers(ship); pulses = Pulses(); Tick(game, 12);
             Check(Pulses() == pulses, id + ": selected missile outside intercept range cannot fire");
-            missile.Position = new Vec3d(1e9,0,0);
+            missile.Position = new Vec3d(1e12,0,0);
             game.World.Sensors.Update(game.World.Ships, game.World.Time, true, game.World.Probes, game.World.Missiles);
             Tick(game, 45);
             Check(Pulses() == pulses && !game.SmallAimSolved, id + ": lost contact cannot sustain auto-fire");

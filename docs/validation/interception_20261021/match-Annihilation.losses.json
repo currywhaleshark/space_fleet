@@ -1,0 +1,68 @@
+[
+  {
+    "Seed": 12,
+    "Mirror": false,
+    "Ships": 78,
+    "Outcome": null,
+    "Destroyed": 30,
+    "Disabled": 8,
+    "Repairs": 14,
+    "Causes": {
+      "Antimatter": 14,
+      "Reactor": 3,
+      "Structural": 7,
+      "Magazine": 6
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_air_defense_cruiser",
+        "Ships": 8,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 2
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 20,
+        "Destroyed": 8,
+        "Disabled": 0,
+        "Repairs": 5
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 6,
+        "Destroyed": 0,
+        "Disabled": 3,
+        "Repairs": 1
+      },
+      {
+        "Hull": "escort",
+        "Ships": 28,
+        "Destroyed": 15,
+        "Disabled": 3,
+        "Repairs": 5
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 1,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 4,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor",
+        "Ships": 10,
+        "Destroyed": 7,
+        "Disabled": 0,
+        "Repairs": 1
+      }
+    ]
+  }
+]

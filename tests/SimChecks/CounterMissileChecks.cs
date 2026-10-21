@@ -32,7 +32,8 @@ static class CounterMissileChecks
         foreach (float lateral in new[] { 0f, 600f })
         {
             var (w, ship, enemy, threat) = Fixture(id, offset, lateral, speed);
-            Check(w.LaunchCounterMissile(ship, threat).Fired, "Detected approaching missile can be engaged");
+            var launch=w.LaunchCounterMissile(ship,threat);
+            Check(launch.Fired, $"Locked approaching missile can be engaged: {id}/{offset}/{speed}/{lateral}: {launch.Reason}, track={w.Sensors.SmallTrack(ship.Faction,threat)}");
             var counter = w.Missiles.Last();
             Check(counter.Target is null && counter.InterceptTarget == threat && counter.NoseDirection == ship.Forward,
                 "Counter round targets the missile and ejects along the real nose, not toward a hidden ship");

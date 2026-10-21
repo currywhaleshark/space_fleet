@@ -37,7 +37,7 @@ public partial class WeaponInputChecks
             g.Camera.ResetAim(ship.Orientation); g._Process(.016); Follow(g);
             var track = g.World.Sensors.SmallTrack(ship.Faction, missile);
             Check(track is { } c && g.World.SmallTargetAim(ship, c, out _, out _, playerAssist: true)
-                && !g.World.SmallTargetAim(ship, c, out _, out _), "Player can prepare early without extending AI engagement range");
+                && g.World.SmallTargetAim(ship, c, out _, out _), "Player and AI use the same weapon engagement range after sensor lock");
             g.SelectTargetAt(g.Camera.UnprojectPosition((missile.Position - g.RenderOrigin).ToVector3()));
             var original = ship.Orientation; var cameraAim = g.Camera.AimForward;
             int ammo = ship.Railgun!.Rounds;

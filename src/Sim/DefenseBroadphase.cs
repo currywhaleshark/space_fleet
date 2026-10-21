@@ -22,9 +22,15 @@ public sealed partial class SimWorld
         foreach (var index in _pdMissileIndices) index.Begin(_missiles.Count);
         foreach (var missile in _missiles)
         {
-            if (!IndexableSweep(missile.Position, missile.Position)) return false;
             _pdMissileSnapshot[_pdMissileSnapshotCount] = missile;
-            _pdMissileIndices[(int)missile.Faction].Add(_pdMissileSnapshotCount++, SpatialBounds.Segment(missile.Position, missile.Position));
+            var seen=Sensors.SmallTrack((Faction)(1-(int)missile.Faction),missile);
+            if(seen is { } contact && contact.Fresh(Time))
+            {
+                Vec3d point=contact.Predict(Time);
+                if(!IndexableSweep(point,point))return false;
+                _pdMissileIndices[(int)missile.Faction].Add(_pdMissileSnapshotCount, SpatialBounds.Segment(point,point));
+            }
+            _pdMissileSnapshotCount++;
         }
         foreach (var index in _pdShipIndices) index.Begin(_ships.Count);
         for (int i = 0; i < _ships.Count; i++)

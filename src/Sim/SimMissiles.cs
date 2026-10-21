@@ -317,7 +317,7 @@ public sealed partial class SimWorld
         if (m.InterceptTarget is { } threat)
         {
             if (_missiles.Contains(threat) && threat.Health > 0)
-                Consider(threat, threat.Position, threat.Burning ? 2 : .65f, 0, IntendedTargetWeight);
+                Consider(threat, threat.Position, SensorNet.Signature(threat), 0, IntendedTargetWeight);
         }
         else foreach (ShipBody ship in _ships)
         {
@@ -510,7 +510,8 @@ public sealed partial class SimWorld
             for (int candidate = 0; candidate < missileCount; candidate++)
             {
                 var missile = useIndex ? _pdMissileSnapshot[missileCandidates[candidate]] : _missiles[candidate];
-                if (missile.Faction != ship.Faction && missile.Health > 0 && bounds.Contains(missile.Position))
+                if (missile.Faction != ship.Faction && missile.Health > 0
+                    && Sensors.SmallTrack(ship.Faction,missile) is { } seen && seen.Fresh(Time) && bounds.Contains(seen.Predict(Time)))
                     _pdMissileCandidates.Add(missile);
             }
             ReadOnlySpan<int> shipCandidates = useIndex ? _pdShipIndices[1-(int)ship.Faction].Query(bounds) : default;
@@ -553,7 +554,8 @@ public sealed partial class SimWorld
                 foreach (Missile m in _pdMissileCandidates)
                 {
                     if (m.Faction == ship.Faction || m.Health<=0) continue;
-                    if (Candidate(m.Position,0,out double distance,out int rank))
+                    if (Sensors.SmallTrack(ship.Faction,m) is { } observed && observed.Fresh(Time)
+                        && Candidate(observed.Predict(Time),0,out double distance,out int rank))
                     { bestPriority=rank; nearest=distance; threat=m; }
                 }
 

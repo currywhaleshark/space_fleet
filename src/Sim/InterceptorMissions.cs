@@ -310,8 +310,8 @@ public sealed partial class SimWorld
             fired = LaunchCounterMissile(ship, missile).Fired;
         if (SmallTargetAim(ship, track, out var direction, out var aim) && !TerrainBlocked(ship.Railgun!.MuzzlePosition,aim)
             && ship.Forward.AngleTo(direction) <= Mathf.DegToRad(9)
-            && !FriendlyInLine(ship, ship.Railgun!.MuzzlePosition, direction, (float)(aim - ship.Position).Length()))
-            fired |= FireRailguns(ship, direction).Fired;
+            && !FriendlyInLine(ship, ship.Railgun!.MuzzlePosition, direction, (float)(aim - ship.Position).Length(),includeShields:ship.Railgun.IsLaser))
+            fired |= FireRailguns(ship, direction,automatic:true).Fired;
         if (fired) ship.Ordnance.Interceptor.FirstAction ??= Time;
         return fired;
     }

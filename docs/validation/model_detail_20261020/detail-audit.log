@@ -1,0 +1,88 @@
+00:02.203  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_gun_cruiser_t5.blend"
+00:02.531  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_gun_cruiser_t5.blend"
+AUDITED earth_gun_cruiser_t5
+00:02.578  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_gun_cruiser_t4.blend"
+00:03.016  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_gun_cruiser_t4.blend"
+AUDITED earth_gun_cruiser_t4
+00:03.078  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_air_defense_cruiser_t4.blend"
+00:03.609  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_air_defense_cruiser_t4.blend"
+AUDITED earth_air_defense_cruiser_t4
+00:03.672  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_gun_cruiser_t4.blend"
+00:03.938  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_gun_cruiser_t4.blend"
+AUDITED mars_gun_cruiser_t4
+00:03.984  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_recon_t4.blend"
+00:04.219  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_recon_t4.blend"
+AUDITED earth_recon_t4
+00:04.266  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\interceptor_t4.blend"
+00:04.563  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\interceptor_t4.blend"
+AUDITED interceptor_t4
+00:04.594  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_assault_t4.blend"
+00:04.875  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_assault_t4.blend"
+AUDITED mars_assault_t4
+00:04.906  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_interceptor_t4.blend"
+00:05.203  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_interceptor_t4.blend"
+AUDITED mars_interceptor_t4
+00:05.234  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_air_defense_cruiser_t5.blend"
+00:05.625  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_air_defense_cruiser_t5.blend"
+AUDITED earth_air_defense_cruiser_t5
+00:05.703  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_gun_cruiser_t5.blend"
+00:06.016  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_gun_cruiser_t5.blend"
+AUDITED mars_gun_cruiser_t5
+00:06.078  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_missile_cruiser_t5.blend"
+00:06.547  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_missile_cruiser_t5.blend"
+AUDITED mars_missile_cruiser_t5
+00:06.625  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_missile_cruiser_t4.blend"
+00:07.156  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_missile_cruiser_t4.blend"
+AUDITED mars_missile_cruiser_t4
+00:07.203  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\interceptor_t3.blend"
+00:07.531  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\interceptor_t3.blend"
+AUDITED interceptor_t3
+00:07.578  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_interceptor_t3.blend"
+00:07.844  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_interceptor_t3.blend"
+AUDITED mars_interceptor_t3
+00:07.875  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_recon_t3.blend"
+00:08.078  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_recon_t3.blend"
+AUDITED earth_recon_t3
+00:08.109  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_gun_cruiser.blend"
+00:08.578  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_gun_cruiser.blend"
+AUDITED earth_gun_cruiser
+00:08.641  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_gun_cruiser.blend"
+00:08.969  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_gun_cruiser.blend"
+AUDITED mars_gun_cruiser
+00:09.031  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_missile_cruiser.blend"
+00:09.422  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_missile_cruiser.blend"
+AUDITED mars_missile_cruiser
+00:09.484  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\battleship_t5.blend"
+00:10.188  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\battleship_t5.blend"
+AUDITED battleship_t5
+00:10.266  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_battleship_t5.blend"
+00:10.688  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_battleship_t5.blend"
+AUDITED mars_battleship_t5
+00:10.781  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_starter_escort.blend"
+00:11.281  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_starter_escort.blend"
+AUDITED earth_starter_escort
+00:11.328  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_starter_escort.blend"
+00:11.719  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_starter_escort.blend"
+AUDITED mars_starter_escort
+00:11.797  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\interceptor_t5.blend"
+00:12.078  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\interceptor_t5.blend"
+AUDITED interceptor_t5
+00:12.109  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_interceptor_t5.blend"
+00:12.344  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_interceptor_t5.blend"
+AUDITED mars_interceptor_t5
+00:12.375  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_assault_t5.blend"
+00:12.656  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_assault_t5.blend"
+AUDITED mars_assault_t5
+00:12.688  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_recon_t5.blend"
+00:13.063  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_recon_t5.blend"
+AUDITED earth_recon_t5
+00:13.109  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\mars_assault_t3.blend"
+00:13.391  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\mars_assault_t3.blend"
+AUDITED mars_assault_t3
+00:13.422  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\art\blender\earth_air_defense_cruiser.blend"
+00:13.844  blend            | Read blend: "C:\Users\yurib\Documents\New project\space_fleet\shots\detail-pass\source-backup\earth_air_defense_cruiser.blend"
+AUDITED earth_air_defense_cruiser
+PASS: 28 additive detail audits; no files saved or exported
+Blender 5.1.1 (hash b70da489d7f4 built 2026-04-14 01:37:22)
+
+Blender quit

@@ -57,8 +57,9 @@ static class ObstacleSensorChecks
         var small=new ReconProbe { Id=2,Owner=enemy,Definition=new(),Position=new(0,0,-2000),Health=4 };
         net.Sensors.Update(net.Ships,63,force:true,probes:new[]{small});
         Check(net.Sensors.SmallTrack(Faction.Blue,small)!.Value.Fresh(63),"Small contact is observed in front of wall");
+        Vec3d lastSmallPosition=net.Sensors.SmallTrack(Faction.Blue,small)!.Value.Position;
         small.Position=new(0,0,-6000); net.Sensors.Update(net.Ships,63.25,force:true,probes:new[]{small});
-        Check(net.Sensors.SmallTrack(Faction.Blue,small) is {Level:TrackLevel.None,Position.Z:-2000},"Occlusion invalidates small contact immediately, preserving last position");
+        Check(net.Sensors.SmallTrack(Faction.Blue,small) is {Level:TrackLevel.None} lostSmall&&lostSmall.Position==lastSmallPosition,"Occlusion invalidates small contact immediately, preserving last observed position");
         var jamWorld=new SimWorld();
         var receiver=jamWorld.Add(new ShipBody("RX",ShipClass.Battleship,Faction.Blue));
         var signal=jamWorld.Add(new ShipBody("SIGNAL",ShipClass.Battleship,Faction.Red)); signal.Place(new(0,0,-10000),Quaternion.Identity);

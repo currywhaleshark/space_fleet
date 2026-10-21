@@ -21,6 +21,9 @@ static class DefenseBroadphaseChecks
                     if (step == 70) world.Ships[1].Damage.Catastrophe(step / 240.0, "defense regression");
                     if (step == 140) world.ResetWeapons();
                     if (step == 141) Populate(world, offset);
+                    world.ThreatTimeForCheck(step / 4);
+                    if(step % 60 == 0 || step == 141)
+                        world.Sensors.Update(world.Ships,world.Time,true,world.Probes,world.Missiles);
                 }
                 indexed.DefenseForCheck(step / 240.0, false); reference.DefenseForCheck(step / 240.0, true);
                 Check(indexed.PointDefenseShots.SequenceEqual(reference.PointDefenseShots), "PD shot order, aim, timing or roll changed");

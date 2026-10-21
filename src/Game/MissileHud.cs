@@ -15,13 +15,11 @@ public partial class Hud
 {
     private static readonly Color MissileOwn = new(0.55f, 0.8f, 1f, 0.95f);
     private static readonly Color DecoyColor = new(1f, 0.95f, 0.8f, 0.9f);
-    /// <summary>이 거리 안의 적 미사일은 경보 수신기로 보인다(m).</summary>
-    private const float MissileWarningRange = 60_000f;
 
     /// <summary>나를 노리는 적 미사일 수(계기판 칩용).</summary>
     public int IncomingMissiles { get; private set; }
 
-    private readonly List<(Missile Missile,Vector2 Point,bool Own,bool Threat)> _missileMarks=new();
+    private readonly List<(Missile Missile,Vector2 Point,bool Own,bool Threat,Vec3d Observed,TrackLevel Level,bool Lost)> _missileMarks=new();
     private readonly Dictionary<Vector2I,int> _friendlyMissileDensity=new();
     internal int DrawnMissileSymbols { get; private set; }
     internal int CompactMissileSymbols { get; private set; }
@@ -43,22 +41,17 @@ public partial class Hud
         ShipBody? anchor=Game.SelectedFriendly?.Body??me.Squadron?.SupportGroup?.Leader
             ??Game.World.Ships.Where(s=>s!=me&&s.Faction==me.Faction&&!s.Damage.Destroyed&&s.Class.Kind==HullKind.Battleship)
                 .MinBy(s=>(s.Position-me.Position).LengthSquared());
-        foreach(Missile m in Game.World.Missiles)
+        void AddMark(Missile m,Vec3d position,bool own,bool threat,TrackLevel level,bool lost)
         {
-            bool own=m.Faction==me.Faction,threat=!own&&m.Target==me;
-            if(threat)incoming++;
-            if(!own&&(m.Position-me.Position).Length()>MissileWarningRange)continue;
-            Vector3 render=(m.Position-Game.RenderOrigin).ToVector3();
+            Vector3 render=(position-Game.RenderOrigin).ToVector3();
             bool behind=cam.IsPositionBehind(render);
             Vector2 p=behind?Vector2.Zero:cam.UnprojectPosition(render);
             if(behind||!new Rect2(Vector2.Zero,screen).HasPoint(p))
             {
-                if(threat)DrawOffscreenMissile(cam,(m.Position-me.Position).ToVector3().Normalized(),screen);
-                continue;
+                if(threat)DrawOffscreenMissile(cam,(position-me.Position).ToVector3().Normalized(),screen);
+                return;
             }
-            if(!own&&anchor is not null&&Game.World.Sensors.SmallTrack(me.Faction,m) is { } observed&&observed.Fresh(Game.World.Time))
-                threat|=ApproachesAlly(observed,anchor,Game.World.Time);
-            _missileMarks.Add((m,p,own,threat));
+            _missileMarks.Add((m,p,own,threat,position,level,lost));
             _markerLabels.ProtectSymbol(p,threat?10:7);
             if(own)
             {
@@ -66,8 +59,21 @@ public partial class Hud
                 _friendlyMissileDensity[cell]=_friendlyMissileDensity.GetValueOrDefault(cell)+1;
             }
         }
+        foreach(Missile m in Game.World.Missiles)
+            if(m.Faction==me.Faction)AddMark(m,m.Position,true,false,TrackLevel.Locked,false);
+        // Removed/hidden enemy missiles fade from the last observation, not from privileged live-list knowledge.
+        foreach(var observed in Game.World.Sensors.SmallContacts(me.Faction))
+        {
+            if(observed.Target is not Missile m)continue;
+            bool lost=!observed.Fresh(Game.World.Time);
+            if(lost&&Game.World.Time-observed.SeenAt>2)continue;
+            bool threat=!lost&&ApproachesAlly(observed,me,Game.World.Time);
+            if(threat)incoming++;
+            if(!lost&&anchor is not null)threat|=ApproachesAlly(observed,anchor,Game.World.Time);
+            AddMark(m,observed.Predict(Game.World.Time),false,threat,observed.Level,lost);
+        }
         var hovered=_missileMarks.Count==0?null:_missileMarks.MinBy(mark=>mark.Point.DistanceSquaredTo(MarkerPointer)).Missile;
-        foreach(var (m,p,own,threat) in _missileMarks)
+        foreach(var (m,p,own,threat,position,level,lost) in _missileMarks)
         {
             bool selected=Game.SelectedSmallContact?.Target==m,hover=m==hovered&&p.DistanceSquaredTo(MarkerPointer)<=18*18;
             if(own)
@@ -87,11 +93,13 @@ public partial class Hud
             {
                 float size=selected?11:threat?9:6;
                 Vector2[] tri={p+new Vector2(0,-size),p+new Vector2(size*.9f,size*.7f),p+new Vector2(-size*.9f,size*.7f)};
-                if(threat)DrawColoredPolygon(tri,new Color(Hostile,.85f));
-                else DrawPolyline(new[]{tri[0],tri[1],tri[2],tri[0]},Hostile,1.5f);
+                Color observedColor=lost?ContactMemory.LostColor:Hostile;
+                if(level<TrackLevel.Identified&&!lost)DrawArc(p,size,0,Mathf.Tau,12,observedColor,1.5f);
+                else if(threat&&level==TrackLevel.Locked)DrawColoredPolygon(tri,new Color(observedColor,.85f));
+                else DrawPolyline(new[]{tri[0],tri[1],tri[2],tri[0]},observedColor,1.5f);
                 // The selected small-target overlay already provides range and intercept status.
                 if(!selected&&hover)_markerLabels.Add(m,p,new Vector2(12,-12),
-                    (m.Target==me?"자함 접근":threat?"아군 접근":"적 미사일")+" · "+FormatDistance((m.Position-me.Position).Length()),Hostile,hover?90:80,12);
+                    (lost?"신호 소실":level<TrackLevel.Identified?"소형 접촉":threat?"아군 접근":"적 미사일")+" · "+FormatDistance((position-me.Position).Length()),observedColor,hover?90:80,12);
             }
             DrawnMissileSymbols++;
         }

@@ -50,15 +50,15 @@ public sealed partial class SimWorld
         if (_impacts.Count > 64) _impacts.RemoveAt(0);
     }
 
-    public FireAttempt FireRailgun(ShipBody shooter, Vector3 direction, ShotCredit? credit=null)
+    public FireAttempt FireRailgun(ShipBody shooter, Vector3 direction, ShotCredit? credit=null, bool automatic=false)
     {
         if (!_ships.Contains(shooter)) return new(false, "월드에 없는 함선", Failure: FireFailure.NotInWorld);
         if (shooter.Railgun is not RailgunState gun) return new(false, "주포 없음", Failure: FireFailure.NoGun);
-        return FireRailgun(shooter, gun, direction, credit);
+        return FireRailgun(shooter, gun, direction, credit, automatic);
     }
 
     /// <summary>All ready mounts aim independently at a common point (or a parallel far-field direction).</summary>
-    public FireAttempt FireRailguns(ShipBody shooter, Vector3 direction, Vec3d? aimPoint = null)
+    public FireAttempt FireRailguns(ShipBody shooter, Vector3 direction, Vec3d? aimPoint = null, bool automatic=false)
     {
         if (!_ships.Contains(shooter)) return new(false, "월드에 없는 함선", Failure: FireFailure.NotInWorld);
         FireAttempt first = new(false, "주포 없음", Failure: FireFailure.NoGun);
@@ -66,18 +66,18 @@ public sealed partial class SimWorld
         foreach (RailgunState gun in shooter.Railguns)
         {
             Vector3 aim = aimPoint is Vec3d point ? (point - gun.MuzzlePosition).ToVector3() : direction;
-            FireAttempt shot = FireRailgun(shooter, gun, aim);
+            FireAttempt shot = FireRailgun(shooter, gun, aim, automatic:automatic);
             if (shot.Fired) { if (count == 0) first = shot; count += shot.Shots; }
             else if (count == 0 && (first.Failure is FireFailure.NoGun or FireFailure.NotReady || shot.Failure == FireFailure.Traversing)) first = shot;
         }
         return count > 0 ? first with { Shots = count, Reason = $"주포 {count}발 발사" } : first;
     }
 
-    public FireAttempt FireRailgun(ShipBody shooter, RailgunState gun, Vector3 direction, ShotCredit? credit=null)
+    public FireAttempt FireRailgun(ShipBody shooter, RailgunState gun, Vector3 direction, ShotCredit? credit=null, bool automatic=false)
     {
         if (!_ships.Contains(shooter) || !System.Array.Exists(shooter.Railguns, g => g == gun))
             return new(false, "월드에 없는 함선/포탑", Failure: FireFailure.NotInWorld);
-        if (gun.IsLaser) return RequestLaser(shooter, gun, direction, credit);
+        if (gun.IsLaser) return RequestLaser(shooter, gun, direction, credit, automatic);
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f) return new(false, "조준 방향 없음", Failure: FireFailure.NoDirection);
         gun.Aim(direction);
         if (!gun.Ready) return new(false, gun.Status, Failure: FireFailure.NotReady);

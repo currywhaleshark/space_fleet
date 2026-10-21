@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "addedTriangles": 25444,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 276,
+    "accessHatches": 59,
+    "fastenerPairs": 72,
+    "coolingGrilles": 46,
+    "serviceConduits": 20,
+    "portClearanceSkips": 16,
+    "serviceEnclosures": 16,
+    "radiatorBanks": 4
+  },
+  "verifiedSurfaceAnchors": 276,
+  "id": "earth_gun_cruiser_t4",
+  "originalGeometryHash": "9e29107912a968582124c078013d7a73215b2a59bd9777147c3f90b8eb328c87",
+  "originalGeometryPreserved": true,
+  "triangles": 35572,
+  "meshGroups": 13,
+  "materials": 11
+}

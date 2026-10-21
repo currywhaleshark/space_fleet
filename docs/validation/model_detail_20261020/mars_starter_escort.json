@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 16116,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 175,
+    "accessHatches": 15,
+    "serviceConduits": 35,
+    "fastenerPairs": 24,
+    "coolingGrilles": 41,
+    "portClearanceSkips": 18,
+    "serviceEnclosures": 1
+  },
+  "verifiedSurfaceAnchors": 175,
+  "id": "mars_starter_escort",
+  "originalGeometryHash": "aef49c83a356db0e648005bef5a5c267b33c2ebf257a5d681c5d2c466a180e4a",
+  "originalGeometryPreserved": true,
+  "triangles": 24992,
+  "meshGroups": 7,
+  "materials": 11
+}

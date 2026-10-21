@@ -21,7 +21,7 @@ public partial class ScaleTest
         {
             bool fresh = small.Fresh(World.Time);
             return new(small.Target, fresh ? small.Predict(World.Time) : small.Position,
-                small.Kind == SmallContactKind.Missile ? "적 미사일" : "적 프로브", small.Level, !fresh);
+                small.Level<TrackLevel.Identified?"소형 접촉":small.Kind == SmallContactKind.Missile ? "적 미사일" : "적 프로브", small.Level, !fresh);
         }
         if (InspectTarget is not { } view || view.Body.Faction == me.Body.Faction || ContactOf(view) is not { } memory)
             return null;

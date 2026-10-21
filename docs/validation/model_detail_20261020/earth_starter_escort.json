@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 26032,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 297,
+    "accessHatches": 61,
+    "coolingGrilles": 38,
+    "fastenerPairs": 113,
+    "serviceConduits": 21,
+    "portClearanceSkips": 4,
+    "serviceEnclosures": 10
+  },
+  "verifiedSurfaceAnchors": 297,
+  "id": "earth_starter_escort",
+  "originalGeometryHash": "f7ff493be0c97e995ae87fcce456cb31d522d82b7a46086297006d128b3e52f4",
+  "originalGeometryPreserved": true,
+  "triangles": 33800,
+  "meshGroups": 11,
+  "materials": 11
+}

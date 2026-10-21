@@ -1,0 +1,2663 @@
+[
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 1,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.33121562235233,
+          "MeanFirstLockSeconds": 3.6666666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.30331849815728,
+          "MeanFirstLockSeconds": 6.4375
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.82787347596033,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.210645612936137,
+          "MeanFirstLockSeconds": 6.458333333333333
+        }
+      ],
+      "FirstLaserKm": 26.476604524029497,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 267,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.50744724,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 120.81403163571383,
+      "MinimumStartKm": 32.009900377506064,
+      "MaximumStartKm": 45.31729100158339
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 2,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.291226197350877,
+          "MeanFirstLockSeconds": 3.6875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.308508373352055,
+          "MeanFirstLockSeconds": 6.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.834375878696974,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.241211119315782,
+          "MeanFirstLockSeconds": 6.4375
+        }
+      ],
+      "FirstLaserKm": 26.479573781187753,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 269,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.5106993,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.1974035383442,
+      "MinimumStartKm": 32.01285829920834,
+      "MaximumStartKm": 45.304102628123864
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 3,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.250788556228674,
+          "MeanFirstLockSeconds": 3.7083333333333335
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.29531986837173,
+          "MeanFirstLockSeconds": 6.4375
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.82290417867352,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.22261749926919,
+          "MeanFirstLockSeconds": 6.458333333333333
+        }
+      ],
+      "FirstLaserKm": 26.477406557539137,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 266,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.50916135,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.12816393756187,
+      "MinimumStartKm": 32.01069946080154,
+      "MaximumStartKm": 45.311396288636644
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 4,
+      "Incoming": 48,
+      "Intercepted": 20,
+      "GuardHits": 0,
+      "AnchorHits": 28,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 20
+      },
+      "KillsByShip": {
+        "GUARD": 20
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.287818269834016,
+          "MeanFirstLockSeconds": 3.6875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 8,
+          "GuardHits": 0,
+          "AnchorHits": 4,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.258884019270102,
+          "MeanFirstLockSeconds": 6.4375
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.824867023911796,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.344626859996453,
+          "MeanFirstLockSeconds": 6.375
+        }
+      ],
+      "FirstLaserKm": 25.988346072601693,
+      "FirstLaserSeconds": 3.0166666666666666,
+      "LaserPulses": 235,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.50407654,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 118.94965123280657,
+      "MinimumStartKm": 32.02158816528992,
+      "MaximumStartKm": 45.30891567730641
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 5,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.32975291553564,
+          "MeanFirstLockSeconds": 3.6666666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.296112824329924,
+          "MeanFirstLockSeconds": 6.4375
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.827101127296714,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.302795754633536,
+          "MeanFirstLockSeconds": 6.458333333333333
+        }
+      ],
+      "FirstLaserKm": 26.472189738149932,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 273,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.51336324,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.75685900191787,
+      "MinimumStartKm": 32.0055030569396,
+      "MaximumStartKm": 45.304271499555234
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 6,
+      "Incoming": 48,
+      "Intercepted": 20,
+      "GuardHits": 0,
+      "AnchorHits": 28,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 20
+      },
+      "KillsByShip": {
+        "GUARD": 20
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.20561471521285,
+          "MeanFirstLockSeconds": 3.7291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.246001302338872,
+          "MeanFirstLockSeconds": 6.458333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.832474489327854,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 8,
+          "GuardHits": 0,
+          "AnchorHits": 4,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.286542943102532,
+          "MeanFirstLockSeconds": 6.458333333333333
+        }
+      ],
+      "FirstLaserKm": 25.988792276360446,
+      "FirstLaserSeconds": 3.0166666666666666,
+      "LaserPulses": 220,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.4672827,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.21528517280501,
+      "MinimumStartKm": 32.02203303394394,
+      "MaximumStartKm": 45.32169780916055
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 7,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.288862190419085,
+          "MeanFirstLockSeconds": 3.6875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.214141619297404,
+          "MeanFirstLockSeconds": 6.458333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.823940273313156,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.252515753915148,
+          "MeanFirstLockSeconds": 6.4375
+        }
+      ],
+      "FirstLaserKm": 26.474927436267116,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 257,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.4860054,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 122.72399561597933,
+      "MinimumStartKm": 32.00822956493915,
+      "MaximumStartKm": 45.301028489067114
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 8,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.289719612908197,
+          "MeanFirstLockSeconds": 3.6875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.23924841461987,
+          "MeanFirstLockSeconds": 6.458333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.83022527775925,
+          "MeanFirstLockSeconds": 7.416666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.231735744482055,
+          "MeanFirstLockSeconds": 6.458333333333333
+        }
+      ],
+      "FirstLaserKm": 25.991144952325566,
+      "FirstLaserSeconds": 3.0166666666666666,
+      "LaserPulses": 253,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.47822338,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 121.0543489720327,
+      "MinimumStartKm": 32.024375884336315,
+      "MaximumStartKm": 45.322576357214636
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 1,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 24.414575888861062,
+          "MeanFirstLockSeconds": 4.625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.467038982118208,
+          "MeanFirstLockSeconds": 6.354166666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.24453554715734,
+          "MeanFirstLockSeconds": 7.208333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.415245378899957,
+          "MeanFirstLockSeconds": 6.354166666666667
+        }
+      ],
+      "FirstLaserKm": 26.476604524029497,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 217,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.24992548,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.542658886029,
+      "MinimumStartKm": 32.009900377506064,
+      "MaximumStartKm": 45.31729100158339
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 2,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 23.87459397044479,
+          "MeanFirstLockSeconds": 4.895833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.676944162383915,
+          "MeanFirstLockSeconds": 6.229166666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.37603224410567,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.609610929562006,
+          "MeanFirstLockSeconds": 6.25
+        }
+      ],
+      "FirstLaserKm": 26.277902409531045,
+      "FirstLaserSeconds": 3.0166666666666666,
+      "LaserPulses": 188,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.19929335,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.02887324518133,
+      "MinimumStartKm": 32.01285829920834,
+      "MaximumStartKm": 45.304102628123864
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 3,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 24.250834698167484,
+          "MeanFirstLockSeconds": 4.708333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.459037916349015,
+          "MeanFirstLockSeconds": 6.354166666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.239569083597363,
+          "MeanFirstLockSeconds": 7.208333333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.38631324619306,
+          "MeanFirstLockSeconds": 6.375
+        }
+      ],
+      "FirstLaserKm": 26.477406557539137,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 217,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.26731527,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.30553303149084,
+      "MinimumStartKm": 32.01069946080154,
+      "MaximumStartKm": 45.311396288636644
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 4,
+      "Incoming": 48,
+      "Intercepted": 20,
+      "GuardHits": 0,
+      "AnchorHits": 28,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 20
+      },
+      "KillsByShip": {
+        "GUARD": 20
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 24.287848206691606,
+          "MeanFirstLockSeconds": 4.6875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 8,
+          "GuardHits": 0,
+          "AnchorHits": 4,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.66821272822682,
+          "MeanFirstLockSeconds": 6.229166666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.366527982570286,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.67212963437458,
+          "MeanFirstLockSeconds": 6.208333333333333
+        }
+      ],
+      "FirstLaserKm": 26.271900358157584,
+      "FirstLaserSeconds": 3.0166666666666666,
+      "LaserPulses": 170,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.21450576,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 19.98333333333348,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.37452846249656,
+      "MinimumStartKm": 32.02158816528992,
+      "MaximumStartKm": 45.30891567730641
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 5,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 23.288129626782464,
+          "MeanFirstLockSeconds": 5.1875
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.66453229791011,
+          "MeanFirstLockSeconds": 6.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.368762639503785,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.67125887452607,
+          "MeanFirstLockSeconds": 6.270833333333333
+        }
+      ],
+      "FirstLaserKm": 26.472189738149932,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 187,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.20157978,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.3858381505996,
+      "MinimumStartKm": 32.0055030569396,
+      "MaximumStartKm": 45.304271499555234
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 6,
+      "Incoming": 48,
+      "Intercepted": 23,
+      "GuardHits": 0,
+      "AnchorHits": 25,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 23
+      },
+      "KillsByShip": {
+        "GUARD": 23
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 23.41398020984602,
+          "MeanFirstLockSeconds": 5.125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.65533065500487,
+          "MeanFirstLockSeconds": 6.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.374134162395325,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 11,
+          "GuardHits": 0,
+          "AnchorHits": 1,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.695912291614473,
+          "MeanFirstLockSeconds": 6.25
+        }
+      ],
+      "FirstLaserKm": 19.488956640621023,
+      "FirstLaserSeconds": 6.266666666666667,
+      "LaserPulses": 155,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.20621894,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 19.98333333333348,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 119.17651432968917,
+      "MinimumStartKm": 32.02203303394394,
+      "MaximumStartKm": 45.32169780916055
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 7,
+      "Incoming": 48,
+      "Intercepted": 17,
+      "GuardHits": 0,
+      "AnchorHits": 31,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 17
+      },
+      "KillsByShip": {
+        "GUARD": 17
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 23.163913015936945,
+          "MeanFirstLockSeconds": 5.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 5,
+          "GuardHits": 0,
+          "AnchorHits": 7,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.582540708530463,
+          "MeanFirstLockSeconds": 6.270833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.365604232580452,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.62093572914505,
+          "MeanFirstLockSeconds": 6.25
+        }
+      ],
+      "FirstLaserKm": 26.474927436267116,
+      "FirstLaserSeconds": 2.7666666666666666,
+      "LaserPulses": 172,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.16680178,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 122.76067442907076,
+      "MinimumStartKm": 32.00822956493915,
+      "MaximumStartKm": 45.301028489067114
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 2000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 8,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 22.914781897987556,
+          "MeanFirstLockSeconds": 5.375
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.64858619360378,
+          "MeanFirstLockSeconds": 6.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 29.371884467643607,
+          "MeanFirstLockSeconds": 7.145833333333333
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 26.60015651343383,
+          "MeanFirstLockSeconds": 6.270833333333333
+        }
+      ],
+      "FirstLaserKm": 19.491326748639743,
+      "FirstLaserSeconds": 6.266666666666667,
+      "LaserPulses": 146,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.22517526,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 20.000000000000146,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 122.91170613806223,
+      "MinimumStartKm": 32.024375884336315,
+      "MaximumStartKm": 45.322576357214636
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 1,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 11,
+        "PointDefense": 1
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.78955628574209,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.81272494156916,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.286210939423782,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.760996812995927,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.909942606074186,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 112,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.23430891,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 27.55714685206775,
+      "MinimumStartKm": 32.009900377506064,
+      "MaximumStartKm": 45.31729100158339
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 2,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.791234260809905,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.65442374520788,
+          "MeanFirstLockSeconds": 2.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.292718157912663,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.750664221312192,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.912912830443403,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 113,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.23499204,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 23.4859153287474,
+      "MinimumStartKm": 32.01285829920834,
+      "MaximumStartKm": 45.304102628123864
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 3,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.79246393942111,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.804706523716387,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.281240560093924,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.7729495644471,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.910745247772482,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 114,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.23766582,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 24.032077313719114,
+      "MinimumStartKm": 32.01069946080154,
+      "MaximumStartKm": 45.311396288636644
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 4,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 11,
+        "PointDefense": 1
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.7878237722154,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.768322496268226,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.283204138466868,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.73135507070214,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.921680651946495,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 108,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.22670321,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 22.821125864104168,
+      "MinimumStartKm": 32.02158816528992,
+      "MaximumStartKm": 45.30891567730641
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 5,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.78809331924118,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.80549819922139,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.285440271828097,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.730415016177997,
+          "MeanFirstLockSeconds": 2.25
+        }
+      ],
+      "FirstLaserKm": 25.905526325610207,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 110,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.2331657,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 21.247524894406723,
+      "MinimumStartKm": 32.0055030569396,
+      "MaximumStartKm": 45.304271499555234
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 6,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.788952091643612,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.796294714906097,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.290815628751727,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.83681754023313,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.922126875107928,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 108,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.2266938,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 23.527203670498146,
+      "MinimumStartKm": 32.02203303394394,
+      "MaximumStartKm": 45.32169780916055
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 7,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.788867684874756,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.64189575136646,
+          "MeanFirstLockSeconds": 2.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.282276401857008,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.761955268503396,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.908264954718803,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 115,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.23816359,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 23.68169524975916,
+      "MinimumStartKm": 32.00822956493915,
+      "MaximumStartKm": 45.301028489067114
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Absent",
+      "Seed": 8,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.78972498856162,
+          "MeanFirstLockSeconds": 1.3125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.789572459896046,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.288565241452897,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.65944034603872,
+          "MeanFirstLockSeconds": 2.25
+        }
+      ],
+      "FirstLaserKm": 25.924480150464422,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 104,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.2167734,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 0,
+      "MinimumEcmEffect": 0,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 23.877547931258324,
+      "MinimumStartKm": 32.024375884336315,
+      "MaximumStartKm": 45.322576357214636
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 1,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 11,
+        "PointDefense": 1
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 22.914592279473055,
+          "MeanFirstLockSeconds": 1.7916666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.81272494156916,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.286210939423782,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.760996812995927,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.909942606074186,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 106,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.21135418,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 24.203610361998106,
+      "MinimumStartKm": 32.009900377506064,
+      "MaximumStartKm": 45.31729100158339
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 2,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 11,
+        "PointDefense": 1
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 22.791283171677975,
+          "MeanFirstLockSeconds": 1.8125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.65442374520788,
+          "MeanFirstLockSeconds": 2.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.292718157912663,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.750664221312192,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 26.211236370204396,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 78,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.11437963,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 23.53599526232481,
+      "MinimumStartKm": 32.01285829920834,
+      "MaximumStartKm": 45.304102628123864
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 3,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 22.917532417122302,
+          "MeanFirstLockSeconds": 1.7916666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.804706523716387,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.281240560093924,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.7729495644471,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.910745247772482,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 106,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.21175106,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 24.034140372357918,
+      "MinimumStartKm": 32.01069946080154,
+      "MaximumStartKm": 45.311396288636644
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 4,
+      "Incoming": 48,
+      "Intercepted": 12,
+      "GuardHits": 0,
+      "AnchorHits": 36,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 36,
+      "KillsByWeapon": {
+        "Laser": 12
+      },
+      "KillsByShip": {
+        "GUARD": 12
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 12,
+          "GuardHits": 0,
+          "AnchorHits": 0,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 21.78786866818351,
+          "MeanFirstLockSeconds": 1.9791666666666667
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.768322496268226,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.283204138466868,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.73135507070214,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 26.205234450447534,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 84,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.13108703,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 26.530806560188246,
+      "MinimumStartKm": 32.02158816528992,
+      "MaximumStartKm": 45.30891567730641
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 5,
+      "Incoming": 48,
+      "Intercepted": 9,
+      "GuardHits": 0,
+      "AnchorHits": 39,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 39,
+      "KillsByWeapon": {
+        "Laser": 9
+      },
+      "KillsByShip": {
+        "GUARD": 9
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 9,
+          "GuardHits": 0,
+          "AnchorHits": 3,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 21.163159956315976,
+          "MeanFirstLockSeconds": 2.0833333333333335
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.80549819922139,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.285440271828097,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.730415016177997,
+          "MeanFirstLockSeconds": 2.25
+        }
+      ],
+      "FirstLaserKm": 25.905526325610207,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 89,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.15508582,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 27.493905855437756,
+      "MinimumStartKm": 32.0055030569396,
+      "MaximumStartKm": 45.304271499555234
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 6,
+      "Incoming": 48,
+      "Intercepted": 10,
+      "GuardHits": 0,
+      "AnchorHits": 38,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 38,
+      "KillsByWeapon": {
+        "Laser": 10
+      },
+      "KillsByShip": {
+        "GUARD": 10
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 10,
+          "GuardHits": 0,
+          "AnchorHits": 2,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 20.914005403509496,
+          "MeanFirstLockSeconds": 2.125
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.796294714906097,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.290815628751727,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.83681754023313,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 18.422328075943575,
+      "FirstLaserSeconds": 2.2666666666666666,
+      "LaserPulses": 72,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.12071373,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 29.214918870632822,
+      "MinimumStartKm": 32.02203303394394,
+      "MaximumStartKm": 45.32169780916055
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 7,
+      "Incoming": 48,
+      "Intercepted": 11,
+      "GuardHits": 0,
+      "AnchorHits": 37,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 37,
+      "KillsByWeapon": {
+        "Laser": 10,
+        "PointDefense": 1
+      },
+      "KillsByShip": {
+        "GUARD": 11
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 11,
+          "GuardHits": 0,
+          "AnchorHits": 1,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 21.413936983804046,
+          "MeanFirstLockSeconds": 2.0416666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.64189575136646,
+          "MeanFirstLockSeconds": 2.25
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.282276401857008,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.761955268503396,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        }
+      ],
+      "FirstLaserKm": 25.908264954718803,
+      "FirstLaserSeconds": 1.0166666666666666,
+      "LaserPulses": 92,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.15856433,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 26.039546802589083,
+      "MinimumStartKm": 32.00822956493915,
+      "MaximumStartKm": 45.301028489067114
+    },
+    "FriendlyLaserHitPulses": 0
+  },
+  {
+    "Trial": {
+      "FrontRangeKm": 32,
+      "Directions": 4,
+      "SpeedMps": 6000,
+      "MotorBurning": false,
+      "Support": "Ecm",
+      "Seed": 8,
+      "Incoming": 48,
+      "Intercepted": 10,
+      "GuardHits": 0,
+      "AnchorHits": 38,
+      "OtherHits": 0,
+      "ExpiredOrMissed": 0,
+      "Remaining": 0,
+      "InnerScreen": 38,
+      "KillsByWeapon": {
+        "Laser": 10
+      },
+      "KillsByShip": {
+        "GUARD": 10
+      },
+      "Sectors": [
+        {
+          "Incoming": 12,
+          "Intercepted": 10,
+          "GuardHits": 0,
+          "AnchorHits": 2,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 21.0398121693379,
+          "MeanFirstLockSeconds": 2.1041666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.789572459896046,
+          "MeanFirstLockSeconds": 2.2291666666666665
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 28.288565241452897,
+          "MeanFirstLockSeconds": 2.5625
+        },
+        {
+          "Incoming": 12,
+          "Intercepted": 0,
+          "GuardHits": 0,
+          "AnchorHits": 12,
+          "OtherHits": 0,
+          "Remaining": 0,
+          "MeanFirstLockKm": 25.65944034603872,
+          "MeanFirstLockSeconds": 2.25
+        }
+      ],
+      "FirstLaserKm": 18.424703259838935,
+      "FirstLaserSeconds": 2.2666666666666666,
+      "LaserPulses": 71,
+      "LaserShipHitPulses": 0,
+      "PeakHeat": 0.11421329,
+      "CoolingMountSeconds": 0,
+      "EcmSeconds": 6.666666666666648,
+      "MinimumEcmEffect": 1,
+      "GuardDisabled": false,
+      "GuardDestroyed": false,
+      "SupportDisabled": false,
+      "SupportDestroyed": false,
+      "GuardTravelMeters": 0,
+      "GuardTurnDegrees": 32.56434785569034,
+      "MinimumStartKm": 32.024375884336315,
+      "MaximumStartKm": 45.322576357214636
+    },
+    "FriendlyLaserHitPulses": 0
+  }
+]

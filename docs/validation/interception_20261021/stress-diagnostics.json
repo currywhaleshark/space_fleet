@@ -1,0 +1,237 @@
+{
+  "Trial": {
+    "FrontRangeKm": 32,
+    "Directions": 4,
+    "SpeedMps": 2000,
+    "MotorBurning": false,
+    "Support": "Absent",
+    "Seed": 1,
+    "Incoming": 48,
+    "Intercepted": 17,
+    "GuardHits": 0,
+    "AnchorHits": 31,
+    "OtherHits": 0,
+    "ExpiredOrMissed": 0,
+    "Remaining": 0,
+    "InnerScreen": 36,
+    "KillsByWeapon": {
+      "Laser": 17
+    },
+    "KillsByShip": {
+      "GUARD": 17
+    },
+    "Sectors": [
+      {
+        "Incoming": 12,
+        "Intercepted": 12,
+        "GuardHits": 0,
+        "AnchorHits": 0,
+        "OtherHits": 0,
+        "Remaining": 0,
+        "MeanFirstLockKm": 26.33121562235233,
+        "MeanFirstLockSeconds": 3.6666666666666665
+      },
+      {
+        "Incoming": 12,
+        "Intercepted": 5,
+        "GuardHits": 0,
+        "AnchorHits": 7,
+        "OtherHits": 0,
+        "Remaining": 0,
+        "MeanFirstLockKm": 26.30331849815728,
+        "MeanFirstLockSeconds": 6.4375
+      },
+      {
+        "Incoming": 12,
+        "Intercepted": 0,
+        "GuardHits": 0,
+        "AnchorHits": 12,
+        "OtherHits": 0,
+        "Remaining": 0,
+        "MeanFirstLockKm": 28.82787347596033,
+        "MeanFirstLockSeconds": 7.416666666666667
+      },
+      {
+        "Incoming": 12,
+        "Intercepted": 0,
+        "GuardHits": 0,
+        "AnchorHits": 12,
+        "OtherHits": 0,
+        "Remaining": 0,
+        "MeanFirstLockKm": 26.210645612936137,
+        "MeanFirstLockSeconds": 6.458333333333333
+      }
+    ],
+    "FirstLaserKm": 26.476604524029497,
+    "FirstLaserSeconds": 2.7666666666666666,
+    "LaserPulses": 269,
+    "LaserShipHitPulses": 17,
+    "PeakHeat": 0.50744724,
+    "CoolingMountSeconds": 0,
+    "EcmSeconds": 0,
+    "MinimumEcmEffect": 0,
+    "GuardDisabled": false,
+    "GuardDestroyed": false,
+    "SupportDisabled": false,
+    "SupportDestroyed": false,
+    "GuardTravelMeters": 0,
+    "GuardTurnDegrees": 120.81403163571383,
+    "MinimumStartKm": 32.009900377506064,
+    "MaximumStartKm": 45.31729100158339
+  },
+  "ShipHitPulses": [
+    {
+      "Time": 18.766666666666666,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.063865102979502,
+      "MissileKm": 4.956865449369143,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 18.883333333333333,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.0977992897353115,
+      "MissileKm": 4.945729200468644,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 18.966666666666665,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.389643075510375,
+      "MissileKm": 5.046542457565322,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.03333333333333,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.091173995062336,
+      "MissileKm": 4.946576811164187,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.133333333333333,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.263274378638849,
+      "MissileKm": 4.964025752572153,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.183333333333334,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.096637957414735,
+      "MissileKm": 4.942053867404655,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.2,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.11427219656545,
+      "MissileKm": 4.9640564398516585,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.333333333333332,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.091010406654577,
+      "MissileKm": 4.949635458141047,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.333333333333332,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.130131148502646,
+      "MissileKm": 4.960035800670741,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.5,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.081165705141297,
+      "MissileKm": 4.956555022753433,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.5,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.127727721450809,
+      "MissileKm": 4.971647325346501,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.633333333333333,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.130535649098359,
+      "MissileKm": 4.960647826653834,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.666666666666668,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.062601129915804,
+      "MissileKm": 4.939427376931449,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.78333333333333,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.136625739180896,
+      "MissileKm": 4.957341776950837,
+      "FullRayFriendlyBlock": true
+    },
+    {
+      "Time": 19.8,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.0847292062613105,
+      "MissileKm": 4.935470014521662,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.933333333333334,
+      "Mount": "gun-1",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.091520688812526,
+      "MissileKm": 4.9501982119010535,
+      "FullRayFriendlyBlock": false
+    },
+    {
+      "Time": 19.95,
+      "Mount": "gun-2",
+      "Victim": "ANCHOR",
+      "Friendly": true,
+      "BeamEndKm": 4.123209996420455,
+      "MissileKm": 4.948597830737604,
+      "FullRayFriendlyBlock": false
+    }
+  ]
+}

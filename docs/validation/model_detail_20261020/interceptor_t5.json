@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 12808,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 200,
+    "fastenerPairs": 67,
+    "serviceConduits": 9,
+    "accessHatches": 7,
+    "coolingGrilles": 12,
+    "portClearanceSkips": 6,
+    "radiatorBanks": 3
+  },
+  "verifiedSurfaceAnchors": 200,
+  "id": "interceptor_t5",
+  "originalGeometryHash": "e64ac89eb2d0c17845430797ff45e99a61a7e9b9aa95b407fe74efb52caf4d9b",
+  "originalGeometryPreserved": true,
+  "triangles": 19176,
+  "meshGroups": 5,
+  "materials": 11
+}

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "addedTriangles": 26080,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 277,
+    "coolingGrilles": 45,
+    "accessHatches": 22,
+    "serviceConduits": 58,
+    "portClearanceSkips": 20,
+    "fastenerPairs": 37,
+    "serviceEnclosures": 17,
+    "radiatorBanks": 1
+  },
+  "verifiedSurfaceAnchors": 277,
+  "id": "mars_missile_cruiser_t5",
+  "originalGeometryHash": "4022dbeb9aa79fcd54d0fe89255229cfe46c3d75bd0a7101f588705f3be0f444",
+  "originalGeometryPreserved": true,
+  "triangles": 37924,
+  "meshGroups": 9,
+  "materials": 11
+}

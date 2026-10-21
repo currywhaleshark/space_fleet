@@ -256,6 +256,7 @@ public sealed class ShipDefinition
                 && float.IsFinite(ms.ThrustGimbalDegrees) && ms.ThrustGimbalDegrees>=0 && ms.ThrustGimbalDegrees<=45, "invalid missiles");
             ms.Packet.Validate();
             Require(Positive(ms.BodyScale) && ms.BodyScale <= 2, "invalid missile scale");
+            Require(Positive(ms.SensorSignature) && Positive(ms.BurningSignature), "invalid missile signature");
             Require(float.IsFinite(ms.LaunchSignatureFraction) && ms.LaunchSignatureFraction >= 0 && ms.LaunchSignatureFraction <= 10
                 && float.IsFinite(ms.LaunchSignatureSeconds) && ms.LaunchSignatureSeconds >= 0
                 && (ms.LaunchSignatureFraction == 0 || ms.LaunchSignatureSeconds > 0), "invalid missile launch signature");

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 33620,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 315,
+    "coolingGrilles": 87,
+    "accessHatches": 51,
+    "portClearanceSkips": 4,
+    "fastenerPairs": 35,
+    "serviceEnclosures": 17,
+    "serviceConduits": 65
+  },
+  "verifiedSurfaceAnchors": 315,
+  "id": "mars_missile_cruiser_t4",
+  "originalGeometryHash": "6e1bf04e56e151ad24e240c1903e1b9643d45cf66b01b074e98d80b44d0f8ff8",
+  "originalGeometryPreserved": true,
+  "triangles": 44808,
+  "meshGroups": 9,
+  "materials": 11
+}

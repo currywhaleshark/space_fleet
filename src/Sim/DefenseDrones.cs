@@ -175,7 +175,7 @@ public sealed partial class SimWorld
                 drones.Aim(i,Vector3.Zero);
                 if(!drones.Operational(i) || drones.Rounds[i]==0) { drones.Accum[i]=0; continue; }
                 Vec3d origin=ship.Position+Vec3d.From(ship.Orientation*drones.LocalPosition(i,time));
-                Missile? target=null; double nearest=def.RangeMeters;
+                Missile? target=null; double nearest=def.RangeMeters; Vec3d observedAim=default;float observedError=0;
                 // Positions are unchanged since the PD snapshot, but earlier PD
                 // and drones may have killed/removed targets. Recheck live state.
                 var bounds=_pdTargetsPrepared ? SpatialBounds.Segment(origin,origin).Expanded(def.RangeMeters) : default;
@@ -185,11 +185,13 @@ public sealed partial class SimWorld
                 for(int candidate=0;candidate<count;candidate++)
                 {
                     var m=indexed ? _pdMissileSnapshot[candidates[candidate]] : _missiles[candidate];
-                    double distance=(m.Position-origin).Length();
+                    if(Sensors.SmallTrack(ship.Faction,m) is not { } seen || !seen.Locked(Time))continue;
+                    Vec3d point=seen.Predict(time);
+                    double distance=(point-origin).Length();
                     if(m.Faction==ship.Faction || m.Health<=0 || distance>=nearest
-                        || !drones.Covers(ship.Orientation.Inverse()*(m.Position-ship.Position).ToVector3())) continue;
-                    if(!ClearDefenseLine(origin,m.Position)) continue;
-                    target=m; nearest=distance;
+                        || !drones.Covers(ship.Orientation.Inverse()*(point-ship.Position).ToVector3())) continue;
+                    if(!ClearDefenseLine(origin,point)) continue;
+                    target=m; nearest=distance;observedAim=point;observedError=seen.ErrorMeters;
                 }
                 ShipBody? raider=null;
                 if (target is null)
@@ -207,7 +209,7 @@ public sealed partial class SimWorld
                     }
                 }
                 if(target is null && raider is null) { drones.Accum[i]=0; continue; }
-                Vec3d aim=target?.Position??raider!.Position;
+                Vec3d aim=target is not null?observedAim:raider!.Position;
                 drones.Aim(i,ship.Orientation.Inverse()*(aim-origin).ToVector3().Normalized());
                 drones.Accum[i]+=(float)dt*def.ShotsPerSecond;
                 while(drones.Accum[i]>=1 && drones.Rounds[i]>0 && (target is null || target.Health>0) && raider?.Damage.Destroyed!=true)
@@ -215,6 +217,7 @@ public sealed partial class SimWorld
                     drones.Accum[i]--; drones.Rounds[i]--;
                     drones.LastFiredAt[i]=time;
                     float chance=def.HitChance*quality*(1-.6f*(float)nearest/def.RangeMeters);
+                    if(target is not null)chance*=1/(1+observedError*observedError/9);
                     Vector3 direction=(aim-origin).ToVector3().Normalized();
                     if(raider is not null)
                     {

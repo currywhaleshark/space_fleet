@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "addedTriangles": 16720,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 182,
+    "coolingGrilles": 16,
+    "fastenerPairs": 31,
+    "accessHatches": 50,
+    "serviceConduits": 24,
+    "serviceEnclosures": 9,
+    "portClearanceSkips": 11,
+    "radiatorBanks": 1
+  },
+  "verifiedSurfaceAnchors": 182,
+  "id": "earth_air_defense_cruiser_t5",
+  "originalGeometryHash": "a1dada62c8147143b537b52a6bfd9c75b6571facb03e29cf9d8e39623d1336a4",
+  "originalGeometryPreserved": true,
+  "triangles": 27076,
+  "meshGroups": 17,
+  "materials": 11
+}

@@ -51,6 +51,10 @@ public sealed class LaserState
     internal ShotCredit Credit;
     internal double RequestedUntil, PulseCredit;
     internal bool AutoCooling;
+    internal bool AvoidFriendlyFire;
+    internal ShipBody? AutoShipTarget;
+    internal bool AutoShipEngaged, DefenseReserve;
+    public float AutoTransmission { get; internal set; }
     public bool Cooling => AutoCooling;
     internal void Focus(ShipBody ship, Vector3 local, float seconds)
     {
@@ -69,6 +73,8 @@ public sealed class LaserState
     {
         Stop(); FocusSeconds = SignatureBoost = 0; Pulses = 0; LastPulseAt = double.NegativeInfinity;
         AutoCooling = false;
+        AvoidFriendlyFire = false;
+        AutoShipTarget=null;AutoShipEngaged=DefenseReserve=false;AutoTransmission=0;
         _focusShip = HitShip = null; End = Vec3d.Zero; HitLocal = _anchor = Vector3.Zero; ShieldHit = false;
     }
 }
@@ -78,7 +84,7 @@ public sealed partial class SimWorld
     public static void StopLasers(ShipBody ship)
     { foreach (var gun in ship.Railguns) gun.Laser?.Stop(); }
 
-    private FireAttempt RequestLaser(ShipBody ship, RailgunState gun, Vector3 direction, ShotCredit? credit)
+    private FireAttempt RequestLaser(ShipBody ship, RailgunState gun, Vector3 direction, ShotCredit? credit, bool automatic)
     {
         var laser = gun.Laser!;
         if (!direction.IsFinite() || direction.LengthSquared() < 1e-8f)
@@ -90,6 +96,7 @@ public sealed partial class SimWorld
         { laser.Stop(); return new(false, line == FireFailure.Arc ? "조사각 밖" : "선체 가림", Failure: line); }
         if (!gun.Aligned(direction)) { laser.Stop(); return new(false, "포탑 선회 중", Failure: FireFailure.Traversing); }
         laser.RequestedDirection = direction; laser.Credit=credit??Merits.Capture(ship);
+        laser.AvoidFriendlyFire = automatic;
         // Player/AI must renew at 60 Hz. A lost target, stale order or released input cannot latch the beam on.
         laser.RequestedUntil = ship.SimTime + TickDelta * 1.5;
         return new(true, "레이저 조사", Shots: 1);
@@ -164,6 +171,18 @@ public sealed partial class SimWorld
                 { nearest=(float)(t*def.RayRange);droneCarrier=carrier;droneIndex=i;small=null;target=null; }
         }
 
+        // AI intent is evaluated before movement and turret slew. Reuse the physical
+        // first-hit query at emission time, including shields and any ally behind a
+        // missed small target. Never let a blocked ray pass through the ally.
+        // Raw manual fire retains the existing friendly-fire collision rules.
+        if(state.AvoidFriendlyFire && target is { Damage.Destroyed:false } ally && ally.Faction==shooter.Faction)
+        {
+            state.Stop();state.HitShip=null;state.ShieldHit=false;state.End=from;
+            state.LoseFocus(LaserDefinition.PulseSeconds);
+            gun.DefenseStatus=GunneryStatus.FriendlyLine;
+            if(shooter.Gunnery is { } order)order.Status=GunneryStatus.FriendlyLine;
+            return;
+        }
         state.End = from + Vec3d.From(direction) * nearest;
         state.HitShip = target; state.ShieldHit = false;
         state.LastPulseAt = shooter.SimTime; state.Pulses++;

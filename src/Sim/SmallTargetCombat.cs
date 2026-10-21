@@ -98,9 +98,21 @@ public sealed partial class SimWorld
 
     /// <summary>Shared player/AI lead solution from a fresh sensor snapshot, never the live threat pose.</summary>
     public bool SmallTargetAim(ShipBody ship, SmallContact track, out Vector3 direction, out Vec3d aim, RailgunState? weapon = null, bool playerAssist = false)
+        => SmallTargetAim(ship,track,out direction,out aim,out _,weapon,playerAssist);
+
+    public static float SmallTargetRange(RailgunState gun) => gun.Laser is { } laser
+        ? Math.Min(laser.Definition.RayRange,laser.Definition.FalloffMeters*2) : gun.Definition.MaxRange;
+
+    public bool SmallTargetAim(ShipBody ship, SmallContact track, out Vector3 direction, out Vec3d aim, out string reason,
+        RailgunState? weapon = null, bool playerAssist = false, bool requireLock = true)
     {
         direction = Vector3.Zero; aim = track.Predict(Time);
+        reason="신호 소실";
+        if(!track.Fresh(Time))return false;
+        reason=track.Level==TrackLevel.Contact?"접촉만 · 식별 대기":"식별 완료 · 잠금 대기";
+        if(requireLock&&!track.Locked(Time))return false;
         var gun = weapon ?? ship.Railgun;
+        reason="무장/사격통제 전원 상실";
         if (!track.Fresh(Time) || gun is null || (gun.IsLaser ? gun.Output : ship.Damage.WeaponsFraction) <= .01f
             || ship.Power.SensorEffect <= .01f) return false;
         double age = Math.Clamp(Time - track.SeenAt, 0, .5);
@@ -108,13 +120,18 @@ public sealed partial class SimWorld
         aim += Vec3d.From(acceleration) * (.5 * age * age);
         Vec3d relative = aim - gun.MuzzlePosition;
         double range = relative.Length();
-        bool earlyMissile = playerAssist && track.Kind == SmallContactKind.Missile;
-        float maxRange = earlyMissile ? (ship.Definition.Design == DesignFamily.Mars ? 12000 : 14000)
-            : ship.Definition.Design == DesignFamily.Mars ? 4500 : 6000;
-        if(ship.Definition.Branch==ShipBranch.AirDefenseCruiser)maxRange=12000;
-        double maxFlight = earlyMissile ? 2.8 : 1.4;
-        if (range > maxRange || range < 1) return false;
-        if (gun.IsLaser) { direction = relative.ToVector3().Normalized(); return true; }
+        float maxRange=SmallTargetRange(gun);
+        double maxFlight=gun.Definition.MaxRange/gun.Definition.MuzzleSpeed;
+        if (range > maxRange || range < 1)
+        { reason=$"사거리 밖 · {range/1000:0.0} / {maxRange/1000:0.0} km"; return false; }
+        reason="선행 계산 불가";
+        // Angular calibration/measurement error is shared by automatic and player-assisted shots.
+        // Close-range precision is preserved; distant small targets do not receive perfect ray aim.
+        uint salt=(track.Target is Missile m?m.Id:((ReconProbe)track.Target).Id)^ShipBrain.Hash(ship.Callsign);
+        float pointingError=(gun.Definition.SensorErrorMeters+gun.Definition.SensorErrorPerKm*(float)(range/1000))*.65f*gun.Definition.AimErrorScale;
+        aim+=FireControl.SmoothNoise(salt^0x91e10da5u,Time,.7)*pointingError;
+        relative=aim-gun.MuzzlePosition;
+        if (gun.IsLaser) { direction = relative.ToVector3().Normalized(); reason="잠금 · 조사 가능"; return true; }
         Vector3 velocity = track.Velocity + acceleration * (float)age - ship.Velocity;
         double a = velocity.LengthSquared() - gun.Definition.MuzzleSpeed * gun.Definition.MuzzleSpeed;
         double b = 2 * relative.Dot(Vec3d.From(velocity)), c = relative.LengthSquared();
@@ -141,7 +158,10 @@ public sealed partial class SimWorld
         if (playerAssist && Math.Abs((relative + Vec3d.From(velocity) * t
             + Vec3d.From(acceleration) * (.5 * t * t)).Length() - gun.Definition.MuzzleSpeed * t) > .1) return false;
         aim += Vec3d.From(velocity) * t + Vec3d.From(acceleration) * (.5 * t * t);
+        double beyond=Math.Max(0,t-FireControl.PredictionGraceSeconds);
+        aim+=FireControl.SmoothNoise(salt,Time)* (FireControl.PredictionErrorPerSecondSquared*beyond*beyond);
         direction = (aim - gun.MuzzlePosition).ToVector3().Normalized();
+        reason="잠금 · 요격 가능";
         return true;
     }
 }

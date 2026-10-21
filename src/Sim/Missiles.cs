@@ -25,6 +25,8 @@ public sealed record MissileDefinition(int Rounds, float ReloadSeconds, Vector3 
     public float InterceptFuzeMeters { get; init; } = 24;
     public float InterceptDamage { get; init; } = 12;
     public float BodyScale { get; init; } = 1;
+    public float SensorSignature { get; init; } = .65f;
+    public float BurningSignature { get; init; } = 2f;
     public float LaunchSignatureFraction { get; init; }
     public float LaunchSignatureSeconds { get; init; }
     /// <summary>Launch cells that can fire at once (§21); null = the single stock tube.</summary>

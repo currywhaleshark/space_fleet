@@ -26,14 +26,14 @@ static class PlayerInterceptChecks
             Check(world.LaunchMissile(enemy, ship).Fired, "Fuze fixture launches");
             var missile = world.Missiles.Single();
             var muzzle = ship.Railgun!.MuzzlePosition;
-            var observed = new SmallContact(missile, SmallContactKind.Missile, TrackLevel.Contact,
+            var observed = new SmallContact(missile, SmallContactKind.Missile, TrackLevel.Locked,
                 muzzle + new Vec3d(100, 0, -10000), Vector3.Back * ship.Railgun.Definition.MuzzleSpeed, world.Time);
             Check(world.SmallTargetAim(ship, observed, out var direction, out var aim, playerAssist: true)
                 && direction.IsFinite() && (aim - muzzle).Length() < 10000, "Equal-speed closing trajectory has a finite intercept");
-            Check(!world.SmallTargetAim(ship, observed, out _, out _), "AI defense range is unchanged");
+            Check(world.SmallTargetAim(ship, observed, out _, out _), "AI and player use the equipped weapon range");
             Check(world.SmallTargetAim(ship, observed with { Acceleration = new(70, 0, 300) }, out var accelDirection, out _, playerAssist: true)
                 && !direction.IsEqualApprox(accelDirection), "Observed acceleration adjusts high-speed lead without iteration oscillation");
-            Check(!world.SmallTargetAim(ship, observed with { Position = muzzle + new Vec3d(0, 0, -15000) }, out _, out _, playerAssist: true),
+            Check(!world.SmallTargetAim(ship, observed with { Position = muzzle + new Vec3d(0, 0, -1500000) }, out _, out _, playerAssist: true),
                 "Player assist still has a bounded engagement range");
             Check(!world.FireMissileIntercept(ship, observed with { SeenAt = -1 }).Fired, "Stale track cannot program a fuze or spend ammunition");
         }
@@ -55,7 +55,7 @@ static class PlayerInterceptChecks
             foreach (var m in world.Missiles) { m.Age = m.Definition.BurnSeconds + 1; m.Velocity = Vector3.Zero; }
             if (scenario == "armour") missile.Health = 12;
             float health = missile.Health;
-            var observed = new SmallContact(missile, SmallContactKind.Missile, TrackLevel.Contact,
+            var observed = new SmallContact(missile, SmallContactKind.Missile, TrackLevel.Locked,
                 muzzle + new Vec3d(0, 0, z), Vector3.Zero, world.Time);
             int ammo = ship.Railgun.Rounds;
             var shot = scenario == "manual" ? world.FireRailgun(ship, Vector3.Forward) : world.FireMissileIntercept(ship, observed);

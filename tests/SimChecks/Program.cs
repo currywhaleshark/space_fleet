@@ -8,6 +8,14 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--laser-friendly-fire")){LaserFriendlyFireChecks.Run(args.Length>1?args.Last():null);return;}
+        if(args.Contains("--interception-stress")){InterceptionStressTrials.Run(args.Last());return;}
+        if(args.Contains("--interception-flight-profiles")){InterceptionStressTrials.FlightProfiles(args.Last());return;}
+        if(args.Contains("--interception-stress-diagnostics")){InterceptionStressTrials.Diagnostics(args.Last());return;}
+        if(args.Contains("--interception-stress-smoke")){InterceptionStressTrials.Run(args.Last(),true);return;}
+        if(args.Contains("--interception-trials")){InterceptionTrials.Run(args.Last());return;}
+        if(args.Contains("--interception-accuracy")){InterceptionTrials.Accuracy(args.Last());return;}
+        if(args.Contains("--interception")){InterceptionChecks.Run();return;}
         if(args.Contains("--merits")){MeritChecks.Run();return;}
         if(args.Contains("--merit-smoke")){MeritChecks.Regression(true);return;}
         if(args.Contains("--merit-battles")){MeritChecks.Regression();return;}
@@ -75,6 +83,8 @@ static class SimChecks
         if (args.Contains("--drones")) { DefenseDroneChecks.Run(); DroneCombatChecks.Run(); return; }
         if (args.Contains("--am-trials")) { AntimatterTrials.Run(); return; }
         if (args.Contains("--am-moving")) { AntimatterTrials.Moving(); return; }
+        InterceptionChecks.Run();
+        LaserFriendlyFireChecks.Run();
         LaserChecks.Run();
         AirDefenseLaserChecks.Run();
         ComponentChecks.Run();

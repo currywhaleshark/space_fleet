@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 14172,
+  "groups": 4,
+  "assemblies": {
+    "armorPanels": 175,
+    "fastenerPairs": 45,
+    "coolingGrilles": 20,
+    "accessHatches": 22,
+    "serviceEnclosures": 7,
+    "serviceConduits": 15,
+    "portClearanceSkips": 5
+  },
+  "verifiedSurfaceAnchors": 175,
+  "id": "earth_gun_cruiser_t5",
+  "originalGeometryHash": "5554339a284a9993433ab9ad335e3ee0ee53aeab054b527c3c1ce98570e16d6a",
+  "originalGeometryPreserved": true,
+  "triangles": 24940,
+  "meshGroups": 13,
+  "materials": 11
+}

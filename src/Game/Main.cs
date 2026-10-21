@@ -49,6 +49,7 @@ public partial class Main : Node3D
         if(_args.ContainsKey("hud-details-test")){AddChild(new HudDetailsChecks());return;}
         if(_args.ContainsKey("selection-hud-test")){AddChild(new TargetSelectionChecks());return;}
         if(_args.ContainsKey("hud-readability-test")){AddChild(new HudReadabilityChecks());return;}
+        if(_args.ContainsKey("interception-hud-test")){AddChild(new InterceptionHudChecks());return;}
         if(_args.ContainsKey("laser-test")||_args.ContainsKey("laser-preview"))
         { AddChild(new LaserGameChecks{Shot=_args.ContainsKey("laser-preview")?_args.GetValueOrDefault("shot"):null});return; }
         if(_args.ContainsKey("export-menu-art")){AddChild(new MenuArtExport());return;}

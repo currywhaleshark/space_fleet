@@ -1,0 +1,2 @@
+seed,mirror,shipCollisions,collisionEnergyJ,collisionModuleDamage,stuckDetections,blueLockLosses,blueLostSeconds,blueReacquisitions,redLockLosses,redLostSeconds,redReacquisitions,blockedRails,blockedMissiles,blockedTorpedoes,blockedProbes
+12,0,0,0.000,0.000,0,0,0.000,0,0,0.000,0,6,0,0,0

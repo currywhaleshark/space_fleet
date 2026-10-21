@@ -5,7 +5,7 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public enum FireDoctrine { Free, Focus, Disable, Hold, Manual }
-public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual, Traversing, Obstructed }
+public enum GunneryStatus { NoTarget, Firing, Reload, WaitLock, Range, Arc, HullBlocked, FriendlyLine, Armor, Hold, Manual, Traversing, Obstructed, Attenuated, AimQuality, DefenseReserve }
 
 public sealed class GunneryOrder
 {
@@ -30,6 +30,8 @@ public static class GunneryLabels
         GunneryStatus.Firing => "발사", GunneryStatus.Reload => "재장전", GunneryStatus.WaitLock => "잠금 대기",
         GunneryStatus.Traversing => "포탑 선회 중",
         GunneryStatus.Range => "사거리 밖", GunneryStatus.Arc => "포각 밖",
+        GunneryStatus.Attenuated => "거리 감쇠 · 자동사격 대기", GunneryStatus.AimQuality => "조준 품질 부족",
+        GunneryStatus.DefenseReserve => "방공 대비 · 대함 조사 대기",
         GunneryStatus.Obstructed => "지형 가림",
         GunneryStatus.HullBlocked => "선체 가림", GunneryStatus.FriendlyLine => "아군 사선",
         GunneryStatus.Armor => "장갑 관통 불가", GunneryStatus.Hold => "사격 정지", GunneryStatus.Manual => "수동 사격",
@@ -79,6 +81,23 @@ public sealed partial class SimWorld
         solved = solution;
         if (solution.Valid) gun.Aim(solution.Direction); // track while reloading, too
         if (!solution.Valid || solution.FlightTime > maxFlightSeconds) { status = GunneryStatus.Range; return false; }
+        if(gun.Laser is { } laser)
+        {
+            if(laser.AutoShipTarget!=target){laser.AutoShipTarget=target;laser.AutoShipEngaged=false;}
+            laser.AutoTransmission=laser.Definition.Attenuation((float)solution.Range);
+            bool effective=laser.AutoTransmission>=(laser.AutoShipEngaged?.20f:.25f);
+            laser.AutoShipEngaged=effective;
+            if(!effective){laser.Stop();status=GunneryStatus.Attenuated;return false;}
+            // Only measured aim error and identified hull size; no hidden armor/health veto.
+            if(solution.ErrorMeters>Math.Max(5,target.Class.Length*.25f))
+            {laser.Stop();status=GunneryStatus.AimQuality;return false;}
+            if(ship.Definition.Branch==ShipBranch.AirDefenseCruiser)
+            {
+                if(ship.Power.HeatFraction>=.55f)laser.DefenseReserve=true;
+                else if(ship.Power.HeatFraction<=.35f)laser.DefenseReserve=false;
+                if(laser.DefenseReserve){laser.Stop();status=GunneryStatus.DefenseReserve;return false;}
+            }
+        }
         if(Obstacles.Count>0)
             for(int barrel=0;barrel<gun.SalvoRounds;barrel++)
                 if(Obstacles.BlocksSegment(gun.BarrelPosition(barrel),solution.AimPoint))
@@ -90,9 +109,9 @@ public sealed partial class SimWorld
         // Armor is resolved at impact, never used to veto an otherwise valid shot.
         Vector3 bore = gun.Mount is null ? solution.Direction : gun.Direction;
         for (int barrel = 0; barrel < gun.SalvoRounds; barrel++)
-            if (FriendlyInLine(ship, gun.BarrelPosition(barrel), bore, (float)solution.Range))
-            { status = GunneryStatus.FriendlyLine; return false; }
-        FireAttempt attempt = FireRailgun(ship, gun, solution.Direction, Merits.Capture(ship,target,true));
+            if (FriendlyInLine(ship, gun.BarrelPosition(barrel), bore, (float)solution.Range, includeShields:gun.IsLaser))
+            { gun.Laser?.Stop(); status = GunneryStatus.FriendlyLine; return false; }
+        FireAttempt attempt = FireRailgun(ship, gun, solution.Direction, Merits.Capture(ship,target,true), automatic:true);
         status = attempt.Fired ? GunneryStatus.Firing : attempt.Failure switch
         {
             FireFailure.HullBlocked => GunneryStatus.HullBlocked,

@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 12244,
+  "groups": 5,
+  "assemblies": {
+    "portClearanceSkips": 12,
+    "armorPanels": 137,
+    "serviceConduits": 21,
+    "coolingGrilles": 31,
+    "fastenerPairs": 18,
+    "accessHatches": 18,
+    "radiatorBanks": 3
+  },
+  "verifiedSurfaceAnchors": 137,
+  "id": "mars_assault_t4",
+  "originalGeometryHash": "06ac2352fc1ec4a40521d672bee419a91d62147f7f34b83daa75db95f5c7dae5",
+  "originalGeometryPreserved": true,
+  "triangles": 18040,
+  "meshGroups": 3,
+  "materials": 11
+}

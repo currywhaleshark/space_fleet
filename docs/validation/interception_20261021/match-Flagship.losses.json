@@ -1,0 +1,69 @@
+[
+  {
+    "Seed": 12,
+    "Mirror": false,
+    "Ships": 78,
+    "Outcome": {
+      "Winner": 1,
+      "Reason": "\uAE30\uD568 \uC0C1\uC2E4",
+      "Time": 16.116666666666667
+    },
+    "Destroyed": 1,
+    "Disabled": 0,
+    "Repairs": 0,
+    "Causes": {
+      "Magazine": 1
+    },
+    "Hulls": [
+      {
+        "Hull": "earth_air_defense_cruiser",
+        "Ships": 8,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_interceptor",
+        "Ships": 20,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "battleship",
+        "Ships": 6,
+        "Destroyed": 1,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "escort",
+        "Ships": 28,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_battleship",
+        "Ships": 2,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "mars_escort",
+        "Ships": 4,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      },
+      {
+        "Hull": "interceptor",
+        "Ships": 10,
+        "Destroyed": 0,
+        "Disabled": 0,
+        "Repairs": 0
+      }
+    ]
+  }
+]

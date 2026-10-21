@@ -1,0 +1,372 @@
+{
+  "simulation": {
+    "groups": 70,
+    "checks": 5795093,
+    "passed": [
+      {
+        "count": 35,
+        "name": "missile observation/range/laser discipline checks"
+      },
+      {
+        "count": 226,
+        "name": "laser channel/damage/heat/sensor/fit checks"
+      },
+      {
+        "count": 37,
+        "name": "air-defense factory/commands/sensors/thermal/wave checks"
+      },
+      {
+        "count": 2237,
+        "name": "replacement system/catalog/research/preset checks"
+      },
+      {
+        "count": 67844,
+        "name": "primary hardpoint/weapon/legacy compatibility checks"
+      },
+      {
+        "count": 591,
+        "name": "main gun part checks"
+      },
+      {
+        "count": 353,
+        "name": "hull upgrade/part research/save v5 checks"
+      },
+      {
+        "count": 143,
+        "name": "fit score/matching/AI fit checks"
+      },
+      {
+        "count": 720,
+        "name": "missile launcher/missile/PD part checks"
+      },
+      {
+        "count": 41,
+        "name": "generator/cooler power part checks"
+      },
+      {
+        "count": 11,
+        "name": "lock channel/multi-target salvo checks"
+      },
+      {
+        "count": 47,
+        "name": "engagement timing/planning checks"
+      },
+      {
+        "count": 44,
+        "name": "simulation checks"
+      },
+      {
+        "count": 73,
+        "name": "collision/world checks"
+      },
+      {
+        "count": 199,
+        "name": "obstacle geometry checks"
+      },
+      {
+        "count": 403961,
+        "name": "asteroid layout/shape checks"
+      },
+      {
+        "count": 20000,
+        "name": "sphere fast-path reference checks"
+      },
+      {
+        "count": 92693,
+        "name": "obstacle BVH/reference checks"
+      },
+      {
+        "count": 95,
+        "name": "terrain navigation checks"
+      },
+      {
+        "count": 105630,
+        "name": "navigation visibility/reference checks"
+      },
+      {
+        "count": 322,
+        "name": "incremental navigation checks"
+      },
+      {
+        "count": 12,
+        "name": "terrain firing-position checks"
+      },
+      {
+        "count": 18,
+        "name": "observed terrain cover checks"
+      },
+      {
+        "count": 71,
+        "name": "obstacle collision/avoidance checks"
+      },
+      {
+        "count": 30,
+        "name": "obstacle sensor/memory checks"
+      },
+      {
+        "count": 82,
+        "name": "obstacle weapon/probe checks"
+      },
+      {
+        "count": 7423,
+        "name": "wreck collider reuse/reference collision checks"
+      },
+      {
+        "count": 14400,
+        "name": "wreck ray group/reference checks"
+      },
+      {
+        "count": 128,
+        "name": "damage/data checks"
+      },
+      {
+        "count": 184505,
+        "name": "critical damage / emergency repair risk checks"
+      },
+      {
+        "count": 52,
+        "name": "cumulative hull structure checks"
+      },
+      {
+        "count": 69,
+        "name": "damage-control checks"
+      },
+      {
+        "count": 218,
+        "name": "shield boundary/breakup checks"
+      },
+      {
+        "count": 78,
+        "name": "ballistics/fire-control checks"
+      },
+      {
+        "count": 28,
+        "name": "power/heat checks"
+      },
+      {
+        "count": 26,
+        "name": "sensor/EW checks"
+      },
+      {
+        "count": 79,
+        "name": "datalink fire-control checks"
+      },
+      {
+        "count": 93,
+        "name": "long-range accuracy/EW/defense-power checks"
+      },
+      {
+        "count": 128,
+        "name": "missile/PD/decoy checks"
+      },
+      {
+        "count": 129,
+        "name": "counter-missile checks"
+      },
+      {
+        "count": 12,
+        "name": "infiltration checks"
+      },
+      {
+        "count": 6,
+        "name": "helm checks"
+      },
+      {
+        "count": 26,
+        "name": "gunnery checks"
+      },
+      {
+        "count": 71,
+        "name": "turret checks"
+      },
+      {
+        "count": 4,
+        "name": "tracking checks"
+      },
+      {
+        "count": 272,
+        "name": "point-defense tracking checks"
+      },
+      {
+        "count": 77,
+        "name": "defense drone checks"
+      },
+      {
+        "count": 50,
+        "name": "drone combat checks"
+      },
+      {
+        "count": 271,
+        "name": "antimatter checks"
+      },
+      {
+        "count": 33,
+        "name": "engagement approach/commitment/arming checks"
+      },
+      {
+        "count": 33,
+        "name": "radial/preset checks"
+      },
+      {
+        "count": 9,
+        "name": "player squad command checks"
+      },
+      {
+        "count": 30,
+        "name": "AI/fleet checks"
+      },
+      {
+        "count": 142,
+        "name": "interceptor role/probe/outer defense checks"
+      },
+      {
+        "count": 168,
+        "name": "player missile lead/proximity checks"
+      },
+      {
+        "count": 66,
+        "name": "battle/setup/log/rules checks"
+      },
+      {
+        "count": 128721,
+        "name": "random matchmaking checks"
+      },
+      {
+        "count": 21,
+        "name": "battle objective checks"
+      },
+      {
+        "count": 26,
+        "name": "simulation profiler checks"
+      },
+      {
+        "count": 5608,
+        "name": "conservative spatial bounds checks"
+      },
+      {
+        "count": 229431,
+        "name": "projectile broadphase/reference checks"
+      },
+      {
+        "count": 4369549,
+        "name": "defense broadphase checks (shots=4421, removed=255)"
+      },
+      {
+        "count": 144072,
+        "name": "sensor traversal/reference checks"
+      },
+      {
+        "count": 175,
+        "name": "design/catalog/Mars/ECM checks"
+      },
+      {
+        "count": 10915,
+        "name": "loadout/role data/legacy equivalence checks"
+      },
+      {
+        "count": 175,
+        "name": "physical equipment/bay/damage/recovery checks"
+      },
+      {
+        "count": 220,
+        "name": "cruiser catalog/doctrine/defense/salvo checks"
+      },
+      {
+        "count": 799,
+        "name": "squad loadout/preset/storage/matchmaking checks"
+      },
+      {
+        "count": 558,
+        "name": "research/tree/reward/migration/tier matching checks"
+      },
+      {
+        "count": 682,
+        "name": "tier branch/catalog/save/recon/rally checks"
+      }
+    ]
+  },
+  "game": [
+    {
+      "name": "hud-1600x900",
+      "checks": 14,
+      "passed": true
+    },
+    {
+      "name": "hud-1280x720",
+      "checks": 14,
+      "passed": true
+    },
+    {
+      "name": "hud-readability-test",
+      "checks": 873,
+      "passed": true
+    },
+    {
+      "name": "tracking-assist-test",
+      "checks": 45,
+      "passed": true
+    },
+    {
+      "name": "counter-missile-input-test",
+      "checks": 14,
+      "passed": true
+    },
+    {
+      "name": "weapon-input-test",
+      "checks": 366,
+      "passed": true
+    },
+    {
+      "name": "selection-hud-test",
+      "checks": 142,
+      "passed": true
+    },
+    {
+      "name": "telescope-test",
+      "checks": 2472,
+      "passed": true
+    }
+  ],
+  "matches": [
+    {
+      "mode": "Annihilation",
+      "ships": 78,
+      "seconds": 60,
+      "seed": 12,
+      "fieldSeed": 2,
+      "battlefield": "AsteroidCluster"
+    },
+    {
+      "mode": "Flagship",
+      "ships": 78,
+      "seconds": 60,
+      "seed": 12,
+      "fieldSeed": 2,
+      "battlefield": "AsteroidCluster"
+    },
+    {
+      "mode": "Domination",
+      "ships": 78,
+      "seconds": 60,
+      "seed": 12,
+      "fieldSeed": 2,
+      "battlefield": "AsteroidCluster"
+    }
+  ],
+  "meritChecks": 66,
+  "finalInterceptionChecks": 35,
+  "sourceBuild": {
+    "gameWarnings": 0,
+    "gameErrors": 0,
+    "simErrors": 0,
+    "existingSimNullableWarnings": 6
+  },
+  "artifactsSha256": {
+    "before.json": "a0f5cabf09a0db5768c74f1f4ad64654f01dd809c4a3e01b58a9fcb8c2ac0fc3",
+    "after.json": "70363655c83921c70561937be9d8a62f834f9a44930cd80a072e3864999b0e66",
+    "accuracy.json": "53088ec74f8603e0c51267fd7e7bfff5d51360bd4733283d42daf3e8298e7f47",
+    "ranges.csv": "5ccc22d12bc7a2867642fa7fc79ba59cb01757d1a18a5b43d83ec4ae359dbac8",
+    "scale-before.json": "6d4851829b3252247848cadb0eb8a9d67991b6265a8f945ff800056b850140f7",
+    "scale-after.json": "41f6a6323fb73ea07e8f10db99037b65cc841a5fa23ab76f0285e3bbd61b24da"
+  }
+}

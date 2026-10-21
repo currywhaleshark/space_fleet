@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 25236,
+  "groups": 4,
+  "assemblies": {
+    "armorPanels": 294,
+    "accessHatches": 59,
+    "serviceEnclosures": 9,
+    "coolingGrilles": 40,
+    "fastenerPairs": 78,
+    "serviceConduits": 24,
+    "portClearanceSkips": 12
+  },
+  "verifiedSurfaceAnchors": 294,
+  "id": "battleship_t5",
+  "originalGeometryHash": "b15a52730f61a74dc11ea8f8c9143361ff9401fdbca788023e2299f40f46cbb1",
+  "originalGeometryPreserved": true,
+  "triangles": 38136,
+  "meshGroups": 23,
+  "materials": 11
+}

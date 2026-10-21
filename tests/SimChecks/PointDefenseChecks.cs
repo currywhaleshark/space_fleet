@@ -274,6 +274,7 @@ static class PointDefenseChecks
             {
                 if(missile is not null)missile.Position=missile.PrevPosition=Point(direction);
                 else {target.Place(Point(direction),Quaternion.Identity);target.Damage.Reset();}
+                world.Sensors.Update(world.Ships,world.Time,true,world.Probes,world.Missiles);
             }
             PlaceThreat(blocked);
             for(int tick=0;tick<240;tick++)world.Step();

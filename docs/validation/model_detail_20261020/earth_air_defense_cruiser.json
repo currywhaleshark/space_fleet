@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 21972,
+  "groups": 4,
+  "assemblies": {
+    "armorPanels": 268,
+    "serviceEnclosures": 19,
+    "coolingGrilles": 20,
+    "accessHatches": 47,
+    "fastenerPairs": 65,
+    "serviceConduits": 16,
+    "portClearanceSkips": 14
+  },
+  "verifiedSurfaceAnchors": 268,
+  "id": "earth_air_defense_cruiser",
+  "originalGeometryHash": "a1db1b97f016568635363708f64b3153c8b08e50f353696c844c5f4b6db03110",
+  "originalGeometryPreserved": true,
+  "triangles": 31732,
+  "meshGroups": 17,
+  "materials": 11
+}

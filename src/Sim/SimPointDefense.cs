@@ -14,6 +14,14 @@ public sealed partial class SimWorld
             ?? droneCarrier!.Ordnance.Drones.WorldPosition(droneIndex);
         Vector3 velocity = threat?.Velocity ?? raider?.Velocity ?? probeTarget?.Velocity
             ?? droneCarrier!.Ordnance.Drones.WorldVelocity(droneIndex);
+        bool locked=true;
+        if(threat is not null)
+        {
+            if(Sensors.SmallTrack(ship.Faction,threat) is not { } seen || !seen.Fresh(Time))
+            {tracking.ClearTracking();return;}
+            position=seen.Predict(time);velocity=seen.Velocity;locked=seen.Locked(Time);
+            quality*=1/(1+seen.ErrorMeters*seen.ErrorMeters/9);
+        }
         Vector3 muzzleVelocity = ship.Velocity + ship.Orientation * ship.AngularVelocity.Cross(pd.Mounts[mountIndex]);
         object target = (object?)threat ?? (object?)raider ?? (object?)probeTarget ?? droneCarrier!;
         bool solved = tracking.PredictAim(target, droneIndex, position, velocity, mount, muzzleVelocity, time,
@@ -25,7 +33,7 @@ public sealed partial class SimWorld
         float distance = (float)(contact - mount).Length();
         // Current visibility/sector checks still run every substep in selection.
         // A sampled lead must also fit the real barrel arc and clear the owner hull.
-        if (!solved || !tracking.Aligned || distance > pd.RangeMeters
+        if (!locked || !solved || !tracking.Aligned || distance > pd.RangeMeters
             || tracking.FlightSeconds * pd.MuzzleSpeed > pd.RangeMeters)
         { tracking.FireAccumulator = 0; return; }
         tracking.FireAccumulator += pd.ShotsPerSecond * (float)dt;

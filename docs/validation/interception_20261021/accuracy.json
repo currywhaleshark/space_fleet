@@ -1,0 +1,482 @@
+[
+  {
+    "Linked": false,
+    "RangeKm": 8,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 8,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 8,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 8,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 16,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 150,
+    "Damage": 834.21875,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 16,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 82,
+    "Damage": 456.14062,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 16,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 82,
+    "Damage": 455.96875,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 16,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 140,
+    "Damage": 778.6406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 24,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 54,
+    "Damage": 201.86719,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 24,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 60,
+    "Damage": 224.29688,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 24,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 14,
+    "Damage": 52.335938,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 24,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 56,
+    "Damage": 209.34375,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 32,
+    "Seed": 1,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 32,
+    "Seed": 2,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 32,
+    "Seed": 3,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 32,
+    "Seed": 4,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 40,
+    "Seed": 1,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 40,
+    "Seed": 2,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 40,
+    "Seed": 3,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 40,
+    "Seed": 4,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 48,
+    "Seed": 1,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 48,
+    "Seed": 2,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 48,
+    "Seed": 3,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": false,
+    "RangeKm": 48,
+    "Seed": 4,
+    "LockedSeconds": 0,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 8,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 8,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 8,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 8,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 172,
+    "Damage": 1351.1406,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 16,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 146,
+    "Damage": 812,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 16,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 82,
+    "Damage": 456.14844,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 16,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 84,
+    "Damage": 467.125,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 16,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 144,
+    "Damage": 800.875,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 24,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 70,
+    "Damage": 261.6797,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 24,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 56,
+    "Damage": 209.34375,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 24,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 28,
+    "Damage": 104.671875,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 24,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 77,
+    "Damage": 287.85156,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 32,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 20,
+    "Damage": 51.25,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 32,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 46,
+    "Damage": 117.875,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 32,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 32,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 28,
+    "Damage": 71.75,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 40,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 14,
+    "Damage": 25.53125,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 40,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 36,
+    "Damage": 65.64844,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 40,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 40,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 172,
+    "HitPulses": 16,
+    "Damage": 29.148438,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 48,
+    "Seed": 1,
+    "LockedSeconds": 5.75,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 48,
+    "Seed": 2,
+    "LockedSeconds": 5.75,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 48,
+    "Seed": 3,
+    "LockedSeconds": 5.75,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  },
+  {
+    "Linked": true,
+    "RangeKm": 48,
+    "Seed": 4,
+    "LockedSeconds": 5.75,
+    "Pulses": 0,
+    "HitPulses": 0,
+    "Damage": 0,
+    "LimitKm": 40
+  }
+]

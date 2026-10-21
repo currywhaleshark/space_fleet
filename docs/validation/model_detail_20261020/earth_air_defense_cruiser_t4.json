@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "addedTriangles": 34324,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 359,
+    "accessHatches": 84,
+    "fastenerPairs": 92,
+    "coolingGrilles": 62,
+    "serviceConduits": 37,
+    "portClearanceSkips": 14,
+    "serviceEnclosures": 18,
+    "radiatorBanks": 4
+  },
+  "verifiedSurfaceAnchors": 359,
+  "id": "earth_air_defense_cruiser_t4",
+  "originalGeometryHash": "bcca9367b21399a36ef9f624dce1fd4b14514a4db75cf91f4e07c4736520e962",
+  "originalGeometryPreserved": true,
+  "triangles": 44676,
+  "meshGroups": 17,
+  "materials": 11
+}

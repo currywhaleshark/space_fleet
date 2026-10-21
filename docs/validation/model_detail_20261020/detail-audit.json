@@ -1,0 +1,226 @@
+[
+  {
+    "id": "earth_gun_cruiser_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 14172
+  },
+  {
+    "id": "earth_gun_cruiser_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.072002,
+    "detailTriangles": 25444
+  },
+  {
+    "id": "earth_air_defense_cruiser_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 1.10569,
+    "detailTriangles": 34324
+  },
+  {
+    "id": "mars_gun_cruiser_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.074699,
+    "detailTriangles": 9088
+  },
+  {
+    "id": "earth_recon_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 8968
+  },
+  {
+    "id": "interceptor_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.059341,
+    "detailTriangles": 13100
+  },
+  {
+    "id": "mars_assault_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.031444,
+    "detailTriangles": 12244
+  },
+  {
+    "id": "mars_interceptor_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.019141,
+    "detailTriangles": 13524
+  },
+  {
+    "id": "earth_air_defense_cruiser_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 16720
+  },
+  {
+    "id": "mars_gun_cruiser_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 12232
+  },
+  {
+    "id": "mars_missile_cruiser_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.116699,
+    "detailTriangles": 26080
+  },
+  {
+    "id": "mars_missile_cruiser_t4",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 1.599525,
+    "detailTriangles": 33620
+  },
+  {
+    "id": "interceptor_t3",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 20904
+  },
+  {
+    "id": "mars_interceptor_t3",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 14004
+  },
+  {
+    "id": "earth_recon_t3",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 8504
+  },
+  {
+    "id": "earth_gun_cruiser",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.812561,
+    "detailTriangles": 27920
+  },
+  {
+    "id": "mars_gun_cruiser",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.139069,
+    "detailTriangles": 11392
+  },
+  {
+    "id": "mars_missile_cruiser",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.167999,
+    "detailTriangles": 18132
+  },
+  {
+    "id": "battleship_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 25236
+  },
+  {
+    "id": "mars_battleship_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.5112,
+    "detailTriangles": 11136
+  },
+  {
+    "id": "earth_starter_escort",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.949463,
+    "detailTriangles": 26032
+  },
+  {
+    "id": "mars_starter_escort",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.970816,
+    "detailTriangles": 16116
+  },
+  {
+    "id": "interceptor_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.028215,
+    "detailTriangles": 12808
+  },
+  {
+    "id": "mars_interceptor_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.051431,
+    "detailTriangles": 9212
+  },
+  {
+    "id": "mars_assault_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 13916
+  },
+  {
+    "id": "earth_recon_t5",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0.087204,
+    "detailTriangles": 18460
+  },
+  {
+    "id": "mars_assault_t3",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 14908
+  },
+  {
+    "id": "earth_air_defense_cruiser",
+    "originalGeometryPreserved": true,
+    "localBaselineVerified": true,
+    "deterministicRebuild": true,
+    "maximumEnvelopeExpansion": 0,
+    "detailTriangles": 21972
+  }
+]

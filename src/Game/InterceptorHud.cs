@@ -35,9 +35,18 @@ public partial class ScaleTest
             }
             if (SelectedWeapon != PlayerWeapon.MainGun) { SmallAimStatus = "1 주포 / 2 미사일로 요격"; return; }
             if (!FireAssist && Scheme == ControlScheme.Pilot) { SmallAimStatus = "사격 보조 꺼짐 · T"; return; }
-            SmallAimSolved = World.SmallTargetAim(ship, selected, out var direction, out var aim, playerAssist: true);
+            SmallAimSolved = World.SmallTargetAim(ship, selected, out var direction, out var aim, out var failure, playerAssist: true);
+            float longest=0;
+            foreach(var gun in ship.Railguns)
+            {
+                bool solved=World.SmallTargetAim(ship,selected,out var atDirection,out var atPoint,out var why,gun,playerAssist:true);
+                if(solved)
+                {SmallAimSolved=true;direction=atDirection;aim=atPoint;break;}
+                if(!SmallAimSolved&&SimWorld.SmallTargetRange(gun)>longest)
+                {longest=SimWorld.SmallTargetRange(gun);failure=why;}
+            }
             SmallAimDirection = direction; SmallAimPoint = aim;
-            if (!SmallAimSolved) { SmallAimStatus = "요격 사거리/사격통제 확인"; return; }
+            if (!SmallAimSolved) { SmallAimStatus = failure; return; }
             var line = SimWorld.RailLine(ship, direction);
             CorrectingSmallAim = line == FireFailure.None;
             SmallAimStatus = CorrectingSmallAim ? (AutoSmallBattery ? "자동 요격" : TrackingSmallAim ? "기수 추적 · 근접신관 요격" : "좌클릭 유지 · 요격 보정") : line == FireFailure.HullBlocked
@@ -170,7 +179,7 @@ public partial class Hud
         }
         if (selected) p = SelectionMarkerPosition;
         else DrawDiamond(p, 7, color);
-        string kind = target.Kind == SmallContactKind.Missile ? "적 미사일" : "적 프로브";
+        string kind = target.Level<TrackLevel.Identified?"소형 접촉":target.Kind == SmallContactKind.Missile ? "적 미사일" : "적 프로브";
         double range = Game.Controlled is { } me ? (target.Predict(Game.World.Time) - me.Body.Position).Length() / 1000 : 0;
         if (!selected) CenteredLabel(p + new Vector2(0, -22), $"{kind} {range:0.0}km", 12, color);
         CenteredLabel(p + new Vector2(0, 30), Game.SmallAimStatus, 12, color);

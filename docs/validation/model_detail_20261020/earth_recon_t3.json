@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "addedTriangles": 8504,
+  "groups": 5,
+  "assemblies": {
+    "armorPanels": 124,
+    "accessHatches": 12,
+    "coolingGrilles": 7,
+    "fastenerPairs": 42,
+    "portClearanceSkips": 4,
+    "serviceConduits": 3,
+    "radiatorBanks": 4
+  },
+  "verifiedSurfaceAnchors": 124,
+  "id": "earth_recon_t3",
+  "originalGeometryHash": "f3144703d8cba723934568942e9485a8187d0bd69da71f84bed7f058af470bc8",
+  "originalGeometryPreserved": true,
+  "triangles": 15564,
+  "meshGroups": 5,
+  "materials": 11
+}

@@ -29,14 +29,16 @@ public sealed partial class SimWorld
                 drones.Aim(i,Vector3.Zero);
                 if(!drones.Alive(i) || drones.Rounds[i]==0) { drones.Accum[i]=0; continue; }
                 Vec3d origin=ship.Position+Vec3d.From(ship.Orientation*drones.LocalPosition(i,time));
-                Missile? target=null; double nearest=def.RangeMeters;
+                Missile? target=null; double nearest=def.RangeMeters; Vec3d observedAim=default;float observedError=0;
                 foreach(var m in _missiles)
                 {
-                    double distance=(m.Position-origin).Length();
+                    if(Sensors.SmallTrack(ship.Faction,m) is not { } seen || !seen.Locked(Time))continue;
+                    Vec3d point=seen.Predict(time);
+                    double distance=(point-origin).Length();
                     if(m.Faction==ship.Faction || m.Health<=0 || distance>=nearest
-                        || !drones.Covers(ship.Orientation.Inverse()*(m.Position-ship.Position).ToVector3())) continue;
-                    if(!ClearDefenseLine(origin,m.Position)) continue;
-                    target=m; nearest=distance;
+                        || !drones.Covers(ship.Orientation.Inverse()*(point-ship.Position).ToVector3())) continue;
+                    if(!ClearDefenseLine(origin,point)) continue;
+                    target=m; nearest=distance;observedAim=point;observedError=seen.ErrorMeters;
                 }
                 ShipBody? raider=null;
                 if (target is null)
@@ -49,7 +51,7 @@ public sealed partial class SimWorld
                         raider=other; nearest=distance;
                     }
                 if(target is null && raider is null) { drones.Accum[i]=0; continue; }
-                Vec3d aim=target?.Position??raider!.Position;
+                Vec3d aim=target is not null?observedAim:raider!.Position;
                 drones.Aim(i,ship.Orientation.Inverse()*(aim-origin).ToVector3().Normalized());
                 drones.Accum[i]+=(float)dt*def.ShotsPerSecond;
                 while(drones.Accum[i]>=1 && drones.Rounds[i]>0 && (target is null || target.Health>0) && raider?.Damage.Destroyed!=true)
@@ -57,6 +59,7 @@ public sealed partial class SimWorld
                     drones.Accum[i]--; drones.Rounds[i]--;
                     drones.LastFiredAt[i]=time;
                     float chance=def.HitChance*quality*(1-.6f*(float)nearest/def.RangeMeters);
+                    if(target is not null)chance*=1/(1+observedError*observedError/9);
                     Vector3 direction=(aim-origin).ToVector3().Normalized();
                     if(raider is not null)
                     {
@@ -125,7 +128,8 @@ public sealed partial class SimWorld
                 if (probe.Faction != ship.Faction && probe.Active && bounds.Contains(probe.Position)
                     && Sensors.SmallTrack(ship.Faction, probe) is { } seen && seen.Fresh(Time)) _pdProbeCandidates.Add(probe);
             foreach (var missile in _missiles)
-                if (missile.Faction != ship.Faction && missile.Health > 0 && bounds.Contains(missile.Position))
+                if (missile.Faction != ship.Faction && missile.Health > 0
+                    && Sensors.SmallTrack(ship.Faction,missile) is { } observed && observed.Fresh(Time) && bounds.Contains(observed.Predict(Time)))
                     _pdMissileCandidates.Add(missile);
             foreach (var other in _ships)
             {
@@ -164,7 +168,8 @@ public sealed partial class SimWorld
                 foreach (Missile m in _pdMissileCandidates)
                 {
                     if (m.Faction == ship.Faction || m.Health<=0) continue;
-                    if (Candidate(m.Position,0,out double distance,out int rank))
+                    if (Sensors.SmallTrack(ship.Faction,m) is not { } observed || !observed.Fresh(Time)) continue;
+                    if (Candidate(observed.Predict(Time),0,out double distance,out int rank))
                     { bestPriority=rank; nearest=distance; threat=m; }
                 }
 

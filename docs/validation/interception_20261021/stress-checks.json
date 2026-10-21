@@ -1,0 +1,29 @@
+{
+  "Waves": 480,
+  "Missiles": 23040,
+  "Groups": 60,
+  "Seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "OutcomeAccounting": "PASS",
+  "AllInterceptionsByGuard": "PASS",
+  "EcmActuallyPowered": "PASS",
+  "EarlierFourSeedMatches": 12,
+  "SilentVsAbsentCoastingMatches": 112,
+  "SimulationAndDataFiles": 165,
+  "SimulationAndDataSha256": "3196bee8614ba1c20b54ed4b87c3b5f7194942efd99de2754e657c3bb5216f71",
+  "HullOrWeaponBalanceChanged": false,
+  "Files": {
+    "stress.json": "817db6f38f37fde50ae8b1de44d8e611dfed9a7c5c78e819f17b991d3c3f261f",
+    "flight-profiles.json": "6a7aaeefe31ca1913ea9465416d2df937e90194252565c4d9597d95112d36f6f",
+    "stress-diagnostics.json": "d752e01db40b826ed12b9bb0d6958dd18a7acb139c4936d618fdffebb446f31b",
+    "stress-summary.csv": "63e5f8bb7d703b4bd3bcc3ab71f0789c2e7508155f196c3b7a8db20037fdb214"
+  }
+}

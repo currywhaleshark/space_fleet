@@ -1,4 +1,3 @@
-using System.Linq;
 using Godot;
 using SpaceFleet.Sim;
 using SpaceFleet.View;
@@ -11,6 +10,9 @@ namespace SpaceFleet.Game;
 /// </summary>
 public partial class Hud
 {
+    private static readonly Vector2[] SquadOrderArrowhead =
+        { new(6f, 0f), new(-2f, 4f), new(-2f, -4f) };
+
     private void DrawSquadOrders(Camera3D cam, ShipView controlled)
     {
         foreach (ShipView view in Game.Views)
@@ -20,6 +22,7 @@ public partial class Hud
             if (Game.World.BrainOf(ship) is not { Enabled: true } brain) continue;
             if (cam.IsPositionBehind(view.Position)) continue;
             Vector2 from = cam.UnprojectPosition(view.Position);
+            if (!from.IsFinite() || Mathf.Abs(from.X) > 1e5f || Mathf.Abs(from.Y) > 1e5f) continue;
 
             switch (brain.Order.Kind)
             {
@@ -39,11 +42,11 @@ public partial class Hud
                     // 양 끝 표시를 가리지 않게 조금씩 떼고 그린다.
                     Vector2 a = from + dir * 14f, b = to - dir * 16f;
                     DrawDashedLine(a, b, new Color(Friendly, 0.35f), 1f, 6f);
-                    Vector2 n = new(-dir.Y, dir.X);
-                    var head = new[] { b + dir * 6f, b - dir * 2f + n * 4f, b - dir * 2f - n * 4f };
-                    // Skip arrowheads Godot cannot triangulate (non-finite or collapsed screen points).
-                    if (head.All(p => p.IsFinite()) && Mathf.Abs((head[1] - head[0]).Cross(head[2] - head[0])) > 1f)
-                        DrawColoredPolygon(head, new Color(Friendly, 0.6f));
+                    // Triangulate near the origin: small triangles at large screen coordinates
+                    // lose area precision inside Godot even when their edge cross product is valid.
+                    DrawSetTransform(b, dir.Angle());
+                    DrawColoredPolygon(SquadOrderArrowhead, new Color(Friendly, 0.6f));
+                    DrawSetTransform(Vector2.Zero);
                     break;
                 }
                 case OrderKind.Hold:

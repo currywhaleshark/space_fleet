@@ -1,0 +1,31 @@
+{
+  "name": "SpaceFleet-20261021-model-details-r2-Windows-x64",
+  "builtAt": "2026-10-21T00:19:03.4118623+09:00",
+  "engine": "Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org",
+  "sourceCommit": "45c60da594008038ca5114d6edca0c08f129fe6f",
+  "localChanges": true,
+  "platform": "Windows x64",
+  "selfContained": true,
+  "checks": [
+    "PASS: 59 scene flow checks",
+    "PASS: 43 matchmaking/ownership/roster/spectator flow checks",
+    "PASS: 83 hangar/preview/launch/handoff flow checks",
+    "PASS: 36 research/purchase/deploy/result/requeue flow checks",
+    "PASS: 10975 ship model checks",
+    "PASS: 237 combat visual checks",
+    "PASS: 44 combat feedback checks",
+    "PASS: 120 audio checks; recorded peak 0.506",
+    "PASS: 120 fleet audio checks",
+    "PASS: 17 laser render/audio/equipment checks",
+    "PASS: 873 HUD readability/marker preservation checks",
+    "PASS: 275 HUD text/damage/help checks",
+    "PASS: 77 merit HUD/notification/control/freeze checks",
+    "PASS: 142 selected-target HUD checks",
+    "PASS: 366 weapon selection/telescope/damage-control checks",
+    "PASS: 2472 telescope interaction checks",
+    "PASS: 22 contact memory checks",
+    "PASS: 31 sensor coverage GPU checks",
+    "PASS: 21 AM game/input/model checks",
+    "PASS: 204 environment presentation checks"
+  ]
+}
