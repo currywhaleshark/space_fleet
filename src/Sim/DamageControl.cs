@@ -18,6 +18,7 @@ public sealed class DamageControlState
     private double _nextSelection, _disabledSince = double.NaN;
     private int _active = -1;
     private RepairPriority _priority;
+    private bool _storesLost;
 
     public DamageControlState(ShipBody ship)
     {
@@ -26,10 +27,11 @@ public sealed class DamageControlState
         _work = new double[ship.Damage.Modules.Count];
         ship.Damage.ModuleDamaged += OnHit;
         Reset();
+        if(ship.Tactical.HasStores)Kits+=2;
     }
 
     public int Kits { get; private set; }
-    public int Capacity => _definition.Kits;
+    public int Capacity => _definition.Kits+(_ship.Tactical.HasStores&&!_storesLost?2:0);
     public int Completed { get; private set; }
     public ModuleState? ActiveModule => _active < 0 ? null : _ship.Damage.Modules[_active];
     public float RestoreFraction => _definition.RestoreFraction;
@@ -42,7 +44,7 @@ public sealed class DamageControlState
     public double QuietRemaining => ActiveModule is { } m
         ? Math.Max(0, m.LastHitTime + _definition.QuietSeconds - _ship.SimTime) : 0;
     public float Progress => _active < 0 ? 0 : (float)Math.Clamp(_work[_active] / Duration(ActiveModule!), 0, 1);
-    public double WorkRemaining => _active < 0 ? 0 : Math.Max(0, Duration(ActiveModule!) - _work[_active]);
+    public double WorkRemaining => _active < 0 ? 0 : Math.Max(0, Duration(ActiveModule!) - _work[_active])/_ship.Tactical.RepairRate;
     // Auxiliary batteries/tools allow a powerless but intact ship to attempt recovery.
     // The bounded grace prevents contested or impossible repairs from stalling a verdict forever.
     public bool RecoveringDisable => _ship.Damage.Disabled && !_ship.Damage.Destroyed
@@ -52,7 +54,7 @@ public sealed class DamageControlState
     private void Reset()
     {
         _resetVersion = _ship.Damage.ResetVersion;
-        Kits = Capacity; Completed = 0; _priority = RepairPriority.Automatic;
+        Kits = _definition.Kits; Completed = 0; _priority = RepairPriority.Automatic;
         _active = -1; _nextSelection = 0; _disabledSince = double.NaN;
         Array.Clear(_work);
     }
@@ -60,6 +62,8 @@ public sealed class DamageControlState
     internal void Step(double dt)
     {
         if (_resetVersion != _ship.Damage.ResetVersion) Reset();
+        if(!_storesLost&&_ship.Tactical.StoresDestroyed)
+        {_storesLost=true;Kits=Math.Min(Kits,Math.Max(0,_definition.Kits-Completed));}
         if (_ship.Damage.Destroyed) { _active = -1; return; }
         if (_ship.Damage.Disabled) { if (double.IsNaN(_disabledSince)) _disabledSince = _ship.SimTime - dt; }
         else _disabledSince = double.NaN;
@@ -73,7 +77,7 @@ public sealed class DamageControlState
         if (ActiveModule is not { } module || !Eligible(module)) return;
         // Integrate only the part of this step after the local cease-fire interval.
         double start = Math.Max(_ship.SimTime - dt, module.LastHitTime + _definition.QuietSeconds);
-        _work[_active] += Math.Max(0, _ship.SimTime - start);
+        _work[_active] += Math.Max(0, _ship.SimTime - start)*_ship.Tactical.RepairRate;
         if (_work[_active] + 1e-8 < Duration(module)) return;
         if (_ship.Damage.EmergencyRestore(module, RestoreFraction, _ship.SimTime))
         { Kits--; Completed++; }

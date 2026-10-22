@@ -120,7 +120,7 @@ static class HullUpgradeChecks
         {
             string path=Path.Combine(folder,"hangar.json");File.WriteAllText(path,json.ToJsonString());
             var loaded=HangarStorage.Load(path,null);var m=loaded.Profile;
-            Check(loaded.CanSave&&m.Version==5&&loaded.Message is not null,$"v4 save migrates to v5 with a notice: {loaded.CanSave} {loaded.Message}");
+            Check(loaded.CanSave&&m.Version==6&&loaded.Message is not null,$"v4 save migrates to v6 with a notice: {loaded.CanSave} {loaded.Message}");
             Check(m.Research!.Points[DesignFamily.Earth]==777&&m.Research.Points[DesignFamily.Mars]==55,"Migration keeps RP");
             Check(m.Research.ForHull("escort").SequenceEqual(new[]{"fire-control","reactor"}),"Old research IDs carry over as container upgrades");
             Check(m.Research.Components.Count==0&&m.Research.SharedComponents[DesignFamily.Earth].SequenceEqual(new[]{"main-triple"})
@@ -129,7 +129,7 @@ static class HullUpgradeChecks
             var escort=FleetLoadouts.ResolveFit(m.Fit(new("escort",0))).Definition;
             Check(escort.WeaponBudget is {VolumeBonus:2,SupplyScale:1.06f}&&Near(escort.Battery!.SupplyRatio,1.06f),"Migrated research resolves as container upgrades");
             string saved=HangarStorage.Serialize(m);var again=HangarStorage.Parse(saved);
-            Check(again.Version==5&&HangarStorage.Serialize(again)==saved,"v5 save round-trips exactly");
+            Check(again.Version==6&&HangarStorage.Serialize(again)==saved,"v6 save round-trips exactly");
             m.Research.Points[DesignFamily.Earth]=5000;m.Research.GrantPath("earth_gun_cruiser");
             m.SetMainGun("escort",1,0,"earth-rail-m3",research:true);
             var restored=HangarStorage.Parse(HangarStorage.Serialize(m));

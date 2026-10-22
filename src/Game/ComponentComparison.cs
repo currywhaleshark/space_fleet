@@ -21,7 +21,7 @@ internal static class ComponentComparison
             $"연사 {Change(x.ShotsPerSecond,y.ShotsPerSecond)}발/초 · 사거리 {Change(x.RangeMeters/1000,y.RangeMeters/1000)} km\n"+
             $"탄두 피해 {Change(x.EffectiveMissileDamage,y.EffectiveMissileDamage)}\n드론 피해 {Change(x.DamagePerHit,y.DamagePerHit)}",
         ComponentSlot.Engine => $"전진 {Change(a.Flight.ForwardAccel,b.Flight.ForwardAccel)} m/s²\n횡이동 {Change(a.Flight.StrafeAccel,b.Flight.StrafeAccel)} m/s²\n제동 {Change(a.Flight.BrakeAccel,b.Flight.BrakeAccel)} m/s²",
-        ComponentSlot.Sensor => $"센서 강도 {Change(Sensor(a),Sensor(b))}\n노출 신호 {Change(Signature(a),Signature(b))}\n센서 전력 {Change(a.Power.Sensors,b.Power.Sensors)} MW",
+        ComponentSlot.Sensor => $"센서 강도 {Change(Sensor(a),Sensor(b))}\n노출 신호 {Change(Signature(a),Signature(b))}\n동시 잠금 {SensorLocks.Channels(a)} → {SensorLocks.Channels(b)}\n센서 전력 {Change(a.Power.Sensors,b.Power.Sensors)} MW",
         ComponentSlot.Generator => $"발전 {Change(a.Power.OutputMw,b.Power.OutputMw)} MW\n냉각 {Change(a.Power.CoolingMw,b.Power.CoolingMw)} MW\n열용량 {Change(a.Power.HeatCapacityMj,b.Power.HeatCapacityMj)} MJ",
         ComponentSlot.Shield => $"실드 용량 {Change(Shield(a),Shield(b))}\n재충전 {Change(a.Shield.RechargePerSecond,b.Shield.RechargePerSecond)}/초\n재충전 지연 {Change(Delay(a),Delay(b))}초",
         _=>"이 계통을 탑재하지 않은 함선입니다."

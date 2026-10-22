@@ -1,0 +1,13 @@
+seed	fit	ships	seconds	winner	side	remaining_strength	destroyed	disabled	mean_survival_s	rail_shots	rail_hits	missiles	missile_hits	intercepts	shield_damage	module_damage	repairs	skill_uses
+91	baseline	24	105.167	Red	Blue	0.122	6	1	62.577	560	134	42	4	12	6193.5	5043.7	5	0
+91	baseline	24	105.167	Red	Red	0.902	1	0	96.554	1064	593	93	29	9	9974.9	9966.5	11	0
+91	support	24	43.233	Blue	Blue	0.512	5	0	32.828	389	174	46	6	4	5986.0	5391.4	2	0
+91	support	24	43.233	Blue	Red	0.415	4	0	37.788	453	274	55	8	9	8845.7	6049.8	5	0
+91	role	24	92.583	Blue	Blue	0.366	8	0	55.725	443	183	52	11	12	7007.5	8299.2	3	11
+91	role	24	92.583	Blue	Red	0.220	5	1	70.434	536	290	71	11	10	10417.6	6614.7	6	10
+92	baseline	24	140.033	Red	Blue	0.000	12	0	49.300	298	113	41	3	9	5557.2	5185.4	4	0
+92	baseline	24	140.033	Red	Red	1.000	0	0	140.033	1616	1046	124	43	5	9388.9	15465.8	7	0
+92	support	24	99.333	Blue	Blue	0.317	10	0	43.108	296	147	51	5	11	7911.5	9117.5	6	0
+92	support	24	99.333	Blue	Red	0.415	3	1	90.954	994	562	92	21	6	9512.1	12210.3	11	0
+92	role	24	87.567	Blue	Blue	0.317	10	0	41.306	296	147	47	3	7	7686.0	10099.9	7	8
+92	role	24	87.567	Blue	Red	0.317	4	1	76.530	934	481	94	21	7	9657.0	11450.5	5	13

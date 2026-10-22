@@ -8,6 +8,12 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--tactical-trials")){TacticalTrials.Run();return;}
+        if(args.Contains("--tactical-perf")){TacticalTrials.Performance();return;}
+        if(args.Contains("--tactical-balance")){TacticalTrials.Balance();return;}
+        if(args.Contains("--tactical-regression")){FleetLoadoutChecks.Run();ProgressionChecks.Run();TierBranchChecks.Run();SystemPartChecks.Run();TacticalChecks.Run();return;}
+        if(args.Contains("--tactical")){TacticalChecks.Run();return;}
+        if(args.Contains("--system-parts")){SystemPartChecks.Run();return;}
         if(args.Contains("--laser-friendly-fire")){LaserFriendlyFireChecks.Run(args.Length>1?args.Last():null);return;}
         if(args.Contains("--interception-stress")){InterceptionStressTrials.Run(args.Last());return;}
         if(args.Contains("--interception-flight-profiles")){InterceptionStressTrials.FlightProfiles(args.Last());return;}

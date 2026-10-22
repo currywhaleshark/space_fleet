@@ -474,6 +474,8 @@ public sealed partial class SimWorld
     /// </summary>
     private void StepPointDefense(double dt, double time)
     {
+        _defenseAssignments.Clear();
+        _defenseThreatRanks.Clear();
         bool indexedTargets = _pdTargetsPrepared = PreparePointDefenseTargets();
         bool anyInterceptors = false, anyDrones = false;
         foreach (ShipBody s in _ships)
@@ -484,6 +486,8 @@ public sealed partial class SimWorld
         foreach (ShipBody ship in _ships)
         {
             if (ship.Definition.PointDefense is not PointDefenseDefinition pd) continue;
+            if(ship.Tactical.WeaponsBlocked)continue;
+            float trackingRange=pd.RangeMeters*PointDefenseTrackingRangeMultiplier*(ship.Tactical.AirDefense?1.5f:1);
             float quality = Mathf.Clamp(ship.Damage.SensorFraction * ship.Power.SensorEffect, 0f, 1.5f) * ship.Power.WeaponEffect;
             if (ship.Damage.Destroyed || quality <= 0.001f || _missiles.Count == 0 && !anyInterceptors && !anyDrones && _probes.Count == 0)
             {
@@ -499,7 +503,7 @@ public sealed partial class SimWorld
                 _pdMountPositions[i] = ship.Position + Vec3d.From(ship.Orientation * pd.Mounts[i]);
                 bounds = bounds.Include(_pdMountPositions[i]);
             }
-            bounds = bounds.Expanded(pd.RangeMeters * PointDefenseTrackingRangeMultiplier);
+            bounds = bounds.Expanded(trackingRange);
             bool useIndex = indexedTargets && IndexableSweep(bounds.Min, bounds.Max);
             _pdMissileCandidates.Clear(); _pdRaiderCandidates.Clear(); _pdCarrierCandidates.Clear(); _pdProbeCandidates.Clear();
             foreach (var probe in _probes)
@@ -541,11 +545,11 @@ public sealed partial class SimWorld
                 ReconProbe? probeTarget = null;
                 ShipBody? raider = null, droneCarrier = null;
                 int droneIndex=-1, bestPriority=int.MaxValue;
-                double nearest = pd.RangeMeters * PointDefenseTrackingRangeMultiplier;
+                double nearest = trackingRange;
                 bool Candidate(Vec3d point,int priority, out double distance, out int rank)
                 {
                     distance=(point-mount).Length(); rank=(distance<=pd.RangeMeters ? 0 : 10)+priority;
-                    if(distance>pd.RangeMeters*PointDefenseTrackingRangeMultiplier) return false;
+                    if(distance>trackingRange) return false;
                     if(rank>bestPriority || rank==bestPriority && distance>=nearest) return false;
                     if(!tracking.Contains(inverse * (point-mount).ToVector3()) || TerrainBlocked(mount,point)) return false;
                     Vector3 ray=(point-clearOrigin).ToVector3();float length=ray.Length();
@@ -555,7 +559,7 @@ public sealed partial class SimWorld
                 {
                     if (m.Faction == ship.Faction || m.Health<=0) continue;
                     if (Sensors.SmallTrack(ship.Faction,m) is { } observed && observed.Fresh(Time)
-                        && Candidate(observed.Predict(Time),0,out double distance,out int rank))
+                        && Candidate(observed.Predict(Time),TacticalDefensePriority(ship,m,observed,time),out double distance,out int rank))
                     { bestPriority=rank; nearest=distance; threat=m; }
                 }
 
@@ -593,6 +597,7 @@ public sealed partial class SimWorld
                 }
                 if (threat is null && raider is null && droneCarrier is null && probeTarget is null) { tracking.ClearTracking(); continue; }
 
+                AssignTacticalDefense(ship,threat);
                 EngagePointDefense(ship, i, mount, clearOrigin, inverse, tracking, quality,
                     threat, raider, droneCarrier, droneIndex, probeTarget, dt, time);
             }

@@ -9,7 +9,7 @@
     <Reference Include="GodotSharp"><HintPath>$(Root)/.godot/mono/temp/bin/Debug/GodotSharp.dll</HintPath></Reference>
     <Compile Include="$(Root)/src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
-    <EmbeddedResource Include="$(Root)/data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/parts/*.json" LogicalName="SpaceFleet.data.parts.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />

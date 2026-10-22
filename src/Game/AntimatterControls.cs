@@ -29,7 +29,7 @@ public partial class ScaleTest
         if (am.Mode==AntimatterMode.Safe)
         { bool began=am.BeginArming(); Notify(began ? "AM 발사 준비" : am.Status+(am.Warning ? " · 격리 손상, 투기 권고" : ""),!began); return; }
         if (InspectTarget is not { } target || target.Body.Faction==player.Faction)
-        { Notify("AM 표적 없음 · R로 적 선택",true); return; }
+        { Notify($"AM 표적 없음 · {InputBindings.Text(InputSetup.InspectTarget)}로 적 선택",true); return; }
         var attempt=World.LaunchAntimatter(player,target.Body,AimModule?.Definition.Center);
         Notify(attempt.Reason,!attempt.Fired);
     }
@@ -66,7 +66,7 @@ public partial class Hud
             AntimatterBounds=new(start,new Vector2(width,50));
             DrawRect(new(start,new Vector2(width,50)),PanelBack);
             Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds} · {am.Status}",15,Text);
-            Label(start+new Vector2(10,41),$"격리용기 {am.Containment*100:0}% · 3 어뢰 선택",13,Dim);
+            Label(start+new Vector2(10,41),$"격리용기 {am.Containment*100:0}% · {InputBindings.Text(InputSetup.SelectAntimatter)} 어뢰 선택",13,Dim);
             return;
         }
         var panel=new Rect2(start,new Vector2(width,125));AntimatterBounds=panel;
@@ -90,8 +90,8 @@ public partial class Hud
         Label(start+new Vector2(10,64),am.Warning ? "격리 위험 · 탄두 투기 권고" : range,12,am.Warning ? Hostile : rangeColor);
         if(am.Mode==AntimatterMode.Arming)
             DrawRect(new Rect2(start+new Vector2(10,70),new Vector2(272*am.ArmingElapsed/def.ArmingSeconds,3)),Lead);
-        Label(start+new Vector2(10,90),"3 어뢰 · 좌클릭 준비/발사 · 1/2 취소",11,Dim);
-        Label(start+new Vector2(10,111),"Backspace 1초 유지 · AM 전량 투기",11,Game.JettisonProgress>0 ? Hostile : Dim);
+        Label(start+new Vector2(10,90),$"{InputBindings.Text(InputSetup.SelectAntimatter)} 어뢰 · 좌클릭 준비/발사 · {InputBindings.Text(InputSetup.SelectMainGun)}/{InputBindings.Text(InputSetup.SelectMissile)} 취소",11,Dim);
+        Label(start+new Vector2(10,111),$"{InputBindings.Text(InputSetup.JettisonAntimatter)} 1초 유지 · AM 전량 투기",11,Game.JettisonProgress>0 ? Hostile : Dim);
         if(Game.JettisonProgress>0) DrawRect(new Rect2(start+new Vector2(10,118),new Vector2(272*Game.JettisonProgress,3)),Hostile);
     }
 }

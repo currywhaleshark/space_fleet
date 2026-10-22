@@ -95,6 +95,7 @@ public sealed partial class SimWorld
             {
                 brain.NextThink = Time + ThinkInterval;
                 timing = SimProfiler.Begin();
+                if(brain.Ship.Tactical.ActiveSlots.Length>0)TacticalAI(brain);
                 Think(brain);
                 SimProfiler.End(SimSection.AIThink, timing);
             }

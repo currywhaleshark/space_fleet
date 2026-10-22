@@ -83,7 +83,7 @@ public partial class WeaponInputChecks
                 game._Process(.016);
                 game.Gunnery.Doctrine = held ? FireDoctrine.Hold : FireDoctrine.Free;
                 game.SelectTargetAt(game.Camera.UnprojectPosition((crossing.Position - game.RenderOrigin).ToVector3()));
-                Check(game.SelectedSmallContact?.Target == crossing, id + ": crossing missile selected");
+                Check(game.SelectedSmallContact?.Target == crossing, id + $": crossing missile selected (held={held}, observed={game.World.Sensors.SmallTrack(ship.Faction,crossing)}, viewport={game.GetViewport().GetVisibleRect()}, point={game.Camera.UnprojectPosition((crossing.Position-game.RenderOrigin).ToVector3())}, blocked={game.ScopeHullBlocked})");
                 pulses = Pulses();
                 if (held) Input.ActionPress(InputSetup.Fire);
                 for (int i = 0; i < 240 && crossing.Health > 0 && game.World.Missiles.Contains(crossing); i++) Tick(game);

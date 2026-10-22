@@ -36,7 +36,12 @@ public sealed class ResearchProgress
         ||Components.TryGetValue(hull,out var ids)&&ids.Contains(id);
     private static (int Cost,bool Stock,DesignFamily? Design,ShipBranch[] Branches,int MinTier) Info(string id)
         =>MainGunParts.Research(id)??throw new InvalidDataException("알 수 없는 부품입니다: "+id);
-    public bool HasPart(DesignFamily design,string id)=>Info(id).Stock||Parts[design].Contains(id);
+    private IEnumerable<string> LegacyPartUnlocks(DesignFamily design)
+    {
+        var unlocked=SharedComponents[design].Concat(Components.Where(kv=>ShipDefinitions.ById(kv.Key).Design==design).SelectMany(kv=>kv.Value)).ToHashSet();
+        return SystemParts.All.Where(p=>p.LegacyId is { } old&&unlocked.Contains(old)).Select(p=>p.Id);
+    }
+    public bool HasPart(DesignFamily design,string id)=>Info(id).Stock||Parts[design].Contains(id)||LegacyPartUnlocks(design).Contains(id);
     public int PartCost(string id)=>Info(id).Cost;
     /// <summary>The owned hull that qualifies a design for this part, if any.</summary>
     public string? PartSponsor(DesignFamily design,string id)
@@ -60,7 +65,7 @@ public sealed class ResearchProgress
         var design=ShipDefinitions.ById(id).Design;
         return (IReadOnlySet<string>)ForHull(id)
             .Concat((Components.TryGetValue(id,out var own)?own:Array.Empty<string>()).Concat(SharedComponents[design]).Select(ShipComponents.UnlockKey))
-            .Concat(Parts[design].Select(MainGunParts.UnlockKey)).ToHashSet();
+            .Concat(Parts[design].Concat(LegacyPartUnlocks(design)).Select(MainGunParts.UnlockKey)).ToHashSet();
     });
     public bool BuyComponent(string hull,string id)
     {
@@ -116,7 +121,7 @@ public sealed class ResearchProgress
             ||Unlocked is null||Unlocked.Length>1024||Unlocked.Distinct().Count()!=Unlocked.Length||Upgrades is null||Upgrades.Count>256
             ||Components is null||Components.Count>128||SharedComponents is null||Parts is null
             ||Enum.GetValues<DesignFamily>().Any(d=>!SharedComponents.TryGetValue(d,out var c)||c is null||c.Length>64||c.Distinct().Count()!=c.Length
-                ||!Parts.TryGetValue(d,out var p)||p is null||p.Length>64||p.Distinct().Count()!=p.Length)
+                ||!Parts.TryGetValue(d,out var p)||p is null||p.Length>256||p.Distinct().Count()!=p.Length)
             ||Receipts is null||Receipts.Length>256||Receipts.Any(string.IsNullOrWhiteSpace)||Receipts.Any(s=>s.Length>128)||Receipts.Distinct().Count()!=Receipts.Length)
             throw new InvalidDataException("손상된 연구 진행입니다.");
         foreach(var design in Enum.GetValues<DesignFamily>())if(!Unlocked.Contains(tree.Root(design).Id))throw new InvalidDataException("기본 호위함 해금이 없습니다.");

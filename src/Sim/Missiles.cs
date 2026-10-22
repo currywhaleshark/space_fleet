@@ -104,7 +104,7 @@ public sealed class OrdnanceState
         : MissileDefinition.CellCount > 1 ? $"발사 준비 · {LoadedCells}/{MissileDefinition.CellCount}셀" : "발사 준비";
 
     public bool MissileReady => MissileDefinition is not null && !_ship.Damage.Destroyed && _ship.Damage.MagazineFraction > 0.01f
-        && Missiles > 0 && LoadedCells > 0 && !_ship.Power.Overheated;
+        && Missiles > 0 && LoadedCells > 0 && !_ship.Power.Overheated && !_ship.Tactical.WeaponsBlocked;
 
     public bool DecoyReady => DecoyDefinition is not null && !_ship.Damage.Destroyed && Decoys > 0 && DecoyCooldown <= 0;
 
@@ -127,7 +127,7 @@ public sealed class OrdnanceState
         // Empty cells refill one at a time; a single tube behaves exactly as the old reload timer.
         if (LoadedCells < CellLimit)
         {
-            MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);
+            MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect * (_ship.Damage.MagazineFraction>.01f?_ship.Tactical.MissileReloadRate:1));
             if (MissileReload <= 0) { LoadedCells++; if (LoadedCells < CellLimit) MissileReload = MissileDefinition!.ReloadSeconds; }
         }
         else MissileReload = Mathf.Max(0f, MissileReload - (float)dt * _ship.Power.WeaponEffect);

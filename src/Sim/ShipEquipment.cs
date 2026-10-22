@@ -33,7 +33,7 @@ public static class ShipEquipment
 
     private static IReadOnlyDictionary<string, EquipmentDefinition> Load()
     {
-        const string prefix = "SpaceFleet.data.modules.";
+        const string prefix = "SpaceFleet.data.parts.";
         var result = new Dictionary<string, EquipmentDefinition>(StringComparer.Ordinal);
         foreach (string name in typeof(ShipEquipment).Assembly.GetManifestResourceNames()
             .Where(n => n.StartsWith(prefix, StringComparison.Ordinal) && n.EndsWith(".json", StringComparison.Ordinal)).OrderBy(n => n, StringComparer.Ordinal))

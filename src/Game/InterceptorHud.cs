@@ -33,7 +33,7 @@ public partial class ScaleTest
                 // Counter missiles steer themselves; no rail-gun correction marker or nose tracking.
                 return;
             }
-            if (SelectedWeapon != PlayerWeapon.MainGun) { SmallAimStatus = "1 주포 / 2 미사일로 요격"; return; }
+            if (SelectedWeapon != PlayerWeapon.MainGun) { SmallAimStatus = $"{InputBindings.Text(InputSetup.SelectMainGun)} 주포 / {InputBindings.Text(InputSetup.SelectMissile)} 미사일로 요격"; return; }
             if (!FireAssist && Scheme == ControlScheme.Pilot) { SmallAimStatus = "사격 보조 꺼짐 · T"; return; }
             SmallAimSolved = World.SmallTargetAim(ship, selected, out var direction, out var aim, out var failure, playerAssist: true);
             float longest=0;
@@ -65,7 +65,7 @@ public partial class ScaleTest
         SmallAimSolved = SmallAimTarget is not null;
         CorrectingSmallAim = SmallAimSolved && best < Mathf.DegToRad(6)
             && SimWorld.RailLine(ship, SmallAimDirection) == FireFailure.None;
-        SmallAimStatus = "R 표적 지정";
+        SmallAimStatus = $"{InputBindings.Text(InputSetup.InspectTarget)} 표적 지정";
     }
 
     private bool AutoSmallBattery => Scheme == ControlScheme.Helm && !Camera.TelescopeHeld
@@ -150,7 +150,7 @@ public partial class Hud
                 Label(at + new Vector2(0, 45), $"보호 대상 {wing.ProtectedShip?.Callsign ?? "—"}", 12, Dim);
         }
         var probes = Game.World.Probes.Where(p => p.Owner == ship).ToArray();
-        Label(at + new Vector2(0, 68), $"프로브 {equipment.Probes}/{ship.Definition.ReconProbes?.Count ?? 0} · 관측 {probes.Count(p => p.Observing > 0)} · N 임무", 12, Text);
+        Label(at + new Vector2(0, 68), $"프로브 {equipment.Probes}/{ship.Definition.ReconProbes?.Count ?? 0} · 관측 {probes.Count(p => p.Observing > 0)} · {InputBindings.Text(InputSetup.SquadMenu)} 임무", 12, Text);
         foreach (var (probe, index) in probes.Select((p, i) => (p, i)))
             Label(at + new Vector2(0, 88 + index * 18), $"P{probe.Id}  {(probe.Position - ship.Position).Length() / 1000:0.0}km · {probe.Remaining:0}s · {(probe.Observing > 0 ? "관측 중" : probe.OnStation ? "전개" : "이동")}", 11, Dim);
     }

@@ -11,13 +11,17 @@ public enum ComponentSlot { MainGun, Secondary, Engine, Sensor, Generator, Shiel
 public sealed record ShipComponentSelection(string? MainGun = null, string? Secondary = null, string? Engine = null,
     string? Sensor = null, string? Generator = null, string? Shield = null)
 {
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public EquipmentMount[]? AuxiliaryParts { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public TacticalMount[]? TacticalModules { get; init; }
     public string? Get(ComponentSlot slot) => slot switch { ComponentSlot.MainGun=>MainGun, ComponentSlot.Secondary=>Secondary,
         ComponentSlot.Engine=>Engine, ComponentSlot.Sensor=>Sensor, ComponentSlot.Generator=>Generator, ComponentSlot.Shield=>Shield,
         _=>throw new InvalidDataException("없는 교체 계통입니다.") };
     public ShipComponentSelection With(ComponentSlot slot,string? id) => slot switch {
         ComponentSlot.MainGun=>this with{MainGun=id},ComponentSlot.Secondary=>this with{Secondary=id},
-        ComponentSlot.Engine=>this with{Engine=id},ComponentSlot.Sensor=>this with{Sensor=id},
-        ComponentSlot.Generator=>this with{Generator=id},ComponentSlot.Shield=>this with{Shield=id},
+        ComponentSlot.Engine=>this with{Engine=id,EnginePart=null},ComponentSlot.Sensor=>this with{Sensor=id,SensorPart=null},
+        ComponentSlot.Generator=>this with{Generator=id},ComponentSlot.Shield=>this with{Shield=id,ShieldPart=null},
         _=>throw new InvalidDataException("없는 교체 계통입니다.") };
     [System.Text.Json.Serialization.JsonIgnore]
     public IEnumerable<string> Ids => Enum.GetValues<ComponentSlot>().Select(Get).OfType<string>();
@@ -34,11 +38,20 @@ public sealed record ShipComponentSelection(string? MainGun = null, string? Seco
     /// <summary>Internal generators and coolers in main gun weapon volume (§24); null = none.</summary>
     [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
     public string[]? PowerParts { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? EnginePart { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? SensorPart { get; init; }
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public string? ShieldPart { get; init; }
+    public string? SystemPart(ComponentSlot slot)=>slot switch
+    {ComponentSlot.Engine=>EnginePart,ComponentSlot.Sensor=>SensorPart,ComponentSlot.Shield=>ShieldPart,_=>null};
     [System.Text.Json.Serialization.JsonIgnore]
     public IEnumerable<string> PartIds => (MainGuns ?? Array.Empty<string?>()).Append(Launcher).Append(Missile).Append(PointDefensePart)
-        .Concat(PowerParts ?? Array.Empty<string>()).OfType<string>();
+        .Concat(PowerParts ?? Array.Empty<string>()).Append(EnginePart).Append(SensorPart).Append(ShieldPart).OfType<string>();
     [System.Text.Json.Serialization.JsonIgnore]
-    public bool IsEmpty => !Ids.Any() && MainGuns is null && Launcher is null && Missile is null && PointDefensePart is null && PowerParts is null;
+    public bool IsEmpty => !Ids.Any() && MainGuns is null && Launcher is null && Missile is null && PointDefensePart is null && PowerParts is null
+        && EnginePart is null && SensorPart is null && ShieldPart is null && AuxiliaryParts is null && TacticalModules is null;
 }
 
 // Multipliers apply after permanent research, once, before physical bay equipment.
@@ -75,6 +88,7 @@ public static class ShipComponents
         if(selection is null)return;
         foreach(var slot in Enum.GetValues<ComponentSlot>())if(selection.Get(slot) is { } id)
         {var c=ById(id);if(c.Slot!=slot||!Available(hull,c))throw new InvalidDataException("이 함선의 "+Name(slot)+"에 맞지 않는 부품입니다.");}
+        SystemParts.ValidateSelection(hull,selection);
     }
     private static IReadOnlyList<ShipComponentDefinition> Load()
     {
@@ -102,20 +116,24 @@ public static class ShipComponents
     }
     internal static ShipDefinition Apply(ShipDefinition hull,ShipComponentSelection? selection,bool useFactoryPrimary=true)
     {
-        if(selection is not null&&!selection.Ids.Any())selection=null;
+        if(selection is not null)SystemParts.ValidateSelection(hull,selection);
+        selection=SystemParts.Normalize(selection);
+        if(selection is not null&&!selection.Ids.Any()&&selection.EnginePart is null&&selection.SensorPart is null&&selection.ShieldPart is null)selection=null;
         string? primary=selection?.MainGun??(useFactoryPrimary&&hull.Battery is not null?hull.DefaultMainGun:null);
         if(selection is null&&primary is null)return hull;
         ValidateSelection(hull,selection);
         if(hull.Components is not null)throw new InvalidDataException("교체 부품을 중복 합성할 수 없습니다.");
         var effective=(selection??new()).With(ComponentSlot.MainGun,primary);
-        ComponentEffects E(ComponentSlot slot)=>effective.Get(slot) is { } id?ById(id).Effects:new();
+        ComponentEffects E(ComponentSlot slot)=>effective.SystemPart(slot) is { } part?SystemParts.Effects(SystemParts.ById(part)):
+            effective.Get(slot) is { } id?ById(id).Effects:new();
         var gun=E(ComponentSlot.MainGun);var pd=E(ComponentSlot.Secondary);var engine=E(ComponentSlot.Engine);
         var sensor=E(ComponentSlot.Sensor);var generator=E(ComponentSlot.Generator);var shield=E(ComponentSlot.Shield);
-        float massScale=1+effective.Ids.Sum(id=>ById(id).Effects.MassFraction);
+        float massScale=1+effective.Ids.Sum(id=>ById(id).Effects.MassFraction)
+            +SystemParts.Slots.Sum(slot=>effective.SystemPart(slot) is { } id?SystemParts.Effects(SystemParts.ById(id)).MassFraction:0);
         var f=hull.Flight;var p=hull.Power;
         var json=JsonNode.Parse(hull.ToJson())!.AsObject();
         void Set<T>(string name,T value)=>json[name]=JsonNode.Parse(ShipDefinition.SerializeData(value));
-        Set(nameof(ShipDefinition.Components),selection is null?null:selection with{MainGuns=null,Launcher=null,Missile=null,PointDefensePart=null});
+        Set(nameof(ShipDefinition.Components),selection is null?null:selection with{MainGuns=null,Launcher=null,Missile=null,PointDefensePart=null,AuxiliaryParts=null,TacticalModules=null});
         Set(nameof(ShipDefinition.Flight),f with{MassKg=f.MassKg*massScale,ForwardAccel=f.ForwardAccel*engine.Forward/massScale,
             StrafeAccel=f.StrafeAccel*engine.Strafe/massScale,BrakeAccel=f.BrakeAccel*engine.Brake/massScale});
         Set(nameof(ShipDefinition.Power),p with{OutputMw=p.OutputMw*generator.Output,CoolingMw=p.CoolingMw*generator.Cooling,

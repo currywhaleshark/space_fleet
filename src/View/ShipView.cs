@@ -125,6 +125,7 @@ public partial class ShipView : Node3D
         return view;
     }
 
+    public override void _Ready()=>BuildTacticalVisuals();
     public void Sync(Vec3d renderOrigin, double alpha, float delta)
     {
         SimPosition = Body.InterpolatedPosition(alpha);
@@ -149,6 +150,7 @@ public partial class ShipView : Node3D
         foreach(var (material,energy) in _poweredLights) material.EmissionEnergyMultiplier=Body.Damage.GenerationFraction>.001f?energy:0;
         foreach(var material in _poweredPanels) material.SetShaderParameter("power",Body.Damage.GenerationFraction>.001f?1f:0f);
         Drones?.Sync((float)alpha);
+        SyncTacticalVisuals();
         if (_amGlow is not null)
         {
             var am=Body.Ordnance.Antimatter;

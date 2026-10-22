@@ -11,12 +11,13 @@
     </Reference>
     <Compile Include="../../src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
     <Compile Include="../../src/Shared/*.cs" Link="Shared/%(Filename)%(Extension)" />
+    <Compile Include="../../src/Game/TacticalLoadouts.cs" Link="Game/TacticalLoadouts.cs" />
     <Compile Include="../../src/Game/HangarProfile.cs" Link="Game/HangarProfile.cs" />
     <Compile Include="../../src/Game/ResearchProgress.cs" Link="Game/ResearchProgress.cs" />
     <Compile Include="../../tools/BattleBatch/CruiserTrials.cs" Link="Trials/CruiserTrials.cs" />
     <Compile Include="../../tools/BattleBatch/BranchTrials.cs" Link="Trials/BranchTrials.cs" />
     <EmbeddedResource Include="../../data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
-    <EmbeddedResource Include="../../data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/parts/*.json" LogicalName="SpaceFleet.data.parts.%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />

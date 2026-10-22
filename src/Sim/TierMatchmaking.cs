@@ -95,6 +95,13 @@ public static partial class Matchmaking
         var participants=new List<MatchParticipant>();
         void Add(SquadronLoadout fit,Faction team,int slot,bool human)
         {
+            // Weapon matching replaces Components. Install tactical devices after that pass so it cannot
+            // silently discard them; use a separate deterministic choice without advancing the lineup RNG.
+            if(!human)
+            {
+                int tacticalPreset=(int)(((uint)seed+(uint)slot+(uint)team)%3);
+                fit=new(fit.Members.Select(m=>TacticalModulesCatalog.EquipAI(m,tacticalPreset)).ToArray());
+            }
             var resolved=human?validated:FleetLoadouts.Resolve(fit);
             participants.Add(new(slot,team,resolved.Leader.Id,human,resolved,fit.Members.Sum(FitScores.Score),
                 tree.ByHull(resolved.Leader.Id).Tier,Array.AsReadOnly(fit.Members.Select(m=>tree.ByHull(m.HullId).Tier).ToArray())));

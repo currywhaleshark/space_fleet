@@ -5,6 +5,8 @@ namespace SpaceFleet.Game;
 
 public partial class Hud
 {
+    internal Rect2 TelescopeBadgeBounds { get; private set; }
+    internal Rect2 TelescopeControlsBounds { get; private set; }
     private void DrawTelescope(ShipView controlled,Vector2 screen)
     {
         var cam=Game.Camera;
@@ -38,6 +40,7 @@ public partial class Hud
         }
         float magnification=Mathf.Tan(Mathf.DegToRad(ChaseCamera.NormalFov*.5f))/Mathf.Tan(Mathf.DegToRad(cam.Fov*.5f));
         var badge=new Rect2(screen.X*.5f-118,22,236,58);
+        TelescopeBadgeBounds=badge;
         DrawRect(badge,PanelBack); DrawRect(badge,new Color(Friendly,.5f),false);
         CenteredLabel(new(screen.X*.5f,43),"망원 조준",12,Friendly);
         CenteredLabel(new(screen.X*.5f,67),$"×{magnification:0.0}  ·  {(Game.Scheme==ControlScheme.Pilot ? "기수 연동" : "독립 조준")}",17,Text);
@@ -46,15 +49,20 @@ public partial class Hud
         float elevation=Mathf.RadToDeg(Mathf.Asin(Mathf.Clamp(local.Y,-1,1)));
         CenteredLabel(center+new Vector2(0,-radius-15),$"방위 {bearing:+0;-0;0}°    고각 {elevation:+0;-0;0}°",11,Dim);
         var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length,HudSettings.TextScale);
-        float controlsY=Mathf.Min(screen.Y*.5f+radius+23,layout.Selection.Position.Y-12);
-        if(layout.Gunnery.Size.X>0 && layout.Gunnery.HasPoint(new Vector2(screen.X*.5f,controlsY)))
-            controlsY=layout.Gunnery.Position.Y-12;
-        CenteredLabel(new(screen.X*.5f,controlsY),"좌클릭 발사 · R 표적 선택 · 우클릭 해제 복귀",11,Dim);
+        float controlsY=TelescopeControlsY(screen,layout);
+        TelescopeControlsBounds=new(screen.X*.5f-250,controlsY-HudFont(11),500,HudFont(11)+6);
+        CenteredLabel(new(screen.X*.5f,controlsY),$"좌클릭 발사 · {InputBindings.Text(InputSetup.InspectTarget)} 표적 선택 · 우클릭 해제 복귀",11,Dim);
         if(blocked) CenteredLabel(center+new Vector2(0,48),"선체에 시야 가림",13,Motion);
         else if(Game.Scheme==ControlScheme.Pilot && controlled.Body.Forward.AngleTo(cam.AimForward)
             > Mathf.DegToRad(controlled.Body.Railgun!.Definition.TraverseDegrees))
             CenteredLabel(center+new Vector2(0,48),"기수 정렬 중",13,Motion);
         else if(Game.Scheme==ControlScheme.Helm && Game.LastFireFailed && Game.World.Time-Game.LastFireTime<1.5)
             CenteredLabel(center+new Vector2(0,48),Game.LastFireMessage,13,Motion);
+    }
+    private static float TelescopeControlsY(Vector2 screen,CombatHudLayout layout)
+    {
+        float radius=Mathf.Max(60,Mathf.Min(screen.Y*.25f,Mathf.Min(screen.X*.2f,screen.Y*.5f-220)));
+        float y=Mathf.Min(screen.Y*.5f+radius+23,layout.Selection.Position.Y-12);
+        return layout.Gunnery.Size.X>0&&layout.Gunnery.HasPoint(new Vector2(screen.X*.5f,y))?layout.Gunnery.Position.Y-12:y;
     }
 }

@@ -63,6 +63,6 @@ public partial class MenuItemButton : Button
     }
     public override void _GuiInput(InputEvent e)
     {
-        if(e is InputEventKey{Pressed:true,Echo:false,Keycode:Key.F1}){ShowDetails();AcceptEvent();}
+        if(e.IsActionPressed(InputSetup.ToggleHelp)){ShowDetails();AcceptEvent();}
     }
 }

@@ -13,7 +13,7 @@ internal static class ShipHelp
     {
         bool pilot = scheme == ControlScheme.Pilot;
         var rows = new List<HelpEntry>();
-        void Add(string keys, string action) => rows.Add(new(keys,action));
+        void Add(string keys, string action) => rows.Add(new(InputBindings.HintKeys(keys),action));
         if (page == 0)
         {
             Add("W / S · X", "스로틀 올리기 / 내리기 · 스로틀 0");
@@ -34,18 +34,19 @@ internal static class ShipHelp
             Add("좌클릭", pilot ? "선택 무기 발사 · 주포는 기수 정렬 필요" : "표식/부위 선택 · 표식 밖 클릭은 선택 무기 발사");
             Add("우클릭 유지", "망원 조준 · 마우스로 둘러보기 · 좌클릭 수동 발사");
             Add(pilot ? "T" : "B · T", pilot ? "사격보조 켜기 / 끄기" : "사격 교리 라디얼 · 교리 순환");
-            Add("5", "응급복구 · 자동/계통 우선/중지 · 자재 소모");
+            Add("L", "응급복구 · 자동/계통 우선/중지 · 자재 소모");
             if (!pilot) Add("중클릭 · 휠", "주변 관찰 · 놓으면 3초 유지 · 거리 조절");
         }
         else if (page == 1)
         {
             Add("F · N", "전력 배분 · 편대 명령 (유지 → 방향 선택 → 놓기)");
+            Add("4 · 5 · 6 · 7", "전술 모듈 즉시 사용 · 장착한 활성 능력만 할당");
             Add("Y · C", "주포 조준 부위 변경 · 디코이 사출");
-            if (ship.Definition.DefenseDrones is not null) Add("4", "드론의 전후좌우 방어구역 지정");
+            if (ship.Definition.DefenseDrones is not null) Add("K", "드론의 전후좌우 방어구역 지정");
             if (ship.Definition.ReconProbes is not null)
             {
                 Add("N", "정찰 / 방공 / 제공 / 강습 / 복귀 · 프로브 사출");
-                Add("지도 Shift + 클릭", "프로브 탐지범위 미리보기 · 지정 방향으로 전개");
+                rows.Add(new("지도 Shift + 클릭", "프로브 탐지범위 미리보기 · 지정 방향으로 전개"));
             }
             if (ship.Definition.Antimatter is not null)
             {
@@ -97,7 +98,7 @@ public partial class Hud
     {
         if (!Game.ShowHelp)
         {
-            Label(new(16,screen.Y-12),"F1 도움말 · M 전체 지도 · F10 효과음",12,Dim);
+            Label(new(16,screen.Y-12),$"{InputBindings.Text(InputSetup.ToggleHelp)} 도움말 · {InputBindings.Text(InputSetup.WorldMap)} 전체 지도 · {InputBindings.Text(InputSetup.ToggleMute)} 효과음",12,Dim);
             return;
         }
         var entries = ShipHelp.Entries(controlled.Body,Game.Scheme,HelpPage);
@@ -114,7 +115,7 @@ public partial class Hud
         float x=HelpBounds.Position.X+20,y=HelpBounds.Position.Y;
         Label(new(x,y+30),$"{controlled.Body.Class.Kind switch{HullKind.Battleship=>"전함",HullKind.Escort=>"호위·순양함",_=>"요격함"}} 조작",18,Text);
         _helpClose=new(HelpBounds.End.X-150,y+10,134,30);
-        Label(_helpClose.Position+new Vector2(8,21),"닫기 · F1 / Esc",12,Friendly);
+        Label(_helpClose.Position+new Vector2(8,21),$"닫기 · {InputBindings.Text(InputSetup.ToggleHelp)} / Esc",12,Friendly);
         _helpTabs.Clear();
         string[] titles={"필수 조작","공통·심화","개발용"};
         for(int i=0;i<HelpPageCount;i++)

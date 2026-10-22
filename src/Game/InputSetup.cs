@@ -14,6 +14,8 @@ public static class InputSetup
     public const string SquadMenu = "squad_menu";
     public const string DroneMenu = "drone_menu";
     public const string DamageControlMenu = "damage_control_menu";
+    public static readonly string[] TacticalSlots = { "tactical_1", "tactical_2", "tactical_3", "tactical_4" };
+    internal static readonly System.Collections.Generic.Dictionary<string, Key> Defaults = new();
     public const string ThrottleUp = "throttle_up";
     public const string ThrottleDown = "throttle_down";
     public const string ThrottleZero = "throttle_zero";
@@ -57,6 +59,7 @@ public static class InputSetup
 
     public static void Register()
     {
+        Defaults.Clear();
         Bind(ToggleMute, Key.F10);
         Bind(WorldMap, Key.M);
         Bind(RadarNear, Key.Pageup);
@@ -64,8 +67,9 @@ public static class InputSetup
         Bind(PowerMenu, Key.F);
         Bind(GunneryMenu, Key.B);
         Bind(SquadMenu, Key.N);
-        Bind(DroneMenu, Key.Key4);
-        Bind(DamageControlMenu, Key.Key5);
+        Bind(DroneMenu, Key.K);
+        Bind(DamageControlMenu, Key.L);
+        for (int i = 0; i < TacticalSlots.Length; i++) Bind(TacticalSlots[i], Key.Key4 + i);
         Bind(ThrottleUp, Key.W);
         Bind(ThrottleDown, Key.S);
         Bind(ThrottleZero, Key.X);
@@ -108,6 +112,7 @@ public static class InputSetup
         Bind(TimeFaster, Key.Bracketright);
         BindMouse(Telescope, MouseButton.Right);
         BindMouse(Fire, MouseButton.Left);
+        InputBindings.Apply();
     }
 
     private static void BindMouse(string action, MouseButton button)
@@ -119,6 +124,7 @@ public static class InputSetup
 
     private static void Bind(string action, Key key)
     {
+        Defaults[action] = key;
         if (!InputMap.HasAction(action))
             InputMap.AddAction(action);
         InputMap.ActionEraseEvents(action);

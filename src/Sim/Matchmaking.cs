@@ -46,7 +46,7 @@ public static partial class Matchmaking
             var candidates=FleetLoadouts.Hulls.Where(h=>h.Design==p.Hull.Design&&h.MatchClass==p.Hull.MatchClass).ToArray();
             var hull=candidates[random.Next(candidates.Length)];int preset=random.Next(3);
             if(!presets.TryGetValue((hull.Id,preset),out var fit))
-                presets[(hull.Id,preset)]=fit=FleetLoadouts.Resolve(FleetLoadouts.AiPreset(hull.Id,preset));
+                presets[(hull.Id,preset)]=fit=FleetLoadouts.Resolve(new SquadronLoadout(FleetLoadouts.AiPreset(hull.Id,preset).Members.Select(m=>TacticalModulesCatalog.EquipAI(m,preset)).ToArray()));
             return p with{HullId=hull.Id,Loadout=fit};
         }).ToArray();
         return new(participants);

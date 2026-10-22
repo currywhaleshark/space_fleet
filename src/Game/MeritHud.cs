@@ -210,6 +210,7 @@ public partial class Hud
         var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,controlled.Body.Railguns.Length,HudSettings.TextScale);
         float bottom=layout.Selection.Position.Y;
         if(layout.Gunnery.Size.X>0)bottom=Math.Min(bottom,layout.Gunnery.Position.Y);
+        if(Game.Camera.TelescopeHeld)bottom=Math.Min(bottom,TelescopeControlsY(screen,layout)-HudFont(11)-8);
         // On narrower screens the interceptor's antimatter panel sits centred above the weapon row.
         if(AntimatterBounds.HasArea()&&AntimatterBounds.Position.X<screen.X*.5f&&AntimatterBounds.End.X>screen.X*.5f)
             bottom=Math.Min(bottom,AntimatterBounds.Position.Y);
@@ -220,9 +221,14 @@ public partial class Hud
             var r=ribbons[i];widths[i]=_font.GetStringSize(RibbonText(r),fontSize:font).X+34;
             total+=widths[i]+gap;
         }
-        float x=screen.X*.5f-total*.5f,y=bottom-12-height;
+        float x=screen.X*.5f-total*.5f,y=bottom-(Game.Camera.TelescopeHeld?8:12)-height;
+        // Beside the left AM panel there is room for the strip without covering the scope magnification.
+        if(Game.Camera.TelescopeHeld&&AntimatterBounds.HasArea()
+            &&new Rect2(x-4,y-4,total+8,height+8).Intersects(AntimatterBounds)
+            &&AntimatterBounds.End.X+12+total<screen.X-266)
+            x=AntimatterBounds.End.X+12;
         // Too little room under the reticle (small windows with that panel): the strip moves above the banners.
-        if(y<screen.Y*.5f+48)
+        if(y<screen.Y*.5f+(Game.Camera.TelescopeHeld?40:48)||new Rect2(x-4,y-4,total+8,height+8).Intersects(TacticalBounds))
         {
             y=BannerTop(screen)-24-height;
             // ...and above the interceptor's wing status when the two would meet.

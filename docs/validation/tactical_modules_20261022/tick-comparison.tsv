@@ -1,0 +1,5 @@
+tactical	ships	field	mode	measured_seconds	mean_ms	p99_ms	max_ms	allocated_bytes_per_tick
+False	80	AsteroidCluster	Domination	30	16.368	85.582	119.808	58183
+True	80	AsteroidCluster	Domination	30	16.856	73.998	116.903	57994
+True	80	AsteroidCluster	Domination	30	17.019	89.271	109.449	58002
+False	80	AsteroidCluster	Domination	30	16.372	74.817	99.256	58182

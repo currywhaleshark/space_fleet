@@ -29,7 +29,7 @@ public partial class Main
     private bool _rewardClaimed;
     public int? LastResearchReward { get; private set; }
     internal string? ResearchNodeId;
-    private bool IsFlowCheck => _args.ContainsKey("flow-test") || _args.ContainsKey("match-flow-test") || _args.ContainsKey("hangar-test") || _args.ContainsKey("progression-test") || _args.ContainsKey("shot");
+    private bool IsFlowCheck => _args.ContainsKey("flow-test") || _args.ContainsKey("match-flow-test") || _args.ContainsKey("hangar-test") || _args.ContainsKey("hangar-picking-test") || _args.ContainsKey("progression-test") || _args.ContainsKey("shot");
 
     private void LoadFleetChoice()
     {

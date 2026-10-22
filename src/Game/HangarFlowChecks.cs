@@ -56,7 +56,7 @@ public partial class Main
                 &&HangarStorage.Serialize(Hangar)==_confirmationUnchanged,"Real Escape input cancels without passing through to menu navigation");
             Hangar.Research!.Points[DesignFamily.Earth]=0;ReturnToPort();
         }
-        if(frame==8)CheckHangarSquadEditing();
+        if(frame==8){CheckHangarSquadEditing();CheckTacticalFitting();}
         if(frame==12)
         {
             _overlay.ActivateButton(0);
@@ -69,8 +69,8 @@ public partial class Main
             HangarVerify(unavailable.Disabled&&unavailable.TooltipText.Contains("RP 부족"),"Unaffordable fit keeps the precise RP shortfall in its tooltip");
             HangarVerify(Find("squad-0") is MenuItemButton {Picture:not null,Portrait:true},"Squad member is an image-led ship button");
             HangarVerify(unavailable is MenuItemButton {Picture:not null}&&unavailable.TooltipText.Contains("장착 후"),"Equipment icons retain actual fit comparisons in details");
-            var detail=(MenuItemButton)Find("system-MainGun");detail.GrabFocus();
-            detail._GuiInput(new InputEventKey{Keycode=Key.F1,Pressed=true});
+            var detail=(MenuItemButton)Find("part-stock");detail.GrabFocus();
+            detail._GuiInput(new InputEventKey{Keycode=Key.F1,PhysicalKeycode=Key.F1,Pressed=true});
             var popup=detail.GetChildren().OfType<PopupPanel>().Single();
             HangarVerify(popup.Visible,"F1 opens keyboard-accessible equipment details");
             popup.EmitSignal(Window.SignalName.WindowInput,new InputEventKey{Keycode=Key.Escape,Pressed=true});
@@ -98,15 +98,16 @@ public partial class Main
                 &&Hangar.Research.Points[DesignFamily.Earth]==0,"Confirmation revalidates affordability before unlocking or fitting");
             Hangar.Research.Points[DesignFamily.Earth]=100000;
             CheckHangarPartEditing(view);
-            foreach(var part in new[]{"engine-vector","sensor-lowprofile","shield-recharge"})
+            foreach(var part in new[]{"drive-vector","scanner-lowprofile","barrier-recharge"})
             {
-                view.SelectSystem(ShipComponents.ById(part).Slot);view.InstallSystem(part,true);
-                long balance=Hangar.Research.Points[DesignFamily.Earth],cost=Hangar.Research.ComponentCost("battleship",part);
+                view.SelectSystem(SystemParts.ById(part).Slot);view.InstallSystemPart(part,true);
+                long balance=Hangar.Research.Points[DesignFamily.Earth],cost=Hangar.Research.PartCost(part);
                 var confirm=MenuConfirmation.Pending(view)!;confirm.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
                 confirm.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
                 HangarVerify(Hangar.Research.Points[DesignFamily.Earth]==balance-cost,"Repeated confirmation charges exactly once: "+part);
-                HangarVerify(view.CurrentFit.Definition.Components!.Ids.Contains(part),"Hangar researches and fits "+part);
+                HangarVerify(view.CurrentFit.Definition.Components!.PartIds.Contains(part),"Hangar researches and fits "+part);
             }
+            CheckSystemPartEditing(view);
             view.SelectSystem(ComponentSlot.MainGun);view.InstallPart(0,null);
             HangarVerify(MenuConfirmation.Pending(view) is not null,"Restoring a stock component also asks for confirmation");
             MenuConfirmation.Pending(view)!.CancelButton.EmitSignal(BaseButton.SignalName.Pressed);
@@ -143,7 +144,7 @@ public partial class Main
             // A previously purchased explicit laser remains a valid save selection.
             Hangar.SetComponent("earth_air_defense_cruiser",0,ComponentSlot.MainGun,"main-laser",true);
             view.SelectSystem(ComponentSlot.MainGun);
-            HangarVerify(Find("system-MainGun").TooltipText.Contains(ShipComponents.ById("main-laser").Name),"Old explicit laser selection is described truthfully");
+            HangarVerify(view.Preview.Fittings!.Parts.First(p=>p.Id=="main:0").Name==ShipComponents.ById("main-laser").Name,"Old explicit laser selection is described truthfully on the ship");
             view.SelectBay("utility-port");view.Install("shield-capacity");
             MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
             preview=view.Preview;float yaw=preview.Yaw;
@@ -169,6 +170,8 @@ public partial class Main
             var game=Battle!;var members=game.OwnedSquadron!.Members;
             HangarVerify(members[0].Railguns[0].BarrelCount==3&&members[0].Definition.Missiles!.CellCount==2&&members[0].Definition.Battery!.PowerParts is ["earth-gen-s"],
                 "All four modular categories survive actual battle spawn");
+            HangarVerify(members[0].Definition.Components is {EnginePart:"drive-vector",SensorPart:"scanner-lowprofile",ShieldPart:"barrier-recharge",Engine:null,Sensor:null,Shield:null},
+                "New engine, sensor and shield assemblies survive matching and battle spawn without legacy stacking");
             HangarVerify(members.Count==3&&members[1].Definition.Id=="earth_gun_cruiser"&&members[2].Definition.Id=="earth_air_defense_cruiser","Mixed escort slots spawn in owned squad");
             for(int i=0;i<members.Count;i++)
             {
@@ -186,6 +189,23 @@ public partial class Main
         }
     }
 
+    private void CheckTacticalFitting()
+    {
+        OpenHangar();ChooseHull("battleship");var view=_overlay.HangarView!;
+        var saved=Hangar;Hangar=HangarProfile.Create("battleship");Hangar.Research!.Points[DesignFamily.Earth]=1000;
+        view.SelectSlot(0);view.SelectTacticalBay("tactical-0");
+        long before=Hangar.Research.Points[DesignFamily.Earth];view.InstallTactical("generator-overload");
+        HangarVerify(MenuConfirmation.Pending(view) is not null&&Hangar.Research.Points[DesignFamily.Earth]==before,"Tactical research waits for confirmation");
+        MenuConfirmation.Pending(view)!.Cancel();
+        HangarVerify(view.CurrentFit.Definition.TacticalModules is null,"Cancelling tactical research leaves fit unchanged");
+        view.InstallTactical("generator-overload");MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(view.CurrentFit.Definition.TacticalModules is [{Device.Id:"generator-overload"}]&&Hangar.Research.Points[DesignFamily.Earth]==before-100,"Confirmed tactical fit debits once and adds an actual compartment");
+        view.SelectTacticalBay("tactical-1");view.InstallTactical("focus-search");MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.Text=="앞 순서로").EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(view.CurrentFit.Definition.TacticalModules![0].Device.Id=="focus-search","Active skill order is changeable");
+        view.CloseOverlay();HangarVerify(GetViewport().GuiGetFocusOwner()?.GetMeta("focus_key","").AsString()=="tactical-modules","Closing tactical picker restores focus");
+        Hangar=saved;OpenHangar();ReturnToPort();
+    }
     private void CheckHangarPartEditing(HangarView view)
     {
         Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
@@ -196,11 +216,13 @@ public partial class Main
             HangarVerify(modal is not null,"Modular fitting requires a concrete confirmation: "+string.Join("; ",view.GetChildren().OfType<Label>().Where(l=>l.Text.StartsWith("변경할 수")).Select(l=>l.Text)));
             modal!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
         }
-        foreach(var category in new[]{HangarView.FittingCategory.MainGun,HangarView.FittingCategory.Secondary,HangarView.FittingCategory.Missiles,HangarView.FittingCategory.Generator})
+        foreach(var category in Enum.GetValues<HangarView.FittingCategory>())
         {
             view.SelectFitting(category);
             HangarVerify(!Has("component-stock")&&!Has("maingun-tab-systems")&&!Has("secondary-tab-systems"),category+": no legacy component picker");
-            HangarVerify(Find("system-"+category) is MenuItemButton{Picture:not null},category+": dedicated category icon");
+            HangarVerify(category is HangarView.FittingCategory.Generator or HangarView.FittingCategory.Shield
+                ?Find("system-"+category) is MenuItemButton{Picture:not null}
+                :!Has("system-"+category)&&view.Preview.Fittings!.Parts.Any(p=>p.Category==category),category+": internal icon or exterior surface, without duplicate shortcut");
             var panel=view.GetChildren().OfType<Control>().Single(c=>c.GetMeta("focus_key","").AsString()=="fitting-panel");
             HangarVerify(panel.Position.Y>=90&&panel.Position.Y+panel.Size.Y<=522,category+": fitting list stays within the viewport");
             HangarVerify(panel.GetChildren().OfType<ScrollContainer>().Single().FollowFocus,category+": scroll follows keyboard selection");
@@ -213,7 +235,7 @@ public partial class Main
         // Legacy selections load unchanged, then are replaced only by a confirmed new part.
         Hangar.SetComponent("battleship",0,ComponentSlot.MainGun,"main-triple",true);
         view.SelectSystem(ComponentSlot.MainGun);
-        HangarVerify(((MenuItemButton)Find("part-stock")).Detail!="장착 중"&&Find("system-MainGun").TooltipText.Contains(ShipComponents.ById("main-triple").Name),"Legacy primary is not mislabeled as stock");
+        HangarVerify(((MenuItemButton)Find("part-stock")).Detail!="장착 중"&&view.Preview.Fittings!.Parts.First(p=>p.Id=="main:0").Name==ShipComponents.ById("main-triple").Name,"Legacy primary is not mislabeled as stock");
         string before=HangarStorage.Serialize(Hangar);view.InstallPart(0,null);
         HangarVerify(MenuConfirmation.Pending(view)!.Body.Contains("주포 전체"),"Replacing a legacy whole battery explains every affected socket");
         MenuConfirmation.Pending(view)!.Cancel();HangarVerify(HangarStorage.Serialize(Hangar)==before,"Cancel preserves a legacy fit and research");
@@ -221,12 +243,12 @@ public partial class Main
         HangarVerify(view.CurrentFit.Definition.Components?.MainGun is null,"Stock socket choice actually clears legacy primary");
         view.InstallPart(0,"earth-rail-l3",true);long balance=Hangar.Research!.Points[DesignFamily.Earth];Confirm();
         HangarVerify(Hangar.Research.Points[DesignFamily.Earth]==balance-MainGunParts.ById("earth-rail-l3").Cost,"Part research charges exactly once");
-        HangarVerify(Find("system-MainGun").TooltipText.Contains(MainGunParts.ById("earth-rail-l3").Name),"Main gun icon reports installed socket parts");
+        HangarVerify(view.Preview.Fittings!.Parts.First(p=>p.Id=="main:0").Name==MainGunParts.ById("earth-rail-l3").Name,"Main gun surface reports installed socket parts");
         Hangar.SetComponent("battleship",0,ComponentSlot.Secondary,"pd-longrange",true);view.SelectSystem(ComponentSlot.Secondary);
         view.InstallOrdnance(OrdnanceKind.PointDefense,null);Confirm();
         HangarVerify(view.CurrentFit.Definition.Components?.Secondary is null,"Stock PD choice clears legacy secondary");
         view.InstallOrdnance(OrdnanceKind.PointDefense,"pd-gatling-heavy",true);Confirm();
-        HangarVerify(Find("system-Secondary").TooltipText.Contains("개틀링"),"Secondary icon reports the fitted PD part");
+        HangarVerify(view.Preview.Fittings!.Parts.First(p=>p.Id=="pd:0").Name.Contains("개틀링"),"Secondary surface reports the fitted PD part");
         view.SelectFitting(HangarView.FittingCategory.Missiles);
         HangarVerify(Has("missile-tab-Launcher")&&Has("missile-tab-Missile")&&!Has("secondary-tab-PointDefense"),"Missile module has only launcher and ammunition tabs");
         Find("ordnance-launcher-twin").EmitSignal(BaseButton.SignalName.Pressed);Confirm();
@@ -249,6 +271,50 @@ public partial class Main
         HangarVerify(Hangar.Fit(Hangar.Hulls["battleship"].Squadron[0]!).Components?.PointDefensePart is null
             &&Hangar.Fit(new("battleship",0)).Components?.PointDefensePart=="pd-gatling-heavy","Individual PD edit leaves shared fit intact");
         view.SelectPreset(0);
+    }
+
+    private void CheckSystemPartEditing(HangarView view)
+    {
+        Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
+        foreach(string id in new[]{"drive-vector","scanner-lowprofile","barrier-recharge"})
+        {
+            var part=SystemParts.ById(id);var progress=Hangar.Research!;
+            Hangar.SetComponent("battleship",0,part.Slot,part.LegacyId,true);
+            view.SelectSystem(part.Slot);
+            HangarVerify(((MenuItemButton)Find("system-part-stock")).Detail!="장착 중","Legacy assembly is not mislabeled as stock");
+            string untouched=HangarStorage.Serialize(Hangar);long balance=progress.Points[DesignFamily.Earth];
+            Find("system-part-"+id).EmitSignal(BaseButton.SignalName.Pressed);
+            var dialog=MenuConfirmation.Pending(view)!;
+            HangarVerify(dialog is not null&&dialog.Body.Contains("기존 교체 계통")&&dialog.Body.Contains("→"),"Legacy replacement previews actual fit and replacement scope");
+            dialog!.Cancel();HangarVerify(HangarStorage.Serialize(Hangar)==untouched,"Cancelling system conversion preserves fit and research");
+            Find("system-part-"+id).EmitSignal(BaseButton.SignalName.Pressed);
+            MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+            HangarVerify(progress.Points[DesignFamily.Earth]==balance&&view.SelectedParts!.SystemPart(part.Slot)==id&&view.SelectedParts.Get(part.Slot) is null,
+                "Equivalent researched part replaces legacy without charging or stacking");
+            string displayed=part.Slot==ComponentSlot.Shield?Find("system-Shield").TooltipText
+                :view.Preview.Fittings!.Parts.First(p=>p.Category.ToString()==part.Slot.ToString()).Name;
+            HangarVerify(displayed.Contains(part.Name)&&Find("system-part-"+id).TooltipText.Contains("총 전력 수요"),"Installed surface/internal icon and tooltip report actual assembly and fit costs");
+            Find("system-part-stock").EmitSignal(BaseButton.SignalName.Pressed);MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+            HangarVerify(view.SelectedParts!.SystemPart(part.Slot) is null&&view.SelectedParts.Get(part.Slot) is null,"Stock action clears only its assembly");
+            Find("system-part-"+id).EmitSignal(BaseButton.SignalName.Pressed);MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+            HangarVerify(progress.Points[DesignFamily.Earth]==balance,"Researched assembly can be refitted for free");
+        }
+        view.SelectSystem(ComponentSlot.Sensor);
+        long funds=Hangar.Research!.Points[DesignFamily.Earth];
+        Find("system-part-scanner-longrange").EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(MenuConfirmation.Pending(view)!.Body.Contains("동시 잠금"),"Sensor confirmation exposes the additional lock channel");
+        Hangar.Research.Points[DesignFamily.Earth]=0;
+        MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(view.SelectedParts!.SensorPart=="scanner-lowprofile"&&!Hangar.Research.HasPart(DesignFamily.Earth,"scanner-longrange"),"RP is revalidated at confirmation without losing installed sensor");
+        Hangar.Research.Points[DesignFamily.Earth]=funds;
+        view.SelectPreset(HangarSlot.Individual);view.SelectSystem(ComponentSlot.Engine);
+        // This slot retains its earlier PD-only individual fit; equip an engine before testing removal.
+        Find("system-part-drive-vector").EmitSignal(BaseButton.SignalName.Pressed);MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        Find("system-part-stock").EmitSignal(BaseButton.SignalName.Pressed);MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(view.SelectedParts!.EnginePart is null&&Hangar.Fit(new("battleship",0)).Components!.EnginePart=="drive-vector","Individual engine edit leaves the shared preset intact");
+        view.SelectPreset(0);
+        var roundTrip=HangarStorage.Parse(HangarStorage.Serialize(Hangar));
+        HangarVerify(FleetLoadouts.ResolveFit(roundTrip.Fit(new("battleship",0))).ContentHash==view.CurrentFit.ContentHash,"All seven fitting categories survive a save unchanged");
     }
 
     /// <summary>Port-style squad editing: empty slots, hull cards, individual fits, slot menu, "my ships" list and save v4.</summary>
@@ -274,7 +340,7 @@ public partial class Main
         var member=Hangar.Hulls["battleship"].Squadron[1]!;
         HangarVerify(member.UsesOwn&&member.Own is not null&&Find("개별") is {} own&&own.HasMeta("focus_key"),"Individual mode stores a slot-owned fit");
         view.SelectBay("utility-port");view.Install("shield-capacity");MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
-        HangarVerify(Hangar.Hulls["battleship"].Squadron[1]!.Own!.Equipment.Length==1&&Hangar.Hulls[member.HullId].Presets[0].Length==0,
+        HangarVerify(Hangar.Hulls["battleship"].Squadron[1]!.Own!.Components?.AuxiliaryParts?.Length==1&&Hangar.Hulls[member.HullId].Presets[0].Length==0,
             "Individual equipment changes only the slot, never the shared preset");
         view.SelectPreset(0);
         HangarVerify(view.CurrentFit.Definition.InstalledEquipment.Length==0,"Switching back to a shared preset uses that preset");

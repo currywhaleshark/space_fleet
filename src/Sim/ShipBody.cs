@@ -56,6 +56,7 @@ public sealed class ShipBody
             if (_primaryGun is null || gun.Definition.MaxRange > _primaryGun.Definition.MaxRange) _primaryGun = gun;
         Power = new ShipPower(this);
         Ordnance = new OrdnanceState(this);
+        Tactical = new TacticalState(this);
         DamageControl = new DamageControlState(this);
     }
 
@@ -64,6 +65,7 @@ public sealed class ShipBody
     public Faction Faction { get; }
     public ShipDefinition Definition { get; }
     public ShipDamage Damage { get; }
+    public TacticalState Tactical { get; }
     public DamageControlState DamageControl { get; }
     public RailgunState[] Railguns { get; }
     /// <summary>Primary gun for single-gun callers; battery fire uses Railguns.</summary>
@@ -176,6 +178,7 @@ public sealed class ShipBody
         PrevPosition = Position;
         PrevOrientation = Orientation;
         SimTime += dt;
+        if(Tactical.Slots.Length>0)Tactical.Refresh();
         DamageControl.Step(dt);
         Damage.Step(dt, Power.ShieldEffect);
         Power.Step(dt);

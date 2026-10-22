@@ -168,7 +168,7 @@ public partial class ScaleTest
     private void OpenDroneMenu()
     {
         if (Controlled?.Body is not { } ship) return;
-        if (ship.Definition.DefenseDrones is null) { Notify("방어 드론 미탑재 · N 요격 임무",true); return; }
+        if (ship.Definition.DefenseDrones is null) { Notify($"방어 드론 미탑재 · {InputBindings.Text(InputSetup.SquadMenu)} 요격 임무",true); return; }
         var drones=ship.Ordnance.Drones;
         RadialItem Item(DroneSector sector,float angle) => new(DefenseDroneState.Label(sector),angle,() =>
         {

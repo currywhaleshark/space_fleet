@@ -100,6 +100,7 @@ public partial class Hud : Control
         DrawSmallTarget(cam);
         DrawInstruments(controlled, size);
         DrawWeaponSelection(controlled.Body, size);
+        DrawTactical(controlled.Body,size);
         DrawOwnSystems(controlled, size);
         DrawSquadrons(controlled, size);
         DrawPowerPanel(controlled, size);
@@ -139,6 +140,7 @@ public partial class Hud : Control
         if(Game.Scheme==ControlScheme.Helm)_markerLabels.Reserve(layout.Gunnery);
         _markerLabels.Reserve(new Rect2(layout.Weapons,new Vector2(390,31)));
         _markerLabels.Reserve(layout.Selection);
+        if(TacticalBounds.HasArea())_markerLabels.Reserve(TacticalBounds);
         _markerLabels.Reserve(new Rect2(16,screen.Y-310,250,278));
         _markerLabels.Reserve(new Rect2(screen.X-266,screen.Y-254,250,222));
         if(Game.SelectedSmallContact is { } small)
@@ -429,7 +431,7 @@ public partial class Hud : Control
         string state = body.Damage.Destroyed ? "복구 불가" : dc.Priority == RepairPriority.Hold ? "작업 중지"
             : dc.Kits == 0 ? "자재 소진" : dc.ActiveModule is { } module ? ModuleNames.Display(module.Definition) : $"대기 · {dc.RestoreFraction*100:0}% 응급복구";
         float textGap = Mathf.Round((HudSettings.TextScale-1)*25);
-        Label(panel.Position + new Vector2(10, 124+textGap), $"5 복구 · {DamageControlState.Label(dc.Priority)} · {dc.Kits}/{dc.Capacity}", 13, Text, width:230);
+        Label(panel.Position + new Vector2(10, 124+textGap), $"{InputBindings.Text(InputSetup.DamageControlMenu)} 복구 · {DamageControlState.Label(dc.Priority)} · {dc.Kits}/{dc.Capacity}", 13, Text, width:230);
         Label(panel.Position + new Vector2(10, 145+textGap), state, 13, dc.ActiveModule is null ? Dim : Motion, width:230);
         string progress = dc.ActiveModule is null ? ""
             : dc.QuietRemaining > .01 ? $"피격 중단 · {dc.QuietRemaining:0.0}초 후 재개" : $"작업 {dc.Progress * 100:0}% · {dc.WorkRemaining:0.0}초";

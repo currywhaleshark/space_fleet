@@ -58,7 +58,7 @@ public partial class Hud
         DrawLine(new Vector2(dx, gen.Position.Y - 3f), new Vector2(dx, gen.End.Y + 3f), Text, 1.5f);
 
         // 채널 핍
-        CenteredLabel(new Vector2(x + barWidth * .5f, y + 27), "F 전력 배분", 10, Dim);
+        CenteredLabel(new Vector2(x + barWidth * .5f, y + 27), $"{InputBindings.Text(InputSetup.PowerMenu)} 전력 배분", 10, Dim);
         float slot = barWidth / Channels.Length;
         float pipW = 13f, pipH = 11f, gap = 3f;
         float pipsBottom = y + 92f;

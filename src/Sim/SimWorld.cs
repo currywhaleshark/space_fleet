@@ -58,6 +58,7 @@ public sealed partial class SimWorld
     public void Step()
     {
         long tickTiming = SimProfiler.Begin(), sectionTiming = SimProfiler.Begin();
+        foreach(var ship in _ships)if(ship.Tactical.Slots.Length>0)ship.Tactical.CompleteJumps(this);
         foreach (ShipBody ship in _ships)
         {
             foreach (RailgunState gun in ship.Railguns) { gun.PreviousYaw = gun.Yaw; gun.PreviousElevation = gun.Elevation; }

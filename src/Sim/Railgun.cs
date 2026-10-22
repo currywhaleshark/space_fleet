@@ -103,7 +103,7 @@ public sealed class RailgunState
         : ReloadRemaining > 0 ? ReloadRate <= 0.01f ? "재장전 대기 · 무장 전력 없음"
             : $"재장전 {ReloadRemaining / ReloadRate:0.0}s" : "발사 준비";
     public bool Ready => !_ship.Damage.Destroyed && Output > 0.01f && HasAmmunition && ReloadRemaining <= 0 && !_ship.Power.Overheated
-        && (!IsLaser || _ship.Power.WeaponEffect > .01f);
+        && (!IsLaser || _ship.Power.WeaponEffect > .01f) && !_ship.Tactical.WeaponsBlocked;
     public void Reset()
     {
         Rounds = Definition.Rounds; ReloadRemaining = 0; Yaw = Elevation = PreviousYaw = PreviousElevation = 0;

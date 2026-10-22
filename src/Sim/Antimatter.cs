@@ -93,6 +93,7 @@ public sealed partial class SimWorld
 {
     public FireAttempt LaunchAntimatter(ShipBody shooter, ShipBody target, Vector3? localAim = null)
     {
+        if(shooter.Tactical.WeaponsBlocked)return new(false,"도약 준비 중 · 무장 차단");
         if (!_ships.Contains(shooter) || !_ships.Contains(target)) return new(false, "월드에 없는 함선");
         AntimatterState state = shooter.Ordnance.Antimatter;
         if (state.Definition is not { } am) return new(false, "반물질 발사관 없음");

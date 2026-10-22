@@ -36,7 +36,8 @@ internal static class MenuStyles
     {
         if(key is null)return;
         var buttons=root.FindChildren("*","Button",true,false).OfType<Button>().ToArray();
-        var target=buttons.FirstOrDefault(b=>!b.Disabled&&b.GetMeta("focus_key","").AsString()==key)
+        var target=root.FindChildren("*","Control",true,false).OfType<Control>()
+            .FirstOrDefault(c=>c.FocusMode!=Control.FocusModeEnum.None&&c is not Button{Disabled:true}&&c.GetMeta("focus_key","").AsString()==key)
             ??buttons.FirstOrDefault(b=>!b.Disabled&&b.GetMeta("focus_key","").AsString()=="research-action")
             ??buttons.FirstOrDefault(b=>!b.Disabled);
         target?.GrabFocus();

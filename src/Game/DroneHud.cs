@@ -17,7 +17,7 @@ public partial class Hud
         var drones=ship.Ordnance.Drones;
         var panel=new Rect2(screen.X-266,screen.Y-254,250,96);
         DrawRect(panel,PanelBack);
-        Label(panel.Position+new Vector2(10,18),$"4 드론 · {DefenseDroneState.Label(drones.Sector)} 방어",12,Text);
+        Label(panel.Position+new Vector2(10,18),$"{InputBindings.Text(InputSetup.DroneMenu)} 드론 · {DefenseDroneState.Label(drones.Sector)} 방어",12,Text);
         string status=ship.Damage.Destroyed ? "모함 격침" : drones.SurvivingCount==0 ? "전멸" : !drones.Active ? "통제 불능" : drones.ArmedCount==0 ? "탄약 소진"
             : drones.RepositioningCount>0 ? $"재배치 {drones.RepositioningCount}/{def.Count}" : "경계 중";
         Color color=!drones.Active || drones.ArmedCount==0 ? Hostile : drones.RepositioningCount>0 ? Motion : Good;

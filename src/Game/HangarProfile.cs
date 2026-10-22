@@ -28,9 +28,9 @@ public sealed class HangarHull
 }
 
 /// <summary>Local editable choices. Combat receives a resolved snapshot, never this mutable save model.</summary>
-public sealed class HangarProfile
+public sealed partial class HangarProfile
 {
-    public int Version { get; set; } = 5;
+    public int Version { get; set; } = 6;
     public ResearchProgress? Research { get; set; }
     public string SelectedHullId { get; set; } = "interceptor";
     public Dictionary<string,HangarHull> Hulls { get; set; } = new(StringComparer.Ordinal);
@@ -107,6 +107,7 @@ public sealed class HangarProfile
         var next=EditableSquad(index,leaderAllowed:true);var slot=next[index];
         if(slot is not {UsesOwn:true,Own:{ } own})throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
         if(!ShipDefinitions.ById(slot.HullId).Bays.Any(b=>b.Id==bay))throw new InvalidDataException("없는 베이입니다.");
+        if(Version>=6){SetPhysicalPart(slot,index,bay,device);return;}
         var mounts=own.Equipment.Where(m=>m.BayId!=bay).ToList();if(device is not null)mounts.Add(new(bay,device));
         var fit=own with{Equipment=mounts.OrderBy(m=>m.BayId,StringComparer.Ordinal).ToArray()};
         FleetLoadouts.ResolveFit(Fit(slot with{Own=fit}));
@@ -164,6 +165,7 @@ public sealed class HangarProfile
     {
         if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull))throw new InvalidDataException("잘못된 프리셋입니다.");
         if(!ShipDefinitions.ById(hull).Bays.Any(b=>b.Id==bay))throw new InvalidDataException("없는 베이입니다.");
+        if(Version>=6){SetPhysicalPart(new(hull,preset),0,bay,device);return;}
         var next=state.Presets[preset].Where(m=>m.BayId!=bay).ToList();
         if(device is not null)next.Add(new(bay,device));
         FleetLoadouts.ResolveFit(Fit(new(hull,preset)) with{Equipment=next});
@@ -257,6 +259,25 @@ public sealed class HangarProfile
         var next=(current??new()) with{Generator=null,PowerParts=kept.Length==0?null:kept};
         return next.IsEmpty?null:next;
     }
+    /// <summary>One engine, sensor or shield assembly. Replaces only the matching legacy system.</summary>
+    public void SetSystemPart(string hull,int preset,ComponentSlot slot,string? part,bool research=false)
+    {
+        if(!Hulls.TryGetValue(hull,out var state)||preset<0||preset>=3||!Owned.Contains(hull)||Research is null)
+            throw new InvalidDataException("잘못된 프리셋입니다.");
+        var next=SystemParts.With(state.SystemPresets[preset],slot,part);
+        FleetLoadouts.ResolveFit(Fit(new(hull,preset)) with{Components=next});
+        BuyIfNeeded(hull,part,research);
+        state.SystemPresets[preset]=next;
+    }
+    public void SetSlotSystemPart(int index,ComponentSlot slot,string? part,bool research=false)
+    {
+        var next=EditableSquad(index,leaderAllowed:true);var member=next[index];
+        if(member is not {UsesOwn:true,Own:{ } own}||Research is null)throw new InvalidDataException("개별 설정 슬롯이 아닙니다.");
+        var fit=own with{Components=SystemParts.With(own.Components,slot,part)};
+        FleetLoadouts.ResolveFit(Fit(member with{Own=fit}));
+        BuyIfNeeded(member.HullId,part,research);
+        next[index]=member with{Own=fit};Commit(next);
+    }
     private void BuyIfNeeded(string hull,string? part,bool research)
     {
         var design=ShipDefinitions.ById(hull).Design;
@@ -335,7 +356,7 @@ public sealed class HangarProfile
 
     public void Validate()
     {
-        if(Version is not (1 or 2 or 3 or 4 or 5)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))
+        if(Version is not (1 or 2 or 3 or 4 or 5 or 6)||Hulls is null||Hulls.Count==0||Hulls.Count>128||!Hulls.ContainsKey(SelectedHullId))
             throw new InvalidDataException("지원하지 않거나 손상된 격납고 저장입니다.");
         if(Version>=2){if(Research is null)throw new InvalidDataException("연구 진행이 없습니다.");Research.Validate();if(!Owned.Contains(SelectedHullId))throw new InvalidDataException("선택한 함급이 잠겨 있습니다.");}
         foreach(var (id,hull) in Hulls)
@@ -350,6 +371,7 @@ public sealed class HangarProfile
                 if(Unresearched(id,hull.SystemPresets[index]))
                     throw new InvalidDataException("연구하지 않은 교체 부품이 장착되어 있습니다.");
                 FleetLoadouts.ResolveFit(Fit(new(id,index)));
+                ValidateTacticalResearch(id,hull.SystemPresets[index]);
             }
             foreach(var slot in hull.Squadron)
             {
@@ -358,6 +380,7 @@ public sealed class HangarProfile
                     ||slot.Own is {Equipment:null or {Length:>16}})throw new InvalidDataException("잘못된 편대원 프리셋 참조입니다.");
                 if(Unresearched(slot.HullId,slot.Own?.Components))
                     throw new InvalidDataException("연구하지 않은 교체 부품이 장착되어 있습니다.");
+                ValidateTacticalResearch(slot.HullId,slot.Own?.Components);
             }
         }
         foreach(string id in Hulls.Keys)FleetLoadouts.Resolve(Filled(id,Hulls[id].Squadron),Hulls.Keys.ToHashSet());
@@ -386,7 +409,7 @@ public static class HangarStorage
         }
         Unique(doc.RootElement);
         var profile=JsonSerializer.Deserialize<HangarProfile>(json,Options)??throw new InvalidDataException("빈 저장입니다.");
-        profile.RetireParts();profile.Validate();return profile;
+        profile.MigrateEquipmentParts();profile.RetireParts();profile.Validate();return profile;
     }
     public static HangarLoadResult Load(string path,string? legacyHull)
     {
@@ -408,7 +431,7 @@ public static class HangarStorage
                 foreach(string id in oldHulls)profile.Research.GrantPath(id);
                 foreach(var hull in FleetLoadouts.Hulls)if(!profile.Hulls.ContainsKey(hull.Id))
                     profile.Hulls.Add(hull.Id,new HangarHull{Squadron=FleetLoadouts.Default(hull.Id).Members.Select(m=>new HangarSlot(m.HullId,0)).ToArray()});
-                profile.Version=5;profile.Validate();return new(profile,true,"이전 격납고를 이관했습니다. 기존 함급과 세팅은 유지됩니다.");
+                profile.Version=6;profile.Validate();return new(profile,true,"이전 격납고를 이관했습니다. 기존 함급과 세팅은 유지됩니다.");
             }
             // Catalog expansion adds empty presets, never ownership or research points.
             foreach(var hull in FleetLoadouts.Hulls)if(!profile.Hulls.ContainsKey(hull.Id))
@@ -421,7 +444,8 @@ public static class HangarStorage
                 research.ShareLegacyUnlocks();
             }
             if(profile.RetiredParts)note=(note is null?"":note+" ")+"더 이상 달 수 없는 주포 부품(전함의 대형 레이저)을 기본 주포로 되돌렸습니다. 연구는 유지됩니다.";
-            profile.Version=5;profile.Validate();
+            if(profile.Version<6)note=(note is null?"":note+" ")+"기존 베이 장비를 부품으로 이관했습니다. 위치·성능·연구 점수는 유지됩니다.";
+            profile.Version=6;profile.Validate();
             return new(profile,true,note);
         }
         catch(Exception e)when(e is IOException or InvalidDataException or UnauthorizedAccessException or JsonException or ArgumentException)

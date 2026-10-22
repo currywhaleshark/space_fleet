@@ -48,7 +48,7 @@ public sealed class ShipDamage
         _seed = Hash(callsign);
         Modules = Array.AsReadOnly(definition.Modules.Select(m => new ModuleState(m)).ToArray());
         _byId = Modules.ToDictionary(m => m.Definition.Id);
-        _coreModules = Modules.Where(m => !EquipmentRules.IsEquipment(m.Definition.Kind)).ToArray();
+        _coreModules = Modules.Where(m => !EquipmentRules.IsEquipment(m.Definition.Kind)&&m.Definition.Kind!=ModuleKind.TacticalModule).ToArray();
         _equipment = definition.InstalledEquipment.Select(i => (i.Equipment, _byId[i.ModuleId])).ToArray();
         // Immutable membership, live ModuleState references, original summation order.
         _byKind = Modules.GroupBy(m => m.Definition.Kind).ToDictionary(g => g.Key, g => g.ToArray());

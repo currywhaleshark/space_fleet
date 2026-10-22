@@ -12,7 +12,8 @@ namespace SpaceFleet.Sim;
 public static class SensorLocks
 {
     public static int Channels(ShipDefinition def) => (def.Kind switch { HullKind.Interceptor => 1, HullKind.Escort => 2, _ => 3 })
-        + (def.Branch == ShipBranch.MissileCruiser ? 1 : 0) + (def.Components?.Sensor == "sensor-longrange" ? 1 : 0);
+        + (def.Branch == ShipBranch.MissileCruiser ? 1 : 0)
+        + (def.Components?.SensorPart is { } part ? SystemParts.ById(part).LockChannels : def.Components?.Sensor == "sensor-longrange" ? 1 : 0);
 
     /// <summary>
     /// Targets for one salvo: the primary first, then other locked enemy ships within missile range, nearest to the primary

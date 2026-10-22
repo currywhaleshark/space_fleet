@@ -11,7 +11,7 @@ using Godot;
 namespace SpaceFleet.Sim;
 
 public enum ArmorSide { Fore, Aft, Port, Starboard, Dorsal, Ventral }
-public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter, AntimatterContainment, ShieldBooster, SensorBooster, EcmSuite, DroneBay }
+public enum ModuleKind { Sensor, Gun, Magazine, Generator, Reactor, Cooling, Thruster, ManeuverThruster, PowerBus, ShieldEmitter, AntimatterContainment, ShieldBooster, SensorBooster, EcmSuite, DroneBay, TacticalModule }
 public enum PowerGrid { Port, Starboard, Shared }
 
 public sealed record ShieldDefinition(float Capacity, float RechargePerSecond, float RechargeDelay);
@@ -50,6 +50,8 @@ public sealed class ShipDefinition
     public required ModuleDefinition[] Modules { get; init; }
     public EquipmentBay[] Bays { get; init; } = Array.Empty<EquipmentBay>();
     public InstalledEquipment[] InstalledEquipment { get; init; } = Array.Empty<InstalledEquipment>();
+    [System.Text.Json.Serialization.JsonIgnore(Condition=System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull)]
+    public InstalledTactical[]? TacticalModules { get; init; }
     public float StructureHitPoints { get; init; } = 1000f;
     private RailgunDefinition? _legacyRailgun, _compiledRailgun;
     /// <summary>Legacy input and compiled compatibility view for firing, AI, HUD and model rigs.</summary>
@@ -291,6 +293,7 @@ public sealed class ShipDefinition
                 && Positive(drones.HitPoints) && Positive(drones.RadiusMeters) && Positive(drones.ShipEnergy)
                 && Positive(drones.ShipPenetrationMm) && Positive(drones.ShipModuleDamage), "invalid defense drones");
         EquipmentRules.Validate(this);
+        TacticalModulesCatalog.Validate(this);
         ShipComponents.ValidateSelection(this, Components);
     }
 

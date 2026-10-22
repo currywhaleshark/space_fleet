@@ -69,7 +69,7 @@ public partial class ScaleTest
             }
             UpdateSmallAim(me.Body);
             Notify(!chosen.Locked(World.Time)?"소형 표적 지정 · 잠금 대기":AutoSmallBattery ? "소형 표적 지정 · 자동 요격"
-                : chosen.Kind == SmallContactKind.Missile ? "적 미사일 지정 · 1 주포 / 2 미사일 · 좌클릭 요격" : "적 프로브 지정 · 1 주포 / 좌클릭 요격", false);
+                : chosen.Kind == SmallContactKind.Missile ? InputBindings.HintKeys("적 미사일 지정 · 1 주포 / 2 미사일 · 좌클릭 요격") : InputBindings.HintKeys("적 프로브 지정 · 1 주포 / 좌클릭 요격"), false);
         }
         else if (ship is not null) { SelectEnemy(ship); Notify("표적 · " + ContactOf(ship)!.Name, false); }
         else Notify("화면 안에 탐지된 적 표적 없음", true);

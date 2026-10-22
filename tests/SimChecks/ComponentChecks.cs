@@ -185,7 +185,7 @@ static class ComponentChecks
         Check(p.Hulls["escort"].SystemPresets[0]!.Sensor is null,"Preset selections stay independent");
         var snapshot=FleetLoadouts.Resolve(p.Squadron());string saved=HangarStorage.Serialize(p);
         var restored=HangarStorage.Parse(saved);
-        Check(restored.Version==5&&FleetLoadouts.Resolve(restored.Squadron()).LoadoutId==snapshot.LoadoutId,"Current save (v5) stores exact fit and research across reload");
+        Check(restored.Version==6&&FleetLoadouts.Resolve(restored.Squadron()).LoadoutId==snapshot.LoadoutId,"Current save (v6) stores exact fit and research across reload");
         p.SetComponent("escort",0,ComponentSlot.MainGun,null);
         Check(snapshot.Leader.Railgun!.Mounts!.All(m=>m.Muzzles.Length==3),"Resolved queued snapshot cannot be edited by later preset changes");
         Check(FleetLoadouts.Resolve(p.Squadron()).Leader.MainBattery is null,"Returning to stock restores stock primary schema");
@@ -198,7 +198,7 @@ static class ComponentChecks
         try
         {
             string path=Path.Combine(folder,"hangar.json");File.WriteAllText(path,old.ToJsonString());
-            var migrated=HangarStorage.Load(path,null);Check(migrated.CanSave&&migrated.Profile.Version==5,"Old v2 save migrates to the current v5");
+            var migrated=HangarStorage.Load(path,null);Check(migrated.CanSave&&migrated.Profile.Version==6,"Old v2 save migrates to the current v6");
             Check(migrated.Profile.Research!.Components.Count==0&&migrated.Profile.Research.SharedComponents.Values.All(v=>v.Length==0)&&migrated.Profile.Hulls.Values.All(h=>h.SystemPresets.All(s=>s is null)),"Migration grants no parts and keeps stock choices");
             HangarStorage.Save(path,migrated.Profile);Check(File.ReadAllText(path+".bak")==old.ToJsonString(),"Migration backup preserves old bytes");
         }

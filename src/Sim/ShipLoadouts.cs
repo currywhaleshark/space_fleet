@@ -67,7 +67,9 @@ public static class ShipLoadouts
         }
         if (definition.InstalledEquipment.Length > 0)
             throw new InvalidDataException("Install equipment through bay selections, not definition patches");
-        if (loadout.Equipment is { Count: > 0 } mounts) definition = Install(definition, mounts);
+        var mounts=(loadout.Equipment??Array.Empty<EquipmentMount>()).Concat(loadout.Components?.AuxiliaryParts??Array.Empty<EquipmentMount>()).ToArray();
+        if (mounts.Length>0) definition = Install(definition, mounts);
+        definition=TacticalModulesCatalog.Install(definition,loadout.Components?.TacticalModules);
         ShipRoleValidation.ValidateReferences(definition, referenceLookup);
         // Hash the validated, materialized values, including defaults. Property order and
         // whitespace in patches do not affect identity; array order deliberately does.

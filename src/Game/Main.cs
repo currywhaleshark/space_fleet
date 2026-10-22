@@ -6,7 +6,7 @@ using SpaceFleet.Sim;
 
 namespace SpaceFleet.Game;
 
-public enum BattleScreen { Title, Select, Matching, Battle, Pause, Eliminated, Result, Hangar, Research }
+public enum BattleScreen { Title, Select, Matching, Battle, Pause, Eliminated, Result, Hangar, Research, Keys }
 public partial class Main : Node3D
 {
     public BattleScreen Screen { get; private set; } = BattleScreen.Title;
@@ -45,6 +45,7 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.ContainsKey("tactical-input-test")){AddChild(new TacticalGameChecks());return;}
         if(_args.ContainsKey("merit-test")){AddChild(new MeritGameChecks());return;}
         if(_args.ContainsKey("hud-details-test")){AddChild(new HudDetailsChecks());return;}
         if(_args.ContainsKey("selection-hud-test")){AddChild(new TargetSelectionChecks());return;}
@@ -71,10 +72,17 @@ public partial class Main : Node3D
                 Hangar.SetComponent(PlayerHullId,0,ShipComponents.ById(id).Slot,id,true);
         }
         if (_args.TryGetValue("red-design", out var red)) EnemyDesign = Enum.Parse<DesignFamily>(red, true);
+        if(_args.ContainsKey("shot")&&_args.TryGetValue("tactical-fit",out var tactical))
+        {
+            Hangar.Research!.Points[PlayerDesign]=100000;
+            var bays=TacticalModulesCatalog.Bays(FleetLoadouts.ResolveFit(Hangar.Fit(new(PlayerHullId,0))).Definition);
+            Hangar.SetTactical(new(PlayerHullId,0),0,tactical.Split(',').Select((id,i)=>new TacticalMount(bays[i].Id,id)).ToArray(),true);
+        }
         if (_args.TryGetValue("objective", out var objective)
             && Enum.TryParse<BattleObjective>(objective, true, out var parsed) && Enum.IsDefined(parsed))
             SelectedObjective = parsed;
         InputSetup.Register();
+        InputBindings.Load(_args.ContainsKey("shot")||_args.Keys.Any(k=>k.EndsWith("-test")));
         SoundSettings.Initialize();
         FeedbackSettings.Load();
         HudSettings.Load();
@@ -107,9 +115,21 @@ public partial class Main : Node3D
         var layer = new CanvasLayer { Layer = 10 }; AddChild(layer);
         _overlay = new BattleOverlay { Host = this }; layer.AddChild(_overlay);
         string menu = _args.GetValueOrDefault("menu", "title");
-        if(_args.ContainsKey("match"))BeginMatch(useRequestedSeed:true);
+        if(_args.ContainsKey("shot")&&_args.ContainsKey("tactical-preview"))
+        {
+            var match=Matchmaking.Create(31,Hangar.Squadron());StartBattle(match.Player.Callsign(0),match:match,matchSeed:31);
+            GD.Print($"tactical preview: ships={Battle!.World.Ships.Count}, modules={Battle.World.Ships.Sum(s=>s.Tactical.Slots.Length)}");
+            if(_args.TryGetValue("hud-text",out var percent))HudSettings.SetTextPercent(int.Parse(percent),false);
+            for(int i=0;i<Battle!.Controlled!.Body.Tactical.ActiveSlots.Length;i++)
+                if(Battle.Controlled.Body.Tactical.ActiveSlots[i].Definition.Effect==TacticalEffect.HeatVent)Battle.Controlled.Body.Power.AddHeat(200);
+            Battle.Controlled.Body.Tactical.Activate(0,Battle.World);
+            if(_args.ContainsKey("tactical-scope")){Battle.Camera.SetTelescope(true);Battle.SelectWeapon(PlayerWeapon.Antimatter);}
+            Battle.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.Hit,Count=3});
+        }
+        else if(_args.ContainsKey("match"))BeginMatch(useRequestedSeed:true);
         else if (menu == "select") ChangeScreen(BattleScreen.Select);
         else if (menu == "hangar") ChangeScreen(BattleScreen.Hangar);
+        else if (menu == "keys") ChangeScreen(BattleScreen.Keys);
         else if (menu == "research") OpenResearch();
         else if (menu == "result" || _args.ContainsKey("result-test"))
         {
@@ -166,17 +186,52 @@ public partial class Main : Node3D
         if(_args.ContainsKey("flow-test"))CheckSceneFlow();
         if(_args.ContainsKey("match-flow-test"))CheckMatchFlow();
         if(_args.ContainsKey("hangar-test"))CheckHangarFlow();
+        if(_args.ContainsKey("hangar-picking-test"))CheckHangarPicking();
         if(_args.ContainsKey("progression-test"))CheckProgressionFlow();
         StepMatching(delta);
         PreviewMatch();
+        if(_args.ContainsKey("shot")&&_args.ContainsKey("tactical-preview")&&_frame==60)
+        {
+            Battle!.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.Hit,Count=3});
+            Battle.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.MissileIntercept,Count=2});
+            Battle.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.Penetration,Count=3});
+            Battle.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.ModuleDestroyed,Count=2});
+            Battle.MeritDisplay.Ribbons.Add(new(){Kind=MeritKind.Assist,Count=1});
+        }
+        if(_args.ContainsKey("shot")&&_args.ContainsKey("tactical-preview")&&_frame==85)
+        {
+            var hud=Battle!.GetNode<Hud>("HudLayer/Hud");var ship=Battle.Controlled!.Body;
+            var layout=CombatHudLayout.For(GetViewport().GetVisibleRect().Size,Battle.Scheme==ControlScheme.Helm,ship.Railguns.Length,HudSettings.TextScale);
+            foreach(var rect in new[]{hud.AntimatterBounds,hud.RibbonStripBounds,hud.MeritNoticeBounds,layout.Selection,layout.Instruments,layout.Gunnery})
+                if(rect.HasArea()&&rect.Intersects(hud.TacticalBounds)){GD.PushError("Tactical HUD overlap: "+rect);GetTree().Quit(1);return;}
+            if(Battle.Camera.TelescopeHeld)
+                foreach(var rect in new[]{hud.TelescopeBadgeBounds,hud.TelescopeControlsBounds,hud.AntimatterBounds})
+                    if(rect.HasArea()&&rect.Intersects(hud.RibbonStripBounds)){GD.PushError("Scope ribbon overlap: "+rect);GetTree().Quit(1);return;}
+            GD.Print("PASS: tactical HUD clear of weapon selection, instruments, ribbons, banners and AM");
+        }
         // Isolated screenshot fixtures; --shot profiles never read or save the player's ledger.
+        if(_args.ContainsKey("shot")&&_frame==60&&_args.TryGetValue("hangar-hover",out var hoverId)&&_overlay.HangarView is { } fittingView)
+        {
+            var preview=fittingView.Preview;
+            if(_args.TryGetValue("hangar-angle",out var angles))
+            {var a=angles.Split(',').Select(v=>float.Parse(v,System.Globalization.CultureInfo.InvariantCulture)).ToArray();preview.AimView(a[0],a[1],a[2]);}
+            foreach(var part in preview.Fittings!.Parts)GD.Print($"fitting {part.Id}: samples={part.Samples.Length} screen={part.Screen}");
+            var chosen=preview.Fittings.Parts.First(p=>p.Id==hoverId);
+            if(chosen.Screen is not { } point){GD.PushError("Screenshot fitting is occluded: "+hoverId);GetTree().Quit(1);return;}
+            preview._GuiInput(new InputEventMouseMotion{Position=point});
+            if(_args.ContainsKey("hangar-click"))
+            {
+                preview._GuiInput(new InputEventMouseButton{ButtonIndex=MouseButton.Left,Pressed=true,Position=point});
+                preview._GuiInput(new InputEventMouseButton{ButtonIndex=MouseButton.Left,Pressed=false,Position=point});
+            }
+        }
         if(_args.ContainsKey("shot")&&_frame==60&&_args.TryGetValue("menu-confirm",out var confirmKind))
         {
             if(_overlay.HangarView is {} hangar)
             {
                 Hangar.Research!.Points[ShipDefinitions.ById(PlayerHullId).Design]=1200;
                 if(confirmKind=="equipment")hangar.Install("shield-capacity");
-                else {hangar.SelectSystem(ComponentSlot.Engine);hangar.InstallSystem("engine-vector",true);}
+                else {hangar.SelectSystem(ComponentSlot.Engine);hangar.InstallSystemPart("drive-vector",true);}
             }
             else if(_overlay.ResearchView is {} research)
             {

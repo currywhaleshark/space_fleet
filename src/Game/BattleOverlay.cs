@@ -15,6 +15,7 @@ public partial class BattleOverlay : Control
     private HSlider? _shake;
     internal HangarView? HangarView;
     internal ResearchView? ResearchView;
+    internal KeyBindingsView? KeyBindingsView;
     private static readonly Color Blue = new(.4f,.72f,1), Red = new(1,.38f,.29f), Orange = new(1,.73f,.32f), Ink = new(.8f,.89f,1);
     private static readonly Color[] Phases = {new(.23f,.3f,.4f),new(.3f,.65f,.8f),new(.95f,.68f,.27f),new(.7f,.48f,.9f),new(.94f,.35f,.32f)};
     public override void _Ready()
@@ -51,12 +52,16 @@ public partial class BattleOverlay : Control
         if (_shake is not null) { RemoveChild(_shake); _shake.QueueFree(); _shake = null; }
         if (HangarView is not null) { RemoveChild(HangarView); HangarView.QueueFree(); HangarView=null; }
         if (ResearchView is not null) { RemoveChild(ResearchView); ResearchView.QueueFree(); ResearchView=null; }
+        if (KeyBindingsView is not null) { RemoveChild(KeyBindingsView); KeyBindingsView.QueueFree(); KeyBindingsView=null; }
         MouseFilter = Host.Screen == BattleScreen.Battle ? MouseFilterEnum.Ignore : MouseFilterEnum.Stop;
         switch(Host.Screen)
         {
             case BattleScreen.Title:
                 Button("격납고로",new(620,590,360,56),Host.OpenHangar);
-                Button("종료",new(620,662,360,48),Host.Quit); break;
+                Button("단축키 설정",new(620,662,360,48),()=>Host.ChangeScreen(BattleScreen.Keys));
+                Button("종료",new(620,726,360,48),Host.Quit); break;
+            case BattleScreen.Keys:
+                KeyBindingsView=new KeyBindingsView{Closed=()=>Host.ChangeScreen(BattleScreen.Title)};AddChild(KeyBindingsView);break;
             case BattleScreen.Select:
             {
                 var s=Host.Settings;
@@ -103,7 +108,7 @@ public partial class BattleOverlay : Control
                 _shake = new HSlider { MinValue = 0, MaxValue = 100, Step = 5, Value = FeedbackSettings.Shake };
                 _shake.ValueChanged += value => FeedbackSettings.SetShake((float)value);
                 AddChild(_shake);
-                Button(SoundSettings.Muted ? "효과음 켜기 · F10" : "효과음 끄기 · F10",new(620,760,360,46),
+                Button(SoundSettings.Muted ? $"효과음 켜기 · {InputBindings.Text(InputSetup.ToggleMute)}" : $"효과음 끄기 · {InputBindings.Text(InputSetup.ToggleMute)}",new(620,760,360,46),
                     () => { SoundSettings.ToggleMute(); Rebuild(); });
                 Button($"HUD 글자 {HudSettings.TextPercent}% · 변경",new(620,818,360,46),
                     () => { HudSettings.Cycle(); Rebuild(); }); break;
@@ -132,7 +137,7 @@ public partial class BattleOverlay : Control
     private void Center(float y,string text,int size=24,Color? color=null) => Text(new(800-_font.GetStringSize(text,fontSize:size).X*.5f,y),text,size,color);
     public override void _Draw()
     {
-        if(Host.Screen is BattleScreen.Hangar or BattleScreen.Research)return;
+        if(Host.Screen is BattleScreen.Hangar or BattleScreen.Research or BattleScreen.Keys)return;
         float k=Mathf.Min(Size.X/1600,Size.Y/900); DrawSetTransform((Size-new Vector2(1600,900)*k)*.5f,0,Vector2.One*k);
         if(Host.Screen==BattleScreen.Battle)
         {
@@ -141,14 +146,14 @@ public partial class BattleOverlay : Control
             {
                 DrawRect(new(380,729,840,132),new(.015f,.035f,.055f,.92f));
                 Center(765,$"관전 중 · {Host.Battle.SpectatedView?.Body.Callsign ?? "전장"}",24,Blue);
-                Center(789,"← → 관전 함선 변경 · 중클릭 회전 · 휠 줌 · Tab 양팀 편성",16);
+                Center(789,$"{InputBindings.Text(InputSetup.SpectatePrevious)} / {InputBindings.Text(InputSetup.SpectateNext)} 관전 함선 변경 · 중클릭 회전 · 휠 줌 · {InputBindings.Text(InputSetup.TeamRoster)} 양팀 편성",16);
             }
             if (Host.Battle?.WorldMapOpen == true) return;
             if(Host.Battle is {BriefRemaining:>0} b)
             {
                 var config=b.LaunchConfig!;var (course,height)=Deployment.Resolve(config);
                 DrawRect(new(480,120,640,150),new(.015f,.035f,.055f,.85f));
-                Center(166,$"{BattleRules.Name(config.Objective)} · {AsteroidField.Name(config.Battlefield)} · {Deployment.Name(course)} · {Deployment.Name(height)}",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  내 편대를 지휘하세요",19);Center(244,"Tab 양팀 편성   ·   N 편대   ·   F 전력   ·   F1 도움말",17,Blue);}
+                Center(166,$"{BattleRules.Name(config.Objective)} · {AsteroidField.Name(config.Battlefield)} · {Deployment.Name(course)} · {Deployment.Name(height)}",26);Center(206,$"{b.Controlled?.Body.Callsign}  ·  내 편대를 지휘하세요",19);Center(244,InputBindings.HintKeys("Tab 양팀 편성   ·   N 편대   ·   F 전력   ·   F1 도움말"),17,Blue);}
             if(Host.Battle is {DeathRemaining:>0} lost)
             {DrawRect(new(0,0,1600,900),new(0,0,0,.72f));Center(420,lost.Controlled!.Body.Damage.Destroyed?"격침":"무력화",40,Red);Center(468,"지휘권 인계 중",20);}
             return;

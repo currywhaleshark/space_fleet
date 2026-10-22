@@ -25,9 +25,9 @@ public partial class ScaleTest
         if(weapon==PlayerWeapon.Antimatter)
         {
             if(ship.Ordnance.Antimatter.Mode==AntimatterMode.Safe) ship.Ordnance.Antimatter.BeginArming();
-            Notify("3 반물질 강습어뢰 · "+ship.Ordnance.Antimatter.Status,false);
+            Notify(InputBindings.Text(InputSetup.SelectAntimatter)+" 반물질 강습어뢰 · "+ship.Ordnance.Antimatter.Status,false);
         }
-        else Notify(weapon==PlayerWeapon.MainGun ? "1 주포 선택" : "2 미사일 선택",false);
+        else Notify(weapon==PlayerWeapon.MainGun ? $"{InputBindings.Text(InputSetup.SelectMainGun)} 주포 선택" : $"{InputBindings.Text(InputSetup.SelectMissile)} 미사일 선택",false);
     }
 
     private bool HandleWeaponMouse(InputEvent e)
@@ -83,8 +83,8 @@ public partial class Hud
         var layout=CombatHudLayout.For(screen,Game.Scheme==ControlScheme.Helm,ship.Railguns.Length, HudSettings.TextScale);
         DrawSelectedTargetReadout(layout);
         var start=layout.Weapons;
-        string[] labels={ ship.Railgun?.IsLaser == true ? "1 레이저 ∞" : $"1 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"2 미사일 {ship.Ordnance.Missiles}",
-            ship.Definition.Antimatter is null ? "3 어뢰 —" : $"3 어뢰 {ship.Ordnance.Antimatter.Rounds}" };
+        string[] labels={ ship.Railgun?.IsLaser == true ? $"{InputBindings.Text(InputSetup.SelectMainGun)} 레이저 ∞" : $"{InputBindings.Text(InputSetup.SelectMainGun)} 주포 {ship.Railguns.Sum(g=>g.Rounds)}", $"{InputBindings.Text(InputSetup.SelectMissile)} 미사일 {ship.Ordnance.Missiles}",
+            ship.Definition.Antimatter is null ? $"{InputBindings.Text(InputSetup.SelectAntimatter)} 어뢰 —" : $"{InputBindings.Text(InputSetup.SelectAntimatter)} 어뢰 {ship.Ordnance.Antimatter.Rounds}" };
         for(int i=0;i<labels.Length;i++)
         {
             var rect=new Rect2(start+new Vector2(i*132,0),new Vector2(126,31));

@@ -153,12 +153,13 @@ public sealed class ShipPower
     }
 
     internal void AddHeat(float mj) => HeatMj = Mathf.Min(HeatMj + mj, Definition.HeatCapacityMj * HeatCeiling);
+    internal void VentHeat(float mj)=>HeatMj=Math.Max(0,HeatMj-Math.Max(0,mj));
 
     internal void Step(double dt)
     {
         PowerDefinition def = Definition;
         ShipDamage damage = _ship.Damage;
-        AvailableMw = damage.Destroyed ? 0f : def.OutputMw * damage.GenerationFraction;
+        AvailableMw = damage.Destroyed ? 0f : def.OutputMw * damage.GenerationFraction * (1+_ship.Tactical.OutputBonus);
 
         // 채널 활동도: 실제로 일하는 정도. 추진은 직전 틱의 가속으로 정한다(부스트면 1을 넘는다).
         // 전방 가속은 메인 추진, 나머지(횡·상하·제동·후진)는 보조 추진기 단가(RcsPowerFactor)로 센다.
@@ -178,10 +179,11 @@ public sealed class ShipPower
             _draw[i] = (def.Nominal((PowerChannel)i) + damage.EquipmentPowerMw((PowerChannel)i)) * draws[_pips[i]] * activity[i];
             demand += _draw[i];
         }
+        demand+=_ship.Tactical.ExtraPower;
         DemandMw = demand;
         Supply = demand > 1e-6f ? Mathf.Min(1f, AvailableMw / demand) : AvailableMw > 0f ? 1f : 0f;
 
-        float heatIn = 0f;
+        float heatIn = (_ship.Tactical.ExtraPower+_ship.Tactical.ExtraHeat)*Supply;
         for (int i = 0; i < ChannelCount; i++)
         {
             _draw[i] *= Supply;

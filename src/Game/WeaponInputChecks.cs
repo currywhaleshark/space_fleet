@@ -320,26 +320,26 @@ public partial class WeaponInputChecks : Node
             Check(InputMap.ActionGetEvents(InputSetup.DamageControlMenu).Count==1,"5 is bound exactly once");
             foreach(var priority in Enum.GetValues<RepairPriority>())
             {
-                Mouse(game,MouseButton.Right); KeyEvent(game,Key.Key5);
+                Mouse(game,MouseButton.Right); KeyEvent(game,Key.L);
                 Check(game.MenuOpen&&!game.Camera.TelescopeHeld,"Damage-control radial opens in both control schemes and exits telescope");
                 Point((int)priority*45); Mouse(game,MouseButton.Left); KeyEvent(game,Key.Key2);
                 Check(game.SelectedWeapon==PlayerWeapon.MainGun,"Damage-control gesture blocks weapon input");
-                KeyEvent(game,Key.Key5,false); Mouse(game,MouseButton.Left,false);
+                KeyEvent(game,Key.L,false); Mouse(game,MouseButton.Left,false);
                 Check(dc.Priority==priority&&!game.MenuOpen,"5 release applies highlighted repair priority");
             }
             dc.Priority=RepairPriority.Automatic;
-            KeyEvent(game,Key.Key5); Point(90); KeyEvent(game,Key.Escape); KeyEvent(game,Key.Key5,false);
+            KeyEvent(game,Key.L); Point(90); KeyEvent(game,Key.Escape); KeyEvent(game,Key.L,false);
             Check(dc.Priority==RepairPriority.Automatic&&!game.Paused,"Escape cancels repair gesture before pause");
-            KeyEvent(game,Key.Key5); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.Key5,false);
+            KeyEvent(game,Key.L); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.L,false);
             Check(dc.Priority==RepairPriority.Automatic&&!game.MenuOpen,"Pause cancels pending repair command");
-            KeyEvent(game,Key.Key5); Point(90); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.Key5,false);
+            KeyEvent(game,Key.L); Point(90); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.L,false);
             Check(dc.Priority==RepairPriority.Automatic&&!game.MenuOpen,"Focus loss cancels pending repair command");
             foreach(var module in ship.Damage.Modules.Where(m=>m.Definition.Kind is ModuleKind.Reactor or ModuleKind.Generator))
                 ship.Damage.Hurt(module,module.Health,ship.SimTime,0,1);
             Tick(game,360); game._Process(6);
             Check(game.Controlled.Body==ship&&game.DeathRemaining<0&&ship.DamageControl.RecoveringDisable,
                 "Recoverable power loss keeps the player aboard beyond the old three-second handover");
-            KeyEvent(game,Key.Key5); Point(45); KeyEvent(game,Key.Key5,false);
+            KeyEvent(game,Key.L); Point(45); KeyEvent(game,Key.L,false);
             Check(dc.Priority==RepairPriority.Power,"Disabled ship still accepts repair commands");
             Tick(game,1800); game._Process(30);
             Check(!ship.Damage.Disabled&&game.Controlled.Body==ship,"Restored ship resumes without an unwanted handover");
@@ -362,24 +362,24 @@ public partial class WeaponInputChecks : Node
         Check(InputMap.ActionGetEvents(InputSetup.DroneMenu).Count==1,"Drone key registered once across scene restarts");
         foreach(var (angle,sector) in new[]{(0f,DroneSector.Fore),(90f,DroneSector.Starboard),(180f,DroneSector.Aft),(270f,DroneSector.Port),(225f,DroneSector.AllAround)})
         {
-            Mouse(game,MouseButton.Right); KeyEvent(game,Key.Key4);
+            Mouse(game,MouseButton.Right); KeyEvent(game,Key.K);
             Check(game.MenuOpen && !game.Camera.TelescopeHeld,"4 opens drone radial in a normal battle and clears telescope");
             var before=drones.Sector; Point(angle); KeyEvent(game,Key.Key2); Mouse(game,MouseButton.Left);
             Check(drones.Sector==before && game.SelectedWeapon==PlayerWeapon.MainGun,"Highlighting a sector waits for release and blocks weapon changes");
-            KeyEvent(game,Key.Key4,false); Mouse(game,MouseButton.Left,false);
+            KeyEvent(game,Key.K,false); Mouse(game,MouseButton.Left,false);
             Check(!game.MenuOpen && drones.Sector==sector,"Release applies exactly the highlighted defense direction");
         }
         Check(ship.Railguns.Sum(g=>g.Rounds)==battery && ship.Ordnance.Missiles==missiles && drones.Rounds.Sum()==640
             && pips.SequenceEqual(Enum.GetValues<PowerChannel>().Select(ship.Power.Pips)),"Drone commands do not fire, consume ammo or alter power allocation");
-        KeyEvent(game,Key.Key4); KeyEvent(game,Key.Key4,false);
+        KeyEvent(game,Key.K); KeyEvent(game,Key.K,false);
         Check(drones.Sector==DroneSector.AllAround,"Center release cancels without changing command");
-        KeyEvent(game,Key.Key4); Point(0); KeyEvent(game,Key.Escape); KeyEvent(game,Key.Key4,false);
+        KeyEvent(game,Key.K); Point(0); KeyEvent(game,Key.Escape); KeyEvent(game,Key.K,false);
         Check(!game.MenuOpen && !game.Paused && drones.Sector==DroneSector.AllAround,"Escape cancels the drone radial before pausing");
-        KeyEvent(game,Key.Key4); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.Key4,false);
+        KeyEvent(game,Key.K); Point(90); game.Paused=true; game.Paused=false; KeyEvent(game,Key.K,false);
         Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Pause cancels a pending drone command");
-        KeyEvent(game,Key.Key4); Point(180); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.Key4,false);
+        KeyEvent(game,Key.K); Point(180); game._Notification((int)NotificationApplicationFocusOut); KeyEvent(game,Key.K,false);
         Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Focus loss cannot leave an armed radial gesture");
-        KeyEvent(game,Key.Key4); Point(270); KeyEvent(game,Key.M); KeyEvent(game,Key.M); KeyEvent(game,Key.Key4,false);
+        KeyEvent(game,Key.K); Point(270); KeyEvent(game,Key.M); KeyEvent(game,Key.M); KeyEvent(game,Key.K,false);
         Check(!game.MenuOpen && drones.Sector==DroneSector.AllAround,"Full map cancels a pending drone command");
         drones.Assign(DroneSector.Fore); Tick(game,720);
         game.Controlled.Sync(game.RenderOrigin,.5,1f/60);
@@ -387,7 +387,7 @@ public partial class WeaponInputChecks : Node
         Check(swarm.Multimesh.InstanceCount==8 && Enumerable.Range(0,8).All(i=>swarm.Multimesh.GetInstanceTransform(i).Origin
             .IsEqualApprox(drones.InterpolatedPosition(i,.5f))),"Rendered drones match physical positions and interpolation after reassignment");
         foreach(var module in ship.Damage.Modules.Where(m=>m.Definition.Kind==ModuleKind.Sensor)) ship.Damage.Hurt(module,module.Health,game.World.Time,0,1);
-        KeyEvent(game,Key.Key4); Point(180); KeyEvent(game,Key.Key4,false); game.Controlled.Sync(game.RenderOrigin,1,1f/60);
+        KeyEvent(game,Key.K); Point(180); KeyEvent(game,Key.K,false); game.Controlled.Sync(game.RenderOrigin,1,1f/60);
         Check(drones.Sector==DroneSector.Fore && swarm.Visible,"Disabled controls cannot change sectors or make deployed drones disappear");
         game.Free();
     }

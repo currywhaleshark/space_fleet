@@ -93,7 +93,7 @@ public sealed partial class SensorNet
         : observer.Definition.Sensors.Strength * (1 + observer.Damage.SensorStrengthBonus) * observer.Damage.SensorFraction * observer.Power.SensorEffect;
 
     public static float Signature(ShipBody target) => target.Definition.Sensors.Signature
-        * (1 + target.Damage.SignatureBonus) * (1 + LaserSignature(target))
+        * (1 + target.Damage.SignatureBonus) * (1 + LaserSignature(target)+target.Tactical.SignatureBonus)
         * (1f + EngineSignature * target.EngineOutput + HeatSignature * target.Power.HeatFraction)
         * (1f + (target.Definition.Missiles is { LaunchSignatureFraction: > 0 } missile
             && target.SimTime - target.Ordnance.LastMissileLaunch < missile.LaunchSignatureSeconds ? missile.LaunchSignatureFraction : 0));
@@ -111,7 +111,7 @@ public sealed partial class SensorNet
     public static (float Track, float Detect, float Jam) Measure(ShipBody observer, ShipBody target, float screenJammer = 0)
     {
         double km = Math.Max((target.Position - observer.Position).Length() / 1000.0, 1e-3);
-        float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km));
+        float baseSnr = (float)(Strength(observer) * Signature(target) / (km * km))*observer.Tactical.ObservationFactor((target.Position-observer.Position).ToVector3());
         float jam = target.Power.EcmActive
             ? Jammer(target) * target.Power.EcmEffect / Mathf.Max(observer.Power.SensorEffect, 0.05f)
             : 0f;

@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+picking model checked: battleship
+picking model checked: escort
+picking model checked: interceptor
+picking model checked: mars_battleship
+picking model checked: mars_escort
+picking model checked: mars_interceptor
+picking model checked: earth_gun_cruiser
+picking model checked: battleship_t5
+picking model checked: earth_air_defense_cruiser
+picking model checked: earth_air_defense_cruiser_t4
+picking model checked: earth_air_defense_cruiser_t5
+picking model checked: earth_gun_cruiser_t4
+picking model checked: earth_gun_cruiser_t5
+picking model checked: earth_recon_t3
+picking model checked: earth_recon_t4
+picking model checked: earth_recon_t5
+picking model checked: earth_starter_escort
+picking model checked: interceptor_t3
+picking model checked: interceptor_t4
+picking model checked: interceptor_t5
+picking model checked: mars_assault_t3
+picking model checked: mars_assault_t4
+picking model checked: mars_assault_t5
+picking model checked: mars_gun_cruiser
+picking model checked: mars_battleship_t5
+picking model checked: mars_gun_cruiser_t4
+picking model checked: mars_gun_cruiser_t5
+picking model checked: mars_interceptor_t3
+picking model checked: mars_interceptor_t4
+picking model checked: mars_interceptor_t5
+picking model checked: mars_missile_cruiser
+picking model checked: mars_missile_cruiser_t4
+picking model checked: mars_missile_cruiser_t5
+picking model checked: mars_starter_escort
+PASS: 2054 hangar surface picking checks, 34 hulls

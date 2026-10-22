@@ -179,6 +179,13 @@ public partial class ScaleTest : Node3D
         if (_mapReleaseGuard && e is InputEventMouseButton or InputEventMouseMotion)
         { GetViewport().SetInputAsHandled(); return; }
         if (HandleRadialInput(e)) return;
+        for(int slot=0;slot<InputSetup.TacticalSlots.Length;slot++)
+            if(e.IsActionPressed(InputSetup.TacticalSlots[slot]))
+            {
+                if(!AutoPlay&&World.Rules?.Outcome is null&&Controlled?.Body is { } ship&&!ship.Damage.Destroyed&&!ship.Damage.Disabled&&DeathRemaining<=0)
+                {var result=ship.Tactical.Activate(slot,World);Notify(result.Reason,!result.Fired);}
+                GetViewport().SetInputAsHandled();return;
+            }
         if (Camera.TelescopeHeld && e.IsActionPressed(InputSetup.ReleaseMouse))
         { Camera.ResetTelescope(); Input.MouseMode=Input.MouseModeEnum.Visible; _fireReleaseGuard=true; GetViewport().SetInputAsHandled(); return; }
         if (HandleBattleInput(e)) return;

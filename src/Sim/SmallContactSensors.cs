@@ -68,7 +68,7 @@ public sealed partial class SensorNet
         {
             if (observer.Faction != side) continue;
             double km = Math.Max(.01, (position - observer.Position).Length() / 1000);
-            double measured=Strength(observer)*signature/(km*km)*SmallTrackingGain(observer);
+            double measured=Strength(observer)*signature/(km*km)*SmallTrackingGain(observer)*observer.Tactical.ObservationFactor((position-observer.Position).ToVector3());
             if(measured<ContactSnr*DropFactor || measured<=signal)continue;
             float candidate=(float)measured/(1+SmallJamming(side,observer.Position,position,observer.Power.SensorEffect));
             // Below the lowest hysteresis threshold this observer cannot change

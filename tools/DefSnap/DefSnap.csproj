@@ -16,7 +16,7 @@
     <Compile Include="$(Root)/src/Game/HangarProfile.cs" Link="Game/HangarProfile.cs" />
     <Compile Include="$(Root)/src/Game/ResearchProgress.cs" Link="Game/ResearchProgress.cs" />
     <EmbeddedResource Include="$(Root)/data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
-    <EmbeddedResource Include="$(Root)/data/modules/*.json" LogicalName="SpaceFleet.data.modules.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/parts/*.json" LogicalName="SpaceFleet.data.parts.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/components/*.json" LogicalName="SpaceFleet.data.components.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />

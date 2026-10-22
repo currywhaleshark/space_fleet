@@ -94,7 +94,7 @@ public partial class Hud
         Color color = target?.Lost == true || target?.Destroyed == true ? ContactMemory.LostColor : SelectionColor;
         DrawRect(row, PanelBack);
         DrawRect(new Rect2(row.Position, new Vector2(3, row.Size.Y)), target is null ? Dim : color);
-        string name = target is null ? "선택 표적 없음 · R 표적 선택"
+        string name = target is null ? $"선택 표적 없음 · {InputBindings.Text(InputSetup.InspectTarget)} 표적 선택"
             : $"{(Game.SelectedWeapon == PlayerWeapon.Missile ? "미사일 표적" : "선택")} · {target.Name}  {FormatDistance((target.Position - Game.Controlled!.SimPosition).Length())}";
         // A scoped main battery follows the crosshair; missile guidance still uses the selected contact.
         string mode = target?.Lost == true ? "신호 소실" : Game.SelectedWeapon != PlayerWeapon.MainGun ? ""
