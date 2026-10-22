@@ -18,7 +18,8 @@ public partial class Main
         if(frame==1)
         {
             OpenHangar();ChooseHull("battleship");Hangar.Research!.Points[DesignFamily.Earth]=100000;
-            var view=_overlay.HangarView!;view.SelectSystem(ComponentSlot.MainGun);view.InstallSystem("main-triple",true);
+            Hangar.Research.Upgrades["battleship"]=new[]{"fire-control"};
+            var view=_overlay.HangarView!;view.SelectSystem(ComponentSlot.MainGun);view.InstallPart(0,"earth-rail-l3",true);
             _confirmationUnchanged=HangarStorage.Serialize(Hangar);
         }
         if(frame==2)
@@ -60,14 +61,14 @@ public partial class Main
         {
             _overlay.ActivateButton(0);
             HangarVerify(Screen==BattleScreen.Hangar&&Input.MouseMode==Input.MouseModeEnum.Visible,"Hangar opens with free pointer");
-            ChooseHull("battleship");var view=_overlay.HangarView!;
+            ChooseHull("battleship");Hangar.Research!.Upgrades["battleship"]=new[]{"fire-control"};var view=_overlay.HangarView!;
             HangarVerify(view.CurrentFit.Definition.Id=="battleship","Hull selector loads selected hull");
             Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
             view.SelectSystem(ComponentSlot.MainGun);
-            var unavailable=Find("component-main-triple");
+            var unavailable=Find("part-earth-rail-l3");
             HangarVerify(unavailable.Disabled&&unavailable.TooltipText.Contains("RP 부족"),"Unaffordable fit keeps the precise RP shortfall in its tooltip");
             HangarVerify(Find("squad-0") is MenuItemButton {Picture:not null,Portrait:true},"Squad member is an image-led ship button");
-            HangarVerify(unavailable is MenuItemButton {Picture:not null}&&unavailable.TooltipText.Contains("현재 → 교체 후"),"Equipment icons retain actual fit comparisons in details");
+            HangarVerify(unavailable is MenuItemButton {Picture:not null}&&unavailable.TooltipText.Contains("장착 후"),"Equipment icons retain actual fit comparisons in details");
             var detail=(MenuItemButton)Find("system-MainGun");detail.GrabFocus();
             detail._GuiInput(new InputEventKey{Keycode=Key.F1,Pressed=true});
             var popup=detail.GetChildren().OfType<PopupPanel>().Single();
@@ -81,22 +82,23 @@ public partial class Main
             Hangar.Research!.Points[DesignFamily.Earth]=100000;
             view.SelectSystem(ComponentSlot.MainGun);
             string unchanged=HangarStorage.Serialize(Hangar);
-            Find("component-main-triple").GrabFocus();view.InstallSystem("main-triple",true);
+            Find("part-earth-rail-l3").GrabFocus();view.InstallPart(0,"earth-rail-l3",true);
             var dialog=MenuConfirmation.Pending(view)!;
-            HangarVerify(dialog is not null&&dialog.Body.Contains("2 → 3연장")&&dialog.Body.Contains("기함")
+            HangarVerify(dialog is not null&&dialog.Body.Contains("2연장")&&dialog.Body.Contains("3연장")&&dialog.Body.Contains("기함")
                 &&GetViewport().GuiGetFocusOwner()==dialog.CancelButton,"Confirmation previews the actual change and defaults to cancel");
             HangarVerify(HangarStorage.Serialize(Hangar)==unchanged,"Opening confirmation does not spend RP, unlock or equip");
-            view.InstallSystem("main-single",true);
+            view.InstallPart(0,null);
             HangarVerify(MenuConfirmation.Pending(view)==dialog,"Repeated item activation cannot replace the pending edit");
             _UnhandledInput(new InputEventKey{PhysicalKeycode=Key.Escape,Pressed=true});
             HangarVerify(MenuConfirmation.Pending(view) is null&&Screen==BattleScreen.Hangar&&HangarStorage.Serialize(Hangar)==unchanged
-                &&GetViewport().GuiGetFocusOwner()==Find("component-main-triple"),"Escape cancels without leaving hangar or modifying the save and restores focus");
-            view.InstallSystem("main-triple",true);Hangar.Research.Points[DesignFamily.Earth]=0;
+                &&GetViewport().GuiGetFocusOwner()==Find("part-earth-rail-l3"),"Escape cancels without leaving hangar or modifying the save and restores focus");
+            view.InstallPart(0,"earth-rail-l3",true);Hangar.Research.Points[DesignFamily.Earth]=0;
             MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
-            HangarVerify(!Hangar.Research.HasComponent("battleship","main-triple")&&view.CurrentFit.Definition.Components is null
+            HangarVerify(!Hangar.Research.HasPart(DesignFamily.Earth,"earth-rail-l3")&&view.CurrentFit.Definition.Components is null
                 &&Hangar.Research.Points[DesignFamily.Earth]==0,"Confirmation revalidates affordability before unlocking or fitting");
             Hangar.Research.Points[DesignFamily.Earth]=100000;
-            foreach(var part in new[]{"main-triple","pd-longrange","engine-vector","sensor-lowprofile","generator-output","shield-recharge"})
+            CheckHangarPartEditing(view);
+            foreach(var part in new[]{"engine-vector","sensor-lowprofile","shield-recharge"})
             {
                 view.SelectSystem(ShipComponents.ById(part).Slot);view.InstallSystem(part,true);
                 long balance=Hangar.Research.Points[DesignFamily.Earth],cost=Hangar.Research.ComponentCost("battleship",part);
@@ -105,14 +107,14 @@ public partial class Main
                 HangarVerify(Hangar.Research.Points[DesignFamily.Earth]==balance-cost,"Repeated confirmation charges exactly once: "+part);
                 HangarVerify(view.CurrentFit.Definition.Components!.Ids.Contains(part),"Hangar researches and fits "+part);
             }
-            view.SelectSystem(ComponentSlot.MainGun);view.InstallSystem(null);
+            view.SelectSystem(ComponentSlot.MainGun);view.InstallPart(0,null);
             HangarVerify(MenuConfirmation.Pending(view) is not null,"Restoring a stock component also asks for confirmation");
             MenuConfirmation.Pending(view)!.CancelButton.EmitSignal(BaseButton.SignalName.Pressed);
-            HangarVerify(view.CurrentFit.Definition.Components!.MainGun=="main-triple","Cancel keeps the installed component");
+            HangarVerify(view.SelectedParts!.MainGuns![0]=="earth-rail-l3","Cancel keeps the installed component");
             view.SelectSystem(ComponentSlot.MainGun);
-            HangarVerify(Find("component-main-single").TooltipText.Contains("3 → 1연장"),"Candidate comparison uses the installed triple gun rather than the stock twin gun");
+            HangarVerify(Find("part-stock").TooltipText.Contains("장착 후"),"Stock candidate retains the actual resulting supply and volume");
             view.SelectPreset(1);HangarVerify(view.CurrentFit.Definition.Components is null,"Other system presets stay stock");
-            view.SelectPreset(0);HangarVerify(view.CurrentFit.Definition.Components!.Ids.Count()==6,"All six systems return with their preset");
+            view.SelectPreset(0);HangarVerify(view.SelectedParts is {MainGuns:not null,PointDefensePart:not null,Launcher:not null,Missile:not null,PowerParts:not null},"All four modular categories return with their preset");
             HangarVerify(view.Preview.PickBay(view.Preview.BayScreen("utility-port")) is null,"Exterior preview has no invisible bay click targets");
             view.SelectBay("utility-port");
             var preview=view.Preview;var point=preview.BayScreen("utility-port");
@@ -137,11 +139,11 @@ public partial class Main
             view.SelectSlot(2);view.ChangeMember("earth_air_defense_cruiser");
             view.SelectSystem(ComponentSlot.MainGun);
             HangarVerify(view.CurrentFit.Definition.Battery!.Weapon.Laser is not null&&view.CurrentFit.Definition.Components?.MainGun is null,"AA factory laser is equipped without buying a part");
-            HangarVerify(((MenuItemButton)Find("component-stock")).Caption=="기본 레이저"&&((MenuItemButton)Find("component-stock")).Detail=="장착 중","Factory laser has the real stock label and installed state");
+            HangarVerify(((MenuItemButton)Find("part-stock")).Caption.Contains("레이저")&&((MenuItemButton)Find("part-stock")).Detail=="장착 중","Factory laser has the real stock label and installed state");
             // A previously purchased explicit laser remains a valid save selection.
             Hangar.SetComponent("earth_air_defense_cruiser",0,ComponentSlot.MainGun,"main-laser",true);
             view.SelectSystem(ComponentSlot.MainGun);
-            HangarVerify(((MenuItemButton)Find("component-stock")).Detail=="장착 중","Old explicit laser selection still displays the equipped factory weapon");
+            HangarVerify(Find("system-MainGun").TooltipText.Contains(ShipComponents.ById("main-laser").Name),"Old explicit laser selection is described truthfully");
             view.SelectBay("utility-port");view.Install("shield-capacity");
             MenuConfirmation.Pending(view)!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
             preview=view.Preview;float yaw=preview.Yaw;
@@ -157,16 +159,16 @@ public partial class Main
             BeginMatch(true);
             _hangarSnapshot=PendingMatch!.Player.Loadout!.Members.Select(m=>m.ContentHash).ToArray();
             Hangar.SetEquipment("battleship",0,"utility-port",null);
-            Hangar.SetComponent("battleship",0,ComponentSlot.MainGun,null);
+            Hangar.SetMainGun("battleship",0,0,null);
             HangarVerify(PendingMatch.Player.Loadout.Members[0].Definition.InstalledEquipment.Length==1,"Queue freezes a snapshot independent of later edits");
-            HangarVerify(PendingMatch.Player.Loadout.Leader.Components?.MainGun=="main-triple","Queue freezes the primary selection");
+            HangarVerify(PendingMatch.Player.Loadout.Leader.Battery!.WeaponAt(0).Id=="earth-rail-l3","Queue freezes the primary selection");
         }
         if(frame==120)
         {
             HangarVerify(Screen==BattleScreen.Battle&&Battle is not null,"Hangar launch reaches battle");
             var game=Battle!;var members=game.OwnedSquadron!.Members;
-            HangarVerify(members[0].Railguns.All(g=>g.BarrelCount==3)&&members[0].Definition.Components!.Ids.Count()==6,
-                "All six replacement systems survive actual battle spawn");
+            HangarVerify(members[0].Railguns[0].BarrelCount==3&&members[0].Definition.Missiles!.CellCount==2&&members[0].Definition.Battery!.PowerParts is ["earth-gen-s"],
+                "All four modular categories survive actual battle spawn");
             HangarVerify(members.Count==3&&members[1].Definition.Id=="earth_gun_cruiser"&&members[2].Definition.Id=="earth_air_defense_cruiser","Mixed escort slots spawn in owned squad");
             for(int i=0;i<members.Count;i++)
             {
@@ -182,6 +184,71 @@ public partial class Main
             HangarVerify(Hangar.Hulls["battleship"].Squadron[1]==new HangarSlot("earth_gun_cruiser",1),"Returning to hangar retains squad and preset choices");
             GD.Print($"PASS: {_hangarChecks} hangar/preview/launch/handoff flow checks");GetTree().Quit();
         }
+    }
+
+    private void CheckHangarPartEditing(HangarView view)
+    {
+        Button Find(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Single(b=>b.GetMeta("focus_key","").AsString()==key);
+        bool Has(string key)=>view.FindChildren("*","Button",true,false).OfType<Button>().Any(b=>b.GetMeta("focus_key","").AsString()==key);
+        void Confirm()
+        {
+            var modal=MenuConfirmation.Pending(view);
+            HangarVerify(modal is not null,"Modular fitting requires a concrete confirmation: "+string.Join("; ",view.GetChildren().OfType<Label>().Where(l=>l.Text.StartsWith("변경할 수")).Select(l=>l.Text)));
+            modal!.ConfirmButton.EmitSignal(BaseButton.SignalName.Pressed);
+        }
+        foreach(var category in new[]{HangarView.FittingCategory.MainGun,HangarView.FittingCategory.Secondary,HangarView.FittingCategory.Missiles,HangarView.FittingCategory.Generator})
+        {
+            view.SelectFitting(category);
+            HangarVerify(!Has("component-stock")&&!Has("maingun-tab-systems")&&!Has("secondary-tab-systems"),category+": no legacy component picker");
+            HangarVerify(Find("system-"+category) is MenuItemButton{Picture:not null},category+": dedicated category icon");
+            var panel=view.GetChildren().OfType<Control>().Single(c=>c.GetMeta("focus_key","").AsString()=="fitting-panel");
+            HangarVerify(panel.Position.Y>=90&&panel.Position.Y+panel.Size.Y<=522,category+": fitting list stays within the viewport");
+            HangarVerify(panel.GetChildren().OfType<ScrollContainer>().Single().FollowFocus,category+": scroll follows keyboard selection");
+        }
+        view.SelectSystem(ComponentSlot.MainGun);Find("part-earth-laser-l-line").EmitSignal(BaseButton.SignalName.Pressed);
+        HangarVerify(MenuConfirmation.Pending(view)?.Body.Contains("모든 주포 소켓")==true,"Changing weapon family previews a whole-battery replacement");
+        Confirm();HangarVerify(view.CurrentFit.Definition.Battery!.SocketWeapons!.All(w=>w.Laser is not null),"New part menu can switch the complete battery to lasers");
+        view.InstallPart(0,null);Confirm();
+        HangarVerify(view.CurrentFit.Definition.Battery!.SocketWeapons is null&&view.CurrentFit.Definition.Components is null,"Stock choice can return a laser battery to railguns");
+        // Legacy selections load unchanged, then are replaced only by a confirmed new part.
+        Hangar.SetComponent("battleship",0,ComponentSlot.MainGun,"main-triple",true);
+        view.SelectSystem(ComponentSlot.MainGun);
+        HangarVerify(((MenuItemButton)Find("part-stock")).Detail!="장착 중"&&Find("system-MainGun").TooltipText.Contains(ShipComponents.ById("main-triple").Name),"Legacy primary is not mislabeled as stock");
+        string before=HangarStorage.Serialize(Hangar);view.InstallPart(0,null);
+        HangarVerify(MenuConfirmation.Pending(view)!.Body.Contains("주포 전체"),"Replacing a legacy whole battery explains every affected socket");
+        MenuConfirmation.Pending(view)!.Cancel();HangarVerify(HangarStorage.Serialize(Hangar)==before,"Cancel preserves a legacy fit and research");
+        view.InstallPart(0,null);Confirm();
+        HangarVerify(view.CurrentFit.Definition.Components?.MainGun is null,"Stock socket choice actually clears legacy primary");
+        view.InstallPart(0,"earth-rail-l3",true);long balance=Hangar.Research!.Points[DesignFamily.Earth];Confirm();
+        HangarVerify(Hangar.Research.Points[DesignFamily.Earth]==balance-MainGunParts.ById("earth-rail-l3").Cost,"Part research charges exactly once");
+        HangarVerify(Find("system-MainGun").TooltipText.Contains(MainGunParts.ById("earth-rail-l3").Name),"Main gun icon reports installed socket parts");
+        Hangar.SetComponent("battleship",0,ComponentSlot.Secondary,"pd-longrange",true);view.SelectSystem(ComponentSlot.Secondary);
+        view.InstallOrdnance(OrdnanceKind.PointDefense,null);Confirm();
+        HangarVerify(view.CurrentFit.Definition.Components?.Secondary is null,"Stock PD choice clears legacy secondary");
+        view.InstallOrdnance(OrdnanceKind.PointDefense,"pd-gatling-heavy",true);Confirm();
+        HangarVerify(Find("system-Secondary").TooltipText.Contains("개틀링"),"Secondary icon reports the fitted PD part");
+        view.SelectFitting(HangarView.FittingCategory.Missiles);
+        HangarVerify(Has("missile-tab-Launcher")&&Has("missile-tab-Missile")&&!Has("secondary-tab-PointDefense"),"Missile module has only launcher and ammunition tabs");
+        Find("ordnance-launcher-twin").EmitSignal(BaseButton.SignalName.Pressed);Confirm();
+        Find("missile-tab-Missile").EmitSignal(BaseButton.SignalName.Pressed);
+        Find("ordnance-missile-heavy-ap").EmitSignal(BaseButton.SignalName.Pressed);Confirm();
+        HangarVerify(view.SelectedParts is {Launcher:"launcher-twin",Missile:"missile-heavy-ap"},"Both missile choices are independent");
+        // Free real weapon volume for the generator rather than bypassing fitting limits.
+        view.SelectSystem(ComponentSlot.MainGun);view.InstallPart(1,"earth-rail-s2",true);Confirm();
+        HangarVerify(view.SelectedParts!.MainGuns![0]=="earth-rail-l3"&&view.SelectedParts.MainGuns[2] is null,"Same-family replacement changes only the chosen socket");
+        Hangar.SetComponent("battleship",0,ComponentSlot.Generator,"generator-output",true);view.SelectSystem(ComponentSlot.Generator);
+        view.InstallPower(0,"earth-gen-s",true);Confirm();
+        HangarVerify(view.SelectedParts is {Generator:null,PowerParts:["earth-gen-s"]},"New power part replaces legacy generator without stacking");
+        HangarVerify(Find("system-Generator").TooltipText.Contains("소형 보조 발전기")&&Has("power-earth-cooler-s"),"Power category exposes fitted generator and cooler alternatives");
+        var restored=HangarStorage.Parse(HangarStorage.Serialize(Hangar));
+        HangarVerify(restored.Fit(new("battleship",0)).Components==Hangar.Fit(new("battleship",0)).Components
+            ||FleetLoadouts.ResolveFit(restored.Fit(new("battleship",0))).ContentHash==view.CurrentFit.ContentHash,"Modular choices preserve save and launch identity");
+        // Slot-owned replacement must not leak into a shared preset.
+        view.SelectPreset(HangarSlot.Individual);view.SelectSystem(ComponentSlot.Secondary);
+        view.InstallOrdnance(OrdnanceKind.PointDefense,null);Confirm();
+        HangarVerify(Hangar.Fit(Hangar.Hulls["battleship"].Squadron[0]!).Components?.PointDefensePart is null
+            &&Hangar.Fit(new("battleship",0)).Components?.PointDefensePart=="pd-gatling-heavy","Individual PD edit leaves shared fit intact");
+        view.SelectPreset(0);
     }
 
     /// <summary>Port-style squad editing: empty slots, hull cards, individual fits, slot menu, "my ships" list and save v4.</summary>

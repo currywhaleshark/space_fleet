@@ -208,12 +208,19 @@ public sealed class HangarProfile
     }
     internal static ShipComponentSelection? WithMainGun(string hull,ShipComponentSelection? current,int socket,string? part)
     {
-        int sockets=ShipDefinitions.ById(hull).Battery?.Hardpoints.Length??0;
+        var definition=ShipDefinitions.ById(hull);
+        int sockets=definition.Battery?.Hardpoints.Length??0;
         if(socket<0||socket>=sockets)throw new InvalidDataException("없는 주포 소켓입니다.");
         var guns=(current?.MainGuns?.ToArray()??new string?[sockets]);
         if(guns.Length!=sockets)throw new InvalidDataException("잘못된 주포 소켓 수입니다.");
-        if(part is not null&&MainGunParts.IsStock(MainGunParts.ById(part)))part=null;
-        guns[socket]=part;
+        var stock=MainGunParts.StockFor(definition);
+        var chosen=part is null?stock:MainGunParts.ById(part);
+        if(chosen==stock)part=null;
+        var previous=guns[socket] is { } installed?MainGunParts.ById(installed):stock;
+        // A battery cannot mix rails and lasers. Switching families is a single, validated
+        // whole-battery replacement; the hangar previews every affected socket before applying.
+        if(chosen.System!=previous.System)Array.Fill(guns,part);
+        else guns[socket]=part;
         // Socket parts replace a catalog primary; all-stock sockets drop back to no selection.
         var next=(current??new()).With(ComponentSlot.MainGun,null) with{MainGuns=guns.All(g=>g is null)?null:guns};
         return next.IsEmpty?null:next;
@@ -247,7 +254,7 @@ public sealed class HangarProfile
         while(list.Count<=slot)list.Add(null);
         list[slot]=part;
         var kept=list.OfType<string>().ToArray();
-        var next=(current??new()) with{PowerParts=kept.Length==0?null:kept};
+        var next=(current??new()) with{Generator=null,PowerParts=kept.Length==0?null:kept};
         return next.IsEmpty?null:next;
     }
     private void BuyIfNeeded(string hull,string? part,bool research)
@@ -291,7 +298,7 @@ public sealed class HangarProfile
             var c when kind==OrdnanceKind.Launcher=>c with{Launcher=part},
             var c when kind==OrdnanceKind.Missile=>c with{Missile=part},
             // A PD part replaces a catalog secondary.
-            var c=>(part is null?c:c.With(ComponentSlot.Secondary,null)) with{PointDefensePart=part},
+            var c=>c.With(ComponentSlot.Secondary,null) with{PointDefensePart=part},
         };
         return next.IsEmpty?null:next;
     }

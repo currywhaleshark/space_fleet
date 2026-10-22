@@ -176,7 +176,7 @@ public partial class Main : Node3D
             {
                 Hangar.Research!.Points[ShipDefinitions.ById(PlayerHullId).Design]=1200;
                 if(confirmKind=="equipment")hangar.Install("shield-capacity");
-                else {hangar.SelectSystem(ComponentSlot.MainGun);hangar.InstallSystem("main-triple",true);}
+                else {hangar.SelectSystem(ComponentSlot.Engine);hangar.InstallSystem("engine-vector",true);}
             }
             else if(_overlay.ResearchView is {} research)
             {
