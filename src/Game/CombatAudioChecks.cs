@@ -12,7 +12,7 @@ public partial class CombatAudioChecks : Node
     private ShipBody _blue = null!, _red = null!;
     private CombatAudio _outgoing = null!, _incoming = null!;
     private AudioEffectRecord _recording = null!;
-    private ulong _started;
+    private ulong _started, _lastFrame;
     private int _stage, _checks;
     private float _volume;
     private bool _muted;
@@ -47,7 +47,6 @@ public partial class CombatAudioChecks : Node
             _recording = new AudioEffectRecord { Format = AudioStreamWav.FormatEnum.Format16Bits };
             _recordEffectIndex = AudioServer.GetBusEffectCount(0);
             AudioServer.AddBusEffect(0, _recording); _recording.SetRecordingActive(true);
-            _started = Time.GetTicksMsec();
         }
         catch (Exception error) { Fail(error); }
     }
@@ -59,7 +58,13 @@ public partial class CombatAudioChecks : Node
     {
         try
         {
-            ulong elapsed = Time.GetTicksMsec() - _started;
+            // Stage spacing counts frame time only: a stalled frame (shader compile, slow start) must not
+            // collapse several stages into one moment inside the 120 ms per-cue repeat guard.
+            ulong now = Time.GetTicksMsec();
+            if (_started == 0) _started = now;
+            else if (now - _lastFrame > 100) _started += now - _lastFrame - 16;
+            _lastFrame = now;
+            ulong elapsed = now - _started;
             if (_stage == 0 && elapsed >= 150)
             {
                 Check(_world.FireRailgun(_blue,Vector3.Forward).Fired, "Real railgun fires");
