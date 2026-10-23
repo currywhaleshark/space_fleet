@@ -54,7 +54,10 @@ public partial class Hud
         if(am.Definition is not { } def) return;
         float width=294+Mathf.Round((HudSettings.TextScale-1)*150);
         // Below the target viewport, clear of the reticle, bottom bar and expanded power panel.
-        Vector2 start=new(screen.X-width-16,Mathf.Max(320,TargetPreview.Position.Y+TargetPreview.Size.Y+12));
+        Vector2 start=new(screen.X-width-23,Mathf.Max(320,TargetPreview.Position.Y+TargetPreview.Size.Y+12));
+        // ...and above the right-hand support/power column (previous frame's panes).
+        float column=(SupportPaneBounds.HasArea()?SupportPaneBounds:PowerPaneBounds).Position.Y;
+        if(column>0)start.Y=Mathf.Min(start.Y,column-10-125);
         // Stowed, healthy ordnance needs status, not firing instructions over the battlefield.
         // Any preparation, damage warning or jettison returns the complete warning/control panel.
         if(!Game.AntimatterSelected&&!am.Warning&&am.Mode==AntimatterMode.Safe&&Game.JettisonProgress<=0)
@@ -62,15 +65,14 @@ public partial class Hud
             if(!Game.HudDetails)return;
             start+=new Vector2(0,75); // Keep the panel's bottom edge, leaving the aiming area clear.
             AntimatterBounds=new(start,new Vector2(width,50));
-            DrawRect(new(start,new Vector2(width,50)),PanelBack);
+            Pane(new(start,new Vector2(width,50)));
             Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds} · {am.Status}",15,Text);
             Label(start+new Vector2(10,41),$"격리용기 {am.Containment*100:0}% · {InputBindings.Text(InputSetup.SelectAntimatter)} 어뢰 선택",13,Dim);
             return;
         }
         var panel=new Rect2(start,new Vector2(width,125));AntimatterBounds=panel;
-        DrawRect(panel,PanelBack);
         Color color=am.Warning || am.Mode==AntimatterMode.Failed ? Hostile : Game.AntimatterSelected ? Lead : Dim;
-        DrawRect(panel,new Color(color,.5f),false,1);
+        Pane(panel,1,new Color(color,.5f));
         Label(start+new Vector2(10,20),$"AM {am.Rounds}/{def.Rounds}",15,color);
         Label(start+new Vector2(120,20),am.Status,13,color);
         Label(start+new Vector2(10,42),$"격리용기 {am.Containment*100:0}%",13,am.Warning ? Hostile : Text);

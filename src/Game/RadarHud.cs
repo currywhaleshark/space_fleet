@@ -126,6 +126,10 @@ public partial class Hud
         DrawCircle(center, 2, new Color(.02f, .07f, .11f));
 
         DrawSetTransform(Vector2.Zero);
+        // Prototype radar foot: live indicator and the current radar range.
+        var radarFoot=new Vector2(RadarBounds.Position.X+8,RadarBounds.End.Y+18);
+        DrawCircle(radarFoot,3,HudStyle.Mint);DrawCircle(radarFoot,5,new Color(HudStyle.Mint,.2f));
+        DrawString(_mono,radarFoot+new Vector2(10,4),FormatDistance(Game.Radar.Range),HorizontalAlignment.Left,-1,12,HudStyle.Rgb(0x90a7b4));
     }
 }
 

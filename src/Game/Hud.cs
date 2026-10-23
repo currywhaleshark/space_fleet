@@ -13,14 +13,15 @@ namespace SpaceFleet.Game;
 /// </summary>
 public partial class Hud : Control
 {
-    private static readonly Color Text = new(0.82f, 0.9f, 1f, 0.92f);
-    private static readonly Color Dim = new(0.82f, 0.9f, 1f, 0.5f);
-    private static readonly Color Faint = new(0.82f, 0.9f, 1f, 0.16f);
-    private static readonly Color Friendly = new(0.45f, 0.75f, 1f, 0.85f);
-    private static readonly Color Hostile = new(1f, 0.42f, 0.32f, 0.9f);
-    private static readonly Color Motion = new(1f, 0.78f, 0.35f, 0.9f);
-    private static readonly Color Good = new(0.35f, 0.9f, 0.7f, 0.9f);
-    private static readonly Color PanelBack = new(0.01f, 0.02f, 0.03f, 0.88f);
+    // HUD v4 palette (HudStyle): ink, cyan, red, amber, mint on dark navy panes.
+    private static readonly Color Text = new(HudStyle.Ink, 0.94f);
+    private static readonly Color Dim = new(HudStyle.Ink, 0.5f);
+    private static readonly Color Faint = new(HudStyle.Ink, 0.16f);
+    private static readonly Color Friendly = new(HudStyle.Cyan, 0.9f);
+    private static readonly Color Hostile = new(HudStyle.Red, 0.95f);
+    private static readonly Color Motion = new(HudStyle.Amber, 0.95f);
+    private static readonly Color Good = new(HudStyle.Mint, 0.95f);
+    private static readonly Color PanelBack = new(0.02f, 0.063f, 0.10f, 0.78f);
 
     private Font _font = null!;
     private readonly MarkerLabels _markerLabels = new();
@@ -33,7 +34,8 @@ public partial class Hud : Control
 
     public override void _Ready()
     {
-        _font = new SystemFont { FontNames = new[] { "Malgun Gothic", "Segoe UI" } };
+        _font = HudStyle.Sans;
+        _mono = HudStyle.Mono;
         MouseFilter = MouseFilterEnum.Ignore;
         SetAnchorsPreset(LayoutPreset.FullRect);
         TargetPreview=new TargetViewport{Game=Game};AddChild(TargetPreview);
@@ -69,6 +71,7 @@ public partial class Hud : Control
 
         Camera3D cam = Game.Camera;
         Vector2 size = GetViewportRect().Size;
+        DrawHudShade(size);
         BeginMarkerLabels(size,controlled);
         if(Game.Spectating)
         {DrawBrackets(cam,controlled,size);_markerLabels.Draw(this,_font);DrawBattleHud(size);DrawMerits(size);DrawRadar(Game.SpectatedView??controlled,size);DrawHelp(controlled,size);return;}
@@ -104,15 +107,18 @@ public partial class Hud : Control
             DrawLeadMarker(cam,size);DrawHitMarker(cam,controlled,size*.5f);
         }
         DrawSmallTarget(cam);
+        DrawCompactHud(controlled,size);
+        float eventTop=SquadPaneBounds.HasArea()?SquadPaneBounds.Position.Y:OwnPaneBounds.Position.Y;
+        SquadronBounds=SquadPaneBounds;
+        DrawDrones(cam,controlled,size,panel:false);
         if(Game.HudDetails)
         {
-            var detailScreen=size-new Vector2(0,100);
-            DrawInstruments(controlled,detailScreen);
-            if(Game.Scheme==ControlScheme.Helm)DrawGunnery(cam,controlled,detailScreen);
-            DrawOwnSystems(controlled,detailScreen);DrawSquadrons(controlled,detailScreen);
-            DrawPowerPanel(controlled,detailScreen);DrawDrones(cam,controlled,detailScreen);
+            // Expanded (I): small drops beside the always-on panes, prototype "상세" mode.
+            if(Game.Scheme==ControlScheme.Helm)DrawGunnery(cam,controlled,new(size.X,UnifiedBarBounds.Position.Y+20));
+            eventTop=DrawSystemsDrop(controlled.Body,eventTop-(SquadPaneBounds.HasArea()?22:10));
+            DrawInterceptorStatus(controlled,size,eventTop);
         }
-        DrawCompactHud(controlled,size);
+        DrawEventStack(controlled.Body,eventTop-12);
         if(Game.SelectedFriendly is not null)DrawTargetPanel(size);
         DrawShotFeedback(cam);
         DrawIncomingFeedback(size);
@@ -149,8 +155,9 @@ public partial class Hud : Control
         _markerLabels.Reserve(new Rect2(layout.Weapons,new Vector2(390,31)));
         _markerLabels.Reserve(layout.Selection);
         if(TacticalBounds.HasArea())_markerLabels.Reserve(TacticalBounds);
-        _markerLabels.Reserve(new Rect2(16,screen.Y-310,250,278));
-        _markerLabels.Reserve(new Rect2(screen.X-266,screen.Y-254,250,222));
+        // v4 panes (previous frame's bounds; they only move with the window or text size).
+        foreach(var pane in new[]{UnifiedBarBounds,FlightBounds,OwnPaneBounds,SquadPaneBounds,PowerPaneBounds,SupportPaneBounds,MountChipBounds})
+            if(pane.HasArea())_markerLabels.Reserve(pane.Grow(4));
         if(Game.SelectedSmallContact is { } small)
         {
             Vector3 render=(small.Predict(Game.World.Time)-Game.RenderOrigin).ToVector3();
@@ -160,11 +167,23 @@ public partial class Hud : Control
                 _markerLabels.Reserve(new Rect2(point-new Vector2(160,42),new Vector2(320,104)));
             }
         }
-        if(Game.InspectTarget is { } target)
-        {
-            bool detailed=Game.TrackOf(target).Level>=TrackLevel.Identified;
-            _markerLabels.Reserve(new Rect2(screen.X-332,8,320,detailed?390:64));
-        }
+        if(Game.InspectTarget is not null&&TargetPreview.Visible)
+            _markerLabels.Reserve(new Rect2(TargetPreview.Position,TargetPreview.Size).Grow(6));
+    }
+
+    /// <summary>
+    /// Prototype backdrop: the lower band and screen edges darken so the panes read over bright scenes.
+    /// Lighter than the study image, which blacked the bottom tenth out entirely.
+    /// </summary>
+    private void DrawHudShade(Vector2 size)
+    {
+        if(Game.MenuOpen||Game.WorldMapOpen)return;
+        var clear=new Color(2/255f,9/255f,19/255f,0);var band=new Color(2/255f,9/255f,19/255f,.62f);var edge=new Color(2/255f,9/255f,17/255f,.34f);
+        float top=size.Y*.7f;
+        DrawPolygon(new[]{new Vector2(0,top),new(size.X,top),size,new(0,size.Y)},new[]{clear,clear,band,band});
+        float w=size.X*.2f;
+        DrawPolygon(new[]{Vector2.Zero,new(w,0),new(w,size.Y),new(0,size.Y)},new[]{edge,clear,clear,edge});
+        DrawPolygon(new[]{new Vector2(size.X-w,0),new(size.X,0),size,new(size.X-w,size.Y)},new[]{clear,edge,edge,clear});
     }
 
     // ── 공용 도형 ─────────────────────────────────────────────

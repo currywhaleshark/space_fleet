@@ -55,41 +55,87 @@ public partial class Hud
         return new(state,false,aligned,solution);
     }
 
+    internal Rect2 MountChipBounds {get;private set;}
+    private enum MountLook{Ready,Moving,Limited,Blocked,Dead,Off}
+    private static MountLook Look(TurretReadout r)=>r.Destroyed?MountLook.Dead:r.State switch
+    {
+        "정렬" or "조사"=>MountLook.Ready,
+        "선회 중" or "장전"=>MountLook.Moving,
+        "포각 밖" or "사거리 밖" or "거리 감쇠"=>MountLook.Limited,
+        "선체 가림" or "지형 가림" or "아군 사선"=>MountLook.Blocked,
+        _ when r.State.StartsWith("정렬")=>MountLook.Ready,
+        _ when r.State.StartsWith("선회")=>MountLook.Moving,
+        _=>MountLook.Off,
+    };
+    private static Color LookColor(MountLook look)=>look switch
+    {
+        MountLook.Ready=>HudStyle.Rgb(0xa0eddb),MountLook.Moving=>HudStyle.Rgb(0x90afc0),MountLook.Limited=>HudStyle.Rgb(0xf1b773),
+        MountLook.Blocked=>HudStyle.Rgb(0xef887c),MountLook.Dead=>HudStyle.Rgb(0xd27f82),_=>HudStyle.Rgb(0x6b8391),
+    };
+
     private void DrawTurretAim(Camera3D camera,ShipView controlled,Vector2 screen)
     {
-        var ship=controlled.Body;var guns=ship.Railguns;
+        var ship=controlled.Body;var guns=ship.Railguns;MountChipBounds=new();
         if(_turretShip!=ship||TurretReadouts.Length!=guns.Length)
         {_turretShip=ship;TurretReadouts=new TurretReadout[guns.Length];}
         for(int i=0;i<guns.Length;i++)TurretReadouts[i]=ReadTurret(Game,ship,guns[i]);
+        if(guns.Length==0||Game.SelectedWeapon!=PlayerWeapon.MainGun)return;
         _boreGroups.Clear();
-        float width=CompactBar(screen).Size.X,cell=width/Math.Max(1,Math.Min(6,guns.Length));
-        float top=CompactBar(screen).Position.Y-48-Math.Max(1,(guns.Length+5)/6)*HudFont(19);
+        // The shared lead anchor: the displayed solution, or the screen centre without one.
+        Vector2 anchor=screen*.5f;bool hasLead=false;
+        if(Game.DisplayLeadSolution is {Valid:true} lead&&!camera.IsPositionBehind((lead.AimPoint-Game.RenderOrigin).ToVector3()))
+        {anchor=camera.UnprojectPosition((lead.AimPoint-Game.RenderOrigin).ToVector3());hasLead=true;}
+        if(hasLead)
+        {
+            DrawArc(anchor,7,0,Mathf.Tau,24,new Color(Lead,.85f),1.25f,true);
+            for(int d=-10;d<=10;d+=4){DrawLine(anchor+new Vector2(d,0),anchor+new Vector2(d+1,0),new Color(HudStyle.Rgb(0x93b9c6),.58f),1.3f);DrawLine(anchor+new Vector2(0,d),anchor+new Vector2(0,d+1),new Color(HudStyle.Rgb(0x93b9c6),.58f),1.3f);}
+        }
         for(int i=0;i<guns.Length;i++)
         {
             var gun=guns[i];var read=TurretReadouts[i];
-            var color=read.Destroyed?Hostile:read.State is "정렬" or "조사"?Good:Motion;
-            var at=new Vector2((screen.X-width)*.5f+cell*(i%6+.5f),top+(i/6)*HudFont(19));
-            if(!Game.HudDetails)CenteredLabel(at,$"{i+1} {(read.Destroyed?"X":read.State)}",11,color);
-            if(!Game.HudDetails&&read.State=="장전")HBar(new(at+new Vector2(-cell*.33f,11),new(cell*.66f,2)),1-gun.ReloadRemaining/gun.Definition.ReloadSeconds,Motion);
-            if(read.Destroyed||read.Solution is not {Valid:true} s||Game.SelectedWeapon!=PlayerWeapon.MainGun)continue;
-            var lead=(s.AimPoint-Game.RenderOrigin).ToVector3();
-            if(!camera.IsPositionBehind(lead))DrawDiamond(camera.UnprojectPosition(lead),3,new Color(Lead,.55f));
+            if(read.Destroyed||read.Solution is not {Valid:true} s)continue;
             // Actual yaw/elevation, at this gun's own solved range. Never animate a fake convergence.
             var bore=(gun.MuzzlePosition+Vec3d.From(gun.Direction)*s.Range-Game.RenderOrigin).ToVector3();
             if(camera.IsPositionBehind(bore))continue;
             var p=camera.UnprojectPosition(bore);
             if(!new Rect2(20,70,screen.X-40,screen.Y-240).HasPoint(p))continue;
             int near=_boreGroups.FindIndex(g=>g.Point.DistanceSquaredTo(p)<100);
+            var color=LookColor(Look(read));
             if(near>=0){var g=_boreGroups[near];_boreGroups[near]=(g.Point,g.Count+1,g.First,g.Color);}
             else _boreGroups.Add((p,1,i,color));
-            if(read.State.Contains("가림")||read.State=="포각 밖")
-                DrawLine(p-new Vector2(5,5),p+new Vector2(5,5),color,1.5f);
-
         }
         foreach(var group in _boreGroups)
         {
-            DrawArc(group.Point,6,0,Mathf.Tau,16,group.Color,1.5f);
-            Label(group.Point+new Vector2(8,11),group.Count>1?$"×{group.Count}":(group.First+1).ToString(),11,group.Color);
+            var p=group.Point;var look=Look(TurretReadouts[group.First]);var color=group.Color;
+            if(hasLead&&p.DistanceTo(anchor)>24)
+                for(float t=0;t<1;t+=9/Math.Max(9,p.DistanceTo(anchor)))DrawLine(p.Lerp(anchor,t),p.Lerp(anchor,Math.Min(1,t+2/p.DistanceTo(anchor))),new Color(color,.22f),1);
+            const float r=8;
+            float width=look is MountLook.Limited?2:look is MountLook.Blocked?1.8f:1.4f;
+            DrawPolyline(new[]{p+new Vector2(-r-4,-4),p+new Vector2(-r-4,-r-4),p+new Vector2(-4,-r-4)},new Color(color,.85f),width,true);
+            DrawPolyline(new[]{p+new Vector2(4,r+4),p+new Vector2(r+4,r+4),p+new Vector2(r+4,4)},new Color(color,.85f),width,true);
+            if(look==MountLook.Limited){DrawLine(p+new Vector2(-4,-7),p+new Vector2(-4,7),color,2);DrawLine(p+new Vector2(4,-7),p+new Vector2(4,7),color,2);}
+            else if(look==MountLook.Blocked){DrawLine(p-new Vector2(6,6),p+new Vector2(6,6),color,1.8f);DrawLine(p+new Vector2(-6,6),p+new Vector2(6,-6),color,1.8f);}
+            else if(look==MountLook.Ready)DrawCircle(p,2.5f,new Color(color,.85f));
+            else DrawArc(p,3.5f,0,Mathf.Tau,12,color,1.3f,true);
+            if(group.Count>1||Game.HudDetails)Mono(p+new Vector2(13,-10),group.Count>1?$"×{group.Count}":(group.First+1).ToString(),10,color);
+        }
+        // Numbered mount chips under the lead: fixed identity, × for destroyed, colour for the reason.
+        float chipW=24,chipH=19,gap=4;
+        float total=guns.Length*chipW+(guns.Length-1)*gap+12;
+        var box=new Rect2(anchor.X-total*.5f,anchor.Y+30,total,chipH+4);
+        box.Position=new(Mathf.Clamp(box.Position.X,8,screen.X-8-total),Mathf.Clamp(box.Position.Y,80,Math.Max(80,CompactBar(screen).Position.Y-box.Size.Y-60)));
+        MountChipBounds=box;
+        DrawRect(box,new Color(3/255f,12/255f,21/255f,.76f));DrawRect(box,HudStyle.Rgb(0x6698ab,.24f),false,1);
+        for(int i=0;i<guns.Length;i++)
+        {
+            var read=TurretReadouts[i];var look=Look(read);var color=LookColor(look);
+            var chip=new Rect2(box.Position.X+6+i*(chipW+gap),box.Position.Y+2,chipW,chipH);
+            DrawRect(chip,look==MountLook.Dead?new Color(84/255f,25/255f,34/255f,.28f):new Color(42/255f,75/255f,91/255f,.12f));
+            if(read.State=="장전")DrawRect(new Rect2(chip.Position.X,chip.End.Y-2,chipW*Mathf.Clamp(1-guns[i].ReloadRemaining/guns[i].Definition.ReloadSeconds,0,1),2),new Color(HudStyle.Mint,.6f));
+            DrawRect(chip,look switch{MountLook.Ready=>HudStyle.Rgb(0x77dbc5,.55f),MountLook.Limited=>HudStyle.Rgb(0xeaae6f,.5f),MountLook.Blocked=>HudStyle.Rgb(0xed7e70,.6f),
+                MountLook.Dead=>HudStyle.Rgb(0xd87075,.48f),_=>HudStyle.Rgb(0x65a0b5,.27f)},false,1);
+            Mono(new(chip.Position.X,chip.Position.Y+13),look==MountLook.Dead?"×":(i+1).ToString(),10,color,HorizontalAlignment.Center,chipW);
+            if(look==MountLook.Off)DrawLine(new(chip.Position.X+5,chip.Position.Y+3),new(chip.End.X-5,chip.Position.Y+3),new Color(HudStyle.Amber,.6f),1);
         }
     }
 }

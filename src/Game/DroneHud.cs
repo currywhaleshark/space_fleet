@@ -8,13 +8,41 @@ namespace SpaceFleet.Game;
 
 public partial class Hud
 {
-    private void DrawDrones(Camera3D cam, ShipView controlled, Vector2 screen)
+    private void DrawDrones(Camera3D cam, ShipView controlled, Vector2 screen, bool panel = true)
     {
         var ship=controlled.Body;
-        DrawNearbyDrones(cam,controlled,screen);
-        DrawAuxiliaryDefense(ship,screen);
+        if (panel)
+        {
+            DrawNearbyDrones(cam,controlled,screen);
+            DrawAuxiliaryDefense(ship,screen);
+        }
         if (ship.Definition.DefenseDrones is not { } def || controlled.Drones is not { } swarm) return;
         var drones=ship.Ordnance.Drones;
+        if (!panel) { DrawOwnDroneMarkers(cam,controlled,screen,def,swarm); return; }
+        DrawDronePanel(cam,controlled,screen,def,swarm);
+    }
+
+    private void DrawOwnDroneMarkers(Camera3D cam, ShipView controlled, Vector2 screen, DefenseDroneDefinition def, DroneSwarm swarm)
+    {
+        var ship=controlled.Body;var drones=ship.Ordnance.Drones;
+        if (ship.Damage.Destroyed) return;
+        for(int i=0;i<def.Count;i++)
+        {
+            if (!drones.Alive(i)) continue;
+            bool firing=ship.SimTime-drones.LastFiredAt[i]<.18;
+            Color dot=!drones.Active || drones.Rounds[i]==0 ? Dim : firing ? Text : Health(drones.HealthFraction(i));
+            Vector3 render=controlled.GlobalTransform*swarm.Multimesh.GetInstanceTransform(i).Origin;
+            if (cam.IsPositionBehind(render)) continue;
+            Vector2 p=cam.UnprojectPosition(render);
+            if (!new Rect2(0,0,screen.X,screen.Y).HasPoint(p)) continue;
+            DrawPolyline(new[]{p+new Vector2(-3,0),p+new Vector2(0,-3),p+new Vector2(3,0),p+new Vector2(0,3),p+new Vector2(-3,0)},dot,1);
+            if (firing) DrawArc(p,6,0,Mathf.Tau,12,Text,1);
+        }
+    }
+
+    private void DrawDronePanel(Camera3D cam, ShipView controlled, Vector2 screen, DefenseDroneDefinition def, DroneSwarm swarm)
+    {
+        var ship=controlled.Body;var drones=ship.Ordnance.Drones;
         var panel=new Rect2(screen.X-266,screen.Y-254,250,96);
         DrawRect(panel,PanelBack);
         Label(panel.Position+new Vector2(10,18),$"{InputBindings.Text(InputSetup.DroneMenu)} 드론 · {DefenseDroneState.Label(drones.Sector)} 방어",12,Text);

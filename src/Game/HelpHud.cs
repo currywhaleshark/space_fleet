@@ -99,7 +99,8 @@ public partial class Hud
     {
         if (!Game.ShowHelp)
         {
-            Label(new(16,screen.Y-12),$"{InputBindings.Text(InputSetup.ToggleHelp)} 도움말 · {InputBindings.Text(InputSetup.WorldMap)} 전체 지도 · {InputBindings.Text(InputSetup.ToggleMute)} 효과음",12,Dim);
+            // In play the hint sits under the own-ship pane (CompactHud); spectating keeps this line.
+            if(Game.Spectating)Label(new(16,screen.Y-12),$"{InputBindings.Text(InputSetup.ToggleHelp)} 도움말 · {InputBindings.Text(InputSetup.WorldMap)} 전체 지도 · {InputBindings.Text(InputSetup.ToggleMute)} 효과음",12,Dim);
             return;
         }
         var entries = ShipHelp.Entries(controlled.Body,Game.Scheme,HelpPage);

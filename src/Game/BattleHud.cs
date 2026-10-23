@@ -87,34 +87,47 @@ public partial class Hud
     private void DrawBattleHud(Vector2 screen)
     {
         if(!Game.BattleMode||Game.World.Rules is not {} rules)return;
-        float x=Mathf.Min(screen.X*.5f-200,screen.X-744); // Keep the target header clear in small windows.
-        DrawRect(new(x-12,14,424,30),PanelBack);
-        DrawRect(new(x,24,185,8),Faint);DrawRect(new(x,24,185*(float)rules.Fraction(Faction.Blue),8),Friendly);
+        // Prototype score strip: blue number · bar · objectives · bar · red number, clock underneath.
+        float cx=Mathf.Min(screen.X*.5f,screen.X-23-302-200),cy=48;
+        bool domination=rules.Objective==BattleObjective.Domination;
         var enemies=Game.World.Ships.Where(s=>s.Faction==Faction.Red).ToArray();
         var identified=enemies.Where(s=>Game.World.Sensors.Track(Faction.Blue,s).Level>=TrackLevel.Identified).ToArray();
         float initial=(float)rules.Initial(Faction.Red);
-        float known=(float)identified.Where(Squadron.Active).Sum(s=>BattleRules.Weight(s.Definition))/initial;
-        float unknown=1-(float)identified.Sum(s=>BattleRules.Weight(s.Definition))/initial;
-        var enemyBar=new Rect2(x+215,24,185,8);DrawRect(enemyBar,Faint);
-        DrawRect(new(enemyBar.Position,new Vector2(185*known,8)),Hostile);
-        float unknownStart=enemyBar.Position.X+185*known, unknownEnd=Mathf.Min(enemyBar.End.X,unknownStart+185*unknown);
-        for(float at=unknownStart;at<unknownEnd;at+=7)
-            DrawLine(new(at,32),new(Mathf.Min(at+5,unknownEnd),24),Dim,1);
-        // 모드 표시: 전력 막대 아래 도형으로. 미식별 적 정보는 드러내지 않는다.
-        if (rules.Objective == BattleObjective.Flagship) DrawFlagshipObjective(rules, x);
-        else if (rules.Objective == BattleObjective.Domination) DrawDominationObjective(rules, x);
-        float y=screen.Y-272;DrawRect(new(16,y,250,32),PanelBack);
-        FleetPosture posture=Game.World.Fleet(Faction.Blue).Posture;
-        for(int i=0;i<4;i++)
+        float blue=domination?(float)(rules.Score(Faction.Blue)/rules.ScoreLimit):(float)rules.Fraction(Faction.Blue);
+        float known=domination?(float)(rules.Score(Faction.Red)/rules.ScoreLimit):(float)identified.Where(Squadron.Active).Sum(s=>BattleRules.Weight(s.Definition))/initial;
+        float unknown=domination?0:1-(float)identified.Sum(s=>BattleRules.Weight(s.Definition))/initial;
+        string blueText=domination?$"{rules.Score(Faction.Blue):0}":$"{blue*100:0}",redText=domination?$"{rules.Score(Faction.Red):0}":unknown>.005f?$"{known*100:0}?":$"{known*100:0}";
+        int zones=domination?rules.CaptureZones.Count:0;
+        float middle=zones>0?zones*24+(zones-1)*5:28;
+        var blueBar=new Rect2(cx-middle*.5f-14-125,cy-2,125,4);var redBar=new Rect2(cx+middle*.5f+14,cy-2,125,4);
+        DrawRect(blueBar,HudStyle.Rgb(0x89acbb,.18f));DrawRect(new Rect2(blueBar.Position,new(125*Mathf.Clamp(blue,0,1),4)),HudStyle.Cyan);
+        DrawRect(redBar,HudStyle.Rgb(0x89acbb,.18f));DrawRect(new Rect2(redBar.Position,new(125*Mathf.Clamp(known,0,1),4)),HudStyle.Red);
+        float unknownStart=redBar.Position.X+125*Mathf.Clamp(known,0,1),unknownEnd=Mathf.Min(redBar.End.X,unknownStart+125*unknown);
+        for(float at=unknownStart;at<unknownEnd;at+=5)DrawLine(new(at,redBar.End.Y),new(Mathf.Min(at+3,unknownEnd),redBar.Position.Y),new Color(HudStyle.Red,.45f),1);
+        Mono(new(blueBar.Position.X-14-200,cy+6),blueText,18,HudStyle.Cyan,HorizontalAlignment.Right,200);
+        Mono(new(redBar.End.X+14,cy+6),redText,18,HudStyle.Red);
+        if(domination)
+            for(int i=0;i<zones;i++)
+            {
+                CaptureZone zone=rules.CaptureZones[i];
+                var c=new Vector2(cx-middle*.5f+12+i*29,cy);
+                Color owner=zone.Owner==Faction.Blue?HudStyle.Cyan:zone.Owner==Faction.Red?HudStyle.Red:HudStyle.Dim;
+                if(zone.Owner is not null)DrawCircle(c,12,new Color(owner,.12f));
+                DrawArc(c,12,0,Mathf.Tau,32,owner,1,true);
+                float progress=(float)(zone.Progress/100.0);
+                if(Mathf.Abs(progress)>.01f)DrawArc(c,15,-Mathf.Pi/2,-Mathf.Pi/2+Mathf.Sign(progress)*Mathf.Tau*Mathf.Abs(progress),32,progress>0?HudStyle.Cyan:HudStyle.Red,2,true);
+                if(zone.Contested&&(Time.GetTicksMsec()/300)%2==0)DrawArc(c,18,0,Mathf.Tau,32,Motion,1.5f,true);
+                Mono(new(c.X-12,c.Y+HudFont(11)*.36f),zone.Name,11,owner,HorizontalAlignment.Center,24);
+            }
+        else DrawDiamond(new(cx,cy),5,new Color(HudStyle.Ink,.35f));
+        int seconds=(int)Game.World.Time;
+        Mono(new(cx-40,cy+24),$"{seconds/60:00}:{seconds%60:00}",11,HudStyle.Rgb(0x94a8b5),HorizontalAlignment.Center,80);
+        if(rules.Objective==BattleObjective.Flagship)
         {
-            var p=new Vector2(46+i*59,y+16);
-            bool active=posture==(i switch{0=>FleetPosture.Missile,1=>FleetPosture.Gunline,2=>FleetPosture.Close,_=>FleetPosture.Withdraw});
-            Color c=active?Friendly:Faint;
-            if(active)DrawRect(new(p-new Vector2(22,13),new Vector2(44,26)),new Color(Friendly,.12f));
-            if(i==0){DrawLine(p+new Vector2(-10,7),p+new Vector2(7,-7),c,2);DrawLine(p+new Vector2(0,-7),p+new Vector2(7,-7),c,2);DrawLine(p+new Vector2(7,0),p+new Vector2(7,-7),c,2);}
-            else if(i==1){for(int n=-1;n<=1;n++)DrawLine(p+new Vector2(-13,n*6),p+new Vector2(13,n*6),c,2);}
-            else if(i==2){DrawDiamond(p,11,c);DrawLine(p+new Vector2(-7,-7),p+new Vector2(7,7),c,2);}
-            else{DrawLine(p+new Vector2(12,0),p+new Vector2(-12,0),c,2);DrawLine(p+new Vector2(-4,-7),p+new Vector2(-12,0),c,2);DrawLine(p+new Vector2(-4,7),p+new Vector2(-12,0),c,2);}
+            DrawSetTransform(new Vector2(cx-200-(Mathf.Min(screen.X*.5f-200,screen.X-744)),34));
+            DrawFlagshipObjective(rules,Mathf.Min(screen.X*.5f-200,screen.X-744));
+            DrawSetTransform(Vector2.Zero);
         }
     }
+
 }

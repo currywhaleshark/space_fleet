@@ -122,34 +122,36 @@ public partial class Hud
 {
     internal Rect2 MeritBounds { get; private set; }
     internal Rect2 MeritNoticeBounds { get; private set; }
-    private static readonly (MeritKind Kind,string Label)[] Ribbons={
-        (MeritKind.Hit,"명중"),(MeritKind.Penetration,"관통"),(MeritKind.ScoutHit,"정찰"),
-        (MeritKind.MissileIntercept,"요격"),(MeritKind.Kill,"격침"),(MeritKind.Assist,"지원")};
+    private static readonly (MeritKind Kind,string Label,string Icon)[] Ribbons={
+        (MeritKind.Hit,"명중","aim"),(MeritKind.Kill,"격침","skull"),(MeritKind.Assist,"지원","link"),
+        (MeritKind.Penetration,"관통","pierce"),(MeritKind.ScoutHit,"정찰","probe"),(MeritKind.MissileIntercept,"요격","intercept")};
+    /// <summary>Prototype merit strip under the radar: icon + count, the first three always, the rest once earned.</summary>
     private void DrawMerits(Vector2 screen)
     {
         MeritBounds=MeritNoticeBounds=RibbonStripBounds=new();
         if(Game.WorldMapOpen||Game.MenuOpen||Game.RosterOpen||Game.ShowHelp)return;
         var stats=Game.World.Merits.Personal(true);
-        var active=Ribbons;
         double capture=Game.World.Merits.Personal().CaptureProgress;
-        if(!active.Any(r=>stats[r.Kind]>0)&&Game.MeritDisplay.Showing.Count==0&&Game.MeritDisplay.Ribbons.Count==0&&capture==0&&stats[MeritKind.Detection]==0)return;
-        float row=HudFont(11)+6,y=16+248*Mathf.Clamp(Mathf.Min(screen.X/1600,screen.Y/900),.6f,1)+18;
-        float top=y-18;
-        int rows=(active.Length+2)/3;
-        MeritBounds=new(16,top,250,row*rows+24);
-        DrawRect(MeritBounds,new Color(PanelBack,.70f));
-        Label(new(24,y),Game.Spectating?"내 전과 · 관전 중":capture>0?$"내 전과 · 점령 기여 {capture:0.0}":stats[MeritKind.Detection]>0?$"내 전과 · 탐지 {stats[MeritKind.Detection]}":"내 전과",12,Dim);y+=row;
-        for(int i=0;i<active.Length;i++)
+        var shown=Ribbons.Where((r,i)=>i<3||stats[r.Kind]>0).ToArray();
+        float y=RadarBounds.HasArea()?RadarBounds.End.Y+30:16+248*Mathf.Clamp(Mathf.Min(screen.X/1600,screen.Y/900),.6f,1)+30;
+        float x=34;
+        string lead=Game.Spectating?"관전":capture>0?$"점령 {capture:0.0}":"";
+        float width=10+(lead.Length>0?MonoWidth(lead,11)+12:0)+shown.Sum(r=>13+5+MonoWidth(stats[r.Kind].ToString(),13)+12);
+        MeritBounds=new(24,y,Math.Max(120,width),32);
+        DrawRect(MeritBounds,new Color(3/255f,12/255f,20/255f,.51f));
+        DrawRect(new Rect2(MeritBounds.Position,new(2,32)),HudStyle.Rgb(0x6fc4de,.48f));
+        float cy=y+16;
+        if(lead.Length>0){Mono(new(x,cy+HudFont(11)*.36f),lead,11,Dim);x+=MonoWidth(lead,11)+12;}
+        foreach(var r in shown)
         {
-            var r=active[i];float x=24+i%3*80,yy=y+i/3*row;
-            Color color=stats[r.Kind]==0?new Color(Text,.35f):Text;
-            if(Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind)>0)color=MeritText.Tint(r.Kind).Lerp(Colors.White,.4f);
-            // A small notched ribbon, no separate card or animation layer.
-            DrawPolyline(new[]{new Vector2(x,yy-9),new(x+5,yy-9),new(x+5,yy),new(x+2.5f,yy-2),new(x,yy),new(x,yy-9)},color,1);
-            Label(new(x+9,yy),$"{r.Label} {stats[r.Kind]}",11,color);
-            float pulse=Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind);
+            int value=stats[r.Kind];float pulse=Game.MeritDisplay.Pulses.GetValueOrDefault(r.Kind);
+            Color color=pulse>0?MeritText.Tint(r.Kind).Lerp(Colors.White,.4f):value==0?HudStyle.Rgb(0xb3c9d5,.45f):HudStyle.Rgb(0xb3c9d5);
+            Icon(r.Icon,new(x+6.5f,cy),13,pulse>0?color:HudStyle.Cyan);
+            string text=value.ToString();
+            Mono(new(x+18,cy+HudFont(13)*.36f),text,13,color);
             if(pulse>0&&Game.MeritDisplay.Gains.GetValueOrDefault(r.Kind) is >0 and var gain)
-                Label(new(x+9+_font.GetStringSize($"{r.Label} {stats[r.Kind]}",fontSize:HudFont(11)).X+4,yy-8*(1-pulse)),$"+{gain}",11,new Color(MeritText.Tint(r.Kind),pulse));
+                Mono(new(x+18+MonoWidth(text,13)+3,cy-6-8*(1-pulse)),$"+{gain}",10,new Color(MeritText.Tint(r.Kind),pulse));
+            x+=13+5+MonoWidth(text,13)+12;
         }
         DrawMeritBanners(screen);
         DrawRibbonStrip(screen);
@@ -218,7 +220,7 @@ public partial class Hud
         var widths=new float[ribbons.Count];float total=-gap;
         for(int i=0;i<ribbons.Count;i++)
         {
-            var r=ribbons[i];widths[i]=_font.GetStringSize(RibbonText(r),fontSize:font).X+34;
+            var r=ribbons[i];widths[i]=_mono.GetStringSize(RibbonText(r),fontSize:font).X+44;
             total+=widths[i]+gap;
         }
         float x=screen.X*.5f-total*.5f,y=bottom-(Game.Camera.TelescopeHeld?8:12)-height;
@@ -242,13 +244,17 @@ public partial class Hud
             float fade=Math.Min(1,(MeritPresentation.RibbonLife-r.Age)/.5f),pop=1+.3f*(1-EaseOut(r.Bump/.18f));
             var center=new Vector2(x+widths[i]*.5f,y+height*.5f);var half=new Vector2(widths[i],height)*.5f;
             DrawSetTransform(center,0,Vector2.One*pop);
-            DrawRect(new(-half,half*2),new Color(PanelBack,.85f*fade));
-            DrawRect(new(-half,half*2),new Color(tint,.75f*fade),false,1);
-            // Notched ribbon tab in the merit colour.
+            // Prototype toast: a band fading out at both ends, underlined in the merit colour.
+            var band=new Color(11/255f,37/255f,51/255f,.79f*fade);var none=new Color(band,0);
+            float inner=half.X*.66f;
+            DrawPolygon(new[]{new Vector2(-half.X,-half.Y),new(-inner,-half.Y),new(-inner,half.Y),new(-half.X,half.Y)},new[]{none,band,band,none});
+            DrawRect(new Rect2(-inner,-half.Y,inner*2,half.Y*2),band);
+            DrawPolygon(new[]{new Vector2(inner,-half.Y),new(half.X,-half.Y),new(half.X,half.Y),new(inner,half.Y)},new[]{band,none,none,band});
+            DrawLine(new(-half.X,half.Y),new(half.X,half.Y),new Color(tint,fade),1);
             float l=-half.X+6;
-            DrawColoredPolygon(new[]{new Vector2(l,-half.Y+4),new(l+12,-half.Y+4),new(l+12,half.Y-4),new(l+6,half.Y-9),new(l,half.Y-4)},new Color(tint,fade));
-            if(r.Bump<.25f)DrawRect(new(-half,half*2),new Color(1,1,1,.45f*(1-r.Bump/.25f)));
-            DrawString(_font,new Vector2(l+19,font*.36f),RibbonText(r),HorizontalAlignment.Left,-1,font,new Color(Colors.White,fade));
+            DrawColoredPolygon(new[]{new Vector2(l+4,-half.Y+6),new(l+12,-half.Y+6),new(l+12,half.Y-6),new(l+8,half.Y-10),new(l+4,half.Y-6)},new Color(tint,.8f*fade));
+            if(r.Bump<.25f)DrawRect(new(-half,half*2),new Color(1,1,1,.3f*(1-r.Bump/.25f)));
+            DrawString(_mono,new Vector2(l+19,font*.36f),RibbonText(r),HorizontalAlignment.Left,-1,font,new Color(HudStyle.Rgb(0xd3ecf4),fade));
             DrawSetTransform(Vector2.Zero,0,Vector2.One);
             x+=widths[i]+gap;
         }

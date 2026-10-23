@@ -12,7 +12,7 @@ namespace SpaceFleet.Game;
 /// </summary>
 public partial class Hud
 {
-    private static readonly Color Lead = new(0.3f, 1f, 0.66f, 0.95f);
+    private static readonly Color Lead = HudStyle.Rgb(0x9ff0d7, 0.95f);
     private const float CrosshairRadius = 26f;
     internal FiringSolution? DrawnLeadSolution { get; private set; }
 
