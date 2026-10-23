@@ -5,6 +5,7 @@ namespace SpaceFleet.Game;
 /// <summary>입력 액션을 코드에서 등록한다(project.godot의 직렬화 입력 맵보다 읽기 쉽다).</summary>
 public static class InputSetup
 {
+    public const string HudDetails = "hud_details";
     public const string ToggleMute = "toggle_mute";
     public const string WorldMap = "world_map";
     public const string RadarNear = "radar_near";
@@ -61,6 +62,7 @@ public static class InputSetup
     {
         Defaults.Clear();
         Bind(ToggleMute, Key.F10);
+        Bind(HudDetails, Key.I);
         Bind(WorldMap, Key.M);
         Bind(RadarNear, Key.Pageup);
         Bind(RadarFar, Key.Pagedown);

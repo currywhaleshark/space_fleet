@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.mono.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.341 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 2060
+
+Optic battleship: center=(0, 176.6, 294), radius=83.7
+Optic escort: center=(0, 59.6, 40), radius=27.1
+Optic interceptor: center=(0, 2.25, 0), radius=22.1
+Optic mars_battleship: center=(0, 141.28, 249.9), radius=67.6
+Optic mars_escort: center=(0, 46.488, 33.6), radius=21.9
+Optic mars_interceptor: center=(0, 1.8, 0), radius=18.6
+Optic earth_gun_cruiser: center=(0, 34.2, 30), radius=129.0
+Optic battleship_t5: center=(0, 134.6, 294), radius=50.8
+Optic earth_air_defense_cruiser: center=(0, 33.3, 0), radius=99.1
+Optic earth_air_defense_cruiser_t4: center=(0, 42, 30), radius=37.9
+Optic earth_air_defense_cruiser_t5: center=(0, 32, 55), radius=154.1
+Optic earth_gun_cruiser_t4: center=(0, 41.2, 70), radius=22.2
+Optic earth_gun_cruiser_t5: center=(0, 41.7, 58), radius=22.4
+Optic earth_recon_t3: center=(0, 2.25, 0), radius=22.9
+Optic earth_recon_t4: center=(0, 2.25, 0), radius=22.4
+Optic earth_recon_t5: center=(0, 2.25, 0), radius=24.8
+Optic earth_starter_escort: center=(0, 21.4, 41), radius=120.2
+Optic interceptor_t3: center=(0, 2.25, 0), radius=19.8
+Optic interceptor_t4: center=(0, 2.25, 0), radius=22.7
+Optic interceptor_t5: center=(0, 2.25, 0), radius=22.4
+Optic mars_assault_t3: center=(0, 1.8, 0), radius=23.7
+Optic mars_assault_t4: center=(0, 1.8, 0), radius=22.2
+Optic mars_assault_t5: center=(0, 1.8, 0), radius=21.7
+Optic mars_gun_cruiser: center=(0, 15.8, 2), radius=124.3
+Optic mars_battleship_t5: center=(0, 109.4, 335), radius=51.6
+Optic mars_gun_cruiser_t4: center=(0, 28.4, 8), radius=67.5
+Optic mars_gun_cruiser_t5: center=(0, 26.8, 75), radius=189.2
+Optic mars_interceptor_t3: center=(0, 1.8, 0), radius=21.3
+Optic mars_interceptor_t4: center=(0, 1.8, 0), radius=21.7
+Optic mars_interceptor_t5: center=(0, 1.8, 0), radius=20.6
+Optic mars_missile_cruiser: center=(0, 15.8, 52), radius=195.2
+Optic mars_missile_cruiser_t4: center=(0, 28.9, 62), radius=121.3
+Optic mars_missile_cruiser_t5: center=(0, 30, 65), radius=18.6
+Optic mars_starter_escort: center=(0, 21.56, 20), radius=111.4
+PASS: 2472 telescope interaction checks

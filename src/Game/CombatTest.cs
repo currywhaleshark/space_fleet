@@ -24,10 +24,10 @@ public partial class ScaleTest
         get
         {
             if (FireTarget is not { } target || Controlled?.Body is not { } me) return null;
-            if (Scheme == ControlScheme.Helm && !Camera.TelescopeHeld) return Gunnery?.EngagedModule;
-            if (Scheme == ControlScheme.Helm && Gunnery?.PriorityModuleId is { } id
-                && target.Body.Damage.Modules.FirstOrDefault(m => m.Definition.Id == id && !m.Destroyed) is { } priority) return priority;
-            return Subsystems.Pick(target.Body, AimPart, me.Position);
+            if(SelectedExternalAim is {} selected)return target.Body.Damage.Modules.FirstOrDefault(m=>m.Definition.Id==selected.Part.ModuleId);
+            if (Scheme == ControlScheme.Helm && !Camera.TelescopeHeld && Gunnery?.EngagedModule is {} engaged)
+                return ExternalTargets.Pick(me,target.Body,TrackOf(target),World.Time,AimSubsystem.Center,engaged.Definition.Id,World.Obstacles);
+            return ExternalTargets.Pick(me,target.Body,TrackOf(target),World.Time,AimPart,obstacles:World.Obstacles);
         }
     }
 
@@ -39,14 +39,12 @@ public partial class ScaleTest
         if (SelectedWeapon != PlayerWeapon.MainGun || FireTarget is not { } target
             || TrackOf(target) is not { Level: TrackLevel.Locked } track) return null;
         // Presentation only: the manual battery continues aiming/firing along the camera ray below.
-        return FireControl.Solve(player, target.Body, World.Time, track: track, localAim: AimModule?.Definition.Center);
+        return FireControl.Solve(player, target.Body, World.Time, track: track, localAim: AimLocalPoint);
     }
 
     private void CycleAimPart()
     {
-        int i = Array.IndexOf(Subsystems.Cycle, AimPart);
-        AimPart = Subsystems.Cycle[(i + 1) % Subsystems.Cycle.Length];
-        Notify($"조준 부위: {Subsystems.Label(AimPart)}", failed: false);
+        CycleExternalTarget();
     }
 
     /// <summary>사격통제 표적. 검사 표적이 살아 있는 적일 때만 잡는다(아군에게 선행 보정을 계산하지 않는다).</summary>
@@ -58,7 +56,7 @@ public partial class ScaleTest
             ShipView? view = !Camera.TelescopeHeld && Scheme == ControlScheme.Helm && Gunnery?.Engaged is { } engaged
                 ? Views.Find(v => v.Body == engaged) : InspectTarget;
             return view is not null && Controlled is { } me && view.Body.Faction != me.Body.Faction
-                && TrackOf(view).Level > TrackLevel.None && !view.Body.Damage.Destroyed ? view : null;
+                && TrackOf(view).Level > TrackLevel.None && !TrackOf(view).ObservedDestroyed ? view : null;
         }
     }
     public double LastFireTime { get; private set; } = -100;
@@ -214,7 +212,7 @@ public partial class ScaleTest
         ShipView? fireTarget = FireTarget;
         // 사격통제는 센서망 잠금이 있어야 해를 낸다. ECM·신호 세기가 오차에 반영된다.
         SensorTrack? track = fireTarget is null ? null : TrackOf(fireTarget);
-        FiringSolution = (FireAssist || Camera.TelescopeHeld) && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimModule?.Definition.Center) : null;
+        FiringSolution = (FireAssist || Camera.TelescopeHeld) && fireTarget is not null ? FireControl.Solve(player, fireTarget.Body, World.Time, track: track, localAim: AimLocalPoint) : null;
         CorrectingAim = FireAssist && FiringSolution is { Valid: true } && track is SensorTrack known
             && Camera.AimForward.AngleTo((known.EstimatedPosition - player.Position).ToVector3()) < Mathf.DegToRad(8);
         bool firing = SelectedWeapon == PlayerWeapon.MainGun && !_fireReleaseGuard

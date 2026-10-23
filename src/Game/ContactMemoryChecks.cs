@@ -41,7 +41,7 @@ public partial class ContactMemoryChecks : Node
         ContactSnapshot observed = memory.Get(Faction.Blue, enemy)!;
         Check(observed.Identified && !observed.SignalLost && observed.State!.Callsign == enemy.Callsign, "Identification replaces anonymous ghost with current identity");
         Check(observed.Position == enemy.Position + track.Offset, "Last position includes sensor estimation error");
-        Check(observed.State!.Status == "손상" && observed.State.LostModules == 0, "Nonfatal damage is preserved even before a module is destroyed");
+        Check(observed.State!.Status == "활동 중" && observed.State.LostModules == 0 && float.IsNaN(observed.State.Sensors), "An internal hit after sampling cannot leak live compartment state");
         enemy.Teleport(new(1e9, 1e9, 1e9));
         world.Sensors.Update(world.Ships, 4, force: true);
         Check(world.Sensors.Track(Faction.Blue, enemy).Level == TrackLevel.None, "Moving out of sensor coverage loses live contact");
@@ -68,6 +68,9 @@ public partial class ContactMemoryChecks : Node
         Check(!recovered.SignalLost && recovered.Position != lost.Position && recovered.LastSeenAt == 6, "Reacquisition updates the same contact and clears signal loss");
         enemy.Damage.Breakup(7, "observed damage");
         memory.Observe(Faction.Blue, enemy, recoveredTrack, 7);
+        Check(!memory.Get(Faction.Blue, enemy)!.State!.Destroyed,"Reusing a sample cannot expose later destruction");
+        world.Sensors.Update(world.Ships,7,force:true);
+        memory.Observe(Faction.Blue,enemy,world.Sensors.Track(Faction.Blue,enemy),7);
         Check(memory.Get(Faction.Blue, enemy)!.State!.Destroyed, "New identified observation updates damage state");
         memory.Observe(Faction.Blue, enemy, unknown, 8);
         Check(memory.Get(Faction.Blue, enemy)!.State!.Destroyed, "Weak contact retains previously identified status instead of inventing new information");

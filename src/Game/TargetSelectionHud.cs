@@ -82,7 +82,7 @@ public partial class Hud
         SelectionMarkerPosition = p;
         _markerLabels.ProtectSymbol(p, radius);
         double range = (target.Position - Game.Controlled!.SimPosition).Length();
-        string label = $"선택 · {target.Name}  {FormatDistance(range)} · {target.SensorStatus}";
+        string label = Game.HudDetails||Game.SelectedSmallContact is not null ? $"선택 · {target.Name}  {FormatDistance(range)} · {target.SensorStatus}" : "선택";
         if (SelectionOffscreen) label += behind ? " · 후방" : " · 화면 밖";
         _markerLabels.Add(("selection", target.Key), p, new Vector2(radius + 8, -radius - 6), label, color, 120, 14);
     }

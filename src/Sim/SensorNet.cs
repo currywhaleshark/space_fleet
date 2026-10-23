@@ -30,6 +30,14 @@ public readonly record struct SensorTrack(TrackLevel Level, float TrackSnr, floa
     double Range, float ErrorMeters, Vec3d EstimatedPosition, Vector3 Offset = default)
 {
     public SensorObservation? Observation { get; init; }
+    public double SampleTime { get; init; }
+    public Vec3d ObservationOrigin { get; init; }
+    public ulong ExternalVisible { get; init; }
+    public ulong ExternalDestroyed { get; init; }
+    public ExternalObservation? ExternalObservation { get; init; }
+    public bool PartVisible(int index)=>ExternalObservation?.Visible(index)??(ExternalVisible&(1UL<<index))!=0;
+    public bool PartDestroyed(int index)=>ExternalObservation?.Destroyed(index)??(ExternalDestroyed&(1UL<<index))!=0;
+    public int KnownExternalLosses=>ExternalObservation?.KnownLosses??System.Numerics.BitOperations.PopCount(ExternalDestroyed);
     public MeritSource? CreditSource { get; init; }
     public bool ObservedDestroyed { get; init; }
     public bool ObservedDisabled { get; init; }
@@ -196,9 +204,13 @@ public sealed partial class SensorNet
             float error = probeData.ErrorScale * (float)(bestRange * PositionErrorPerRange / Math.Sqrt(Math.Max(bestTrack, 0.25f)));
             uint seed = Hash(side.ToString()) ^ Hash(target.Callsign);
             Vector3 offset = (FireControl.SmoothNoise(seed, time, OffsetDriftRate) * error).ToVector3();
+            Vec3d observationOrigin=bestObserver?.Position??probeData.Source?.Position??Vec3d.Zero;
+            var external=level>=TrackLevel.Identified&&(bestObserver is not null||probeData.Source is not null)
+                ?ExternalTargets.Capture(target,observationOrigin):null;
             _tracks[(side, target)] = level == TrackLevel.None ? SensorTrack.Unknown
                 : new SensorTrack(level, bestTrack, bestDetect, bestJam, bestRange, error, target.Position + offset, offset)
                 {
+                    SampleTime=time,ObservationOrigin=observationOrigin,ExternalObservation=external,
                     CreditSource=creditSource is {} provenance?provenance with{Level=level,TrackSnr=bestTrack,DetectSnr=bestDetect}:null,
                     ObservedDestroyed = target.Damage.Destroyed, ObservedDisabled = target.Damage.Disabled,
                     ObservedShieldFraction = target.Damage.ShieldCapacity > 0 ? target.Damage.Shield / target.Damage.ShieldCapacity : 0,

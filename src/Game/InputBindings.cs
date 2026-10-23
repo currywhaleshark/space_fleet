@@ -34,6 +34,13 @@ internal static class InputBindings
             if (!result.ContainsKey(action)) throw new InvalidDataException("알 수 없는 조작: "+action);
             result[action]=(Key)value;
         }
+        // A newly added action must not invalidate an older player's custom I binding.
+        if(!data.ContainsKey(InputSetup.HudDetails))
+        {
+            var used=result.Where(p=>p.Key!=InputSetup.HudDetails).Select(p=>p.Value).ToHashSet();
+            var available=Enum.GetValues<Key>().Where(k=>k>=Key.A&&k<=Key.Z||k>=Key.F1&&k<=Key.F12);
+            result[InputSetup.HudDetails]=new[]{Key.I,Key.U,Key.O,Key.P}.Concat(available).Concat(Enum.GetValues<Key>().Where(k=>k is not (Key.None or Key.Escape or Key.Alt or Key.Home))).First(k=>!used.Contains(k));
+        }
         if (Validate(result) is { } error) throw new InvalidDataException(error);
         return result;
     }
@@ -87,7 +94,7 @@ internal static class InputBindings
         InputSetup.RollLeft=>"좌 롤",InputSetup.RollRight=>"우 롤",InputSetup.Boost=>"부스트",InputSetup.FlightAssist=>"비행보조",InputSetup.AssistStyle=>"비행보조 방식",
         InputSetup.SelectMainGun=>"주포 선택",InputSetup.SelectMissile=>"미사일 선택",InputSetup.SelectAntimatter=>"어뢰 선택",
         "tactical_1"=>"전술 슬롯 1","tactical_2"=>"전술 슬롯 2","tactical_3"=>"전술 슬롯 3","tactical_4"=>"전술 슬롯 4",
-        InputSetup.PowerMenu=>"전력 라디얼",InputSetup.GunneryMenu=>"사격 라디얼",InputSetup.SquadMenu=>"편대 라디얼",InputSetup.DroneMenu=>"드론 라디얼",InputSetup.DamageControlMenu=>"응급복구 라디얼",
+        InputSetup.HudDetails=>"HUD 상세 펼침",InputSetup.PowerMenu=>"전력 라디얼",InputSetup.GunneryMenu=>"사격 라디얼",InputSetup.SquadMenu=>"편대 라디얼",InputSetup.DroneMenu=>"드론 라디얼",InputSetup.DamageControlMenu=>"응급복구 라디얼",
         InputSetup.InspectTarget=>"표적 지정",InputSetup.FireAssist=>"사격보조 / 교리",InputSetup.AimPart=>"조준 부위 변경",InputSetup.Decoys=>"디코이",InputSetup.JettisonAntimatter=>"반물질탄 비상 투기",
         InputSetup.WorldMap=>"전체 지도",InputSetup.RadarNear=>"레이더 축소",InputSetup.RadarFar=>"레이더 확대",InputSetup.TeamRoster=>"양팀 편성",InputSetup.ToggleHelp=>"도움말",InputSetup.ToggleMute=>"효과음 켜기 / 끄기",
         InputSetup.SpectatePrevious=>"이전 함선 관전",InputSetup.SpectateNext=>"다음 함선 관전",InputSetup.ReleaseMouse=>"메뉴 / 커서 해제",

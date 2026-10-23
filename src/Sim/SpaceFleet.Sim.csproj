@@ -18,6 +18,7 @@
     <EmbeddedResource Include="../../data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />
     <EmbeddedResource Include="../../data/tree/*.json" LogicalName="SpaceFleet.data.tree.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="../../data/targeting/*" LogicalName="SpaceFleet.data.targeting.%(Filename)%(Extension)" />
   </ItemGroup>
   <Target Name="HideSimulationBuildArtifacts" BeforeTargets="BeforeBuild">
     <MakeDir Directories="$(BaseOutputPath);$(BaseIntermediateOutputPath)" />

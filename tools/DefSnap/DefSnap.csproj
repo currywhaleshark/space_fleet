@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <Root Condition="'$(Root)' == ''">$(MSBuildProjectDirectory)/../..</Root>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -14,6 +15,7 @@
     <Compile Include="$(Root)/src/Sim/*.cs" Link="Sim/%(Filename)%(Extension)" />
     <Compile Include="$(Root)/src/Shared/*.cs" Link="Shared/%(Filename)%(Extension)" />
     <Compile Include="$(Root)/src/Game/HangarProfile.cs" Link="Game/HangarProfile.cs" />
+    <Compile Include="$(Root)/src/Game/TacticalLoadouts.cs" Link="Game/TacticalLoadouts.cs" />
     <Compile Include="$(Root)/src/Game/ResearchProgress.cs" Link="Game/ResearchProgress.cs" />
     <EmbeddedResource Include="$(Root)/data/ships/*.json" LogicalName="SpaceFleet.data.ships.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/parts/*.json" LogicalName="SpaceFleet.data.parts.%(Filename)%(Extension)" />
@@ -21,5 +23,6 @@
     <EmbeddedResource Include="$(Root)/data/weapons/*.json" LogicalName="SpaceFleet.data.weapons.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/variants/*.json" LogicalName="SpaceFleet.data.variants.%(Filename)%(Extension)" />
     <EmbeddedResource Include="$(Root)/data/tree/*.json" LogicalName="SpaceFleet.data.tree.%(Filename)%(Extension)" />
+    <EmbeddedResource Include="$(Root)/data/targeting/*" LogicalName="SpaceFleet.data.targeting.%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

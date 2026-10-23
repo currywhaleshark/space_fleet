@@ -41,7 +41,7 @@ public partial class HudDetailsChecks : Node
                 var hud=game.GetNode<Hud>("HudLayer/Hud");
                 var target=game.Views.First(v=>v.Body.Callsign=="BB-X1");
                 game.SelectionHudFixture(target,TrackLevel.Locked,game.Camera.Position+game.Camera.AimForward*6000);
-                CombatFeedbackChecks.Strike(game.World,me,target.Body,HitKind.Penetration,771);
+                CombatFeedbackChecks.Strike(game.World,target.Body,me,HitKind.Penetration,771);
                 if(game.Gunnery is {} order)order.Doctrine=FireDoctrine.Manual;
                 foreach(int percent in new[]{100,115,130})
                 {

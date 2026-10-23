@@ -8,6 +8,8 @@ static class SimChecks
 
     public static void Main(string[] args)
     {
+        if(args.Contains("--targeting-perf")){TargetingTrials.Run(args.Last());return;}
+        if(args.Contains("--external-targets")){ExternalTargetChecks.Run();return;}
         if(args.Contains("--tactical-trials")){TacticalTrials.Run();return;}
         if(args.Contains("--tactical-perf")){TacticalTrials.Performance();return;}
         if(args.Contains("--tactical-balance")){TacticalTrials.Balance();return;}

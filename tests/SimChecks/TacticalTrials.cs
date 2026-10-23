@@ -56,7 +56,7 @@ static class TacticalTrials
             }
         }
     }
-    private static MatchLineup Lineup(int count,bool tactical=true,bool support=false)
+    internal static MatchLineup Lineup(int count,bool tactical=true,bool support=false)
     {
         var entries=new List<MatchParticipant>();int perTeam=count==24?3:10;
         for(int team=0;team<2;team++)for(int i=0;i<perTeam;i++)
@@ -79,7 +79,7 @@ static class TacticalTrials
         if(entries.Sum(p=>p.ShipCount)!=count)throw new Exception("Wrong trial fleet size");
         return result;
     }
-    private static (string Hash,int Modules,int Uses,double Mean,double P99,double Max,double Bytes) Battle(BattleConfig config,int seconds=60,int warmup=0)
+    internal static (string Hash,int Modules,int Uses,double Mean,double P99,double Max,double Bytes) Battle(BattleConfig config,int seconds=60,int warmup=0)
     {
         var world=new SimWorld();BattleSetup.Spawn(world,config);
         for(int i=0;i<warmup*60;i++)world.Step();

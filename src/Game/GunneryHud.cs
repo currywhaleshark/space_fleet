@@ -79,7 +79,7 @@ public partial class Hud
         for(int i=0;i<battery.Length;i++)
         {
             RailgunState mount=battery[i];
-            string state=MountStatus(mount,controlled.Body.Power);
+            string state=ReadTurret(Game,controlled.Body,mount).State;
             CenteredLabel(new(x+6+cell*(i%columns+.5f),panel.Position.Y+111+(i/columns)*Mathf.Ceil(18*HudSettings.TextScale)),$"{i+1} {state}",12,
                 mount.Output<=.01f||!mount.HasAmmunition?Hostile:state is "준비" or "조사"?Good:Motion);
         }

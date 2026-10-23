@@ -26,7 +26,8 @@ public partial class Hud
     private void DrawTargetPanel(Vector2 screen)
     {
         DrawnDamageNotices = 0;
-        if (Game.InspectTarget is not ShipView target || Game.Controlled is not ShipView me)
+        if ((Game.SelectedFriendly??Game.InspectTarget) is not ShipView target || Game.Controlled is not ShipView me
+            ||target.Body.Faction!=me.Body.Faction)
             return;
         if (Game.ContactOf(target) is { SignalLost: true } lost)
         { DrawLostTargetPanel(screen, lost, me); return; }

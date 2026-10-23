@@ -19,6 +19,10 @@ public partial class TacticalGameChecks : Node
     {
         InputSetup.Register();InputBindings.Load(true);
         Check(InputBindings.Text(InputSetup.DroneMenu)=="K"&&InputBindings.Text(InputSetup.DamageControlMenu)=="L","New radial defaults");
+        var legacy=InputBindings.Current().Where(k=>k.Key!=InputSetup.HudDetails).ToDictionary(k=>k.Key,k=>(long)k.Value);
+        legacy[InputSetup.DroneMenu]=(long)Key.I;
+        var migrated=InputBindings.Parse(System.Text.Json.JsonSerializer.Serialize(legacy));
+        Check(migrated[InputSetup.DroneMenu]==Key.I&&migrated[InputSetup.HudDetails]!=Key.I,"Adding details key preserves existing custom I binding");
         var draft=InputBindings.Current();draft[InputSetup.DroneMenu]=Key.P;
         Check(InputBindings.Validate(draft) is null,"Free key can bind");draft[InputSetup.DamageControlMenu]=Key.P;
         Check(InputBindings.Validate(draft)?.Contains("중복")==true,"Conflicts explained");draft[InputSetup.DamageControlMenu]=Key.L;

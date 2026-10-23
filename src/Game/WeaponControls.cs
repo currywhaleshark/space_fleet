@@ -60,7 +60,7 @@ public partial class ScaleTest
     private void FireSelectedMainBattery()
     {
         if(Controlled?.Body is not { } ship || FireTarget?.Body is not { } target) return;
-        bool fired=World.TryAutoFire(ship,target,AimModule?.Definition.Center,SimWorld.GunneryFlightLimit(ship),out var status);
+        bool fired=World.TryAutoFire(ship,target,AimLocalPoint,SimWorld.GunneryFlightLimit(ship),out var status);
         if(fired) Notify("주포 발사",false);
         else Notify(GunneryLabels.Status(status),true);
     }

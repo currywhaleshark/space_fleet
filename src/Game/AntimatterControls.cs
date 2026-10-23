@@ -13,7 +13,7 @@ public partial class ScaleTest
         {
             if (!AntimatterSelected || Controlled?.Body is not { } ship || ship.Definition.Antimatter is not { } am
                 || FireTarget is not { } target || TrackOf(target) is not { Level: >= TrackLevel.Locked } track) return null;
-            Vector3 direction=SimWorld.AntimatterLaunchDirection(ship,target.Body,track,AimModule?.Definition.Center,out double flight);
+            Vector3 direction=SimWorld.AntimatterLaunchDirection(ship,target.Body,track,AimLocalPoint,out double flight);
             Vec3d start=ship.Position+Vec3d.From(ship.Orientation*am.Flight.LaunchPoint);
             double range=(track.EstimatedPosition-start).Length();
             return new(flight>0,"AM 선행",direction,start+Vec3d.From(direction)*range,flight,track.ErrorMeters,range);
@@ -30,7 +30,7 @@ public partial class ScaleTest
         { bool began=am.BeginArming(); Notify(began ? "AM 발사 준비" : am.Status+(am.Warning ? " · 격리 손상, 투기 권고" : ""),!began); return; }
         if (InspectTarget is not { } target || target.Body.Faction==player.Faction)
         { Notify($"AM 표적 없음 · {InputBindings.Text(InputSetup.InspectTarget)}로 적 선택",true); return; }
-        var attempt=World.LaunchAntimatter(player,target.Body,AimModule?.Definition.Center);
+        var attempt=World.LaunchAntimatter(player,target.Body,AimLocalPoint);
         Notify(attempt.Reason,!attempt.Fired);
     }
 
@@ -53,15 +53,13 @@ public partial class Hud
         var am=ship.Ordnance.Antimatter;
         if(am.Definition is not { } def) return;
         float width=294+Mathf.Round((HudSettings.TextScale-1)*150);
-        bool beside=screen.X>=1560;
-        if(beside)width=Mathf.Min(width,screen.X*.5f-490);
-        Vector2 start=beside ? new(screen.X*.5f+212,screen.Y-155) : new(screen.X*.5f-width*.5f,screen.Y-325);
-        if(!beside)start.Y=CombatHudLayout.For(screen,false,ship.Railguns.Length,HudSettings.TextScale).Selection.Position.Y-137;
-        if(Game.Camera.TelescopeHeld && !beside) start=new(16,screen.Y*.5f-40);
+        // Below the target viewport, clear of the reticle, bottom bar and expanded power panel.
+        Vector2 start=new(screen.X-width-16,Mathf.Max(320,TargetPreview.Position.Y+TargetPreview.Size.Y+12));
         // Stowed, healthy ordnance needs status, not firing instructions over the battlefield.
         // Any preparation, damage warning or jettison returns the complete warning/control panel.
         if(!Game.AntimatterSelected&&!am.Warning&&am.Mode==AntimatterMode.Safe&&Game.JettisonProgress<=0)
         {
+            if(!Game.HudDetails)return;
             start+=new Vector2(0,75); // Keep the panel's bottom edge, leaving the aiming area clear.
             AntimatterBounds=new(start,new Vector2(width,50));
             DrawRect(new(start,new Vector2(width,50)),PanelBack);

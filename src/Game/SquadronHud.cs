@@ -16,7 +16,7 @@ public partial class Hud
     {
         SquadronBounds=new();
         var squadrons = Game.World.Squadrons.Where(q => q.Faction == controlled.Body.Faction).ToList();
-        if(Game.LaunchConfig?.Match is not null)squadrons.RemoveAll(q=>q!=Game.OwnedSquadron);
+        if(Game.OwnedSquadron is not null)squadrons.RemoveAll(q=>q!=Game.OwnedSquadron);
         if (squadrons.Count == 0) return;
         float row = HudFont(13) + 29;
         float bottom = screen.Y - (Game.BattleMode ? 284 : 232);

@@ -1,0 +1,42 @@
+[
+  {
+    "ships": 24,
+    "preview": "off",
+    "samples": 10,
+    "fps_median": 27.75,
+    "fps_min": 24.0,
+    "fps_max": 35.4,
+    "preview_cpu_ms_mean": 0,
+    "hud_cpu_ms_mean": 5.7
+  },
+  {
+    "ships": 24,
+    "preview": "on",
+    "samples": 10,
+    "fps_median": 27.35,
+    "fps_min": 19.4,
+    "fps_max": 36.3,
+    "preview_cpu_ms_mean": 1.3,
+    "hud_cpu_ms_mean": 6.01
+  },
+  {
+    "ships": 80,
+    "preview": "off",
+    "samples": 9,
+    "fps_median": 4.4,
+    "fps_min": 3.0,
+    "fps_max": 4.9,
+    "preview_cpu_ms_mean": 0,
+    "hud_cpu_ms_mean": 11.911
+  },
+  {
+    "ships": 80,
+    "preview": "on",
+    "samples": 9,
+    "fps_median": 4.0,
+    "fps_min": 3.4,
+    "fps_max": 5.9,
+    "preview_cpu_ms_mean": 0.811,
+    "hud_cpu_ms_mean": 10.956
+  }
+]

@@ -27,6 +27,7 @@ public partial class Hud : Control
     private ShipView? _hoveredShip;
 
     public ScaleTest Game { get; set; } = null!;
+    internal TargetViewport TargetPreview {get;private set;}=null!;
     public List<(Rect2 Rect, ShipView View, ModuleState Module)> ModuleRegions { get; } = new();
     public List<(Vector2 Position, ShipView View)> BracketPositions { get; } = new();
 
@@ -35,6 +36,7 @@ public partial class Hud : Control
         _font = new SystemFont { FontNames = new[] { "Malgun Gothic", "Segoe UI" } };
         MouseFilter = MouseFilterEnum.Ignore;
         SetAnchorsPreset(LayoutPreset.FullRect);
+        TargetPreview=new TargetViewport{Game=Game};AddChild(TargetPreview);
     }
 
     public override void _Process(double delta)
@@ -73,7 +75,7 @@ public partial class Hud : Control
 
         UpdateEngagedLine(controlled);
         DrawBrackets(cam, controlled, size);
-        if (Game.ShowModules && Game.InspectTarget is ShipView target && Game.ContactOf(target)?.SignalLost != true)
+        if (Game.ShowModules && Game.InspectTarget is ShipView target && target.Body.Faction==controlled.Body.Faction)
             DrawModuleVolumes(cam, target);
 
         // 기수가 실제로 향하는 곳(먼 점을 투영해 시차를 줄인다)
@@ -96,16 +98,22 @@ public partial class Hud : Control
             DrawAntimatter(controlled.Body, size);
             DrawOrdnanceArcs(controlled, Game.Camera.AimScreenPosition());
         }
-        else DrawGunnery(cam, controlled, size);
+        else
+        {
+            DrawTurretAim(cam,controlled,size);
+            DrawLeadMarker(cam,size);DrawHitMarker(cam,controlled,size*.5f);
+        }
         DrawSmallTarget(cam);
-        DrawInstruments(controlled, size);
-        DrawWeaponSelection(controlled.Body, size);
-        DrawTactical(controlled.Body,size);
-        DrawOwnSystems(controlled, size);
-        DrawSquadrons(controlled, size);
-        DrawPowerPanel(controlled, size);
-        DrawDrones(cam, controlled, size);
-        DrawTargetPanel(size);
+        if(Game.HudDetails)
+        {
+            var detailScreen=size-new Vector2(0,100);
+            DrawInstruments(controlled,detailScreen);
+            if(Game.Scheme==ControlScheme.Helm)DrawGunnery(cam,controlled,detailScreen);
+            DrawOwnSystems(controlled,detailScreen);DrawSquadrons(controlled,detailScreen);
+            DrawPowerPanel(controlled,detailScreen);DrawDrones(cam,controlled,detailScreen);
+        }
+        DrawCompactHud(controlled,size);
+        if(Game.SelectedFriendly is not null)DrawTargetPanel(size);
         DrawShotFeedback(cam);
         DrawIncomingFeedback(size);
         DrawMerits(size);
@@ -490,6 +498,6 @@ public partial class Hud : Control
 
     // ── 도움말·디버그(F1) ───────────────────────────────────────
 
-    private static string FormatDistance(double meters) =>
+    internal static string FormatDistance(double meters) =>
         meters >= 1000 ? $"{meters / 1000:#,0.0} km" : $"{meters:0} m";
 }

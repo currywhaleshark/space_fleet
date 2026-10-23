@@ -1,6 +1,13 @@
 using System.Security.Cryptography;
 using System.Text;
 using SpaceFleet.Sim;
+if(args[0]=="--external-defs")
+{
+    Directory.CreateDirectory(args[1]);
+    foreach(var hull in FleetLoadouts.Hulls)
+        File.WriteAllText(Path.Combine(args[1],hull.Id+".json"),FleetLoadouts.ResolveFit(FleetLoadouts.Empty(hull.Id)).DefinitionJson);
+    return;
+}
 // Definition snapshot: stock, every catalog component, and fully researched fits of every playable hull.
 var lines = new List<string>();
 string H(string s) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(s)))[..16];

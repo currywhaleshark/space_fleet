@@ -102,10 +102,10 @@ public sealed partial class SimWorld
         if (localAim is Vector3 invalid && !invalid.IsFinite()) return new(false, "조준점 오류");
         SensorTrack track = Sensors.Track(shooter.Faction, target);
         if (track.Level < TrackLevel.Contact) return new(false, "표적 미탐지");
-        if (localAim is not null && track.Level < TrackLevel.Identified) return new(false, "취약부 식별 필요");
+        if(localAim is {} requested)localAim=ExternalTargets.ResolvePoint(shooter,target,track,Time,requested);
         MissileDefinition def = am.Flight;
         Vec3d start = shooter.Position + Vec3d.From(shooter.Orientation * def.LaunchPoint);
-        Vec3d aim = track.EstimatedPosition + Vec3d.From(target.Orientation * (localAim ?? Vector3.Zero));
+        Vec3d aim = track.EstimatedPosition + Vec3d.From(track.ObservedOrientation * (localAim ?? Vector3.Zero));
         double range = (aim - start).Length();
         // One initial lead solution. There is no fleet-network homing after separation.
         Vector3 direction = AntimatterLaunchDirection(shooter,target,track,localAim,out double t);

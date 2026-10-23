@@ -36,6 +36,7 @@ public sealed partial class SimWorld
     internal static Vector3 AntimatterLaunchDirection(ShipBody shooter, ShipBody target, SensorTrack track,
         Vector3? localAim, out double flight)
     {
+        if(localAim is {} requested)localAim=ExternalTargets.ResolvePoint(shooter,target,track,shooter.SimTime,requested);
         var def=shooter.Definition.Antimatter!.Flight;
         Vec3d start=shooter.Position+Vec3d.From(shooter.Orientation*def.LaunchPoint);
         Vector3 relative=(track.EstimatedPosition-start).ToVector3()+track.ObservedOrientation*(localAim??Vector3.Zero);

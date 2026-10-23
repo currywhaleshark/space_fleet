@@ -164,18 +164,10 @@ public sealed partial class SimWorld
         desired += Avoidance(ship, desired);
         if (ship.Definition.Design == DesignFamily.Mars && brain.Target is { } precisionTarget)
             brain.AimModule = MarsAimModule(brain, precisionTarget);
-        else if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is { Damage.Shield: <= 1 } exposed
-            && Sensors.Track(ship.Faction, exposed).Level >= TrackLevel.Identified)
+        else if (!brain.Profile.AttackRuns && Doctrine is not null && brain.Target is {} exposed
+            && Sensors.Track(ship.Faction, exposed) is { Level: TrackLevel.Locked, ObservedShieldFraction: <= .001f })
             brain.AimModule = PickGunneryModule(ship, exposed, brain.PrecisionOrder);
-        if (!brain.Profile.AttackRuns && brain.AimModule is { } aimModule && brain.Target is { } aimTarget)
-        {
-            // A hull lock does not resolve every small external module. Both designs
-            // fall back to the hull when the observed firing uncertainty is too large.
-            var aimTrack = Sensors.Track(ship.Faction, aimTarget);
-            var solution = FireControl.Solve(ship, aimTarget, Time, track: aimTrack, localAim: aimModule.Definition.Center);
-            var size = aimModule.Definition.HalfSize;
-            if (!solution.Valid || solution.ErrorMeters > Math.Min(size.X, Math.Min(size.Y, size.Z))) brain.AimModule = null;
-        }
+        // ExternalTargets applies the same observed exposure/precision gate as player selection.
         float limit = maxSpeed * (brain.WantBoost ? ship.Class.BoostMultiplier : 1f);
         brain.DesiredVelocity = desired.LimitLength(limit);
         if (ship.Power.HeatFraction > 0.85f) brain.WantBoost = false;
@@ -240,7 +232,7 @@ public sealed partial class SimWorld
         bool capital = target.Class.Kind != HullKind.Interceptor && track.Level >= TrackLevel.Identified;
         Vector3 sector = track.ObservedOrientation * InfiltrationSector;
         brain.AimModule = ship.Definition.Design == DesignFamily.Mars ? MarsAimModule(brain, target) : capital
-            ? target.Damage.Modules.FirstOrDefault(m => m.Definition.Kind == ModuleKind.Thruster)
+            ? ExternalTargets.Pick(ship,target,track,Time,AimSubsystem.Engines,obstacles:Obstacles)
             : null;
 
         if (Time < brain.BreakUntil)

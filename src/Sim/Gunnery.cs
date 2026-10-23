@@ -14,6 +14,8 @@ public sealed class GunneryOrder
     public bool PlayerSmallTarget { get; set; }
     public ShipBody? Target { get; set; }
     public string? PriorityModuleId { get; set; }
+    public string? PriorityExternalId { get; set; }
+    public Vector3? EngagedLocalAim { get; internal set; }
     public AimSubsystem AimPart { get; set; }
     public ShipBody? Engaged { get; internal set; }
     public ModuleState? EngagedModule { get; internal set; }
@@ -139,17 +141,15 @@ public sealed partial class SimWorld
 
     private ModuleState? PickGunneryModule(ShipBody ship, ShipBody target, GunneryOrder order)
     {
-        ModuleState? priority = target.Damage.Modules.FirstOrDefault(m => m.Definition.Id == order.PriorityModuleId && !m.Destroyed);
+        var track=Sensors.Track(ship.Faction,target);
+        ModuleState? priority = order.PriorityModuleId is {} id?ExternalTargets.Pick(ship,target,track,Time,AimSubsystem.Center,id,Obstacles):null;
         if (priority is not null) return priority;
-        ModuleState? selected = Subsystems.Pick(target, order.AimPart, ship.Position);
+        ModuleState? selected = ExternalTargets.Pick(ship,target,track,Time,order.AimPart,obstacles:Obstacles);
         if (selected is not null || order.Doctrine != FireDoctrine.Disable) return selected;
         // 무력화 자동 선택: 가까운 기동·무장·센서·방열판. 관통 여부는 착탄 때 판정한다.
-        return target.Damage.Modules.Where(m => !m.Destroyed && (DisableParts.Any(part => Subsystems.Matches(m.Definition, part))
-                || m.Definition.Kind == ModuleKind.ManeuverThruster))
-            .OrderBy(m => target.Damage.PropulsionFraction <= 0.01f && m.Definition.Kind == ModuleKind.ManeuverThruster ? 0 : 1)
-            .ThenBy(m => (Subsystems.WorldPosition(target, m.Definition) - ship.Position).LengthSquared())
-            .FirstOrDefault()
-            ?? Subsystems.Pick(target, AimSubsystem.Engines, ship.Position);
+        foreach(var part in DisableParts)
+            if(ExternalTargets.Pick(ship,target,track,Time,part,obstacles:Obstacles) is {} module)return module;
+        return null;
     }
 
     private void StepGunnery()
@@ -157,7 +157,7 @@ public sealed partial class SimWorld
         foreach (ShipBody ship in _ships)
         {
             if (ship.Gunnery is not GunneryOrder order || BrainOf(ship) is { Enabled: true }) continue;
-            order.Engaged = null; order.EngagedModule = null; order.Solution = null;
+            order.Engaged = null; order.EngagedModule = null; order.EngagedLocalAim=null; order.Solution = null;
             if (order.PlayerSmallTarget) { order.Status = GunneryStatus.Manual; continue; }
             if (order.Doctrine is FireDoctrine.Hold or FireDoctrine.Manual)
             { order.Status = order.Doctrine == FireDoctrine.Hold ? GunneryStatus.Hold : GunneryStatus.Manual; continue; }
@@ -171,12 +171,14 @@ public sealed partial class SimWorld
                 ? chosen : order.Doctrine == FireDoctrine.Focus ? null : PickGunneryTarget(ship);
             if (target is null) { order.Status = defending?defenseStatus:GunneryStatus.NoTarget; continue; }
             order.Engaged = target;
-            order.EngagedModule = PickGunneryModule(ship, target, order);
-            TryAutoFire(ship, target, order.EngagedModule?.Definition.Center, GunneryFlightLimit(ship),
+            order.EngagedModule = order.PriorityExternalId is null?PickGunneryModule(ship, target, order):null;
+            order.EngagedLocalAim=order.PriorityExternalId is {} externalId&&ExternalTargets.TryAim(ship,target,Sensors.Track(ship.Faction,target),Time,externalId,out var externalAim,obstacles:Obstacles)
+                ?externalAim.Point:order.EngagedModule?.Definition.Center;
+            TryAutoFire(ship, target, order.EngagedLocalAim, GunneryFlightLimit(ship),
                 out var status, out var solution);
             order.Status = status; order.Solution = solution;
             if (solution is null && Sensors.Track(ship.Faction, target).Level >= TrackLevel.Locked)
-                order.Solution = FireControl.Solve(ship, target, Time, track: Sensors.Track(ship.Faction, target), localAim: order.EngagedModule?.Definition.Center);
+                order.Solution = FireControl.Solve(ship, target, Time, track: Sensors.Track(ship.Faction, target), localAim: order.EngagedLocalAim);
         }
     }
 }

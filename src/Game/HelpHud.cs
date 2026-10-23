@@ -41,7 +41,8 @@ internal static class ShipHelp
         {
             Add("F · N", "전력 배분 · 편대 명령 (유지 → 방향 선택 → 놓기)");
             Add("4 · 5 · 6 · 7", "전술 모듈 즉시 사용 · 장착한 활성 능력만 할당");
-            Add("Y · C", "주포 조준 부위 변경 · 디코이 사출");
+            Add("Y · C", "노출된 외부 부위 순환 · 디코이 사출");
+            rows.Add(new(InputBindings.Text(InputSetup.HudDetails),"자함 계통 · 전력 · 편대"+(ship.Definition.DefenseDrones is null?"":" · 드론")+" · 사격 상세 펼침"));
             if (ship.Definition.DefenseDrones is not null) Add("K", "드론의 전후좌우 방어구역 지정");
             if (ship.Definition.ReconProbes is not null)
             {

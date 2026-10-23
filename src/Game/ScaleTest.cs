@@ -179,6 +179,7 @@ public partial class ScaleTest : Node3D
         if (_mapReleaseGuard && e is InputEventMouseButton or InputEventMouseMotion)
         { GetViewport().SetInputAsHandled(); return; }
         if (HandleRadialInput(e)) return;
+        if(e.IsActionPressed(InputSetup.HudDetails)){ToggleHudDetails();GetViewport().SetInputAsHandled();return;}
         for(int slot=0;slot<InputSetup.TacticalSlots.Length;slot++)
             if(e.IsActionPressed(InputSetup.TacticalSlots[slot]))
             {
@@ -518,7 +519,7 @@ public partial class ScaleTest : Node3D
             SetupMissileDrill(shot.DrillDistance);
         SetBattleSpeed(shot.StartTimeScale);
         if (shot.Aim is string part && System.Enum.TryParse(part, ignoreCase: true, out AimSubsystem parsed))
-            while (AimPart != parsed) CycleAimPart();
+            AimPart=parsed;
         if (shot.Order is "attack" or "hold" or "escort")
             IssueOrder(shot.Order switch { "attack" => OrderKind.Attack, "hold" => OrderKind.Hold, _ => OrderKind.Escort });
         else if (Enum.TryParse<SquadCommand>(shot.Order, true, out var command)) IssueSquadCommand(command);

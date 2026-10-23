@@ -177,10 +177,12 @@ public partial class WeaponInputChecks : Node
         Check(ship.Railguns.Sum(g=>g.Rounds)==rounds,"Holding a selection click never becomes a fire command");
         Input.ActionRelease(InputSetup.Fire); Mouse(game,MouseButton.Left,false);
         // Module and friendly selection are not firing gestures either.
-        var module=old.Body.Damage.Modules.First(m=>!m.Destroyed);
+        var external=ExternalTargets.For(old.Body.Definition)!.Parts.First(p=>p.ModuleId is not null
+            &&ExternalTargets.TryAim(ship,old.Body,game.TrackOf(old),game.World.Time,p.Id,out _));
+        var module=old.Body.Damage.Module(external.ModuleId!);
         hud.ModuleRegions.Add((new Rect2(780,430,40,40),old,module));
         Input.ActionPress(InputSetup.Fire);Mouse(game,MouseButton.Left);Tick(game,30);
-        Check(game.Gunnery.PriorityModuleId==module.Definition.Id&&ship.Railguns.Sum(g=>g.Rounds)==rounds,
+        Check(game.Gunnery.PriorityExternalId==external.Id&&ship.Railguns.Sum(g=>g.Rounds)==rounds,
             "Selecting a subsystem cannot discharge the main battery");
         Input.ActionRelease(InputSetup.Fire);Mouse(game,MouseButton.Left,false);hud.ModuleRegions.Clear();
         var ally=game.Views.First(v=>v.Body.Faction==ship.Faction&&v!=game.Controlled);

@@ -15,10 +15,8 @@ public sealed partial class SimWorld
         if (track.Level < TrackLevel.Locked) return null;
         ModuleKind kind = brain.Profile.AttackRuns ? ModuleKind.Thruster : ((int)(Time / 30) % 3) switch
         { 0 => ModuleKind.Sensor, 1 => ModuleKind.Cooling, _ => ModuleKind.Gun };
-        var module = target.Definition.Modules.Where(m => m.Kind == kind)
-            .OrderBy(m => (track.EstimatedPosition + Vec3d.From(track.ObservedOrientation * m.Center) - brain.Ship.Position).LengthSquared())
-            .ThenBy(m => m.Id, StringComparer.Ordinal).FirstOrDefault();
-        return module is null ? null : target.Damage.Modules.First(m => m.Definition.Id == module.Id);
+        return ExternalTargets.Pick(brain.Ship,target,track,Time,kind switch
+        {ModuleKind.Thruster=>AimSubsystem.Engines,ModuleKind.Sensor=>AimSubsystem.Sensors,ModuleKind.Cooling=>AimSubsystem.Radiators,_=>AimSubsystem.Guns},obstacles:Obstacles);
     }
 
     private void CommandMars(Faction faction, List<(ShipBody Ship, SensorTrack Track)> known, Dictionary<ShipBody, int> assigned)

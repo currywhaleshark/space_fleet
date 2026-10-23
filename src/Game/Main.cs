@@ -45,6 +45,8 @@ public partial class Main : Node3D
     public override void _Ready()
     {
         _args = BattleArgs.Parse(OS.GetCmdlineUserArgs());
+        if(_args.ContainsKey("targeting-render-test")){AddChild(new TargetingRenderChecks());return;}
+        if(_args.ContainsKey("targeting-v4-test")){AddChild(new TargetingHudChecks());return;}
         if(_args.ContainsKey("tactical-input-test")){AddChild(new TacticalGameChecks());return;}
         if(_args.ContainsKey("merit-test")){AddChild(new MeritGameChecks());return;}
         if(_args.ContainsKey("hud-details-test")){AddChild(new HudDetailsChecks());return;}

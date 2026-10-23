@@ -29,12 +29,13 @@ public partial class ScaleTest
     {
         bool changed=InspectTarget!=view || SelectedSmallContact is not null || Gunnery is { } g && g.Target!=view.Body;
         ClearSmallSelection(); _explicitShipTarget = true;
-        InspectTarget = view;
-        if(changed) GuardTargetChange();
+        InspectTarget = view;SelectedFriendly=null;
+        if(changed){GuardTargetChange();SelectedExternalId=null;AimPart=AimSubsystem.Center;}
         if (Gunnery is not { } order) return;
         if (changed)
         {
             order.PriorityModuleId=null;
+            order.PriorityExternalId=null;order.EngagedLocalAim=null;
             order.Engaged=null; order.EngagedModule=null; order.Solution=null;
             order.Status=GunneryStatus.NoTarget;
         }
@@ -52,10 +53,13 @@ public partial class ScaleTest
     {
         if (Gunnery is not { } order || Controlled is not { } me) return false;
         foreach (var (rect, view, module) in _hud.ModuleRegions.AsEnumerable().Reverse())
-            if (rect.HasPoint(pointer) && view.Body.Faction != me.Body.Faction && !module.Destroyed)
+            if (rect.HasPoint(pointer) && view.Body.Faction != me.Body.Faction)
             {
+                var part=ExternalTargets.For(view.Body.Definition)?.Parts.FirstOrDefault(p=>p.ModuleId==module.Definition.Id
+                    &&ExternalTargets.TryAim(me.Body,view.Body,TrackOf(view),World.Time,p.Id,out _,obstacles:World.Obstacles));
+                if(part is null)return false;
                 SelectEnemy(view);
-                order.PriorityModuleId = module.Definition.Id;
+                SelectExternalTarget(part.Id);
                 if (order.Doctrine == FireDoctrine.Free) order.Doctrine = FireDoctrine.Focus;
                 order.EngagedModule=null; order.Solution=null;
                 return true;
@@ -74,5 +78,6 @@ public partial class ScaleTest
         next.Gunnery = SchemeFor(next) == ControlScheme.Helm ? new GunneryOrder() : null;
         ClearSmallSelection(); _explicitShipTarget = false; _selectionPointer = null;
         SelectedFriendly = null;
+        SelectedExternalId=null;AimPart=AimSubsystem.Center;
     }
 }

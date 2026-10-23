@@ -29,12 +29,12 @@ public static class FireControl
         // No track is the local-only path used by isolated physics tools. Runtime callers supply the faction track.
         Vec3d position = track?.EstimatedPosition ?? target.Position;
         Vector3 velocity = track.HasValue ? Vector3.Zero : target.Velocity;
-        Quaternion orientation = track.HasValue ? Quaternion.Identity : target.Orientation;
+        Quaternion orientation = track?.ObservedOrientation ?? target.Orientation;
         float observationQuality = shooter.Damage.SensorFraction * shooter.Power.SensorEffect;
         bool linked = false;
         double range = (position - muzzle).Length();
         FiringSolution Invalid(string reason) => new(false, reason, Vector3.Zero, position, 0, 0, range);
-        if (target == shooter || target.Damage.Destroyed) return Invalid("유효 표적 없음");
+        if (target == shooter || (track?.ObservedDestroyed ?? target.Damage.Destroyed)) return Invalid("유효 표적 없음");
         if (shooter.Damage.Destroyed || shooter.Damage.GenerationFraction <= .001f || shooter.Power.SensorEffect <= .001f)
             return Invalid("사격통제 전원 상실");
         RailgunDefinition gun = weapon.Definition;
@@ -78,6 +78,8 @@ public static class FireControl
         float error = (gun.SensorErrorMeters + gun.SensorErrorPerKm * (float)(range / 1000) + predictionError) / quality * errorScale;
         float velocityError = gun.VelocityError / quality * errorScale;
         uint seed = Hash(shooter.Callsign) ^ Hash(target.Callsign);
+        if(track is {} observed&&localAim is {} requested)
+            localAim=ExternalTargets.ResolvePoint(shooter,target,observed,time,requested,weapon);
         Vec3d aimBase = localAim is Vector3 local ? position + Vec3d.From(orientation * local) : position;
         Vec3d observedPosition = aimBase + SmoothNoise(seed, time) * error;
         Vector3 observedVelocity = velocity + SmoothNoise(seed ^ 0x9e3779b9, time).ToVector3() * velocityError;

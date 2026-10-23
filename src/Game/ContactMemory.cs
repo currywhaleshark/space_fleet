@@ -12,6 +12,12 @@ public sealed record ContactState(string Callsign, string ClassName, HullKind Ki
     float Shield, float Propulsion, float Maneuver, float Weapons, float Sensors, float Cooling, int LostModules, bool Damaged)
 {
     public string Status => Destroyed ? "격침" : Disabled ? "무력화" : Damaged ? "손상" : "활동 중";
+    public static ContactState FromObservation(ShipBody ship,SensorTrack t)
+    {
+        int lost=t.KnownExternalLosses;
+        return new(ship.Callsign,ship.Class.DisplayName,ship.Class.Kind,t.ObservedDestroyed,t.ObservedDisabled,
+            t.ObservedShieldFraction,float.NaN,float.NaN,float.NaN,float.NaN,float.NaN,lost,lost>0||t.ObservedShieldFraction<.999f);
+    }
     public static ContactState Capture(ShipBody ship)
     {
         ShipDamage d = ship.Damage;
@@ -53,8 +59,8 @@ public sealed class ContactMemory
             return;
         }
         bool identified = ship.Faction == observer || track.Level >= TrackLevel.Identified;
-        _contacts[key] = new(ship.Position + track.Offset, track, time,
-            identified ? ContactState.Capture(ship) : previous?.State,
+        _contacts[key] = new(ship.Faction==observer?ship.Position:track.EstimatedPosition, track, time,
+            identified ? ship.Faction==observer?ContactState.Capture(ship):ContactState.FromObservation(ship,track) : previous?.State,
             identified ? time : previous?.LastIdentifiedAt ?? 0);
     }
 }
