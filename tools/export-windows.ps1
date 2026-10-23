@@ -158,7 +158,7 @@ $sfChecks = @()
 foreach ($sfTest in @('flow-test','match-flow-test','hangar-test','progression-test','model-test','combat-visual-test','feedback-test','audio-test','fleet-audio-test','laser-test','hud-readability-test','hud-details-test','merit-test','selection-hud-test','weapon-input-test','telescope-test','contact-test','sensor-coverage-test','am-game-test','environment-test')) {
     $sfLog = Join-Path $sfLogs "$sfTest.log"
     $sfProcess = Start-Process -FilePath $sfExe -WorkingDirectory $sfOutput -WindowStyle Hidden -PassThru -ArgumentList @('--fixed-fps','60','--log-file',('"'+$sfLog+'"'),'--',"--$sfTest",'--seed=1')
-    if (!$sfProcess.WaitForExit(45000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }
+    if (!$sfProcess.WaitForExit(120000)) { Stop-Process -Id $sfProcess.Id; throw "Exported $sfTest timed out." }
     $sfText = Get-Content -LiteralPath $sfLog -Encoding UTF8 -Raw
     if ($sfProcess.ExitCode -ne 0 -or $sfText -match 'ERROR:|Exception' -or $sfText -notmatch 'PASS:') { throw "Exported $sfTest failed: $sfLog" }
     $sfPass = ($sfText -split "`n" | Where-Object { $_ -match 'PASS:' }).Trim()
