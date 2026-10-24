@@ -1,0 +1,55 @@
+using System.Collections.Concurrent;
+using SpaceFleet.Sim;
+
+// Real AI tier matches: for every air-defence cruiser, which enemy missiles came within 12 km and
+// which ones it destroyed (by weapon). Read-only observation of the normal simulation.
+var leader = args.Length > 0 ? args[0] : "earth_air_defense_cruiser_t4";
+int seeds = args.Length > 1 ? int.Parse(args[1]) : 4;
+double limit = args.Length > 2 ? double.Parse(args[2]) : 360;
+var owned = FleetLoadouts.Hulls.Select(h => h.Id).ToHashSet();
+var none = new Dictionary<string, IReadOnlySet<string>>();
+var lines = new ConcurrentBag<string>();
+Parallel.For(1, seeds + 1, new ParallelOptions { MaxDegreeOfParallelism = 4 }, seed =>
+{
+    var world = new SimWorld();
+    var config = new BattleConfig { Seed = seed, Match = Matchmaking.CreateTiered(seed, FleetLoadouts.Default(leader), owned, none) };
+    BattleSetup.Spawn(world, config);
+    var aa = world.Ships.Where(s => s.Definition.Id.Contains("air_defense")).ToArray();
+    var near = aa.ToDictionary(s => s, _ => new HashSet<Missile>());
+    var kills = aa.ToDictionary(s => s, _ => new Dictionary<BattleWeapon, int>());
+    var allKills = new Dictionary<Faction, int> { [Faction.Blue] = 0, [Faction.Red] = 0 };
+    var launched = new Dictionary<Faction, HashSet<Missile>> { [Faction.Blue] = new(), [Faction.Red] = new() };
+    long last = 0;
+    while (world.Time < limit && world.Rules!.Outcome is null)
+    {
+        world.Step();
+        foreach (var m in world.Missiles)
+        {
+            if (m.Assault is not null) continue;
+            launched[m.Faction].Add(m);
+            foreach (var s in aa)
+                if (!s.Damage.Destroyed && s.Faction != m.Faction && (m.Position - s.Position).Length() <= 12_000) near[s].Add(m);
+        }
+        foreach (var e in world.Merits.Events)
+        {
+            if (e.Id <= last) continue; last = e.Id;
+            if (e.Kind != MeritKind.MissileIntercept) continue;
+            allKills[e.Actor.Faction]++;
+            if (kills.TryGetValue(e.Actor, out var k)) k[e.Weapon] = k.GetValueOrDefault(e.Weapon) + 1;
+        }
+    }
+    world.Log!.Finish();
+    var side = new[] { Faction.Blue, Faction.Red }.Select(f => world.Log.Side(f)).ToArray();
+    int aaKills = aa.Sum(s => kills[s].Values.Sum()), idle = aa.Count(s => kills[s].Values.Sum() == 0);
+    string lost(Faction f) => $"{world.Ships.Count(s => s.Faction == f && s.Damage.Destroyed)}";
+    Console.WriteLine($"SUMMARY seed={seed} time={world.Time:0} winner={world.Rules!.Outcome?.Winner.ToString() ?? "-"} missilesB={launched[Faction.Blue].Count} missilesR={launched[Faction.Red].Count} interceptsB={allKills[Faction.Blue]} interceptsR={allKills[Faction.Red]} missileHitsB={side[0].MissileHits} missileHitsR={side[1].MissileHits} aaShips={aa.Length} aaKills={aaKills} aaIdle={idle} lostB={lost(Faction.Blue)} lostR={lost(Faction.Red)}");
+    var head = $"seed {seed} t={world.Time:0}s outcome={world.Rules!.Outcome?.ToString() ?? "-"} ships={world.Ships.Count} missiles blue={launched[Faction.Blue].Count} red={launched[Faction.Red].Count} intercepts(all ships) blue={allKills[Faction.Blue]} red={allKills[Faction.Red]}";
+    var body = aa.Select(s =>
+    {
+        var log = world.Log.Ship(s); var k = kills[s];
+        return $"  {s.Faction,-4} {s.Callsign,-8} {s.Definition.Id,-30} near12km={near[s].Count,3} shotDown={k.Values.Sum(),3} [{string.Join(" ", k.Select(p => $"{p.Key}:{p.Value}"))}] logIntercepts={log.MissilesIntercepted} laserPulses={log.LaserPulses} destroyed={s.Damage.Destroyed} at={log.DestroyedAt?.ToString("0") ?? "-"}";
+    });
+    lines.Add(head + "\n" + string.Join("\n", body));
+    Console.WriteLine($"done seed {seed}");
+});
+foreach (var l in lines.OrderBy(l => l)) Console.WriteLine(l);

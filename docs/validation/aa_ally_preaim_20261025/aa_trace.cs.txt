@@ -1,0 +1,60 @@
+using System.Reflection;
+using Godot;
+using SpaceFleet.Sim;
+
+// Timeline of one AI AA cruiser's defence-battery funnel in a real tier match. Observation only.
+int seed = args.Length > 0 ? int.Parse(args[0]) : 1;
+string who = args.Length > 1 ? args[1] : "B09-2";
+string leader = args.Length > 2 ? args[2] : "earth_air_defense_cruiser_t4";
+var world = new SimWorld();
+var config = new BattleConfig { Seed = seed, Match = Matchmaking.CreateTiered(seed, FleetLoadouts.Default(leader), FleetLoadouts.Hulls.Select(h => h.Id).ToHashSet(), new Dictionary<string, IReadOnlySet<string>>()) };
+BattleSetup.Spawn(world, config);
+var ship = world.Ships.Single(s => s.Callsign == who);
+var anchorOf = typeof(SimWorld).GetMethod("CruiserAnchor", BindingFlags.NonPublic | BindingFlags.Instance)!;
+var threatens = typeof(SimWorld).GetMethod("Threatens", BindingFlags.NonPublic | BindingFlags.Instance)!;
+Console.WriteLine($"{who}: {ship.Definition.Id} squad={ship.Squadron?.Name} role={ship.Squadron?.Role} leader={ship.Squadron?.Leader?.Callsign} guns={ship.Railguns.Length} lasers={ship.Railguns.Count(g => g.IsLaser)} reach={ship.Railguns.Max(g => SimWorld.SmallTargetRange(g)):0}m");
+Console.WriteLine("squad members: " + string.Join(", ", ship.Squadron!.Members.Select(m => $"{m.Callsign}:{m.Definition.Id}")));
+foreach (var who2 in new[] { who, "B01-1" })
+{
+    var s2 = world.Ships.Single(x => x.Callsign == who2);
+    var bat = s2.Definition.Battery;
+    Console.WriteLine($"{who2} {s2.Definition.Id} parts=[{string.Join(",", bat?.SocketWeapons?.Select(w => w.Id) ?? Array.Empty<string>())}] power=[{string.Join(",", bat?.PowerParts ?? Array.Empty<string>())}] supplyRatio={bat?.SupplyRatio:0.00}");
+    foreach (var g in s2.Railguns) Console.WriteLine($"   gun {g.Definition.ModuleId} laser={g.IsLaser} weapon={g.Definition.ModuleId} yawRate={g.Mount?.YawRate} elevRate={g.Mount?.ElevationRate} tol={g.Mount?.ToleranceDegrees} yawLim={g.Mount?.YawDegrees} elev={g.Mount?.MinElevation}..{g.Mount?.MaxElevation} ventral={g.Mount?.Ventral} output={g.Output:0.00}");
+}
+string lastKey = ""; double next = 0;
+while (world.Time < 360 && world.Rules!.Outcome is null)
+{
+    world.Step();
+    if (world.Time < next) continue; next += .5;
+    var anchor = (ShipBody)anchorOf.Invoke(world, new object[] { ship })!;
+    float reach = ship.Railguns.Max(g => SimWorld.SmallTargetRange(g));
+    int fresh = 0, inReach = 0, threat = 0, locked = 0;
+    foreach (var c in world.Sensors.SmallContacts(ship.Faction))
+    {
+        if (c.Kind != SmallContactKind.Missile || !c.Fresh(world.Time) || c.Level < TrackLevel.Identified) continue;
+        fresh++;
+        if ((c.Predict(world.Time) - ship.Position).Length() > reach) continue;
+        inReach++;
+        object[] a1 = { c, anchor, 0.0 }, a2 = { c, ship, 0.0 };
+        if ((bool)threatens.Invoke(world, a1)! || (bool)threatens.Invoke(world, a2)!) { threat++; if (c.Locked(world.Time)) locked++; }
+    }
+    var enemy = world.Missiles.Where(m => m.Faction != ship.Faction && m.Assault is null).Select(m => (m, d: (m.Position - ship.Position).Length())).OrderBy(x => x.d).FirstOrDefault();
+    var brain = world.BrainOf(ship);
+    string guns = string.Join("/", ship.Railguns.Select(g => $"{(g.Output <= .01f ? "noPwr" : g.Laser?.AutoCooling == true ? "cool" : g.DefenseStatus.ToString())}{(g.DefenseTarget is null ? "" : "*")}"));
+    string key = $"active={Squadron.Active(ship)} act={brain?.Activity} anchor={anchor.Callsign} fresh={fresh} reach={inReach} threat={threat} lock={locked} guns={guns}";
+    bool missileNear = enemy.m is not null && enemy.d < 15000;
+    if (key != lastKey || missileNear)
+        Console.WriteLine($"t={world.Time,6:0.0} dAnchor={(anchor.Position - ship.Position).Length() / 1000,5:0.0}km nearestEnemyMissile={(enemy.m is null ? "-" : $"{enemy.d / 1000:0.0}km->{(enemy.m.SeekerTarget as ShipBody ?? enemy.m.Target)?.Callsign}")} heat={ship.Power.HeatFraction:0.00} {key}");
+    lastKey = key;
+    if (world.Time >= 87 && world.Time <= 98)
+        Console.WriteLine($"      counter: canIntercept={ship.Definition.Missiles?.CanInterceptMissiles} range={ship.Definition.Missiles?.InterceptRangeMeters} ready={ship.Ordnance.MissileReady} stock={ship.Ordnance.Missiles} smallTarget={brain?.SmallTarget?.GetType().Name ?? "-"}");
+    if (world.Time >= 87 && world.Time <= 98)
+        foreach (var g in ship.Railguns)
+        {
+            var contact = world.Sensors.SmallContacts(ship.Faction).FirstOrDefault(c => g.DefenseTarget is not null && ReferenceEquals(c.Target, g.DefenseTarget));
+            if (g.DefenseTarget is null || !world.SmallTargetAim(ship, contact, out var dir, out var at, out var why, g, requireLock: false)) { Console.WriteLine($"      {g.Definition.ModuleId}: no target"); continue; }
+            Console.WriteLine($"      {g.Definition.ModuleId}: err={Mathf.RadToDeg(g.Direction.AngleTo(dir)):0.000}deg yaw={Mathf.RadToDeg(g.Yaw):0.0} elev={Mathf.RadToDeg(g.Elevation):0.0} range={(at - g.MuzzlePosition).Length() / 1000:0.0}km");
+        }
+}
+Console.WriteLine($"missiles launched={world.Log!.Ship(ship).Missiles}");
+Console.WriteLine($"end t={world.Time:0} pulses={world.Log!.Ship(ship).LaserPulses} intercepts={world.Log.Ship(ship).MissilesIntercepted} destroyed={ship.Damage.Destroyed}");

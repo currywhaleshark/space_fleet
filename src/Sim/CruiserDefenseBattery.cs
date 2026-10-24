@@ -9,6 +9,29 @@ public sealed partial class SimWorld
     // Reused across ships: one observed candidate set, no live enemy pose/health reads.
     private readonly List<(SmallContact Contact,double Eta)> _batteryThreats=new();
     private readonly Dictionary<object,int> _batteryAssignments=new();
+    // Missiles closing on another ally rank after threats to this ship/anchor (seconds added to ETA).
+    private const double AllyThreatDelay=8;
+    // Idle mounts slew toward a missile due within this time, so the first shot does not wait on a 90° swing.
+    private const double PreAimSeconds=12;
+    // Per side and tick: earliest arrival of each observed missile on any active ally (+∞ when none).
+    private readonly List<double>[] _allyThreatEta={new(),new()};
+    private readonly long[] _allyThreatTick={-1,-1};
+
+    /// <summary>Observed missiles only (this tick's `_aiThreats`); own-side ship positions are known.</summary>
+    private List<double> AllyThreatEtas(Faction faction)
+    {
+        int side=(int)faction;var etas=_allyThreatEta[side];
+        if(_allyThreatTick[side]==Tick)return etas;
+        _allyThreatTick[side]=Tick;etas.Clear();
+        foreach(var threat in _aiThreats[side])
+        {
+            double best=double.PositiveInfinity;
+            foreach(var ally in _ships)
+                if(ally.Faction==faction&&Squadron.Active(ally)&&Threatens(threat.Contact,ally,out double eta)&&eta<best)best=eta;
+            etas.Add(best);
+        }
+        return etas;
+    }
 
     /// <summary>An overcharged rail (heat ∝ overcharge²) holds a salvo that would tip the ship into overheat (§12).</summary>
     private static bool AutoOverchargeHold(ShipBody ship,RailgunState gun)=>gun.Laser is null&&gun.Overcharge>1
@@ -31,12 +54,16 @@ public sealed partial class SimWorld
         var anchor=CruiserAnchor(ship);
         _batteryThreats.Clear();_batteryAssignments.Clear();
         float reach=0;foreach(var mount in ship.Railguns)reach=Math.Max(reach,SmallTargetRange(mount));
-        foreach(var contact in Sensors.SmallContacts(ship.Faction))
+        // Own ship/anchor first; a missile closing on any other active ally within reach is still engaged.
+        var threats=_aiThreats[(int)ship.Faction];var allyEtas=AllyThreatEtas(ship.Faction);
+        for(int i=0;i<threats.Count;i++)
         {
-            if(contact.Kind!=SmallContactKind.Missile||!contact.Fresh(Time)||contact.Level<TrackLevel.Identified
-                ||(contact.Predict(Time)-ship.Position).LengthSquared()>(double)reach*reach)continue;
+            var contact=threats[i].Contact;
+            if(contact.Level<TrackLevel.Identified||(threats[i].Position-ship.Position).LengthSquared()>(double)reach*reach)continue;
             if(Threatens(contact,anchor,out double eta)||Threatens(contact,ship,out eta))
                 _batteryThreats.Add((contact,eta));
+            else if(allyEtas[i]<double.PositiveInfinity)
+                _batteryThreats.Add((contact,allyEtas[i]+AllyThreatDelay));
         }
         bool reserved=false,firing=false;int statusRank=-1;
         foreach(var gun in ship.Railguns)
@@ -58,7 +85,11 @@ public sealed partial class SimWorld
                     ||FriendlyInLine(ship,gun.MuzzlePosition,aim,(float)(at-gun.MuzzlePosition).Length(),includeShields:gun.IsLaser))continue;
                 score=rank;best=contact;direction=aim;point=at;
             }
-            if(best is not { } chosen)continue;
+            if(best is not { } chosen)
+            {
+                if(PreAim(ship,gun,threats,reach)){gun.DefenseTick=Tick;gun.DefenseStatus=GunneryStatus.Traversing;reserved=true;}
+                continue;
+            }
             gun.DefenseTarget=chosen.Target;gun.DefenseTick=Tick;reserved=true;
             _batteryAssignments[chosen.Target]=_batteryAssignments.GetValueOrDefault(chosen.Target)+1;
             gun.Aim(direction);
@@ -75,5 +106,27 @@ public sealed partial class SimWorld
         }
         if(firing)status=GunneryStatus.Firing;
         return reserved;
+    }
+
+    /// <summary>
+    /// Points an otherwise idle mount at the soonest observed missile closing on this ship, before it is a
+    /// threat or locked. The mount is held for defense (ship gunnery skips it) but never fires from here.
+    /// </summary>
+    private bool PreAim(ShipBody ship,RailgunState gun,List<ObservedThreat> threats,float reach)
+    {
+        double soonest=PreAimSeconds;Vector3 aim=default;bool found=false;
+        foreach(var threat in threats)
+        {
+            var contact=threat.Contact;
+            Vec3d r=threat.Position-ship.Position;Vec3d v=Vec3d.From(contact.Velocity-ship.Velocity);
+            if(r.LengthSquared()>(double)reach*reach||v.LengthSquared()<1)continue;
+            double arrival=-r.Dot(v)/v.LengthSquared();
+            if(arrival<=0||arrival>=soonest||(r+v*arrival).Length()>reach)continue;
+            if(!SmallTargetAim(ship,contact,out var direction,out _,out _,gun,requireLock:false)
+                ||RailLineLocal(ship,gun,ship.Orientation.Inverse()*direction)==FireFailure.Arc)continue;
+            soonest=arrival;aim=direction;found=true;
+        }
+        if(found)gun.Aim(aim);
+        return found;
     }
 }

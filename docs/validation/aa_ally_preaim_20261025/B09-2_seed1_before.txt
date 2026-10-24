@@ -1,0 +1,371 @@
+B09-2: earth_air_defense_cruiser_t4 squad=B09 편대 role=BattleGroup leader=B09-1 guns=2 lasers=2 reach=40000m
+squad members: B09-1:battleship_t5, B09-2:earth_air_defense_cruiser_t4, B09-3:earth_gun_cruiser
+B09-2 earth_air_defense_cruiser_t4 parts=[] power=[] supplyRatio=1.00
+   gun gun-1 laser=True weapon=gun-1 yawRate=48 elevRate=36 tol=0.03 yawLim=165 elev=-5..85 ventral=False output=1.00
+   gun gun-2 laser=True weapon=gun-2 yawRate=48 elevRate=36 tol=0.03 yawLim=165 elev=-5..85 ventral=True output=1.00
+B01-1 earth_air_defense_cruiser_t4 parts=[] power=[] supplyRatio=1.00
+   gun gun-1 laser=True weapon=gun-1 yawRate=48 elevRate=36 tol=0.03 yawLim=165 elev=-5..85 ventral=False output=1.00
+   gun gun-2 laser=True weapon=gun-2 yawRate=48 elevRate=36 tol=0.03 yawLim=165 elev=-5..85 ventral=True output=1.00
+t=   0.0 dAnchor=  1.6km nearestEnemyMissile=- heat=0.00 active=True act= anchor=B09-1 fresh=0 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=   0.5 dAnchor=  1.6km nearestEnemyMissile=- heat=0.00 active=True act=호위 anchor=B09-1 fresh=0 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  63.0 dAnchor=  2.8km nearestEnemyMissile=111.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=2 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  63.5 dAnchor=  2.8km nearestEnemyMissile=110.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  64.0 dAnchor=  2.8km nearestEnemyMissile=109.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=7 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  64.5 dAnchor=  2.8km nearestEnemyMissile=107.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=9 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  65.0 dAnchor=  2.8km nearestEnemyMissile=106.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=11 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  65.5 dAnchor=  2.8km nearestEnemyMissile=105.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=12 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  66.0 dAnchor=  2.8km nearestEnemyMissile=103.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=14 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  66.5 dAnchor=  2.8km nearestEnemyMissile=102.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=15 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  67.0 dAnchor=  2.8km nearestEnemyMissile=100.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=17 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  67.5 dAnchor=  2.8km nearestEnemyMissile=98.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=18 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  70.5 dAnchor=  2.8km nearestEnemyMissile=87.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=19 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  71.0 dAnchor=  2.8km nearestEnemyMissile=85.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=20 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  71.5 dAnchor=  2.8km nearestEnemyMissile=82.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=21 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  72.0 dAnchor=  2.8km nearestEnemyMissile=80.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=22 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  72.5 dAnchor=  2.8km nearestEnemyMissile=78.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=24 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  73.0 dAnchor=  2.8km nearestEnemyMissile=75.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=25 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  73.5 dAnchor=  2.8km nearestEnemyMissile=73.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=0 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  80.0 dAnchor=  2.8km nearestEnemyMissile=37.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=1 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  80.5 dAnchor=  2.8km nearestEnemyMissile=34.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=3 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  81.0 dAnchor=  2.8km nearestEnemyMissile=32.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=6 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  81.5 dAnchor=  2.8km nearestEnemyMissile=29.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=6 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  82.5 dAnchor=  2.8km nearestEnemyMissile=25.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=25 reach=6 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  83.5 dAnchor=  2.8km nearestEnemyMissile=23.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=24 reach=7 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  84.0 dAnchor=  2.8km nearestEnemyMissile=23.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=23 reach=9 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  85.0 dAnchor=  2.8km nearestEnemyMissile=23.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=24 reach=9 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  85.5 dAnchor=  2.8km nearestEnemyMissile=23.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=9 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  86.0 dAnchor=  2.8km nearestEnemyMissile=24.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=28 reach=9 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  86.5 dAnchor=  2.8km nearestEnemyMissile=26.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=8 threat=0 lock=0 guns=NoTarget/NoTarget
+t=  87.0 dAnchor=  2.8km nearestEnemyMissile=28.1km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=28 reach=7 threat=0 lock=0 guns=NoTarget/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  87.5 dAnchor=  2.8km nearestEnemyMissile=30.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=31 reach=6 threat=0 lock=0 guns=NoTarget/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  88.0 dAnchor=  2.8km nearestEnemyMissile=32.5km->B02-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=31 reach=6 threat=1 lock=1 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=56.527deg yaw=5.7 elev=6.4 range=39.7km
+      gun-2: no target
+t=  88.5 dAnchor=  2.8km nearestEnemyMissile=33.9km->B02-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=33 reach=7 threat=2 lock=2 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=49.962deg yaw=21.3 elev=18.1 range=36.3km
+      gun-2: no target
+t=  89.0 dAnchor=  2.8km nearestEnemyMissile=32.9km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=33 reach=8 threat=3 lock=3 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=46.131deg yaw=36.9 elev=19.4 range=32.9km
+      gun-2: no target
+t=  89.5 dAnchor=  2.8km nearestEnemyMissile=29.4km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=34 reach=6 threat=4 lock=4 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=42.823deg yaw=52.5 elev=19.2 range=29.4km
+      gun-2: no target
+t=  90.0 dAnchor=  2.8km nearestEnemyMissile=25.9km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=34 reach=5 threat=5 lock=5 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=39.623deg yaw=68.1 elev=18.5 range=25.8km
+      gun-2: no target
+t=  90.5 dAnchor=  2.8km nearestEnemyMissile=22.2km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=6 threat=6 lock=6 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=36.516deg yaw=83.7 elev=17.2 range=22.2km
+      gun-2: no target
+t=  91.0 dAnchor=  2.8km nearestEnemyMissile=18.5km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=7 threat=7 lock=7 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=30.445deg yaw=102.3 elev=14.8 range=18.5km
+      gun-2: no target
+t=  91.5 dAnchor=  2.8km nearestEnemyMissile=14.7km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=44 reach=8 threat=8 lock=8 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=18.668deg yaw=126.3 elev=12.4 range=14.7km
+      gun-2: no target
+t=  92.0 dAnchor=  2.8km nearestEnemyMissile=10.9km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=8 threat=8 lock=8 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=5.811deg yaw=150.3 elev=9.0 range=10.9km
+      gun-2: no target
+t=  92.5 dAnchor=  2.8km nearestEnemyMissile=7.0km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=48 reach=8 threat=8 lock=8 guns=Traversing*/NoTarget
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: err=0.083deg yaw=161.9 elev=7.6 range=15.0km
+      gun-2: no target
+t=  93.0 dAnchor=  2.8km nearestEnemyMissile=3.2km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=8 threat=8 lock=8 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=Missile
+      gun-1: no target
+      gun-2: no target
+t=  93.5 dAnchor=  2.8km nearestEnemyMissile=1.9km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=8 threat=8 lock=8 guns=Traversing/Traversing*
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: err=62.622deg yaw=9.0 elev=11.3 range=1.8km
+t=  94.0 dAnchor=  2.8km nearestEnemyMissile=3.3km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=8 threat=6 lock=6 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  94.5 dAnchor=  2.8km nearestEnemyMissile=1.7km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=57 reach=8 threat=6 lock=6 guns=Traversing/Traversing*
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: err=26.384deg yaw=40.2 elev=32.2 range=1.7km
+t=  95.0 dAnchor=  2.8km nearestEnemyMissile=3.4km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=8 threat=4 lock=4 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=Missile
+      gun-1: no target
+      gun-2: no target
+t=  95.5 dAnchor=  2.8km nearestEnemyMissile=1.4km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=8 threat=4 lock=4 guns=Traversing/Traversing*
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: err=4.232deg yaw=60.6 elev=29.8 range=1.5km
+t=  96.0 dAnchor=  2.8km nearestEnemyMissile=3.6km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=8 threat=2 lock=2 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  96.5 dAnchor=  2.8km nearestEnemyMissile=1.5km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=8 threat=2 lock=2 guns=Traversing/Traversing*
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: err=19.427deg yaw=65.0 elev=29.3 range=1.6km
+t=  97.0 dAnchor=  2.8km nearestEnemyMissile=4.8km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  97.5 dAnchor=  2.8km nearestEnemyMissile=8.6km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  98.0 dAnchor=  2.8km nearestEnemyMissile=12.5km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+      counter: canIntercept=True range=16000 ready=True stock=20 smallTarget=-
+      gun-1: no target
+      gun-2: no target
+t=  98.5 dAnchor=  2.8km nearestEnemyMissile=16.4km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=6 threat=0 lock=0 guns=Traversing/Traversing
+t=  99.5 dAnchor=  2.8km nearestEnemyMissile=24.1km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 100.5 dAnchor=  2.8km nearestEnemyMissile=31.9km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 101.0 dAnchor=  2.8km nearestEnemyMissile=35.8km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=58 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 101.5 dAnchor=  2.8km nearestEnemyMissile=39.7km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=58 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 102.0 dAnchor=  2.8km nearestEnemyMissile=43.6km->B09-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 103.0 dAnchor=  2.8km nearestEnemyMissile=45.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 103.5 dAnchor=  2.8km nearestEnemyMissile=42.1km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 104.0 dAnchor=  2.8km nearestEnemyMissile=38.9km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 104.5 dAnchor=  2.8km nearestEnemyMissile=35.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 105.0 dAnchor=  2.8km nearestEnemyMissile=32.4km->B08-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 105.5 dAnchor=  2.8km nearestEnemyMissile=29.2km->B08-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 106.0 dAnchor=  2.8km nearestEnemyMissile=26.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 107.0 dAnchor=  2.8km nearestEnemyMissile=21.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 107.5 dAnchor=  2.8km nearestEnemyMissile=19.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 108.0 dAnchor=  2.8km nearestEnemyMissile=18.5km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+t= 108.5 dAnchor=  2.8km nearestEnemyMissile=18.0km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=45 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+t= 109.0 dAnchor=  2.8km nearestEnemyMissile=18.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=43 reach=6 threat=0 lock=0 guns=Traversing/Traversing
+t= 110.0 dAnchor=  2.8km nearestEnemyMissile=21.1km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=41 reach=9 threat=0 lock=0 guns=Traversing/Traversing
+t= 110.5 dAnchor=  2.8km nearestEnemyMissile=23.0km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=9 threat=0 lock=0 guns=Traversing/Traversing
+t= 111.0 dAnchor=  2.8km nearestEnemyMissile=20.9km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=39 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 111.5 dAnchor=  2.8km nearestEnemyMissile=19.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=13 threat=0 lock=0 guns=Traversing/Traversing
+t= 112.0 dAnchor=  2.8km nearestEnemyMissile=18.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 112.5 dAnchor=  2.8km nearestEnemyMissile=18.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=43 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 113.0 dAnchor=  2.8km nearestEnemyMissile=19.2km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=43 reach=9 threat=0 lock=0 guns=Traversing/Traversing
+t= 113.5 dAnchor=  2.8km nearestEnemyMissile=19.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=45 reach=9 threat=0 lock=0 guns=Traversing/Traversing
+t= 114.0 dAnchor=  2.8km nearestEnemyMissile=18.0km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=46 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 115.0 dAnchor=  2.8km nearestEnemyMissile=17.9km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 115.5 dAnchor=  2.8km nearestEnemyMissile=19.1km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=11 threat=0 lock=0 guns=Traversing/Traversing
+t= 116.0 dAnchor=  2.8km nearestEnemyMissile=20.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=11 threat=0 lock=0 guns=Traversing/Traversing
+t= 116.5 dAnchor=  2.8km nearestEnemyMissile=22.2km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=13 threat=0 lock=0 guns=Traversing/Traversing
+t= 117.0 dAnchor=  2.8km nearestEnemyMissile=20.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 117.5 dAnchor=  2.8km nearestEnemyMissile=19.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=57 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 118.0 dAnchor=  2.8km nearestEnemyMissile=17.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 118.5 dAnchor=  2.8km nearestEnemyMissile=17.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=60 reach=12 threat=0 lock=0 guns=Traversing/Traversing
+t= 119.0 dAnchor=  2.8km nearestEnemyMissile=18.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=11 threat=0 lock=0 guns=Traversing/Traversing
+t= 119.5 dAnchor=  2.8km nearestEnemyMissile=19.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 120.0 dAnchor=  2.8km nearestEnemyMissile=18.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=63 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 120.5 dAnchor=  2.8km nearestEnemyMissile=17.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=11 threat=0 lock=0 guns=Traversing/Traversing
+t= 121.0 dAnchor=  2.8km nearestEnemyMissile=17.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=63 reach=10 threat=0 lock=0 guns=Traversing/Traversing
+t= 121.5 dAnchor=  2.8km nearestEnemyMissile=17.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=63 reach=8 threat=0 lock=0 guns=Traversing/Traversing
+t= 122.5 dAnchor=  2.8km nearestEnemyMissile=19.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=63 reach=6 threat=0 lock=0 guns=Traversing/Traversing
+t= 123.5 dAnchor=  2.8km nearestEnemyMissile=24.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 125.0 dAnchor=  2.8km nearestEnemyMissile=28.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 126.0 dAnchor=  2.8km nearestEnemyMissile=31.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=63 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 126.5 dAnchor=  2.8km nearestEnemyMissile=33.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=65 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 127.0 dAnchor=  2.8km nearestEnemyMissile=35.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 127.5 dAnchor=  2.8km nearestEnemyMissile=35.7km->B04-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 128.0 dAnchor=  2.8km nearestEnemyMissile=33.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 128.5 dAnchor=  2.8km nearestEnemyMissile=31.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 129.0 dAnchor=  2.8km nearestEnemyMissile=30.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=60 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 130.0 dAnchor=  2.8km nearestEnemyMissile=28.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 130.5 dAnchor=  2.8km nearestEnemyMissile=28.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 131.0 dAnchor=  2.8km nearestEnemyMissile=25.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 131.5 dAnchor=  2.8km nearestEnemyMissile=23.0km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 132.0 dAnchor=  2.8km nearestEnemyMissile=20.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 132.5 dAnchor=  2.8km nearestEnemyMissile=18.7km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 133.0 dAnchor=  2.8km nearestEnemyMissile=17.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 133.5 dAnchor=  2.8km nearestEnemyMissile=16.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 134.0 dAnchor=  2.8km nearestEnemyMissile=16.7km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 134.5 dAnchor=  2.8km nearestEnemyMissile=17.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 135.5 dAnchor=  2.8km nearestEnemyMissile=17.7km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=44 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 136.0 dAnchor=  2.8km nearestEnemyMissile=16.8km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=59 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 136.5 dAnchor=  2.8km nearestEnemyMissile=16.7km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 137.0 dAnchor=  2.8km nearestEnemyMissile=17.3km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 137.5 dAnchor=  2.8km nearestEnemyMissile=18.7km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 138.0 dAnchor=  2.8km nearestEnemyMissile=20.6km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 138.5 dAnchor=  2.8km nearestEnemyMissile=22.9km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 139.0 dAnchor=  2.8km nearestEnemyMissile=25.5km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=48 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 139.5 dAnchor=  2.8km nearestEnemyMissile=28.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 140.0 dAnchor=  2.8km nearestEnemyMissile=31.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 140.5 dAnchor=  2.8km nearestEnemyMissile=32.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 141.0 dAnchor=  2.8km nearestEnemyMissile=34.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=6 threat=0 lock=0 guns=Traversing/Traversing
+t= 141.5 dAnchor=  2.8km nearestEnemyMissile=32.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 142.0 dAnchor=  2.8km nearestEnemyMissile=31.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=6 threat=0 lock=0 guns=Traversing/Traversing
+t= 146.0 dAnchor=  2.8km nearestEnemyMissile=28.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 147.0 dAnchor=  2.8km nearestEnemyMissile=30.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 148.0 dAnchor=  2.8km nearestEnemyMissile=34.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 148.5 dAnchor=  2.7km nearestEnemyMissile=34.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 149.0 dAnchor=  2.7km nearestEnemyMissile=32.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 149.5 dAnchor=  2.7km nearestEnemyMissile=36.4km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 150.0 dAnchor=  2.7km nearestEnemyMissile=33.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=48 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 150.5 dAnchor=  2.7km nearestEnemyMissile=30.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 151.5 dAnchor=  2.8km nearestEnemyMissile=24.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 152.0 dAnchor=  2.8km nearestEnemyMissile=21.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 152.5 dAnchor=  2.8km nearestEnemyMissile=19.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=48 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 153.0 dAnchor=  2.8km nearestEnemyMissile=17.2km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=45 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 153.5 dAnchor=  2.8km nearestEnemyMissile=15.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=44 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 154.0 dAnchor=  2.8km nearestEnemyMissile=14.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=44 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 154.5 dAnchor=  2.8km nearestEnemyMissile=13.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=46 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 155.0 dAnchor=  2.8km nearestEnemyMissile=14.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=46 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 155.5 dAnchor=  2.8km nearestEnemyMissile=15.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 156.5 dAnchor=  2.8km nearestEnemyMissile=19.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 157.0 dAnchor=  2.8km nearestEnemyMissile=22.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 158.0 dAnchor=  2.8km nearestEnemyMissile=27.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 158.5 dAnchor=  2.9km nearestEnemyMissile=30.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 159.5 dAnchor=  2.9km nearestEnemyMissile=36.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 160.0 dAnchor=  2.9km nearestEnemyMissile=40.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=52 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 160.5 dAnchor=  2.9km nearestEnemyMissile=43.2km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 161.0 dAnchor=  3.0km nearestEnemyMissile=44.7km->B02-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=51 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 162.5 dAnchor=  3.0km nearestEnemyMissile=44.6km->B02-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 163.0 dAnchor=  3.0km nearestEnemyMissile=43.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 164.0 dAnchor=  3.0km nearestEnemyMissile=38.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=54 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 164.5 dAnchor=  3.0km nearestEnemyMissile=36.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 165.0 dAnchor=  3.0km nearestEnemyMissile=39.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=56 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 165.5 dAnchor=  3.0km nearestEnemyMissile=37.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 166.0 dAnchor=  3.0km nearestEnemyMissile=36.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=60 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 166.5 dAnchor=  3.0km nearestEnemyMissile=38.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=62 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 167.0 dAnchor=  3.0km nearestEnemyMissile=36.2km->B07-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=61 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 167.5 dAnchor=  2.9km nearestEnemyMissile=54.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 168.0 dAnchor=  2.9km nearestEnemyMissile=51.6km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 168.5 dAnchor=  2.9km nearestEnemyMissile=48.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=66 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 169.0 dAnchor=  2.9km nearestEnemyMissile=46.2km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=67 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 169.5 dAnchor=  2.9km nearestEnemyMissile=64.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=68 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 170.5 dAnchor=  2.9km nearestEnemyMissile=58.6km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=72 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 171.0 dAnchor=  2.9km nearestEnemyMissile=55.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=74 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 171.5 dAnchor=  2.9km nearestEnemyMissile=52.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=75 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 172.5 dAnchor=  2.9km nearestEnemyMissile=47.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=74 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 173.0 dAnchor=  2.9km nearestEnemyMissile=44.1km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=73 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 173.5 dAnchor=  2.9km nearestEnemyMissile=41.1km->B08-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=74 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 174.0 dAnchor=  2.9km nearestEnemyMissile=38.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=76 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 176.5 dAnchor=  2.9km nearestEnemyMissile=24.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=77 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 177.0 dAnchor=  2.9km nearestEnemyMissile=21.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=75 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 177.5 dAnchor=  2.9km nearestEnemyMissile=19.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=70 reach=5 threat=0 lock=0 guns=Traversing/Traversing
+t= 178.0 dAnchor=  2.9km nearestEnemyMissile=16.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=69 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 178.5 dAnchor=  2.9km nearestEnemyMissile=15.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=67 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 179.0 dAnchor=  2.9km nearestEnemyMissile=13.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=66 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 179.5 dAnchor=  2.9km nearestEnemyMissile=13.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=68 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 180.0 dAnchor=  2.9km nearestEnemyMissile=12.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=67 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 180.5 dAnchor=  2.9km nearestEnemyMissile=13.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=64 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 181.0 dAnchor=  2.9km nearestEnemyMissile=15.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=58 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 181.5 dAnchor=  2.9km nearestEnemyMissile=14.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=55 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 182.0 dAnchor=  2.9km nearestEnemyMissile=13.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=53 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 182.5 dAnchor=  2.9km nearestEnemyMissile=12.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=50 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 183.0 dAnchor=  2.9km nearestEnemyMissile=13.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 183.5 dAnchor=  2.9km nearestEnemyMissile=14.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=49 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 184.0 dAnchor=  2.9km nearestEnemyMissile=15.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=48 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 184.5 dAnchor=  2.9km nearestEnemyMissile=18.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=47 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 185.0 dAnchor=  2.9km nearestEnemyMissile=20.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=45 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 185.5 dAnchor=  2.9km nearestEnemyMissile=23.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 186.0 dAnchor=  2.9km nearestEnemyMissile=25.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 186.5 dAnchor=  2.9km nearestEnemyMissile=28.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 187.0 dAnchor=  2.8km nearestEnemyMissile=31.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 187.5 dAnchor=  2.8km nearestEnemyMissile=34.6km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=4 threat=0 lock=0 guns=Traversing/Traversing
+t= 188.0 dAnchor=  2.8km nearestEnemyMissile=34.1km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 188.5 dAnchor=  2.8km nearestEnemyMissile=32.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=39 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 189.5 dAnchor=  2.8km nearestEnemyMissile=30.4km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 190.0 dAnchor=  2.8km nearestEnemyMissile=29.9km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=36 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 190.5 dAnchor=  2.8km nearestEnemyMissile=29.9km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 191.0 dAnchor=  2.8km nearestEnemyMissile=30.3km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=35 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 191.5 dAnchor=  2.8km nearestEnemyMissile=31.1km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=35 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 193.0 dAnchor=  2.8km nearestEnemyMissile=32.7km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=33 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 194.0 dAnchor=  2.8km nearestEnemyMissile=33.9km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=34 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 194.5 dAnchor=  2.8km nearestEnemyMissile=35.0km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 195.0 dAnchor=  2.8km nearestEnemyMissile=36.4km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 196.5 dAnchor=  2.8km nearestEnemyMissile=42.2km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=39 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 197.0 dAnchor=  2.8km nearestEnemyMissile=44.6km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 197.5 dAnchor=  2.8km nearestEnemyMissile=45.3km->B07-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=44 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 198.0 dAnchor=  2.8km nearestEnemyMissile=42.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=43 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 198.5 dAnchor=  2.8km nearestEnemyMissile=39.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 199.0 dAnchor=  2.8km nearestEnemyMissile=36.6km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=41 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 199.5 dAnchor=  2.8km nearestEnemyMissile=33.8km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=42 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 201.5 dAnchor=  2.8km nearestEnemyMissile=22.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=39 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 202.0 dAnchor=  2.8km nearestEnemyMissile=19.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 203.0 dAnchor=  2.8km nearestEnemyMissile=16.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=37 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 203.5 dAnchor=  2.8km nearestEnemyMissile=15.0km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 204.0 dAnchor=  2.8km nearestEnemyMissile=14.7km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=38 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 204.5 dAnchor=  2.8km nearestEnemyMissile=15.2km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=35 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 205.0 dAnchor=  2.8km nearestEnemyMissile=16.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=32 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 205.5 dAnchor=  2.8km nearestEnemyMissile=18.2km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=29 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 207.0 dAnchor=  2.8km nearestEnemyMissile=17.5km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=28 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 207.5 dAnchor=  2.8km nearestEnemyMissile=18.3km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=29 reach=3 threat=0 lock=0 guns=Traversing/Traversing
+t= 208.5 dAnchor=  2.8km nearestEnemyMissile=21.6km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=2 threat=0 lock=0 guns=Traversing/Traversing
+t= 209.5 dAnchor=  2.8km nearestEnemyMissile=26.4km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=28 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 210.0 dAnchor=  2.8km nearestEnemyMissile=29.1km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 210.5 dAnchor=  2.8km nearestEnemyMissile=31.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 211.5 dAnchor=  2.8km nearestEnemyMissile=37.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=20 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 212.0 dAnchor=  2.8km nearestEnemyMissile=40.9km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=19 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 213.0 dAnchor=  2.8km nearestEnemyMissile=47.2km->B08-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=18 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 214.0 dAnchor=  2.8km nearestEnemyMissile=50.6km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=19 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 215.5 dAnchor=  2.8km nearestEnemyMissile=48.5km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=20 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 216.0 dAnchor=  2.8km nearestEnemyMissile=46.7km->B01-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=23 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 217.0 dAnchor=  2.8km nearestEnemyMissile=48.4km->B01-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=25 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 217.5 dAnchor=  2.8km nearestEnemyMissile=46.9km->B01-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=23 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 218.0 dAnchor=  2.8km nearestEnemyMissile=45.6km->B01-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 218.5 dAnchor=  2.8km nearestEnemyMissile=44.7km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 219.0 dAnchor=  2.8km nearestEnemyMissile=44.0km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=29 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 219.5 dAnchor=  2.8km nearestEnemyMissile=43.6km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=30 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 220.0 dAnchor=  2.8km nearestEnemyMissile=42.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=31 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 220.5 dAnchor=  2.8km nearestEnemyMissile=43.7km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=30 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 221.0 dAnchor=  2.8km nearestEnemyMissile=44.2km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=29 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 224.0 dAnchor=  2.8km nearestEnemyMissile=52.4km->B02-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=28 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 225.0 dAnchor=  2.8km nearestEnemyMissile=57.7km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=27 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 227.0 dAnchor=  2.8km nearestEnemyMissile=66.3km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=26 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 228.0 dAnchor=  2.8km nearestEnemyMissile=64.6km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=22 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 228.5 dAnchor=  2.8km nearestEnemyMissile=62.4km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=18 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 230.0 dAnchor=  2.8km nearestEnemyMissile=65.8km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=17 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 230.5 dAnchor=  2.8km nearestEnemyMissile=66.0km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=15 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 231.0 dAnchor=  2.8km nearestEnemyMissile=66.3km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=12 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 231.5 dAnchor=  2.8km nearestEnemyMissile=64.0km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=9 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 232.5 dAnchor=  2.8km nearestEnemyMissile=62.1km->B04-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=8 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 233.0 dAnchor=  2.8km nearestEnemyMissile=57.8km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=9 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 233.5 dAnchor=  2.8km nearestEnemyMissile=57.4km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=8 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 235.0 dAnchor=  2.8km nearestEnemyMissile=55.6km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=7 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 236.5 dAnchor=  2.8km nearestEnemyMissile=53.5km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 237.0 dAnchor=  2.8km nearestEnemyMissile=52.8km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=7 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 238.5 dAnchor=  2.8km nearestEnemyMissile=52.2km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 239.5 dAnchor=  2.8km nearestEnemyMissile=57.1km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=4 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 240.0 dAnchor=  2.8km nearestEnemyMissile=54.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 240.5 dAnchor=  2.8km nearestEnemyMissile=52.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 241.0 dAnchor=  2.8km nearestEnemyMissile=63.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=8 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 241.5 dAnchor=  2.8km nearestEnemyMissile=60.7km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=7 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 242.0 dAnchor=  2.8km nearestEnemyMissile=58.1km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=8 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 243.0 dAnchor=  2.8km nearestEnemyMissile=52.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=10 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 244.0 dAnchor=  2.8km nearestEnemyMissile=78.5km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=11 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 244.5 dAnchor=  2.8km nearestEnemyMissile=76.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=12 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 245.5 dAnchor=  2.8km nearestEnemyMissile=70.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=13 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 250.0 dAnchor=  2.9km nearestEnemyMissile=72.9km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=12 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 251.5 dAnchor=  2.9km nearestEnemyMissile=67.6km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=11 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 252.5 dAnchor=  2.9km nearestEnemyMissile=66.2km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=10 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 253.0 dAnchor=  2.9km nearestEnemyMissile=63.9km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=9 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 253.5 dAnchor=  2.9km nearestEnemyMissile=67.6km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=8 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 254.0 dAnchor=  2.9km nearestEnemyMissile=69.5km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=7 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 254.5 dAnchor=  2.9km nearestEnemyMissile=67.5km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 256.0 dAnchor=  2.9km nearestEnemyMissile=63.4km->B02-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 257.0 dAnchor=  2.9km nearestEnemyMissile=67.1km->B03-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=4 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 257.5 dAnchor=  2.9km nearestEnemyMissile=65.2km->B08-4 heat=0.00 active=True act=호위 anchor=B09-1 fresh=2 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 258.0 dAnchor=  2.9km nearestEnemyMissile=51.8km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 259.5 dAnchor=  2.9km nearestEnemyMissile=51.7km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 260.0 dAnchor=  2.8km nearestEnemyMissile=51.7km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 261.0 dAnchor=  2.8km nearestEnemyMissile=52.2km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=6 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 261.5 dAnchor=  2.8km nearestEnemyMissile=52.5km->B07-3 heat=0.00 active=True act=호위 anchor=B09-1 fresh=5 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 262.0 dAnchor=  2.8km nearestEnemyMissile=82.3km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=4 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 262.5 dAnchor=  2.8km nearestEnemyMissile=79.9km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=2 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 268.5 dAnchor=  2.8km nearestEnemyMissile=79.0km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=1 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 276.5 dAnchor=  2.8km nearestEnemyMissile=120.8km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=0 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 280.0 dAnchor=  2.8km nearestEnemyMissile=110.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=1 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+t= 296.0 dAnchor=  2.8km nearestEnemyMissile=39.4km->B04-1 heat=0.00 active=True act=호위 anchor=B09-1 fresh=1 reach=1 threat=0 lock=0 guns=Traversing/Traversing
+t= 297.5 dAnchor=  2.8km nearestEnemyMissile=501.8km->B02-2 heat=0.00 active=True act=호위 anchor=B09-1 fresh=0 reach=0 threat=0 lock=0 guns=Traversing/Traversing
+missiles launched=0
+end t=330 pulses=0 intercepts=0 destroyed=False

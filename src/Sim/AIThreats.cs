@@ -20,11 +20,11 @@ public sealed partial class SimWorld
             var threats = _aiThreats[side];
             threats.Clear();
             _aiThreatIndexed[side] = false;
-            if (_brains.Count == 0) continue;
+            // Filled even without AI brains: a player air-defense cruiser's Free battery reads the same list.
             foreach (var contact in Sensors.SmallContacts((Faction)side))
                 if (contact.Kind == SmallContactKind.Missile && contact.Fresh(Time))
                     threats.Add(new(contact, contact.Predict(Time)));
-            if (_ships.Count < 48 || threats.Count < 16) continue;
+            if (_brains.Count == 0 || _ships.Count < 48 || threats.Count < 16) continue;
             var index = _aiThreatIndices[side];
             index.Begin(threats.Count);
             bool valid = true;

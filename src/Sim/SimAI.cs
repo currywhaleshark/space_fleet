@@ -761,6 +761,7 @@ public sealed partial class SimWorld
         ResetNavigationJobs();
         foreach (var threats in _aiThreats) threats.Clear();
         Array.Clear(_aiThreatIndexed);
+        Array.Fill(_allyThreatTick, -1);
         Array.Clear(_planningExposure);
         Array.Clear(_previousPlanningExposure);
         _salvos.Clear();

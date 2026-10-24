@@ -1,0 +1,138 @@
+SUMMARY seed=7 time=360 winner=- missilesB=238 missilesR=334 interceptsB=141 interceptsR=44 missileHitsB=32 missileHitsR=44 aaShips=17 aaKills=184 aaIdle=2 lostB=12 lostR=8
+done seed 7
+SUMMARY seed=1 time=330 winner=Blue missilesB=433 missilesR=307 interceptsB=139 interceptsR=145 missileHitsB=92 missileHitsR=50 aaShips=14 aaKills=282 aaIdle=1 lostB=11 lostR=16
+done seed 1
+SUMMARY seed=5 time=357 winner=Red missilesB=241 missilesR=429 interceptsB=250 interceptsR=63 missileHitsB=16 missileHitsR=55 aaShips=19 aaKills=302 aaIdle=0 lostB=22 lostR=5
+done seed 5
+SUMMARY seed=3 time=360 winner=- missilesB=420 missilesR=562 interceptsB=221 interceptsR=94 missileHitsB=95 missileHitsR=144 aaShips=10 aaKills=284 aaIdle=0 lostB=13 lostR=17
+done seed 3
+SUMMARY seed=8 time=360 winner=- missilesB=295 missilesR=375 interceptsB=170 interceptsR=98 missileHitsB=82 missileHitsR=42 aaShips=13 aaKills=254 aaIdle=0 lostB=18 lostR=13
+done seed 8
+SUMMARY seed=2 time=319 winner=Blue missilesB=290 missilesR=312 interceptsB=94 interceptsR=188 missileHitsB=15 missileHitsR=41 aaShips=12 aaKills=270 aaIdle=0 lostB=8 lostR=17
+done seed 2
+SUMMARY seed=6 time=360 winner=- missilesB=338 missilesR=322 interceptsB=71 interceptsR=153 missileHitsB=54 missileHitsR=89 aaShips=14 aaKills=191 aaIdle=0 lostB=11 lostR=15
+done seed 6
+SUMMARY seed=4 time=360 winner=- missilesB=237 missilesR=308 interceptsB=197 interceptsR=88 missileHitsB=77 missileHitsR=29 aaShips=15 aaKills=280 aaIdle=0 lostB=30 lostR=5
+done seed 4
+seed 1 t=330s outcome=BattleOutcome { Winner = Blue, Reason = 전력 상실, Time = 329.68333333333334 } ships=80 missiles blue=433 red=307 intercepts(all ships) blue=139 red=145
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km= 88 shotDown= 27 [Laser:26 Missile:1] logIntercepts=27 laserPulses=1547 destroyed=False at=-
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km= 73 shotDown= 33 [Laser:32 DefenseDrone:1] logIntercepts=33 laserPulses=1722 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km= 90 shotDown= 19 [Laser:18 Missile:1] logIntercepts=19 laserPulses=1531 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km= 68 shotDown= 27 [Laser:27] logIntercepts=27 laserPulses=1739 destroyed=False at=-
+  Blue B07-1    earth_air_defense_cruiser_t4   near12km= 35 shotDown=  9 [Laser:9] logIntercepts=9 laserPulses=1120 destroyed=False at=-
+  Blue B07-4    earth_air_defense_cruiser_t5   near12km= 46 shotDown= 24 [Laser:24] logIntercepts=24 laserPulses=1184 destroyed=False at=-
+  Blue B09-2    earth_air_defense_cruiser_t4   near12km=  8 shotDown=  0 [] logIntercepts=0 laserPulses=0 destroyed=False at=-
+  Red  R06-1    earth_air_defense_cruiser_t4   near12km=140 shotDown= 10 [Laser:10] logIntercepts=10 laserPulses=1313 destroyed=False at=-
+  Red  R06-3    earth_air_defense_cruiser_t4   near12km=140 shotDown= 23 [Laser:23] logIntercepts=23 laserPulses=1192 destroyed=False at=-
+  Red  R06-4    earth_air_defense_cruiser_t4   near12km=127 shotDown= 41 [Laser:40 Missile:1] logIntercepts=41 laserPulses=1684 destroyed=False at=-
+  Red  R07-1    earth_air_defense_cruiser_t4   near12km=105 shotDown= 18 [Laser:16 Missile:2] logIntercepts=18 laserPulses=1241 destroyed=False at=-
+  Red  R07-2    earth_air_defense_cruiser_t4   near12km=114 shotDown= 22 [Laser:22] logIntercepts=22 laserPulses=1500 destroyed=False at=-
+  Red  R07-3    earth_air_defense_cruiser_t4   near12km=106 shotDown= 16 [Laser:16] logIntercepts=16 laserPulses=1172 destroyed=False at=-
+  Red  R07-4    earth_air_defense_cruiser_t5   near12km=115 shotDown= 13 [Laser:13] logIntercepts=13 laserPulses=1442 destroyed=False at=-
+seed 2 t=319s outcome=BattleOutcome { Winner = Blue, Reason = 전력 상실, Time = 318.75 } ships=82 missiles blue=290 red=312 intercepts(all ships) blue=94 red=188
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km=  1 shotDown= 16 [Laser:16] logIntercepts=16 laserPulses=1101 destroyed=False at=-
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=  1 shotDown=  7 [Laser:7] logIntercepts=7 laserPulses=1067 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km=  3 shotDown= 16 [Laser:16] logIntercepts=16 laserPulses=1168 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=  1 shotDown= 19 [Laser:19] logIntercepts=19 laserPulses=1049 destroyed=False at=-
+  Blue B02-1    earth_air_defense_cruiser      near12km= 66 shotDown=  8 [Laser:8] logIntercepts=8 laserPulses=1732 destroyed=False at=-
+  Blue B04-3    earth_air_defense_cruiser_t4   near12km= 39 shotDown= 20 [Laser:19 Missile:1] logIntercepts=20 laserPulses=1898 destroyed=False at=-
+  Red  R01-2    earth_air_defense_cruiser_t4   near12km= 83 shotDown= 36 [Laser:32 Missile:3 DefenseDrone:1] logIntercepts=36 laserPulses=1531 destroyed=False at=-
+  Red  R01-3    earth_air_defense_cruiser_t4   near12km= 80 shotDown= 47 [Laser:47] logIntercepts=47 laserPulses=1521 destroyed=False at=-
+  Red  R07-2    earth_air_defense_cruiser_t5   near12km= 23 shotDown= 30 [Laser:30] logIntercepts=30 laserPulses=1944 destroyed=False at=-
+  Red  R07-3    earth_air_defense_cruiser_t5   near12km= 63 shotDown= 33 [Laser:33] logIntercepts=33 laserPulses=1747 destroyed=False at=-
+  Red  R09-2    earth_air_defense_cruiser_t4   near12km= 43 shotDown= 23 [Laser:22 Missile:1] logIntercepts=23 laserPulses=1770 destroyed=False at=-
+  Red  R09-3    earth_air_defense_cruiser_t4   near12km= 26 shotDown= 15 [Laser:15] logIntercepts=15 laserPulses=1750 destroyed=False at=-
+seed 3 t=360s outcome=- ships=84 missiles blue=420 red=562 intercepts(all ships) blue=221 red=94
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km=340 shotDown= 40 [Laser:39 Missile:1] logIntercepts=40 laserPulses=1587 destroyed=False at=-
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=314 shotDown= 30 [Laser:25 Missile:2 PointDefense:3] logIntercepts=30 laserPulses=1325 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km=335 shotDown= 42 [Laser:41 Missile:1] logIntercepts=42 laserPulses=1680 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=311 shotDown= 31 [Laser:28 PointDefense:1 DefenseDrone:2] logIntercepts=31 laserPulses=1232 destroyed=False at=-
+  Blue B03-3    earth_air_defense_cruiser_t4   near12km=332 shotDown= 21 [Laser:15 Missile:6] logIntercepts=21 laserPulses=1628 destroyed=False at=-
+  Blue B04-3    earth_air_defense_cruiser      near12km=322 shotDown= 15 [Laser:11 Missile:4] logIntercepts=15 laserPulses=1293 destroyed=False at=-
+  Blue B10-1    earth_air_defense_cruiser      near12km=305 shotDown=  9 [Laser:6 Missile:2 PointDefense:1] logIntercepts=9 laserPulses=1805 destroyed=False at=-
+  Blue B10-2    earth_air_defense_cruiser_t4   near12km=352 shotDown= 11 [Laser:5 Missile:1 PointDefense:5] logIntercepts=11 laserPulses=1605 destroyed=False at=-
+  Blue B10-3    earth_air_defense_cruiser      near12km=297 shotDown=  6 [Laser:4 PointDefense:1 Missile:1] logIntercepts=6 laserPulses=1866 destroyed=False at=-
+  Red  R06-2    earth_air_defense_cruiser      near12km=180 shotDown= 79 [Laser:74 Missile:4 DefenseDrone:1] logIntercepts=79 laserPulses=2308 destroyed=False at=-
+seed 4 t=360s outcome=- ships=82 missiles blue=237 red=308 intercepts(all ships) blue=197 red=88
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km=  8 shotDown= 15 [Laser:15] logIntercepts=15 laserPulses=1011 destroyed=True at=342
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=  2 shotDown= 18 [Laser:18] logIntercepts=18 laserPulses=1282 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km= 10 shotDown= 11 [Laser:11] logIntercepts=11 laserPulses=906 destroyed=True at=330
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=  1 shotDown=  9 [Laser:9] logIntercepts=9 laserPulses=1192 destroyed=False at=-
+  Blue B02-3    earth_air_defense_cruiser_t4   near12km= 49 shotDown= 25 [Laser:24 Missile:1] logIntercepts=25 laserPulses=1436 destroyed=False at=-
+  Blue B09-2    earth_air_defense_cruiser      near12km= 14 shotDown= 30 [Laser:29 Missile:1] logIntercepts=30 laserPulses=1054 destroyed=False at=-
+  Blue B10-1    earth_air_defense_cruiser_t4   near12km= 47 shotDown= 29 [Laser:29] logIntercepts=29 laserPulses=1387 destroyed=False at=-
+  Blue B10-2    earth_air_defense_cruiser_t5   near12km= 33 shotDown= 30 [Laser:30] logIntercepts=30 laserPulses=1219 destroyed=True at=356
+  Blue B10-3    earth_air_defense_cruiser_t5   near12km= 40 shotDown= 27 [Laser:27] logIntercepts=27 laserPulses=2743 destroyed=False at=-
+  Red  R02-3    earth_air_defense_cruiser_t4   near12km= 10 shotDown= 14 [Laser:12 Missile:1 PointDefense:1] logIntercepts=14 laserPulses=1515 destroyed=False at=-
+  Red  R06-2    earth_air_defense_cruiser_t5   near12km= 28 shotDown= 13 [Laser:13] logIntercepts=13 laserPulses=2057 destroyed=False at=-
+  Red  R06-3    earth_air_defense_cruiser_t5   near12km= 34 shotDown= 13 [Laser:13] logIntercepts=13 laserPulses=1878 destroyed=False at=-
+  Red  R06-4    earth_air_defense_cruiser      near12km= 19 shotDown=  8 [Laser:8] logIntercepts=8 laserPulses=1867 destroyed=False at=-
+  Red  R10-2    earth_air_defense_cruiser_t4   near12km=  6 shotDown= 21 [Laser:21] logIntercepts=21 laserPulses=1471 destroyed=False at=-
+  Red  R10-3    earth_air_defense_cruiser      near12km=  6 shotDown= 17 [Laser:17] logIntercepts=17 laserPulses=1532 destroyed=False at=-
+seed 5 t=357s outcome=BattleOutcome { Winner = Red, Reason = 전력 상실, Time = 356.8833333333333 } ships=80 missiles blue=241 red=429 intercepts(all ships) blue=250 red=63
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km=  2 shotDown=  3 [Laser:3] logIntercepts=3 laserPulses=971 destroyed=True at=341
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=  2 shotDown=  2 [Laser:2] logIntercepts=2 laserPulses=595 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km=  1 shotDown=  5 [Laser:5] logIntercepts=5 laserPulses=1008 destroyed=True at=332
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=  2 shotDown=  2 [Laser:2] logIntercepts=2 laserPulses=504 destroyed=False at=-
+  Blue B02-1    earth_air_defense_cruiser_t5   near12km=107 shotDown= 25 [Laser:25] logIntercepts=25 laserPulses=1122 destroyed=True at=264
+  Blue B02-2    earth_air_defense_cruiser_t5   near12km=124 shotDown= 29 [Laser:28 Missile:1] logIntercepts=29 laserPulses=1401 destroyed=True at=313
+  Blue B03-2    earth_air_defense_cruiser_t4   near12km=  2 shotDown=  8 [Laser:8] logIntercepts=8 laserPulses=893 destroyed=True at=349
+  Blue B03-3    earth_air_defense_cruiser_t4   near12km=  2 shotDown=  3 [Laser:3] logIntercepts=3 laserPulses=902 destroyed=True at=357
+  Blue B04-2    earth_air_defense_cruiser_t4   near12km=127 shotDown= 30 [Laser:29 Missile:1] logIntercepts=30 laserPulses=1219 destroyed=True at=276
+  Blue B04-3    earth_air_defense_cruiser_t4   near12km=134 shotDown= 33 [Laser:30 Missile:3] logIntercepts=33 laserPulses=1359 destroyed=True at=320
+  Blue B08-1    earth_air_defense_cruiser_t5   near12km=117 shotDown= 23 [Laser:23] logIntercepts=23 laserPulses=775 destroyed=True at=226
+  Blue B08-2    earth_air_defense_cruiser_t4   near12km=120 shotDown= 17 [Laser:16 Missile:1] logIntercepts=17 laserPulses=793 destroyed=True at=225
+  Blue B09-2    earth_air_defense_cruiser_t4   near12km=105 shotDown= 27 [Laser:26 DefenseDrone:1] logIntercepts=27 laserPulses=1166 destroyed=True at=264
+  Blue B09-3    earth_air_defense_cruiser_t5   near12km=112 shotDown=  6 [Laser:6] logIntercepts=6 laserPulses=873 destroyed=True at=248
+  Blue B09-4    earth_air_defense_cruiser_t5   near12km=108 shotDown= 26 [Laser:21 Missile:2 PointDefense:3] logIntercepts=26 laserPulses=1129 destroyed=True at=269
+  Red  R01-3    earth_air_defense_cruiser_t4   near12km= 43 shotDown= 12 [Laser:10 DefenseDrone:2] logIntercepts=12 laserPulses=524 destroyed=False at=-
+  Red  R08-2    earth_air_defense_cruiser_t4   near12km= 25 shotDown= 19 [Laser:19] logIntercepts=19 laserPulses=949 destroyed=False at=-
+  Red  R08-3    earth_air_defense_cruiser_t4   near12km= 47 shotDown= 16 [Laser:16] logIntercepts=16 laserPulses=1066 destroyed=False at=-
+  Red  R09-4    earth_air_defense_cruiser_t4   near12km=  4 shotDown= 16 [Laser:16] logIntercepts=16 laserPulses=771 destroyed=False at=-
+seed 6 t=360s outcome=- ships=80 missiles blue=338 red=322 intercepts(all ships) blue=71 red=153
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km= 81 shotDown= 12 [Laser:10 Missile:2] logIntercepts=12 laserPulses=1244 destroyed=True at=232
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km= 82 shotDown= 12 [Laser:12] logIntercepts=12 laserPulses=2625 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km=102 shotDown= 21 [Laser:21] logIntercepts=21 laserPulses=2299 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km= 82 shotDown=  9 [Laser:8 Missile:1] logIntercepts=9 laserPulses=2404 destroyed=False at=-
+  Red  R02-1    earth_air_defense_cruiser_t4   near12km=  7 shotDown=  8 [Laser:8] logIntercepts=8 laserPulses=898 destroyed=False at=-
+  Red  R02-2    earth_air_defense_cruiser_t4   near12km=  5 shotDown=  5 [Laser:5] logIntercepts=5 laserPulses=826 destroyed=False at=-
+  Red  R02-3    earth_air_defense_cruiser_t4   near12km=  7 shotDown=  9 [Laser:9] logIntercepts=9 laserPulses=838 destroyed=False at=-
+  Red  R02-4    earth_air_defense_cruiser      near12km=  5 shotDown=  5 [Laser:5] logIntercepts=5 laserPulses=861 destroyed=False at=-
+  Red  R04-2    earth_air_defense_cruiser_t4   near12km=  7 shotDown=  6 [Laser:5 PointDefense:1] logIntercepts=6 laserPulses=880 destroyed=False at=-
+  Red  R04-3    earth_air_defense_cruiser      near12km=  6 shotDown=  7 [Laser:7] logIntercepts=7 laserPulses=850 destroyed=False at=-
+  Red  R06-2    earth_air_defense_cruiser      near12km= 46 shotDown= 25 [Laser:24 Missile:1] logIntercepts=25 laserPulses=888 destroyed=True at=354
+  Red  R06-3    earth_air_defense_cruiser      near12km= 41 shotDown= 25 [Laser:17 Missile:6 DefenseDrone:2] logIntercepts=25 laserPulses=783 destroyed=False at=-
+  Red  R09-2    earth_air_defense_cruiser_t4   near12km=149 shotDown= 27 [Missile:6 Laser:19 PointDefense:1 DefenseDrone:1] logIntercepts=27 laserPulses=518 destroyed=True at=335
+  Red  R09-3    earth_air_defense_cruiser_t4   near12km=138 shotDown= 20 [Laser:18 Missile:2] logIntercepts=20 laserPulses=501 destroyed=True at=322
+seed 7 t=360s outcome=- ships=78 missiles blue=238 red=334 intercepts(all ships) blue=141 red=44
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km= 15 shotDown=  0 [] logIntercepts=0 laserPulses=56 destroyed=False at=-
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  2 [Laser:2] logIntercepts=2 laserPulses=139 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km= 20 shotDown=  2 [Laser:2] logIntercepts=2 laserPulses=74 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  3 [Laser:3] logIntercepts=3 laserPulses=121 destroyed=False at=-
+  Blue B02-1    earth_air_defense_cruiser_t4   near12km= 41 shotDown= 23 [Laser:23] logIntercepts=23 laserPulses=889 destroyed=False at=-
+  Blue B02-2    earth_air_defense_cruiser_t5   near12km= 42 shotDown= 15 [Laser:15] logIntercepts=15 laserPulses=1058 destroyed=False at=-
+  Blue B02-3    earth_air_defense_cruiser_t5   near12km= 52 shotDown=  8 [Laser:8] logIntercepts=8 laserPulses=903 destroyed=False at=-
+  Blue B02-4    earth_air_defense_cruiser_t5   near12km= 42 shotDown= 17 [Laser:17] logIntercepts=17 laserPulses=1059 destroyed=False at=-
+  Blue B03-2    earth_air_defense_cruiser_t4   near12km=  5 shotDown=  0 [] logIntercepts=0 laserPulses=60 destroyed=False at=-
+  Blue B03-3    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  1 [Laser:1] logIntercepts=1 laserPulses=107 destroyed=False at=-
+  Blue B09-3    earth_air_defense_cruiser_t4   near12km= 49 shotDown= 41 [Missile:4 Laser:37] logIntercepts=41 laserPulses=1384 destroyed=False at=-
+  Blue B10-1    earth_air_defense_cruiser      near12km= 22 shotDown= 28 [Laser:28] logIntercepts=28 laserPulses=1266 destroyed=False at=-
+  Red  R05-1    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  7 [Laser:7] logIntercepts=7 laserPulses=855 destroyed=False at=-
+  Red  R05-2    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  4 [Laser:4] logIntercepts=4 laserPulses=1009 destroyed=False at=-
+  Red  R05-3    earth_air_defense_cruiser_t4   near12km=  0 shotDown=  5 [Laser:5] logIntercepts=5 laserPulses=839 destroyed=False at=-
+  Red  R07-3    earth_air_defense_cruiser_t4   near12km= 21 shotDown= 15 [Laser:15] logIntercepts=15 laserPulses=1893 destroyed=False at=-
+  Red  R08-2    earth_air_defense_cruiser_t4   near12km= 68 shotDown= 13 [Laser:12 Missile:1] logIntercepts=13 laserPulses=1835 destroyed=False at=-
+seed 8 t=360s outcome=- ships=80 missiles blue=295 red=375 intercepts(all ships) blue=170 red=98
+  Blue B01-1    earth_air_defense_cruiser_t4   near12km= 50 shotDown= 24 [Laser:24] logIntercepts=24 laserPulses=1528 destroyed=False at=-
+  Blue B01-2    earth_air_defense_cruiser_t4   near12km=  5 shotDown=  5 [Laser:5] logIntercepts=5 laserPulses=1419 destroyed=False at=-
+  Blue B01-3    earth_air_defense_cruiser_t4   near12km= 57 shotDown= 29 [Laser:29] logIntercepts=29 laserPulses=1520 destroyed=False at=-
+  Blue B01-4    earth_air_defense_cruiser_t4   near12km=  5 shotDown= 10 [Laser:10] logIntercepts=10 laserPulses=1414 destroyed=True at=354
+  Blue B09-2    earth_air_defense_cruiser      near12km= 76 shotDown= 14 [Laser:14] logIntercepts=14 laserPulses=1057 destroyed=False at=-
+  Blue B09-3    earth_air_defense_cruiser_t4   near12km=125 shotDown= 14 [Laser:14] logIntercepts=14 laserPulses=1152 destroyed=False at=-
+  Blue B10-1    earth_air_defense_cruiser      near12km= 59 shotDown= 35 [Laser:35] logIntercepts=35 laserPulses=1735 destroyed=False at=-
+  Blue B10-3    earth_air_defense_cruiser      near12km= 52 shotDown= 35 [Laser:35] logIntercepts=35 laserPulses=1692 destroyed=False at=-
+  Red  R01-2    earth_air_defense_cruiser      near12km= 37 shotDown= 12 [Laser:12] logIntercepts=12 laserPulses=1473 destroyed=False at=-
+  Red  R01-3    earth_air_defense_cruiser_t4   near12km= 20 shotDown= 10 [Laser:10] logIntercepts=10 laserPulses=1375 destroyed=False at=-
+  Red  R06-1    earth_air_defense_cruiser_t5   near12km= 47 shotDown= 24 [Laser:24] logIntercepts=24 laserPulses=1831 destroyed=False at=-
+  Red  R06-3    earth_air_defense_cruiser      near12km= 65 shotDown= 30 [Laser:30] logIntercepts=30 laserPulses=1729 destroyed=False at=-
+  Red  R06-4    earth_air_defense_cruiser_t4   near12km=  3 shotDown= 12 [Laser:12] logIntercepts=12 laserPulses=1060 destroyed=False at=-
