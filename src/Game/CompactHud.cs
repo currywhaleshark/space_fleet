@@ -18,11 +18,11 @@ public partial class ScaleTest
 /// </summary>
 public partial class Hud
 {
-    private const float SlotW=81,SlotH=72,SlotGap=5,BarPad=7,SplitW=11;
+    private const float SlotW=66,SlotH=56,SlotGap=4,BarPad=5,SplitW=9,Glyph=26;
     internal static Rect2 CompactBar(Vector2 screen)
     {
         float width=SlotW*7+SlotGap*6+SplitW+BarPad*2;
-        return new((screen.X-width)*.5f,screen.Y-107-85,width,85);
+        return new((screen.X-width)*.5f,screen.Y-100-(SlotH+BarPad*2),width,SlotH+BarPad*2);
     }
     internal Rect2 UnifiedBarBounds {get;private set;}
     internal Rect2 FlightBounds {get;private set;}
@@ -61,7 +61,7 @@ public partial class Hud
         {
             if(i==3)
             {
-                DrawLine(new(x+SplitW*.5f-SlotGap*.5f+2,y+SlotH*.5f-17),new(x+SplitW*.5f-SlotGap*.5f+2,y+SlotH*.5f+18),HudStyle.Rgb(0x8ab9c9,.37f),1);
+                DrawLine(new(x+SplitW*.5f-SlotGap*.5f+2,y+SlotH*.5f-13),new(x+SplitW*.5f-SlotGap*.5f+2,y+SlotH*.5f+14),HudStyle.Rgb(0x8ab9c9,.37f),1);
                 x+=SplitW;
             }
             var r=new Rect2(x,y,SlotW,SlotH);
@@ -77,8 +77,8 @@ public partial class Hud
     }
     private void SlotText(Rect2 r,string key,string caption,Color captionColor)
     {
-        Mono(r.Position+new Vector2(7,5+HudFont(12)*.85f),key,12,SlotNum,width:SlotW-12);
-        Mono(new(r.Position.X,r.End.Y-6),caption,9,captionColor,HorizontalAlignment.Center,SlotW);
+        Mono(r.Position+new Vector2(5,3+HudFont(11)*.85f),key,11,SlotNum,width:SlotW-10);
+        Mono(new(r.Position.X+2,r.End.Y-5),caption,9,captionColor,HorizontalAlignment.Center,SlotW-4);
     }
     private void DrawWeaponSlot(ShipBody ship,int i,Rect2 r)
     {
@@ -95,11 +95,11 @@ public partial class Hud
         string key=InputBindings.Text(i==0?InputSetup.SelectMainGun:i==1?InputSetup.SelectMissile:InputSetup.SelectAntimatter);
         string caption=!fitted?"—":i==0?laser?"∞":ship.Railguns.Sum(g=>g.Rounds).ToString():i==1?ship.Ordnance.Missiles.ToString():ship.Ordnance.Antimatter.Rounds.ToString();
         Color tint=!fitted?new Color(SlotIdle,.3f):chosen?HudStyle.Rgb(0xeafaff):SlotIdle;
-        Icon(glyph,r.GetCenter()-new Vector2(0,3),33,tint);
+        Icon(glyph,r.GetCenter()-new Vector2(0,2),Glyph,tint);
         float progress=0;
         if(i==0&&ship.Railguns.Length>0)progress=ship.Railguns.Average(g=>g.IsLaser?g.Laser!.FocusFraction:1-g.ReloadRemaining/g.Definition.ReloadSeconds);
         if(i==2&&ship.Ordnance.Antimatter.Mode==AntimatterMode.Arming)progress=ship.Ordnance.Antimatter.ArmingElapsed/ship.Definition.Antimatter!.ArmingSeconds;
-        if(fitted&&progress>0&&progress<.999f)DrawRect(new Rect2(r.Position.X+3,r.End.Y-4,(r.Size.X-6)*progress,2),new Color(HudStyle.Mint,.7f));
+        if(fitted&&progress>0&&progress<.999f)DrawRect(new Rect2(r.Position.X+3,r.End.Y-2,(r.Size.X-6)*progress,1.5f),new Color(HudStyle.Mint,.7f));
         if(Game.HudDetails)caption=(i==0?laser?"레이저":"주포":i==1?"미사일":"어뢰")+" "+caption;
         SlotText(r,key,caption,fitted?SlotCaption:new Color(SlotCaption,.5f));
     }
@@ -119,14 +119,14 @@ public partial class Hud
         else if(cooling){caption=$"{Math.Ceiling(slot.CooldownUntil-ship.SimTime):0}s";tint=Cooling;captionColor=HudStyle.Amber;}
         else if(status==TacticalStatus.Ready){caption="READY";tint=HudStyle.Mint;}
         else{caption=TacticalState.Label(status);tint=new Color(HudStyle.Red,.6f);captionColor=new Color(HudStyle.Red,.8f);}
-        Icon(slot is null?"empty":TacticalGlyph(slot.Definition.Effect),r.GetCenter()-new Vector2(0,3),33,tint);
+        Icon(slot is null?"empty":TacticalGlyph(slot.Definition.Effect),r.GetCenter()-new Vector2(0,2),Glyph,tint);
         if(cooling)
         {
             DrawRect(r,new Color(3/255f,10/255f,18/255f,.38f));
             float left=(float)((slot!.CooldownUntil-ship.SimTime)/Math.Max(.01,slot.Definition.Cooldown));
-            DrawRect(new Rect2(r.Position.X+3,r.End.Y-5,(r.Size.X-6)*Mathf.Clamp(left,0,1),2),new Color(HudStyle.Amber,.5f));
+            DrawRect(new Rect2(r.Position.X+3,r.End.Y-2,(r.Size.X-6)*Mathf.Clamp(left,0,1),1.5f),new Color(HudStyle.Amber,.5f));
         }
-        else if(on)DrawRect(new Rect2(r.Position.X+3,r.End.Y-5,r.Size.X-6,2),new Color(HudStyle.Amber,.7f));
+        else if(on)DrawRect(new Rect2(r.Position.X+3,r.End.Y-2,r.Size.X-6,1.5f),new Color(HudStyle.Amber,.7f));
         if(Game.HudDetails&&slot is not null)caption=TacticalName(slot.Definition.Effect)+" "+caption;
         SlotText(r,InputBindings.Text(InputSetup.TacticalSlots[index]),caption,captionColor);
     }
